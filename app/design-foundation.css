@@ -1,0 +1,90 @@
+:root {
+  --tpm-bg: #07111d;
+  --tpm-bg-radial-a: rgba(45, 212, 191, 0.10);
+  --tpm-bg-radial-b: rgba(59, 130, 246, 0.08);
+
+  --tpm-surface: rgba(8, 15, 26, 0.88);
+  --tpm-surface-alt: rgba(15, 23, 42, 0.74);
+  --tpm-surface-soft: rgba(15, 23, 42, 0.62);
+
+  --tpm-border: rgba(148, 163, 184, 0.14);
+  --tpm-border-soft: rgba(148, 163, 184, 0.12);
+
+  --tpm-text: #eef6ff;
+  --tpm-text-soft: #8fa4c0;
+  --tpm-text-muted: #9fb3cc;
+
+  --tpm-accent: #2dd4bf;
+  --tpm-accent-strong: #14b8a6;
+  --tpm-success: #2dd4bf;
+  --tpm-danger: #fda4af;
+  --tpm-warning: #facc15;
+
+  --tpm-shadow-panel: 0 16px 40px rgba(0, 0, 0, 0.22);
+  --tpm-shadow-menu: 0 16px 40px rgba(0, 0, 0, 0.28);
+
+  --tpm-radius-xl: 28px;
+  --tpm-radius-lg: 24px;
+  --tpm-radius-md: 18px;
+  --tpm-radius-sm: 14px;
+  --tpm-radius-pill: 999px;
+
+  --tpm-space-gap: 18px;
+  --tpm-transition-fast: 0.16s ease;
+}
+
+html,
+body {
+  background:
+    radial-gradient(circle at top right, var(--tpm-bg-radial-a), transparent 24%),
+    radial-gradient(circle at top left, var(--tpm-bg-radial-b), transparent 24%),
+    var(--tpm-bg);
+  color: var(--tpm-text);
+}
+
+.tpm-sidebar,
+.tpm-chart-card,
+.tpm-trade-card,
+.tpm-bottom-card,
+.tpm-topbar,
+.tpm-risk-card,
+.tpm-market-summary,
+.tpm-foundation-card {
+  border: 1px solid var(--tpm-border);
+  background: var(--tpm-surface);
+  box-shadow: var(--tpm-shadow-panel);
+}
+
+.tpm-market-search,
+.tpm-input,
+.tpm-empty,
+.tpm-real-input,
+.tpm-asset,
+.tpm-decision-card,
+.tpm-foundation-item,
+.tpm-market-summary-item,
+.tpm-stat,
+.tpm-list-card,
+.tpm-badge,
+.tpm-timeframes button,
+.tpm-sell,
+.tpm-locale-select {
+  background: var(--tpm-surface-alt);
+  border-color: var(--tpm-border);
+}
+
+.tpm-brand p,
+.tpm-section-subtitle,
+.tpm-market-summary p,
+.tpm-market-search,
+.tpm-empty,
+.tpm-note,
+.tpm-list-meta,
+.tpm-foundation-head p,
+.tpm-foundation-item span,
+.tpm-risk-card span,
+.tpm-stat span,
+.tpm-market-summary-item span,
+.tpm-field label {
+  color: var(--tpm-text-soft);
+}

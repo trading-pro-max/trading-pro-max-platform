@@ -1,0 +1,148 @@
+@media (max-width: 820px) {
+  .tpm-foundation-nav {
+    padding: 6px 8px;
+    gap: 6px;
+  }
+
+  .tpm-foundation-nav-brand {
+    gap: 8px;
+  }
+
+  .tpm-foundation-nav-brand span {
+    display: none;
+  }
+
+  .tpm-foundation-nav-logo {
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
+  }
+
+  .tpm-foundation-nav-links {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .tpm-foundation-link,
+  .tpm-locale-select {
+    min-height: 32px;
+    padding: 0 8px;
+    font-size: 11px;
+  }
+
+  .tpm-foundation-page {
+    padding: 8px;
+  }
+
+  .tpm-sidebar {
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .tpm-brand {
+    gap: 8px;
+  }
+
+  .tpm-brand p {
+    display: none;
+  }
+
+  .tpm-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+  }
+
+  .tpm-panel {
+    gap: 8px;
+  }
+
+  .tpm-panel-title {
+    font-size: 11px;
+  }
+
+  .tpm-market-search {
+    min-height: 36px;
+    font-size: 12px;
+  }
+
+  .tpm-asset-list {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scrollbar-width: thin;
+  }
+
+  .tpm-asset {
+    min-width: 132px;
+    max-width: 132px;
+    min-height: 40px;
+    padding: 10px 12px;
+    flex: 0 0 auto;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .tpm-asset small {
+    font-size: 10px;
+  }
+
+  .tpm-topbar,
+  .tpm-market-summary,
+  .tpm-chart-card,
+  .tpm-trade-card,
+  .tpm-bottom-card {
+    padding: 12px;
+  }
+
+  .tpm-badge {
+    min-height: 30px;
+    padding: 0 10px;
+    font-size: 11px;
+  }
+
+  .tpm-balance {
+    font-size: 12px;
+  }
+
+  .tpm-market-summary h2 {
+    font-size: 20px;
+  }
+
+  .tpm-market-summary p,
+  .tpm-section-subtitle,
+  .tpm-note,
+  .tpm-list-meta,
+  .tpm-field label {
+    font-size: 11px;
+  }
+
+  .tpm-chart {
+    height: 240px;
+  }
+
+  .tpm-candles {
+    inset: 10px;
+    grid-template-columns: repeat(8, 1fr);
+  }
+}
+
+@media (max-width: 520px) {
+  .tpm-foundation-nav-links {
+    grid-template-columns: 1fr;
+  }
+
+  .tpm-asset-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    overflow-x: visible;
+  }
+
+  .tpm-asset {
+    min-width: 100%;
+    max-width: 100%;
+  }
+}

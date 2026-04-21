@@ -1,0 +1,1 @@
+export const PLATFORM_STORAGE_KEY = "tpm-platform-state-v1";

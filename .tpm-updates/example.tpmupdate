@@ -1,0 +1,14 @@
+===FILE: .tpm-updates/example-output.txt===
+Trading Pro Max Local Updater
+This file was created by the example package.
+===END===
+
+===FILE: .tpm-updates/README.txt===
+Format:
+===FILE: relative/path/from/project/root===
+full file content here
+===END===
+
+Run:
+node scripts/tpm-local-updater.mjs apply .tpm-updates/example.tpmupdate
+===END===

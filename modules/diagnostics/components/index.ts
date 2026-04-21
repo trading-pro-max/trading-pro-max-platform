@@ -1,0 +1,1 @@
+export const DIAGNOSTICS_COMPONENTS_READY = true;
