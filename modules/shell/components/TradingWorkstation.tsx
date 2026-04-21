@@ -18,6 +18,7 @@ import {
 import {
   ActivityHistoryPanel,
   ActivityOpenTradesPanel,
+  AuditTracePanel,
   ChartCard,
   DesktopRail,
   ExecutionCard,
@@ -136,6 +137,8 @@ export function TradingWorkstation({
     accountPolicy,
     executionFoundation,
     riskFoundation,
+    dataStateFoundation,
+    auditTraceFoundation,
     switchAccountMode,
     balance,
     availableDurations,
@@ -375,10 +378,120 @@ export function TradingWorkstation({
       ? "الجلسة تعمل داخل حدود المخاطر المحددة."
       : "The session is operating inside configured risk boundaries.";
 
+  const dataStateFoundationLabel = locale === "ar" ? "أساس البيانات والحالة" : "Data + State foundation";
+
+  const feedStateText =
+    dataStateFoundation.marketFeedState === "simulated_live"
+      ? locale === "ar"
+        ? "تدفق حي محاكى"
+        : "Simulated live feed"
+      : locale === "ar"
+      ? "منقطع"
+      : "Disconnected";
+
+  const decisionEngineText =
+    dataStateFoundation.decisionEngineState === "derived_local"
+      ? locale === "ar"
+        ? "محرك قرار محلي"
+        : "Local derived engine"
+      : locale === "ar"
+      ? "وضع انتظار"
+      : "Standby";
+
+  const chartBindingText =
+    dataStateFoundation.chartBindingState === "workspace_bound"
+      ? locale === "ar"
+        ? "مرتبط بمساحة العمل"
+        : "Workspace-bound"
+      : locale === "ar"
+      ? "غير مرتبط"
+      : "Unbound";
+
+  const storageStateText =
+    dataStateFoundation.storagePersistenceState === "persistent_local"
+      ? locale === "ar"
+        ? "تخزين محلي دائم"
+        : "Local persistent storage"
+      : dataStateFoundation.storagePersistenceState === "booting"
+      ? locale === "ar"
+        ? "تهيئة"
+        : "Booting"
+      : locale === "ar"
+      ? "ذاكرة فقط"
+      : "Memory only";
+
+  const hydrationText =
+    dataStateFoundation.hydrationState === "hydrated"
+      ? locale === "ar"
+        ? "محمل"
+        : "Hydrated"
+      : locale === "ar"
+      ? "قيد التهيئة"
+      : "Booting";
+
+  const scopeText = dataStateFoundation.stateScope === "demo" ? demoLabel : realLabel;
+  const localeText = dataStateFoundation.locale === "ar" ? "Arabic / العربية" : "English";
+  const directionText = dataStateFoundation.direction === "rtl" ? "RTL" : "LTR";
+
+  const dataStateFoundationChips = [
+    `${locale === "ar" ? "تغذية السوق" : "Market feed"}: ${feedStateText}`,
+    `${locale === "ar" ? "محرك القرار" : "Decision engine"}: ${decisionEngineText}`,
+    `${locale === "ar" ? "ربط الرسم" : "Chart binding"}: ${chartBindingText}`,
+    `${locale === "ar" ? "التخزين" : "Storage"}: ${storageStateText}`,
+    `${locale === "ar" ? "التحميل" : "Hydration"}: ${hydrationText}`,
+    `${locale === "ar" ? "قناة المزامنة" : "Sync channel"}: Local storage`,
+    `${locale === "ar" ? "نطاق الحالة" : "State scope"}: ${scopeText}`,
+    `${locale === "ar" ? "اللغة" : "Locale"}: ${localeText}`,
+    `${locale === "ar" ? "الاتجاه" : "Direction"}: ${directionText}`,
+    `${locale === "ar" ? "آخر تحديث" : "Last updated"}: ${dataStateFoundation.lastUpdatedAt}`,
+  ];
+
+  const dataStateOperatorNote =
+    locale === "ar"
+      ? "الحالة مرتبطة بالحساب النشط وتُحفَظ محليًا مع تحميل آمن واتجاه واجهة مطابق للغة."
+      : "State is scoped to the active account and persisted locally with safe hydration and locale-aware direction.";
+
   const realReadinessNote =
     locale === "ar"
       ? "وضع الحساب الحقيقي موجود في الأساس، لكن التوجيه والتنفيذ الحقيقيين غير مفعّلين بعد."
       : "Real account mode exists in the foundation, but live routing and real execution are not enabled yet.";
+
+  const auditTitle = locale === "ar" ? "لوحة التدقيق والتتبع" : "Audit + Traceability";
+  const auditSubtitle =
+    locale === "ar"
+      ? "أثر زمني واضح للأحداث الأساسية داخل المنصة."
+      : "A visible event timeline for core platform actions.";
+
+  const auditActorLabel = locale === "ar" ? "الفاعل" : "Actor";
+  const auditAccountModeLabel = locale === "ar" ? "الحساب" : "Account";
+  const auditVisibilityLabel = locale === "ar" ? "الرؤية" : "Visibility";
+  const auditTraceLabel = locale === "ar" ? "حالة الربط" : "Trace state";
+  const auditLastEventLabel = locale === "ar" ? "آخر حدث" : "Last event";
+  const auditEmptyLabel =
+    locale === "ar" ? "لا توجد أحداث تدقيق بعد." : "No audit events yet.";
+
+  const auditAccountModeValue =
+    auditTraceFoundation.currentAccountMode === "demo" ? demoLabel : realLabel;
+
+  const auditVisibilityValue =
+    auditTraceFoundation.visibilityState === "operator_visible"
+      ? locale === "ar"
+        ? "مرئي للمشغل"
+        : "Operator visible"
+      : locale === "ar"
+      ? "مخفي"
+      : "Hidden";
+
+  const auditTraceValue =
+    auditTraceFoundation.decisionTraceState === "linked" &&
+    auditTraceFoundation.executionTraceState === "linked" &&
+    auditTraceFoundation.sessionTraceState === "linked"
+      ? locale === "ar"
+        ? "مرتبط"
+        : "Linked"
+      : locale === "ar"
+      ? "انتظار"
+      : "Standby";
 
   return (
     <main className="tpmv2-page">
@@ -484,6 +597,9 @@ export function TradingWorkstation({
                 riskFoundationLabel={riskFoundationLabel}
                 riskFoundationChips={riskFoundationChips}
                 riskOperatorNote={riskOperatorNote}
+                dataStateFoundationLabel={dataStateFoundationLabel}
+                dataStateFoundationChips={dataStateFoundationChips}
+                dataStateOperatorNote={dataStateOperatorNote}
               />
             </aside>
           </section>
@@ -495,9 +611,23 @@ export function TradingWorkstation({
               closePaperTrade={closePaperTrade}
             />
 
-            <ActivityHistoryPanel
-              dict={dict}
-              history={history}
+            <ActivityHistoryPanel dict={dict} history={history} />
+
+            <AuditTracePanel
+              title={auditTitle}
+              subtitle={auditSubtitle}
+              actorLabel={auditActorLabel}
+              actorValue={auditTraceFoundation.currentActor}
+              accountModeLabel={auditAccountModeLabel}
+              accountModeValue={auditAccountModeValue}
+              visibilityLabel={auditVisibilityLabel}
+              visibilityValue={auditVisibilityValue}
+              traceLabel={auditTraceLabel}
+              traceValue={auditTraceValue}
+              lastEventLabel={auditLastEventLabel}
+              lastEventValue={auditTraceFoundation.lastEventAt}
+              events={auditTraceFoundation.recentEvents}
+              emptyLabel={auditEmptyLabel}
             />
           </section>
         </section>
@@ -600,6 +730,9 @@ export function TradingWorkstation({
           riskFoundationLabel={riskFoundationLabel}
           riskFoundationChips={riskFoundationChips}
           riskOperatorNote={riskOperatorNote}
+          dataStateFoundationLabel={dataStateFoundationLabel}
+          dataStateFoundationChips={dataStateFoundationChips}
+          dataStateOperatorNote={dataStateOperatorNote}
         />
 
         <ActivityOpenTradesPanel
@@ -608,9 +741,23 @@ export function TradingWorkstation({
           closePaperTrade={closePaperTrade}
         />
 
-        <ActivityHistoryPanel
-          dict={dict}
-          history={history}
+        <ActivityHistoryPanel dict={dict} history={history} />
+
+        <AuditTracePanel
+          title={auditTitle}
+          subtitle={auditSubtitle}
+          actorLabel={auditActorLabel}
+          actorValue={auditTraceFoundation.currentActor}
+          accountModeLabel={auditAccountModeLabel}
+          accountModeValue={auditAccountModeValue}
+          visibilityLabel={auditVisibilityLabel}
+          visibilityValue={auditVisibilityValue}
+          traceLabel={auditTraceLabel}
+          traceValue={auditTraceValue}
+          lastEventLabel={auditLastEventLabel}
+          lastEventValue={auditTraceFoundation.lastEventAt}
+          events={auditTraceFoundation.recentEvents}
+          emptyLabel={auditEmptyLabel}
         />
       </section>
     </main>

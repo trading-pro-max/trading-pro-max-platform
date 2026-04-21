@@ -74,7 +74,10 @@ export type AccountPreferenceAnchor = {
 
 export type ExecutionRoute = "demo_router" | "live_blocked";
 export type ExecutionIntentState = "ready" | "standby" | "guarded" | "blocked";
-export type ExecutionGuardrailKey = "demo_only" | "session_locked" | "max_open_trades";
+export type ExecutionGuardrailKey =
+  | "demo_only"
+  | "session_locked"
+  | "max_open_trades";
 
 export type ExecutionFoundationSurface = {
   route: ExecutionRoute;
@@ -113,7 +116,10 @@ export type RiskFoundationSurface = {
 export type MarketFeedState = "simulated_live" | "disconnected";
 export type DecisionEngineState = "derived_local" | "standby";
 export type ChartBindingState = "workspace_bound" | "unbound";
-export type StoragePersistenceState = "booting" | "persistent_local" | "memory_only";
+export type StoragePersistenceState =
+  | "booting"
+  | "persistent_local"
+  | "memory_only";
 export type StateHydrationState = "booting" | "hydrated";
 export type SyncChannelState = "local_storage";
 export type LocaleDirectionState = "rtl" | "ltr";
@@ -129,6 +135,47 @@ export type DataStateFoundationSurface = {
   locale: string;
   direction: LocaleDirectionState;
   lastUpdatedAt: string;
+};
+
+export type AuditScope =
+  | "platform"
+  | "account"
+  | "execution"
+  | "risk"
+  | "session";
+
+export type AuditEventKind =
+  | "account_mode_changed"
+  | "trade_opened"
+  | "trade_closed"
+  | "risk_state_changed"
+  | "data_state_updated";
+
+export type AuditActorRole = "owner";
+export type AuditTraceState = "linked" | "standby";
+export type AuditVisibilityState = "operator_visible" | "hidden";
+
+export type AuditEvent = {
+  id: string;
+  kind: AuditEventKind;
+  scope: AuditScope;
+  actorRole: AuditActorRole;
+  accountMode: AccountMode;
+  symbol?: string;
+  message: string;
+  createdAt: string;
+};
+
+export type AuditTraceFoundationSurface = {
+  auditState: "active";
+  decisionTraceState: AuditTraceState;
+  executionTraceState: AuditTraceState;
+  sessionTraceState: AuditTraceState;
+  visibilityState: AuditVisibilityState;
+  currentActor: string;
+  currentAccountMode: AccountMode;
+  lastEventAt: string;
+  recentEvents: AuditEvent[];
 };
 
 export type AccountPolicySurface = {

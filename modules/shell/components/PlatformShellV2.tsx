@@ -4,10 +4,17 @@ import type { CSSProperties } from "react";
 import { TIMEFRAMES } from "../../../lib/constants/platform";
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
 import { MARKET_ASSETS } from "../../market/data/assets";
-import type { AccountMode, Asset, Decision, Trade } from "../types/platform-state";
+import type {
+  AccountMode,
+  Asset,
+  AuditEvent,
+  Decision,
+  Trade,
+} from "../types/platform-state";
 
 function modeButtonStyle(active: boolean): CSSProperties {
   if (!active) return {};
+
   return {
     background: "linear-gradient(180deg, var(--tpm-accent), var(--tpm-accent-strong))",
     color: "#041412",
@@ -225,9 +232,15 @@ export function TradingTopbar({
               flexWrap: "wrap",
             }}
           >
-            <button type="button" className="tpmv2-small-button">{profileLabel}</button>
-            <button type="button" className="tpmv2-small-button">{settingsLabel}</button>
-            <button type="button" className="tpmv2-small-button">{signOutLabel}</button>
+            <button type="button" className="tpmv2-small-button">
+              {profileLabel}
+            </button>
+            <button type="button" className="tpmv2-small-button">
+              {settingsLabel}
+            </button>
+            <button type="button" className="tpmv2-small-button">
+              {signOutLabel}
+            </button>
           </div>
         </section>
       </div>
@@ -509,7 +522,10 @@ export function ExecutionCard({
   dataStateOperatorNote: string;
 }) {
   const disabled = !canExecute || sessionLocked || !canOpenMore;
-  const finalNote = accountMode === "real" ? realReadinessNote : (riskNote || dataStateOperatorNote || riskOperatorNote);
+  const finalNote =
+    accountMode === "real"
+      ? realReadinessNote
+      : riskNote || dataStateOperatorNote || riskOperatorNote;
 
   return (
     <section className="tpmv2-card tpmv2-execution">
@@ -521,7 +537,9 @@ export function ExecutionCard({
       <div className="tpmv2-decision">
         <div className="tpmv2-decision-top">
           <strong>{signalLabel}</strong>
-          <span>{dict.decision.confidence}: {decision.confidence}</span>
+          <span>
+            {dict.decision.confidence}: {decision.confidence}
+          </span>
         </div>
         <div className="tpmv2-note">{decision.reason}</div>
       </div>
@@ -550,13 +568,19 @@ export function ExecutionCard({
           <strong style={{ fontSize: 16 }}>{executionFoundationLabel}</strong>
           <span>{executionIntentValue}</span>
         </div>
-        <div className="tpmv2-note">{executionRouteLabel}: {executionRouteValue}</div>
-        <div className="tpmv2-note">{executionIntentLabel}: {executionIntentValue}</div>
+        <div className="tpmv2-note">
+          {executionRouteLabel}: {executionRouteValue}
+        </div>
+        <div className="tpmv2-note">
+          {executionIntentLabel}: {executionIntentValue}
+        </div>
         <div className="tpmv2-note">{executionGuardrailsLabel}</div>
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-          {(Array.isArray(executionGuardrailChips) ? executionGuardrailChips : []).map((item, index) => (
-            <AnchorChip key={`${index}-${item}`} text={item} />
-          ))}
+          {(Array.isArray(executionGuardrailChips) ? executionGuardrailChips : []).map(
+            (item, index) => (
+              <AnchorChip key={`${index}-${item}`} text={item} />
+            )
+          )}
         </div>
       </div>
 
@@ -578,9 +602,11 @@ export function ExecutionCard({
           <span>{dataStateOperatorNote}</span>
         </div>
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-          {(Array.isArray(dataStateFoundationChips) ? dataStateFoundationChips : []).map((item, index) => (
-            <AnchorChip key={`${index}-${item}`} text={item} />
-          ))}
+          {(Array.isArray(dataStateFoundationChips) ? dataStateFoundationChips : []).map(
+            (item, index) => (
+              <AnchorChip key={`${index}-${item}`} text={item} />
+            )
+          )}
         </div>
       </div>
 
@@ -690,14 +716,20 @@ export function ActivityOpenTradesPanel({
             <div key={trade.id} className="tpmv2-list-card">
               <div className="tpmv2-list-row">
                 <strong>{trade.symbol}</strong>
-                <span>{dict.decision.signals[trade.direction]} — {trade.amount}$</span>
+                <span>
+                  {dict.decision.signals[trade.direction]} — {trade.amount}$
+                </span>
               </div>
 
               <div className="tpmv2-list-meta">
                 {trade.timeframe} · {trade.duration} — {dict.journal.openAt}: {trade.openedAt}
               </div>
 
-              <button type="button" className="tpmv2-small-button" onClick={() => closePaperTrade(trade.id)}>
+              <button
+                type="button"
+                className="tpmv2-small-button"
+                onClick={() => closePaperTrade(trade.id)}
+              >
                 {dict.journal.closeTrade}
               </button>
             </div>
@@ -732,18 +764,104 @@ export function ActivityHistoryPanel({
             <div key={trade.id} className="tpmv2-list-card">
               <div className="tpmv2-list-row">
                 <strong>{trade.symbol}</strong>
-                <span>{dict.decision.signals[trade.direction]} — {trade.amount}$</span>
+                <span>
+                  {dict.decision.signals[trade.direction]} — {trade.amount}$
+                </span>
               </div>
 
               <div className="tpmv2-list-meta">
                 {trade.timeframe} · {trade.duration}
               </div>
 
-              <div className="tpmv2-list-meta">{dict.journal.openAt}: {trade.openedAt}</div>
-              <div className="tpmv2-list-meta">{dict.journal.closeAt}: {trade.closedAt}</div>
+              <div className="tpmv2-list-meta">
+                {dict.journal.openAt}: {trade.openedAt}
+              </div>
+              <div className="tpmv2-list-meta">
+                {dict.journal.closeAt}: {trade.closedAt}
+              </div>
 
               <div className={`tpmv2-result ${(trade.result || "").startsWith("+") ? "win" : "loss"}`}>
                 {dict.journal.result}: {trade.result}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </section>
+  );
+}
+
+export function AuditTracePanel({
+  title,
+  subtitle,
+  actorLabel,
+  actorValue,
+  accountModeLabel,
+  accountModeValue,
+  visibilityLabel,
+  visibilityValue,
+  traceLabel,
+  traceValue,
+  lastEventLabel,
+  lastEventValue,
+  events,
+  emptyLabel,
+}: {
+  title: string;
+  subtitle: string;
+  actorLabel: string;
+  actorValue: string;
+  accountModeLabel: string;
+  accountModeValue: string;
+  visibilityLabel: string;
+  visibilityValue: string;
+  traceLabel: string;
+  traceValue: string;
+  lastEventLabel: string;
+  lastEventValue: string;
+  events: AuditEvent[];
+  emptyLabel: string;
+}) {
+  return (
+    <section className="tpmv2-card tpmv2-panel">
+      <div className="tpmv2-panel-head">
+        <div>
+          <div className="tpmv2-panel-title">{title}</div>
+          <div className="tpmv2-panel-subtitle">{subtitle}</div>
+        </div>
+      </div>
+
+      <div
+        style={{
+          display: "grid",
+          gap: 10,
+          marginBottom: 14,
+        }}
+      >
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+          <AnchorChip text={`${actorLabel}: ${actorValue}`} />
+          <AnchorChip text={`${accountModeLabel}: ${accountModeValue}`} />
+          <AnchorChip text={`${visibilityLabel}: ${visibilityValue}`} />
+          <AnchorChip text={`${traceLabel}: ${traceValue}`} />
+          <AnchorChip text={`${lastEventLabel}: ${lastEventValue}`} />
+        </div>
+      </div>
+
+      {events.length === 0 ? (
+        <div className="tpmv2-empty">{emptyLabel}</div>
+      ) : (
+        <div className="tpmv2-list">
+          {events.map((event) => (
+            <div key={event.id} className="tpmv2-list-card">
+              <div className="tpmv2-list-row">
+                <strong>{event.kind}</strong>
+                <span>{event.scope}</span>
+              </div>
+
+              <div className="tpmv2-list-meta">{event.message}</div>
+
+              <div className="tpmv2-list-meta">
+                {event.createdAt} · {event.accountMode}
               </div>
             </div>
           ))}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   EXECUTION_DURATIONS,
   PLATFORM_LIMITS,
@@ -16,6 +16,8 @@ import type {
   AccountPolicySurface,
   AccountRuntimeState,
   Asset,
+  AuditEvent,
+  AuditTraceFoundationSurface,
   DataStateFoundationSurface,
   Decision,
   ExecutionFoundationSurface,
@@ -88,7 +90,8 @@ function nowText(locale: string) {
 
 function buildCandles(assetIndex: number, timeframeIndex: number) {
   return Array.from({ length: 18 }, (_, i) => {
-    const seed = ((i + 3) * (assetIndex + 2) * 17 + (timeframeIndex + 1) * 13) % 65;
+    const seed =
+      ((i + 3) * (assetIndex + 2) * 17 + (timeframeIndex + 1) * 13) % 65;
     return 26 + seed;
   });
 }
@@ -110,8 +113,10 @@ function simulateResult(trade: Trade) {
 
 function parseSignedDollar(value?: string) {
   if (!value) return 0;
+
   const normalized = value.replace("$", "").trim();
   const num = Number(normalized);
+
   return Number.isFinite(num) ? num : 0;
 }
 
@@ -130,7 +135,10 @@ function normalizeTrades(value: unknown, fallbackDuration: string): Trade[] {
       direction: item.direction === "sell" ? "sell" : "buy",
       amount: typeof item.amount === "string" ? item.amount : "100",
       timeframe: typeof item.timeframe === "string" ? item.timeframe : "1m",
-      duration: typeof item.duration === "string" && item.duration ? item.duration : fallbackDuration,
+      duration:
+        typeof item.duration === "string" && item.duration
+          ? item.duration
+          : fallbackDuration,
       openedAt: typeof item.openedAt === "string" ? item.openedAt : "",
       closedAt: typeof item.closedAt === "string" ? item.closedAt : undefined,
       status: item.status === "closed" ? "closed" : "open",
@@ -238,16 +246,51 @@ export function usePlatformState(
   const [realState, setRealState] = useState<WorkspaceState>(DEFAULT_REAL_STATE);
   const [hydrated, setHydrated] = useState(false);
   const [riskNoteCode, setRiskNoteCode] = useState<RiskNoteCode>("");
-  const [lastUpdatedAt, setLastUpdatedAt] = useState(() => nowText(locale));
+  const [lastUpdatedAt, setLastUpdatedAt] = useState("—");
+  const [auditEvents, setAuditEvents] = useState<AuditEvent[]>([]);
+
+  const accountModeRef = useRef<AccountMode>("demo");
+  const sessionStateRef = useRef<"active" | "guarded" | "locked">("active");
+
+  function pushAuditEvent(
+    partial: Omit<AuditEvent, "id" | "createdAt" | "actorRole">
+  ) {
+    const event: AuditEvent = {
+      id: uid(),
+      createdAt: nowText(locale),
+      actorRole: "owner",
+      ...partial,
+    };
+
+    setAuditEvents((current) => [event, ...current].slice(0, 8));
+  }
 
   useEffect(() => {
     const saved = readLocalJson<StoredPlatformState>(PLATFORM_STORAGE_KEY, FALLBACK_STATE);
 
-    setAccountMode(saved.accountMode === "real" ? "real" : "demo");
+    const nextAccountMode = saved.accountMode === "real" ? "real" : "demo";
+
+    setAccountMode(nextAccountMode);
     setDemoState(sanitizeWorkspaceState(saved.demo, DEFAULT_DEMO_STATE));
     setRealState(sanitizeWorkspaceState(saved.real, DEFAULT_REAL_STATE));
     setHydrated(true);
-  }, []);
+
+    accountModeRef.current = nextAccountMode;
+    setAuditEvents([
+      {
+        id: uid(),
+        kind: "data_state_updated",
+        scope: "platform",
+        actorRole: "owner",
+        accountMode: nextAccountMode,
+        message:
+          locale === "ar"
+            ? "تم تحميل حالة المنصة محليًا بنجاح."
+            : "Platform state was hydrated locally.",
+        createdAt: nowText(locale),
+      },
+    ]);
+  }, [locale]);
 
   useEffect(() => {
     if (!hydrated) return;
@@ -289,10 +332,19 @@ export function usePlatformState(
   function switchAccountMode(nextMode: AccountMode) {
     setAccountMode(nextMode);
     setRiskNoteCode("");
+
+    pushAuditEvent({
+      kind: "account_mode_changed",
+      scope: "account",
+      accountMode: nextMode,
+      message:
+        locale === "ar"
+          ? `تم التبديل إلى حساب ${nextMode === "demo" ? "تجريبي" : "حقيقي"}.`
+          : `Switched to ${nextMode === "demo" ? "demo" : "real"} account mode.`,
+    });
   }
 
-  const selectedAsset: Asset =
-    MARKET_ASSETS[activeState.selectedAssetIndex] || MARKET_ASSETS[0];
+  const selectedAsset: Asset = MARKET_ASSETS[activeState.selectedAssetIndex] || MARKET_ASSETS[0];
 
   const candles = useMemo(() => {
     const timeframeIndex = TIMEFRAMES.indexOf(activeState.selectedTimeframe);
@@ -353,10 +405,7 @@ export function usePlatformState(
   ]);
 
   const sessionPnL = useMemo(() => {
-    return activeState.history.reduce(
-      (sum, trade) => sum + parseSignedDollar(trade.result),
-      0
-    );
+    return activeState.history.reduce((sum, trade) => sum + parseSignedDollar(trade.result), 0);
   }, [activeState.history]);
 
   const lossCount = useMemo(() => {
@@ -428,11 +477,12 @@ export function usePlatformState(
       : sessionPnL <= sessionGuardThreshold || remainingTradeSlots <= 1
       ? "guarded"
       : "normal",
-    safeDegradation: sessionLocked || !canExecute || !canOpenMore
-      ? "new_entries_blocked"
-      : sessionPnL <= sessionGuardThreshold || remainingTradeSlots <= 1
-      ? "new_entries_restricted"
-      : "none",
+    safeDegradation:
+      sessionLocked || !canExecute || !canOpenMore
+        ? "new_entries_blocked"
+        : sessionPnL <= sessionGuardThreshold || remainingTradeSlots <= 1
+        ? "new_entries_restricted"
+        : "none",
     operatorMessage: sessionLocked
       ? "loss_limit_locked"
       : !canOpenMore
@@ -441,6 +491,32 @@ export function usePlatformState(
       ? "session_guarded"
       : "session_active",
   };
+
+  useEffect(() => {
+    if (!hydrated) return;
+
+    if (accountModeRef.current !== accountMode) {
+      accountModeRef.current = accountMode;
+    }
+  }, [accountMode, hydrated]);
+
+  useEffect(() => {
+    if (!hydrated) return;
+
+    if (sessionStateRef.current !== riskFoundation.sessionState) {
+      sessionStateRef.current = riskFoundation.sessionState;
+
+      pushAuditEvent({
+        kind: "risk_state_changed",
+        scope: "risk",
+        accountMode,
+        message:
+          locale === "ar"
+            ? `تم تحديث حالة المخاطر إلى ${riskFoundation.sessionState}.`
+            : `Risk state changed to ${riskFoundation.sessionState}.`,
+      });
+    }
+  }, [hydrated, accountMode, locale, riskFoundation.sessionState]);
 
   const dataStateFoundation: DataStateFoundationSurface = {
     marketFeedState: "simulated_live",
@@ -452,7 +528,19 @@ export function usePlatformState(
     stateScope: accountMode,
     locale,
     direction: locale === "ar" ? "rtl" : "ltr",
-    lastUpdatedAt,
+    lastUpdatedAt: hydrated ? lastUpdatedAt : "—",
+  };
+
+  const auditTraceFoundation: AuditTraceFoundationSurface = {
+    auditState: "active",
+    decisionTraceState: "linked",
+    executionTraceState: "linked",
+    sessionTraceState: "linked",
+    visibilityState: "operator_visible",
+    currentActor: FOUNDATION_USER_IDENTITY.displayName,
+    currentAccountMode: accountMode,
+    lastEventAt: auditEvents[0]?.createdAt || "—",
+    recentEvents: auditEvents,
   };
 
   function openPaperTrade(direction: TradeDirection) {
@@ -485,6 +573,17 @@ export function usePlatformState(
     }));
 
     setRiskNoteCode("");
+
+    pushAuditEvent({
+      kind: "trade_opened",
+      scope: "execution",
+      accountMode,
+      symbol: trade.symbol,
+      message:
+        locale === "ar"
+          ? `تم فتح صفقة ${direction === "buy" ? "شراء" : "بيع"} على ${trade.symbol}.`
+          : `Opened ${direction} trade on ${trade.symbol}.`,
+    });
   }
 
   function openTradeBySignal() {
@@ -509,6 +608,17 @@ export function usePlatformState(
         result: simulateResult(trade),
       };
 
+      pushAuditEvent({
+        kind: "trade_closed",
+        scope: "session",
+        accountMode,
+        symbol: closedTrade.symbol,
+        message:
+          locale === "ar"
+            ? `تم إغلاق صفقة ${closedTrade.symbol} بنتيجة ${closedTrade.result}.`
+            : `Closed ${closedTrade.symbol} trade with result ${closedTrade.result}.`,
+      });
+
       return {
         ...current,
         openTrades: current.openTrades.filter((item) => item.id !== id),
@@ -525,6 +635,7 @@ export function usePlatformState(
     executionFoundation,
     riskFoundation,
     dataStateFoundation,
+    auditTraceFoundation,
     switchAccountMode,
     balance: activeState.balance,
     availableDurations: EXECUTION_DURATIONS,
