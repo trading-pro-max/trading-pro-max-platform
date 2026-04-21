@@ -142,14 +142,16 @@ export type AuditScope =
   | "account"
   | "execution"
   | "risk"
-  | "session";
+  | "session"
+  | "security";
 
 export type AuditEventKind =
   | "account_mode_changed"
   | "trade_opened"
   | "trade_closed"
   | "risk_state_changed"
-  | "data_state_updated";
+  | "data_state_updated"
+  | "security_state_updated";
 
 export type AuditActorRole = "owner";
 export type AuditTraceState = "linked" | "standby";
@@ -176,6 +178,28 @@ export type AuditTraceFoundationSurface = {
   currentAccountMode: AccountMode;
   lastEventAt: string;
   recentEvents: AuditEvent[];
+};
+
+export type SecurityRouteState = "guarded";
+export type SecurityAccessState = "least_privilege";
+export type SecurityExecutionProtectionState = "demo_only_enforced";
+export type SecurityDataProtectionState = "mode_separated";
+export type SecuritySecretState = "local_env_guarded";
+export type SecuritySessionProtectionState = "guarded";
+export type SecurityRecoveryState = "safe_fallback_ready";
+export type SecurityAlertLevel = "normal" | "elevated";
+
+export type SecurityFoundationSurface = {
+  routeState: SecurityRouteState;
+  accessState: SecurityAccessState;
+  executionProtectionState: SecurityExecutionProtectionState;
+  dataProtectionState: SecurityDataProtectionState;
+  secretState: SecuritySecretState;
+  sessionProtectionState: SecuritySessionProtectionState;
+  recoveryState: SecurityRecoveryState;
+  alertLevel: SecurityAlertLevel;
+  currentAccountMode: AccountMode;
+  lastReviewedAt: string;
 };
 
 export type AccountPolicySurface = {

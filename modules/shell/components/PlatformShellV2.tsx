@@ -871,6 +871,78 @@ export function AuditTracePanel({
   );
 }
 
+export function SecurityFoundationPanel({
+  title,
+  subtitle,
+  routeLabel,
+  routeValue,
+  accessLabel,
+  accessValue,
+  executionLabel,
+  executionValue,
+  dataProtectionLabel,
+  dataProtectionValue,
+  secretsLabel,
+  secretsValue,
+  sessionLabel,
+  sessionValue,
+  recoveryLabel,
+  recoveryValue,
+  alertLabel,
+  alertValue,
+  accountModeLabel,
+  accountModeValue,
+  reviewedAtLabel,
+  reviewedAtValue,
+}: {
+  title: string;
+  subtitle: string;
+  routeLabel: string;
+  routeValue: string;
+  accessLabel: string;
+  accessValue: string;
+  executionLabel: string;
+  executionValue: string;
+  dataProtectionLabel: string;
+  dataProtectionValue: string;
+  secretsLabel: string;
+  secretsValue: string;
+  sessionLabel: string;
+  sessionValue: string;
+  recoveryLabel: string;
+  recoveryValue: string;
+  alertLabel: string;
+  alertValue: string;
+  accountModeLabel: string;
+  accountModeValue: string;
+  reviewedAtLabel: string;
+  reviewedAtValue: string;
+}) {
+  return (
+    <section className="tpmv2-card tpmv2-panel">
+      <div className="tpmv2-panel-head">
+        <div>
+          <div className="tpmv2-panel-title">{title}</div>
+          <div className="tpmv2-panel-subtitle">{subtitle}</div>
+        </div>
+      </div>
+
+      <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 14 }}>
+        <AnchorChip text={`${routeLabel}: ${routeValue}`} />
+        <AnchorChip text={`${accessLabel}: ${accessValue}`} />
+        <AnchorChip text={`${executionLabel}: ${executionValue}`} />
+        <AnchorChip text={`${dataProtectionLabel}: ${dataProtectionValue}`} />
+        <AnchorChip text={`${secretsLabel}: ${secretsValue}`} />
+        <AnchorChip text={`${sessionLabel}: ${sessionValue}`} />
+        <AnchorChip text={`${recoveryLabel}: ${recoveryValue}`} />
+        <AnchorChip text={`${alertLabel}: ${alertValue}`} />
+        <AnchorChip text={`${accountModeLabel}: ${accountModeValue}`} />
+        <AnchorChip text={`${reviewedAtLabel}: ${reviewedAtValue}`} />
+      </div>
+    </section>
+  );
+}
+
 export function NarrowStrip({
   dict,
   selectedAssetIndex,

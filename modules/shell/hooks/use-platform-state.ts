@@ -24,6 +24,7 @@ import type {
   PermissionAnchor,
   RiskFoundationSurface,
   RiskNoteCode,
+  SecurityFoundationSurface,
   Trade,
   TradeDirection,
   UserIdentity,
@@ -251,6 +252,7 @@ export function usePlatformState(
 
   const accountModeRef = useRef<AccountMode>("demo");
   const sessionStateRef = useRef<"active" | "guarded" | "locked">("active");
+  const securityAlertRef = useRef("normal:normal");
 
   function pushAuditEvent(
     partial: Omit<AuditEvent, "id" | "createdAt" | "actorRole">
@@ -276,6 +278,7 @@ export function usePlatformState(
     setHydrated(true);
 
     accountModeRef.current = nextAccountMode;
+
     setAuditEvents([
       {
         id: uid(),
@@ -344,7 +347,8 @@ export function usePlatformState(
     });
   }
 
-  const selectedAsset: Asset = MARKET_ASSETS[activeState.selectedAssetIndex] || MARKET_ASSETS[0];
+  const selectedAsset: Asset =
+    MARKET_ASSETS[activeState.selectedAssetIndex] || MARKET_ASSETS[0];
 
   const candles = useMemo(() => {
     const timeframeIndex = TIMEFRAMES.indexOf(activeState.selectedTimeframe);
@@ -405,7 +409,10 @@ export function usePlatformState(
   ]);
 
   const sessionPnL = useMemo(() => {
-    return activeState.history.reduce((sum, trade) => sum + parseSignedDollar(trade.result), 0);
+    return activeState.history.reduce(
+      (sum, trade) => sum + parseSignedDollar(trade.result),
+      0
+    );
   }, [activeState.history]);
 
   const lossCount = useMemo(() => {
@@ -531,6 +538,36 @@ export function usePlatformState(
     lastUpdatedAt: hydrated ? lastUpdatedAt : "—",
   };
 
+const securityFoundation: SecurityFoundationSurface = {
+    routeState: "guarded",
+    accessState: "least_privilege",
+    executionProtectionState: "demo_only_enforced",
+    dataProtectionState: "mode_separated",
+    secretState: "local_env_guarded",
+    sessionProtectionState: "guarded",
+    recoveryState: "safe_fallback_ready",
+    alertLevel: accountMode === "real" || sessionLocked ? "elevated" : "normal",
+    currentAccountMode: accountMode,
+    lastReviewedAt: hydrated ? lastUpdatedAt : "—",
+  };
+
+  useEffect(() => {
+    if (!hydrated) return;
+
+    if (securityAlertRef.current !== securityFoundation.alertLevel) {
+      securityAlertRef.current = securityFoundation.alertLevel;
+
+      pushAuditEvent({
+        kind: "security_state_updated",
+        scope: "security",
+        accountMode,
+        message:
+          locale === "ar"
+            ? `تم تحديث مستوى التنبيه الأمني إلى ${securityFoundation.alertLevel}.`
+            : `Security alert level updated to ${securityFoundation.alertLevel}.`,
+      });
+    }
+  }, [hydrated, accountMode, locale, securityFoundation.alertLevel]);
   const auditTraceFoundation: AuditTraceFoundationSurface = {
     auditState: "active",
     decisionTraceState: "linked",
@@ -636,6 +673,7 @@ export function usePlatformState(
     riskFoundation,
     dataStateFoundation,
     auditTraceFoundation,
+    securityFoundation,
     switchAccountMode,
     balance: activeState.balance,
     availableDurations: EXECUTION_DURATIONS,
