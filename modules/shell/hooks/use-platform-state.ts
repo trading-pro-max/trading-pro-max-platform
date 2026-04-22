@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   EXECUTION_DURATIONS,
   PLATFORM_LIMITS,
@@ -11,6 +11,16 @@ import {
 import { PLATFORM_STORAGE_KEY } from "../../../lib/constants/storage";
 import { readLocalJson, writeLocalJson } from "../../../lib/storage/local";
 import { MARKET_ASSETS } from "../../market/data/assets";
+import {
+  acceptAllLocalDisclosures,
+  canAcceptPendingDisclosures,
+  canSubmitComplianceReview,
+  createDefaultLocalComplianceState,
+  deriveAccountCompliancePolicy,
+  sanitizeLocalComplianceState,
+  submitLocalComplianceReview,
+  type LocalComplianceState,
+} from "../components/trading-workstation-compliance";
 import type {
   AccountMode,
   AccountPolicySurface,
@@ -44,6 +54,10 @@ type StoredPlatformState = {
   accountMode: AccountMode;
   demo: WorkspaceState;
   real: WorkspaceState;
+  compliance?: {
+    demo?: LocalComplianceState;
+    real?: LocalComplianceState;
+  };
 };
 
 const FOUNDATION_USER_IDENTITY: UserIdentity = {
@@ -79,6 +93,10 @@ const FALLBACK_STATE: StoredPlatformState = {
   accountMode: "demo",
   demo: DEFAULT_DEMO_STATE,
   real: DEFAULT_REAL_STATE,
+  compliance: {
+    demo: createDefaultLocalComplianceState("demo"),
+    real: createDefaultLocalComplianceState("real"),
+  },
 };
 
 function uid() {
@@ -87,6 +105,10 @@ function uid() {
 
 function nowText(locale: string) {
   return new Date().toLocaleString(locale);
+}
+
+function nowIso() {
+  return new Date().toISOString();
 }
 
 function buildCandles(assetIndex: number, timeframeIndex: number) {
@@ -130,21 +152,27 @@ function normalizeTrades(value: unknown, fallbackDuration: string): Trade[] {
 
   return value
     .filter((item) => !!item && typeof item === "object")
-    .map((item: any) => ({
-      id: typeof item.id === "string" ? item.id : uid(),
-      symbol: typeof item.symbol === "string" ? item.symbol : "EURUSD",
-      direction: item.direction === "sell" ? "sell" : "buy",
-      amount: typeof item.amount === "string" ? item.amount : "100",
-      timeframe: typeof item.timeframe === "string" ? item.timeframe : "1m",
-      duration:
-        typeof item.duration === "string" && item.duration
-          ? item.duration
-          : fallbackDuration,
-      openedAt: typeof item.openedAt === "string" ? item.openedAt : "",
-      closedAt: typeof item.closedAt === "string" ? item.closedAt : undefined,
-      status: item.status === "closed" ? "closed" : "open",
-      result: typeof item.result === "string" ? item.result : undefined,
-    }));
+    .map((item) => {
+      const record = item as Record<string, unknown>;
+
+      return {
+        id: typeof record.id === "string" ? record.id : uid(),
+        symbol: typeof record.symbol === "string" ? record.symbol : "EURUSD",
+        direction: record.direction === "sell" ? "sell" : "buy",
+        amount: typeof record.amount === "string" ? record.amount : "100",
+        timeframe:
+          typeof record.timeframe === "string" ? record.timeframe : "1m",
+        duration:
+          typeof record.duration === "string" && record.duration
+            ? record.duration
+            : fallbackDuration,
+        openedAt: typeof record.openedAt === "string" ? record.openedAt : "",
+        closedAt:
+          typeof record.closedAt === "string" ? record.closedAt : undefined,
+        status: record.status === "closed" ? "closed" : "open",
+        result: typeof record.result === "string" ? record.result : undefined,
+      };
+    });
 }
 
 function sanitizeWorkspaceState(
@@ -176,12 +204,23 @@ function sanitizeWorkspaceState(
   };
 }
 
-function buildPermissionAnchors(accountMode: AccountMode): PermissionAnchor[] {
+function buildPermissionAnchors(
+  accountMode: AccountMode,
+  paperExecutionEnabled: boolean
+): PermissionAnchor[] {
   return [
     { key: "profile", state: "enabled" },
     { key: "settings", state: "enabled" },
     { key: "sign_out", state: "enabled" },
-    { key: "demo_execution", state: accountMode === "demo" ? "enabled" : "read_only" },
+    {
+      key: "demo_execution",
+      state:
+        accountMode === "demo"
+          ? paperExecutionEnabled
+            ? "enabled"
+            : "read_only"
+          : "read_only",
+    },
     { key: "real_execution", state: "blocked" },
     { key: "audit_surface", state: "read_only" },
     { key: "jurisdiction_controls", state: "read_only" },
@@ -201,35 +240,50 @@ function buildAccountPreferences(locale: string): AccountPolicySurface["preferen
 }
 
 function buildVerificationWorkflow(
-  verification: UserIdentity["verification"]
+  reviewState: AccountPolicySurface["review"]["state"],
+  disclosuresAccepted: boolean
 ): AccountPolicySurface["verificationWorkflow"] {
   const identityState =
-    verification === "verified"
+    reviewState === "approved_for_paper"
       ? "ready"
-      : verification === "review"
+      : reviewState === "in_progress" || reviewState === "pending_review"
+      ? "review"
+      : disclosuresAccepted
+      ? "review"
+      : "pending";
+
+  const accountReviewState =
+    reviewState === "approved_for_paper"
+      ? "ready"
+      : reviewState === "pending_review" || reviewState === "in_progress"
       ? "review"
       : "pending";
 
   return [
     { key: "identity_check", state: identityState },
-    { key: "account_review", state: "review" },
-    { key: "disclosure_acceptance", state: "pending" },
-    { key: "live_activation", state: "review" },
+    { key: "account_review", state: accountReviewState },
+    {
+      key: "disclosure_acceptance",
+      state: disclosuresAccepted ? "ready" : "pending",
+    },
+    { key: "live_activation", state: "pending" },
   ];
 }
 
-function buildOnboardingSurface(accountMode: AccountMode): AccountPolicySurface["onboarding"] {
-  if (accountMode === "real") {
-    return {
-      onboardingStage: "activation_review",
-      demoReadiness: "ready",
-      liveActivation: "review",
-    };
-  }
-
+function buildOnboardingSurface(
+  lifecycleState: AccountPolicySurface["lifecycle"]["state"],
+  paperExecutionEnabled: boolean
+): AccountPolicySurface["onboarding"] {
   return {
-    onboardingStage: "account_ready",
-    demoReadiness: "ready",
+    onboardingStage:
+      lifecycleState === "paper_active"
+        ? "active"
+        : lifecycleState === "review_pending"
+        ? "activation_review"
+        : lifecycleState === "kyc_pending"
+        ? "identity_ready"
+        : "foundation",
+    demoReadiness: paperExecutionEnabled ? "ready" : "not_ready",
     liveActivation: "blocked",
   };
 }
@@ -245,16 +299,21 @@ export function usePlatformState(
   const [accountMode, setAccountMode] = useState<AccountMode>("demo");
   const [demoState, setDemoState] = useState<WorkspaceState>(DEFAULT_DEMO_STATE);
   const [realState, setRealState] = useState<WorkspaceState>(DEFAULT_REAL_STATE);
+  const [demoCompliance, setDemoCompliance] = useState<LocalComplianceState>(
+    FALLBACK_STATE.compliance?.demo || createDefaultLocalComplianceState("demo")
+  );
+  const [realCompliance, setRealCompliance] = useState<LocalComplianceState>(
+    FALLBACK_STATE.compliance?.real || createDefaultLocalComplianceState("real")
+  );
   const [hydrated, setHydrated] = useState(false);
   const [riskNoteCode, setRiskNoteCode] = useState<RiskNoteCode>("");
-  const [lastUpdatedAt, setLastUpdatedAt] = useState("—");
   const [auditEvents, setAuditEvents] = useState<AuditEvent[]>([]);
 
   const accountModeRef = useRef<AccountMode>("demo");
   const sessionStateRef = useRef<"active" | "guarded" | "locked">("active");
   const securityAlertRef = useRef("normal:normal");
 
-  function pushAuditEvent(
+  const pushAuditEvent = useCallback(function pushAuditEvent(
     partial: Omit<AuditEvent, "id" | "createdAt" | "actorRole">
   ) {
     const event: AuditEvent = {
@@ -265,9 +324,9 @@ export function usePlatformState(
     };
 
     setAuditEvents((current) => [event, ...current].slice(0, 8));
-  }
+  }, [locale]);
 
-  useEffect(() => {
+  const hydratePlatformState = useCallback(() => {
     const saved = readLocalJson<StoredPlatformState>(PLATFORM_STORAGE_KEY, FALLBACK_STATE);
 
     const nextAccountMode = saved.accountMode === "real" ? "real" : "demo";
@@ -275,6 +334,18 @@ export function usePlatformState(
     setAccountMode(nextAccountMode);
     setDemoState(sanitizeWorkspaceState(saved.demo, DEFAULT_DEMO_STATE));
     setRealState(sanitizeWorkspaceState(saved.real, DEFAULT_REAL_STATE));
+    setDemoCompliance(
+      sanitizeLocalComplianceState(
+        saved.compliance?.demo,
+        FALLBACK_STATE.compliance?.demo || createDefaultLocalComplianceState("demo")
+      )
+    );
+    setRealCompliance(
+      sanitizeLocalComplianceState(
+        saved.compliance?.real,
+        FALLBACK_STATE.compliance?.real || createDefaultLocalComplianceState("real")
+      )
+    );
     setHydrated(true);
 
     accountModeRef.current = nextAccountMode;
@@ -296,24 +367,30 @@ export function usePlatformState(
   }, [locale]);
 
   useEffect(() => {
+    const timer = window.setTimeout(() => {
+      hydratePlatformState();
+    }, 0);
+
+    return () => window.clearTimeout(timer);
+  }, [hydratePlatformState]);
+
+  useEffect(() => {
     if (!hydrated) return;
 
     writeLocalJson(PLATFORM_STORAGE_KEY, {
       accountMode,
       demo: demoState,
       real: realState,
+      compliance: {
+        demo: demoCompliance,
+        real: realCompliance,
+      },
     } satisfies StoredPlatformState);
-  }, [accountMode, demoState, realState, hydrated]);
+  }, [accountMode, demoState, realState, demoCompliance, realCompliance, hydrated]);
 
   const activeState = accountMode === "demo" ? demoState : realState;
-
-  useEffect(() => {
-    if (!hydrated) return;
-
-    setLastUpdatedAt(nowText(locale));
-  }, [
-    hydrated,
-    locale,
+  const activeComplianceState = accountMode === "demo" ? demoCompliance : realCompliance;
+  const lastUpdatedSeed = [
     accountMode,
     activeState.selectedAssetIndex,
     activeState.selectedTimeframe,
@@ -321,7 +398,13 @@ export function usePlatformState(
     activeState.amount,
     activeState.openTrades.length,
     activeState.history.length,
-  ]);
+  ].join(":");
+  const lastUpdatedAt = useMemo(() => {
+    if (!hydrated) return "—";
+
+    void lastUpdatedSeed;
+    return nowText(locale);
+  }, [hydrated, locale, lastUpdatedSeed]);
 
   function updateActiveState(updater: (current: WorkspaceState) => WorkspaceState) {
     if (accountMode === "demo") {
@@ -330,6 +413,17 @@ export function usePlatformState(
     }
 
     setRealState((current) => updater(current));
+  }
+
+  function updateActiveComplianceState(
+    updater: (current: LocalComplianceState) => LocalComplianceState
+  ) {
+    if (accountMode === "demo") {
+      setDemoCompliance((current) => updater(current));
+      return;
+    }
+
+    setRealCompliance((current) => updater(current));
   }
 
   function switchAccountMode(nextMode: AccountMode) {
@@ -344,6 +438,46 @@ export function usePlatformState(
         locale === "ar"
           ? `تم التبديل إلى حساب ${nextMode === "demo" ? "تجريبي" : "حقيقي"}.`
           : `Switched to ${nextMode === "demo" ? "demo" : "real"} account mode.`,
+    });
+  }
+
+  function acceptPendingDisclosures() {
+    if (!canAcceptPendingDisclosures(activeComplianceState)) return;
+
+    const acceptedAt = nowIso();
+
+    updateActiveComplianceState((current) =>
+      acceptAllLocalDisclosures(current, acceptedAt)
+    );
+
+    pushAuditEvent({
+      kind: "disclosures_accepted",
+      scope: "compliance",
+      accountMode,
+      message:
+        locale === "ar"
+          ? "تم اعتماد الإفصاحات المطلوبة محلياً للحساب النشط."
+          : "Required disclosures were acknowledged locally for the active account.",
+    });
+  }
+
+  function submitActivationReview() {
+    if (!canSubmitComplianceReview(activeComplianceState)) return;
+
+    const submittedAt = nowIso();
+
+    updateActiveComplianceState((current) =>
+      submitLocalComplianceReview(current, submittedAt)
+    );
+
+    pushAuditEvent({
+      kind: "review_state_changed",
+      scope: "compliance",
+      accountMode,
+      message:
+        locale === "ar"
+          ? "تم إرسال جاهزية الحساب للمراجعة الورقية المحلية."
+          : "Account readiness was submitted for local paper review.",
     });
   }
 
@@ -425,27 +559,55 @@ export function usePlatformState(
     PLATFORM_LIMITS.maxOpenTrades - activeState.openTrades.length
   );
   const canOpenMore = remainingTradeSlots > 0;
-  const canExecute = accountMode === "demo";
-  const accountStatus: AccountRuntimeState = canExecute ? "active" : "read_only";
+  const compliancePolicy = deriveAccountCompliancePolicy(
+    accountMode,
+    activeComplianceState
+  );
+  const disclosuresAccepted = compliancePolicy.disclosures.every(
+    (item) => item.state === "accepted"
+  );
+  const canAcknowledgeDisclosures =
+    canAcceptPendingDisclosures(activeComplianceState);
+  const canSubmitAccountReview =
+    canSubmitComplianceReview(activeComplianceState);
+  const canExecute =
+    accountMode === "demo" && compliancePolicy.activation.executionEnabled;
+  const accountStatus: AccountRuntimeState =
+    compliancePolicy.activation.executionEnabled ? "active" : "read_only";
 
   const accountPolicy: AccountPolicySurface = {
     runtimeState: accountStatus,
-    executionAccess: canExecute ? "demo_only" : "live_blocked",
-    permissionAnchors: buildPermissionAnchors(accountMode),
+    executionAccess: accountMode === "demo" ? "demo_only" : "live_blocked",
+    permissionAnchors: buildPermissionAnchors(
+      accountMode,
+      compliancePolicy.activation.executionEnabled
+    ),
     jurisdiction: {
       key: "global_foundation",
       executionPolicy: "demo_only",
-      disclosureState: "required",
-      activationState: "review",
+      disclosureState: disclosuresAccepted ? "ready" : "required",
+      activationState: compliancePolicy.activation.executionEnabled
+        ? "active"
+        : "review",
     },
-    verificationWorkflow: buildVerificationWorkflow(FOUNDATION_USER_IDENTITY.verification),
-    onboarding: buildOnboardingSurface(accountMode),
+    verificationWorkflow: buildVerificationWorkflow(
+      compliancePolicy.review.state,
+      disclosuresAccepted
+    ),
+    onboarding: buildOnboardingSurface(
+      compliancePolicy.lifecycle.state,
+      compliancePolicy.activation.executionEnabled
+    ),
     preferences: buildAccountPreferences(locale),
+    lifecycle: compliancePolicy.lifecycle,
+    disclosures: compliancePolicy.disclosures,
+    review: compliancePolicy.review,
+    activation: compliancePolicy.activation,
   };
 
   const executionFoundation: ExecutionFoundationSurface = {
-    route: canExecute ? "demo_router" : "live_blocked",
-    executionAccess: canExecute ? "demo_only" : "live_blocked",
+    route: accountMode === "demo" ? "demo_router" : "live_blocked",
+    executionAccess: accountMode === "demo" ? "demo_only" : "live_blocked",
     intentState:
       !canExecute
         ? "blocked"
@@ -523,7 +685,7 @@ export function usePlatformState(
             : `Risk state changed to ${riskFoundation.sessionState}.`,
       });
     }
-  }, [hydrated, accountMode, locale, riskFoundation.sessionState]);
+  }, [hydrated, accountMode, locale, riskFoundation.sessionState, pushAuditEvent]);
 
   const dataStateFoundation: DataStateFoundationSurface = {
     marketFeedState: "simulated_live",
@@ -559,7 +721,7 @@ export function usePlatformState(
     recoveryState: "safe_fallback_ready",
     alertLevel: securityAlertReason === "normal" ? "normal" : "elevated",
     currentAccountMode: accountMode,
-    lastReviewedAt: hydrated ? lastUpdatedAt : "—",
+    lastReviewedAt: accountPolicy.review.updatedAt || (hydrated ? lastUpdatedAt : "—"),
   };
 
   useEffect(() => {
@@ -602,7 +764,14 @@ export function usePlatformState(
             : `Security alert level updated to ${securityFoundation.alertLevel} due to ${securityAlertReasonLabel}.`,
       });
     }
-  }, [hydrated, accountMode, locale, securityAlertReason, securityFoundation.alertLevel]);
+  }, [
+    hydrated,
+    accountMode,
+    locale,
+    securityAlertReason,
+    securityFoundation.alertLevel,
+    pushAuditEvent,
+  ]);
 
   const auditTraceFoundation: AuditTraceFoundationSurface = {
     auditState: "active",
@@ -748,6 +917,10 @@ export function usePlatformState(
     sessionLocked,
     canOpenMore,
     canExecute,
+    canAcknowledgeDisclosures,
+    canSubmitAccountReview,
+    acceptPendingDisclosures,
+    submitActivationReview,
     openPaperTrade,
     openTradeBySignal,
     closePaperTrade,

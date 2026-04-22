@@ -15,6 +15,11 @@ import type {
   Decision,
   Trade,
 } from "../types/platform-state";
+import type {
+  ComplianceDisclosureView,
+  ComplianceMetaView,
+  WorkstationStatusTone,
+} from "./trading-workstation-view-model";
 
 function modeButtonStyle(active: boolean): CSSProperties {
   if (!active) return {};
@@ -30,6 +35,16 @@ function AnchorChip({ text }: { text: string }) {
   return <span className="tpmv2-badge tpmv2-chip">{text}</span>;
 }
 
+function StatusTag({
+  text,
+  tone,
+}: {
+  text: string;
+  tone: WorkstationStatusTone;
+}) {
+  return <span className={`tpmv2-status-tag ${tone}`}>{text}</span>;
+}
+
 function MetaRows({
   items,
   className,
@@ -42,6 +57,25 @@ function MetaRows({
       {items.map((item, index) => (
         <div key={`${index}-${item}`} className="tpmv2-meta-row">
           {item}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function DetailGrid({
+  items,
+}: {
+  items: ComplianceMetaView[];
+}) {
+  return (
+    <div className="tpmv2-detail-grid">
+      {items.map((item, index) => (
+        <div key={`${item.label}-${index}`} className="tpmv2-detail-card">
+          <span>{item.label}</span>
+          <strong className={item.tone ? `tpmv2-detail-value ${item.tone}` : "tpmv2-detail-value"}>
+            {item.value}
+          </strong>
         </div>
       ))}
     </div>
@@ -137,6 +171,17 @@ export function TradingTopbar({
   signalLabel,
   sessionStateLabel,
   accountStatusValue,
+  accountLifecycleLabel,
+  accountLifecycleTone,
+  reviewStatusLabel,
+  reviewStatusTone,
+  disclosureSummaryLabel,
+  disclosureSummaryValue,
+  paperAccessLabel,
+  paperAccessValue,
+  paperAccessTone,
+  liveAccessLabel,
+  liveAccessValue,
 }: {
   dict: Dictionary;
   balance: string;
@@ -152,6 +197,17 @@ export function TradingTopbar({
   signalLabel: string;
   sessionStateLabel: string;
   accountStatusValue: string;
+  accountLifecycleLabel: string;
+  accountLifecycleTone: WorkstationStatusTone;
+  reviewStatusLabel: string;
+  reviewStatusTone: WorkstationStatusTone;
+  disclosureSummaryLabel: string;
+  disclosureSummaryValue: string;
+  paperAccessLabel: string;
+  paperAccessValue: string;
+  paperAccessTone: WorkstationStatusTone;
+  liveAccessLabel: string;
+  liveAccessValue: string;
 }) {
   return (
     <header className="tpmv2-card tpmv2-topbar">
@@ -181,10 +237,23 @@ export function TradingTopbar({
       </div>
 
       <div className="tpmv2-topbar-controls">
+        <div className="tpmv2-topbar-activation">
+          <StatusTag text={accountLifecycleLabel} tone={accountLifecycleTone} />
+          <StatusTag text={reviewStatusLabel} tone={reviewStatusTone} />
+          <StatusTag
+            text={`${paperAccessLabel}: ${paperAccessValue}`}
+            tone={paperAccessTone}
+          />
+        </div>
+
         <div className="tpmv2-topbar-status-line">
-          <span>{dict.common.paper}</span>
-          <span>{dict.common.liveFeed}</span>
-          <span>{dict.common.stable}</span>
+          <span>
+            {disclosureSummaryLabel}: {disclosureSummaryValue}
+          </span>
+          <span>
+            {liveAccessLabel}: {liveAccessValue}
+          </span>
+          <span>{dict.risk.sessionStatus}: {sessionStateLabel}</span>
         </div>
 
         <div className="tpmv2-topbar-toggle">
@@ -447,6 +516,21 @@ export function ExecutionCard({
   note,
   demoLabel,
   realLabel,
+  accountLifecycleLabel,
+  accountLifecycleTone,
+  reviewStatusLabel,
+  reviewStatusTone,
+  ticketReadinessLabel,
+  ticketReadinessValue,
+  ticketReadinessTone,
+  ticketGateLabel,
+  ticketGateValue,
+  ticketGateTone,
+  ticketNextStepLabel,
+  ticketNextStepValue,
+  ticketOperationalLabel,
+  ticketOperationalValue,
+  ticketOperationalTone,
 }: {
   dict: Dictionary;
   decision: Decision;
@@ -469,6 +553,21 @@ export function ExecutionCard({
   note: string;
   demoLabel: string;
   realLabel: string;
+  accountLifecycleLabel: string;
+  accountLifecycleTone: WorkstationStatusTone;
+  reviewStatusLabel: string;
+  reviewStatusTone: WorkstationStatusTone;
+  ticketReadinessLabel: string;
+  ticketReadinessValue: string;
+  ticketReadinessTone: WorkstationStatusTone;
+  ticketGateLabel: string;
+  ticketGateValue: string;
+  ticketGateTone: WorkstationStatusTone;
+  ticketNextStepLabel: string;
+  ticketNextStepValue: string;
+  ticketOperationalLabel: string;
+  ticketOperationalValue: string;
+  ticketOperationalTone: WorkstationStatusTone;
 }) {
   const disabled = !canExecute || sessionLocked || !canOpenMore;
   const modeValue = accountMode === "demo" ? demoLabel : realLabel;
@@ -492,6 +591,43 @@ export function ExecutionCard({
           </span>
         </div>
         <div className="tpmv2-ticket-reason">{decision.reason}</div>
+      </div>
+
+      <div className="tpmv2-ticket-status">
+        <div className="tpmv2-ticket-badges">
+          <StatusTag text={accountLifecycleLabel} tone={accountLifecycleTone} />
+          <StatusTag text={reviewStatusLabel} tone={reviewStatusTone} />
+        </div>
+
+        <div className="tpmv2-ticket-status-grid">
+          <div className="tpmv2-ticket-status-row">
+            <span>{ticketReadinessLabel}</span>
+            <strong className={`tpmv2-ticket-status-value ${ticketReadinessTone}`}>
+              {ticketReadinessValue}
+            </strong>
+          </div>
+
+          <div className="tpmv2-ticket-status-row">
+            <span>{ticketGateLabel}</span>
+            <strong className={`tpmv2-ticket-status-value ${ticketGateTone}`}>
+              {ticketGateValue}
+            </strong>
+          </div>
+
+          <div className="tpmv2-ticket-status-row">
+            <span>{ticketNextStepLabel}</span>
+            <strong className="tpmv2-ticket-status-value">
+              {ticketNextStepValue}
+            </strong>
+          </div>
+
+          <div className="tpmv2-ticket-status-row">
+            <span>{ticketOperationalLabel}</span>
+            <strong className={`tpmv2-ticket-status-value ${ticketOperationalTone}`}>
+              {ticketOperationalValue}
+            </strong>
+          </div>
+        </div>
       </div>
 
       <div className="tpmv2-ticket-grid">
@@ -567,6 +703,105 @@ export function ExecutionCard({
       </div>
 
       <div className="tpmv2-note tpmv2-ticket-note">{note}</div>
+    </section>
+  );
+}
+
+export function ComplianceActivationPanel({
+  title,
+  subtitle,
+  badge,
+  badgeTone,
+  accountLifecycleLabel,
+  accountLifecycleDescription,
+  accountLifecycleTone,
+  reviewStatusLabel,
+  reviewStatusDescription,
+  reviewStatusTone,
+  disclosureRows,
+  activationRows,
+  acceptDisclosuresLabel,
+  submitReviewLabel,
+  canAcceptDisclosures,
+  canSubmitReview,
+  onAcceptDisclosures,
+  onSubmitReview,
+}: {
+  title: string;
+  subtitle: string;
+  badge: string;
+  badgeTone: WorkstationStatusTone;
+  accountLifecycleLabel: string;
+  accountLifecycleDescription: string;
+  accountLifecycleTone: WorkstationStatusTone;
+  reviewStatusLabel: string;
+  reviewStatusDescription: string;
+  reviewStatusTone: WorkstationStatusTone;
+  disclosureRows: ComplianceDisclosureView[];
+  activationRows: ComplianceMetaView[];
+  acceptDisclosuresLabel: string;
+  submitReviewLabel: string;
+  canAcceptDisclosures: boolean;
+  canSubmitReview: boolean;
+  onAcceptDisclosures: () => void;
+  onSubmitReview: () => void;
+}) {
+  return (
+    <section className="tpmv2-card tpmv2-panel tpmv2-panel-compliance">
+      <PanelHeader
+        title={title}
+        subtitle={subtitle}
+        badge={<StatusTag text={badge} tone={badgeTone} />}
+      />
+
+      <div className="tpmv2-compliance-hero">
+        <div className="tpmv2-compliance-copy">
+          <div className="tpmv2-compliance-badges">
+            <StatusTag text={accountLifecycleLabel} tone={accountLifecycleTone} />
+            <StatusTag text={reviewStatusLabel} tone={reviewStatusTone} />
+          </div>
+          <div className="tpmv2-note">{accountLifecycleDescription}</div>
+          <div className="tpmv2-note">{reviewStatusDescription}</div>
+        </div>
+      </div>
+
+      <div className="tpmv2-disclosure-list">
+        {disclosureRows.map((row, index) => (
+          <div key={`${row.label}-${index}`} className="tpmv2-disclosure-row">
+            <div className="tpmv2-disclosure-copy">
+              <strong>{row.label}</strong>
+              <div className="tpmv2-note">{row.meta}</div>
+            </div>
+            <StatusTag text={row.status} tone={row.tone} />
+          </div>
+        ))}
+      </div>
+
+      <DetailGrid items={activationRows} />
+
+      {canAcceptDisclosures || canSubmitReview ? (
+        <div className="tpmv2-compliance-actions">
+          {canAcceptDisclosures ? (
+            <button
+              type="button"
+              className="tpmv2-small-button tpmv2-compliance-primary"
+              onClick={onAcceptDisclosures}
+            >
+              {acceptDisclosuresLabel}
+            </button>
+          ) : null}
+
+          {canSubmitReview ? (
+            <button
+              type="button"
+              className="tpmv2-small-button"
+              onClick={onSubmitReview}
+            >
+              {submitReviewLabel}
+            </button>
+          ) : null}
+        </div>
+      ) : null}
     </section>
   );
 }

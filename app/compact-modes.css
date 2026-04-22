@@ -59,6 +59,46 @@
   font-size: 10px;
 }
 
+.tpmv2-status-tag {
+  min-height: 26px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--tpm-border) 84%, transparent);
+  background: rgba(255, 255, 255, 0.04);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.tpmv2-status-tag.approved {
+  color: #5eead4;
+  border-color: rgba(45, 212, 191, 0.28);
+  background: rgba(45, 212, 191, 0.12);
+}
+
+.tpmv2-status-tag.pending {
+  color: #dbeafe;
+  border-color: rgba(96, 165, 250, 0.24);
+  background: rgba(59, 130, 246, 0.12);
+}
+
+.tpmv2-status-tag.restricted {
+  color: #fde68a;
+  border-color: rgba(245, 158, 11, 0.28);
+  background: rgba(245, 158, 11, 0.12);
+}
+
+.tpmv2-status-tag.blocked {
+  color: #fecaca;
+  border-color: rgba(248, 113, 113, 0.28);
+  background: rgba(248, 113, 113, 0.12);
+}
+
 .tpmv2-main {
   display: grid;
   gap: 14px;
@@ -340,6 +380,7 @@
   gap: 8px;
 }
 
+.tpmv2-topbar-activation,
 .tpmv2-topbar-status-line,
 .tpmv2-topbar-toggle,
 .tpmv2-chip-list {
@@ -351,9 +392,13 @@
 .tpmv2-topbar-status-line {
   color: var(--tpm-text-soft);
   font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+
+.tpmv2-topbar-status-line span {
+  color: var(--tpm-text-soft);
 }
 
 .tpmv2-mode-label {
@@ -753,6 +798,64 @@
   text-transform: uppercase;
 }
 
+.tpmv2-ticket-status {
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--tpm-border) 86%, transparent);
+  background: rgba(255, 255, 255, 0.018);
+  display: grid;
+  gap: 10px;
+}
+
+.tpmv2-ticket-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tpmv2-ticket-status-grid {
+  display: grid;
+  gap: 8px;
+}
+
+.tpmv2-ticket-status-row {
+  display: grid;
+  gap: 2px;
+}
+
+.tpmv2-ticket-status-row span {
+  color: var(--tpm-text-soft);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.tpmv2-ticket-status-value {
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.tpmv2-ticket-status-value.approved,
+.tpmv2-detail-value.approved {
+  color: var(--tpm-success);
+}
+
+.tpmv2-ticket-status-value.pending,
+.tpmv2-detail-value.pending {
+  color: #dbeafe;
+}
+
+.tpmv2-ticket-status-value.restricted,
+.tpmv2-detail-value.restricted {
+  color: #fde68a;
+}
+
+.tpmv2-ticket-status-value.blocked,
+.tpmv2-detail-value.blocked {
+  color: #fecaca;
+}
+
 .tpmv2-field {
   display: grid;
   gap: 6px;
@@ -919,6 +1022,94 @@
   gap: 10px;
   align-items: flex-start;
   flex-wrap: wrap;
+}
+
+.tpmv2-panel-compliance {
+  gap: 12px;
+}
+
+.tpmv2-compliance-hero {
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--tpm-border) 86%, transparent);
+  background:
+    linear-gradient(180deg, rgba(12, 25, 40, 0.9), rgba(8, 14, 24, 0.96)),
+    rgba(255, 255, 255, 0.02);
+}
+
+.tpmv2-compliance-copy {
+  display: grid;
+  gap: 6px;
+}
+
+.tpmv2-compliance-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tpmv2-disclosure-list {
+  display: grid;
+  gap: 8px;
+}
+
+.tpmv2-disclosure-row {
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--tpm-border) 88%, transparent);
+  background: rgba(255, 255, 255, 0.018);
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+}
+
+.tpmv2-disclosure-copy {
+  display: grid;
+  gap: 4px;
+}
+
+.tpmv2-disclosure-copy strong {
+  font-size: 12px;
+}
+
+.tpmv2-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.tpmv2-detail-card {
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--tpm-border) 88%, transparent);
+  background: rgba(255, 255, 255, 0.016);
+  display: grid;
+  gap: 3px;
+}
+
+.tpmv2-detail-card span {
+  color: var(--tpm-text-soft);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.tpmv2-detail-value {
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.tpmv2-compliance-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tpmv2-compliance-primary {
+  background: linear-gradient(180deg, rgba(65, 224, 194, 0.18), rgba(23, 184, 157, 0.12));
+  border-color: rgba(45, 212, 191, 0.28);
 }
 
 .tpmv2-meta-rows {
@@ -1137,6 +1328,7 @@
 }
 
 @media (max-width: 760px) {
+  .tpmv2-topbar-activation,
   .tpmv2-topbar-toggle,
   .tpmv2-chart-head,
   .tpmv2-ticket-head,
@@ -1161,9 +1353,15 @@
   .tpmv2-chart-context,
   .tpmv2-chart-meta,
   .tpmv2-activity,
+  .tpmv2-detail-grid,
   .tpmv2-ticket-grid,
   .tpmv2-ticket-primary-actions {
     grid-template-columns: 1fr;
+  }
+
+  .tpmv2-disclosure-row {
+    align-items: flex-start;
+    flex-wrap: wrap;
   }
 
   .tpmv2-chart-context {

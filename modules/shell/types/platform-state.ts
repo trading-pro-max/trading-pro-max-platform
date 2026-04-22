@@ -72,6 +72,77 @@ export type AccountPreferenceAnchor = {
   source: PreferenceSource;
 };
 
+export type AccountLifecycleState =
+  | "visitor"
+  | "onboarding"
+  | "disclosures_pending"
+  | "kyc_pending"
+  | "review_pending"
+  | "paper_active"
+  | "restricted"
+  | "blocked";
+
+export type AccountLifecycleSurface = {
+  state: AccountLifecycleState;
+  updatedAt: string;
+};
+
+export type AccountDisclosureKey =
+  | "risk"
+  | "paper_trading"
+  | "jurisdiction"
+  | "terms";
+
+export type AccountDisclosureState = "pending" | "accepted";
+
+export type AccountDisclosureAnchor = {
+  key: AccountDisclosureKey;
+  state: AccountDisclosureState;
+  acceptedAt?: string;
+  version: string;
+};
+
+export type AccountReviewState =
+  | "not_started"
+  | "in_progress"
+  | "pending_review"
+  | "approved_for_paper"
+  | "restricted"
+  | "rejected";
+
+export type AccountReviewSurface = {
+  state: AccountReviewState;
+  reference: string;
+  startedAt: string;
+  updatedAt: string;
+};
+
+export type AccountActivationState = "enabled" | "gated" | "restricted" | "blocked";
+
+export type AccountActivationReason =
+  | "paper_ready"
+  | "disclosures_required"
+  | "kyc_required"
+  | "review_pending"
+  | "paper_only_mode"
+  | "restricted_account"
+  | "blocked_account";
+
+export type AccountActivationNextStep =
+  | "accept_disclosures"
+  | "complete_verification"
+  | "await_review"
+  | "paper_ready"
+  | "contact_support";
+
+export type AccountActivationSurface = {
+  paperState: AccountActivationState;
+  liveState: "blocked";
+  reason: AccountActivationReason;
+  nextStep: AccountActivationNextStep;
+  executionEnabled: boolean;
+};
+
 export type ExecutionRoute = "demo_router" | "live_blocked";
 export type ExecutionIntentState = "ready" | "standby" | "guarded" | "blocked";
 export type ExecutionGuardrailKey =
@@ -140,6 +211,7 @@ export type DataStateFoundationSurface = {
 export type AuditScope =
   | "platform"
   | "account"
+  | "compliance"
   | "execution"
   | "risk"
   | "session"
@@ -147,6 +219,8 @@ export type AuditScope =
 
 export type AuditEventKind =
   | "account_mode_changed"
+  | "disclosures_accepted"
+  | "review_state_changed"
   | "trade_opened"
   | "trade_closed"
   | "risk_state_changed"
@@ -210,6 +284,10 @@ export type AccountPolicySurface = {
   verificationWorkflow: VerificationWorkflowAnchor[];
   onboarding: OnboardingActivationSurface;
   preferences: AccountPreferenceAnchor[];
+  lifecycle: AccountLifecycleSurface;
+  disclosures: AccountDisclosureAnchor[];
+  review: AccountReviewSurface;
+  activation: AccountActivationSurface;
 };
 
 export type UserIdentity = {

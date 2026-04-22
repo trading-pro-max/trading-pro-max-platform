@@ -16,16 +16,12 @@ import type {
   RiskFoundationSurface,
   RiskNoteCode,
   SecurityFoundationSurface,
-  UserIdentity,
 } from "../types/platform-state";
 import {
   executionGuardrailLabel,
   getAuditPanelCopy,
   getCoreModeCopy,
   getSecurityPanelCopy,
-  onboardingStageLabel,
-  permissionLabel,
-  preferenceLabel,
   securityAccessValue as resolveSecurityAccessValue,
   securityAlertValue as resolveSecurityAlertValue,
   securityDataValue as resolveSecurityDataValue,
@@ -34,13 +30,11 @@ import {
   securityRouteValue as resolveSecurityRouteValue,
   securitySecretsValue as resolveSecuritySecretsValue,
   securitySessionValue as resolveSecuritySessionValue,
-  verificationWorkflowLabel,
 } from "./trading-workstation-labels";
 
 export type TradingWorkstationViewModelInput = {
   locale: string;
   dict: Dictionary;
-  userIdentity: UserIdentity;
   accountStatus: AccountRuntimeState;
   accountPolicy: AccountPolicySurface;
   executionFoundation: ExecutionFoundationSurface;
@@ -53,6 +47,21 @@ export type TradingWorkstationViewModelInput = {
   sessionPnL: number;
   sessionLocked: boolean;
   openTradesCount: number;
+};
+
+export type WorkstationStatusTone = "approved" | "pending" | "restricted" | "blocked";
+
+export type ComplianceDisclosureView = {
+  label: string;
+  status: string;
+  meta: string;
+  tone: WorkstationStatusTone;
+};
+
+export type ComplianceMetaView = {
+  label: string;
+  value: string;
+  tone?: WorkstationStatusTone;
 };
 
 export type TradingWorkstationViewModel = {
@@ -73,9 +82,6 @@ export type TradingWorkstationViewModel = {
   sessionStateLabel: string;
   sessionPnLText: string;
   accountStatusValue: string;
-  verificationLabel: string;
-  jurisdictionChips: string[];
-  permissionChips: string[];
   openTradesText: string;
   sessionPnLPositive: boolean;
   executionFoundationLabel: string;
@@ -91,7 +97,6 @@ export type TradingWorkstationViewModel = {
   dataStateFoundationLabel: string;
   dataStateFoundationChips: string[];
   dataStateOperatorNote: string;
-  realReadinessNote: string;
   auditTitle: string;
   auditSubtitle: string;
   auditActorLabel: string;
@@ -124,6 +129,37 @@ export type TradingWorkstationViewModel = {
   securityRecoveryValue: string;
   securityAlertValue: string;
   securityAccountValue: string;
+  accountLifecycleLabel: string;
+  accountLifecycleDescription: string;
+  accountLifecycleTone: WorkstationStatusTone;
+  reviewStatusLabel: string;
+  reviewStatusDescription: string;
+  reviewStatusTone: WorkstationStatusTone;
+  disclosureSummaryLabel: string;
+  disclosureSummaryValue: string;
+  paperAccessLabel: string;
+  paperAccessValue: string;
+  paperAccessTone: WorkstationStatusTone;
+  liveAccessLabel: string;
+  liveAccessValue: string;
+  ticketReadinessLabel: string;
+  ticketReadinessValue: string;
+  ticketReadinessTone: WorkstationStatusTone;
+  ticketGateLabel: string;
+  ticketGateValue: string;
+  ticketGateTone: WorkstationStatusTone;
+  ticketNextStepLabel: string;
+  ticketNextStepValue: string;
+  ticketOperationalLabel: string;
+  ticketOperationalValue: string;
+  ticketOperationalTone: WorkstationStatusTone;
+  ticketSupportNote: string;
+  compliancePanelSubtitle: string;
+  compliancePanelBadge: string;
+  disclosureRows: ComplianceDisclosureView[];
+  activationRows: ComplianceMetaView[];
+  acceptDisclosuresLabel: string;
+  submitReviewLabel: string;
 };
 
 function isArabic(locale: string) {
@@ -143,87 +179,481 @@ function getAccountStatusValue(
   return arabic ? "قراءة فقط" : "Read-only";
 }
 
-function getVerificationLabel(
+function formatTimestamp(locale: string, value: string, fallback: string) {
+  if (!value) return fallback;
+
+  const parsed = new Date(value);
+
+  if (Number.isNaN(parsed.getTime())) {
+    return value;
+  }
+
+  return parsed.toLocaleString(locale);
+}
+
+function lifecycleTone(
+  state: AccountPolicySurface["lifecycle"]["state"]
+): WorkstationStatusTone {
+  if (state === "paper_active") return "approved";
+  if (state === "restricted") return "restricted";
+  if (state === "blocked") return "blocked";
+  return "pending";
+}
+
+function reviewTone(
+  state: AccountPolicySurface["review"]["state"]
+): WorkstationStatusTone {
+  if (state === "approved_for_paper") return "approved";
+  if (state === "restricted") return "restricted";
+  if (state === "rejected") return "blocked";
+  return "pending";
+}
+
+function activationTone(
+  state: AccountPolicySurface["activation"]["paperState"]
+): WorkstationStatusTone {
+  if (state === "enabled") return "approved";
+  if (state === "restricted") return "restricted";
+  if (state === "blocked") return "blocked";
+  return "pending";
+}
+
+function getLifecycleCopy(
   locale: string,
-  verification: UserIdentity["verification"]
+  state: AccountPolicySurface["lifecycle"]["state"]
 ) {
   const arabic = isArabic(locale);
 
-  if (verification === "verified") {
-    return arabic ? "موثق" : "Verified";
+  switch (state) {
+    case "visitor":
+      return {
+        label: arabic ? "زائر" : "Visitor",
+        description: arabic
+          ? "لم يبدأ ملف الحساب بعد."
+          : "The account profile has not started yet.",
+        tone: lifecycleTone(state),
+      };
+    case "onboarding":
+      return {
+        label: arabic ? "تهيئة أولية" : "Onboarding",
+        description: arabic
+          ? "يتم إعداد ملف الحساب وما زالت خطوات الامتثال الأساسية مطلوبة."
+          : "The account is being set up and still needs core compliance steps.",
+        tone: lifecycleTone(state),
+      };
+    case "disclosures_pending":
+      return {
+        label: arabic ? "إفصاحات معلّقة" : "Disclosures pending",
+        description: arabic
+          ? "يجب اعتماد الإفصاحات المطلوبة قبل تفعيل التنفيذ الورقي."
+          : "Required disclosures must be accepted before paper execution can be activated.",
+        tone: lifecycleTone(state),
+      };
+    case "kyc_pending":
+      return {
+        label: arabic ? "تحقق الحساب جارٍ" : "Verification in progress",
+        description: arabic
+          ? "يجري استكمال التحقق المحلي وجاهزية الحساب للورقي."
+          : "Local verification and paper-readiness checks are still in progress.",
+        tone: lifecycleTone(state),
+      };
+    case "review_pending":
+      return {
+        label: arabic ? "بانتظار المراجعة" : "Pending review",
+        description: arabic
+          ? "تم إرسال الجاهزية للمراجعة، والتنفيذ الورقي ما زال مقيّداً."
+          : "Readiness has been submitted for review, and paper execution stays gated.",
+        tone: lifecycleTone(state),
+      };
+    case "paper_active":
+      return {
+        label: arabic ? "ورقي نشط" : "Paper active",
+        description: arabic
+          ? "الحساب معتمد محلياً للتداول الورقي فقط، مع بقاء المسار الحي محجوباً."
+          : "The account is locally approved for paper trading only, while live routing remains blocked.",
+        tone: lifecycleTone(state),
+      };
+    case "restricted":
+      return {
+        label: arabic ? "مقيّد" : "Restricted",
+        description: arabic
+          ? "تم تقييد الحساب بانتظار تدخل الامتثال."
+          : "The account is restricted pending compliance intervention.",
+        tone: lifecycleTone(state),
+      };
+    case "blocked":
+      return {
+        label: arabic ? "محجوب" : "Blocked",
+        description: arabic
+          ? "تم حجب الحساب عن فتح مراكز جديدة."
+          : "The account is blocked from opening new positions.",
+        tone: lifecycleTone(state),
+      };
   }
-
-  if (verification === "review") {
-    return arabic ? "قيد المراجعة" : "Under review";
-  }
-
-  return arabic ? "غير موثق" : "Unverified";
 }
 
-function getJurisdictionChips(
+function getReviewCopy(
   locale: string,
-  accountPolicy: AccountPolicySurface
+  state: AccountPolicySurface["review"]["state"]
 ) {
   const arabic = isArabic(locale);
 
-  return [
-    arabic ? "الولاية: عالمية" : "Jurisdiction: Global",
-    accountPolicy.jurisdiction.executionPolicy === "demo_only"
-      ? arabic
-        ? "سياسة التنفيذ: تجريبي فقط"
-        : "Execution policy: Demo only"
-      : arabic
-      ? "سياسة التنفيذ: مقيّدة"
-      : "Execution policy: Restricted",
-    accountPolicy.jurisdiction.disclosureState === "required"
-      ? arabic
-        ? "الإفصاحات: مطلوبة"
-        : "Disclosures: Required"
-      : arabic
-      ? "الإفصاحات: جاهزة"
-      : "Disclosures: Ready",
-    accountPolicy.jurisdiction.activationState === "review"
-      ? arabic
-        ? "التفعيل القانوني: قيد المراجعة"
-        : "Legal activation: Under review"
-      : arabic
-      ? "التفعيل القانوني: نشط"
-      : "Legal activation: Active",
-    onboardingStageLabel(locale, accountPolicy.onboarding.onboardingStage),
-    accountPolicy.onboarding.demoReadiness === "ready"
-      ? arabic
-        ? "جاهزية الديمو: جاهز"
-        : "Demo readiness: Ready"
-      : arabic
-      ? "جاهزية الديمو: غير جاهز"
-      : "Demo readiness: Not ready",
-    accountPolicy.onboarding.liveActivation === "blocked"
-      ? arabic
-        ? "تفعيل الحقيقي: محجوب"
-        : "Live activation: Blocked"
-      : accountPolicy.onboarding.liveActivation === "review"
-      ? arabic
-        ? "تفعيل الحقيقي: قيد المراجعة"
-        : "Live activation: Under review"
-      : arabic
-      ? "تفعيل الحقيقي: مفعل"
-      : "Live activation: Enabled",
-    ...accountPolicy.verificationWorkflow.map((anchor) =>
-      verificationWorkflowLabel(locale, anchor)
-    ),
-  ];
+  switch (state) {
+    case "not_started":
+      return {
+        label: arabic ? "لم يبدأ" : "Not started",
+        description: arabic
+          ? "لم تبدأ مراجعة الجاهزية بعد."
+          : "The readiness review has not started yet.",
+        tone: reviewTone(state),
+      };
+    case "in_progress":
+      return {
+        label: arabic ? "قيد التنفيذ" : "In progress",
+        description: arabic
+          ? "يتم تجهيز ملف المراجعة الورقية محلياً."
+          : "The local paper-readiness review file is being prepared.",
+        tone: reviewTone(state),
+      };
+    case "pending_review":
+      return {
+        label: arabic ? "قيد المراجعة" : "Pending review",
+        description: arabic
+          ? "تم إرسال الملف للمراجعة المحلية ويجري الانتظار."
+          : "The file has been submitted for local review and is waiting in queue.",
+        tone: reviewTone(state),
+      };
+    case "approved_for_paper":
+      return {
+        label: arabic ? "معتمد للتجريبي" : "Approved for paper",
+        description: arabic
+          ? "المراجعة تسمح بالتنفيذ الورقي فقط."
+          : "The review permits paper execution only.",
+        tone: reviewTone(state),
+      };
+    case "restricted":
+      return {
+        label: arabic ? "مقيّد" : "Restricted",
+        description: arabic
+          ? "تم تقييد المراجعة ولا يمكن التقدم حالياً."
+          : "The review is restricted and cannot progress right now.",
+        tone: reviewTone(state),
+      };
+    case "rejected":
+      return {
+        label: arabic ? "محجوب" : "Blocked",
+        description: arabic
+          ? "تم رفض الجاهزية المحلية للحساب."
+          : "Local account readiness was rejected.",
+        tone: reviewTone(state),
+      };
+  }
 }
 
-function getPermissionChips(
+function getPaperAccessCopy(
   locale: string,
-  accountPolicy: AccountPolicySurface
+  state: AccountPolicySurface["activation"]["paperState"]
 ) {
-  return [
-    ...accountPolicy.permissionAnchors.map((anchor) =>
-      permissionLabel(locale, anchor)
+  const arabic = isArabic(locale);
+
+  switch (state) {
+    case "enabled":
+      return {
+        label: arabic ? "مفعّل" : "Enabled",
+        tone: activationTone(state),
+      };
+    case "gated":
+      return {
+        label: arabic ? "مقيّد" : "Gated",
+        tone: activationTone(state),
+      };
+    case "restricted":
+      return {
+        label: arabic ? "مقيّد" : "Restricted",
+        tone: activationTone(state),
+      };
+    case "blocked":
+      return {
+        label: arabic ? "محجوب" : "Blocked",
+        tone: activationTone(state),
+      };
+  }
+}
+
+function getActivationReasonCopy(
+  locale: string,
+  reason: AccountPolicySurface["activation"]["reason"]
+) {
+  const arabic = isArabic(locale);
+
+  switch (reason) {
+    case "paper_ready":
+      return {
+        label: arabic ? "جاهز للورقي" : "Paper-ready",
+        description: arabic
+          ? "التنفيذ الورقي متاح داخل المسار المحلي الآمن."
+          : "Paper execution is available inside the local-safe route.",
+        tone: "approved" as const,
+      };
+    case "disclosures_required":
+      return {
+        label: arabic ? "الإفصاحات مطلوبة" : "Disclosures required",
+        description: arabic
+          ? "يبقى إدخال الأوامر مرئياً لكن التنفيذ معطّل حتى اعتماد الإفصاحات."
+          : "Order entry stays visible, but execution remains disabled until disclosures are accepted.",
+        tone: "pending" as const,
+      };
+    case "kyc_required":
+      return {
+        label: arabic ? "التحقق مطلوب" : "Verification required",
+        description: arabic
+          ? "لا يزال ملف الجاهزية بحاجة إلى استكمال قبل السماح بالورقي."
+          : "The readiness file still needs verification before paper access can be granted.",
+        tone: "pending" as const,
+      };
+    case "review_pending":
+      return {
+        label: arabic ? "المراجعة معلّقة" : "Review pending",
+        description: arabic
+          ? "تم إرسال الملف للمراجعة ويظل التنفيذ الورقي قيد الانتظار."
+          : "The file has been submitted for review, and paper execution remains pending.",
+        tone: "pending" as const,
+      };
+    case "paper_only_mode":
+      return {
+        label: arabic ? "حماية ورقية فقط" : "Paper-only protection",
+        description: arabic
+          ? "هذا المسار المحلي يمنع أي تنفيذ حي أو أموال حقيقية."
+          : "This local-safe environment blocks any live or real-money execution path.",
+        tone: "pending" as const,
+      };
+    case "restricted_account":
+      return {
+        label: arabic ? "الحساب مقيّد" : "Restricted account",
+        description: arabic
+          ? "التنفيذ مقيّد بقرار امتثال محلي."
+          : "Execution is restricted by a local compliance decision.",
+        tone: "restricted" as const,
+      };
+    case "blocked_account":
+      return {
+        label: arabic ? "الحساب محجوب" : "Blocked account",
+        description: arabic
+          ? "التنفيذ محجوب بالكامل لهذا الحساب."
+          : "Execution is fully blocked for this account.",
+        tone: "blocked" as const,
+      };
+  }
+}
+
+function getDisclosureLabel(
+  locale: string,
+  key: AccountPolicySurface["disclosures"][number]["key"]
+) {
+  const arabic = isArabic(locale);
+
+  switch (key) {
+    case "risk":
+      return arabic ? "إفصاح المخاطر" : "Risk disclosure";
+    case "paper_trading":
+      return arabic ? "إشعار التداول الورقي" : "Paper-trading notice";
+    case "jurisdiction":
+      return arabic ? "إشعار الولاية والوصول" : "Jurisdiction notice";
+    case "terms":
+      return arabic ? "إقرار الشروط" : "Terms acknowledgment";
+  }
+}
+
+function getNextStepValue(
+  locale: string,
+  nextStep: AccountPolicySurface["activation"]["nextStep"]
+) {
+  const arabic = isArabic(locale);
+
+  switch (nextStep) {
+    case "accept_disclosures":
+      return arabic ? "اعتماد الإفصاحات المطلوبة" : "Accept required disclosures";
+    case "complete_verification":
+      return arabic ? "استكمال مراجعة الجاهزية" : "Complete readiness review";
+    case "await_review":
+      return arabic ? "انتظار قرار المراجعة" : "Await review decision";
+    case "paper_ready":
+      return arabic ? "المسار الورقي جاهز" : "Paper route available";
+    case "contact_support":
+      return arabic ? "التواصل مع الامتثال" : "Contact compliance support";
+  }
+}
+
+function getOperationalExecutionCopy(
+  locale: string,
+  accountPolicy: AccountPolicySurface,
+  riskFoundation: RiskFoundationSurface,
+  decision: Decision
+) {
+  const arabic = isArabic(locale);
+
+  if (!accountPolicy.activation.executionEnabled) {
+    return {
+      value: getActivationReasonCopy(locale, accountPolicy.activation.reason).description,
+      tone: getActivationReasonCopy(locale, accountPolicy.activation.reason).tone,
+    };
+  }
+
+  if (riskFoundation.sessionState === "locked") {
+    return {
+      value: arabic
+        ? "تم قفل الجلسة بسبب حدود الخسارة؛ لا يمكن فتح مراكز جديدة."
+        : "The session is locked by loss limits, so no new positions can open.",
+      tone: "blocked" as const,
+    };
+  }
+
+  if (riskFoundation.remainingTradeSlots === 0) {
+    return {
+      value: arabic
+        ? "تم بلوغ الحد الأقصى للصفقات المفتوحة."
+        : "The maximum open-trade limit has been reached.",
+      tone: "restricted" as const,
+    };
+  }
+
+  if (decision.signal === "wait") {
+    return {
+      value: arabic
+        ? "التنفيذ بالإشارة في وضع انتظار، بينما يظل التنفيذ الورقي اليدوي متاحاً."
+        : "Signal execution is on standby while manual paper entry remains available.",
+      tone: "pending" as const,
+    };
+  }
+
+  return {
+    value: arabic
+      ? "التنفيذ الورقي المحلي متاح ضمن الحواجز الحالية."
+      : "Local paper execution is available inside the current guardrails.",
+    tone: "approved" as const,
+  };
+}
+
+function getComplianceViewModel(
+  locale: string,
+  accountPolicy: AccountPolicySurface,
+  riskFoundation: RiskFoundationSurface,
+  decision: Decision,
+  riskNote: string
+) {
+  const arabic = isArabic(locale);
+  const lifecycle = getLifecycleCopy(locale, accountPolicy.lifecycle.state);
+  const review = getReviewCopy(locale, accountPolicy.review.state);
+  const activationReason = getActivationReasonCopy(
+    locale,
+    accountPolicy.activation.reason
+  );
+  const paperAccess = getPaperAccessCopy(
+    locale,
+    accountPolicy.activation.paperState
+  );
+  const acceptedDisclosures = accountPolicy.disclosures.filter(
+    (item) => item.state === "accepted"
+  ).length;
+  const disclosurePendingFallback = arabic
+    ? "مطلوب قبل التفعيل الورقي"
+    : "Required before paper activation";
+  const disclosureAcceptedFallback = arabic
+    ? "معتمد في الملف المحلي"
+    : "Accepted in the local paper profile";
+  const reviewUpdatedFallback = arabic ? "لم يُحدّث بعد" : "No review update yet";
+  const liveAccessValue = arabic ? "محجوب محلياً" : "Blocked locally";
+  const operational = getOperationalExecutionCopy(
+    locale,
+    accountPolicy,
+    riskFoundation,
+    decision
+  );
+
+  return {
+    policyPanelLabel: arabic ? "الامتثال + التفعيل" : "Compliance + Activation",
+    accountLifecycleLabel: lifecycle.label,
+    accountLifecycleDescription: lifecycle.description,
+    accountLifecycleTone: lifecycle.tone,
+    reviewStatusLabel: review.label,
+    reviewStatusDescription: review.description,
+    reviewStatusTone: review.tone,
+    disclosureSummaryLabel: arabic ? "الإفصاحات" : "Disclosures",
+    disclosureSummaryValue: arabic
+      ? `${acceptedDisclosures} / ${accountPolicy.disclosures.length} معتمدة`
+      : `${acceptedDisclosures} / ${accountPolicy.disclosures.length} accepted`,
+    paperAccessLabel: arabic ? "الوصول الورقي" : "Paper access",
+    paperAccessValue: paperAccess.label,
+    paperAccessTone: paperAccess.tone,
+    liveAccessLabel: arabic ? "التنفيذ الحي" : "Live execution",
+    liveAccessValue,
+    ticketReadinessLabel: arabic ? "الجاهزية الحالية" : "Current readiness",
+    ticketReadinessValue: activationReason.label,
+    ticketReadinessTone: activationReason.tone,
+    ticketGateLabel: arabic ? "حالة التنفيذ" : "Execution gate",
+    ticketGateValue: activationReason.label,
+    ticketGateTone: activationReason.tone,
+    ticketNextStepLabel: arabic ? "الخطوة التالية" : "Next step",
+    ticketNextStepValue: getNextStepValue(
+      locale,
+      accountPolicy.activation.nextStep
     ),
-    ...accountPolicy.preferences.map((anchor) => preferenceLabel(locale, anchor)),
-  ];
+    ticketOperationalLabel: arabic ? "الوضع التشغيلي" : "Operational state",
+    ticketOperationalValue: operational.value,
+    ticketOperationalTone: operational.tone,
+    ticketSupportNote: !accountPolicy.activation.executionEnabled
+      ? activationReason.description
+      : riskFoundation.sessionState === "locked" ||
+        riskFoundation.remainingTradeSlots === 0
+      ? riskNote
+      : activationReason.description,
+    compliancePanelSubtitle: lifecycle.description,
+    compliancePanelBadge: paperAccess.label,
+    disclosureRows: accountPolicy.disclosures.map((item) => ({
+      label: getDisclosureLabel(locale, item.key),
+      status: item.state === "accepted" ? (arabic ? "معتمد" : "Accepted") : arabic ? "معلّق" : "Pending",
+      meta:
+        item.state === "accepted"
+          ? formatTimestamp(locale, item.acceptedAt || "", disclosureAcceptedFallback)
+          : disclosurePendingFallback,
+      tone: item.state === "accepted" ? ("approved" as const) : ("pending" as const),
+    })),
+    activationRows: [
+      {
+        label: arabic ? "مرجع المراجعة" : "Review reference",
+        value: accountPolicy.review.reference,
+      },
+      {
+        label: arabic ? "آخر تحديث مراجعة" : "Review updated",
+        value: formatTimestamp(
+          locale,
+          accountPolicy.review.updatedAt,
+          reviewUpdatedFallback
+        ),
+      },
+      {
+        label: arabic ? "الوصول الورقي" : "Paper access",
+        value: paperAccess.label,
+        tone: paperAccess.tone,
+      },
+      {
+        label: arabic ? "التنفيذ الحي" : "Live execution",
+        value: liveAccessValue,
+        tone: "blocked" as const,
+      },
+      {
+        label: arabic ? "سبب البوابة" : "Gate reason",
+        value: activationReason.label,
+        tone: activationReason.tone,
+      },
+      {
+        label: arabic ? "الخطوة التالية" : "Next step",
+        value: getNextStepValue(locale, accountPolicy.activation.nextStep),
+      },
+    ],
+    acceptDisclosuresLabel: arabic ? "اعتماد الإفصاحات" : "Accept disclosures",
+    submitReviewLabel: arabic ? "إرسال للمراجعة" : "Submit for review",
+  };
 }
 
 function getExecutionViewModel(
@@ -454,12 +884,6 @@ function getDataStateViewModel(
   };
 }
 
-function getRealReadinessNote(locale: string) {
-  return isArabic(locale)
-    ? "وضع الحساب الحقيقي موجود في الأساس، لكن التوجيه والتنفيذ الحقيقيين غير مفعّلين بعد."
-    : "Real account mode exists in the foundation, but live routing and real execution are not enabled yet.";
-}
-
 function getAuditViewModel(
   locale: string,
   auditTraceFoundation: AuditTraceFoundationSurface,
@@ -553,7 +977,6 @@ function getSecurityViewModel(
 export function createTradingWorkstationViewModel({
   locale,
   dict,
-  userIdentity,
   accountStatus,
   accountPolicy,
   executionFoundation,
@@ -569,20 +992,25 @@ export function createTradingWorkstationViewModel({
 }: TradingWorkstationViewModelInput): TradingWorkstationViewModel {
   const coreCopy = getCoreModeCopy(locale);
   const sessionPnLText = formatSessionPnl(sessionPnL);
+  const riskNote = getRiskNote(riskNoteCode, dict);
 
   return {
     ...coreCopy,
     signalStyle: getSignalTone(decision.signal),
-    riskNote: getRiskNote(riskNoteCode, dict),
+    riskNote,
     signalLabel: dict.decision.signals[decision.signal],
     sessionStateLabel: getSessionStateLabel(sessionLocked, dict),
     sessionPnLText,
     accountStatusValue: getAccountStatusValue(locale, accountStatus),
-    verificationLabel: getVerificationLabel(locale, userIdentity.verification),
-    jurisdictionChips: getJurisdictionChips(locale, accountPolicy),
-    permissionChips: getPermissionChips(locale, accountPolicy),
     openTradesText: `${openTradesCount} / ${PLATFORM_LIMITS.maxOpenTrades}`,
     sessionPnLPositive: sessionPnL >= 0,
+    ...getComplianceViewModel(
+      locale,
+      accountPolicy,
+      riskFoundation,
+      decision,
+      riskNote
+    ),
     ...getExecutionViewModel(locale, executionFoundation),
     ...getRiskViewModel(locale, riskFoundation, sessionPnLText),
     ...getDataStateViewModel(
@@ -591,7 +1019,6 @@ export function createTradingWorkstationViewModel({
       coreCopy.demoLabel,
       coreCopy.realLabel
     ),
-    realReadinessNote: getRealReadinessNote(locale),
     ...getAuditViewModel(
       locale,
       auditTraceFoundation,

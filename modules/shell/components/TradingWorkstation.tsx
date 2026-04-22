@@ -7,6 +7,7 @@ import {
   ActivityOpenTradesPanel,
   AuditTracePanel,
   ChartCard,
+  ComplianceActivationPanel,
   DesktopRail,
   ExecutionCard,
   NarrowStrip,
@@ -29,7 +30,6 @@ export default function TradingWorkstation({
   const viewModel = createTradingWorkstationViewModel({
     locale,
     dict,
-    userIdentity: platformState.userIdentity,
     accountStatus: platformState.accountStatus,
     accountPolicy: platformState.accountPolicy,
     executionFoundation: platformState.executionFoundation,
@@ -44,17 +44,7 @@ export default function TradingWorkstation({
     openTradesCount: platformState.openTrades.length,
   });
 
-  const executionNote =
-    platformState.accountMode === "real"
-      ? viewModel.realReadinessNote
-      : viewModel.riskNote ||
-        viewModel.dataStateOperatorNote ||
-        viewModel.riskOperatorNote;
-
-  const complianceChips = [
-    ...viewModel.jurisdictionChips,
-    ...viewModel.permissionChips,
-  ];
+  const executionNote = viewModel.ticketSupportNote;
 
   const executionFoundationChips = [
     `${viewModel.executionRouteLabel}: ${viewModel.executionRouteValue}`,
@@ -86,6 +76,17 @@ export default function TradingWorkstation({
             signalLabel={viewModel.signalLabel}
             sessionStateLabel={viewModel.sessionStateLabel}
             accountStatusValue={viewModel.accountStatusValue}
+            accountLifecycleLabel={viewModel.accountLifecycleLabel}
+            accountLifecycleTone={viewModel.accountLifecycleTone}
+            reviewStatusLabel={viewModel.reviewStatusLabel}
+            reviewStatusTone={viewModel.reviewStatusTone}
+            disclosureSummaryLabel={viewModel.disclosureSummaryLabel}
+            disclosureSummaryValue={viewModel.disclosureSummaryValue}
+            paperAccessLabel={viewModel.paperAccessLabel}
+            paperAccessValue={viewModel.paperAccessValue}
+            paperAccessTone={viewModel.paperAccessTone}
+            liveAccessLabel={viewModel.liveAccessLabel}
+            liveAccessValue={viewModel.liveAccessValue}
           />
 
           <section className="tpmv2-desktop-master">
@@ -144,6 +145,21 @@ export default function TradingWorkstation({
                 note={executionNote}
                 demoLabel={viewModel.demoLabel}
                 realLabel={viewModel.realLabel}
+                accountLifecycleLabel={viewModel.accountLifecycleLabel}
+                accountLifecycleTone={viewModel.accountLifecycleTone}
+                reviewStatusLabel={viewModel.reviewStatusLabel}
+                reviewStatusTone={viewModel.reviewStatusTone}
+                ticketReadinessLabel={viewModel.ticketReadinessLabel}
+                ticketReadinessValue={viewModel.ticketReadinessValue}
+                ticketReadinessTone={viewModel.ticketReadinessTone}
+                ticketGateLabel={viewModel.ticketGateLabel}
+                ticketGateValue={viewModel.ticketGateValue}
+                ticketGateTone={viewModel.ticketGateTone}
+                ticketNextStepLabel={viewModel.ticketNextStepLabel}
+                ticketNextStepValue={viewModel.ticketNextStepValue}
+                ticketOperationalLabel={viewModel.ticketOperationalLabel}
+                ticketOperationalValue={viewModel.ticketOperationalValue}
+                ticketOperationalTone={viewModel.ticketOperationalTone}
               />
             </aside>
           </section>
@@ -157,11 +173,25 @@ export default function TradingWorkstation({
 
             <ActivityHistoryPanel dict={dict} history={platformState.history} />
 
-            <SecondarySurfacePanel
+            <ComplianceActivationPanel
               title={viewModel.policyPanelLabel}
-              subtitle={`${viewModel.accountStatusLabel}: ${viewModel.accountStatusValue}`}
-              badge={viewModel.verificationLabel}
-              chips={complianceChips}
+              subtitle={viewModel.compliancePanelSubtitle}
+              badge={viewModel.compliancePanelBadge}
+              badgeTone={viewModel.paperAccessTone}
+              accountLifecycleLabel={viewModel.accountLifecycleLabel}
+              accountLifecycleDescription={viewModel.accountLifecycleDescription}
+              accountLifecycleTone={viewModel.accountLifecycleTone}
+              reviewStatusLabel={viewModel.reviewStatusLabel}
+              reviewStatusDescription={viewModel.reviewStatusDescription}
+              reviewStatusTone={viewModel.reviewStatusTone}
+              disclosureRows={viewModel.disclosureRows}
+              activationRows={viewModel.activationRows}
+              acceptDisclosuresLabel={viewModel.acceptDisclosuresLabel}
+              submitReviewLabel={viewModel.submitReviewLabel}
+              canAcceptDisclosures={platformState.canAcknowledgeDisclosures}
+              canSubmitReview={platformState.canSubmitAccountReview}
+              onAcceptDisclosures={platformState.acceptPendingDisclosures}
+              onSubmitReview={platformState.submitActivationReview}
             />
 
             <SecondarySurfacePanel
@@ -243,6 +273,17 @@ export default function TradingWorkstation({
           signalLabel={viewModel.signalLabel}
           sessionStateLabel={viewModel.sessionStateLabel}
           accountStatusValue={viewModel.accountStatusValue}
+          accountLifecycleLabel={viewModel.accountLifecycleLabel}
+          accountLifecycleTone={viewModel.accountLifecycleTone}
+          reviewStatusLabel={viewModel.reviewStatusLabel}
+          reviewStatusTone={viewModel.reviewStatusTone}
+          disclosureSummaryLabel={viewModel.disclosureSummaryLabel}
+          disclosureSummaryValue={viewModel.disclosureSummaryValue}
+          paperAccessLabel={viewModel.paperAccessLabel}
+          paperAccessValue={viewModel.paperAccessValue}
+          paperAccessTone={viewModel.paperAccessTone}
+          liveAccessLabel={viewModel.liveAccessLabel}
+          liveAccessValue={viewModel.liveAccessValue}
         />
 
         <NarrowStrip
@@ -303,6 +344,21 @@ export default function TradingWorkstation({
           note={executionNote}
           demoLabel={viewModel.demoLabel}
           realLabel={viewModel.realLabel}
+          accountLifecycleLabel={viewModel.accountLifecycleLabel}
+          accountLifecycleTone={viewModel.accountLifecycleTone}
+          reviewStatusLabel={viewModel.reviewStatusLabel}
+          reviewStatusTone={viewModel.reviewStatusTone}
+          ticketReadinessLabel={viewModel.ticketReadinessLabel}
+          ticketReadinessValue={viewModel.ticketReadinessValue}
+          ticketReadinessTone={viewModel.ticketReadinessTone}
+          ticketGateLabel={viewModel.ticketGateLabel}
+          ticketGateValue={viewModel.ticketGateValue}
+          ticketGateTone={viewModel.ticketGateTone}
+          ticketNextStepLabel={viewModel.ticketNextStepLabel}
+          ticketNextStepValue={viewModel.ticketNextStepValue}
+          ticketOperationalLabel={viewModel.ticketOperationalLabel}
+          ticketOperationalValue={viewModel.ticketOperationalValue}
+          ticketOperationalTone={viewModel.ticketOperationalTone}
         />
 
         <ActivityOpenTradesPanel
@@ -313,11 +369,25 @@ export default function TradingWorkstation({
 
         <ActivityHistoryPanel dict={dict} history={platformState.history} />
 
-        <SecondarySurfacePanel
+        <ComplianceActivationPanel
           title={viewModel.policyPanelLabel}
-          subtitle={`${viewModel.accountStatusLabel}: ${viewModel.accountStatusValue}`}
-          badge={viewModel.verificationLabel}
-          chips={complianceChips}
+          subtitle={viewModel.compliancePanelSubtitle}
+          badge={viewModel.compliancePanelBadge}
+          badgeTone={viewModel.paperAccessTone}
+          accountLifecycleLabel={viewModel.accountLifecycleLabel}
+          accountLifecycleDescription={viewModel.accountLifecycleDescription}
+          accountLifecycleTone={viewModel.accountLifecycleTone}
+          reviewStatusLabel={viewModel.reviewStatusLabel}
+          reviewStatusDescription={viewModel.reviewStatusDescription}
+          reviewStatusTone={viewModel.reviewStatusTone}
+          disclosureRows={viewModel.disclosureRows}
+          activationRows={viewModel.activationRows}
+          acceptDisclosuresLabel={viewModel.acceptDisclosuresLabel}
+          submitReviewLabel={viewModel.submitReviewLabel}
+          canAcceptDisclosures={platformState.canAcknowledgeDisclosures}
+          canSubmitReview={platformState.canSubmitAccountReview}
+          onAcceptDisclosures={platformState.acceptPendingDisclosures}
+          onSubmitReview={platformState.submitActivationReview}
         />
 
         <SecondarySurfacePanel
