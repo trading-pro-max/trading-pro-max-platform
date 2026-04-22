@@ -1,15 +1,15 @@
+﻿import TradingWorkstation from "../../modules/shell/components/TradingWorkstationBridge";
 import { resolveDictionaryLocale } from "../../lib/i18n/config";
 import { getDictionary } from "../../lib/i18n/get-dictionary";
-import { TradingWorkstation } from "../../modules/shell/components/TradingWorkstation";
 
-export default async function LocaleHomePage({
+export default async function LocalePage({
   params,
 }: {
-  params: Promise<{ locale: string }>;
+  params: Promise<{ locale?: string }> | { locale?: string };
 }) {
-  const { locale } = await params;
-  const resolvedLocale = resolveDictionaryLocale(locale);
-  const dict = getDictionary(locale);
+  const resolved = await Promise.resolve(params as any);
+  const locale = resolveDictionaryLocale((resolved as any)?.locale ?? "en");
+  const dict = await getDictionary(locale as any);
 
-  return <TradingWorkstation locale={resolvedLocale} dict={dict} />;
+  return <TradingWorkstation locale={locale as any} dict={dict} />;
 }

@@ -32,24 +32,24 @@ function permissionLabel(locale: string, anchor: PermissionAnchor) {
   const stateText =
     anchor.state === "enabled"
       ? locale === "ar"
-        ? "مفعل"
+        ? "ظ…ظپط¹ظ„"
         : "Enabled"
       : anchor.state === "read_only"
       ? locale === "ar"
-        ? "قراءة فقط"
+        ? "ظ‚ط±ط§ط،ط© ظپظ‚ط·"
         : "Read-only"
       : locale === "ar"
-      ? "محجوب"
+      ? "ظ…ط­ط¬ظˆط¨"
       : "Blocked";
 
   const labelMap: Record<PermissionAnchor["key"], string> = {
-    profile: locale === "ar" ? "الملف" : "Profile",
-    settings: locale === "ar" ? "الإعدادات" : "Settings",
-    sign_out: locale === "ar" ? "الخروج" : "Sign out",
-    demo_execution: locale === "ar" ? "تنفيذ تجريبي" : "Demo execution",
-    real_execution: locale === "ar" ? "تنفيذ حقيقي" : "Real execution",
-    audit_surface: locale === "ar" ? "سطح التدقيق" : "Audit surface",
-    jurisdiction_controls: locale === "ar" ? "ضوابط الولاية" : "Jurisdiction controls",
+    profile: locale === "ar" ? "ط§ظ„ظ…ظ„ظپ" : "Profile",
+    settings: locale === "ar" ? "ط§ظ„ط¥ط¹ط¯ط§ط¯ط§طھ" : "Settings",
+    sign_out: locale === "ar" ? "ط§ظ„ط®ط±ظˆط¬" : "Sign out",
+    demo_execution: locale === "ar" ? "طھظ†ظپظٹط° طھط¬ط±ظٹط¨ظٹ" : "Demo execution",
+    real_execution: locale === "ar" ? "طھظ†ظپظٹط° ط­ظ‚ظٹظ‚ظٹ" : "Real execution",
+    audit_surface: locale === "ar" ? "ط³ط·ط­ ط§ظ„طھط¯ظ‚ظٹظ‚" : "Audit surface",
+    jurisdiction_controls: locale === "ar" ? "ط¶ظˆط§ط¨ط· ط§ظ„ظˆظ„ط§ظٹط©" : "Jurisdiction controls",
   };
 
   return `${labelMap[anchor.key]}: ${stateText}`;
@@ -59,21 +59,21 @@ function verificationWorkflowLabel(locale: string, anchor: VerificationWorkflowA
   const stateText =
     anchor.state === "ready"
       ? locale === "ar"
-        ? "جاهز"
+        ? "ط¬ط§ظ‡ط²"
         : "Ready"
       : anchor.state === "review"
       ? locale === "ar"
-        ? "قيد المراجعة"
+        ? "ظ‚ظٹط¯ ط§ظ„ظ…ط±ط§ط¬ط¹ط©"
         : "Under review"
       : locale === "ar"
-      ? "معلق"
+      ? "ظ…ط¹ظ„ظ‚"
       : "Pending";
 
   const labelMap: Record<VerificationWorkflowAnchor["key"], string> = {
-    identity_check: locale === "ar" ? "التحقق من الهوية" : "Identity check",
-    account_review: locale === "ar" ? "مراجعة الحساب" : "Account review",
-    disclosure_acceptance: locale === "ar" ? "قبول الإفصاحات" : "Disclosure acceptance",
-    live_activation: locale === "ar" ? "تفعيل الحقيقي" : "Live activation",
+    identity_check: locale === "ar" ? "ط§ظ„طھط­ظ‚ظ‚ ظ…ظ† ط§ظ„ظ‡ظˆظٹط©" : "Identity check",
+    account_review: locale === "ar" ? "ظ…ط±ط§ط¬ط¹ط© ط§ظ„ط­ط³ط§ط¨" : "Account review",
+    disclosure_acceptance: locale === "ar" ? "ظ‚ط¨ظˆظ„ ط§ظ„ط¥ظپطµط§ط­ط§طھ" : "Disclosure acceptance",
+    live_activation: locale === "ar" ? "طھظپط¹ظٹظ„ ط§ظ„ط­ظ‚ظٹظ‚ظٹ" : "Live activation",
   };
 
   return `${labelMap[anchor.key]}: ${stateText}`;
@@ -81,21 +81,21 @@ function verificationWorkflowLabel(locale: string, anchor: VerificationWorkflowA
 
 function preferenceLabel(locale: string, anchor: AccountPreferenceAnchor) {
   const keyMap: Record<AccountPreferenceAnchor["key"], string> = {
-    language: locale === "ar" ? "اللغة" : "Language",
-    direction: locale === "ar" ? "الاتجاه" : "Direction",
-    density: locale === "ar" ? "الكثافة" : "Density",
-    chart_layout: locale === "ar" ? "هيكل الرسم" : "Chart layout",
-    risk_confirmation: locale === "ar" ? "تأكيد المخاطر" : "Risk confirmation",
+    language: locale === "ar" ? "ط§ظ„ظ„ط؛ط©" : "Language",
+    direction: locale === "ar" ? "ط§ظ„ط§طھط¬ط§ظ‡" : "Direction",
+    density: locale === "ar" ? "ط§ظ„ظƒط«ط§ظپط©" : "Density",
+    chart_layout: locale === "ar" ? "ظ‡ظٹظƒظ„ ط§ظ„ط±ط³ظ…" : "Chart layout",
+    risk_confirmation: locale === "ar" ? "طھط£ظƒظٹط¯ ط§ظ„ظ…ط®ط§ط·ط±" : "Risk confirmation",
   };
 
   const valueMap: Record<string, string> = {
-    Arabic: locale === "ar" ? "العربية" : "Arabic",
-    English: locale === "ar" ? "الإنجليزية" : "English",
+    Arabic: locale === "ar" ? "ط§ظ„ط¹ط±ط¨ظٹط©" : "Arabic",
+    English: locale === "ar" ? "ط§ظ„ط¥ظ†ط¬ظ„ظٹط²ظٹط©" : "English",
     RTL: "RTL",
     LTR: "LTR",
-    Adaptive: locale === "ar" ? "تكيفية" : "Adaptive",
-    "Primary workspace": locale === "ar" ? "مساحة رئيسية" : "Primary workspace",
-    Enabled: locale === "ar" ? "مفعل" : "Enabled",
+    Adaptive: locale === "ar" ? "طھظƒظٹظپظٹط©" : "Adaptive",
+    "Primary workspace": locale === "ar" ? "ظ…ط³ط§ط­ط© ط±ط¦ظٹط³ظٹط©" : "Primary workspace",
+    Enabled: locale === "ar" ? "ظ…ظپط¹ظ„" : "Enabled",
   };
 
   return `${keyMap[anchor.key]}: ${valueMap[anchor.value] || anchor.value}`;
@@ -103,11 +103,11 @@ function preferenceLabel(locale: string, anchor: AccountPreferenceAnchor) {
 
 function onboardingStageLabel(locale: string, stage: string) {
   const stageMap: Record<string, string> = {
-    foundation: locale === "ar" ? "مرحلة الإعداد: أساس" : "Onboarding: Foundation",
-    identity_ready: locale === "ar" ? "مرحلة الإعداد: هوية جاهزة" : "Onboarding: Identity-ready",
-    account_ready: locale === "ar" ? "مرحلة الإعداد: حساب جاهز" : "Onboarding: Account-ready",
-    activation_review: locale === "ar" ? "مرحلة الإعداد: مراجعة التفعيل" : "Onboarding: Activation review",
-    active: locale === "ar" ? "مرحلة الإعداد: نشط" : "Onboarding: Active",
+    foundation: locale === "ar" ? "ظ…ط±ط­ظ„ط© ط§ظ„ط¥ط¹ط¯ط§ط¯: ط£ط³ط§ط³" : "Onboarding: Foundation",
+    identity_ready: locale === "ar" ? "ظ…ط±ط­ظ„ط© ط§ظ„ط¥ط¹ط¯ط§ط¯: ظ‡ظˆظٹط© ط¬ط§ظ‡ط²ط©" : "Onboarding: Identity-ready",
+    account_ready: locale === "ar" ? "ظ…ط±ط­ظ„ط© ط§ظ„ط¥ط¹ط¯ط§ط¯: ط­ط³ط§ط¨ ط¬ط§ظ‡ط²" : "Onboarding: Account-ready",
+    activation_review: locale === "ar" ? "ظ…ط±ط­ظ„ط© ط§ظ„ط¥ط¹ط¯ط§ط¯: ظ…ط±ط§ط¬ط¹ط© ط§ظ„طھظپط¹ظٹظ„" : "Onboarding: Activation review",
+    active: locale === "ar" ? "ظ…ط±ط­ظ„ط© ط§ظ„ط¥ط¹ط¯ط§ط¯: ظ†ط´ط·" : "Onboarding: Active",
   };
 
   return stageMap[stage] || stage;
@@ -115,15 +115,15 @@ function onboardingStageLabel(locale: string, stage: string) {
 
 function executionGuardrailLabel(locale: string, key: ExecutionGuardrailKey) {
   const map: Record<ExecutionGuardrailKey, string> = {
-    demo_only: locale === "ar" ? "تنفيذ حقيقي محجوب" : "Live execution blocked",
-    session_locked: locale === "ar" ? "الجلسة مقفلة" : "Session locked",
-    max_open_trades: locale === "ar" ? "تم بلوغ الحد الأقصى" : "Max open trades reached",
+    demo_only: locale === "ar" ? "طھظ†ظپظٹط° ط­ظ‚ظٹظ‚ظٹ ظ…ط­ط¬ظˆط¨" : "Live execution blocked",
+    session_locked: locale === "ar" ? "ط§ظ„ط¬ظ„ط³ط© ظ…ظ‚ظپظ„ط©" : "Session locked",
+    max_open_trades: locale === "ar" ? "طھظ… ط¨ظ„ظˆط؛ ط§ظ„ط­ط¯ ط§ظ„ط£ظ‚طµظ‰" : "Max open trades reached",
   };
 
   return map[key];
 }
 
-export function TradingWorkstation({
+export default function TradingWorkstation({
   locale,
   dict,
 }: {
@@ -172,81 +172,81 @@ export function TradingWorkstation({
   const sessionStateLabel = getSessionStateLabel(sessionLocked, dict);
   const sessionPnLText = formatSessionPnl(sessionPnL);
 
-  const modeLabel = locale === "ar" ? "وضع الحساب" : "Account";
-  const demoLabel = locale === "ar" ? "تجريبي" : "Demo";
-  const realLabel = locale === "ar" ? "حقيقي" : "Real";
-  const analysisTimeframeLabel = locale === "ar" ? "إطار التحليل" : "Analysis timeframe";
-  const durationFieldLabel = locale === "ar" ? "مدة التنفيذ" : "Execution duration";
-  const accountStatusLabel = locale === "ar" ? "حالة الحساب" : "Account status";
+  const modeLabel = locale === "ar" ? "ظˆط¶ط¹ ط§ظ„ط­ط³ط§ط¨" : "Account";
+  const demoLabel = locale === "ar" ? "طھط¬ط±ظٹط¨ظٹ" : "Demo";
+  const realLabel = locale === "ar" ? "ط­ظ‚ظٹظ‚ظٹ" : "Real";
+  const analysisTimeframeLabel = locale === "ar" ? "ط¥ط·ط§ط± ط§ظ„طھط­ظ„ظٹظ„" : "Analysis timeframe";
+  const durationFieldLabel = locale === "ar" ? "ظ…ط¯ط© ط§ظ„طھظ†ظپظٹط°" : "Execution duration";
+  const accountStatusLabel = locale === "ar" ? "ط­ط§ظ„ط© ط§ظ„ط­ط³ط§ط¨" : "Account status";
   const accountStatusValue =
     accountStatus === "active"
       ? locale === "ar"
-        ? "نشط"
+        ? "ظ†ط´ط·"
         : "Active"
       : locale === "ar"
-      ? "قراءة فقط"
+      ? "ظ‚ط±ط§ط،ط© ظپظ‚ط·"
       : "Read-only";
 
   const verificationLabel =
     userIdentity.verification === "verified"
       ? locale === "ar"
-        ? "موثق"
+        ? "ظ…ظˆط«ظ‚"
         : "Verified"
       : userIdentity.verification === "review"
       ? locale === "ar"
-        ? "قيد المراجعة"
+        ? "ظ‚ظٹط¯ ط§ظ„ظ…ط±ط§ط¬ط¹ط©"
         : "Under review"
       : locale === "ar"
-      ? "غير موثق"
+      ? "ط؛ظٹط± ظ…ظˆط«ظ‚"
       : "Unverified";
 
-  const userRole = locale === "ar" ? "المالك" : "Owner";
-  const profileLabel = locale === "ar" ? "الملف" : "Profile";
-  const settingsLabel = locale === "ar" ? "الإعدادات" : "Settings";
-  const signOutLabel = locale === "ar" ? "الخروج" : "Sign out";
-  const policyPanelLabel = locale === "ar" ? "سياسة الحساب" : "Account policy";
+  const userRole = locale === "ar" ? "ط§ظ„ظ…ط§ظ„ظƒ" : "Owner";
+  const profileLabel = locale === "ar" ? "ط§ظ„ظ…ظ„ظپ" : "Profile";
+  const settingsLabel = locale === "ar" ? "ط§ظ„ط¥ط¹ط¯ط§ط¯ط§طھ" : "Settings";
+  const signOutLabel = locale === "ar" ? "ط§ظ„ط®ط±ظˆط¬" : "Sign out";
+  const policyPanelLabel = locale === "ar" ? "ط³ظٹط§ط³ط© ط§ظ„ط­ط³ط§ط¨" : "Account policy";
 
   const jurisdictionChips = [
-    locale === "ar" ? "الولاية: عالمية" : "Jurisdiction: Global",
+    locale === "ar" ? "ط§ظ„ظˆظ„ط§ظٹط©: ط¹ط§ظ„ظ…ظٹط©" : "Jurisdiction: Global",
     accountPolicy.jurisdiction.executionPolicy === "demo_only"
       ? locale === "ar"
-        ? "سياسة التنفيذ: تجريبي فقط"
+        ? "ط³ظٹط§ط³ط© ط§ظ„طھظ†ظپظٹط°: طھط¬ط±ظٹط¨ظٹ ظپظ‚ط·"
         : "Execution policy: Demo only"
       : locale === "ar"
-      ? "سياسة التنفيذ: مقيّدة"
+      ? "ط³ظٹط§ط³ط© ط§ظ„طھظ†ظپظٹط°: ظ…ظ‚ظٹظ‘ط¯ط©"
       : "Execution policy: Restricted",
     accountPolicy.jurisdiction.disclosureState === "required"
       ? locale === "ar"
-        ? "الإفصاحات: مطلوبة"
+        ? "ط§ظ„ط¥ظپطµط§ط­ط§طھ: ظ…ط·ظ„ظˆط¨ط©"
         : "Disclosures: Required"
       : locale === "ar"
-      ? "الإفصاحات: جاهزة"
+      ? "ط§ظ„ط¥ظپطµط§ط­ط§طھ: ط¬ط§ظ‡ط²ط©"
       : "Disclosures: Ready",
     accountPolicy.jurisdiction.activationState === "review"
       ? locale === "ar"
-        ? "التفعيل القانوني: قيد المراجعة"
+        ? "ط§ظ„طھظپط¹ظٹظ„ ط§ظ„ظ‚ط§ظ†ظˆظ†ظٹ: ظ‚ظٹط¯ ط§ظ„ظ…ط±ط§ط¬ط¹ط©"
         : "Legal activation: Under review"
       : locale === "ar"
-      ? "التفعيل القانوني: نشط"
+      ? "ط§ظ„طھظپط¹ظٹظ„ ط§ظ„ظ‚ط§ظ†ظˆظ†ظٹ: ظ†ط´ط·"
       : "Legal activation: Active",
     onboardingStageLabel(locale, accountPolicy.onboarding.onboardingStage),
     accountPolicy.onboarding.demoReadiness === "ready"
       ? locale === "ar"
-        ? "جاهزية الديمو: جاهز"
+        ? "ط¬ط§ظ‡ط²ظٹط© ط§ظ„ط¯ظٹظ…ظˆ: ط¬ط§ظ‡ط²"
         : "Demo readiness: Ready"
       : locale === "ar"
-      ? "جاهزية الديمو: غير جاهز"
+      ? "ط¬ط§ظ‡ط²ظٹط© ط§ظ„ط¯ظٹظ…ظˆ: ط؛ظٹط± ط¬ط§ظ‡ط²"
       : "Demo readiness: Not ready",
     accountPolicy.onboarding.liveActivation === "blocked"
       ? locale === "ar"
-        ? "تفعيل الحقيقي: محجوب"
+        ? "طھظپط¹ظٹظ„ ط§ظ„ط­ظ‚ظٹظ‚ظٹ: ظ…ط­ط¬ظˆط¨"
         : "Live activation: Blocked"
       : accountPolicy.onboarding.liveActivation === "review"
       ? locale === "ar"
-        ? "تفعيل الحقيقي: قيد المراجعة"
+        ? "طھظپط¹ظٹظ„ ط§ظ„ط­ظ‚ظٹظ‚ظٹ: ظ‚ظٹط¯ ط§ظ„ظ…ط±ط§ط¬ط¹ط©"
         : "Live activation: Under review"
       : locale === "ar"
-      ? "تفعيل الحقيقي: مفعل"
+      ? "طھظپط¹ظٹظ„ ط§ظ„ط­ظ‚ظٹظ‚ظٹ: ظ…ظپط¹ظ„"
       : "Live activation: Enabled",
     ...accountPolicy.verificationWorkflow.map((anchor) =>
       verificationWorkflowLabel(locale, anchor)
@@ -258,217 +258,217 @@ export function TradingWorkstation({
     ...accountPolicy.preferences.map((anchor) => preferenceLabel(locale, anchor)),
   ];
 
-  const executionFoundationLabel = locale === "ar" ? "أساس التنفيذ" : "Execution foundation";
-  const executionRouteLabel = locale === "ar" ? "مسار التنفيذ" : "Execution route";
+  const executionFoundationLabel = locale === "ar" ? "ط£ط³ط§ط³ ط§ظ„طھظ†ظپظٹط°" : "Execution foundation";
+  const executionRouteLabel = locale === "ar" ? "ظ…ط³ط§ط± ط§ظ„طھظ†ظپظٹط°" : "Execution route";
   const executionRouteValue =
     executionFoundation.route === "demo_router"
       ? locale === "ar"
-        ? "موجه الديمو"
+        ? "ظ…ظˆط¬ظ‡ ط§ظ„ط¯ظٹظ…ظˆ"
         : "Demo router"
       : locale === "ar"
-      ? "المسار الحقيقي محجوب"
+      ? "ط§ظ„ظ…ط³ط§ط± ط§ظ„ط­ظ‚ظٹظ‚ظٹ ظ…ط­ط¬ظˆط¨"
       : "Live route blocked";
 
-  const executionIntentLabel = locale === "ar" ? "حالة نية التنفيذ" : "Execution intent";
+  const executionIntentLabel = locale === "ar" ? "ط­ط§ظ„ط© ظ†ظٹط© ط§ظ„طھظ†ظپظٹط°" : "Execution intent";
   const executionIntentValue =
     executionFoundation.intentState === "ready"
       ? locale === "ar"
-        ? "جاهز"
+        ? "ط¬ط§ظ‡ط²"
         : "Ready"
       : executionFoundation.intentState === "standby"
       ? locale === "ar"
-        ? "انتظار"
+        ? "ط§ظ†طھط¸ط§ط±"
         : "Standby"
       : executionFoundation.intentState === "guarded"
       ? locale === "ar"
-        ? "محكوم بالحواجز"
+        ? "ظ…ط­ظƒظˆظ… ط¨ط§ظ„ط­ظˆط§ط¬ط²"
         : "Guarded"
       : locale === "ar"
-      ? "محجوب"
+      ? "ظ…ط­ط¬ظˆط¨"
       : "Blocked";
 
-  const executionGuardrailsLabel = locale === "ar" ? "حواجز التنفيذ" : "Execution guardrails";
+  const executionGuardrailsLabel = locale === "ar" ? "ط­ظˆط§ط¬ط² ط§ظ„طھظ†ظپظٹط°" : "Execution guardrails";
   const executionGuardrailChips =
     executionFoundation.guardrails.length > 0
       ? executionFoundation.guardrails.map((item) => executionGuardrailLabel(locale, item))
-      : [locale === "ar" ? "لا يوجد حظر نشط" : "No active block"];
+      : [locale === "ar" ? "ظ„ط§ ظٹظˆط¬ط¯ ط­ط¸ط± ظ†ط´ط·" : "No active block"];
 
-  const riskFoundationLabel = locale === "ar" ? "أساس المخاطر والجلسة" : "Risk + Session foundation";
+  const riskFoundationLabel = locale === "ar" ? "ط£ط³ط§ط³ ط§ظ„ظ…ط®ط§ط·ط± ظˆط§ظ„ط¬ظ„ط³ط©" : "Risk + Session foundation";
 
   const riskStateText =
     riskFoundation.sessionState === "active"
       ? locale === "ar"
-        ? "نشطة"
+        ? "ظ†ط´ط·ط©"
         : "Active"
       : riskFoundation.sessionState === "guarded"
       ? locale === "ar"
-        ? "محكومة"
+        ? "ظ…ط­ظƒظˆظ…ط©"
         : "Guarded"
       : locale === "ar"
-      ? "مقفلة"
+      ? "ظ…ظ‚ظپظ„ط©"
       : "Locked";
 
   const riskModeText =
     riskFoundation.riskMode === "normal"
       ? locale === "ar"
-        ? "طبيعي"
+        ? "ط·ط¨ظٹط¹ظٹ"
         : "Normal"
       : riskFoundation.riskMode === "guarded"
       ? locale === "ar"
-        ? "حذر"
+        ? "ط­ط°ط±"
         : "Guarded"
       : locale === "ar"
-      ? "مقفل"
+      ? "ظ…ظ‚ظپظ„"
       : "Locked";
 
   const safeDegradationText =
     riskFoundation.safeDegradation === "none"
       ? locale === "ar"
-        ? "لا يوجد"
+        ? "ظ„ط§ ظٹظˆط¬ط¯"
         : "None"
       : riskFoundation.safeDegradation === "new_entries_restricted"
       ? locale === "ar"
-        ? "تقييد دخول جديد"
+        ? "طھظ‚ظٹظٹط¯ ط¯ط®ظˆظ„ ط¬ط¯ظٹط¯"
         : "New entries restricted"
       : locale === "ar"
-      ? "حظر دخول جديد"
+      ? "ط­ط¸ط± ط¯ط®ظˆظ„ ط¬ط¯ظٹط¯"
       : "New entries blocked";
 
   const lockReasonText =
     riskFoundation.lockReason === "loss_limit"
       ? locale === "ar"
-        ? "بلوغ حد الخسارة"
+        ? "ط¨ظ„ظˆط؛ ط­ط¯ ط§ظ„ط®ط³ط§ط±ط©"
         : "Loss limit reached"
       : riskFoundation.lockReason === "capacity_limit"
       ? locale === "ar"
-        ? "بلوغ سعة الصفقات"
+        ? "ط¨ظ„ظˆط؛ ط³ط¹ط© ط§ظ„طµظپظ‚ط§طھ"
         : "Trade capacity reached"
       : locale === "ar"
-      ? "لا يوجد"
+      ? "ظ„ط§ ظٹظˆط¬ط¯"
       : "None";
 
   const riskFoundationChips = [
-    `${locale === "ar" ? "حالة الجلسة" : "Session state"}: ${riskStateText}`,
-    `${locale === "ar" ? "وضع المخاطر" : "Risk mode"}: ${riskModeText}`,
-    `${locale === "ar" ? "حد خسارة الجلسة" : "Session loss limit"}: -$${riskFoundation.sessionLossLimit.toFixed(2)}`,
-    `${locale === "ar" ? "نتيجة الجلسة الحالية" : "Current session PnL"}: ${sessionPnLText}`,
-    `${locale === "ar" ? "السعات المتبقية" : "Remaining slots"}: ${riskFoundation.remainingTradeSlots}`,
-    `${locale === "ar" ? "الحد الأقصى للصفقات المفتوحة" : "Max open trades"}: ${riskFoundation.maxOpenTrades}`,
-    `${locale === "ar" ? "الصفقات الخاسرة" : "Losing trades"}: ${riskFoundation.losingTradesCount}`,
-    `${locale === "ar" ? "الحماية المتدرجة" : "Safe degradation"}: ${safeDegradationText}`,
+    `${locale === "ar" ? "ط­ط§ظ„ط© ط§ظ„ط¬ظ„ط³ط©" : "Session state"}: ${riskStateText}`,
+    `${locale === "ar" ? "ظˆط¶ط¹ ط§ظ„ظ…ط®ط§ط·ط±" : "Risk mode"}: ${riskModeText}`,
+    `${locale === "ar" ? "ط­ط¯ ط®ط³ط§ط±ط© ط§ظ„ط¬ظ„ط³ط©" : "Session loss limit"}: -$${riskFoundation.sessionLossLimit.toFixed(2)}`,
+    `${locale === "ar" ? "ظ†طھظٹط¬ط© ط§ظ„ط¬ظ„ط³ط© ط§ظ„ط­ط§ظ„ظٹط©" : "Current session PnL"}: ${sessionPnLText}`,
+    `${locale === "ar" ? "ط§ظ„ط³ط¹ط§طھ ط§ظ„ظ…طھط¨ظ‚ظٹط©" : "Remaining slots"}: ${riskFoundation.remainingTradeSlots}`,
+    `${locale === "ar" ? "ط§ظ„ط­ط¯ ط§ظ„ط£ظ‚طµظ‰ ظ„ظ„طµظپظ‚ط§طھ ط§ظ„ظ…ظپطھظˆط­ط©" : "Max open trades"}: ${riskFoundation.maxOpenTrades}`,
+    `${locale === "ar" ? "ط§ظ„طµظپظ‚ط§طھ ط§ظ„ط®ط§ط³ط±ط©" : "Losing trades"}: ${riskFoundation.losingTradesCount}`,
+    `${locale === "ar" ? "ط§ظ„ط­ظ…ط§ظٹط© ط§ظ„ظ…طھط¯ط±ط¬ط©" : "Safe degradation"}: ${safeDegradationText}`,
     ...(riskFoundation.lockReason !== "none"
-      ? [`${locale === "ar" ? "سبب القفل" : "Lock reason"}: ${lockReasonText}`]
+      ? [`${locale === "ar" ? "ط³ط¨ط¨ ط§ظ„ظ‚ظپظ„" : "Lock reason"}: ${lockReasonText}`]
       : []),
   ];
 
   const riskOperatorNote =
     riskFoundation.operatorMessage === "loss_limit_locked"
       ? locale === "ar"
-        ? "تم بلوغ حد خسارة الجلسة؛ تم حظر الدخولات الجديدة حتى تتم مراجعة الجلسة."
+        ? "طھظ… ط¨ظ„ظˆط؛ ط­ط¯ ط®ط³ط§ط±ط© ط§ظ„ط¬ظ„ط³ط©ط› طھظ… ط­ط¸ط± ط§ظ„ط¯ط®ظˆظ„ط§طھ ط§ظ„ط¬ط¯ظٹط¯ط© ط­طھظ‰ طھطھظ… ظ…ط±ط§ط¬ط¹ط© ط§ظ„ط¬ظ„ط³ط©."
         : "The session loss limit was reached; new entries are blocked until the session is reviewed."
       : riskFoundation.operatorMessage === "capacity_reached"
       ? locale === "ar"
-        ? "تم بلوغ سعة الصفقات المفتوحة؛ لا يمكن فتح دخول جديد حتى يتم إغلاق صفقة."
+        ? "طھظ… ط¨ظ„ظˆط؛ ط³ط¹ط© ط§ظ„طµظپظ‚ط§طھ ط§ظ„ظ…ظپطھظˆط­ط©ط› ظ„ط§ ظٹظ…ظƒظ† ظپطھط­ ط¯ط®ظˆظ„ ط¬ط¯ظٹط¯ ط­طھظ‰ ظٹطھظ… ط¥ط؛ظ„ط§ظ‚ طµظپظ‚ط©."
         : "Open-trade capacity was reached; no new entry can open until a trade is closed."
       : riskFoundation.operatorMessage === "session_guarded"
       ? locale === "ar"
-        ? "الجلسة اقتربت من حدود المخاطر المحددة؛ الدخولات الجديدة تبقى مقيدة ومحكومة."
+        ? "ط§ظ„ط¬ظ„ط³ط© ط§ظ‚طھط±ط¨طھ ظ…ظ† ط­ط¯ظˆط¯ ط§ظ„ظ…ط®ط§ط·ط± ط§ظ„ظ…ط­ط¯ط¯ط©ط› ط§ظ„ط¯ط®ظˆظ„ط§طھ ط§ظ„ط¬ط¯ظٹط¯ط© طھط¨ظ‚ظ‰ ظ…ظ‚ظٹط¯ط© ظˆظ…ط­ظƒظˆظ…ط©."
         : "The session is approaching configured risk boundaries; new entries remain controlled."
       : locale === "ar"
-      ? "الجلسة تعمل داخل حدود المخاطر المحددة."
+      ? "ط§ظ„ط¬ظ„ط³ط© طھط¹ظ…ظ„ ط¯ط§ط®ظ„ ط­ط¯ظˆط¯ ط§ظ„ظ…ط®ط§ط·ط± ط§ظ„ظ…ط­ط¯ط¯ط©."
       : "The session is operating inside configured risk boundaries.";
 
-  const dataStateFoundationLabel = locale === "ar" ? "أساس البيانات والحالة" : "Data + State foundation";
+  const dataStateFoundationLabel = locale === "ar" ? "ط£ط³ط§ط³ ط§ظ„ط¨ظٹط§ظ†ط§طھ ظˆط§ظ„ط­ط§ظ„ط©" : "Data + State foundation";
 
   const feedStateText =
     dataStateFoundation.marketFeedState === "simulated_live"
       ? locale === "ar"
-        ? "تدفق حي محاكى"
+        ? "طھط¯ظپظ‚ ط­ظٹ ظ…ط­ط§ظƒظ‰"
         : "Simulated live feed"
       : locale === "ar"
-      ? "منقطع"
+      ? "ظ…ظ†ظ‚ط·ط¹"
       : "Disconnected";
 
   const decisionEngineText =
     dataStateFoundation.decisionEngineState === "derived_local"
       ? locale === "ar"
-        ? "محرك قرار محلي"
+        ? "ظ…ط­ط±ظƒ ظ‚ط±ط§ط± ظ…ط­ظ„ظٹ"
         : "Local derived engine"
       : locale === "ar"
-      ? "وضع انتظار"
+      ? "ظˆط¶ط¹ ط§ظ†طھط¸ط§ط±"
       : "Standby";
 
   const chartBindingText =
     dataStateFoundation.chartBindingState === "workspace_bound"
       ? locale === "ar"
-        ? "مرتبط بمساحة العمل"
+        ? "ظ…ط±طھط¨ط· ط¨ظ…ط³ط§ط­ط© ط§ظ„ط¹ظ…ظ„"
         : "Workspace-bound"
       : locale === "ar"
-      ? "غير مرتبط"
+      ? "ط؛ظٹط± ظ…ط±طھط¨ط·"
       : "Unbound";
 
   const storageStateText =
     dataStateFoundation.storagePersistenceState === "persistent_local"
       ? locale === "ar"
-        ? "تخزين محلي دائم"
+        ? "طھط®ط²ظٹظ† ظ…ط­ظ„ظٹ ط¯ط§ط¦ظ…"
         : "Local persistent storage"
       : dataStateFoundation.storagePersistenceState === "booting"
       ? locale === "ar"
-        ? "تهيئة"
+        ? "طھظ‡ظٹط¦ط©"
         : "Booting"
       : locale === "ar"
-      ? "ذاكرة فقط"
+      ? "ط°ط§ظƒط±ط© ظپظ‚ط·"
       : "Memory only";
 
   const hydrationText =
     dataStateFoundation.hydrationState === "hydrated"
       ? locale === "ar"
-        ? "محمل"
+        ? "ظ…ط­ظ…ظ„"
         : "Hydrated"
       : locale === "ar"
-      ? "قيد التهيئة"
+      ? "ظ‚ظٹط¯ ط§ظ„طھظ‡ظٹط¦ط©"
       : "Booting";
 
   const scopeText = dataStateFoundation.stateScope === "demo" ? demoLabel : realLabel;
-  const localeText = dataStateFoundation.locale === "ar" ? "Arabic / العربية" : "English";
+  const localeText = dataStateFoundation.locale === "ar" ? "Arabic / ط§ظ„ط¹ط±ط¨ظٹط©" : "English";
   const directionText = dataStateFoundation.direction === "rtl" ? "RTL" : "LTR";
 
   const dataStateFoundationChips = [
-    `${locale === "ar" ? "تغذية السوق" : "Market feed"}: ${feedStateText}`,
-    `${locale === "ar" ? "محرك القرار" : "Decision engine"}: ${decisionEngineText}`,
-    `${locale === "ar" ? "ربط الرسم" : "Chart binding"}: ${chartBindingText}`,
-    `${locale === "ar" ? "التخزين" : "Storage"}: ${storageStateText}`,
-    `${locale === "ar" ? "التحميل" : "Hydration"}: ${hydrationText}`,
-    `${locale === "ar" ? "قناة المزامنة" : "Sync channel"}: Local storage`,
-    `${locale === "ar" ? "نطاق الحالة" : "State scope"}: ${scopeText}`,
-    `${locale === "ar" ? "اللغة" : "Locale"}: ${localeText}`,
-    `${locale === "ar" ? "الاتجاه" : "Direction"}: ${directionText}`,
-    `${locale === "ar" ? "آخر تحديث" : "Last updated"}: ${dataStateFoundation.lastUpdatedAt}`,
+    `${locale === "ar" ? "طھط؛ط°ظٹط© ط§ظ„ط³ظˆظ‚" : "Market feed"}: ${feedStateText}`,
+    `${locale === "ar" ? "ظ…ط­ط±ظƒ ط§ظ„ظ‚ط±ط§ط±" : "Decision engine"}: ${decisionEngineText}`,
+    `${locale === "ar" ? "ط±ط¨ط· ط§ظ„ط±ط³ظ…" : "Chart binding"}: ${chartBindingText}`,
+    `${locale === "ar" ? "ط§ظ„طھط®ط²ظٹظ†" : "Storage"}: ${storageStateText}`,
+    `${locale === "ar" ? "ط§ظ„طھط­ظ…ظٹظ„" : "Hydration"}: ${hydrationText}`,
+    `${locale === "ar" ? "ظ‚ظ†ط§ط© ط§ظ„ظ…ط²ط§ظ…ظ†ط©" : "Sync channel"}: Local storage`,
+    `${locale === "ar" ? "ظ†ط·ط§ظ‚ ط§ظ„ط­ط§ظ„ط©" : "State scope"}: ${scopeText}`,
+    `${locale === "ar" ? "ط§ظ„ظ„ط؛ط©" : "Locale"}: ${localeText}`,
+    `${locale === "ar" ? "ط§ظ„ط§طھط¬ط§ظ‡" : "Direction"}: ${directionText}`,
+    `${locale === "ar" ? "ط¢ط®ط± طھط­ط¯ظٹط«" : "Last updated"}: ${dataStateFoundation.lastUpdatedAt}`,
   ];
 
   const dataStateOperatorNote =
     locale === "ar"
-      ? "الحالة مرتبطة بالحساب النشط وتُحفَظ محليًا مع تحميل آمن واتجاه واجهة مطابق للغة."
+      ? "ط§ظ„ط­ط§ظ„ط© ظ…ط±طھط¨ط·ط© ط¨ط§ظ„ط­ط³ط§ط¨ ط§ظ„ظ†ط´ط· ظˆطھظڈط­ظپظژط¸ ظ…ط­ظ„ظٹظ‹ط§ ظ…ط¹ طھط­ظ…ظٹظ„ ط¢ظ…ظ† ظˆط§طھط¬ط§ظ‡ ظˆط§ط¬ظ‡ط© ظ…ط·ط§ط¨ظ‚ ظ„ظ„ط؛ط©."
       : "State is scoped to the active account and persisted locally with safe hydration and locale-aware direction.";
 
   const realReadinessNote =
     locale === "ar"
-      ? "وضع الحساب الحقيقي موجود في الأساس، لكن التوجيه والتنفيذ الحقيقيين غير مفعّلين بعد."
+      ? "ظˆط¶ط¹ ط§ظ„ط­ط³ط§ط¨ ط§ظ„ط­ظ‚ظٹظ‚ظٹ ظ…ظˆط¬ظˆط¯ ظپظٹ ط§ظ„ط£ط³ط§ط³طŒ ظ„ظƒظ† ط§ظ„طھظˆط¬ظٹظ‡ ظˆط§ظ„طھظ†ظپظٹط° ط§ظ„ط­ظ‚ظٹظ‚ظٹظٹظ† ط؛ظٹط± ظ…ظپط¹ظ‘ظ„ظٹظ† ط¨ط¹ط¯."
       : "Real account mode exists in the foundation, but live routing and real execution are not enabled yet.";
 
-  const auditTitle = locale === "ar" ? "لوحة التدقيق والتتبع" : "Audit + Traceability";
+  const auditTitle = locale === "ar" ? "ظ„ظˆط­ط© ط§ظ„طھط¯ظ‚ظٹظ‚ ظˆط§ظ„طھطھط¨ط¹" : "Audit + Traceability";
   const auditSubtitle =
     locale === "ar"
-      ? "أثر زمني واضح للأحداث الأساسية داخل المنصة."
+      ? "ط£ط«ط± ط²ظ…ظ†ظٹ ظˆط§ط¶ط­ ظ„ظ„ط£ط­ط¯ط§ط« ط§ظ„ط£ط³ط§ط³ظٹط© ط¯ط§ط®ظ„ ط§ظ„ظ…ظ†طµط©."
       : "A visible event timeline for core platform actions.";
 
-  const auditActorLabel = locale === "ar" ? "الفاعل" : "Actor";
-  const auditAccountModeLabel = locale === "ar" ? "الحساب" : "Account";
-  const auditVisibilityLabel = locale === "ar" ? "الرؤية" : "Visibility";
-  const auditTraceLabel = locale === "ar" ? "حالة الربط" : "Trace state";
-  const auditLastEventLabel = locale === "ar" ? "آخر حدث" : "Last event";
+  const auditActorLabel = locale === "ar" ? "ط§ظ„ظپط§ط¹ظ„" : "Actor";
+  const auditAccountModeLabel = locale === "ar" ? "ط§ظ„ط­ط³ط§ط¨" : "Account";
+  const auditVisibilityLabel = locale === "ar" ? "ط§ظ„ط±ط¤ظٹط©" : "Visibility";
+  const auditTraceLabel = locale === "ar" ? "ط­ط§ظ„ط© ط§ظ„ط±ط¨ط·" : "Trace state";
+  const auditLastEventLabel = locale === "ar" ? "ط¢ط®ط± ط­ط¯ط«" : "Last event";
   const auditEmptyLabel =
-    locale === "ar" ? "لا توجد أحداث تدقيق بعد." : "No audit events yet.";
+    locale === "ar" ? "ظ„ط§ طھظˆط¬ط¯ ط£ط­ط¯ط§ط« طھط¯ظ‚ظٹظ‚ ط¨ط¹ط¯." : "No audit events yet.";
 
   const auditAccountModeValue =
     auditTraceFoundation.currentAccountMode === "demo" ? demoLabel : realLabel;
@@ -476,10 +476,10 @@ export function TradingWorkstation({
   const auditVisibilityValue =
     auditTraceFoundation.visibilityState === "operator_visible"
       ? locale === "ar"
-        ? "مرئي للمشغل"
+        ? "ظ…ط±ط¦ظٹ ظ„ظ„ظ…ط´ط؛ظ„"
         : "Operator visible"
       : locale === "ar"
-      ? "مخفي"
+      ? "ظ…ط®ظپظٹ"
       : "Hidden";
 
   const auditTraceValue =
@@ -487,10 +487,10 @@ export function TradingWorkstation({
     auditTraceFoundation.executionTraceState === "linked" &&
     auditTraceFoundation.sessionTraceState === "linked"
       ? locale === "ar"
-        ? "مرتبط"
+        ? "ظ…ط±طھط¨ط·"
         : "Linked"
       : locale === "ar"
-      ? "انتظار"
+      ? "ط§ظ†طھط¸ط§ط±"
       : "Standby";
 
   return (
