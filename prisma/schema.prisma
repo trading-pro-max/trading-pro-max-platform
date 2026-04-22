@@ -1,0 +1,133 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/db/generated/client"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id           String       @id @default(cuid())
+  email        String       @unique
+  displayName  String
+  passwordHash String
+  role         String       @default("owner")
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  accounts     Account[]
+  sessions     Session[]
+  auditEvents  AuditEvent[]
+
+  @@map("users")
+}
+
+model Session {
+  id        String    @id @default(cuid())
+  userId    String
+  tokenHash String    @unique
+  userAgent String?
+  ipAddress String?
+  expiresAt DateTime
+  revokedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("sessions")
+}
+
+model Account {
+  id                    String                 @id @default(cuid())
+  userId                String
+  mode                  String                 @default("demo")
+  lifecycleState        String                 @default("onboarding")
+  region                String                 @default("Global")
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+  user                  User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  disclosureAcceptances DisclosureAcceptance[]
+  complianceReviews     ComplianceReview[]
+  activationGates       ActivationGate[]
+  auditEvents           AuditEvent[]
+
+  @@unique([userId, mode])
+  @@index([lifecycleState])
+  @@map("accounts")
+}
+
+model DisclosureAcceptance {
+  id               String   @id @default(cuid())
+  accountId        String
+  key              String
+  state            String   @default("accepted")
+  version          String
+  acceptedAt       DateTime @default(now())
+  acceptedByUserId String
+  createdAt        DateTime @default(now())
+  account          Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@unique([accountId, key, version])
+  @@index([acceptedByUserId])
+  @@map("disclosure_acceptances")
+}
+
+model ComplianceReview {
+  id             String    @id @default(cuid())
+  accountId      String
+  state          String    @default("not_started")
+  reference      String
+  startedAt      DateTime?
+  submittedAt    DateTime?
+  decidedAt      DateTime?
+  decisionReason String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  account        Account   @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@index([accountId, state])
+  @@index([reference])
+  @@map("compliance_reviews")
+}
+
+model ActivationGate {
+  id               String   @id @default(cuid())
+  accountId        String
+  paperState       String   @default("gated")
+  liveState        String   @default("blocked")
+  reason           String   @default("disclosures_required")
+  nextStep         String   @default("accept_disclosures")
+  executionEnabled Boolean  @default(false)
+  evaluatedAt      DateTime @default(now())
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  account          Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@index([accountId, evaluatedAt])
+  @@index([paperState])
+  @@map("activation_gates")
+}
+
+model AuditEvent {
+  id           String   @id @default(cuid())
+  userId       String?
+  accountId    String?
+  kind         String
+  scope        String
+  actorRole    String   @default("owner")
+  accountMode  String
+  symbol       String?
+  message      String
+  metadataJson String?
+  createdAt    DateTime @default(now())
+  user         User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  account      Account? @relation(fields: [accountId], references: [id], onDelete: SetNull)
+
+  @@index([userId, createdAt])
+  @@index([accountId, createdAt])
+  @@index([kind])
+  @@index([scope])
+  @@map("audit_events")
+}
