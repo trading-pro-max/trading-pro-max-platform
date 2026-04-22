@@ -83,6 +83,8 @@ model ComplianceReview {
   submittedAt    DateTime?
   decidedAt      DateTime?
   decisionReason String?
+  reviewerId     String?
+  reviewerLabel  String?
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
   account        Account   @relation(fields: [accountId], references: [id], onDelete: Cascade)

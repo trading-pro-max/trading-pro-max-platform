@@ -103,6 +103,8 @@ export type ComplianceReviewRecord = AccountReviewSurface & {
   submittedAt: string | null;
   decidedAt: string | null;
   decisionReason: string | null;
+  reviewerId: string | null;
+  reviewerLabel: string | null;
 };
 
 export type ActivationGateRecord = AccountActivationSurface & {
@@ -134,14 +136,19 @@ export type AcceptDisclosureInput = {
 export type SetReviewStateInput = {
   accountId: string;
   userId?: string | null;
+  actorRole?: "owner" | "operator";
   state: AccountReviewState;
   reference?: string;
   decisionReason?: string | null;
+  reviewerId?: string | null;
+  reviewerLabel?: string | null;
+  skipAudit?: boolean;
 };
 
 export type UpdateActivationGateInput = {
   accountId: string;
   userId?: string | null;
+  actorRole?: "owner" | "operator";
   paperState: AccountActivationState;
   reason: AccountActivationReason;
   nextStep: AccountActivationNextStep;
@@ -154,6 +161,7 @@ type ComplianceAuditAction =
   | "account_initialized"
   | "account_lifecycle_changed"
   | "disclosure_accepted"
+  | "operator_review_action"
   | "review_state_changed"
   | "activation_gate_changed";
 
@@ -185,6 +193,8 @@ type DbComplianceReview = {
   submittedAt: Date | null;
   decidedAt: Date | null;
   decisionReason: string | null;
+  reviewerId: string | null;
+  reviewerLabel: string | null;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -225,7 +235,7 @@ function isAccountDisclosureState(
   return DISCLOSURE_STATES.includes(value as AccountDisclosureState);
 }
 
-function isAccountReviewState(value: string): value is AccountReviewState {
+export function isAccountReviewState(value: string): value is AccountReviewState {
   return REVIEW_STATES.includes(value as AccountReviewState);
 }
 
@@ -289,6 +299,8 @@ function toReviewRecord(review: DbComplianceReview): ComplianceReviewRecord {
     submittedAt: review.submittedAt?.toISOString() ?? null,
     decidedAt: review.decidedAt?.toISOString() ?? null,
     decisionReason: review.decisionReason,
+    reviewerId: review.reviewerId,
+    reviewerLabel: review.reviewerLabel,
   };
 }
 
@@ -398,11 +410,12 @@ function activationChanged(
   );
 }
 
-async function recordComplianceAuditEvent(input: {
+export async function recordComplianceAuditEvent(input: {
   action: ComplianceAuditAction;
   kind: AuditEventKind;
   scope: AuditScope;
   message: string;
+  actorRole?: "owner" | "operator";
   userId?: string | null;
   accountId?: string | null;
   metadata?: AuditMetadata;
@@ -413,7 +426,7 @@ async function recordComplianceAuditEvent(input: {
       accountId: input.accountId ?? null,
       kind: input.kind,
       scope: input.scope,
-      actorRole: "owner",
+      actorRole: input.actorRole ?? "owner",
       accountMode: DEMO_ACCOUNT_MODE,
       message: input.message,
       metadataJson: JSON.stringify({
@@ -633,7 +646,11 @@ export async function setComplianceReviewState(input: SetReviewStateInput) {
             existing.submittedAt ??
             (input.state === "pending_review" || decisionState ? now : null),
           decidedAt: decisionState ? now : null,
-          decisionReason: input.decisionReason ?? existing.decisionReason,
+          decisionReason:
+            input.decisionReason ??
+            (decisionState ? existing.decisionReason : null),
+          reviewerId: input.reviewerId ?? existing.reviewerId,
+          reviewerLabel: input.reviewerLabel ?? existing.reviewerLabel,
         },
       })
     : await prisma.complianceReview.create({
@@ -646,23 +663,34 @@ export async function setComplianceReviewState(input: SetReviewStateInput) {
             input.state === "pending_review" || decisionState ? now : null,
           decidedAt: decisionState ? now : null,
           decisionReason: input.decisionReason ?? null,
+          reviewerId: input.reviewerId ?? null,
+          reviewerLabel: input.reviewerLabel ?? null,
         },
       });
 
-  await recordComplianceAuditEvent({
-    action: "review_state_changed",
-    kind: "review_state_changed",
-    scope: "compliance",
-    userId: input.userId,
-    accountId: input.accountId,
-    message: "Compliance review state changed.",
-    metadata: {
-      state: input.state,
-      reference: review.reference,
-    },
-  });
+  if (!input.skipAudit) {
+    await recordComplianceAuditEvent({
+      action: "review_state_changed",
+      kind: "review_state_changed",
+      scope: "compliance",
+      actorRole: input.actorRole,
+      userId: input.userId,
+      accountId: input.accountId,
+      message: "Compliance review state changed.",
+      metadata: {
+        state: input.state,
+        reference: review.reference,
+        reviewerId: input.reviewerId ?? null,
+        reviewerLabel: input.reviewerLabel ?? null,
+      },
+    });
+  }
 
-  await syncAccountComplianceState(input.accountId, input.userId);
+  await syncAccountComplianceState(
+    input.accountId,
+    input.userId,
+    input.actorRole
+  );
 
   return toReviewRecord(review);
 }
@@ -693,6 +721,7 @@ export async function createActivationGate(input: UpdateActivationGateInput) {
     action: "activation_gate_changed",
     kind: "security_state_updated",
     scope: "compliance",
+    actorRole: input.actorRole,
     userId: input.userId,
     accountId: input.accountId,
     message: "Activation gate changed.",
@@ -736,6 +765,7 @@ export async function updateLatestActivationGate(
     action: "activation_gate_changed",
     kind: "security_state_updated",
     scope: "compliance",
+    actorRole: input.actorRole,
     userId: input.userId,
     accountId: input.accountId,
     message: "Activation gate changed.",
@@ -754,7 +784,8 @@ export async function updateLatestActivationGate(
 
 export async function syncAccountComplianceState(
   accountId: string,
-  userId?: string | null
+  userId?: string | null,
+  actorRole?: "owner" | "operator"
 ) {
   const account = await prisma.account.findUnique({
     where: { id: accountId },
@@ -777,6 +808,7 @@ export async function syncAccountComplianceState(
       action: "account_lifecycle_changed",
       kind: "data_state_updated",
       scope: "account",
+      actorRole,
       userId,
       accountId,
       message: "Account lifecycle state changed.",
@@ -792,6 +824,7 @@ export async function syncAccountComplianceState(
     await createActivationGate({
       accountId,
       userId,
+      actorRole,
       paperState: activation.paperState,
       reason: activation.reason,
       nextStep: activation.nextStep,

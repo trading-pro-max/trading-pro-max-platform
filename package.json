@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "prisma:generate": "prisma generate",
+    "prisma:generate": "node scripts/clean-prisma-client.mjs && prisma generate",
     "prisma:seed": "prisma db seed",
     "prisma:validate": "prisma validate"
   },

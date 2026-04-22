@@ -1,4 +1,12 @@
 export {
+  ComplianceTransitionError,
+  applyOperatorReviewAction,
+  isOperatorReviewAction,
+  type OperatorReviewAction,
+  type OperatorReviewInput,
+  type OperatorReviewResult,
+} from "./operator-review";
+export {
   REQUIRED_DISCLOSURES,
   acceptDisclosure,
   createActivationGate,
@@ -12,6 +20,8 @@ export {
   getLatestActivationGate,
   getLatestComplianceReview,
   isAccountDisclosureKey,
+  isAccountReviewState,
+  recordComplianceAuditEvent,
   setComplianceReviewState,
   syncAccountComplianceState,
   updateAccountLifecycleState,

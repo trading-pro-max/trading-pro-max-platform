@@ -1,6 +1,8 @@
 export {
+  ComplianceTransitionError,
   REQUIRED_DISCLOSURES,
   acceptDisclosure,
+  applyOperatorReviewAction,
   createActivationGate,
   createComplianceReview,
   createDemoAccount,
@@ -12,6 +14,9 @@ export {
   getLatestActivationGate,
   getLatestComplianceReview,
   isAccountDisclosureKey,
+  isAccountReviewState,
+  isOperatorReviewAction,
+  recordComplianceAuditEvent,
   setComplianceReviewState,
   syncAccountComplianceState,
   updateAccountLifecycleState,
@@ -23,6 +28,10 @@ export {
   type ComplianceReviewRecord,
   type CreateAccountInput,
   type DisclosureAcceptanceRecord,
+  type OperatorReviewAction,
+  type OperatorReviewInput,
+  type OperatorReviewResult,
   type SetReviewStateInput,
   type UpdateActivationGateInput,
 } from "./compliance";
+export { getOperatorAccess, type OperatorAccessResult } from "./operator";

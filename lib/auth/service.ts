@@ -47,8 +47,10 @@ export type AuthUser = {
   id: string;
   email: string;
   displayName: string;
-  role: "owner";
+  role: AuthUserRole;
 };
+
+export type AuthUserRole = "owner" | "operator";
 
 export type AuthAccount = {
   id: string;
@@ -121,12 +123,16 @@ function isAccountLifecycleState(value: string): value is AccountLifecycleState 
   return ACCOUNT_LIFECYCLE_STATES.includes(value as AccountLifecycleState);
 }
 
+function isAuthUserRole(value: string): value is AuthUserRole {
+  return value === "owner" || value === "operator";
+}
+
 function toAuthUser(user: DbUser): AuthUser {
   return {
     id: user.id,
     email: user.email,
     displayName: user.displayName,
-    role: "owner",
+    role: isAuthUserRole(user.role) ? user.role : "owner",
   };
 }
 
