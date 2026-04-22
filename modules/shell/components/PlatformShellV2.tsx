@@ -30,6 +30,24 @@ function AnchorChip({ text }: { text: string }) {
   return <span className="tpmv2-badge tpmv2-chip">{text}</span>;
 }
 
+function MetaRows({
+  items,
+  className,
+}: {
+  items: string[];
+  className?: string;
+}) {
+  return (
+    <div className={className ? `tpmv2-meta-rows ${className}` : "tpmv2-meta-rows"}>
+      {items.map((item, index) => (
+        <div key={`${index}-${item}`} className="tpmv2-meta-row">
+          {item}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function PanelHeader({
   title,
   subtitle,
@@ -71,7 +89,7 @@ export function DesktopRail({
 
       <div className="tpmv2-rail-head">
         <div className="tpmv2-section-label">{dict.market.title}</div>
-        <AnchorChip text={`${MARKET_ASSETS.length}`} />
+        <span className="tpmv2-rail-count">{MARKET_ASSETS.length}</span>
       </div>
 
       <div className="tpmv2-search">{dict.market.search}</div>
@@ -148,26 +166,25 @@ export function TradingTopbar({
       <div className="tpmv2-topbar-market">
         <div className="tpmv2-topbar-market-main">
           <span className="tpmv2-section-label">{dict.market.selectedAsset}</span>
-          <div className="tpmv2-topbar-market-symbol">{selectedAssetSymbol}</div>
+          <div className="tpmv2-topbar-market-strip">
+            <div className="tpmv2-topbar-market-symbol">{selectedAssetSymbol}</div>
+            <div className="tpmv2-topbar-market-price">{selectedAssetPrice}</div>
+            <div className="tpmv2-topbar-market-change">{selectedAssetChange}</div>
+          </div>
           <div className="tpmv2-topbar-market-line">
-            {dict.market.currentPrice} {selectedAssetPrice} / {dict.market.change}{" "}
-            {selectedAssetChange}
+            {dict.market.marketStatus}: {marketStatus} / {dict.risk.sessionStatus}:{" "}
+            {sessionStateLabel} / {accountStatusValue}
           </div>
         </div>
 
-        <div className="tpmv2-topbar-badges">
-          <AnchorChip text={`${dict.market.marketStatus}: ${marketStatus}`} />
-          <AnchorChip text={signalLabel} />
-          <AnchorChip text={sessionStateLabel} />
-          <AnchorChip text={accountStatusValue} />
-        </div>
+        <div className="tpmv2-topbar-signal">{signalLabel}</div>
       </div>
 
       <div className="tpmv2-topbar-controls">
-        <div className="tpmv2-topbar-status-row">
-          <AnchorChip text={dict.common.paper} />
-          <AnchorChip text={dict.common.liveFeed} />
-          <AnchorChip text={dict.common.stable} />
+        <div className="tpmv2-topbar-status-line">
+          <span>{dict.common.paper}</span>
+          <span>{dict.common.liveFeed}</span>
+          <span>{dict.common.stable}</span>
         </div>
 
         <div className="tpmv2-topbar-toggle">
@@ -227,14 +244,14 @@ export function SummaryCard({
           <div className="tpmv2-summary-hero">
             <h1 className="tpmv2-symbol">{symbol}</h1>
             <div className="tpmv2-summary-price">{price}</div>
+            <div className="tpmv2-summary-change">{change}</div>
           </div>
-          <div className="tpmv2-subline">
-            {dict.market.change} {change}
-          </div>
+          <div className="tpmv2-subline">{dict.market.change}</div>
         </div>
 
-        <div className="tpmv2-signal" style={signalStyle}>
-          {signalLabel}
+        <div className="tpmv2-summary-signal" style={signalStyle}>
+          <span>{signalLabel}</span>
+          <strong>{confidence}</strong>
         </div>
       </div>
 
@@ -362,10 +379,15 @@ export function ChartCard({
         <div className="tpmv2-chart-grid-bg" />
 
         <div className="tpmv2-chart-overlay">
-          <div className="tpmv2-chart-overlay-title">{selectedAsset.symbol}</div>
+          <div>
+            <div className="tpmv2-chart-overlay-title">{selectedAsset.symbol}</div>
+            <div className="tpmv2-chart-overlay-line">
+              {selectedAsset.price} / {selectedAsset.change}
+            </div>
+          </div>
           <div className="tpmv2-chart-overlay-meta">
-            <AnchorChip text={selectedAsset.status} />
-            <AnchorChip text={selectedTimeframe} />
+            <span className="tpmv2-chart-overlay-tag">{selectedAsset.status}</span>
+            <span className="tpmv2-chart-overlay-tag">{selectedTimeframe}</span>
           </div>
         </div>
 
@@ -384,17 +406,17 @@ export function ChartCard({
       </div>
 
       <div className="tpmv2-chart-meta">
-        <div className="tpmv2-metric">
+        <div className="tpmv2-chart-meta-item">
           <span>{dict.market.selectedAsset}</span>
           <strong>{selectedAsset.symbol}</strong>
         </div>
 
-        <div className="tpmv2-metric">
+        <div className="tpmv2-chart-meta-item">
           <span>{dict.market.currentTimeframe}</span>
           <strong>{selectedTimeframe}</strong>
         </div>
 
-        <div className="tpmv2-metric">
+        <div className="tpmv2-chart-meta-item">
           <span>{dict.market.marketStatus}</span>
           <strong>{selectedAsset.status}</strong>
         </div>
@@ -465,21 +487,23 @@ export function ExecutionCard({
       <div className="tpmv2-ticket-signal">
         <div className="tpmv2-decision-top">
           <strong>{signalLabel}</strong>
-          <span>
+          <span className="tpmv2-ticket-confidence">
             {dict.decision.confidence}: {decision.confidence}
           </span>
         </div>
         <div className="tpmv2-ticket-reason">{decision.reason}</div>
       </div>
 
-      <div className="tpmv2-field">
-        <label>{dict.trade.asset}</label>
-        <div className="tpmv2-input">{selectedAssetSymbol}</div>
-      </div>
+      <div className="tpmv2-ticket-grid">
+        <div className="tpmv2-field">
+          <label>{dict.trade.asset}</label>
+          <div className="tpmv2-input">{selectedAssetSymbol}</div>
+        </div>
 
-      <div className="tpmv2-field">
-        <label>{analysisTimeframeLabel}</label>
-        <div className="tpmv2-input">{selectedTimeframe}</div>
+        <div className="tpmv2-field">
+          <label>{analysisTimeframeLabel}</label>
+          <div className="tpmv2-input">{selectedTimeframe}</div>
+        </div>
       </div>
 
       <div className="tpmv2-field">
@@ -498,46 +522,51 @@ export function ExecutionCard({
         </div>
       </div>
 
-      <div className="tpmv2-field">
+      <div className="tpmv2-field tpmv2-field-amount">
         <label>{dict.trade.amount}</label>
-        <input
-          className="tpmv2-real-input"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-          inputMode="numeric"
-        />
+        <div className="tpmv2-ticket-amount">
+          <span className="tpmv2-ticket-currency">$</span>
+          <input
+            className="tpmv2-real-input"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            inputMode="numeric"
+          />
+        </div>
       </div>
 
-      <div className="tpmv2-actions">
+      <div className="tpmv2-ticket-actions">
         <button
           type="button"
-          className="tpmv2-buy"
+          className="tpmv2-small-button tpmv2-ticket-smart"
           onClick={openTradeBySignal}
           disabled={decision.signal === "wait" || disabled}
         >
           {dict.decision.executeBySignal}
         </button>
 
-        <button
-          type="button"
-          className="tpmv2-buy tpmv2-buy-secondary"
-          onClick={() => openPaperTrade("buy")}
-          disabled={disabled}
-        >
-          {dict.trade.openBuy}
-        </button>
+        <div className="tpmv2-ticket-primary-actions">
+          <button
+            type="button"
+            className="tpmv2-buy tpmv2-buy-secondary"
+            onClick={() => openPaperTrade("buy")}
+            disabled={disabled}
+          >
+            {dict.trade.openBuy}
+          </button>
 
-        <button
-          type="button"
-          className="tpmv2-sell"
-          onClick={() => openPaperTrade("sell")}
-          disabled={disabled}
-        >
-          {dict.trade.openSell}
-        </button>
+          <button
+            type="button"
+            className="tpmv2-sell"
+            onClick={() => openPaperTrade("sell")}
+            disabled={disabled}
+          >
+            {dict.trade.openSell}
+          </button>
+        </div>
       </div>
 
-      <div className="tpmv2-note">{note}</div>
+      <div className="tpmv2-note tpmv2-ticket-note">{note}</div>
     </section>
   );
 }
@@ -563,13 +592,7 @@ export function SecondarySurfacePanel({
         badge={badge ? <AnchorChip text={badge} /> : undefined}
       />
 
-      {chips.length > 0 ? (
-        <div className="tpmv2-chip-list">
-          {chips.map((item, index) => (
-            <AnchorChip key={`${title}-${index}-${item}`} text={item} />
-          ))}
-        </div>
-      ) : null}
+      {chips.length > 0 ? <MetaRows items={chips} /> : null}
 
       {note ? <div className="tpmv2-note">{note}</div> : null}
     </section>
@@ -713,13 +736,16 @@ export function AuditTracePanel({
     <section className="tpmv2-card tpmv2-panel">
       <PanelHeader title={title} subtitle={subtitle} />
 
-      <div className="tpmv2-chip-list">
-        <AnchorChip text={`${actorLabel}: ${actorValue}`} />
-        <AnchorChip text={`${accountModeLabel}: ${accountModeValue}`} />
-        <AnchorChip text={`${visibilityLabel}: ${visibilityValue}`} />
-        <AnchorChip text={`${traceLabel}: ${traceValue}`} />
-        <AnchorChip text={`${lastEventLabel}: ${lastEventValue}`} />
-      </div>
+      <MetaRows
+        items={[
+          `${actorLabel}: ${actorValue}`,
+          `${accountModeLabel}: ${accountModeValue}`,
+          `${visibilityLabel}: ${visibilityValue}`,
+          `${traceLabel}: ${traceValue}`,
+          `${lastEventLabel}: ${lastEventValue}`,
+        ]}
+        className="tpmv2-meta-rows-compact"
+      />
 
       {events.length === 0 ? (
         <div className="tpmv2-empty">{emptyLabel}</div>
@@ -796,18 +822,20 @@ export function SecurityFoundationPanel({
     <section className="tpmv2-card tpmv2-panel">
       <PanelHeader title={title} subtitle={subtitle} />
 
-      <div className="tpmv2-chip-list">
-        <AnchorChip text={`${routeLabel}: ${routeValue}`} />
-        <AnchorChip text={`${accessLabel}: ${accessValue}`} />
-        <AnchorChip text={`${executionLabel}: ${executionValue}`} />
-        <AnchorChip text={`${dataProtectionLabel}: ${dataProtectionValue}`} />
-        <AnchorChip text={`${secretsLabel}: ${secretsValue}`} />
-        <AnchorChip text={`${sessionLabel}: ${sessionValue}`} />
-        <AnchorChip text={`${recoveryLabel}: ${recoveryValue}`} />
-        <AnchorChip text={`${alertLabel}: ${alertValue}`} />
-        <AnchorChip text={`${accountModeLabel}: ${accountModeValue}`} />
-        <AnchorChip text={`${reviewedAtLabel}: ${reviewedAtValue}`} />
-      </div>
+      <MetaRows
+        items={[
+          `${routeLabel}: ${routeValue}`,
+          `${accessLabel}: ${accessValue}`,
+          `${executionLabel}: ${executionValue}`,
+          `${dataProtectionLabel}: ${dataProtectionValue}`,
+          `${secretsLabel}: ${secretsValue}`,
+          `${sessionLabel}: ${sessionValue}`,
+          `${recoveryLabel}: ${recoveryValue}`,
+          `${alertLabel}: ${alertValue}`,
+          `${accountModeLabel}: ${accountModeValue}`,
+          `${reviewedAtLabel}: ${reviewedAtValue}`,
+        ]}
+      />
     </section>
   );
 }
