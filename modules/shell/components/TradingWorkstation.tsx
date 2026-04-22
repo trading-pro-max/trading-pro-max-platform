@@ -5,22 +5,15 @@ import type { Dictionary } from "../../../lib/i18n/get-dictionary";
 import { usePlatformState } from "../hooks/use-platform-state";
 import {
   ActivityHistoryPanel,
+  ActivityLogPanel,
   ActivityOpenTradesPanel,
-  AuditTracePanel,
   ChartCard,
-  ComplianceActivationPanel,
   DesktopRail,
   ExecutionCard,
   NarrowStrip,
-  RiskCardGrid,
-  SecondarySurfacePanel,
-  SecurityFoundationPanel,
-  SummaryCard,
   TradingTopbar,
 } from "./PlatformShellV2";
 import { createTradingWorkstationViewModel } from "./trading-workstation-view-model";
-
-type DesktopBlotterTab = "positions" | "history" | "audit" | "compliance";
 
 export default function TradingWorkstation({
   locale,
@@ -29,9 +22,10 @@ export default function TradingWorkstation({
   locale: string;
   dict: Dictionary;
 }) {
+  const [desktopWatchlistVisible, setDesktopWatchlistVisible] = useState(false);
+  const [desktopTicketVisible, setDesktopTicketVisible] = useState(true);
+  const [desktopBlotterExpanded, setDesktopBlotterExpanded] = useState(false);
   const platformState = usePlatformState(locale, dict.decision.reasons);
-  const [desktopBlotterTab, setDesktopBlotterTab] =
-    useState<DesktopBlotterTab>("positions");
   const viewModel = createTradingWorkstationViewModel({
     locale,
     dict,
@@ -50,29 +44,66 @@ export default function TradingWorkstation({
   });
 
   const executionNote = viewModel.ticketSupportNote;
+  const localePrefix = locale ? `/${locale}` : "";
+  const workspaceControls = (
+    <div className="tpmv2-workspace-controls" role="toolbar" aria-label={dict.chart.title}>
+      <button
+        type="button"
+        className={
+          desktopWatchlistVisible
+            ? "tpmv2-workspace-toggle active"
+            : "tpmv2-workspace-toggle"
+        }
+        aria-pressed={desktopWatchlistVisible}
+        onClick={() => setDesktopWatchlistVisible((current) => !current)}
+      >
+        {dict.market.title}
+      </button>
 
-  const executionFoundationChips = [
-    `${viewModel.executionRouteLabel}: ${viewModel.executionRouteValue}`,
-    ...viewModel.executionGuardrailChips,
-  ];
-  const blotterTabs: Array<{
-    id: DesktopBlotterTab;
-    label: string;
-  }> = [
-    { id: "positions", label: dict.journal.openTradesTitle },
-    { id: "history", label: dict.journal.historyTitle },
-    { id: "audit", label: viewModel.auditTitle },
-    { id: "compliance", label: viewModel.policyPanelLabel },
-  ];
+      <button
+        type="button"
+        className={
+          desktopTicketVisible
+            ? "tpmv2-workspace-toggle active"
+            : "tpmv2-workspace-toggle"
+        }
+        aria-pressed={desktopTicketVisible}
+        onClick={() => setDesktopTicketVisible((current) => !current)}
+      >
+        {dict.trade.title}
+      </button>
+
+      <button
+        type="button"
+        className={
+          desktopBlotterExpanded
+            ? "tpmv2-workspace-toggle active"
+            : "tpmv2-workspace-toggle"
+        }
+        aria-pressed={desktopBlotterExpanded}
+        onClick={() => setDesktopBlotterExpanded((current) => !current)}
+      >
+        {dict.journal.historyTitle}
+      </button>
+    </div>
+  );
 
   return (
     <main className="tpmv2-page">
-      <section className="tpmv2-shell-desktop">
-        <DesktopRail
-          dict={dict}
-          selectedAssetIndex={platformState.selectedAssetIndex}
-          onSelectAsset={platformState.setSelectedAssetIndex}
-        />
+      <section
+        className={
+          desktopWatchlistVisible
+            ? "tpmv2-shell-desktop"
+            : "tpmv2-shell-desktop tpmv2-shell-desktop-watchlist-hidden"
+        }
+      >
+        {desktopWatchlistVisible ? (
+          <DesktopRail
+            dict={dict}
+            selectedAssetIndex={platformState.selectedAssetIndex}
+            onSelectAsset={platformState.setSelectedAssetIndex}
+          />
+        ) : null}
 
         <section className="tpmv2-main">
           <TradingTopbar
@@ -87,223 +118,136 @@ export default function TradingWorkstation({
             selectedAssetPrice={platformState.selectedAsset.price}
             selectedAssetChange={platformState.selectedAsset.change}
             marketStatus={platformState.selectedAsset.status}
-            signalLabel={viewModel.signalLabel}
-            sessionStateLabel={viewModel.sessionStateLabel}
-            accountStatusValue={viewModel.accountStatusValue}
-            accountLifecycleLabel={viewModel.accountLifecycleLabel}
-            accountLifecycleTone={viewModel.accountLifecycleTone}
-            reviewStatusLabel={viewModel.reviewStatusLabel}
-            reviewStatusTone={viewModel.reviewStatusTone}
-            disclosureSummaryLabel={viewModel.disclosureSummaryLabel}
-            disclosureSummaryValue={viewModel.disclosureSummaryValue}
             paperAccessLabel={viewModel.paperAccessLabel}
             paperAccessValue={viewModel.paperAccessValue}
             paperAccessTone={viewModel.paperAccessTone}
-            liveAccessLabel={viewModel.liveAccessLabel}
-            liveAccessValue={viewModel.liveAccessValue}
+            diagnosticsHref={`${localePrefix}/diagnostics`}
+            diagnosticsLabel={dict.nav.diagnostics}
+            settingsHref={`${localePrefix}/settings`}
+            settingsLabel={dict.nav.settings}
           />
 
-          <section className="tpmv2-desktop-master">
+          <section
+            className={
+              desktopTicketVisible
+                ? "tpmv2-desktop-master"
+                : "tpmv2-desktop-master tpmv2-desktop-master-ticket-hidden"
+            }
+          >
             <section className="tpmv2-primary">
-              <SummaryCard
-                dict={dict}
-                symbol={platformState.selectedAsset.symbol}
-                price={platformState.selectedAsset.price}
-                change={platformState.selectedAsset.change}
-                signalLabel={viewModel.signalLabel}
-                signalStyle={viewModel.signalStyle}
-                marketStatus={platformState.selectedAsset.status}
-                timeframe={platformState.selectedTimeframe}
-                confidence={platformState.decision.confidence}
-              />
-
               <ChartCard
                 dict={dict}
                 selectedAsset={platformState.selectedAsset}
                 selectedTimeframe={platformState.selectedTimeframe}
                 onSelectTimeframe={platformState.setSelectedTimeframe}
                 candles={platformState.candles}
-              />
-
-              <RiskCardGrid
-                dict={dict}
-                openTradesText={viewModel.openTradesText}
-                sessionPnLText={viewModel.sessionPnLText}
-                sessionPnLPositive={viewModel.sessionPnLPositive}
-                lossCount={platformState.lossCount}
-                sessionStateLabel={viewModel.sessionStateLabel}
-                sessionLocked={platformState.sessionLocked}
+                decision={platformState.decision}
+                signalLabel={viewModel.signalLabel}
+                workspaceControls={workspaceControls}
               />
             </section>
 
-            <aside className="tpmv2-side">
-              <ExecutionCard
-                dict={dict}
-                decision={platformState.decision}
-                signalLabel={viewModel.signalLabel}
-                selectedAssetSymbol={platformState.selectedAsset.symbol}
-                selectedTimeframe={platformState.selectedTimeframe}
-                selectedDuration={platformState.selectedDuration}
-                durationOptions={platformState.availableDurations}
-                onSelectDuration={platformState.setSelectedDuration}
-                analysisTimeframeLabel={viewModel.analysisTimeframeLabel}
-                durationFieldLabel={viewModel.durationFieldLabel}
-                amount={platformState.amount}
-                setAmount={platformState.setAmount}
-                sessionLocked={platformState.sessionLocked}
-                canOpenMore={platformState.canOpenMore}
-                canExecute={platformState.canExecute}
-                accountMode={platformState.accountMode}
-                openTradeBySignal={platformState.openTradeBySignal}
-                openPaperTrade={platformState.openPaperTrade}
-                note={executionNote}
-                demoLabel={viewModel.demoLabel}
-                realLabel={viewModel.realLabel}
-                accountLifecycleLabel={viewModel.accountLifecycleLabel}
-                accountLifecycleTone={viewModel.accountLifecycleTone}
-                reviewStatusLabel={viewModel.reviewStatusLabel}
-                reviewStatusTone={viewModel.reviewStatusTone}
-                ticketReadinessLabel={viewModel.ticketReadinessLabel}
-                ticketReadinessValue={viewModel.ticketReadinessValue}
-                ticketReadinessTone={viewModel.ticketReadinessTone}
-                ticketGateLabel={viewModel.ticketGateLabel}
-                ticketGateValue={viewModel.ticketGateValue}
-                ticketGateTone={viewModel.ticketGateTone}
-                ticketNextStepLabel={viewModel.ticketNextStepLabel}
-                ticketNextStepValue={viewModel.ticketNextStepValue}
-                ticketOperationalLabel={viewModel.ticketOperationalLabel}
-                ticketOperationalValue={viewModel.ticketOperationalValue}
-                ticketOperationalTone={viewModel.ticketOperationalTone}
-              />
-            </aside>
+            {desktopTicketVisible ? (
+              <aside className="tpmv2-side">
+                <ExecutionCard
+                  dict={dict}
+                  decision={platformState.decision}
+                  signalLabel={viewModel.signalLabel}
+                  selectedAssetSymbol={platformState.selectedAsset.symbol}
+                  selectedTimeframe={platformState.selectedTimeframe}
+                  selectedDuration={platformState.selectedDuration}
+                  durationOptions={platformState.availableDurations}
+                  onSelectDuration={platformState.setSelectedDuration}
+                  analysisTimeframeLabel={viewModel.analysisTimeframeLabel}
+                  durationFieldLabel={viewModel.durationFieldLabel}
+                  amount={platformState.amount}
+                  setAmount={platformState.setAmount}
+                  sessionLocked={platformState.sessionLocked}
+                  canOpenMore={platformState.canOpenMore}
+                  canExecute={platformState.canExecute}
+                  accountMode={platformState.accountMode}
+                  openTradeBySignal={platformState.openTradeBySignal}
+                  openPaperTrade={platformState.openPaperTrade}
+                  note={executionNote}
+                  demoLabel={viewModel.demoLabel}
+                  realLabel={viewModel.realLabel}
+                  accountLifecycleLabel={viewModel.accountLifecycleLabel}
+                  accountLifecycleTone={viewModel.accountLifecycleTone}
+                  reviewStatusLabel={viewModel.reviewStatusLabel}
+                  reviewStatusTone={viewModel.reviewStatusTone}
+                  ticketReadinessLabel={viewModel.ticketReadinessLabel}
+                  ticketReadinessValue={viewModel.ticketReadinessValue}
+                  ticketReadinessTone={viewModel.ticketReadinessTone}
+                  ticketGateLabel={viewModel.ticketGateLabel}
+                  ticketGateValue={viewModel.ticketGateValue}
+                  ticketGateTone={viewModel.ticketGateTone}
+                  ticketNextStepLabel={viewModel.ticketNextStepLabel}
+                  ticketNextStepValue={viewModel.ticketNextStepValue}
+                  ticketOperationalLabel={viewModel.ticketOperationalLabel}
+                  ticketOperationalValue={viewModel.ticketOperationalValue}
+                  ticketOperationalTone={viewModel.ticketOperationalTone}
+                />
+              </aside>
+            ) : null}
           </section>
 
-          <section className="tpmv2-card tpmv2-blotter">
-            <div className="tpmv2-blotter-tabs" role="tablist" aria-label={viewModel.auditTitle}>
-              {blotterTabs.map((tab) => (
-                <button
-                  key={tab.id}
-                  type="button"
-                  role="tab"
-                  aria-selected={desktopBlotterTab === tab.id}
-                  className={
-                    desktopBlotterTab === tab.id
-                      ? "tpmv2-blotter-tab active"
-                      : "tpmv2-blotter-tab"
-                  }
-                  onClick={() => setDesktopBlotterTab(tab.id)}
-                >
-                  {tab.label}
-                </button>
-              ))}
+          <section
+            className={
+              desktopBlotterExpanded
+                ? "tpmv2-card tpmv2-blotter expanded"
+                : "tpmv2-card tpmv2-blotter collapsed"
+            }
+          >
+            <div className="tpmv2-blotter-bar">
+              <div className="tpmv2-blotter-summary">
+                <div className="tpmv2-blotter-stat">
+                  <span>{dict.journal.openTradesTitle}</span>
+                  <strong>{platformState.openTrades.length}</strong>
+                </div>
+
+                <div className="tpmv2-blotter-stat">
+                  <span>{dict.journal.historyTitle}</span>
+                  <strong>{platformState.history.length}</strong>
+                </div>
+
+                <div className="tpmv2-blotter-stat">
+                  <span>{viewModel.auditTitle}</span>
+                  <strong>{platformState.auditTraceFoundation.recentEvents.length}</strong>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                className={
+                  desktopBlotterExpanded
+                    ? "tpmv2-blotter-toggle active"
+                    : "tpmv2-blotter-toggle"
+                }
+                aria-expanded={desktopBlotterExpanded}
+                onClick={() => setDesktopBlotterExpanded((current) => !current)}
+              >
+                {dict.journal.historyTitle}
+              </button>
             </div>
 
-            <div className="tpmv2-blotter-body">
-              {desktopBlotterTab === "positions" ? (
-                <div className="tpmv2-blotter-grid">
-                  <ActivityOpenTradesPanel
-                    dict={dict}
-                    openTrades={platformState.openTrades}
-                    closePaperTrade={platformState.closePaperTrade}
-                  />
+            {desktopBlotterExpanded ? (
+              <div className="tpmv2-blotter-grid">
+                <ActivityOpenTradesPanel
+                  dict={dict}
+                  openTrades={platformState.openTrades}
+                  closePaperTrade={platformState.closePaperTrade}
+                />
 
-                  <SecondarySurfacePanel
-                    title={viewModel.executionFoundationLabel}
-                    subtitle={`${viewModel.executionIntentLabel}: ${viewModel.executionIntentValue}`}
-                    chips={executionFoundationChips}
-                  />
-                </div>
-              ) : null}
+                <ActivityHistoryPanel dict={dict} history={platformState.history} />
 
-              {desktopBlotterTab === "history" ? (
-                <div className="tpmv2-blotter-grid">
-                  <ActivityHistoryPanel dict={dict} history={platformState.history} />
-
-                  <SecondarySurfacePanel
-                    title={viewModel.riskFoundationLabel}
-                    subtitle={viewModel.riskOperatorNote}
-                    chips={viewModel.riskFoundationChips}
-                  />
-                </div>
-              ) : null}
-
-              {desktopBlotterTab === "audit" ? (
-                <div className="tpmv2-blotter-grid">
-                  <AuditTracePanel
-                    title={viewModel.auditTitle}
-                    subtitle={viewModel.auditSubtitle}
-                    actorLabel={viewModel.auditActorLabel}
-                    actorValue={platformState.auditTraceFoundation.currentActor}
-                    accountModeLabel={viewModel.auditAccountModeLabel}
-                    accountModeValue={viewModel.auditAccountModeValue}
-                    visibilityLabel={viewModel.auditVisibilityLabel}
-                    visibilityValue={viewModel.auditVisibilityValue}
-                    traceLabel={viewModel.auditTraceLabel}
-                    traceValue={viewModel.auditTraceValue}
-                    lastEventLabel={viewModel.auditLastEventLabel}
-                    lastEventValue={platformState.auditTraceFoundation.lastEventAt}
-                    events={platformState.auditTraceFoundation.recentEvents}
-                    emptyLabel={viewModel.auditEmptyLabel}
-                  />
-
-                  <SecurityFoundationPanel
-                    title={viewModel.securityTitle}
-                    subtitle={viewModel.securitySubtitle}
-                    routeLabel={viewModel.securityRouteLabel}
-                    routeValue={viewModel.securityRouteValue}
-                    accessLabel={viewModel.securityAccessLabel}
-                    accessValue={viewModel.securityAccessValue}
-                    executionLabel={viewModel.securityExecutionLabel}
-                    executionValue={viewModel.securityExecutionValue}
-                    dataProtectionLabel={viewModel.securityDataLabel}
-                    dataProtectionValue={viewModel.securityDataValue}
-                    secretsLabel={viewModel.securitySecretsLabel}
-                    secretsValue={viewModel.securitySecretsValue}
-                    sessionLabel={viewModel.securitySessionLabel}
-                    sessionValue={viewModel.securitySessionValue}
-                    recoveryLabel={viewModel.securityRecoveryLabel}
-                    recoveryValue={viewModel.securityRecoveryValue}
-                    alertLabel={viewModel.securityAlertLabel}
-                    alertValue={viewModel.securityAlertValue}
-                    accountModeLabel={viewModel.securityAccountLabel}
-                    accountModeValue={viewModel.securityAccountValue}
-                    reviewedAtLabel={viewModel.securityReviewedAtLabel}
-                    reviewedAtValue={platformState.securityFoundation.lastReviewedAt}
-                  />
-                </div>
-              ) : null}
-
-              {desktopBlotterTab === "compliance" ? (
-                <div className="tpmv2-blotter-grid">
-                  <ComplianceActivationPanel
-                    title={viewModel.policyPanelLabel}
-                    subtitle={viewModel.compliancePanelSubtitle}
-                    badge={viewModel.compliancePanelBadge}
-                    badgeTone={viewModel.paperAccessTone}
-                    accountLifecycleLabel={viewModel.accountLifecycleLabel}
-                    accountLifecycleDescription={viewModel.accountLifecycleDescription}
-                    accountLifecycleTone={viewModel.accountLifecycleTone}
-                    reviewStatusLabel={viewModel.reviewStatusLabel}
-                    reviewStatusDescription={viewModel.reviewStatusDescription}
-                    reviewStatusTone={viewModel.reviewStatusTone}
-                    disclosureRows={viewModel.disclosureRows}
-                    activationRows={viewModel.activationRows}
-                    acceptDisclosuresLabel={viewModel.acceptDisclosuresLabel}
-                    submitReviewLabel={viewModel.submitReviewLabel}
-                    canAcceptDisclosures={platformState.canAcknowledgeDisclosures}
-                    canSubmitReview={platformState.canSubmitAccountReview}
-                    onAcceptDisclosures={platformState.acceptPendingDisclosures}
-                    onSubmitReview={platformState.submitActivationReview}
-                  />
-
-                  <SecondarySurfacePanel
-                    title={viewModel.dataStateFoundationLabel}
-                    subtitle={viewModel.dataStateOperatorNote}
-                    chips={viewModel.dataStateFoundationChips}
-                  />
-                </div>
-              ) : null}
-            </div>
+                <ActivityLogPanel
+                  title={viewModel.auditTitle}
+                  subtitle={viewModel.auditSubtitle}
+                  events={platformState.auditTraceFoundation.recentEvents}
+                  emptyLabel={viewModel.auditEmptyLabel}
+                />
+              </div>
+            ) : null}
           </section>
         </section>
       </section>
@@ -321,20 +265,13 @@ export default function TradingWorkstation({
           selectedAssetPrice={platformState.selectedAsset.price}
           selectedAssetChange={platformState.selectedAsset.change}
           marketStatus={platformState.selectedAsset.status}
-          signalLabel={viewModel.signalLabel}
-          sessionStateLabel={viewModel.sessionStateLabel}
-          accountStatusValue={viewModel.accountStatusValue}
-          accountLifecycleLabel={viewModel.accountLifecycleLabel}
-          accountLifecycleTone={viewModel.accountLifecycleTone}
-          reviewStatusLabel={viewModel.reviewStatusLabel}
-          reviewStatusTone={viewModel.reviewStatusTone}
-          disclosureSummaryLabel={viewModel.disclosureSummaryLabel}
-          disclosureSummaryValue={viewModel.disclosureSummaryValue}
           paperAccessLabel={viewModel.paperAccessLabel}
           paperAccessValue={viewModel.paperAccessValue}
           paperAccessTone={viewModel.paperAccessTone}
-          liveAccessLabel={viewModel.liveAccessLabel}
-          liveAccessValue={viewModel.liveAccessValue}
+          diagnosticsHref={`${localePrefix}/diagnostics`}
+          diagnosticsLabel={dict.nav.diagnostics}
+          settingsHref={`${localePrefix}/settings`}
+          settingsLabel={dict.nav.settings}
         />
 
         <NarrowStrip
@@ -343,34 +280,14 @@ export default function TradingWorkstation({
           onSelectAsset={platformState.setSelectedAssetIndex}
         />
 
-        <SummaryCard
-          dict={dict}
-          symbol={platformState.selectedAsset.symbol}
-          price={platformState.selectedAsset.price}
-          change={platformState.selectedAsset.change}
-          signalLabel={viewModel.signalLabel}
-          signalStyle={viewModel.signalStyle}
-          marketStatus={platformState.selectedAsset.status}
-          timeframe={platformState.selectedTimeframe}
-          confidence={platformState.decision.confidence}
-        />
-
         <ChartCard
           dict={dict}
           selectedAsset={platformState.selectedAsset}
           selectedTimeframe={platformState.selectedTimeframe}
           onSelectTimeframe={platformState.setSelectedTimeframe}
           candles={platformState.candles}
-        />
-
-        <RiskCardGrid
-          dict={dict}
-          openTradesText={viewModel.openTradesText}
-          sessionPnLText={viewModel.sessionPnLText}
-          sessionPnLPositive={viewModel.sessionPnLPositive}
-          lossCount={platformState.lossCount}
-          sessionStateLabel={viewModel.sessionStateLabel}
-          sessionLocked={platformState.sessionLocked}
+          decision={platformState.decision}
+          signalLabel={viewModel.signalLabel}
         />
 
         <ExecutionCard
@@ -420,85 +337,11 @@ export default function TradingWorkstation({
 
         <ActivityHistoryPanel dict={dict} history={platformState.history} />
 
-        <ComplianceActivationPanel
-          title={viewModel.policyPanelLabel}
-          subtitle={viewModel.compliancePanelSubtitle}
-          badge={viewModel.compliancePanelBadge}
-          badgeTone={viewModel.paperAccessTone}
-          accountLifecycleLabel={viewModel.accountLifecycleLabel}
-          accountLifecycleDescription={viewModel.accountLifecycleDescription}
-          accountLifecycleTone={viewModel.accountLifecycleTone}
-          reviewStatusLabel={viewModel.reviewStatusLabel}
-          reviewStatusDescription={viewModel.reviewStatusDescription}
-          reviewStatusTone={viewModel.reviewStatusTone}
-          disclosureRows={viewModel.disclosureRows}
-          activationRows={viewModel.activationRows}
-          acceptDisclosuresLabel={viewModel.acceptDisclosuresLabel}
-          submitReviewLabel={viewModel.submitReviewLabel}
-          canAcceptDisclosures={platformState.canAcknowledgeDisclosures}
-          canSubmitReview={platformState.canSubmitAccountReview}
-          onAcceptDisclosures={platformState.acceptPendingDisclosures}
-          onSubmitReview={platformState.submitActivationReview}
-        />
-
-        <SecondarySurfacePanel
-          title={viewModel.executionFoundationLabel}
-          subtitle={`${viewModel.executionIntentLabel}: ${viewModel.executionIntentValue}`}
-          chips={executionFoundationChips}
-        />
-
-        <SecondarySurfacePanel
-          title={viewModel.riskFoundationLabel}
-          subtitle={viewModel.riskOperatorNote}
-          chips={viewModel.riskFoundationChips}
-        />
-
-        <SecondarySurfacePanel
-          title={viewModel.dataStateFoundationLabel}
-          subtitle={viewModel.dataStateOperatorNote}
-          chips={viewModel.dataStateFoundationChips}
-        />
-
-        <AuditTracePanel
+        <ActivityLogPanel
           title={viewModel.auditTitle}
           subtitle={viewModel.auditSubtitle}
-          actorLabel={viewModel.auditActorLabel}
-          actorValue={platformState.auditTraceFoundation.currentActor}
-          accountModeLabel={viewModel.auditAccountModeLabel}
-          accountModeValue={viewModel.auditAccountModeValue}
-          visibilityLabel={viewModel.auditVisibilityLabel}
-          visibilityValue={viewModel.auditVisibilityValue}
-          traceLabel={viewModel.auditTraceLabel}
-          traceValue={viewModel.auditTraceValue}
-          lastEventLabel={viewModel.auditLastEventLabel}
-          lastEventValue={platformState.auditTraceFoundation.lastEventAt}
           events={platformState.auditTraceFoundation.recentEvents}
           emptyLabel={viewModel.auditEmptyLabel}
-        />
-
-        <SecurityFoundationPanel
-          title={viewModel.securityTitle}
-          subtitle={viewModel.securitySubtitle}
-          routeLabel={viewModel.securityRouteLabel}
-          routeValue={viewModel.securityRouteValue}
-          accessLabel={viewModel.securityAccessLabel}
-          accessValue={viewModel.securityAccessValue}
-          executionLabel={viewModel.securityExecutionLabel}
-          executionValue={viewModel.securityExecutionValue}
-          dataProtectionLabel={viewModel.securityDataLabel}
-          dataProtectionValue={viewModel.securityDataValue}
-          secretsLabel={viewModel.securitySecretsLabel}
-          secretsValue={viewModel.securitySecretsValue}
-          sessionLabel={viewModel.securitySessionLabel}
-          sessionValue={viewModel.securitySessionValue}
-          recoveryLabel={viewModel.securityRecoveryLabel}
-          recoveryValue={viewModel.securityRecoveryValue}
-          alertLabel={viewModel.securityAlertLabel}
-          alertValue={viewModel.securityAlertValue}
-          accountModeLabel={viewModel.securityAccountLabel}
-          accountModeValue={viewModel.securityAccountValue}
-          reviewedAtLabel={viewModel.securityReviewedAtLabel}
-          reviewedAtValue={platformState.securityFoundation.lastReviewedAt}
         />
       </section>
     </main>

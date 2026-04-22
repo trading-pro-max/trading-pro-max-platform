@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import type { CSSProperties, ReactNode } from "react";
 import {
   TIMEFRAMES,
@@ -39,6 +40,48 @@ function toneClassFromValue(value: string) {
 
   return "neutral";
 }
+
+function parseNumericValue(value: string) {
+  const match = value.match(/-?\d+(?:\.\d+)?/);
+  return match ? Number(match[0]) : null;
+}
+
+function buildPriceScale(currentPrice: string) {
+  const parsedPrice = parseNumericValue(currentPrice);
+  const decimals = currentPrice.includes(".")
+    ? currentPrice.split(".")[1]?.length ?? 2
+    : 2;
+  const step = decimals >= 4 ? 0.0005 : decimals === 3 ? 0.005 : decimals === 2 ? 0.05 : 0.5;
+
+  if (parsedPrice === null || Number.isNaN(parsedPrice)) {
+    return [currentPrice, currentPrice, currentPrice, currentPrice];
+  }
+
+  return [1.5, 0.5, -0.5, -1.5].map((offset) =>
+    (parsedPrice + step * offset).toFixed(decimals),
+  );
+}
+
+function buildTimeScale(timeframe: PlatformTimeframe) {
+  if (timeframe === "1m") return ["09:20", "09:35", "09:50", "10:05", "10:20"];
+  if (timeframe === "5m") return ["08:30", "08:55", "09:20", "09:45", "10:10"];
+  if (timeframe === "15m") return ["06:00", "07:15", "08:30", "09:45", "11:00"];
+  if (timeframe === "1h") return ["02:00", "04:00", "06:00", "08:00", "10:00"];
+
+  return ["00:00", "06:00", "12:00", "18:00", "24:00"];
+}
+
+type ChartType = "candlestick" | "area" | "line" | "bars";
+
+const CHART_TYPES: { id: ChartType; label: string }[] = [
+  { id: "candlestick", label: "Candles" },
+  { id: "area", label: "Area" },
+  { id: "line", label: "Line" },
+  { id: "bars", label: "Bars" },
+];
+
+const INDICATOR_TOOLS = ["EMA 20", "RSI", "MACD", "VOL"] as const;
+const DRAWING_TOOLS = ["Cursor", "Trend", "Level", "Range", "Note"] as const;
 
 function AnchorChip({ text }: { text: string }) {
   return <span className="tpmv2-badge tpmv2-chip">{text}</span>;
@@ -122,14 +165,6 @@ export function DesktopRail({
 }) {
   return (
     <aside className="tpmv2-card tpmv2-rail">
-      <div className="tpmv2-brand tpmv2-brand-compact">
-        <div className="tpmv2-logo">TPM</div>
-        <div>
-          <div className="tpmv2-brand-title">{dict.shell.title}</div>
-          <div className="tpmv2-brand-subtitle">{dict.shell.subtitle}</div>
-        </div>
-      </div>
-
       <div className="tpmv2-rail-head">
         <div className="tpmv2-section-label">{dict.market.title}</div>
         <span className="tpmv2-rail-count">{MARKET_ASSETS.length}</span>
@@ -182,20 +217,13 @@ export function TradingTopbar({
   selectedAssetPrice,
   selectedAssetChange,
   marketStatus,
-  signalLabel,
-  sessionStateLabel,
-  accountStatusValue,
-  accountLifecycleLabel,
-  accountLifecycleTone,
-  reviewStatusLabel,
-  reviewStatusTone,
-  disclosureSummaryLabel,
-  disclosureSummaryValue,
   paperAccessLabel,
   paperAccessValue,
   paperAccessTone,
-  liveAccessLabel,
-  liveAccessValue,
+  diagnosticsHref,
+  diagnosticsLabel,
+  settingsHref,
+  settingsLabel,
 }: {
   dict: Dictionary;
   balance: string;
@@ -208,20 +236,13 @@ export function TradingTopbar({
   selectedAssetPrice: string;
   selectedAssetChange: string;
   marketStatus: string;
-  signalLabel: string;
-  sessionStateLabel: string;
-  accountStatusValue: string;
-  accountLifecycleLabel: string;
-  accountLifecycleTone: WorkstationStatusTone;
-  reviewStatusLabel: string;
-  reviewStatusTone: WorkstationStatusTone;
-  disclosureSummaryLabel: string;
-  disclosureSummaryValue: string;
   paperAccessLabel: string;
   paperAccessValue: string;
   paperAccessTone: WorkstationStatusTone;
-  liveAccessLabel: string;
-  liveAccessValue: string;
+  diagnosticsHref: string;
+  diagnosticsLabel: string;
+  settingsHref: string;
+  settingsLabel: string;
 }) {
   return (
     <header className="tpmv2-card tpmv2-topbar">
@@ -234,9 +255,8 @@ export function TradingTopbar({
       </div>
 
       <div className="tpmv2-topbar-market">
-        <div className="tpmv2-topbar-market-main">
+        <div className="tpmv2-topbar-market-main tpmv2-topbar-market-compact">
           <div className="tpmv2-topbar-market-strip">
-            <span className="tpmv2-section-label">{dict.market.selectedAsset}</span>
             <div className="tpmv2-topbar-market-symbol">{selectedAssetSymbol}</div>
             <div className="tpmv2-topbar-market-price">{selectedAssetPrice}</div>
             <div
@@ -246,38 +266,26 @@ export function TradingTopbar({
             >
               {selectedAssetChange}
             </div>
-          </div>
-          <div className="tpmv2-topbar-market-line">
-            <span>
-              {dict.market.marketStatus}: {marketStatus}
-            </span>
-            <span>
-              {dict.risk.sessionStatus}: {sessionStateLabel}
-            </span>
-            <span>{accountStatusValue}</span>
+            <span className="tpmv2-topbar-market-state">{marketStatus}</span>
           </div>
         </div>
-
-        <div className="tpmv2-topbar-signal">{signalLabel}</div>
       </div>
 
       <div className="tpmv2-topbar-controls">
-        <div className="tpmv2-topbar-activation tpmv2-topbar-essentials">
+        <div className="tpmv2-topbar-links">
+          <a className="tpmv2-topbar-link" href={diagnosticsHref}>
+            {diagnosticsLabel}
+          </a>
+          <a className="tpmv2-topbar-link" href={settingsHref}>
+            {settingsLabel}
+          </a>
+        </div>
+
+        <div className="tpmv2-topbar-toggle">
           <StatusTag
             text={`${paperAccessLabel}: ${paperAccessValue}`}
             tone={paperAccessTone}
           />
-          <AnchorChip text={`${liveAccessLabel}: ${liveAccessValue}`} />
-          <AnchorChip text={`${disclosureSummaryLabel}: ${disclosureSummaryValue}`} />
-        </div>
-
-        <div className="tpmv2-topbar-status-line">
-          <span className={accountLifecycleTone}>{accountLifecycleLabel}</span>
-          <span className={reviewStatusTone}>{reviewStatusLabel}</span>
-          <span>{dict.risk.sessionStatus}: {sessionStateLabel}</span>
-        </div>
-
-        <div className="tpmv2-topbar-toggle">
           <span className="tpmv2-mode-label">{modeLabel}</span>
 
           <button
@@ -419,106 +427,244 @@ export function ChartCard({
   selectedTimeframe,
   onSelectTimeframe,
   candles,
+  decision,
+  signalLabel,
+  workspaceControls,
 }: {
   dict: Dictionary;
   selectedAsset: Asset;
   selectedTimeframe: PlatformTimeframe;
   onSelectTimeframe: (timeframe: PlatformTimeframe) => void;
   candles: number[];
+  decision: Decision;
+  signalLabel: string;
+  workspaceControls?: ReactNode;
 }) {
+  const [chartType, setChartType] = useState<ChartType>("candlestick");
+  const [activeIndicators, setActiveIndicators] = useState<string[]>([
+    "EMA 20",
+    "RSI",
+  ]);
+  const [activeDrawingTool, setActiveDrawingTool] = useState<string>("Cursor");
+  const [chartZoom, setChartZoom] = useState(100);
+  const priceScale = buildPriceScale(selectedAsset.price);
+  const timeScale = buildTimeScale(selectedTimeframe);
+  const pointStep = 100 / Math.max(candles.length - 1, 1);
+  const chartPathPoints = candles
+    .map(
+      (height, index) =>
+        `${(index * pointStep).toFixed(2)},${Math.max(4, 100 - height).toFixed(2)}`,
+    )
+    .join(" ");
+  const chartAreaPoints = `0,100 ${chartPathPoints} 100,100`;
+  const latestHeight = candles[candles.length - 1] ?? 50;
+  const priceMarkerTop = `${Math.max(16, Math.min(82, 100 - latestHeight))}%`;
+
+  function toggleIndicator(indicator: string) {
+    setActiveIndicators((current) =>
+      current.includes(indicator)
+        ? current.filter((item) => item !== indicator)
+        : [...current, indicator],
+    );
+  }
+
   return (
-    <section className="tpmv2-card tpmv2-chart">
-      <div className="tpmv2-chart-head">
-        <div>
-          <div className="tpmv2-chart-title">{dict.chart.title}</div>
-          <div className="tpmv2-chart-subtitle">{dict.chart.subtitle}</div>
-        </div>
-
-        <div className="tpmv2-chart-toolbar">
-          <AnchorChip text={selectedAsset.status} />
-
-          <div className="tpmv2-timeframes">
-            {TIMEFRAMES.map((tf) => (
-              <button
-                key={tf}
-                type="button"
-                className={tf === selectedTimeframe ? "active" : ""}
-                onClick={() => onSelectTimeframe(tf)}
-              >
-                {tf}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div className="tpmv2-chart-context">
-        <div className="tpmv2-context-chip">
-          <span>{dict.market.selectedAsset}</span>
-          <strong>{selectedAsset.symbol}</strong>
-        </div>
-        <div className="tpmv2-context-chip">
-          <span>{dict.market.currentPrice}</span>
-          <strong>{selectedAsset.price}</strong>
-        </div>
-        <div className="tpmv2-context-chip">
-          <span>{dict.market.change}</span>
-          <strong>{selectedAsset.change}</strong>
-        </div>
-        <div className="tpmv2-context-chip">
-          <span>{dict.market.marketStatus}</span>
-          <strong>{selectedAsset.status}</strong>
-        </div>
-      </div>
-
+    <section
+      className={`tpmv2-card tpmv2-chart tpmv2-chart-${chartType}`}
+      aria-label={dict.chart.title}
+    >
       <div className="tpmv2-chart-surface">
         <div className="tpmv2-chart-grid-bg" />
+        <div className="tpmv2-chart-crosshair">
+          <span className="tpmv2-chart-crosshair-v" />
+          <span className="tpmv2-chart-crosshair-h" />
+        </div>
 
-        <div className="tpmv2-chart-overlay">
-          <div>
-            <div className="tpmv2-chart-overlay-title">{selectedAsset.symbol}</div>
-            <div
-              className={`tpmv2-chart-overlay-line ${toneClassFromValue(
-                selectedAsset.change,
-              )}`}
-            >
-              {selectedAsset.price} / {selectedAsset.change}
+        <div className="tpmv2-chart-floating-bar">
+          <div className="tpmv2-chart-market-head">
+            <div className="tpmv2-chart-market-symbol">{selectedAsset.symbol}</div>
+            <div className="tpmv2-chart-market-line">
+              <span className="tpmv2-chart-market-price">{selectedAsset.price}</span>
+              <span
+                className={`tpmv2-chart-market-change ${toneClassFromValue(
+                  selectedAsset.change,
+                )}`}
+              >
+                {selectedAsset.change}
+              </span>
+              <span className="tpmv2-chart-market-status">{selectedAsset.status}</span>
             </div>
           </div>
+
+          <div className="tpmv2-chart-toolbar">
+            <div className="tpmv2-tool-group" role="toolbar" aria-label="Chart type">
+              <span>Type</span>
+              <div className="tpmv2-tool-buttons">
+                {CHART_TYPES.map((type) => (
+                  <button
+                    key={type.id}
+                    type="button"
+                    className={type.id === chartType ? "active" : ""}
+                    aria-pressed={type.id === chartType}
+                    onClick={() => setChartType(type.id)}
+                  >
+                    {type.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div
+              className="tpmv2-tool-group tpmv2-tool-group-time"
+              role="toolbar"
+              aria-label={dict.trade.timeframe}
+            >
+              <span>{dict.trade.timeframe}</span>
+              <div className="tpmv2-timeframes">
+                {TIMEFRAMES.map((tf) => (
+                  <button
+                    key={tf}
+                    type="button"
+                    className={tf === selectedTimeframe ? "active" : ""}
+                    aria-pressed={tf === selectedTimeframe}
+                    onClick={() => onSelectTimeframe(tf)}
+                  >
+                    {tf}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {workspaceControls}
+          </div>
+        </div>
+
+        <div className="tpmv2-chart-tool-rail" role="toolbar" aria-label="Drawing tools">
+          {DRAWING_TOOLS.map((tool) => (
+            <button
+              key={tool}
+              type="button"
+              className={tool === activeDrawingTool ? "active" : ""}
+              aria-pressed={tool === activeDrawingTool}
+              onClick={() => setActiveDrawingTool(tool)}
+            >
+              {tool}
+            </button>
+          ))}
+        </div>
+
+        <div className="tpmv2-chart-indicator-dock" role="toolbar" aria-label="Indicators">
+          <span>Indicators</span>
+          {INDICATOR_TOOLS.map((indicator) => (
+            <button
+              key={indicator}
+              type="button"
+              className={activeIndicators.includes(indicator) ? "active" : ""}
+              aria-pressed={activeIndicators.includes(indicator)}
+              onClick={() => toggleIndicator(indicator)}
+            >
+              {indicator}
+            </button>
+          ))}
+        </div>
+
+        <div className="tpmv2-chart-zoom-controls" role="toolbar" aria-label="Chart zoom">
+          <button
+            type="button"
+            onClick={() => setChartZoom((current) => Math.max(80, current - 10))}
+          >
+            -
+          </button>
+          <span>{chartZoom}%</span>
+          <button
+            type="button"
+            onClick={() => setChartZoom((current) => Math.min(130, current + 10))}
+          >
+            +
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setChartZoom(100);
+              setChartType("candlestick");
+            }}
+          >
+            Reset
+          </button>
+        </div>
+
+        <div className="tpmv2-chart-price-scale" aria-hidden="true">
+          {priceScale.map((price) => (
+            <span key={price}>{price}</span>
+          ))}
+        </div>
+
+        <div className="tpmv2-chart-overlay">
           <div className="tpmv2-chart-overlay-meta">
             <span className="tpmv2-chart-overlay-tag">{selectedAsset.status}</span>
             <span className="tpmv2-chart-overlay-tag">{selectedTimeframe}</span>
+            <span className="tpmv2-chart-overlay-tag">{dict.common.paper}</span>
+            <span className="tpmv2-chart-overlay-tag">{dict.common.local}</span>
           </div>
         </div>
 
-        <div className="tpmv2-candles">
-          {candles.map((height, index) => (
-            <div key={index} className="tpmv2-candle-wrap">
-              <span
-                className={
-                  index % 2 === 0 ? "tpmv2-candle up" : "tpmv2-candle down"
-                }
-                style={{ height: `${height}%` }}
-              />
-            </div>
+        <div className={`tpmv2-chart-ai-panel ${decision.signal}`}>
+          <div className="tpmv2-chart-ai-kicker">TPM AI</div>
+          <div className="tpmv2-chart-ai-row">
+            <strong>{signalLabel}</strong>
+            <span>{decision.confidence}</span>
+          </div>
+          <p>{decision.reason}</p>
+        </div>
+
+        <div className="tpmv2-chart-price-marker" style={{ top: priceMarkerTop }}>
+          <span>{selectedAsset.price}</span>
+        </div>
+
+        <div
+          className="tpmv2-chart-plot"
+          style={{ transform: `scaleX(${chartZoom / 100})` }}
+        >
+          {chartType === "area" || chartType === "line" ? (
+            <svg
+              className="tpmv2-chart-path"
+              viewBox="0 0 100 100"
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
+              {chartType === "area" ? (
+                <polygon className="tpmv2-chart-area-fill" points={chartAreaPoints} />
+              ) : null}
+              <polyline className="tpmv2-chart-line-stroke" points={chartPathPoints} />
+            </svg>
+          ) : null}
+
+          <div
+            className={
+              chartType === "bars"
+                ? "tpmv2-candles tpmv2-candles-bars"
+                : chartType === "candlestick"
+                ? "tpmv2-candles"
+                : "tpmv2-candles tpmv2-candles-ghost"
+            }
+          >
+            {candles.map((height, index) => (
+              <div key={index} className="tpmv2-candle-wrap">
+                <span
+                  className={
+                    index % 2 === 0 ? "tpmv2-candle up" : "tpmv2-candle down"
+                  }
+                  style={{ height: `${height}%` }}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="tpmv2-chart-time-scale" aria-hidden="true">
+          {timeScale.map((label) => (
+            <span key={label}>{label}</span>
           ))}
-        </div>
-      </div>
-
-      <div className="tpmv2-chart-meta">
-        <div className="tpmv2-chart-meta-item">
-          <span>{dict.market.selectedAsset}</span>
-          <strong>{selectedAsset.symbol}</strong>
-        </div>
-
-        <div className="tpmv2-chart-meta-item">
-          <span>{dict.market.currentTimeframe}</span>
-          <strong>{selectedTimeframe}</strong>
-        </div>
-
-        <div className="tpmv2-chart-meta-item">
-          <span>{dict.market.marketStatus}</span>
-          <strong>{selectedAsset.status}</strong>
         </div>
       </div>
     </section>
@@ -601,6 +747,7 @@ export function ExecutionCard({
   ticketOperationalTone: WorkstationStatusTone;
 }) {
   const disabled = !canExecute || sessionLocked || !canOpenMore;
+  const aiActionDisabled = decision.signal === "wait" || disabled;
   const modeValue = accountMode === "demo" ? demoLabel : realLabel;
 
   return (
@@ -615,6 +762,41 @@ export function ExecutionCard({
           <AnchorChip text={selectedAssetSymbol} />
           <AnchorChip text={modeValue} />
         </div>
+      </div>
+
+      <div className="tpmv2-core-actions" aria-label={dict.decision.title}>
+        <button
+          type="button"
+          className="tpmv2-core-action tpmv2-core-buy"
+          aria-label={dict.trade.openBuy}
+          onClick={() => openPaperTrade("buy")}
+          disabled={disabled}
+        >
+          <span>{dict.decision.signals.buy}</span>
+          <small>{dict.common.paper}</small>
+        </button>
+
+        <button
+          type="button"
+          className="tpmv2-core-action tpmv2-core-ai"
+          aria-label={dict.decision.executeBySignal}
+          onClick={openTradeBySignal}
+          disabled={aiActionDisabled}
+        >
+          <span>AI</span>
+          <small>{signalLabel}</small>
+        </button>
+
+        <button
+          type="button"
+          className="tpmv2-core-action tpmv2-core-sell"
+          aria-label={dict.trade.openSell}
+          onClick={() => openPaperTrade("sell")}
+          disabled={disabled}
+        >
+          <span>{dict.decision.signals.sell}</span>
+          <small>{dict.common.paper}</small>
+        </button>
       </div>
 
       <div className={`tpmv2-ticket-signal ${decision.signal}`}>
@@ -668,37 +850,6 @@ export function ExecutionCard({
         </div>
       </div>
 
-      <div className="tpmv2-ticket-actions">
-        <button
-          type="button"
-          className="tpmv2-small-button tpmv2-ticket-smart"
-          onClick={openTradeBySignal}
-          disabled={decision.signal === "wait" || disabled}
-        >
-          {dict.decision.executeBySignal}
-        </button>
-
-        <div className="tpmv2-ticket-primary-actions">
-          <button
-            type="button"
-            className="tpmv2-buy tpmv2-buy-secondary"
-            onClick={() => openPaperTrade("buy")}
-            disabled={disabled}
-          >
-            {dict.trade.openBuy}
-          </button>
-
-          <button
-            type="button"
-            className="tpmv2-sell"
-            onClick={() => openPaperTrade("sell")}
-            disabled={disabled}
-          >
-            {dict.trade.openSell}
-          </button>
-        </div>
-      </div>
-
       <div className="tpmv2-ticket-status">
         <div className="tpmv2-ticket-badges">
           <StatusTag text={accountLifecycleLabel} tone={accountLifecycleTone} />
@@ -736,7 +887,13 @@ export function ExecutionCard({
         </div>
       </div>
 
-      <div className="tpmv2-note tpmv2-ticket-note">{note}</div>
+      <div className="tpmv2-ticket-ops-note">
+        <span>{ticketOperationalLabel}</span>
+        <strong className={`tpmv2-ticket-status-value ${ticketOperationalTone}`}>
+          {ticketOperationalValue}
+        </strong>
+        <small>{note}</small>
+      </div>
     </section>
   );
 }
@@ -962,6 +1119,40 @@ export function ActivityHistoryPanel({
               >
                 {dict.journal.result}: {trade.result}
               </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </section>
+  );
+}
+
+export function ActivityLogPanel({
+  title,
+  subtitle,
+  events,
+  emptyLabel,
+}: {
+  title: string;
+  subtitle: string;
+  events: AuditEvent[];
+  emptyLabel: string;
+}) {
+  return (
+    <section className="tpmv2-card tpmv2-panel tpmv2-activity-log">
+      <PanelHeader title={title} subtitle={subtitle} />
+
+      {events.length === 0 ? (
+        <div className="tpmv2-empty">{emptyLabel}</div>
+      ) : (
+        <div className="tpmv2-list tpmv2-activity-list">
+          {events.slice(0, 6).map((event) => (
+            <div key={event.id} className="tpmv2-list-card tpmv2-activity-card">
+              <div className="tpmv2-list-row">
+                <strong>{event.kind}</strong>
+                <span>{event.createdAt}</span>
+              </div>
+              <div className="tpmv2-list-meta">{event.message}</div>
             </div>
           ))}
         </div>
