@@ -3159,27 +3159,23 @@
 
 @media (min-width: 1181px) {
   .tpm-foundation-frame:has(.tpmv2-page) {
-    min-height: 0;
-    height: 100svh;
-    overflow: hidden;
+    min-height: 100svh;
+    overflow: visible;
   }
 
   .tpm-foundation-frame:has(.tpmv2-page) .tpm-foundation-body {
-    min-height: 0;
-    height: calc(100svh - 46px);
-    overflow: hidden;
+    min-height: calc(100svh - 46px);
+    overflow: visible;
   }
 
   .tpmv2-page {
-    height: 100svh;
-    max-height: 100svh;
+    min-height: 100svh;
     display: grid;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .tpm-foundation-body > .tpmv2-page {
-    height: 100%;
-    max-height: 100%;
+    min-height: 100%;
   }
 
   .tpmv2-shell-desktop,
@@ -3188,8 +3184,7 @@
   .tpmv2-primary,
   .tpmv2-chart {
     min-height: 0;
-    height: 100%;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .tpmv2-main {
@@ -3205,9 +3200,8 @@
   }
 
   .tpmv2-chart-surface {
-    height: 100%;
-    min-height: 0;
-    max-height: 100%;
+    height: auto;
+    max-height: none;
   }
 
   .tpmv2-side {
