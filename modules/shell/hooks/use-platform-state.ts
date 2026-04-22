@@ -152,6 +152,19 @@ function getIntervalMs(timeframe: PlatformTimeframe) {
   }
 }
 
+function getFallbackAnchorMs(timeframe: PlatformTimeframe) {
+  switch (timeframe) {
+    case "1m":
+      return Date.UTC(2026, 0, 5, 10, 24);
+    case "5m":
+      return Date.UTC(2026, 0, 5, 10, 10);
+    case "15m":
+      return Date.UTC(2026, 0, 5, 11, 0);
+    case "1h":
+      return Date.UTC(2026, 0, 5, 10, 0);
+  }
+}
+
 function parseAssetPrice(asset: Asset) {
   const normalized = asset.price.replaceAll(",", "").trim();
   const value = Number(normalized);
@@ -171,8 +184,7 @@ function buildFallbackCandles(
     MARKET_ASSETS.find((candidate) => candidate.symbol === selectedAssetSymbol) ??
     MARKET_ASSETS[0];
   const intervalMs = getIntervalMs(timeframe);
-  const nowMs = Date.now();
-  const currentBucketMs = nowMs - (nowMs % intervalMs);
+  const currentBucketMs = getFallbackAnchorMs(timeframe);
   const candles: MarketCandle[] = [];
   let previousClose = parseAssetPrice(asset);
 
