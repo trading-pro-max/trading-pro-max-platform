@@ -14,6 +14,8 @@ const OPERATOR_PASSWORD =
 const OPERATOR_DISPLAY_NAME =
   process.env.TPM_OPERATOR_DISPLAY_NAME ?? "Trading Pro Operator";
 const OPERATOR_KEY = process.env.TPM_OPERATOR_KEY ?? "local-operator-review-key";
+const LOCAL_OPERATOR_KEY_ENABLED =
+  process.env.TPM_ALLOW_LOCAL_OPERATOR_KEY === "true";
 const DEMO_REGION = process.env.TPM_DEMO_REGION ?? "Global";
 const DATABASE_URL = process.env.DATABASE_URL ?? "file:./prisma/dev.db";
 const REQUIRED_DISCLOSURES = ["risk", "paper_trading", "jurisdiction", "terms"];
@@ -243,7 +245,15 @@ function main() {
     console.log(`Password: ${DEMO_PASSWORD}`);
     console.log(`Operator email: ${OPERATOR_EMAIL}`);
     console.log(`Operator password: ${OPERATOR_PASSWORD}`);
-    console.log(`Local operator key: ${OPERATOR_KEY}`);
+    if (process.env.TPM_OPERATOR_KEY) {
+      console.log("Operator key: configured by TPM_OPERATOR_KEY");
+    } else if (LOCAL_OPERATOR_KEY_ENABLED) {
+      console.log(`Local operator key: ${OPERATOR_KEY}`);
+    } else {
+      console.log(
+        "Operator key: disabled by default; set TPM_OPERATOR_KEY or TPM_ALLOW_LOCAL_OPERATOR_KEY=true for local review."
+      );
+    }
   } finally {
     database.close();
   }

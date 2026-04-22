@@ -15,10 +15,28 @@ export type OperatorAccessResult =
     };
 
 const LOCAL_OPERATOR_KEY = "local-operator-review-key";
+const LOCAL_OPERATOR_KEY_ENABLED = "true";
+
+export type OperatorKeyMode =
+  | "configured"
+  | "local_explicit"
+  | "unconfigured";
+
+export function getOperatorKeyMode(): OperatorKeyMode {
+  if (process.env.TPM_OPERATOR_KEY?.trim()) return "configured";
+  if (
+    process.env.NODE_ENV !== "production" &&
+    process.env.TPM_ALLOW_LOCAL_OPERATOR_KEY === LOCAL_OPERATOR_KEY_ENABLED
+  ) {
+    return "local_explicit";
+  }
+
+  return "unconfigured";
+}
 
 function getExpectedOperatorKey() {
-  if (process.env.TPM_OPERATOR_KEY) return process.env.TPM_OPERATOR_KEY;
-  if (process.env.NODE_ENV !== "production") return LOCAL_OPERATOR_KEY;
+  if (process.env.TPM_OPERATOR_KEY?.trim()) return process.env.TPM_OPERATOR_KEY.trim();
+  if (getOperatorKeyMode() === "local_explicit") return LOCAL_OPERATOR_KEY;
 
   return null;
 }
@@ -68,7 +86,7 @@ export function getOperatorAccess(
     ok: true,
     operatorUserId: session.user.id,
     operatorLabel:
-      request.headers.get("x-tpm-operator-label")?.trim() ||
+      request.headers.get("x-tpm-operator-label")?.trim().slice(0, 80) ||
       session.user.email,
   };
 }

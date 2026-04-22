@@ -14,6 +14,7 @@ import {
   createSessionExpiry,
   createSessionToken,
   hashSessionToken,
+  isSessionTokenShape,
 } from "./session-token";
 
 const DEMO_ACCOUNT_MODE = "demo" satisfies AccountMode;
@@ -21,6 +22,8 @@ const DEFAULT_ACCOUNT_LIFECYCLE_STATE =
   "onboarding" satisfies AccountLifecycleState;
 const DEFAULT_ACCOUNT_REGION = "Global";
 const SESSION_TTL_HOURS = 24;
+const MAX_EMAIL_LENGTH = 254;
+const MAX_PASSWORD_LENGTH = 512;
 
 const ACCOUNT_LIFECYCLE_STATES: readonly AccountLifecycleState[] = [
   "visitor",
@@ -112,6 +115,16 @@ type DbSession = {
 
 function normalizeEmail(email: string) {
   return email.trim().toLowerCase();
+}
+
+function isLoginInputAllowed(email: string, password: string) {
+  return (
+    email.length > 0 &&
+    email.length <= MAX_EMAIL_LENGTH &&
+    email.includes("@") &&
+    password.length > 0 &&
+    password.length <= MAX_PASSWORD_LENGTH
+  );
 }
 
 function normalizeOptionalHeader(value: string | null | undefined) {
@@ -222,6 +235,21 @@ function sessionAuditMetadata(
 
 export async function login(input: LoginInput): Promise<LoginResult> {
   const email = normalizeEmail(input.email);
+  if (!isLoginInputAllowed(email, input.password)) {
+    await recordAuthAuditEvent({
+      action: "login_failure",
+      message: "Login failed.",
+      metadata: {
+        reason: "invalid_credentials",
+        emailHash: hashAuditIdentifier(email.slice(0, MAX_EMAIL_LENGTH)),
+        ipAddressPresent: Boolean(input.ipAddress),
+        userAgentPresent: Boolean(input.userAgent),
+      },
+    });
+
+    return { ok: false, reason: "invalid_credentials" };
+  }
+
   const user = await prisma.user.findUnique({
     where: { email },
   });
@@ -294,6 +322,20 @@ export async function validateSession(
   context: AuthContext = {}
 ): Promise<AuthenticatedSession | null> {
   if (!sessionToken) return null;
+
+  if (!isSessionTokenShape(sessionToken)) {
+    await recordAuthAuditEvent({
+      action: "session_invalid",
+      message: "Session validation failed.",
+      metadata: {
+        reason: "malformed",
+        ipAddressPresent: Boolean(context.ipAddress),
+        userAgentPresent: Boolean(context.userAgent),
+      },
+    });
+
+    return null;
+  }
 
   const tokenHash = hashSessionToken(sessionToken);
   const session = await prisma.session.findUnique({
@@ -378,6 +420,20 @@ export async function logout(
   context: AuthContext = {}
 ): Promise<LogoutResult> {
   if (!sessionToken) return { ok: true, invalidated: false };
+
+  if (!isSessionTokenShape(sessionToken)) {
+    await recordAuthAuditEvent({
+      action: "session_invalid",
+      message: "Logout session lookup failed.",
+      metadata: {
+        reason: "malformed",
+        ipAddressPresent: Boolean(context.ipAddress),
+        userAgentPresent: Boolean(context.userAgent),
+      },
+    });
+
+    return { ok: true, invalidated: false };
+  }
 
   const tokenHash = hashSessionToken(sessionToken);
   const session = await prisma.session.findUnique({

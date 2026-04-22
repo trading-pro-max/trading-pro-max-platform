@@ -10,6 +10,7 @@ export {
   getExpiredSessionCookieOptions,
   getSessionCookieOptions,
   getSessionTokenFromRequest,
+  isAuthorizationBearerEnabled,
   readBearerToken,
 } from "./cookies";
 export type {
@@ -40,4 +41,5 @@ export {
   createSessionExpiry,
   createSessionToken,
   hashSessionToken,
+  isSessionTokenShape,
 } from "./session-token";

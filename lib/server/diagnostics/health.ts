@@ -2,6 +2,7 @@ import "server-only";
 import { prisma } from "@/lib/db/client";
 import { getMarketDiagnosticsProbe } from "@/lib/server/market-data/service";
 import { probeWorkspacePreferencePersistence } from "@/lib/server/preferences/state";
+import { getSecurityDiagnosticsProbe } from "@/lib/server/security";
 import type {
   DiagnosticsHealthSnapshot,
   DiagnosticsProbe,
@@ -65,6 +66,7 @@ function buildBrokerConnectorProbe(checkedAt: string): DiagnosticsProbe {
 function buildRouteProbes(input: {
   market: DiagnosticsProbe;
   preferences: DiagnosticsProbe;
+  security: DiagnosticsProbe;
 }): DiagnosticsRouteProbe[] {
   return [
     {
@@ -95,6 +97,18 @@ function buildRouteProbes(input: {
       status: "auth_required",
       detail: "Compliance route is available and requires authentication.",
     },
+    {
+      path: "/api/auth/login",
+      method: "POST",
+      status: input.security.status,
+      detail: "Login route is guarded by bounded JSON parsing and local rate limits.",
+    },
+    {
+      path: "/api/operator/compliance/review",
+      method: "POST",
+      status: "blocked",
+      detail: "Operator review requires operator auth plus an explicit operator secret.",
+    },
   ];
 }
 
@@ -106,14 +120,16 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     probeWorkspacePreferencePersistence(),
   ]);
   const broker = buildBrokerConnectorProbe(checkedAt);
+  const security = getSecurityDiagnosticsProbe();
 
   return {
     checkedAt,
     readiness,
-    probes: [market, preferences, broker],
+    probes: [market, preferences, security, broker],
     routes: buildRouteProbes({
       market,
       preferences,
+      security,
     }),
   };
 }

@@ -1,34 +1,25 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { getSessionTokenFromRequest } from "@/lib/auth/cookies";
 import { getCurrentUserSession } from "@/lib/auth/service";
+import { getRequestContext, noStoreJson } from "@/lib/server/security";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-function getRequestIp(request: NextRequest) {
-  const forwardedFor = request.headers.get("x-forwarded-for");
-  if (forwardedFor) return forwardedFor.split(",")[0]?.trim() || null;
-
-  return request.headers.get("x-real-ip");
-}
-
 export async function GET(request: NextRequest) {
   const currentSession = await getCurrentUserSession(
     getSessionTokenFromRequest(request),
-    {
-      userAgent: request.headers.get("user-agent"),
-      ipAddress: getRequestIp(request),
-    }
+    getRequestContext(request)
   );
 
   if (!currentSession) {
-    return NextResponse.json(
+    return noStoreJson(
       { ok: false, authenticated: false },
-      { status: 401, headers: { "Cache-Control": "no-store" } }
+      401
     );
   }
 
-  return NextResponse.json(
+  return noStoreJson(
     {
       ok: true,
       authenticated: true,
@@ -38,7 +29,6 @@ export async function GET(request: NextRequest) {
         id: currentSession.session.id,
         expiresAt: currentSession.session.expiresAt,
       },
-    },
-    { headers: { "Cache-Control": "no-store" } }
+    }
   );
 }

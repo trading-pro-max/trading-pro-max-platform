@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { getSessionTokenFromRequest } from "@/lib/auth/cookies";
 import { validateSession } from "@/lib/auth/service";
 import {
@@ -9,6 +9,14 @@ import type {
   PlatformPreferenceSnapshot,
   PreferencesRoutePayload,
 } from "@/modules/shell/types/platform-state";
+import {
+  buildRateLimitKey,
+  checkRateLimit,
+  getRequestContext,
+  noStoreJson,
+  readJsonBody,
+  rejectCrossOriginMutation,
+} from "@/lib/server/security";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -17,35 +25,22 @@ type PreferenceMutationBody = {
   preferences?: Partial<PlatformPreferenceSnapshot> | null;
 };
 
-function getRequestIp(request: NextRequest) {
-  const forwardedFor = request.headers.get("x-forwarded-for");
-  if (forwardedFor) return forwardedFor.split(",")[0]?.trim() || null;
-
-  return request.headers.get("x-real-ip");
-}
+const PREFERENCE_SYNC_RATE_LIMIT = {
+  maxRequests: 120,
+  windowMs: 60 * 1000,
+};
 
 async function getAuthenticatedSession(request: NextRequest) {
-  return validateSession(getSessionTokenFromRequest(request), {
-    userAgent: request.headers.get("user-agent"),
-    ipAddress: getRequestIp(request),
-  });
-}
-
-async function readMutationBody(request: NextRequest) {
-  try {
-    return (await request.json()) as PreferenceMutationBody;
-  } catch {
-    return null;
-  }
+  return validateSession(getSessionTokenFromRequest(request), getRequestContext(request));
 }
 
 export async function GET(request: NextRequest) {
   const session = await getAuthenticatedSession(request);
 
   if (!session) {
-    return NextResponse.json(
+    return noStoreJson(
       { ok: false, authenticated: false },
-      { status: 401, headers: { "Cache-Control": "no-store" } }
+      401
     );
   }
 
@@ -53,48 +48,65 @@ export async function GET(request: NextRequest) {
     session
   );
 
-  return NextResponse.json(
+  return noStoreJson(
     {
       ok: true,
       authenticated: true,
       preferences,
-    } satisfies PreferencesRoutePayload,
-    { headers: { "Cache-Control": "no-store" } }
+    } satisfies PreferencesRoutePayload
   );
 }
 
 export async function POST(request: NextRequest) {
+  const originFailure = rejectCrossOriginMutation(request);
+  if (originFailure) return originFailure;
+
   const session = await getAuthenticatedSession(request);
 
   if (!session) {
-    return NextResponse.json(
+    return noStoreJson(
       { ok: false, authenticated: false },
-      { status: 401, headers: { "Cache-Control": "no-store" } }
+      401
     );
   }
 
-  const body = await readMutationBody(request);
+  const limit = checkRateLimit(
+    buildRateLimitKey(["preferences", session.session.id]),
+    PREFERENCE_SYNC_RATE_LIMIT
+  );
 
-  if (!body || body.preferences === undefined) {
-    return NextResponse.json(
+  if (!limit.allowed) {
+    return noStoreJson(
+      { ok: false, error: "Preference sync rate limit exceeded." },
+      429,
+      { "Retry-After": String(limit.retryAfterSeconds) }
+    );
+  }
+
+  const bodyResult = await readJsonBody<PreferenceMutationBody>(request, {
+    maxBytes: 16 * 1024,
+  });
+  if (!bodyResult.ok) return bodyResult.response;
+
+  if (bodyResult.body.preferences === undefined) {
+    return noStoreJson(
       { ok: false, error: "Unsupported preference payload." },
-      { status: 400, headers: { "Cache-Control": "no-store" } }
+      400
     );
   }
 
   const result = await upsertWorkspacePreferenceSnapshot({
     userId: session.user.id,
     accountId: session.account.id,
-    preferences: body.preferences,
+    preferences: bodyResult.body.preferences,
   });
 
-  return NextResponse.json(
+  return noStoreJson(
     {
       ok: true,
       authenticated: true,
       preferences: result.preferences,
       updatedAt: result.updatedAt,
-    } satisfies PreferencesRoutePayload,
-    { headers: { "Cache-Control": "no-store" } }
+    } satisfies PreferencesRoutePayload
   );
 }

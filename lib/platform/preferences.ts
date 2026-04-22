@@ -4,7 +4,7 @@ import {
   type PlatformExecutionDuration,
   type PlatformTimeframe,
 } from "@/lib/constants/platform";
-import { DEFAULT_MARKET_SYMBOL } from "@/lib/market/catalog";
+import { DEFAULT_MARKET_SYMBOL, getMarketInstrument } from "@/lib/market/catalog";
 import type {
   PlatformChartType,
   PlatformPreferenceSnapshot,
@@ -29,6 +29,8 @@ const VALID_CHART_TYPES: readonly PlatformChartType[] = [
   "line",
   "bars",
 ];
+const MAX_ACTIVE_INDICATORS = 8;
+const MAX_INDICATOR_LABEL_LENGTH = 32;
 
 export function isChartType(value: string): value is PlatformChartType {
   return VALID_CHART_TYPES.includes(value as PlatformChartType);
@@ -48,15 +50,24 @@ export function sanitizePlatformPreferenceSnapshot(
   input: Partial<PlatformPreferenceSnapshot> | null | undefined,
   fallback: PlatformPreferenceSnapshot = DEFAULT_PLATFORM_PREFERENCES
 ): PlatformPreferenceSnapshot {
+  const selectedAssetSymbol =
+    typeof input?.selectedAssetSymbol === "string" && input.selectedAssetSymbol.trim()
+      ? getMarketInstrument(input.selectedAssetSymbol.trim().slice(0, 24)).symbol
+      : fallback.selectedAssetSymbol;
+
   return {
     chartType:
       typeof input?.chartType === "string" && isChartType(input.chartType)
         ? input.chartType
         : fallback.chartType,
     activeIndicators: Array.isArray(input?.activeIndicators)
-      ? input.activeIndicators.filter(
-          (item): item is string => typeof item === "string" && item.trim().length > 0
-        )
+      ? input.activeIndicators
+          .filter(
+            (item): item is string =>
+              typeof item === "string" && item.trim().length > 0
+          )
+          .map((item) => item.trim().slice(0, MAX_INDICATOR_LABEL_LENGTH))
+          .slice(0, MAX_ACTIVE_INDICATORS)
       : fallback.activeIndicators,
     activeDrawingTool:
       typeof input?.activeDrawingTool === "string" && input.activeDrawingTool.trim()
@@ -86,9 +97,6 @@ export function sanitizePlatformPreferenceSnapshot(
       typeof input?.duration === "string" && isPlatformDuration(input.duration)
         ? input.duration
         : fallback.duration,
-    selectedAssetSymbol:
-      typeof input?.selectedAssetSymbol === "string" && input.selectedAssetSymbol.trim()
-        ? input.selectedAssetSymbol.trim().slice(0, 24)
-        : fallback.selectedAssetSymbol,
+    selectedAssetSymbol,
   };
 }

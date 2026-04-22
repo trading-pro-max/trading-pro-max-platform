@@ -28,6 +28,11 @@ function isPlatformTimeframe(value?: string | null): value is PlatformTimeframe 
   return TIMEFRAMES.includes(value as PlatformTimeframe);
 }
 
+function normalizeMarketInput(value: string | null | undefined, maxLength = 32) {
+  const normalized = value?.trim();
+  return normalized ? normalized.slice(0, maxLength) : null;
+}
+
 function getTimeframeIntervalMs(timeframe: PlatformTimeframe) {
   switch (timeframe) {
     case "1m":
@@ -210,10 +215,12 @@ export function resolveMarketRequest(input: {
   symbol?: string | null;
   timeframe?: string | null;
 }) {
-  const timeframe = isPlatformTimeframe(input.timeframe)
-    ? input.timeframe
+  const requestedTimeframe = normalizeMarketInput(input.timeframe, 8);
+  const requestedSymbol = normalizeMarketInput(input.symbol, 32);
+  const timeframe = isPlatformTimeframe(requestedTimeframe)
+    ? requestedTimeframe
     : ("1m" satisfies PlatformTimeframe);
-  const instrument = getMarketInstrument(input.symbol ?? DEFAULT_MARKET_SYMBOL);
+  const instrument = getMarketInstrument(requestedSymbol ?? DEFAULT_MARKET_SYMBOL);
 
   return {
     instrument,
