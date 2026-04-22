@@ -2,6 +2,8 @@ import TradingWorkstation from "../modules/shell/components/TradingWorkstationBr
 import { resolveDictionaryLocale } from "../lib/i18n/config";
 import { getDictionary } from "../lib/i18n/get-dictionary";
 
+export const dynamic = "force-dynamic";
+
 export default function LocalHomePage() {
   const locale = resolveDictionaryLocale("en");
   const dict = getDictionary(locale);
