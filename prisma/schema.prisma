@@ -8,16 +8,17 @@ datasource db {
 }
 
 model User {
-  id           String       @id @default(cuid())
-  email        String       @unique
-  displayName  String
-  passwordHash String
-  role         String       @default("owner")
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
-  accounts     Account[]
-  sessions     Session[]
-  auditEvents  AuditEvent[]
+  id                  String                @id @default(cuid())
+  email               String                @unique
+  displayName         String
+  passwordHash        String
+  role                String                @default("owner")
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  accounts            Account[]
+  sessions            Session[]
+  auditEvents         AuditEvent[]
+  workspacePreferences WorkspacePreference[]
 
   @@map("users")
 }
@@ -52,6 +53,7 @@ model Account {
   complianceReviews     ComplianceReview[]
   activationGates       ActivationGate[]
   auditEvents           AuditEvent[]
+  workspacePreference   WorkspacePreference?
 
   @@unique([userId, mode])
   @@index([lifecycleState])
@@ -132,4 +134,27 @@ model AuditEvent {
   @@index([kind])
   @@index([scope])
   @@map("audit_events")
+}
+
+model WorkspacePreference {
+  id                  String   @id @default(cuid())
+  userId              String
+  accountId           String   @unique
+  chartType           String   @default("candlestick")
+  activeIndicatorsJson String  @default("[]")
+  drawingTool         String   @default("Cursor")
+  chartZoom           Int      @default(100)
+  preferredTimeframe  String   @default("1m")
+  preferredDuration   String   @default("5s")
+  selectedAssetSymbol String   @default("EUR/USD")
+  watchlistVisible    Boolean  @default(false)
+  ticketVisible       Boolean  @default(true)
+  blotterExpanded     Boolean  @default(false)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  account             Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@index([userId, updatedAt])
+  @@map("workspace_preferences")
 }

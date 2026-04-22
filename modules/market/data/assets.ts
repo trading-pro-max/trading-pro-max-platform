@@ -1,10 +1,18 @@
+import { MARKET_INSTRUMENTS } from "../../../lib/market/catalog";
 import type { Asset } from "../../shell/types/platform-state";
 
-export const MARKET_ASSETS: Asset[] = [
-  { symbol: "EUR/USD", status: "Open", price: "1.0842", change: "+0.14%" },
-  { symbol: "GBP/USD", status: "Open", price: "1.2678", change: "+0.09%" },
-  { symbol: "USD/JPY", status: "Open", price: "151.42", change: "-0.05%" },
-  { symbol: "BTC/USD", status: "Active", price: "84,220", change: "+1.22%" },
-  { symbol: "ETH/USD", status: "Active", price: "1,945", change: "+0.88%" },
-  { symbol: "XAU/USD", status: "Open", price: "2,331", change: "-0.18%" },
-];
+export const MARKET_ASSETS: Asset[] = MARKET_INSTRUMENTS.map((instrument) => ({
+  id: instrument.id,
+  symbol: instrument.symbol,
+  name: instrument.name,
+  assetClass: instrument.assetClass,
+  priceDecimals: instrument.priceDecimals,
+  status: instrument.assetClass === "crypto" ? "Active" : "Open",
+  price: instrument.baselinePrice.toLocaleString("en-US", {
+    minimumFractionDigits: instrument.priceDecimals,
+    maximumFractionDigits: instrument.priceDecimals,
+  }),
+  change: "+0.00%",
+  sourceLabel: "Local seed fallback",
+  lastUpdatedAt: "",
+}));

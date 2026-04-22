@@ -1,6 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useEffectEvent,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
   EXECUTION_DURATIONS,
   PLATFORM_LIMITS,
@@ -9,6 +16,10 @@ import {
   type PlatformTimeframe,
 } from "../../../lib/constants/platform";
 import { PLATFORM_STORAGE_KEY } from "../../../lib/constants/storage";
+import {
+  DEFAULT_PLATFORM_PREFERENCES,
+  sanitizePlatformPreferenceSnapshot,
+} from "../../../lib/platform/preferences";
 import { readLocalJson, writeLocalJson } from "../../../lib/storage/local";
 import { MARKET_ASSETS } from "../../market/data/assets";
 import {
@@ -31,7 +42,11 @@ import type {
   DataStateFoundationSurface,
   Decision,
   ExecutionFoundationSurface,
+  MarketCandle,
+  MarketFeedRoutePayload,
   PermissionAnchor,
+  PlatformPreferenceSnapshot,
+  PreferencesRoutePayload,
   RiskFoundationSurface,
   RiskNoteCode,
   SecurityFoundationSurface,
@@ -42,7 +57,7 @@ import type {
 } from "../types/platform-state";
 
 type WorkspaceState = {
-  selectedAssetIndex: number;
+  selectedAssetSymbol: string;
   selectedTimeframe: PlatformTimeframe;
   selectedDuration: PlatformExecutionDuration;
   amount: string;
@@ -72,9 +87,9 @@ const FOUNDATION_USER_IDENTITY: UserIdentity = {
 };
 
 const DEFAULT_DEMO_STATE: WorkspaceState = {
-  selectedAssetIndex: 0,
-  selectedTimeframe: "1m",
-  selectedDuration: "5s",
+  selectedAssetSymbol: DEFAULT_PLATFORM_PREFERENCES.selectedAssetSymbol,
+  selectedTimeframe: DEFAULT_PLATFORM_PREFERENCES.timeframe as PlatformTimeframe,
+  selectedDuration: DEFAULT_PLATFORM_PREFERENCES.duration as PlatformExecutionDuration,
   amount: "100",
   openTrades: [],
   history: [],
@@ -82,9 +97,9 @@ const DEFAULT_DEMO_STATE: WorkspaceState = {
 };
 
 const DEFAULT_REAL_STATE: WorkspaceState = {
-  selectedAssetIndex: 0,
-  selectedTimeframe: "1m",
-  selectedDuration: "5s",
+  selectedAssetSymbol: DEFAULT_PLATFORM_PREFERENCES.selectedAssetSymbol,
+  selectedTimeframe: DEFAULT_PLATFORM_PREFERENCES.timeframe as PlatformTimeframe,
+  selectedDuration: DEFAULT_PLATFORM_PREFERENCES.duration as PlatformExecutionDuration,
   amount: "100",
   openTrades: [],
   history: [],
@@ -92,13 +107,13 @@ const DEFAULT_REAL_STATE: WorkspaceState = {
 };
 
 const DEFAULT_WORKSPACE_PREFERENCES: WorkspacePreferences = {
-  chartType: "candlestick",
-  activeIndicators: ["EMA 20", "RSI"],
-  activeDrawingTool: "Cursor",
-  chartZoom: 100,
-  watchlistVisible: false,
-  ticketVisible: true,
-  blotterExpanded: false,
+  chartType: DEFAULT_PLATFORM_PREFERENCES.chartType,
+  activeIndicators: DEFAULT_PLATFORM_PREFERENCES.activeIndicators,
+  activeDrawingTool: DEFAULT_PLATFORM_PREFERENCES.activeDrawingTool,
+  chartZoom: DEFAULT_PLATFORM_PREFERENCES.chartZoom,
+  watchlistVisible: DEFAULT_PLATFORM_PREFERENCES.watchlistVisible,
+  ticketVisible: DEFAULT_PLATFORM_PREFERENCES.ticketVisible,
+  blotterExpanded: DEFAULT_PLATFORM_PREFERENCES.blotterExpanded,
 };
 
 const FALLBACK_STATE: StoredPlatformState = {
@@ -124,12 +139,97 @@ function nowIso() {
   return new Date().toISOString();
 }
 
-function buildCandles(assetIndex: number, timeframeIndex: number) {
-  return Array.from({ length: 18 }, (_, i) => {
+function getIntervalMs(timeframe: PlatformTimeframe) {
+  switch (timeframe) {
+    case "1m":
+      return 60_000;
+    case "5m":
+      return 300_000;
+    case "15m":
+      return 900_000;
+    case "1h":
+      return 3_600_000;
+  }
+}
+
+function parseAssetPrice(asset: Asset) {
+  const normalized = asset.price.replaceAll(",", "").trim();
+  const value = Number(normalized);
+  return Number.isFinite(value) ? value : 100;
+}
+
+function roundAssetPrice(value: number, asset: Asset) {
+  const factor = 10 ** asset.priceDecimals;
+  return Math.round(value * factor) / factor;
+}
+
+function buildFallbackCandles(
+  selectedAssetSymbol: string,
+  timeframe: PlatformTimeframe
+) {
+  const asset =
+    MARKET_ASSETS.find((candidate) => candidate.symbol === selectedAssetSymbol) ??
+    MARKET_ASSETS[0];
+  const intervalMs = getIntervalMs(timeframe);
+  const nowMs = Date.now();
+  const currentBucketMs = nowMs - (nowMs % intervalMs);
+  const candles: MarketCandle[] = [];
+  let previousClose = parseAssetPrice(asset);
+
+  for (let index = 23; index >= 0; index -= 1) {
+    const bucketMs = currentBucketMs - index * intervalMs;
     const seed =
-      ((i + 3) * (assetIndex + 2) * 17 + (timeframeIndex + 1) * 13) % 65;
-    return 26 + seed;
-  });
+      (((index + 3) * (asset.id.length + 2) * 17 +
+        (TIMEFRAMES.indexOf(timeframe) + 1) * 13) %
+        65) -
+      32;
+    const open = previousClose;
+    const drift = parseAssetPrice(asset) * seed * 0.0004;
+    const close = Math.max(parseAssetPrice(asset) * 0.35, open + drift);
+    const wick = Math.abs(drift) * 0.75 + 1 / 10 ** asset.priceDecimals;
+    const volume = 2000 + Math.round(Math.abs(seed) * 150);
+
+    candles.push({
+      time: new Date(bucketMs).toISOString(),
+      label: new Date(bucketMs).toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      }),
+      open: roundAssetPrice(open, asset),
+      high: roundAssetPrice(Math.max(open, close) + wick, asset),
+      low: roundAssetPrice(Math.min(open, close) - wick, asset),
+      close: roundAssetPrice(close, asset),
+      volume,
+    });
+
+    previousClose = close;
+  }
+
+  return candles;
+}
+
+function getStoredAssetSymbol(
+  value: Partial<WorkspaceState> | undefined,
+  fallback: WorkspaceState
+) {
+  const record = value as (Partial<WorkspaceState> & { selectedAssetIndex?: unknown }) | undefined;
+
+  if (
+    typeof record?.selectedAssetSymbol === "string" &&
+    record.selectedAssetSymbol.trim()
+  ) {
+    return record.selectedAssetSymbol;
+  }
+
+  if (typeof record?.selectedAssetIndex === "number") {
+    return (
+      MARKET_ASSETS[Math.max(0, Math.min(MARKET_ASSETS.length - 1, record.selectedAssetIndex))]
+        ?.symbol ?? fallback.selectedAssetSymbol
+    );
+  }
+
+  return fallback.selectedAssetSymbol;
 }
 
 function simulateResult(trade: Trade) {
@@ -205,9 +305,7 @@ function sanitizeWorkspaceState(
       : fallback.selectedDuration;
 
   return {
-    selectedAssetIndex: Number.isInteger(value?.selectedAssetIndex)
-      ? Number(value?.selectedAssetIndex)
-      : fallback.selectedAssetIndex,
+    selectedAssetSymbol: getStoredAssetSymbol(value, fallback),
     selectedTimeframe: timeframe,
     selectedDuration: duration,
     amount: typeof value?.amount === "string" ? value.amount : fallback.amount,
@@ -220,43 +318,122 @@ function sanitizeWorkspaceState(
 function sanitizeWorkspacePreferences(
   value: Partial<WorkspacePreferences> | undefined
 ): WorkspacePreferences {
-  const chartType =
-    value?.chartType === "area" ||
-    value?.chartType === "line" ||
-    value?.chartType === "bars" ||
-    value?.chartType === "candlestick"
-      ? value.chartType
-      : DEFAULT_WORKSPACE_PREFERENCES.chartType;
-
-  const chartZoom =
-    typeof value?.chartZoom === "number" && Number.isFinite(value.chartZoom)
-      ? Math.min(130, Math.max(80, value.chartZoom))
-      : DEFAULT_WORKSPACE_PREFERENCES.chartZoom;
-
-  const activeIndicators = Array.isArray(value?.activeIndicators)
-    ? value.activeIndicators.filter((item): item is string => typeof item === "string")
-    : DEFAULT_WORKSPACE_PREFERENCES.activeIndicators;
+  const sanitized = sanitizePlatformPreferenceSnapshot({
+    ...DEFAULT_PLATFORM_PREFERENCES,
+    ...value,
+  });
 
   return {
-    chartType,
-    activeIndicators,
-    activeDrawingTool:
-      typeof value?.activeDrawingTool === "string" && value.activeDrawingTool
-        ? value.activeDrawingTool
-        : DEFAULT_WORKSPACE_PREFERENCES.activeDrawingTool,
-    chartZoom,
-    watchlistVisible:
-      typeof value?.watchlistVisible === "boolean"
-        ? value.watchlistVisible
-        : DEFAULT_WORKSPACE_PREFERENCES.watchlistVisible,
-    ticketVisible:
-      typeof value?.ticketVisible === "boolean"
-        ? value.ticketVisible
-        : DEFAULT_WORKSPACE_PREFERENCES.ticketVisible,
-    blotterExpanded:
-      typeof value?.blotterExpanded === "boolean"
-        ? value.blotterExpanded
-        : DEFAULT_WORKSPACE_PREFERENCES.blotterExpanded,
+    chartType: sanitized.chartType,
+    activeIndicators: sanitized.activeIndicators,
+    activeDrawingTool: sanitized.activeDrawingTool,
+    chartZoom: sanitized.chartZoom,
+    watchlistVisible: sanitized.watchlistVisible,
+    ticketVisible: sanitized.ticketVisible,
+    blotterExpanded: sanitized.blotterExpanded,
+  };
+}
+
+function buildPlatformPreferenceSnapshot(
+  workspacePreferences: WorkspacePreferences,
+  activeState: WorkspaceState
+): PlatformPreferenceSnapshot {
+  return sanitizePlatformPreferenceSnapshot({
+    ...workspacePreferences,
+    timeframe: activeState.selectedTimeframe,
+    duration: activeState.selectedDuration,
+    selectedAssetSymbol: activeState.selectedAssetSymbol,
+  });
+}
+
+function getAssetIndexBySymbol(assets: Asset[], symbol: string) {
+  const index = assets.findIndex((asset) => asset.symbol === symbol);
+  return index >= 0 ? index : 0;
+}
+
+function averageClose(candles: MarketCandle[]) {
+  if (candles.length === 0) return 0;
+
+  return (
+    candles.reduce((sum, candle) => sum + candle.close, 0) /
+    Math.max(candles.length, 1)
+  );
+}
+
+function deriveDecisionFromCandles(input: {
+  candles: MarketCandle[];
+  asset: Asset;
+  timeframe: PlatformTimeframe;
+  decisionReasons: {
+    positive: string;
+    negative: string;
+    neutral: string;
+  };
+}) {
+  const recentCandles = input.candles.slice(-8);
+  const latest = recentCandles[recentCandles.length - 1];
+  const previous = recentCandles[recentCandles.length - 2];
+
+  if (!latest || !previous) {
+    return {
+      signal: "wait" as const,
+      confidence: "58%",
+      state: input.asset.status,
+      reason: formatReason(
+        input.decisionReasons.neutral,
+        input.asset.symbol,
+        input.timeframe
+      ),
+    };
+  }
+
+  const fastAverage = averageClose(recentCandles.slice(-4));
+  const slowAverage = averageClose(recentCandles);
+  const movePct =
+    previous.close === 0 ? 0 : ((latest.close - previous.close) / previous.close) * 100;
+  const trendBias = fastAverage - slowAverage;
+  const volatilityPct =
+    latest.close === 0 ? 0 : ((latest.high - latest.low) / latest.close) * 100;
+  const confidenceBase = Math.min(
+    92,
+    58 + Math.round(Math.abs(movePct) * 18 + Math.abs(trendBias) * 12)
+  );
+
+  if (movePct >= 0.12 && trendBias > 0) {
+    return {
+      signal: "buy" as const,
+      confidence: `${Math.max(62, confidenceBase)}%`,
+      state: input.asset.status,
+      reason: formatReason(
+        input.decisionReasons.positive,
+        input.asset.symbol,
+        input.timeframe
+      ),
+    };
+  }
+
+  if (movePct <= -0.12 && trendBias < 0) {
+    return {
+      signal: "sell" as const,
+      confidence: `${Math.max(62, confidenceBase)}%`,
+      state: input.asset.status,
+      reason: formatReason(
+        input.decisionReasons.negative,
+        input.asset.symbol,
+        input.timeframe
+      ),
+    };
+  }
+
+  return {
+    signal: "wait" as const,
+    confidence: `${Math.max(54, 60 + Math.round(volatilityPct * 4))}%`,
+    state: input.asset.status,
+    reason: formatReason(
+      input.decisionReasons.neutral,
+      input.asset.symbol,
+      input.timeframe
+    ),
   };
 }
 
@@ -357,6 +534,22 @@ export function usePlatformState(
   const [realState, setRealState] = useState<WorkspaceState>(DEFAULT_REAL_STATE);
   const [workspacePreferences, setWorkspacePreferences] =
     useState<WorkspacePreferences>(DEFAULT_WORKSPACE_PREFERENCES);
+  const [marketAssets, setMarketAssets] = useState<Asset[]>(MARKET_ASSETS);
+  const [marketCandles, setMarketCandles] = useState<MarketCandle[]>(() =>
+    buildFallbackCandles(
+      DEFAULT_DEMO_STATE.selectedAssetSymbol,
+      DEFAULT_DEMO_STATE.selectedTimeframe
+    )
+  );
+  const [marketFeed, setMarketFeed] =
+    useState<MarketFeedRoutePayload["snapshot"]["feed"] | null>(null);
+  const [storagePersistenceState, setStoragePersistenceState] =
+    useState<DataStateFoundationSurface["storagePersistenceState"]>("booting");
+  const [syncChannelState, setSyncChannelState] =
+    useState<DataStateFoundationSurface["syncChannel"]>("local_storage");
+  const [lastBackendPreferenceSyncAt, setLastBackendPreferenceSyncAt] =
+    useState("");
+  const [backendPreferenceReady, setBackendPreferenceReady] = useState(false);
   const [demoCompliance, setDemoCompliance] = useState<LocalComplianceState>(
     FALLBACK_STATE.compliance?.demo || createDefaultLocalComplianceState("demo")
   );
@@ -370,6 +563,10 @@ export function usePlatformState(
   const accountModeRef = useRef<AccountMode>("demo");
   const sessionStateRef = useRef<"active" | "guarded" | "locked">("active");
   const securityAlertRef = useRef("normal:normal");
+  const marketFeedAuditRef = useRef("booting");
+  const persistenceAuditRef = useRef("booting:local_storage");
+  const backendPreferenceHydratedRef = useRef(false);
+  const lastPreferencePayloadRef = useRef("");
 
   const pushAuditEvent = useCallback(function pushAuditEvent(
     partial: Omit<AuditEvent, "id" | "createdAt" | "actorRole">
@@ -383,6 +580,166 @@ export function usePlatformState(
 
     setAuditEvents((current) => [event, ...current].slice(0, 8));
   }, [locale]);
+
+  const applyBackendPreferenceSnapshot = useCallback(
+    (snapshot: PlatformPreferenceSnapshot | null | undefined) => {
+      if (!snapshot) return;
+
+      const sanitized = sanitizePlatformPreferenceSnapshot(snapshot);
+
+      setWorkspacePreferences(
+        sanitizeWorkspacePreferences({
+          chartType: sanitized.chartType,
+          activeIndicators: sanitized.activeIndicators,
+          activeDrawingTool: sanitized.activeDrawingTool,
+          chartZoom: sanitized.chartZoom,
+          watchlistVisible: sanitized.watchlistVisible,
+          ticketVisible: sanitized.ticketVisible,
+          blotterExpanded: sanitized.blotterExpanded,
+        })
+      );
+      setDemoState((current) => ({
+        ...current,
+        selectedAssetSymbol: sanitized.selectedAssetSymbol,
+        selectedTimeframe: sanitized.timeframe as PlatformTimeframe,
+        selectedDuration: sanitized.duration as PlatformExecutionDuration,
+      }));
+      setRealState((current) => ({
+        ...current,
+        selectedAssetSymbol: sanitized.selectedAssetSymbol,
+        selectedTimeframe: sanitized.timeframe as PlatformTimeframe,
+        selectedDuration: sanitized.duration as PlatformExecutionDuration,
+      }));
+    },
+    []
+  );
+
+  const loadBackendPreferences = useEffectEvent(async () => {
+    try {
+      const response = await fetch("/api/account/preferences", {
+        method: "GET",
+        cache: "no-store",
+      });
+
+      if (response.status === 401) {
+        setBackendPreferenceReady(false);
+        setStoragePersistenceState("persistent_local");
+        setSyncChannelState("local_storage");
+        return;
+      }
+
+      if (!response.ok) {
+        throw new Error(`Preference load failed with ${response.status}.`);
+      }
+
+      const payload = (await response.json()) as PreferencesRoutePayload;
+
+      applyBackendPreferenceSnapshot(payload.preferences);
+
+      if (payload.preferences) {
+        lastPreferencePayloadRef.current = JSON.stringify(
+          sanitizePlatformPreferenceSnapshot(payload.preferences)
+        );
+      }
+
+      backendPreferenceHydratedRef.current = true;
+      setBackendPreferenceReady(true);
+      setStoragePersistenceState("persistent_backend");
+      setSyncChannelState("hybrid");
+      setLastBackendPreferenceSyncAt(payload.updatedAt ?? nowIso());
+    } catch {
+      setBackendPreferenceReady(false);
+      setStoragePersistenceState("persistent_local");
+      setSyncChannelState("local_storage");
+    }
+  });
+
+  const syncBackendPreferences = useEffectEvent(
+    async (snapshot: PlatformPreferenceSnapshot) => {
+      try {
+        setStoragePersistenceState("syncing");
+        setSyncChannelState("hybrid");
+
+        const response = await fetch("/api/account/preferences", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          cache: "no-store",
+          body: JSON.stringify({
+            preferences: snapshot,
+          }),
+        });
+
+        if (response.status === 401) {
+          setBackendPreferenceReady(false);
+          setStoragePersistenceState("persistent_local");
+          setSyncChannelState("local_storage");
+          return;
+        }
+
+        if (!response.ok) {
+          throw new Error(`Preference sync failed with ${response.status}.`);
+        }
+
+        const payload = (await response.json()) as PreferencesRoutePayload;
+        const serializedSnapshot = JSON.stringify(
+          sanitizePlatformPreferenceSnapshot(snapshot)
+        );
+
+        lastPreferencePayloadRef.current = serializedSnapshot;
+        backendPreferenceHydratedRef.current = true;
+        setBackendPreferenceReady(true);
+        setStoragePersistenceState("persistent_backend");
+        setSyncChannelState("hybrid");
+        setLastBackendPreferenceSyncAt(payload.updatedAt ?? nowIso());
+      } catch {
+        setBackendPreferenceReady(false);
+        setStoragePersistenceState("persistent_local");
+        setSyncChannelState("local_storage");
+      }
+    }
+  );
+
+  const refreshMarketFeed = useEffectEvent(
+    async (selectedAssetSymbol: string, selectedTimeframe: PlatformTimeframe) => {
+      try {
+        const searchParams = new URLSearchParams({
+          symbol: selectedAssetSymbol,
+          timeframe: selectedTimeframe,
+        });
+        const response = await fetch(`/api/market?${searchParams.toString()}`, {
+          method: "GET",
+          cache: "no-store",
+        });
+
+        if (!response.ok) {
+          throw new Error(`Market load failed with ${response.status}.`);
+        }
+
+        const payload = (await response.json()) as MarketFeedRoutePayload;
+
+        setMarketAssets(payload.snapshot.assets);
+        setMarketCandles(payload.snapshot.candles);
+        setMarketFeed(payload.snapshot.feed);
+      } catch {
+        setMarketAssets(MARKET_ASSETS);
+        setMarketCandles(
+          buildFallbackCandles(selectedAssetSymbol, selectedTimeframe)
+        );
+        setMarketFeed({
+          provider: "Trading Pro Max Feed Foundation",
+          adapter: "fallback_simulated",
+          state: "degraded",
+          sourceLabel: "Local market fallback",
+          updateCadenceMs: 30_000,
+          supportsStreaming: false,
+          configured: false,
+          lastUpdatedAt: nowIso(),
+        });
+      }
+    }
+  );
 
   const hydratePlatformState = useCallback(() => {
     const saved = readLocalJson<StoredPlatformState>(PLATFORM_STORAGE_KEY, FALLBACK_STATE);
@@ -460,21 +817,99 @@ export function usePlatformState(
 
   const activeState = accountMode === "demo" ? demoState : realState;
   const activeComplianceState = accountMode === "demo" ? demoCompliance : realCompliance;
+  const selectedAssetIndex = getAssetIndexBySymbol(
+    marketAssets,
+    activeState.selectedAssetSymbol
+  );
+  const selectedAsset: Asset =
+    marketAssets[selectedAssetIndex] || marketAssets[0] || MARKET_ASSETS[0];
+  const candles = marketCandles;
   const lastUpdatedSeed = [
     accountMode,
-    activeState.selectedAssetIndex,
+    activeState.selectedAssetSymbol,
     activeState.selectedTimeframe,
     activeState.selectedDuration,
     activeState.amount,
     activeState.openTrades.length,
     activeState.history.length,
+    marketFeed?.lastUpdatedAt ?? "",
+    lastBackendPreferenceSyncAt,
   ].join(":");
   const lastUpdatedAt = useMemo(() => {
     if (!hydrated) return "—";
 
     void lastUpdatedSeed;
-    return nowText(locale);
-  }, [hydrated, locale, lastUpdatedSeed]);
+
+    const referenceTimestamp =
+      marketFeed?.lastUpdatedAt || lastBackendPreferenceSyncAt;
+
+    if (!referenceTimestamp) {
+      return nowText(locale);
+    }
+
+    return new Date(referenceTimestamp).toLocaleString(locale);
+  }, [hydrated, locale, lastUpdatedSeed, marketFeed?.lastUpdatedAt, lastBackendPreferenceSyncAt]);
+
+  useEffect(() => {
+    if (!hydrated) return;
+
+    const timer = window.setTimeout(() => {
+      loadBackendPreferences();
+    }, 0);
+
+    return () => window.clearTimeout(timer);
+  }, [hydrated]);
+
+  useEffect(() => {
+    if (!hydrated) return;
+
+    const initialRefresh = window.setTimeout(() => {
+      refreshMarketFeed(selectedAsset.symbol, activeState.selectedTimeframe);
+    }, 0);
+
+    const pollMs = marketFeed?.updateCadenceMs ?? 30_000;
+    const interval = window.setInterval(() => {
+      refreshMarketFeed(selectedAsset.symbol, activeState.selectedTimeframe);
+    }, pollMs);
+
+    return () => {
+      window.clearTimeout(initialRefresh);
+      window.clearInterval(interval);
+    };
+  }, [
+    activeState.selectedTimeframe,
+    hydrated,
+    marketFeed?.updateCadenceMs,
+    selectedAsset.symbol,
+  ]);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    if (!backendPreferenceHydratedRef.current && !backendPreferenceReady) return;
+
+    const snapshot = buildPlatformPreferenceSnapshot(
+      workspacePreferences,
+      {
+        ...activeState,
+        selectedAssetSymbol: selectedAsset.symbol,
+      }
+    );
+    const serializedSnapshot = JSON.stringify(snapshot);
+
+    if (serializedSnapshot === lastPreferencePayloadRef.current) return;
+
+    const timeout = window.setTimeout(() => {
+      syncBackendPreferences(snapshot);
+    }, 450);
+
+    return () => window.clearTimeout(timeout);
+  }, [
+    activeState,
+    backendPreferenceReady,
+    hydrated,
+    selectedAsset.symbol,
+    workspacePreferences,
+  ]);
 
   function updateActiveState(updater: (current: WorkspaceState) => WorkspaceState) {
     if (accountMode === "demo") {
@@ -586,66 +1021,16 @@ export function usePlatformState(
     });
   }
 
-  const selectedAsset: Asset =
-    MARKET_ASSETS[activeState.selectedAssetIndex] || MARKET_ASSETS[0];
-
-  const candles = useMemo(() => {
-    const timeframeIndex = TIMEFRAMES.indexOf(activeState.selectedTimeframe);
-    return buildCandles(activeState.selectedAssetIndex, Math.max(0, timeframeIndex));
-  }, [activeState.selectedAssetIndex, activeState.selectedTimeframe]);
-
-  const decision = useMemo<Decision>(() => {
-    const timeframeIndex = TIMEFRAMES.indexOf(activeState.selectedTimeframe);
-    const raw =
-      ((activeState.selectedAssetIndex + 2) * 19 +
-        (timeframeIndex + 3) * 11 +
-        selectedAsset.symbol.length * 3) %
-      100;
-
-    if (raw >= 67) {
-      return {
-        signal: "buy",
-        confidence: `${72 + (raw % 17)}%`,
-        state: selectedAsset.status,
-        reason: formatReason(
-          decisionReasons.positive,
-          selectedAsset.symbol,
-          activeState.selectedTimeframe
-        ),
-      };
-    }
-
-    if (raw <= 33) {
-      return {
-        signal: "sell",
-        confidence: `${69 + (raw % 19)}%`,
-        state: selectedAsset.status,
-        reason: formatReason(
-          decisionReasons.negative,
-          selectedAsset.symbol,
-          activeState.selectedTimeframe
-        ),
-      };
-    }
-
-    return {
-      signal: "wait",
-      confidence: `${58 + (raw % 12)}%`,
-      state: selectedAsset.status,
-      reason: formatReason(
-        decisionReasons.neutral,
-        selectedAsset.symbol,
-        activeState.selectedTimeframe
-      ),
-    };
-  }, [
-    activeState.selectedAssetIndex,
-    activeState.selectedTimeframe,
-    decisionReasons.negative,
-    decisionReasons.neutral,
-    decisionReasons.positive,
-    selectedAsset,
-  ]);
+  const decision = useMemo<Decision>(
+    () =>
+      deriveDecisionFromCandles({
+        candles,
+        asset: selectedAsset,
+        timeframe: activeState.selectedTimeframe,
+        decisionReasons,
+      }),
+    [activeState.selectedTimeframe, candles, decisionReasons, selectedAsset]
+  );
 
   const sessionPnL = useMemo(() => {
     return activeState.history.reduce(
@@ -793,17 +1178,78 @@ export function usePlatformState(
   }, [hydrated, accountMode, locale, riskFoundation.sessionState, pushAuditEvent]);
 
   const dataStateFoundation: DataStateFoundationSurface = {
-    marketFeedState: "simulated_live",
-    decisionEngineState: decision.signal === "wait" ? "standby" : "derived_local",
-    chartBindingState: "workspace_bound",
-    storagePersistenceState: hydrated ? "persistent_local" : "booting",
+    marketFeedState: marketFeed?.state ?? (hydrated ? "degraded" : "booting"),
+    decisionEngineState:
+      candles.length > 0
+        ? "derived_market"
+        : decision.signal === "wait"
+        ? "standby"
+        : "derived_local",
+    chartBindingState: candles.length > 0 ? "feed_bound" : "workspace_bound",
+    storagePersistenceState: hydrated ? storagePersistenceState : "booting",
     hydrationState: hydrated ? "hydrated" : "booting",
-    syncChannel: "local_storage",
+    syncChannel: hydrated ? syncChannelState : "local_storage",
     stateScope: accountMode,
     locale,
     direction: locale === "ar" ? "rtl" : "ltr",
     lastUpdatedAt: hydrated ? lastUpdatedAt : "—",
   };
+
+  useEffect(() => {
+    if (!hydrated) return;
+
+    const marketSignature =
+      `${dataStateFoundation.marketFeedState}:${marketFeed?.sourceLabel ?? "none"}`;
+
+    if (marketFeedAuditRef.current !== marketSignature) {
+      marketFeedAuditRef.current = marketSignature;
+
+      pushAuditEvent({
+        kind: "market_feed_updated",
+        scope: "platform",
+        accountMode,
+        message:
+          locale === "ar"
+            ? `تم تحديث حالة تغذية السوق إلى ${dataStateFoundation.marketFeedState}.`
+            : `Market feed state updated to ${dataStateFoundation.marketFeedState}.`,
+      });
+    }
+  }, [
+    accountMode,
+    dataStateFoundation.marketFeedState,
+    hydrated,
+    locale,
+    marketFeed?.sourceLabel,
+    pushAuditEvent,
+  ]);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    if (storagePersistenceState === "syncing") return;
+
+    const persistenceSignature = `${storagePersistenceState}:${syncChannelState}`;
+
+    if (persistenceAuditRef.current !== persistenceSignature) {
+      persistenceAuditRef.current = persistenceSignature;
+
+      pushAuditEvent({
+        kind: "preferences_synced",
+        scope: "platform",
+        accountMode,
+        message:
+          locale === "ar"
+            ? `تم تحديث حالة حفظ التفضيلات إلى ${storagePersistenceState}.`
+            : `Preference persistence updated to ${storagePersistenceState}.`,
+      });
+    }
+  }, [
+    accountMode,
+    hydrated,
+    locale,
+    pushAuditEvent,
+    storagePersistenceState,
+    syncChannelState,
+  ]);
 
   const securityAlertReason =
     accountMode === "real"
@@ -991,11 +1437,14 @@ export function usePlatformState(
     switchAccountMode,
     balance: activeState.balance,
     availableDurations: EXECUTION_DURATIONS,
-    selectedAssetIndex: activeState.selectedAssetIndex,
+    marketAssets,
+    selectedAssetIndex,
     setSelectedAssetIndex: (nextIndex: number) =>
       updateActiveState((current) => ({
         ...current,
-        selectedAssetIndex: nextIndex,
+        selectedAssetSymbol:
+          marketAssets[Math.max(0, Math.min(marketAssets.length - 1, nextIndex))]
+            ?.symbol ?? current.selectedAssetSymbol,
       })),
     selectedTimeframe: activeState.selectedTimeframe,
     setSelectedTimeframe: (nextTimeframe: PlatformTimeframe) =>

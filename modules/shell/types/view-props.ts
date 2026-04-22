@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 import type { PlatformTimeframe } from "../../../lib/constants/platform";
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
-import type { Asset, Decision, Trade } from "./platform-state";
+import type { Asset, Decision, MarketCandle, Trade } from "./platform-state";
 
 export type TopbarProps = {
   paperLabel: string;
@@ -30,7 +30,7 @@ export type ChartWorkspaceProps = {
   selectedTimeframe: PlatformTimeframe;
   timeframes: readonly PlatformTimeframe[];
   onSelectTimeframe: (timeframe: PlatformTimeframe) => void;
-  candles: number[];
+  candles: MarketCandle[];
 };
 
 export type TradePanelProps = {

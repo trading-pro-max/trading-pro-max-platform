@@ -14,6 +14,10 @@ export function ChartWorkspace({
   onSelectTimeframe,
   candles,
 }: ChartWorkspaceProps) {
+  const low = candles.length > 0 ? Math.min(...candles.map((candle) => candle.low)) : 0;
+  const high = candles.length > 0 ? Math.max(...candles.map((candle) => candle.high)) : 1;
+  const range = Math.max(high - low, 0.0001);
+
   return (
     <section className="tpm-chart-card">
       <div className="tpm-section-head">
@@ -38,11 +42,18 @@ export function ChartWorkspace({
       <div className="tpm-chart">
         <div className="tpm-chart-grid" />
         <div className="tpm-candles">
-          {candles.map((height, index) => (
+          {candles.map((candle, index) => (
             <div key={index} className="tpm-candle-wrap">
               <span
-                className={index % 2 === 0 ? "tpm-candle up" : "tpm-candle down"}
-                style={{ height: `${height}%` }}
+                className={
+                  candle.close >= candle.open ? "tpm-candle up" : "tpm-candle down"
+                }
+                style={{
+                  height: `${Math.max(
+                    12,
+                    ((candle.close - low) / range) * 100
+                  )}%`,
+                }}
               />
             </div>
           ))}

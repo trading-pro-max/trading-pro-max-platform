@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
 import {
   EXECUTION_DURATIONS,
@@ -8,6 +8,11 @@ import {
   TIMEFRAMES,
 } from "../../../lib/constants/platform";
 import { usePlatformState } from "../hooks/use-platform-state";
+import type {
+  DiagnosticsHealthSnapshot,
+  DiagnosticsProbeStatus,
+  DiagnosticsRoutePayload,
+} from "../types/platform-state";
 import type { WorkstationStatusTone } from "./trading-workstation-view-model";
 import { createTradingWorkstationViewModel } from "./trading-workstation-view-model";
 import {
@@ -18,6 +23,13 @@ import {
 
 function toneFromStatus(tone: WorkstationStatusTone) {
   return `tpmv2-status-tag ${tone}`;
+}
+
+function toneFromProbeStatus(status: DiagnosticsProbeStatus): WorkstationStatusTone {
+  if (status === "ready") return "approved";
+  if (status === "fallback" || status === "auth_required") return "pending";
+  if (status === "blocked" || status === "unconfigured") return "restricted";
+  return "blocked";
 }
 
 function UtilityStatus({
@@ -123,6 +135,47 @@ function useUtilityPlatformViewModel(locale: string, dict: Dictionary) {
   return { platformState, viewModel };
 }
 
+function useDiagnosticsHealth() {
+  const [health, setHealth] = useState<DiagnosticsHealthSnapshot | null>(null);
+
+  useEffect(() => {
+    let active = true;
+
+    async function loadDiagnosticsHealth() {
+      try {
+        const response = await fetch("/api/diagnostics/probes", {
+          method: "GET",
+          cache: "no-store",
+        });
+
+        if (!response.ok) {
+          throw new Error(`Diagnostics probe failed with ${response.status}.`);
+        }
+
+        const payload = (await response.json()) as DiagnosticsRoutePayload;
+
+        if (!active) return;
+        setHealth(payload.health);
+      } catch {
+        if (!active) return;
+        setHealth(null);
+      }
+    }
+
+    void loadDiagnosticsHealth();
+    const interval = window.setInterval(() => {
+      void loadDiagnosticsHealth();
+    }, 30_000);
+
+    return () => {
+      active = false;
+      window.clearInterval(interval);
+    };
+  }, []);
+
+  return health;
+}
+
 export function PlatformDiagnosticsSurface({
   locale,
   dict,
@@ -131,23 +184,34 @@ export function PlatformDiagnosticsSurface({
   dict: Dictionary;
 }) {
   const { platformState, viewModel } = useUtilityPlatformViewModel(locale, dict);
+  const diagnosticsHealth = useDiagnosticsHealth();
   const localePrefix = locale ? `/${locale}` : "";
 
   const systemItems = [
     {
       label: dict.diagnostics.runtime,
-      value: platformState.dataStateFoundation.hydrationState,
-      tone:
-        platformState.dataStateFoundation.hydrationState === "hydrated"
-          ? ("approved" as const)
-          : ("pending" as const),
-      note: platformState.dataStateFoundation.lastUpdatedAt,
+      value: diagnosticsHealth?.readiness.summary ?? platformState.dataStateFoundation.hydrationState,
+      tone: diagnosticsHealth
+        ? toneFromProbeStatus(diagnosticsHealth.readiness.status)
+        : platformState.dataStateFoundation.hydrationState === "hydrated"
+        ? ("approved" as const)
+        : ("pending" as const),
+      note:
+        diagnosticsHealth?.readiness.detail ??
+        platformState.dataStateFoundation.lastUpdatedAt,
     },
     {
       label: dict.diagnostics.marketLayer,
       value: platformState.dataStateFoundation.marketFeedState,
-      tone: "approved" as const,
-      note: platformState.selectedAsset.symbol,
+      tone:
+        platformState.dataStateFoundation.marketFeedState === "fallback_ready" ||
+        platformState.dataStateFoundation.marketFeedState === "booting"
+          ? ("pending" as const)
+          : platformState.dataStateFoundation.marketFeedState === "external_ready"
+          ? ("approved" as const)
+          : ("restricted" as const),
+      note:
+        platformState.selectedAsset.sourceLabel ?? platformState.selectedAsset.symbol,
     },
     {
       label: dict.diagnostics.executionLayer,
@@ -162,6 +226,36 @@ export function PlatformDiagnosticsSurface({
       note: viewModel.sessionPnLText,
     },
   ];
+
+  const probeItems =
+    diagnosticsHealth?.probes.map((probe) => ({
+      label: probe.label,
+      value: probe.summary,
+      tone: toneFromProbeStatus(probe.status),
+      note: probe.detail,
+    })) ?? [
+      {
+        label: "Probe layer",
+        value: "Loading",
+        tone: "pending" as const,
+        note: "Waiting for backend diagnostics probes.",
+      },
+    ];
+
+  const routeItems =
+    diagnosticsHealth?.routes.map((route) => ({
+      label: `${route.method} ${route.path}`,
+      value: route.status,
+      tone: toneFromProbeStatus(route.status),
+      note: route.detail,
+    })) ?? [
+      {
+        label: "Routes",
+        value: "Loading",
+        tone: "pending" as const,
+        note: "Waiting for route probe visibility.",
+      },
+    ];
 
   const readinessItems = [
     {
@@ -258,6 +352,14 @@ export function PlatformDiagnosticsSurface({
 
       <UtilitySection eyebrow="FOUNDATION" title="System readiness">
         <UtilityGrid items={systemItems} />
+      </UtilitySection>
+
+      <UtilitySection eyebrow="PROBES" title="Backend and connector probes">
+        <UtilityGrid items={probeItems} />
+      </UtilitySection>
+
+      <UtilitySection eyebrow="ROUTES" title="API route visibility">
+        <UtilityGrid items={routeItems} />
       </UtilitySection>
 
       <UtilitySection eyebrow="SAFETY" title="Execution and compliance state">

@@ -1,5 +1,5 @@
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
-import type { Asset } from "../../shell/types/platform-state";
+import type { Asset, MarketCandle } from "../../shell/types/platform-state";
 
 export function CompactChartWorkspace({
   dict,
@@ -13,9 +13,13 @@ export function CompactChartWorkspace({
   selectedAsset: Asset;
   selectedTimeframe: string;
   timeframes: readonly string[];
-  onSelectTimeframe: (timeframe: any) => void;
-  candles: number[];
+  onSelectTimeframe: (timeframe: string) => void;
+  candles: MarketCandle[];
 }) {
+  const low = candles.length > 0 ? Math.min(...candles.map((candle) => candle.low)) : 0;
+  const high = candles.length > 0 ? Math.max(...candles.map((candle) => candle.high)) : 1;
+  const range = Math.max(high - low, 0.0001);
+
   return (
     <section className="tpm-compact-chart">
       <div className="tpm-compact-chart-head">
@@ -40,11 +44,20 @@ export function CompactChartWorkspace({
       <div className="tpm-compact-chart-surface">
         <div className="tpm-compact-chart-grid" />
         <div className="tpm-compact-candles">
-          {candles.map((height, index) => (
+          {candles.map((candle, index) => (
             <div key={index} className="tpm-compact-candle-wrap">
               <span
-                className={index % 2 === 0 ? "tpm-compact-candle up" : "tpm-compact-candle down"}
-                style={{ height: `${height}%` }}
+                className={
+                  candle.close >= candle.open
+                    ? "tpm-compact-candle up"
+                    : "tpm-compact-candle down"
+                }
+                style={{
+                  height: `${Math.max(
+                    12,
+                    ((candle.close - low) / range) * 100
+                  )}%`,
+                }}
               />
             </div>
           ))}

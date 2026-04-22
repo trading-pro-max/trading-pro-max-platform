@@ -114,6 +114,7 @@ export default function TradingWorkstation({
         {desktopWatchlistVisible ? (
           <DesktopRail
             dict={dict}
+            assets={platformState.marketAssets}
             selectedAssetIndex={platformState.selectedAssetIndex}
             onSelectAsset={platformState.setSelectedAssetIndex}
           />
@@ -330,6 +331,7 @@ export default function TradingWorkstation({
 
         <NarrowStrip
           dict={dict}
+          assets={platformState.marketAssets}
           selectedAssetIndex={platformState.selectedAssetIndex}
           onSelectAsset={platformState.setSelectedAssetIndex}
         />

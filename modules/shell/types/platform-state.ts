@@ -184,15 +184,28 @@ export type RiskFoundationSurface = {
   operatorMessage: RiskOperatorMessage;
 };
 
-export type MarketFeedState = "simulated_live" | "disconnected";
-export type DecisionEngineState = "derived_local" | "standby";
-export type ChartBindingState = "workspace_bound" | "unbound";
+export type MarketFeedState =
+  | "booting"
+  | "fallback_ready"
+  | "external_ready"
+  | "degraded"
+  | "unavailable"
+  | "simulated_live"
+  | "disconnected";
+export type DecisionEngineState = "derived_market" | "derived_local" | "standby";
+export type ChartBindingState = "feed_bound" | "workspace_bound" | "unbound";
 export type StoragePersistenceState =
   | "booting"
+  | "persistent_backend"
   | "persistent_local"
+  | "syncing"
   | "memory_only";
-export type StateHydrationState = "booting" | "hydrated";
-export type SyncChannelState = "local_storage";
+export type StateHydrationState = "booting" | "hydrated" | "degraded";
+export type SyncChannelState =
+  | "api_preferences"
+  | "local_storage"
+  | "hybrid"
+  | "memory_only";
 export type LocaleDirectionState = "rtl" | "ltr";
 
 export type DataStateFoundationSurface = {
@@ -224,6 +237,8 @@ export type AuditEventKind =
   | "trade_opened"
   | "trade_closed"
   | "risk_state_changed"
+  | "market_feed_updated"
+  | "preferences_synced"
   | "data_state_updated"
   | "security_state_updated";
 
@@ -299,11 +314,51 @@ export type UserIdentity = {
   verification: VerificationState;
 };
 
+export type AssetClass = "fx" | "crypto" | "commodity";
+
 export type Asset = {
+  id: string;
   symbol: string;
+  name: string;
+  assetClass: AssetClass;
+  priceDecimals: number;
   status: string;
   price: string;
   change: string;
+  sourceLabel?: string;
+  lastUpdatedAt?: string;
+  bid?: string;
+  ask?: string;
+  spread?: string;
+};
+
+export type MarketCandle = {
+  time: string;
+  label: string;
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+  volume: number;
+};
+
+export type MarketFeedSummary = {
+  provider: string;
+  adapter: "fallback_simulated";
+  state: MarketFeedState;
+  sourceLabel: string;
+  updateCadenceMs: number;
+  supportsStreaming: boolean;
+  configured: boolean;
+  lastUpdatedAt: string;
+};
+
+export type MarketDataSnapshot = {
+  requestedSymbol: string;
+  requestedTimeframe: string;
+  feed: MarketFeedSummary;
+  assets: Asset[];
+  candles: MarketCandle[];
 };
 
 export type TradeDirection = "buy" | "sell";
@@ -343,4 +398,59 @@ export type WorkspacePreferences = {
   watchlistVisible: boolean;
   ticketVisible: boolean;
   blotterExpanded: boolean;
+};
+
+export type PlatformPreferenceSnapshot = WorkspacePreferences & {
+  timeframe: string;
+  duration: string;
+  selectedAssetSymbol: string;
+};
+
+export type MarketFeedRoutePayload = {
+  ok: true;
+  snapshot: MarketDataSnapshot;
+};
+
+export type PreferencesRoutePayload = {
+  ok: true;
+  authenticated: boolean;
+  preferences: PlatformPreferenceSnapshot | null;
+  updatedAt?: string;
+};
+
+export type DiagnosticsProbeStatus =
+  | "ready"
+  | "fallback"
+  | "blocked"
+  | "auth_required"
+  | "degraded"
+  | "unconfigured"
+  | "unavailable";
+
+export type DiagnosticsProbe = {
+  key: string;
+  label: string;
+  status: DiagnosticsProbeStatus;
+  summary: string;
+  detail: string;
+  checkedAt: string;
+};
+
+export type DiagnosticsRouteProbe = {
+  path: string;
+  method: "GET" | "POST";
+  status: DiagnosticsProbeStatus;
+  detail: string;
+};
+
+export type DiagnosticsHealthSnapshot = {
+  checkedAt: string;
+  readiness: DiagnosticsProbe;
+  probes: DiagnosticsProbe[];
+  routes: DiagnosticsRouteProbe[];
+};
+
+export type DiagnosticsRoutePayload = {
+  ok: true;
+  health: DiagnosticsHealthSnapshot;
 };

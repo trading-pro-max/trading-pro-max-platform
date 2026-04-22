@@ -8,12 +8,12 @@ import {
   type PlatformTimeframe,
 } from "../../../lib/constants/platform";
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
-import { MARKET_ASSETS } from "../../market/data/assets";
 import type {
   AccountMode,
   Asset,
   AuditEvent,
   Decision,
+  MarketCandle,
   PlatformChartType,
   Trade,
 } from "../types/platform-state";
@@ -43,33 +43,64 @@ function toneClassFromValue(value: string) {
 }
 
 function parseNumericValue(value: string) {
-  const match = value.match(/-?\d+(?:\.\d+)?/);
+  const normalized = value.replaceAll(",", "");
+  const match = normalized.match(/-?\d+(?:\.\d+)?/);
   return match ? Number(match[0]) : null;
 }
 
-function buildPriceScale(currentPrice: string) {
-  const parsedPrice = parseNumericValue(currentPrice);
-  const decimals = currentPrice.includes(".")
-    ? currentPrice.split(".")[1]?.length ?? 2
-    : 2;
-  const step = decimals >= 4 ? 0.0005 : decimals === 3 ? 0.005 : decimals === 2 ? 0.05 : 0.5;
+function formatPriceNumber(value: number, decimals: number) {
+  return value.toLocaleString("en-US", {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  });
+}
 
-  if (parsedPrice === null || Number.isNaN(parsedPrice)) {
-    return [currentPrice, currentPrice, currentPrice, currentPrice];
+function getChartPriceRange(candles: MarketCandle[], fallbackPrice: string) {
+  if (candles.length === 0) {
+    const parsed = parseNumericValue(fallbackPrice) ?? 100;
+    return {
+      low: parsed * 0.985,
+      high: parsed * 1.015,
+    };
   }
 
-  return [1.5, 0.5, -0.5, -1.5].map((offset) =>
-    (parsedPrice + step * offset).toFixed(decimals),
+  return {
+    low: Math.min(...candles.map((candle) => candle.low)),
+    high: Math.max(...candles.map((candle) => candle.high)),
+  };
+}
+
+function buildPriceScale(
+  candles: MarketCandle[],
+  fallbackPrice: string,
+  decimals: number
+) {
+  const { low, high } = getChartPriceRange(candles, fallbackPrice);
+  const step = (high - low) / 3 || Math.max(low * 0.002, 0.0001);
+
+  return [high, high - step, low + step, low].map((price) =>
+    formatPriceNumber(price, decimals)
   );
 }
 
-function buildTimeScale(timeframe: PlatformTimeframe) {
-  if (timeframe === "1m") return ["09:20", "09:35", "09:50", "10:05", "10:20"];
-  if (timeframe === "5m") return ["08:30", "08:55", "09:20", "09:45", "10:10"];
-  if (timeframe === "15m") return ["06:00", "07:15", "08:30", "09:45", "11:00"];
-  if (timeframe === "1h") return ["02:00", "04:00", "06:00", "08:00", "10:00"];
+function buildTimeScale(
+  candles: MarketCandle[],
+  timeframe: PlatformTimeframe
+) {
+  if (candles.length === 0) {
+    if (timeframe === "1m") return ["09:20", "09:35", "09:50", "10:05", "10:20"];
+    if (timeframe === "5m") return ["08:30", "08:55", "09:20", "09:45", "10:10"];
+    if (timeframe === "15m") return ["06:00", "07:15", "08:30", "09:45", "11:00"];
+    if (timeframe === "1h") return ["02:00", "04:00", "06:00", "08:00", "10:00"];
+  }
 
-  return ["00:00", "06:00", "12:00", "18:00", "24:00"];
+  const desiredMarkers = 5;
+  const step = Math.max(1, Math.floor(candles.length / desiredMarkers));
+  const labels = candles
+    .filter((_, index) => index % step === 0)
+    .map((candle) => candle.label);
+
+  return labels.slice(-desiredMarkers);
 }
 
 export const CHART_TYPES: { id: PlatformChartType; label: string }[] = [
@@ -90,38 +121,51 @@ type ChartBar = {
   volumeHeight: number;
 };
 
-function buildChartBars(candles: number[]): ChartBar[] {
-  return candles.map((height, index) => {
-    const previous = candles[index - 1] ?? Math.max(20, height - 6);
-    const bodyHeight = Math.max(10, Math.min(82, Math.abs(height - previous) + 18));
-    const wickHeight = Math.max(bodyHeight + 14, Math.min(100, height + 12));
-    const volumeHeight = 18 + (((height + index * 7) % 48) || 12);
+function buildChartBars(candles: MarketCandle[], fallbackPrice: string): ChartBar[] {
+  const { low, high } = getChartPriceRange(candles, fallbackPrice);
+  const range = Math.max(high - low, 0.0001);
+
+  return candles.map((candle) => {
+    const closeHeight = ((candle.close - low) / range) * 100;
+    const bodyHeight =
+      (Math.abs(candle.close - candle.open) / range) * 100;
+    const wickHeight = ((candle.high - candle.low) / range) * 100;
+    const volumeHeight = Math.min(
+      68,
+      16 + (candle.volume / Math.max(candles[0]?.volume ?? candle.volume, 1)) * 34
+    );
 
     return {
-      height,
-      tone: height >= previous ? "up" : "down",
-      bodyHeight,
-      wickHeight,
+      height: Math.max(8, Math.min(96, closeHeight)),
+      tone: candle.close >= candle.open ? "up" : "down",
+      bodyHeight: Math.max(10, Math.min(82, bodyHeight + 10)),
+      wickHeight: Math.max(18, Math.min(94, wickHeight + 8)),
       volumeHeight,
     };
   });
 }
 
 function buildMovingAveragePoints(
-  candles: number[],
+  candles: MarketCandle[],
   period: number,
-  pointStep: number
+  pointStep: number,
+  fallbackPrice: string
 ) {
   if (candles.length === 0) return "";
+
+  const { low, high } = getChartPriceRange(candles, fallbackPrice);
+  const range = Math.max(high - low, 0.0001);
 
   return candles
     .map((_, index) => {
       const start = Math.max(0, index - period + 1);
       const slice = candles.slice(start, index + 1);
       const average =
-        slice.reduce((sum, item) => sum + item, 0) / Math.max(slice.length, 1);
+        slice.reduce((sum, item) => sum + item.close, 0) /
+        Math.max(slice.length, 1);
+      const y = 100 - ((average - low) / range) * 100;
 
-      return `${(index * pointStep).toFixed(2)},${Math.max(4, 100 - average).toFixed(2)}`;
+      return `${(index * pointStep).toFixed(2)},${Math.max(4, Math.min(96, y)).toFixed(2)}`;
     })
     .join(" ");
 }
@@ -267,10 +311,12 @@ function PanelHeader({
 
 export function DesktopRail({
   dict,
+  assets,
   selectedAssetIndex,
   onSelectAsset,
 }: {
   dict: Dictionary;
+  assets: Asset[];
   selectedAssetIndex: number;
   onSelectAsset: (index: number) => void;
 }) {
@@ -278,7 +324,7 @@ export function DesktopRail({
     <aside className="tpmv2-card tpmv2-rail">
       <div className="tpmv2-rail-head">
         <div className="tpmv2-section-label">{dict.market.title}</div>
-        <span className="tpmv2-rail-count">{MARKET_ASSETS.length}</span>
+        <span className="tpmv2-rail-count">{assets.length}</span>
       </div>
 
       <div className="tpmv2-search">{dict.market.search}</div>
@@ -290,7 +336,7 @@ export function DesktopRail({
       </div>
 
       <div className="tpmv2-watchlist">
-        {MARKET_ASSETS.map((asset, index) => (
+        {assets.map((asset, index) => (
           <button
             key={asset.symbol}
             type="button"
@@ -634,7 +680,7 @@ export function ChartCard({
   selectedAsset: Asset;
   selectedTimeframe: PlatformTimeframe;
   onSelectTimeframe: (timeframe: PlatformTimeframe) => void;
-  candles: number[];
+  candles: MarketCandle[];
   decision: Decision;
   signalLabel: string;
   chartType: PlatformChartType;
@@ -648,20 +694,39 @@ export function ChartCard({
   onResetChart: () => void;
   workspaceControls?: ReactNode;
 }) {
-  const priceScale = buildPriceScale(selectedAsset.price);
-  const timeScale = buildTimeScale(selectedTimeframe);
-  const chartBars = buildChartBars(candles);
+  const priceScale = buildPriceScale(
+    candles,
+    selectedAsset.price,
+    selectedAsset.priceDecimals
+  );
+  const timeScale = buildTimeScale(candles, selectedTimeframe);
+  const chartBars = buildChartBars(candles, selectedAsset.price);
+  const { low, high } = getChartPriceRange(candles, selectedAsset.price);
+  const range = Math.max(high - low, 0.0001);
   const pointStep = 100 / Math.max(candles.length - 1, 1);
   const chartPathPoints = candles
     .map(
-      (height, index) =>
-        `${(index * pointStep).toFixed(2)},${Math.max(4, 100 - height).toFixed(2)}`,
+      (candle, index) =>
+        `${(index * pointStep).toFixed(2)},${Math.max(
+          4,
+          Math.min(96, 100 - ((candle.close - low) / range) * 100)
+        ).toFixed(2)}`,
     )
     .join(" ");
   const chartAreaPoints = `0,100 ${chartPathPoints} 100,100`;
-  const emaFastPoints = buildMovingAveragePoints(candles, 4, pointStep);
-  const emaSlowPoints = buildMovingAveragePoints(candles, 8, pointStep);
-  const latestHeight = candles[candles.length - 1] ?? 50;
+  const emaFastPoints = buildMovingAveragePoints(
+    candles,
+    4,
+    pointStep,
+    selectedAsset.price
+  );
+  const emaSlowPoints = buildMovingAveragePoints(
+    candles,
+    8,
+    pointStep,
+    selectedAsset.price
+  );
+  const latestHeight = chartBars[chartBars.length - 1]?.height ?? 50;
   const priceMarkerTop = `${Math.max(16, Math.min(82, 100 - latestHeight))}%`;
   const highPrice = priceScale[0] ?? selectedAsset.price;
   const lowPrice = priceScale[priceScale.length - 1] ?? selectedAsset.price;
@@ -811,7 +876,9 @@ export function ChartCard({
             <span className="tpmv2-chart-overlay-tag">{selectedAsset.status}</span>
             <span className="tpmv2-chart-overlay-tag">{selectedTimeframe}</span>
             <span className="tpmv2-chart-overlay-tag">{dict.common.paper}</span>
-            <span className="tpmv2-chart-overlay-tag">{dict.common.local}</span>
+            <span className="tpmv2-chart-overlay-tag">
+              {selectedAsset.sourceLabel ?? dict.common.local}
+            </span>
           </div>
         </div>
 
@@ -1581,10 +1648,12 @@ export function SecurityFoundationPanel({
 
 export function NarrowStrip({
   dict,
+  assets,
   selectedAssetIndex,
   onSelectAsset,
 }: {
   dict: Dictionary;
+  assets: Asset[];
   selectedAssetIndex: number;
   onSelectAsset: (index: number) => void;
 }) {
@@ -1594,7 +1663,7 @@ export function NarrowStrip({
       <div className="tpmv2-search">{dict.market.search}</div>
 
       <div className="tpmv2-strip-assets">
-        {MARKET_ASSETS.map((asset, index) => (
+        {assets.map((asset, index) => (
           <button
             key={asset.symbol}
             type="button"
