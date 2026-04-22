@@ -538,7 +538,18 @@ export function usePlatformState(
     lastUpdatedAt: hydrated ? lastUpdatedAt : "—",
   };
 
-const securityFoundation: SecurityFoundationSurface = {
+  const securityAlertReason =
+    accountMode === "real"
+      ? "real_mode_selected"
+      : sessionLocked
+      ? "session_locked"
+      : !canOpenMore
+      ? "capacity_limit"
+      : riskFoundation.sessionState === "guarded"
+      ? "guarded_session"
+      : "normal";
+
+  const securityFoundation: SecurityFoundationSurface = {
     routeState: "guarded",
     accessState: "least_privilege",
     executionProtectionState: "demo_only_enforced",
@@ -546,7 +557,7 @@ const securityFoundation: SecurityFoundationSurface = {
     secretState: "local_env_guarded",
     sessionProtectionState: "guarded",
     recoveryState: "safe_fallback_ready",
-    alertLevel: accountMode === "real" || sessionLocked ? "elevated" : "normal",
+    alertLevel: securityAlertReason === "normal" ? "normal" : "elevated",
     currentAccountMode: accountMode,
     lastReviewedAt: hydrated ? lastUpdatedAt : "—",
   };
@@ -554,8 +565,32 @@ const securityFoundation: SecurityFoundationSurface = {
   useEffect(() => {
     if (!hydrated) return;
 
-    if (securityAlertRef.current !== securityFoundation.alertLevel) {
-      securityAlertRef.current = securityFoundation.alertLevel;
+    const securityAlertSignature =
+      `${securityFoundation.alertLevel}:${securityAlertReason}`;
+
+    if (securityAlertRef.current !== securityAlertSignature) {
+      securityAlertRef.current = securityAlertSignature;
+
+      const securityAlertReasonLabel =
+        locale === "ar"
+          ? securityAlertReason === "real_mode_selected"
+            ? "اختيار الحساب الحقيقي"
+            : securityAlertReason === "session_locked"
+            ? "قفل الجلسة"
+            : securityAlertReason === "capacity_limit"
+            ? "بلوغ سعة الصفقات"
+            : securityAlertReason === "guarded_session"
+            ? "جلسة محكومة"
+            : "طبيعي"
+          : securityAlertReason === "real_mode_selected"
+          ? "real mode selected"
+          : securityAlertReason === "session_locked"
+          ? "session locked"
+          : securityAlertReason === "capacity_limit"
+          ? "trade capacity reached"
+          : securityAlertReason === "guarded_session"
+          ? "guarded session"
+          : "normal";
 
       pushAuditEvent({
         kind: "security_state_updated",
@@ -563,11 +598,12 @@ const securityFoundation: SecurityFoundationSurface = {
         accountMode,
         message:
           locale === "ar"
-            ? `تم تحديث مستوى التنبيه الأمني إلى ${securityFoundation.alertLevel}.`
-            : `Security alert level updated to ${securityFoundation.alertLevel}.`,
+            ? `تم تحديث مستوى التنبيه الأمني إلى ${securityFoundation.alertLevel} بسبب ${securityAlertReasonLabel}.`
+            : `Security alert level updated to ${securityFoundation.alertLevel} due to ${securityAlertReasonLabel}.`,
       });
     }
-  }, [hydrated, accountMode, locale, securityFoundation.alertLevel]);
+  }, [hydrated, accountMode, locale, securityAlertReason, securityFoundation.alertLevel]);
+
   const auditTraceFoundation: AuditTraceFoundationSurface = {
     auditState: "active",
     decisionTraceState: "linked",
