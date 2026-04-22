@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
 import { usePlatformState } from "../hooks/use-platform-state";
 import {
@@ -23,10 +22,12 @@ export default function TradingWorkstation({
   locale: string;
   dict: Dictionary;
 }) {
-  const [desktopWatchlistVisible, setDesktopWatchlistVisible] = useState(false);
-  const [desktopTicketVisible, setDesktopTicketVisible] = useState(true);
-  const [desktopBlotterExpanded, setDesktopBlotterExpanded] = useState(false);
   const platformState = usePlatformState(locale, dict.decision.reasons);
+  const {
+    watchlistVisible: desktopWatchlistVisible,
+    ticketVisible: desktopTicketVisible,
+    blotterExpanded: desktopBlotterExpanded,
+  } = platformState.workspacePreferences;
   const viewModel = createTradingWorkstationViewModel({
     locale,
     dict,
@@ -56,7 +57,12 @@ export default function TradingWorkstation({
             : "tpmv2-workspace-toggle"
         }
         aria-pressed={desktopWatchlistVisible}
-        onClick={() => setDesktopWatchlistVisible((current) => !current)}
+        onClick={() =>
+          platformState.setWorkspacePreference(
+            "watchlistVisible",
+            !desktopWatchlistVisible
+          )
+        }
       >
         {dict.market.title}
       </button>
@@ -69,7 +75,9 @@ export default function TradingWorkstation({
             : "tpmv2-workspace-toggle"
         }
         aria-pressed={desktopTicketVisible}
-        onClick={() => setDesktopTicketVisible((current) => !current)}
+        onClick={() =>
+          platformState.setWorkspacePreference("ticketVisible", !desktopTicketVisible)
+        }
       >
         {dict.trade.title}
       </button>
@@ -82,7 +90,12 @@ export default function TradingWorkstation({
             : "tpmv2-workspace-toggle"
         }
         aria-pressed={desktopBlotterExpanded}
-        onClick={() => setDesktopBlotterExpanded((current) => !current)}
+        onClick={() =>
+          platformState.setWorkspacePreference(
+            "blotterExpanded",
+            !desktopBlotterExpanded
+          )
+        }
       >
         {dict.journal.historyTitle}
       </button>
@@ -161,6 +174,21 @@ export default function TradingWorkstation({
                 candles={platformState.candles}
                 decision={platformState.decision}
                 signalLabel={viewModel.signalLabel}
+                chartType={platformState.workspacePreferences.chartType}
+                onSelectChartType={(chartType) =>
+                  platformState.setWorkspacePreference("chartType", chartType)
+                }
+                activeIndicators={platformState.workspacePreferences.activeIndicators}
+                onToggleIndicator={platformState.toggleWorkspaceIndicator}
+                activeDrawingTool={platformState.workspacePreferences.activeDrawingTool}
+                onSelectDrawingTool={(tool) =>
+                  platformState.setWorkspacePreference("activeDrawingTool", tool)
+                }
+                chartZoom={platformState.workspacePreferences.chartZoom}
+                onSetChartZoom={(zoom) =>
+                  platformState.setWorkspacePreference("chartZoom", zoom)
+                }
+                onResetChart={platformState.resetChartWorkspace}
                 workspaceControls={workspaceControls}
               />
             </section>
@@ -244,7 +272,12 @@ export default function TradingWorkstation({
                       : "tpmv2-blotter-toggle"
                   }
                   aria-expanded={desktopBlotterExpanded}
-                  onClick={() => setDesktopBlotterExpanded((current) => !current)}
+                  onClick={() =>
+                    platformState.setWorkspacePreference(
+                      "blotterExpanded",
+                      !desktopBlotterExpanded
+                    )
+                  }
                 >
                   {dict.journal.historyTitle}
                 </button>
@@ -326,6 +359,21 @@ export default function TradingWorkstation({
           candles={platformState.candles}
           decision={platformState.decision}
           signalLabel={viewModel.signalLabel}
+          chartType={platformState.workspacePreferences.chartType}
+          onSelectChartType={(chartType) =>
+            platformState.setWorkspacePreference("chartType", chartType)
+          }
+          activeIndicators={platformState.workspacePreferences.activeIndicators}
+          onToggleIndicator={platformState.toggleWorkspaceIndicator}
+          activeDrawingTool={platformState.workspacePreferences.activeDrawingTool}
+          onSelectDrawingTool={(tool) =>
+            platformState.setWorkspacePreference("activeDrawingTool", tool)
+          }
+          chartZoom={platformState.workspacePreferences.chartZoom}
+          onSetChartZoom={(zoom) =>
+            platformState.setWorkspacePreference("chartZoom", zoom)
+          }
+          onResetChart={platformState.resetChartWorkspace}
         />
 
         <ExecutionCard

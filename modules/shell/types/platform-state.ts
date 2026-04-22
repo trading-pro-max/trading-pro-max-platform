@@ -332,3 +332,15 @@ export type Decision = {
 };
 
 export type RiskNoteCode = "" | "session_locked" | "max_open_trades";
+
+export type PlatformChartType = "candlestick" | "area" | "line" | "bars";
+
+export type WorkspacePreferences = {
+  chartType: PlatformChartType;
+  activeIndicators: string[];
+  activeDrawingTool: string;
+  chartZoom: number;
+  watchlistVisible: boolean;
+  ticketVisible: boolean;
+  blotterExpanded: boolean;
+};

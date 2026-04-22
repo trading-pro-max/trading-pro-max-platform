@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import type { CSSProperties, ReactNode } from "react";
 import {
   TIMEFRAMES,
@@ -14,6 +14,7 @@ import type {
   Asset,
   AuditEvent,
   Decision,
+  PlatformChartType,
   Trade,
 } from "../types/platform-state";
 import type {
@@ -71,17 +72,59 @@ function buildTimeScale(timeframe: PlatformTimeframe) {
   return ["00:00", "06:00", "12:00", "18:00", "24:00"];
 }
 
-type ChartType = "candlestick" | "area" | "line" | "bars";
-
-const CHART_TYPES: { id: ChartType; label: string }[] = [
+export const CHART_TYPES: { id: PlatformChartType; label: string }[] = [
   { id: "candlestick", label: "Candles" },
   { id: "area", label: "Area" },
   { id: "line", label: "Line" },
   { id: "bars", label: "Bars" },
 ];
 
-const INDICATOR_TOOLS = ["EMA 20", "RSI", "MACD", "VOL"] as const;
-const DRAWING_TOOLS = ["Cursor", "Trend", "Level", "Range", "Note"] as const;
+export const INDICATOR_TOOLS = ["EMA 20", "RSI", "MACD", "VOL"] as const;
+export const DRAWING_TOOLS = ["Cursor", "Trend", "Level", "Range", "Note"] as const;
+
+type ChartBar = {
+  height: number;
+  tone: "up" | "down";
+  bodyHeight: number;
+  wickHeight: number;
+  volumeHeight: number;
+};
+
+function buildChartBars(candles: number[]): ChartBar[] {
+  return candles.map((height, index) => {
+    const previous = candles[index - 1] ?? Math.max(20, height - 6);
+    const bodyHeight = Math.max(10, Math.min(82, Math.abs(height - previous) + 18));
+    const wickHeight = Math.max(bodyHeight + 14, Math.min(100, height + 12));
+    const volumeHeight = 18 + (((height + index * 7) % 48) || 12);
+
+    return {
+      height,
+      tone: height >= previous ? "up" : "down",
+      bodyHeight,
+      wickHeight,
+      volumeHeight,
+    };
+  });
+}
+
+function buildMovingAveragePoints(
+  candles: number[],
+  period: number,
+  pointStep: number
+) {
+  if (candles.length === 0) return "";
+
+  return candles
+    .map((_, index) => {
+      const start = Math.max(0, index - period + 1);
+      const slice = candles.slice(start, index + 1);
+      const average =
+        slice.reduce((sum, item) => sum + item, 0) / Math.max(slice.length, 1);
+
+      return `${(index * pointStep).toFixed(2)},${Math.max(4, 100 - average).toFixed(2)}`;
+    })
+    .join(" ");
+}
 
 function clampPointerValue(value: number, max: number) {
   return Math.min(max, Math.max(0, value));
@@ -576,6 +619,15 @@ export function ChartCard({
   candles,
   decision,
   signalLabel,
+  chartType,
+  onSelectChartType,
+  activeIndicators,
+  onToggleIndicator,
+  activeDrawingTool,
+  onSelectDrawingTool,
+  chartZoom,
+  onSetChartZoom,
+  onResetChart,
   workspaceControls,
 }: {
   dict: Dictionary;
@@ -585,17 +637,20 @@ export function ChartCard({
   candles: number[];
   decision: Decision;
   signalLabel: string;
+  chartType: PlatformChartType;
+  onSelectChartType: (type: PlatformChartType) => void;
+  activeIndicators: string[];
+  onToggleIndicator: (indicator: string) => void;
+  activeDrawingTool: string;
+  onSelectDrawingTool: (tool: string) => void;
+  chartZoom: number;
+  onSetChartZoom: (zoom: number) => void;
+  onResetChart: () => void;
   workspaceControls?: ReactNode;
 }) {
-  const [chartType, setChartType] = useState<ChartType>("candlestick");
-  const [activeIndicators, setActiveIndicators] = useState<string[]>([
-    "EMA 20",
-    "RSI",
-  ]);
-  const [activeDrawingTool, setActiveDrawingTool] = useState<string>("Cursor");
-  const [chartZoom, setChartZoom] = useState(100);
   const priceScale = buildPriceScale(selectedAsset.price);
   const timeScale = buildTimeScale(selectedTimeframe);
+  const chartBars = buildChartBars(candles);
   const pointStep = 100 / Math.max(candles.length - 1, 1);
   const chartPathPoints = candles
     .map(
@@ -604,21 +659,21 @@ export function ChartCard({
     )
     .join(" ");
   const chartAreaPoints = `0,100 ${chartPathPoints} 100,100`;
+  const emaFastPoints = buildMovingAveragePoints(candles, 4, pointStep);
+  const emaSlowPoints = buildMovingAveragePoints(candles, 8, pointStep);
   const latestHeight = candles[candles.length - 1] ?? 50;
   const priceMarkerTop = `${Math.max(16, Math.min(82, 100 - latestHeight))}%`;
   const highPrice = priceScale[0] ?? selectedAsset.price;
   const lowPrice = priceScale[priceScale.length - 1] ?? selectedAsset.price;
   const activeIndicatorSummary =
     activeIndicators.length > 0 ? activeIndicators.join(" / ") : "Clean chart";
+  const activeChartTypeLabel =
+    CHART_TYPES.find((type) => type.id === chartType)?.label ?? "Candles";
+  const showEmaOverlay = activeIndicators.includes("EMA 20");
+  const showMacdOverlay = activeIndicators.includes("MACD");
+  const showRsiOverlay = activeIndicators.includes("RSI");
+  const showVolumeOverlay = activeIndicators.includes("VOL") || chartType === "bars";
   const chartSurfaceRef = usePointerField<HTMLDivElement>();
-
-  function toggleIndicator(indicator: string) {
-    setActiveIndicators((current) =>
-      current.includes(indicator)
-        ? current.filter((item) => item !== indicator)
-        : [...current, indicator],
-    );
-  }
 
   return (
     <section
@@ -664,7 +719,7 @@ export function ChartCard({
                     type="button"
                     className={type.id === chartType ? "active" : ""}
                     aria-pressed={type.id === chartType}
-                    onClick={() => setChartType(type.id)}
+                    onClick={() => onSelectChartType(type.id)}
                   >
                     {type.label}
                   </button>
@@ -704,7 +759,7 @@ export function ChartCard({
               type="button"
               className={tool === activeDrawingTool ? "active" : ""}
               aria-pressed={tool === activeDrawingTool}
-              onClick={() => setActiveDrawingTool(tool)}
+              onClick={() => onSelectDrawingTool(tool)}
             >
               {tool}
             </button>
@@ -719,7 +774,7 @@ export function ChartCard({
               type="button"
               className={activeIndicators.includes(indicator) ? "active" : ""}
               aria-pressed={activeIndicators.includes(indicator)}
-              onClick={() => toggleIndicator(indicator)}
+              onClick={() => onToggleIndicator(indicator)}
             >
               {indicator}
             </button>
@@ -729,24 +784,18 @@ export function ChartCard({
         <div className="tpmv2-chart-zoom-controls" role="toolbar" aria-label="Chart zoom">
           <button
             type="button"
-            onClick={() => setChartZoom((current) => Math.max(80, current - 10))}
+            onClick={() => onSetChartZoom(Math.max(80, chartZoom - 10))}
           >
             -
           </button>
           <span>{chartZoom}%</span>
           <button
             type="button"
-            onClick={() => setChartZoom((current) => Math.min(130, current + 10))}
+            onClick={() => onSetChartZoom(Math.min(130, chartZoom + 10))}
           >
             +
           </button>
-          <button
-            type="button"
-            onClick={() => {
-              setChartZoom(100);
-              setChartType("candlestick");
-            }}
-          >
+          <button type="button" onClick={onResetChart}>
             Reset
           </button>
         </div>
@@ -769,6 +818,8 @@ export function ChartCard({
         <div className="tpmv2-chart-session-panel" aria-hidden="true">
           <span>H {highPrice}</span>
           <span>L {lowPrice}</span>
+          <span>{activeChartTypeLabel}</span>
+          <span>{activeDrawingTool}</span>
           <span>{activeIndicatorSummary}</span>
         </div>
 
@@ -803,6 +854,40 @@ export function ChartCard({
             </svg>
           ) : null}
 
+          {showEmaOverlay || showMacdOverlay ? (
+            <svg
+              className="tpmv2-chart-indicator-lines"
+              viewBox="0 0 100 100"
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
+              {showEmaOverlay ? (
+                <polyline className="tpmv2-chart-ema-fast" points={emaFastPoints} />
+              ) : null}
+              {showMacdOverlay ? (
+                <polyline className="tpmv2-chart-ema-slow" points={emaSlowPoints} />
+              ) : null}
+            </svg>
+          ) : null}
+
+          {showRsiOverlay ? (
+            <div className="tpmv2-chart-rsi-track" aria-hidden="true">
+              <span style={{ width: `${Math.max(28, Math.min(78, latestHeight))}%` }} />
+            </div>
+          ) : null}
+
+          {showVolumeOverlay ? (
+            <div className="tpmv2-chart-volume" aria-hidden="true">
+              {chartBars.map((bar, index) => (
+                <span
+                  key={`${index}-${bar.volumeHeight}`}
+                  className={bar.tone}
+                  style={{ height: `${bar.volumeHeight}%` }}
+                />
+              ))}
+            </div>
+          ) : null}
+
           <div
             className={
               chartType === "bars"
@@ -812,18 +897,21 @@ export function ChartCard({
                 : "tpmv2-candles tpmv2-candles-ghost"
             }
           >
-            {candles.map((height, index) => {
-              const candleTone = index % 2 === 0 ? "up" : "down";
-
+            {chartBars.map((bar, index) => {
               return (
                 <div
                   key={index}
-                  className={`tpmv2-candle-wrap ${candleTone}`}
-                  style={{ "--tpmv2-candle-height": `${height}%` } as CSSProperties}
+                  className={`tpmv2-candle-wrap ${bar.tone}`}
+                  style={
+                    {
+                      "--tpmv2-candle-height": `${bar.bodyHeight}%`,
+                      "--tpmv2-wick-height": `${bar.wickHeight}%`,
+                    } as CSSProperties
+                  }
                 >
                   <span
-                    className={`tpmv2-candle ${candleTone}`}
-                    style={{ height: `${height}%` }}
+                    className={`tpmv2-candle ${bar.tone}`}
+                    style={{ height: `${bar.bodyHeight}%` }}
                   />
                 </div>
               );

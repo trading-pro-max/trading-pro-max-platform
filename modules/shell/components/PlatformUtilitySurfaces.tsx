@@ -1,0 +1,560 @@
+"use client";
+
+import type { ReactNode } from "react";
+import type { Dictionary } from "../../../lib/i18n/get-dictionary";
+import {
+  EXECUTION_DURATIONS,
+  PLATFORM_LIMITS,
+  TIMEFRAMES,
+} from "../../../lib/constants/platform";
+import { usePlatformState } from "../hooks/use-platform-state";
+import type { WorkstationStatusTone } from "./trading-workstation-view-model";
+import { createTradingWorkstationViewModel } from "./trading-workstation-view-model";
+import {
+  CHART_TYPES,
+  DRAWING_TOOLS,
+  INDICATOR_TOOLS,
+} from "./PlatformShellV2";
+
+function toneFromStatus(tone: WorkstationStatusTone) {
+  return `tpmv2-status-tag ${tone}`;
+}
+
+function UtilityStatus({
+  text,
+  tone,
+}: {
+  text: string;
+  tone: WorkstationStatusTone;
+}) {
+  return <span className={toneFromStatus(tone)}>{text}</span>;
+}
+
+function UtilitySection({
+  eyebrow,
+  title,
+  children,
+  action,
+}: {
+  eyebrow: string;
+  title: string;
+  children: ReactNode;
+  action?: ReactNode;
+}) {
+  return (
+    <section className="tpm-foundation-card tpm-utility-card">
+      <header className="tpm-foundation-head tpm-utility-head">
+        <div>
+          <span>{eyebrow}</span>
+          <h2>{title}</h2>
+        </div>
+        {action}
+      </header>
+      {children}
+    </section>
+  );
+}
+
+function UtilityGrid({
+  items,
+}: {
+  items: Array<{
+    label: string;
+    value: string;
+    tone?: WorkstationStatusTone;
+    note?: string;
+  }>;
+}) {
+  return (
+    <div className="tpm-foundation-grid tpm-utility-grid">
+      {items.map((item) => (
+        <div key={`${item.label}-${item.value}`} className="tpm-foundation-item">
+          <span>{item.label}</span>
+          <strong className={item.tone ? `tpmv2-detail-value ${item.tone}` : undefined}>
+            {item.value}
+          </strong>
+          {item.note ? <small>{item.note}</small> : null}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function ToggleButton({
+  active,
+  label,
+  onClick,
+}: {
+  active: boolean;
+  label: string;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      className={active ? "tpm-utility-toggle active" : "tpm-utility-toggle"}
+      aria-pressed={active}
+      onClick={onClick}
+    >
+      {label}
+    </button>
+  );
+}
+
+function useUtilityPlatformViewModel(locale: string, dict: Dictionary) {
+  const platformState = usePlatformState(locale, dict.decision.reasons);
+  const viewModel = createTradingWorkstationViewModel({
+    locale,
+    dict,
+    accountStatus: platformState.accountStatus,
+    accountPolicy: platformState.accountPolicy,
+    executionFoundation: platformState.executionFoundation,
+    riskFoundation: platformState.riskFoundation,
+    dataStateFoundation: platformState.dataStateFoundation,
+    auditTraceFoundation: platformState.auditTraceFoundation,
+    securityFoundation: platformState.securityFoundation,
+    decision: platformState.decision,
+    riskNoteCode: platformState.riskNoteCode,
+    sessionPnL: platformState.sessionPnL,
+    sessionLocked: platformState.sessionLocked,
+    openTradesCount: platformState.openTrades.length,
+  });
+
+  return { platformState, viewModel };
+}
+
+export function PlatformDiagnosticsSurface({
+  locale,
+  dict,
+}: {
+  locale: string;
+  dict: Dictionary;
+}) {
+  const { platformState, viewModel } = useUtilityPlatformViewModel(locale, dict);
+  const localePrefix = locale ? `/${locale}` : "";
+
+  const systemItems = [
+    {
+      label: dict.diagnostics.runtime,
+      value: platformState.dataStateFoundation.hydrationState,
+      tone:
+        platformState.dataStateFoundation.hydrationState === "hydrated"
+          ? ("approved" as const)
+          : ("pending" as const),
+      note: platformState.dataStateFoundation.lastUpdatedAt,
+    },
+    {
+      label: dict.diagnostics.marketLayer,
+      value: platformState.dataStateFoundation.marketFeedState,
+      tone: "approved" as const,
+      note: platformState.selectedAsset.symbol,
+    },
+    {
+      label: dict.diagnostics.executionLayer,
+      value: viewModel.executionRouteValue,
+      tone: platformState.canExecute ? ("approved" as const) : ("blocked" as const),
+      note: viewModel.executionIntentValue,
+    },
+    {
+      label: dict.diagnostics.riskLayer,
+      value: viewModel.sessionStateLabel,
+      tone: platformState.sessionLocked ? ("blocked" as const) : ("approved" as const),
+      note: viewModel.sessionPnLText,
+    },
+  ];
+
+  const readinessItems = [
+    {
+      label: viewModel.paperAccessLabel,
+      value: viewModel.paperAccessValue,
+      tone: viewModel.paperAccessTone,
+      note: viewModel.ticketNextStepValue,
+    },
+    {
+      label: viewModel.liveAccessLabel,
+      value: viewModel.liveAccessValue,
+      tone: "blocked" as const,
+      note: "Paper-safe route enforced",
+    },
+    {
+      label: viewModel.securityAlertLabel,
+      value: viewModel.securityAlertValue,
+      tone:
+        platformState.securityFoundation.alertLevel === "normal"
+          ? ("approved" as const)
+          : ("restricted" as const),
+      note: viewModel.securityReviewedAtLabel,
+    },
+    {
+      label: viewModel.executionGuardrailsLabel,
+      value: viewModel.executionGuardrailChips.join(" / "),
+      tone:
+        platformState.executionFoundation.guardrails.length === 0
+          ? ("approved" as const)
+          : ("restricted" as const),
+      note: viewModel.ticketOperationalValue,
+    },
+  ];
+
+  const chartItems = [
+    {
+      label: dict.chart.title,
+      value: platformState.workspacePreferences.chartType,
+      note: `${dict.market.currentTimeframe}: ${platformState.selectedTimeframe}`,
+    },
+    {
+      label: "Indicators",
+      value:
+        platformState.workspacePreferences.activeIndicators.join(" / ") ||
+        "Clean chart",
+      note: `Tool: ${platformState.workspacePreferences.activeDrawingTool}`,
+    },
+    {
+      label: "Zoom",
+      value: `${platformState.workspacePreferences.chartZoom}%`,
+      note: platformState.dataStateFoundation.chartBindingState,
+    },
+    {
+      label: dict.journal.openTradesTitle,
+      value: `${platformState.openTrades.length} / ${PLATFORM_LIMITS.maxOpenTrades}`,
+      tone: platformState.canOpenMore ? ("approved" as const) : ("restricted" as const),
+      note: `${dict.journal.historyTitle}: ${platformState.history.length}`,
+    },
+  ];
+
+  return (
+    <main className="tpm-foundation-page tpm-utility-page">
+      <section className="tpm-foundation-card tpm-utility-hero">
+        <header className="tpm-foundation-head">
+          <div>
+            <span>TPM SYSTEM</span>
+            <h1>{dict.diagnostics.title}</h1>
+            <p>{dict.diagnostics.subtitle}</p>
+          </div>
+          <UtilityStatus
+            text={viewModel.paperAccessValue}
+            tone={viewModel.paperAccessTone}
+          />
+        </header>
+
+        <div className="tpm-utility-hero-grid">
+          <div>
+            <span>{dict.market.selectedAsset}</span>
+            <strong>{platformState.selectedAsset.symbol}</strong>
+            <small>{platformState.selectedAsset.price}</small>
+          </div>
+          <div>
+            <span>{dict.decision.title}</span>
+            <strong>{viewModel.signalLabel}</strong>
+            <small>{platformState.decision.confidence}</small>
+          </div>
+          <div>
+            <span>{dict.trade.title}</span>
+            <strong>{viewModel.executionIntentValue}</strong>
+            <small>{viewModel.ticketOperationalValue}</small>
+          </div>
+        </div>
+      </section>
+
+      <UtilitySection eyebrow="FOUNDATION" title="System readiness">
+        <UtilityGrid items={systemItems} />
+      </UtilitySection>
+
+      <UtilitySection eyebrow="SAFETY" title="Execution and compliance state">
+        <UtilityGrid items={readinessItems} />
+      </UtilitySection>
+
+      <UtilitySection eyebrow="WORKSPACE" title="Chart and session binding">
+        <UtilityGrid items={chartItems} />
+      </UtilitySection>
+
+      <UtilitySection
+        eyebrow="AUDIT"
+        title={viewModel.auditTitle}
+        action={
+          <a className="tpm-utility-link" href={`${localePrefix || ""}/settings`}>
+            {dict.nav.settings}
+          </a>
+        }
+      >
+        {platformState.auditTraceFoundation.recentEvents.length === 0 ? (
+          <div className="tpmv2-empty">{viewModel.auditEmptyLabel}</div>
+        ) : (
+          <div className="tpm-utility-event-list">
+            {platformState.auditTraceFoundation.recentEvents.map((event) => (
+              <div key={event.id} className="tpmv2-list-card">
+                <div className="tpmv2-list-row">
+                  <strong>{event.kind}</strong>
+                  <span>{event.createdAt}</span>
+                </div>
+                <div className="tpmv2-list-meta">{event.message}</div>
+              </div>
+            ))}
+          </div>
+        )}
+      </UtilitySection>
+    </main>
+  );
+}
+
+export function PlatformSettingsSurface({
+  locale,
+  dict,
+}: {
+  locale: string;
+  dict: Dictionary;
+}) {
+  const { platformState, viewModel } = useUtilityPlatformViewModel(locale, dict);
+  const preferences = platformState.workspacePreferences;
+
+  return (
+    <main className="tpm-foundation-page tpm-utility-page">
+      <section className="tpm-foundation-card tpm-utility-hero">
+        <header className="tpm-foundation-head">
+          <div>
+            <span>TPM CONTROL</span>
+            <h1>{dict.settings.title}</h1>
+            <p>{dict.settings.subtitle}</p>
+          </div>
+          <UtilityStatus
+            text={viewModel.paperAccessValue}
+            tone={viewModel.paperAccessTone}
+          />
+        </header>
+      </section>
+
+      <UtilitySection eyebrow="ACCOUNT" title="Mode and persistence">
+        <div className="tpm-utility-control-grid">
+          <div className="tpm-utility-control">
+            <span>{dict.settings.mode}</span>
+            <div className="tpm-utility-button-row">
+              <ToggleButton
+                active={platformState.accountMode === "demo"}
+                label={viewModel.demoLabel}
+                onClick={() => platformState.switchAccountMode("demo")}
+              />
+              <ToggleButton
+                active={platformState.accountMode === "real"}
+                label={viewModel.realLabel}
+                onClick={() => platformState.switchAccountMode("real")}
+              />
+            </div>
+            <small>{viewModel.liveAccessValue}</small>
+          </div>
+
+          <div className="tpm-utility-control">
+            <span>{dict.settings.stateSaving}</span>
+            <strong>{platformState.dataStateFoundation.storagePersistenceState}</strong>
+            <small>{platformState.dataStateFoundation.syncChannel}</small>
+          </div>
+        </div>
+      </UtilitySection>
+
+      <UtilitySection eyebrow="CHART" title="Workspace chart behavior">
+        <div className="tpm-utility-control-grid">
+          <div className="tpm-utility-control">
+            <span>Chart type</span>
+            <div className="tpm-utility-button-row">
+              {CHART_TYPES.map((type) => (
+                <ToggleButton
+                  key={type.id}
+                  active={preferences.chartType === type.id}
+                  label={type.label}
+                  onClick={() =>
+                    platformState.setWorkspacePreference("chartType", type.id)
+                  }
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className="tpm-utility-control">
+            <span>{dict.trade.timeframe}</span>
+            <div className="tpm-utility-button-row">
+              {TIMEFRAMES.map((timeframe) => (
+                <ToggleButton
+                  key={timeframe}
+                  active={platformState.selectedTimeframe === timeframe}
+                  label={timeframe}
+                  onClick={() => platformState.setSelectedTimeframe(timeframe)}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className="tpm-utility-control">
+            <span>Indicators</span>
+            <div className="tpm-utility-button-row">
+              {INDICATOR_TOOLS.map((indicator) => (
+                <ToggleButton
+                  key={indicator}
+                  active={preferences.activeIndicators.includes(indicator)}
+                  label={indicator}
+                  onClick={() => platformState.toggleWorkspaceIndicator(indicator)}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className="tpm-utility-control">
+            <span>Drawing tool</span>
+            <div className="tpm-utility-button-row">
+              {DRAWING_TOOLS.map((tool) => (
+                <ToggleButton
+                  key={tool}
+                  active={preferences.activeDrawingTool === tool}
+                  label={tool}
+                  onClick={() =>
+                    platformState.setWorkspacePreference("activeDrawingTool", tool)
+                  }
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="tpm-utility-button-row tpm-utility-reset-row">
+          <ToggleButton
+            active={preferences.chartZoom > 100}
+            label={`Zoom + (${preferences.chartZoom}%)`}
+            onClick={() =>
+              platformState.setWorkspacePreference(
+                "chartZoom",
+                Math.min(130, preferences.chartZoom + 10)
+              )
+            }
+          />
+          <ToggleButton
+            active={preferences.chartZoom < 100}
+            label={`Zoom - (${preferences.chartZoom}%)`}
+            onClick={() =>
+              platformState.setWorkspacePreference(
+                "chartZoom",
+                Math.max(80, preferences.chartZoom - 10)
+              )
+            }
+          />
+          <button
+            type="button"
+            className="tpm-utility-toggle"
+            onClick={platformState.resetChartWorkspace}
+          >
+            Reset chart workspace
+          </button>
+        </div>
+      </UtilitySection>
+
+      <UtilitySection eyebrow="EXECUTION" title="Paper ticket defaults">
+        <div className="tpm-utility-control-grid">
+          <label className="tpm-utility-control">
+            <span>{dict.trade.amount}</span>
+            <input
+              className="tpmv2-real-input tpm-utility-input"
+              value={platformState.amount}
+              onChange={(event) => platformState.setAmount(event.target.value)}
+              inputMode="numeric"
+            />
+            <small>{viewModel.ticketOperationalValue}</small>
+          </label>
+
+          <div className="tpm-utility-control">
+            <span>{dict.trade.timeframe}</span>
+            <div className="tpm-utility-button-row">
+              {EXECUTION_DURATIONS.map((duration) => (
+                <ToggleButton
+                  key={duration}
+                  active={platformState.selectedDuration === duration}
+                  label={duration}
+                  onClick={() => platformState.setSelectedDuration(duration)}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className="tpm-utility-control">
+            <span>{viewModel.executionGuardrailsLabel}</span>
+            <strong>{viewModel.executionGuardrailChips.join(" / ")}</strong>
+            <small>{viewModel.ticketNextStepValue}</small>
+          </div>
+        </div>
+      </UtilitySection>
+
+      <UtilitySection eyebrow="LAYOUT" title="Trading shell panels">
+        <div className="tpm-utility-button-row">
+          <ToggleButton
+            active={preferences.watchlistVisible}
+            label={dict.market.title}
+            onClick={() =>
+              platformState.setWorkspacePreference(
+                "watchlistVisible",
+                !preferences.watchlistVisible
+              )
+            }
+          />
+          <ToggleButton
+            active={preferences.ticketVisible}
+            label={dict.trade.title}
+            onClick={() =>
+              platformState.setWorkspacePreference(
+                "ticketVisible",
+                !preferences.ticketVisible
+              )
+            }
+          />
+          <ToggleButton
+            active={preferences.blotterExpanded}
+            label={dict.journal.historyTitle}
+            onClick={() =>
+              platformState.setWorkspacePreference(
+                "blotterExpanded",
+                !preferences.blotterExpanded
+              )
+            }
+          />
+        </div>
+      </UtilitySection>
+
+      <UtilitySection eyebrow="COMPLIANCE" title={viewModel.policyPanelLabel}>
+        <UtilityGrid
+          items={[
+            {
+              label: viewModel.paperAccessLabel,
+              value: viewModel.paperAccessValue,
+              tone: viewModel.paperAccessTone,
+              note: viewModel.ticketNextStepValue,
+            },
+            {
+              label: viewModel.reviewStatusLabel,
+              value: viewModel.reviewStatusDescription,
+              tone: viewModel.reviewStatusTone,
+            },
+            {
+              label: viewModel.disclosureSummaryLabel,
+              value: viewModel.disclosureSummaryValue,
+              tone: viewModel.paperAccessTone,
+            },
+          ]}
+        />
+
+        <div className="tpm-utility-button-row">
+          <button
+            type="button"
+            className="tpm-utility-toggle"
+            disabled={!platformState.canAcknowledgeDisclosures}
+            onClick={platformState.acceptPendingDisclosures}
+          >
+            {viewModel.acceptDisclosuresLabel}
+          </button>
+          <button
+            type="button"
+            className="tpm-utility-toggle"
+            disabled={!platformState.canSubmitAccountReview}
+            onClick={platformState.submitActivationReview}
+          >
+            {viewModel.submitReviewLabel}
+          </button>
+        </div>
+      </UtilitySection>
+    </main>
+  );
+}

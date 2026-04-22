@@ -38,6 +38,7 @@ import type {
   Trade,
   TradeDirection,
   UserIdentity,
+  WorkspacePreferences,
 } from "../types/platform-state";
 
 type WorkspaceState = {
@@ -54,6 +55,7 @@ type StoredPlatformState = {
   accountMode: AccountMode;
   demo: WorkspaceState;
   real: WorkspaceState;
+  workspacePreferences?: WorkspacePreferences;
   compliance?: {
     demo?: LocalComplianceState;
     real?: LocalComplianceState;
@@ -89,10 +91,21 @@ const DEFAULT_REAL_STATE: WorkspaceState = {
   balance: "0.00",
 };
 
+const DEFAULT_WORKSPACE_PREFERENCES: WorkspacePreferences = {
+  chartType: "candlestick",
+  activeIndicators: ["EMA 20", "RSI"],
+  activeDrawingTool: "Cursor",
+  chartZoom: 100,
+  watchlistVisible: false,
+  ticketVisible: true,
+  blotterExpanded: false,
+};
+
 const FALLBACK_STATE: StoredPlatformState = {
   accountMode: "demo",
   demo: DEFAULT_DEMO_STATE,
   real: DEFAULT_REAL_STATE,
+  workspacePreferences: DEFAULT_WORKSPACE_PREFERENCES,
   compliance: {
     demo: createDefaultLocalComplianceState("demo"),
     real: createDefaultLocalComplianceState("real"),
@@ -204,6 +217,49 @@ function sanitizeWorkspaceState(
   };
 }
 
+function sanitizeWorkspacePreferences(
+  value: Partial<WorkspacePreferences> | undefined
+): WorkspacePreferences {
+  const chartType =
+    value?.chartType === "area" ||
+    value?.chartType === "line" ||
+    value?.chartType === "bars" ||
+    value?.chartType === "candlestick"
+      ? value.chartType
+      : DEFAULT_WORKSPACE_PREFERENCES.chartType;
+
+  const chartZoom =
+    typeof value?.chartZoom === "number" && Number.isFinite(value.chartZoom)
+      ? Math.min(130, Math.max(80, value.chartZoom))
+      : DEFAULT_WORKSPACE_PREFERENCES.chartZoom;
+
+  const activeIndicators = Array.isArray(value?.activeIndicators)
+    ? value.activeIndicators.filter((item): item is string => typeof item === "string")
+    : DEFAULT_WORKSPACE_PREFERENCES.activeIndicators;
+
+  return {
+    chartType,
+    activeIndicators,
+    activeDrawingTool:
+      typeof value?.activeDrawingTool === "string" && value.activeDrawingTool
+        ? value.activeDrawingTool
+        : DEFAULT_WORKSPACE_PREFERENCES.activeDrawingTool,
+    chartZoom,
+    watchlistVisible:
+      typeof value?.watchlistVisible === "boolean"
+        ? value.watchlistVisible
+        : DEFAULT_WORKSPACE_PREFERENCES.watchlistVisible,
+    ticketVisible:
+      typeof value?.ticketVisible === "boolean"
+        ? value.ticketVisible
+        : DEFAULT_WORKSPACE_PREFERENCES.ticketVisible,
+    blotterExpanded:
+      typeof value?.blotterExpanded === "boolean"
+        ? value.blotterExpanded
+        : DEFAULT_WORKSPACE_PREFERENCES.blotterExpanded,
+  };
+}
+
 function buildPermissionAnchors(
   accountMode: AccountMode,
   paperExecutionEnabled: boolean
@@ -299,6 +355,8 @@ export function usePlatformState(
   const [accountMode, setAccountMode] = useState<AccountMode>("demo");
   const [demoState, setDemoState] = useState<WorkspaceState>(DEFAULT_DEMO_STATE);
   const [realState, setRealState] = useState<WorkspaceState>(DEFAULT_REAL_STATE);
+  const [workspacePreferences, setWorkspacePreferences] =
+    useState<WorkspacePreferences>(DEFAULT_WORKSPACE_PREFERENCES);
   const [demoCompliance, setDemoCompliance] = useState<LocalComplianceState>(
     FALLBACK_STATE.compliance?.demo || createDefaultLocalComplianceState("demo")
   );
@@ -334,6 +392,9 @@ export function usePlatformState(
     setAccountMode(nextAccountMode);
     setDemoState(sanitizeWorkspaceState(saved.demo, DEFAULT_DEMO_STATE));
     setRealState(sanitizeWorkspaceState(saved.real, DEFAULT_REAL_STATE));
+    setWorkspacePreferences(
+      sanitizeWorkspacePreferences(saved.workspacePreferences)
+    );
     setDemoCompliance(
       sanitizeLocalComplianceState(
         saved.compliance?.demo,
@@ -381,12 +442,21 @@ export function usePlatformState(
       accountMode,
       demo: demoState,
       real: realState,
+      workspacePreferences,
       compliance: {
         demo: demoCompliance,
         real: realCompliance,
       },
     } satisfies StoredPlatformState);
-  }, [accountMode, demoState, realState, demoCompliance, realCompliance, hydrated]);
+  }, [
+    accountMode,
+    demoState,
+    realState,
+    workspacePreferences,
+    demoCompliance,
+    realCompliance,
+    hydrated,
+  ]);
 
   const activeState = accountMode === "demo" ? demoState : realState;
   const activeComplianceState = accountMode === "demo" ? demoCompliance : realCompliance;
@@ -424,6 +494,41 @@ export function usePlatformState(
     }
 
     setRealCompliance((current) => updater(current));
+  }
+
+  function updateWorkspacePreferences(
+    updater: (current: WorkspacePreferences) => WorkspacePreferences
+  ) {
+    setWorkspacePreferences((current) => sanitizeWorkspacePreferences(updater(current)));
+  }
+
+  function setWorkspacePreference<K extends keyof WorkspacePreferences>(
+    key: K,
+    value: WorkspacePreferences[K]
+  ) {
+    updateWorkspacePreferences((current) => ({
+      ...current,
+      [key]: value,
+    }));
+  }
+
+  function toggleWorkspaceIndicator(indicator: string) {
+    updateWorkspacePreferences((current) => ({
+      ...current,
+      activeIndicators: current.activeIndicators.includes(indicator)
+        ? current.activeIndicators.filter((item) => item !== indicator)
+        : [...current.activeIndicators, indicator],
+    }));
+  }
+
+  function resetChartWorkspace() {
+    updateWorkspacePreferences((current) => ({
+      ...current,
+      chartType: DEFAULT_WORKSPACE_PREFERENCES.chartType,
+      activeIndicators: DEFAULT_WORKSPACE_PREFERENCES.activeIndicators,
+      activeDrawingTool: DEFAULT_WORKSPACE_PREFERENCES.activeDrawingTool,
+      chartZoom: DEFAULT_WORKSPACE_PREFERENCES.chartZoom,
+    }));
   }
 
   function switchAccountMode(nextMode: AccountMode) {
@@ -879,6 +984,10 @@ export function usePlatformState(
     dataStateFoundation,
     auditTraceFoundation,
     securityFoundation,
+    workspacePreferences,
+    setWorkspacePreference,
+    toggleWorkspaceIndicator,
+    resetChartWorkspace,
     switchAccountMode,
     balance: activeState.balance,
     availableDurations: EXECUTION_DURATIONS,

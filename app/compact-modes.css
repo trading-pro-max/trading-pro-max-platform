@@ -1386,13 +1386,15 @@
 }
 
 .tpmv2-chart-path,
+.tpmv2-chart-indicator-lines,
 .tpmv2-candles {
   position: absolute;
   inset: 0;
   z-index: 1;
 }
 
-.tpmv2-chart-path {
+.tpmv2-chart-path,
+.tpmv2-chart-indicator-lines {
   width: 100%;
   height: 100%;
   overflow: visible;
@@ -1408,6 +1410,97 @@
   stroke-width: 1.8;
   vector-effect: non-scaling-stroke;
   filter: drop-shadow(0 0 10px rgba(45, 212, 191, 0.32));
+}
+
+.tpmv2-chart-indicator-lines {
+  z-index: 3;
+  pointer-events: none;
+}
+
+.tpmv2-chart-ema-fast,
+.tpmv2-chart-ema-slow {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+
+.tpmv2-chart-ema-fast {
+  stroke: rgba(94, 234, 212, 0.86);
+  stroke-width: 1.2;
+  filter: drop-shadow(0 0 8px rgba(94, 234, 212, 0.26));
+}
+
+.tpmv2-chart-ema-slow {
+  stroke: rgba(96, 165, 250, 0.68);
+  stroke-dasharray: 3 4;
+  stroke-width: 1.1;
+}
+
+.tpmv2-chart-rsi-track {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 2px;
+  z-index: 4;
+  height: 16px;
+  border-top: 1px solid rgba(148, 163, 184, 0.1);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+  background:
+    linear-gradient(90deg, rgba(94, 234, 212, 0.08), transparent 50%, rgba(96, 165, 250, 0.08)),
+    rgba(3, 8, 16, 0.34);
+  pointer-events: none;
+}
+
+.tpmv2-chart-rsi-track::before,
+.tpmv2-chart-rsi-track::after {
+  position: absolute;
+  top: 1px;
+  color: rgba(226, 232, 240, 0.42);
+  font-size: 7px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.tpmv2-chart-rsi-track::before {
+  content: "RSI";
+  left: 6px;
+}
+
+.tpmv2-chart-rsi-track::after {
+  content: "70 / 30";
+  right: 6px;
+}
+
+.tpmv2-chart-rsi-track span {
+  position: absolute;
+  left: 46px;
+  top: 6px;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(94, 234, 212, 0.9), rgba(96, 165, 250, 0.74));
+  box-shadow: 0 0 10px rgba(94, 234, 212, 0.16);
+}
+
+.tpmv2-chart-volume {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 1;
+  height: 18%;
+  display: grid;
+  grid-template-columns: repeat(18, minmax(0, 1fr));
+  gap: 4px;
+  align-items: end;
+  opacity: 0.46;
+  pointer-events: none;
+}
+
+.tpmv2-chart-volume span {
+  min-height: 2px;
+  border-radius: 2px 2px 0 0;
+  background: rgba(94, 234, 212, 0.32);
+}
+
+.tpmv2-chart-volume span.down {
+  background: rgba(96, 165, 250, 0.3);
 }
 
 .tpmv2-candles {
@@ -1435,7 +1528,7 @@
   left: 50%;
   bottom: 0;
   width: 1px;
-  height: min(100%, calc(var(--tpmv2-candle-height, 50%) + 16%));
+  height: min(100%, var(--tpmv2-wick-height, 64%));
   transform: translateX(-50%);
   background: linear-gradient(180deg, transparent, rgba(94, 234, 212, 0.56), transparent);
   opacity: 0.72;
@@ -2646,6 +2739,162 @@
   max-width: calc(100% - 18px);
 }
 
+.tpm-foundation-item small {
+  position: relative;
+  z-index: 1;
+  color: var(--tpm-text-soft);
+  font-size: 10px;
+  line-height: 1.35;
+}
+
+.tpm-utility-page {
+  max-width: 1320px;
+}
+
+.tpm-utility-card {
+  display: grid;
+  gap: 12px;
+}
+
+.tpm-utility-head::after {
+  display: none;
+}
+
+.tpm-utility-head > div > span,
+.tpm-utility-hero .tpm-foundation-head > div > span {
+  color: var(--tpmv2-ai);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.tpm-utility-hero {
+  display: grid;
+  gap: 14px;
+}
+
+.tpm-utility-hero-grid,
+.tpm-utility-control-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.tpm-utility-hero-grid > div,
+.tpm-utility-control {
+  min-width: 0;
+  min-height: 86px;
+  padding: 12px;
+  border: 1px solid color-mix(in srgb, var(--tpm-border) 86%, transparent);
+  border-radius: 14px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018)),
+    rgba(255, 255, 255, 0.012);
+  display: grid;
+  gap: 7px;
+  align-content: start;
+}
+
+.tpm-utility-hero-grid span,
+.tpm-utility-control > span {
+  color: var(--tpm-text-soft);
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.tpm-utility-hero-grid strong,
+.tpm-utility-control strong {
+  color: var(--tpm-text);
+  font-size: 18px;
+  line-height: 1.1;
+}
+
+.tpm-utility-hero-grid small,
+.tpm-utility-control small {
+  color: var(--tpm-text-soft);
+  font-size: 10px;
+  line-height: 1.35;
+}
+
+.tpm-utility-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.tpm-utility-button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tpm-utility-reset-row {
+  position: relative;
+  z-index: 1;
+  padding-top: 2px;
+}
+
+.tpm-utility-toggle,
+.tpm-utility-link {
+  min-height: 30px;
+  padding: 0 10px;
+  border-radius: 9px;
+  border: 1px solid color-mix(in srgb, var(--tpm-border) 84%, transparent);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018)),
+    rgba(255, 255, 255, 0.018);
+  color: var(--tpm-text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 850;
+  text-decoration: none;
+  transition:
+    border-color 160ms var(--tpmv2-ease),
+    background 160ms var(--tpmv2-ease),
+    color 160ms var(--tpmv2-ease),
+    transform 160ms var(--tpmv2-ease);
+}
+
+.tpm-utility-toggle:hover,
+.tpm-utility-link:hover {
+  border-color: rgba(94, 234, 212, 0.3);
+  background: rgba(94, 234, 212, 0.08);
+  transform: translateY(-1px);
+}
+
+.tpm-utility-toggle.active {
+  border-color: transparent;
+  background: linear-gradient(180deg, var(--tpm-accent), var(--tpm-accent-strong));
+  color: #041412;
+}
+
+.tpm-utility-toggle:disabled {
+  opacity: 0.48;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.tpm-utility-input {
+  min-height: 36px;
+  padding: 0 10px;
+  border-radius: 9px;
+  border: 1px solid color-mix(in srgb, var(--tpm-border) 84%, transparent);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.tpm-utility-event-list {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 6px;
+}
+
 .tpm-ui-state-grid {
   position: relative;
   z-index: 1;
@@ -3350,7 +3599,10 @@
   }
 
   .tpm-foundation-grid,
-  .tpm-ui-state-grid {
+  .tpm-ui-state-grid,
+  .tpm-utility-grid,
+  .tpm-utility-hero-grid,
+  .tpm-utility-control-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -3523,7 +3775,10 @@
   }
 
   .tpm-foundation-grid,
-  .tpm-ui-state-grid {
+  .tpm-ui-state-grid,
+  .tpm-utility-grid,
+  .tpm-utility-hero-grid,
+  .tpm-utility-control-grid {
     grid-template-columns: 1fr;
   }
 
