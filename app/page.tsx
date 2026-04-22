@@ -1,12 +1,6 @@
-import TradingWorkstation from "../modules/shell/components/TradingWorkstationBridge";
-import { resolveDictionaryLocale } from "../lib/i18n/config";
-import { getDictionary } from "../lib/i18n/get-dictionary";
+import { redirect } from "next/navigation";
+import { DEFAULT_LOCALE } from "../lib/i18n/config";
 
-export const dynamic = "force-dynamic";
-
-export default function LocalHomePage() {
-  const locale = resolveDictionaryLocale("en");
-  const dict = getDictionary(locale);
-
-  return <TradingWorkstation locale={locale} dict={dict} />;
+export default function HomePage() {
+  redirect(`/${DEFAULT_LOCALE}`);
 }
