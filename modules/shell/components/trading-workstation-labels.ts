@@ -1,62 +1,16 @@
-const isArabic = (locale: string) => locale === "ar";
+import type {
+  AccountPreferenceAnchor,
+  ExecutionGuardrailKey,
+  PermissionAnchor,
+  SecurityFoundationSurface,
+  VerificationWorkflowAnchor,
+} from "../types/platform-state";
 
-const fallbackLabel = (value: string) =>
-  value
-    .replace(/_/g, " ")
-    .replace(/\b\w/g, (char) => char.toUpperCase());
-
-export function onboardingStageLabel(locale: string, stage: string) {
-  const valueMap: Record<string, string> = isArabic(locale)
-    ? {
-        started: "بدأ",
-        profile: "الملف",
-        verification: "التحقق",
-        review: "المراجعة",
-        ready: "جاهز",
-        live: "مباشر",
-      }
-    : {
-        started: "Started",
-        profile: "Profile",
-        verification: "Verification",
-        review: "Review",
-        ready: "Ready",
-        live: "Live",
-      };
-
-  return valueMap[stage] ?? fallbackLabel(stage);
+function isArabic(locale: string) {
+  return locale === "ar";
 }
 
-export function executionGuardrailLabel(locale: string, key: string) {
-  const valueMap: Record<string, string> = isArabic(locale)
-    ? {
-        demo_only: "تجريبي فقط",
-        verification_required: "التحقق مطلوب",
-        permission_required: "الصلاحية مطلوبة",
-        jurisdiction_restricted: "مقيد حسب الولاية",
-        policy_blocked: "محظور بالسياسة",
-        session_locked: "الجلسة مقفلة",
-        capacity_limit: "حد السعة",
-        cooldown_active: "فترة تهدئة",
-      }
-    : {
-        demo_only: "Demo only",
-        verification_required: "Verification required",
-        permission_required: "Permission required",
-        jurisdiction_restricted: "Jurisdiction restricted",
-        policy_blocked: "Policy blocked",
-        session_locked: "Session locked",
-        capacity_limit: "Capacity limit",
-        cooldown_active: "Cooldown active",
-      };
-
-  return valueMap[key] ?? fallbackLabel(key);
-}
-
-export function permissionLabel(
-  locale: string,
-  anchor: { key: string; state: string }
-) {
+export function permissionLabel(locale: string, anchor: PermissionAnchor) {
   const stateText =
     anchor.state === "enabled"
       ? isArabic(locale)
@@ -70,7 +24,7 @@ export function permissionLabel(
       ? "محجوب"
       : "Blocked";
 
-  const labelMap: Record<string, string> = {
+  const labelMap: Record<PermissionAnchor["key"], string> = {
     profile: isArabic(locale) ? "الملف" : "Profile",
     settings: isArabic(locale) ? "الإعدادات" : "Settings",
     sign_out: isArabic(locale) ? "الخروج" : "Sign out",
@@ -82,12 +36,12 @@ export function permissionLabel(
       : "Jurisdiction controls",
   };
 
-  return `${labelMap[anchor.key] ?? fallbackLabel(anchor.key)}: ${stateText}`;
+  return `${labelMap[anchor.key]}: ${stateText}`;
 }
 
 export function verificationWorkflowLabel(
   locale: string,
-  anchor: { key: string; state: string }
+  anchor: VerificationWorkflowAnchor
 ) {
   const stateText =
     anchor.state === "ready"
@@ -102,7 +56,7 @@ export function verificationWorkflowLabel(
       ? "معلق"
       : "Pending";
 
-  const labelMap: Record<string, string> = {
+  const labelMap: Record<VerificationWorkflowAnchor["key"], string> = {
     identity_check: isArabic(locale) ? "التحقق من الهوية" : "Identity check",
     account_review: isArabic(locale) ? "مراجعة الحساب" : "Account review",
     disclosure_acceptance: isArabic(locale)
@@ -111,109 +65,214 @@ export function verificationWorkflowLabel(
     live_activation: isArabic(locale) ? "تفعيل الحقيقي" : "Live activation",
   };
 
-  return `${labelMap[anchor.key] ?? fallbackLabel(anchor.key)}: ${stateText}`;
+  return `${labelMap[anchor.key]}: ${stateText}`;
 }
 
-export function preferenceLabel(locale: string, anchor: { key: string }) {
-  const keyMap: Record<string, string> = {
+export function preferenceLabel(locale: string, anchor: AccountPreferenceAnchor) {
+  const keyMap: Record<AccountPreferenceAnchor["key"], string> = {
     language: isArabic(locale) ? "اللغة" : "Language",
     direction: isArabic(locale) ? "الاتجاه" : "Direction",
     density: isArabic(locale) ? "الكثافة" : "Density",
-    chart_layout: isArabic(locale) ? "مخطط الرسم" : "Chart layout",
-    risk_confirmations: isArabic(locale) ? "تأكيد المخاطر" : "Risk confirmations",
+    chart_layout: isArabic(locale) ? "هيكل الرسم" : "Chart layout",
+    risk_confirmation: isArabic(locale) ? "تأكيد المخاطر" : "Risk confirmation",
   };
 
-  return keyMap[anchor.key] ?? fallbackLabel(anchor.key);
+  const valueMap: Record<string, string> = {
+    Arabic: isArabic(locale) ? "العربية" : "Arabic",
+    English: isArabic(locale) ? "الإنجليزية" : "English",
+    RTL: "RTL",
+    LTR: "LTR",
+    Adaptive: isArabic(locale) ? "تكيفية" : "Adaptive",
+    "Primary workspace": isArabic(locale) ? "مساحة رئيسية" : "Primary workspace",
+    Enabled: isArabic(locale) ? "مفعل" : "Enabled",
+  };
+
+  return `${keyMap[anchor.key]}: ${valueMap[anchor.value] || anchor.value}`;
 }
 
-export function securityRouteValue(locale: string, routeState: string) {
-  const valueMap: Record<string, string> = {
-    guarded: isArabic(locale) ? "محروس" : "Guarded",
-    open: isArabic(locale) ? "مفتوح" : "Open",
-    restricted: isArabic(locale) ? "مقيد" : "Restricted",
+export function onboardingStageLabel(locale: string, stage: string) {
+  const stageMap: Record<string, string> = {
+    foundation: isArabic(locale)
+      ? "مرحلة الإعداد: أساس"
+      : "Onboarding: Foundation",
+    identity_ready: isArabic(locale)
+      ? "مرحلة الإعداد: هوية جاهزة"
+      : "Onboarding: Identity-ready",
+    account_ready: isArabic(locale)
+      ? "مرحلة الإعداد: حساب جاهز"
+      : "Onboarding: Account-ready",
+    activation_review: isArabic(locale)
+      ? "مرحلة الإعداد: مراجعة التفعيل"
+      : "Onboarding: Activation review",
+    active: isArabic(locale) ? "مرحلة الإعداد: نشط" : "Onboarding: Active",
   };
 
-  return valueMap[routeState] ?? fallbackLabel(routeState);
+  return stageMap[stage] || stage;
 }
 
-export function securityAccessValue(locale: string, accessState: string) {
-  const valueMap: Record<string, string> = {
-    least_privilege: isArabic(locale) ? "أقل صلاحية" : "Least privilege",
-    role_scoped: isArabic(locale) ? "حسب الدور" : "Role scoped",
-    open: isArabic(locale) ? "مفتوح" : "Open",
+export function executionGuardrailLabel(
+  locale: string,
+  key: ExecutionGuardrailKey
+) {
+  const map: Record<ExecutionGuardrailKey, string> = {
+    demo_only: isArabic(locale)
+      ? "تنفيذ حقيقي محجوب"
+      : "Live execution blocked",
+    session_locked: isArabic(locale) ? "الجلسة مقفلة" : "Session locked",
+    max_open_trades: isArabic(locale)
+      ? "تم بلوغ الحد الأقصى"
+      : "Max open trades reached",
   };
 
-  return valueMap[accessState] ?? fallbackLabel(accessState);
+  return map[key];
+}
+
+export function securityRouteValue(
+  locale: string,
+  routeState: SecurityFoundationSurface["routeState"]
+) {
+  return routeState === "guarded"
+    ? isArabic(locale)
+      ? "محروس"
+      : "Guarded"
+    : routeState;
+}
+
+export function securityAccessValue(
+  locale: string,
+  accessState: SecurityFoundationSurface["accessState"]
+) {
+  return accessState === "least_privilege"
+    ? isArabic(locale)
+      ? "أقل صلاحية"
+      : "Least privilege"
+    : accessState;
 }
 
 export function securityExecutionValue(
   locale: string,
-  executionProtectionState: string
+  executionProtectionState: SecurityFoundationSurface["executionProtectionState"]
 ) {
-  const valueMap: Record<string, string> = {
-    demo_only_enforced: isArabic(locale)
+  return executionProtectionState === "demo_only_enforced"
+    ? isArabic(locale)
       ? "تجريبي فقط مفروض"
-      : "Demo-only enforced",
-    guarded: isArabic(locale) ? "محروس" : "Guarded",
-    open: isArabic(locale) ? "مفتوح" : "Open",
-  };
-
-  return valueMap[executionProtectionState] ?? fallbackLabel(executionProtectionState);
+      : "Demo-only enforced"
+    : executionProtectionState;
 }
 
-export function securityDataValue(locale: string, dataProtectionState: string) {
-  const valueMap: Record<string, string> = {
-    mode_separated: isArabic(locale) ? "فصل حسب النمط" : "Mode-separated",
-    encrypted: isArabic(locale) ? "مشفر" : "Encrypted",
-    guarded: isArabic(locale) ? "محروس" : "Guarded",
-  };
-
-  return valueMap[dataProtectionState] ?? fallbackLabel(dataProtectionState);
+export function securityDataValue(
+  locale: string,
+  dataProtectionState: SecurityFoundationSurface["dataProtectionState"]
+) {
+  return dataProtectionState === "mode_separated"
+    ? isArabic(locale)
+      ? "فصل حسب الوضع"
+      : "Mode-separated"
+    : dataProtectionState;
 }
 
-export function securitySecretsValue(locale: string, secretState: string) {
-  const valueMap: Record<string, string> = {
-    local_env_guarded: isArabic(locale)
-      ? "بيئة محلية محروسة"
-      : "Local env guarded",
-    vaulted: isArabic(locale) ? "مؤمّن" : "Vaulted",
-    open: isArabic(locale) ? "مفتوح" : "Open",
-  };
-
-  return valueMap[secretState] ?? fallbackLabel(secretState);
+export function securitySecretsValue(
+  locale: string,
+  secretState: SecurityFoundationSurface["secretState"]
+) {
+  return secretState === "local_env_guarded"
+    ? isArabic(locale)
+      ? "ملف بيئة محلي محروس"
+      : "Local env guarded"
+    : secretState;
 }
 
 export function securitySessionValue(
   locale: string,
-  sessionProtectionState: string
+  sessionProtectionState: SecurityFoundationSurface["sessionProtectionState"]
 ) {
-  const valueMap: Record<string, string> = {
-    guarded: isArabic(locale) ? "محروسة" : "Guarded",
-    linked: isArabic(locale) ? "مرتبطة" : "Linked",
-    open: isArabic(locale) ? "مفتوحة" : "Open",
-  };
-
-  return valueMap[sessionProtectionState] ?? fallbackLabel(sessionProtectionState);
+  return sessionProtectionState === "guarded"
+    ? isArabic(locale)
+      ? "محروسة"
+      : "Guarded"
+    : sessionProtectionState;
 }
 
-export function securityRecoveryValue(locale: string, recoveryState: string) {
-  const valueMap: Record<string, string> = {
-    safe_fallback_ready: isArabic(locale)
+export function securityRecoveryValue(
+  locale: string,
+  recoveryState: SecurityFoundationSurface["recoveryState"]
+) {
+  return recoveryState === "safe_fallback_ready"
+    ? isArabic(locale)
       ? "بديل آمن جاهز"
-      : "Safe fallback ready",
-    ready: isArabic(locale) ? "جاهز" : "Ready",
-    unavailable: isArabic(locale) ? "غير متاح" : "Unavailable",
-  };
-
-  return valueMap[recoveryState] ?? fallbackLabel(recoveryState);
+      : "Safe fallback ready"
+    : recoveryState;
 }
 
-export function securityAlertValue(locale: string, alertLevel: string) {
-  const valueMap: Record<string, string> = {
-    normal: isArabic(locale) ? "طبيعي" : "Normal",
-    elevated: isArabic(locale) ? "مرتفع" : "Elevated",
-    critical: isArabic(locale) ? "حرج" : "Critical",
-  };
+export function securityAlertValue(
+  locale: string,
+  alertLevel: SecurityFoundationSurface["alertLevel"]
+) {
+  return alertLevel === "elevated"
+    ? isArabic(locale)
+      ? "مرتفع"
+      : "Elevated"
+    : isArabic(locale)
+    ? "طبيعي"
+    : "Normal";
+}
 
-  return valueMap[alertLevel] ?? fallbackLabel(alertLevel);
+export function getCoreModeCopy(locale: string) {
+  return {
+    modeLabel: isArabic(locale) ? "وضع الحساب" : "Account",
+    demoLabel: isArabic(locale) ? "تجريبي" : "Demo",
+    realLabel: isArabic(locale) ? "حقيقي" : "Real",
+    analysisTimeframeLabel: isArabic(locale)
+      ? "إطار التحليل"
+      : "Analysis timeframe",
+    durationFieldLabel: isArabic(locale)
+      ? "مدة التنفيذ"
+      : "Execution duration",
+    accountStatusLabel: isArabic(locale) ? "حالة الحساب" : "Account status",
+    profileLabel: isArabic(locale) ? "الملف" : "Profile",
+    settingsLabel: isArabic(locale) ? "الإعدادات" : "Settings",
+    signOutLabel: isArabic(locale) ? "الخروج" : "Sign out",
+    policyPanelLabel: isArabic(locale) ? "سياسة الحساب" : "Account policy",
+    userRole: isArabic(locale) ? "المالك" : "Owner",
+  };
+}
+
+export function getAuditPanelCopy(locale: string) {
+  return {
+    title: isArabic(locale) ? "لوحة التدقيق والتتبع" : "Audit + Traceability",
+    subtitle: isArabic(locale)
+      ? "أثر زمني واضح للأحداث الأساسية داخل المنصة."
+      : "A visible event timeline for core platform actions.",
+    actorLabel: isArabic(locale) ? "الفاعل" : "Actor",
+    accountModeLabel: isArabic(locale) ? "الحساب" : "Account",
+    visibilityLabel: isArabic(locale) ? "الرؤية" : "Visibility",
+    traceLabel: isArabic(locale) ? "حالة الربط" : "Trace state",
+    lastEventLabel: isArabic(locale) ? "آخر حدث" : "Last event",
+    emptyLabel: isArabic(locale)
+      ? "لا توجد أحداث تدقيق بعد."
+      : "No audit events yet.",
+    visibleValue: isArabic(locale) ? "مرئي للمشغل" : "Operator visible",
+    hiddenValue: isArabic(locale) ? "مخفي" : "Hidden",
+    linkedValue: isArabic(locale) ? "مرتبط" : "Linked",
+    standbyValue: isArabic(locale) ? "انتظار" : "Standby",
+  };
+}
+
+export function getSecurityPanelCopy(locale: string) {
+  return {
+    title: isArabic(locale) ? "لوحة الأمان" : "Security Foundation",
+    subtitle: isArabic(locale)
+      ? "حواجز الأمان الأساسية الفعالة داخل المنصة."
+      : "Core active security guardrails across the platform.",
+    routeLabel: isArabic(locale) ? "المسار" : "Route",
+    accessLabel: isArabic(locale) ? "الوصول" : "Access",
+    executionLabel: isArabic(locale) ? "حماية التنفيذ" : "Execution protection",
+    dataLabel: isArabic(locale) ? "حماية البيانات" : "Data protection",
+    secretsLabel: isArabic(locale) ? "الأسرار" : "Secrets",
+    sessionLabel: isArabic(locale) ? "الجلسة" : "Session",
+    recoveryLabel: isArabic(locale) ? "الاستعادة" : "Recovery",
+    alertLabel: isArabic(locale) ? "التنبيه" : "Alert",
+    accountLabel: isArabic(locale) ? "الحساب" : "Account",
+    reviewedAtLabel: isArabic(locale) ? "آخر مراجعة" : "Last reviewed",
+  };
 }

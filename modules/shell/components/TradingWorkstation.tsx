@@ -1,12 +1,6 @@
 "use client";
 
 import { PLATFORM_LIMITS } from "../../../lib/constants/platform";
-import type {
-  AccountPreferenceAnchor,
-  ExecutionGuardrailKey,
-  PermissionAnchor,
-  VerificationWorkflowAnchor,
-} from "../types/platform-state";
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
 import { usePlatformState } from "../hooks/use-platform-state";
 import {
@@ -28,101 +22,24 @@ import {
   SummaryCard,
   TradingTopbar,
 } from "./PlatformShellV2";
-
-function permissionLabel(locale: string, anchor: PermissionAnchor) {
-  const stateText =
-    anchor.state === "enabled"
-      ? locale === "ar"
-        ? "مفعل"
-        : "Enabled"
-      : anchor.state === "read_only"
-      ? locale === "ar"
-        ? "قراءة فقط"
-        : "Read-only"
-      : locale === "ar"
-      ? "محجوب"
-      : "Blocked";
-
-  const labelMap: Record<PermissionAnchor["key"], string> = {
-    profile: locale === "ar" ? "الملف" : "Profile",
-    settings: locale === "ar" ? "الإعدادات" : "Settings",
-    sign_out: locale === "ar" ? "الخروج" : "Sign out",
-    demo_execution: locale === "ar" ? "تنفيذ تجريبي" : "Demo execution",
-    real_execution: locale === "ar" ? "تنفيذ حقيقي" : "Real execution",
-    audit_surface: locale === "ar" ? "سطح التدقيق" : "Audit surface",
-    jurisdiction_controls: locale === "ar" ? "ضوابط الولاية" : "Jurisdiction controls",
-  };
-
-  return `${labelMap[anchor.key]}: ${stateText}`;
-}
-
-function verificationWorkflowLabel(locale: string, anchor: VerificationWorkflowAnchor) {
-  const stateText =
-    anchor.state === "ready"
-      ? locale === "ar"
-        ? "جاهز"
-        : "Ready"
-      : anchor.state === "review"
-      ? locale === "ar"
-        ? "قيد المراجعة"
-        : "Under review"
-      : locale === "ar"
-      ? "معلق"
-      : "Pending";
-
-  const labelMap: Record<VerificationWorkflowAnchor["key"], string> = {
-    identity_check: locale === "ar" ? "التحقق من الهوية" : "Identity check",
-    account_review: locale === "ar" ? "مراجعة الحساب" : "Account review",
-    disclosure_acceptance: locale === "ar" ? "قبول الإفصاحات" : "Disclosure acceptance",
-    live_activation: locale === "ar" ? "تفعيل الحقيقي" : "Live activation",
-  };
-
-  return `${labelMap[anchor.key]}: ${stateText}`;
-}
-
-function preferenceLabel(locale: string, anchor: AccountPreferenceAnchor) {
-  const keyMap: Record<AccountPreferenceAnchor["key"], string> = {
-    language: locale === "ar" ? "اللغة" : "Language",
-    direction: locale === "ar" ? "الاتجاه" : "Direction",
-    density: locale === "ar" ? "الكثافة" : "Density",
-    chart_layout: locale === "ar" ? "هيكل الرسم" : "Chart layout",
-    risk_confirmation: locale === "ar" ? "تأكيد المخاطر" : "Risk confirmation",
-  };
-
-  const valueMap: Record<string, string> = {
-    Arabic: locale === "ar" ? "العربية" : "Arabic",
-    English: locale === "ar" ? "الإنجليزية" : "English",
-    RTL: "RTL",
-    LTR: "LTR",
-    Adaptive: locale === "ar" ? "تكيفية" : "Adaptive",
-    "Primary workspace": locale === "ar" ? "مساحة رئيسية" : "Primary workspace",
-    Enabled: locale === "ar" ? "مفعل" : "Enabled",
-  };
-
-  return `${keyMap[anchor.key]}: ${valueMap[anchor.value] || anchor.value}`;
-}
-
-function onboardingStageLabel(locale: string, stage: string) {
-  const stageMap: Record<string, string> = {
-    foundation: locale === "ar" ? "مرحلة الإعداد: أساس" : "Onboarding: Foundation",
-    identity_ready: locale === "ar" ? "مرحلة الإعداد: هوية جاهزة" : "Onboarding: Identity-ready",
-    account_ready: locale === "ar" ? "مرحلة الإعداد: حساب جاهز" : "Onboarding: Account-ready",
-    activation_review: locale === "ar" ? "مرحلة الإعداد: مراجعة التفعيل" : "Onboarding: Activation review",
-    active: locale === "ar" ? "مرحلة الإعداد: نشط" : "Onboarding: Active",
-  };
-
-  return stageMap[stage] || stage;
-}
-
-function executionGuardrailLabel(locale: string, key: ExecutionGuardrailKey) {
-  const map: Record<ExecutionGuardrailKey, string> = {
-    demo_only: locale === "ar" ? "تنفيذ حقيقي محجوب" : "Live execution blocked",
-    session_locked: locale === "ar" ? "الجلسة مقفلة" : "Session locked",
-    max_open_trades: locale === "ar" ? "تم بلوغ الحد الأقصى" : "Max open trades reached",
-  };
-
-  return map[key];
-}
+import {
+  executionGuardrailLabel,
+  getAuditPanelCopy,
+  getCoreModeCopy,
+  getSecurityPanelCopy,
+  onboardingStageLabel,
+  permissionLabel,
+  preferenceLabel,
+  securityAccessValue as resolveSecurityAccessValue,
+  securityAlertValue as resolveSecurityAlertValue,
+  securityDataValue as resolveSecurityDataValue,
+  securityExecutionValue as resolveSecurityExecutionValue,
+  securityRecoveryValue as resolveSecurityRecoveryValue,
+  securityRouteValue as resolveSecurityRouteValue,
+  securitySecretsValue as resolveSecuritySecretsValue,
+  securitySessionValue as resolveSecuritySessionValue,
+  verificationWorkflowLabel,
+} from "./trading-workstation-labels";
 
 export default function TradingWorkstation({
   locale,
@@ -168,18 +85,26 @@ export default function TradingWorkstation({
     closePaperTrade,
   } = usePlatformState(locale, dict.decision.reasons);
 
+  const {
+    modeLabel,
+    demoLabel,
+    realLabel,
+    analysisTimeframeLabel,
+    durationFieldLabel,
+    accountStatusLabel,
+    profileLabel,
+    settingsLabel,
+    signOutLabel,
+    policyPanelLabel,
+    userRole,
+  } = getCoreModeCopy(locale);
+
   const signalStyle = getSignalTone(decision.signal);
   const riskNote = getRiskNote(riskNoteCode, dict);
   const signalLabel = dict.decision.signals[decision.signal];
   const sessionStateLabel = getSessionStateLabel(sessionLocked, dict);
   const sessionPnLText = formatSessionPnl(sessionPnL);
 
-  const modeLabel = locale === "ar" ? "وضع الحساب" : "Account";
-  const demoLabel = locale === "ar" ? "تجريبي" : "Demo";
-  const realLabel = locale === "ar" ? "حقيقي" : "Real";
-  const analysisTimeframeLabel = locale === "ar" ? "إطار التحليل" : "Analysis timeframe";
-  const durationFieldLabel = locale === "ar" ? "مدة التنفيذ" : "Execution duration";
-  const accountStatusLabel = locale === "ar" ? "حالة الحساب" : "Account status";
   const accountStatusValue =
     accountStatus === "active"
       ? locale === "ar"
@@ -201,12 +126,6 @@ export default function TradingWorkstation({
       : locale === "ar"
       ? "غير موثق"
       : "Unverified";
-
-  const userRole = locale === "ar" ? "المالك" : "Owner";
-  const profileLabel = locale === "ar" ? "الملف" : "Profile";
-  const settingsLabel = locale === "ar" ? "الإعدادات" : "Settings";
-  const signOutLabel = locale === "ar" ? "الخروج" : "Sign out";
-  const policyPanelLabel = locale === "ar" ? "سياسة الحساب" : "Account policy";
 
   const jurisdictionChips = [
     locale === "ar" ? "الولاية: عالمية" : "Jurisdiction: Global",
@@ -458,118 +377,77 @@ export default function TradingWorkstation({
       ? "وضع الحساب الحقيقي موجود في الأساس، لكن التوجيه والتنفيذ الحقيقيين غير مفعّلين بعد."
       : "Real account mode exists in the foundation, but live routing and real execution are not enabled yet.";
 
-  const auditTitle = locale === "ar" ? "لوحة التدقيق والتتبع" : "Audit + Traceability";
-  const auditSubtitle =
-    locale === "ar"
-      ? "أثر زمني واضح للأحداث الأساسية داخل المنصة."
-      : "A visible event timeline for core platform actions.";
-
-  const auditActorLabel = locale === "ar" ? "الفاعل" : "Actor";
-  const auditAccountModeLabel = locale === "ar" ? "الحساب" : "Account";
-  const auditVisibilityLabel = locale === "ar" ? "الرؤية" : "Visibility";
-  const auditTraceLabel = locale === "ar" ? "حالة الربط" : "Trace state";
-  const auditLastEventLabel = locale === "ar" ? "آخر حدث" : "Last event";
-  const auditEmptyLabel =
-    locale === "ar" ? "لا توجد أحداث تدقيق بعد." : "No audit events yet.";
+  const auditCopy = getAuditPanelCopy(locale);
+  const auditTitle = auditCopy.title;
+  const auditSubtitle = auditCopy.subtitle;
+  const auditActorLabel = auditCopy.actorLabel;
+  const auditAccountModeLabel = auditCopy.accountModeLabel;
+  const auditVisibilityLabel = auditCopy.visibilityLabel;
+  const auditTraceLabel = auditCopy.traceLabel;
+  const auditLastEventLabel = auditCopy.lastEventLabel;
+  const auditEmptyLabel = auditCopy.emptyLabel;
 
   const auditAccountModeValue =
     auditTraceFoundation.currentAccountMode === "demo" ? demoLabel : realLabel;
 
   const auditVisibilityValue =
     auditTraceFoundation.visibilityState === "operator_visible"
-      ? locale === "ar"
-        ? "مرئي للمشغل"
-        : "Operator visible"
-      : locale === "ar"
-      ? "مخفي"
-      : "Hidden";
+      ? auditCopy.visibleValue
+      : auditCopy.hiddenValue;
 
   const auditTraceValue =
     auditTraceFoundation.decisionTraceState === "linked" &&
     auditTraceFoundation.executionTraceState === "linked" &&
     auditTraceFoundation.sessionTraceState === "linked"
-      ? locale === "ar"
-        ? "مرتبط"
-        : "Linked"
-      : locale === "ar"
-      ? "انتظار"
-      : "Standby";
+      ? auditCopy.linkedValue
+      : auditCopy.standbyValue;
 
-  const securityTitle = locale === "ar" ? "لوحة الأمان" : "Security Foundation";
-  const securitySubtitle =
-    locale === "ar"
-      ? "حواجز الأمان الأساسية الفعالة داخل المنصة."
-      : "Core active security guardrails across the platform.";
+  const securityCopy = getSecurityPanelCopy(locale);
+  const securityTitle = securityCopy.title;
+  const securitySubtitle = securityCopy.subtitle;
+  const securityRouteLabel = securityCopy.routeLabel;
+  const securityAccessLabel = securityCopy.accessLabel;
+  const securityExecutionLabel = securityCopy.executionLabel;
+  const securityDataLabel = securityCopy.dataLabel;
+  const securitySecretsLabel = securityCopy.secretsLabel;
+  const securitySessionLabel = securityCopy.sessionLabel;
+  const securityRecoveryLabel = securityCopy.recoveryLabel;
+  const securityAlertLabel = securityCopy.alertLabel;
+  const securityAccountLabel = securityCopy.accountLabel;
+  const securityReviewedAtLabel = securityCopy.reviewedAtLabel;
 
-  const securityRouteLabel = locale === "ar" ? "المسار" : "Route";
-  const securityAccessLabel = locale === "ar" ? "الوصول" : "Access";
-  const securityExecutionLabel = locale === "ar" ? "حماية التنفيذ" : "Execution protection";
-  const securityDataLabel = locale === "ar" ? "حماية البيانات" : "Data protection";
-  const securitySecretsLabel = locale === "ar" ? "الأسرار" : "Secrets";
-  const securitySessionLabel = locale === "ar" ? "الجلسة" : "Session";
-  const securityRecoveryLabel = locale === "ar" ? "الاستعادة" : "Recovery";
-  const securityAlertLabel = locale === "ar" ? "التنبيه" : "Alert";
-  const securityAccountLabel = locale === "ar" ? "الحساب" : "Account";
-  const securityReviewedAtLabel = locale === "ar" ? "آخر مراجعة" : "Last reviewed";
-
-  const securityRouteValue =
-    securityFoundation.routeState === "guarded"
-      ? locale === "ar"
-        ? "محروس"
-        : "Guarded"
-      : securityFoundation.routeState;
-
-  const securityAccessValue =
-    securityFoundation.accessState === "least_privilege"
-      ? locale === "ar"
-        ? "أقل صلاحية"
-        : "Least privilege"
-      : securityFoundation.accessState;
-
-  const securityExecutionValue =
-    securityFoundation.executionProtectionState === "demo_only_enforced"
-      ? locale === "ar"
-        ? "تجريبي فقط مفروض"
-        : "Demo-only enforced"
-      : securityFoundation.executionProtectionState;
-
-  const securityDataValue =
-    securityFoundation.dataProtectionState === "mode_separated"
-      ? locale === "ar"
-        ? "فصل حسب الوضع"
-        : "Mode-separated"
-      : securityFoundation.dataProtectionState;
-
-  const securitySecretsValue =
-    securityFoundation.secretState === "local_env_guarded"
-      ? locale === "ar"
-        ? "ملف بيئة محلي محروس"
-        : "Local env guarded"
-      : securityFoundation.secretState;
-
-  const securitySessionValue =
-    securityFoundation.sessionProtectionState === "guarded"
-      ? locale === "ar"
-        ? "محروسة"
-        : "Guarded"
-      : securityFoundation.sessionProtectionState;
-
-  const securityRecoveryValue =
-    securityFoundation.recoveryState === "safe_fallback_ready"
-      ? locale === "ar"
-        ? "بديل آمن جاهز"
-        : "Safe fallback ready"
-      : securityFoundation.recoveryState;
-
-  const securityAlertValue =
-    securityFoundation.alertLevel === "elevated"
-      ? locale === "ar"
-        ? "مرتفع"
-        : "Elevated"
-      : locale === "ar"
-      ? "طبيعي"
-      : "Normal";
-
+  const securityRouteValue = resolveSecurityRouteValue(
+    locale,
+    securityFoundation.routeState
+  );
+  const securityAccessValue = resolveSecurityAccessValue(
+    locale,
+    securityFoundation.accessState
+  );
+  const securityExecutionValue = resolveSecurityExecutionValue(
+    locale,
+    securityFoundation.executionProtectionState
+  );
+  const securityDataValue = resolveSecurityDataValue(
+    locale,
+    securityFoundation.dataProtectionState
+  );
+  const securitySecretsValue = resolveSecuritySecretsValue(
+    locale,
+    securityFoundation.secretState
+  );
+  const securitySessionValue = resolveSecuritySessionValue(
+    locale,
+    securityFoundation.sessionProtectionState
+  );
+  const securityRecoveryValue = resolveSecurityRecoveryValue(
+    locale,
+    securityFoundation.recoveryState
+  );
+  const securityAlertValue = resolveSecurityAlertValue(
+    locale,
+    securityFoundation.alertLevel
+  );
   const securityAccountValue =
     securityFoundation.currentAccountMode === "demo" ? demoLabel : realLabel;
 
