@@ -1,0 +1,758 @@
+[
+  {
+    "config": "edge-fresh",
+    "route": "root",
+    "status": 200,
+    "logs": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+      }
+    ],
+    "errors": [],
+    "inspection": {
+      "href": "http://localhost:3000/",
+      "bodyTextLen": 1516,
+      "bodyTextSample": "TPM\nTrading Pro Max\nTrading Workstation Core\nEUR/USD\n1.0853\n+0.02%\nOPEN\nDIAGNOSTICS\nSETTINGS\nPAPER ACCESS: ENABLED\nDemo\nReal\n10,000.00$\nTPM AI COMMAND\nWait\n61%\nSELECTED ASSET\nEUR/USD\nCurrent timeframe: 1m\nPAPER ACCESS\nENABLED\nPaper / Local\nCURRENT READINESS\nPaper-ready\nConfidence: 61%\nOPEN TRADES\n0\nJournal: 0 / Session result: +$0.00\nEUR/USD\n1.0853",
+      "dom": {
+        "tpmv2Page": true,
+        "shellDesktop": true,
+        "main": true,
+        "chart": true
+      },
+      "nodes": [
+        {
+          "selector": "body",
+          "rect": {
+            "width": 1440,
+            "height": 945.8125,
+            "top": 0,
+            "left": 0
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "static",
+            "zIndex": "auto",
+            "width": "1440px",
+            "height": "945.812px",
+            "minHeight": "100%",
+            "overflow": "hidden auto",
+            "transform": "none",
+            "background": "radial-gradient(circle at 100% 0%, rgba(45, 212, 191, 0.1), rgba(0, 0, 0, 0) 24%) repeat scroll 0% 0% / auto padding-box border-box, radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.08), rgba(0, 0, 0, 0) 24%) repeat scroll 0% 0% / auto padding-box border-box, rgb(7, 17, 29) none repeat scroll 0% 0% / auto padding-box border-box"
+          },
+          "text": "TPMTrading Pro MaxTrading Workstation CoreEUR/USD1.0853+0.02%OpenDiagnosticsSettingsPaper access: EnabledAccountDemoReal10,000.00$TPM AI CommandWait61%Selected assetEUR/USDCurrent "
+        },
+        {
+          "selector": "main",
+          "rect": {
+            "width": 1440,
+            "height": 945.8125,
+            "top": 0,
+            "left": 0
+          },
+          "style": {
+            "display": "grid",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "static",
+            "zIndex": "auto",
+            "width": "1440px",
+            "height": "945.812px",
+            "minHeight": "900px",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
+          },
+          "text": "TPMTrading Pro MaxTrading Workstation CoreEUR/USD1.0853+0.02%OpenDiagnosticsSettingsPaper access: EnabledAccountDemoReal10,000.00$TPM AI CommandWait61%Selected assetEUR/USDCurrent "
+        },
+        null,
+        null,
+        {
+          "selector": ".tpmv2-page",
+          "rect": {
+            "width": 1440,
+            "height": 945.8125,
+            "top": 0,
+            "left": 0
+          },
+          "style": {
+            "display": "grid",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "static",
+            "zIndex": "auto",
+            "width": "1440px",
+            "height": "945.812px",
+            "minHeight": "900px",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
+          },
+          "text": "TPMTrading Pro MaxTrading Workstation CoreEUR/USD1.0853+0.02%OpenDiagnosticsSettingsPaper access: EnabledAccountDemoReal10,000.00$TPM AI CommandWait61%Selected assetEUR/USDCurrent "
+        },
+        {
+          "selector": ".tpmv2-shell-desktop",
+          "rect": {
+            "width": 1427.0625,
+            "height": 932.875,
+            "top": 6.46875,
+            "left": 6.46875
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "relative",
+            "zIndex": "auto",
+            "width": "1427.06px",
+            "height": "932.875px",
+            "minHeight": "0px",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
+          },
+          "text": "TPMTrading Pro MaxTrading Workstation CoreEUR/USD1.0853+0.02%OpenDiagnosticsSettingsPaper access: EnabledAccountDemoReal10,000.00$TPM AI CommandWait61%Selected assetEUR/USDCurrent "
+        },
+        {
+          "selector": ".tpmv2-main",
+          "rect": {
+            "width": 1427.0625,
+            "height": 932.875,
+            "top": 6.46875,
+            "left": 6.46875
+          },
+          "style": {
+            "display": "grid",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "relative",
+            "zIndex": "auto",
+            "width": "1427.06px",
+            "height": "932.875px",
+            "minHeight": "0px",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
+          },
+          "text": "TPMTrading Pro MaxTrading Workstation CoreEUR/USD1.0853+0.02%OpenDiagnosticsSettingsPaper access: EnabledAccountDemoReal10,000.00$TPM AI CommandWait61%Selected assetEUR/USDCurrent "
+        },
+        {
+          "selector": ".tpmv2-chart",
+          "rect": {
+            "width": 1427.0625,
+            "height": 782,
+            "top": 125.34375,
+            "left": 6.46875
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "static",
+            "zIndex": "auto",
+            "width": "1427.06px",
+            "height": "782px",
+            "minHeight": "0px",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "rgba(0, 0, 0, 0) none repeat scroll 0px 0px / auto padding-box border-box"
+          },
+          "text": "EUR/USD1.0853+0.02%OpenTypeCandlesAreaLineBarsTimeframe1m5m15m1hMarketsExecution PanelJournalCursorTrendLevelRangeNoteIndicatorsEMA 20RSIMACDVOL-100%+Reset1.08851.08661.08481.0829O"
+        }
+      ]
+    }
+  },
+  {
+    "config": "edge-fresh",
+    "route": "en",
+    "status": 200,
+    "logs": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+      }
+    ],
+    "errors": [],
+    "inspection": {
+      "href": "http://localhost:3000/en",
+      "bodyTextLen": 1604,
+      "bodyTextSample": "TPM\nTrading Pro Max\nGLOBAL I18N FOUNDATION\nTRADING\nDIAGNOSTICS\nSETTINGS\nالعربية\nEnglish\nTPM\nTrading Pro Max\nTrading Workstation Core\nEUR/USD\n1.0853\n+0.02%\nOPEN\nDIAGNOSTICS\nSETTINGS\nPAPER ACCESS: ENABLED\nDemo\nReal\n10,000.00$\nTPM AI COMMAND\nWait\n61%\nSELECTED ASSET\nEUR/USD\nCurrent timeframe: 1m\nPAPER ACCESS\nENABLED\nPaper / Local\nCURRENT READINESS\nPape",
+      "dom": {
+        "tpmv2Page": true,
+        "shellDesktop": true,
+        "main": true,
+        "chart": true
+      },
+      "nodes": [
+        {
+          "selector": "body",
+          "rect": {
+            "width": 1440,
+            "height": 991.8125,
+            "top": 0,
+            "left": 0
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "static",
+            "zIndex": "auto",
+            "width": "1440px",
+            "height": "991.812px",
+            "minHeight": "100%",
+            "overflow": "hidden auto",
+            "transform": "none",
+            "background": "radial-gradient(circle at 100% 0%, rgba(45, 212, 191, 0.1), rgba(0, 0, 0, 0) 24%) repeat scroll 0% 0% / auto padding-box border-box, radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.08), rgba(0, 0, 0, 0) 24%) repeat scroll 0% 0% / auto padding-box border-box, rgb(7, 17, 29) none repeat scroll 0% 0% / auto padding-box border-box"
+          },
+          "text": "TPMTrading Pro MaxGlobal i18n foundationTradingDiagnosticsSettingsالعربيةEnglishTPMTrading Pro MaxTrading Workstation CoreEUR/USD1.0853+0.02%OpenDiagnosticsSettingsPaper access: En"
+        },
+        {
+          "selector": "main",
+          "rect": {
+            "width": 1440,
+            "height": 945.8125,
+            "top": 46,
+            "left": 0
+          },
+          "style": {
+            "display": "grid",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "static",
+            "zIndex": "auto",
+            "width": "1440px",
+            "height": "945.812px",
+            "minHeight": "100%",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
+          },
+          "text": "TPMTrading Pro MaxTrading Workstation CoreEUR/USD1.0853+0.02%OpenDiagnosticsSettingsPaper access: EnabledAccountDemoReal10,000.00$TPM AI CommandWait61%Selected assetEUR/USDCurrent "
+        },
+        {
+          "selector": ".tpm-foundation-frame",
+          "rect": {
+            "width": 1440,
+            "height": 991.8125,
+            "top": 0,
+            "left": 0
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "static",
+            "zIndex": "auto",
+            "width": "1440px",
+            "height": "991.812px",
+            "minHeight": "900px",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "radial-gradient(circle at 14% 0px, rgba(45, 212, 191, 0.11), rgba(0, 0, 0, 0) 28%) repeat scroll 0% 0% / auto padding-box border-box, radial-gradient(circle at 82% 10%, rgba(96, 165, 250, 0.09), rgba(0, 0, 0, 0) 34%) repeat scroll 0% 0% / auto padding-box border-box, rgba(0, 0, 0, 0) linear-gradient(rgba(4, 10, 18, 0.92), rgb(3, 7, 13)) repeat scroll 0% 0% / auto padding-box border-box"
+          },
+          "text": "TPMTrading Pro MaxGlobal i18n foundationTradingDiagnosticsSettingsالعربيةEnglishTPMTrading Pro MaxTrading Workstation CoreEUR/USD1.0853+0.02%OpenDiagnosticsSettingsPaper access: En"
+        },
+        {
+          "selector": ".tpm-foundation-body",
+          "rect": {
+            "width": 1440,
+            "height": 945.8125,
+            "top": 46,
+            "left": 0
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "relative",
+            "zIndex": "auto",
+            "width": "1440px",
+            "height": "945.812px",
+            "minHeight": "854px",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
+          },
+          "text": "TPMTrading Pro MaxTrading Workstation CoreEUR/USD1.0853+0.02%OpenDiagnosticsSettingsPaper access: EnabledAccountDemoReal10,000.00$TPM AI CommandWait61%Selected assetEUR/USDCurrent "
+        },
+        {
+          "selector": ".tpmv2-page",
+          "rect": {
+            "width": 1440,
+            "height": 945.8125,
+            "top": 46,
+            "left": 0
+          },
+          "style": {
+            "display": "grid",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "static",
+            "zIndex": "auto",
+            "width": "1440px",
+            "height": "945.812px",
+            "minHeight": "100%",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
+          },
+          "text": "TPMTrading Pro MaxTrading Workstation CoreEUR/USD1.0853+0.02%OpenDiagnosticsSettingsPaper access: EnabledAccountDemoReal10,000.00$TPM AI CommandWait61%Selected assetEUR/USDCurrent "
+        },
+        {
+          "selector": ".tpmv2-shell-desktop",
+          "rect": {
+            "width": 1427.0625,
+            "height": 932.875,
+            "top": 52.46875,
+            "left": 6.46875
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "relative",
+            "zIndex": "auto",
+            "width": "1427.06px",
+            "height": "932.875px",
+            "minHeight": "0px",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
+          },
+          "text": "TPMTrading Pro MaxTrading Workstation CoreEUR/USD1.0853+0.02%OpenDiagnosticsSettingsPaper access: EnabledAccountDemoReal10,000.00$TPM AI CommandWait61%Selected assetEUR/USDCurrent "
+        },
+        {
+          "selector": ".tpmv2-main",
+          "rect": {
+            "width": 1427.0625,
+            "height": 932.875,
+            "top": 52.46875,
+            "left": 6.46875
+          },
+          "style": {
+            "display": "grid",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "relative",
+            "zIndex": "auto",
+            "width": "1427.06px",
+            "height": "932.875px",
+            "minHeight": "0px",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
+          },
+          "text": "TPMTrading Pro MaxTrading Workstation CoreEUR/USD1.0853+0.02%OpenDiagnosticsSettingsPaper access: EnabledAccountDemoReal10,000.00$TPM AI CommandWait61%Selected assetEUR/USDCurrent "
+        },
+        {
+          "selector": ".tpmv2-chart",
+          "rect": {
+            "width": 1427.0625,
+            "height": 782,
+            "top": 171.34375,
+            "left": 6.46875
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "static",
+            "zIndex": "auto",
+            "width": "1427.06px",
+            "height": "782px",
+            "minHeight": "0px",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "rgba(0, 0, 0, 0) none repeat scroll 0px 0px / auto padding-box border-box"
+          },
+          "text": "EUR/USD1.0853+0.02%OpenTypeCandlesAreaLineBarsTimeframe1m5m15m1hMarketsExecution PanelJournalCursorTrendLevelRangeNoteIndicatorsEMA 20RSIMACDVOL-100%+Reset1.08851.08661.08481.0829O"
+        }
+      ]
+    }
+  },
+  {
+    "config": "chrome-fresh",
+    "route": "root",
+    "status": 200,
+    "logs": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+      }
+    ],
+    "errors": [],
+    "inspection": {
+      "href": "http://localhost:3000/",
+      "bodyTextLen": 1516,
+      "bodyTextSample": "TPM\nTrading Pro Max\nTrading Workstation Core\nEUR/USD\n1.0853\n+0.02%\nOPEN\nDIAGNOSTICS\nSETTINGS\nPAPER ACCESS: ENABLED\nDemo\nReal\n10,000.00$\nTPM AI COMMAND\nWait\n61%\nSELECTED ASSET\nEUR/USD\nCurrent timeframe: 1m\nPAPER ACCESS\nENABLED\nPaper / Local\nCURRENT READINESS\nPaper-ready\nConfidence: 61%\nOPEN TRADES\n0\nJournal: 0 / Session result: +$0.00\nEUR/USD\n1.0853",
+      "dom": {
+        "tpmv2Page": true,
+        "shellDesktop": true,
+        "main": true,
+        "chart": true
+      },
+      "nodes": [
+        {
+          "selector": "body",
+          "rect": {
+            "width": 1440,
+            "height": 945.8125,
+            "top": 0,
+            "left": 0
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "static",
+            "zIndex": "auto",
+            "width": "1440px",
+            "height": "945.812px",
+            "minHeight": "100%",
+            "overflow": "hidden auto",
+            "transform": "none",
+            "background": "radial-gradient(circle at 100% 0%, rgba(45, 212, 191, 0.1), rgba(0, 0, 0, 0) 24%) repeat scroll 0% 0% / auto padding-box border-box, radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.08), rgba(0, 0, 0, 0) 24%) repeat scroll 0% 0% / auto padding-box border-box, rgb(7, 17, 29) none repeat scroll 0% 0% / auto padding-box border-box"
+          },
+          "text": "TPMTrading Pro MaxTrading Workstation CoreEUR/USD1.0853+0.02%OpenDiagnosticsSettingsPaper access: EnabledAccountDemoReal10,000.00$TPM AI CommandWait61%Selected assetEUR/USDCurrent "
+        },
+        {
+          "selector": "main",
+          "rect": {
+            "width": 1440,
+            "height": 945.8125,
+            "top": 0,
+            "left": 0
+          },
+          "style": {
+            "display": "grid",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "static",
+            "zIndex": "auto",
+            "width": "1440px",
+            "height": "945.812px",
+            "minHeight": "900px",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
+          },
+          "text": "TPMTrading Pro MaxTrading Workstation CoreEUR/USD1.0853+0.02%OpenDiagnosticsSettingsPaper access: EnabledAccountDemoReal10,000.00$TPM AI CommandWait61%Selected assetEUR/USDCurrent "
+        },
+        null,
+        null,
+        {
+          "selector": ".tpmv2-page",
+          "rect": {
+            "width": 1440,
+            "height": 945.8125,
+            "top": 0,
+            "left": 0
+          },
+          "style": {
+            "display": "grid",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "static",
+            "zIndex": "auto",
+            "width": "1440px",
+            "height": "945.812px",
+            "minHeight": "900px",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
+          },
+          "text": "TPMTrading Pro MaxTrading Workstation CoreEUR/USD1.0853+0.02%OpenDiagnosticsSettingsPaper access: EnabledAccountDemoReal10,000.00$TPM AI CommandWait61%Selected assetEUR/USDCurrent "
+        },
+        {
+          "selector": ".tpmv2-shell-desktop",
+          "rect": {
+            "width": 1427.0625,
+            "height": 932.875,
+            "top": 6.46875,
+            "left": 6.46875
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "relative",
+            "zIndex": "auto",
+            "width": "1427.06px",
+            "height": "932.875px",
+            "minHeight": "0px",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
+          },
+          "text": "TPMTrading Pro MaxTrading Workstation CoreEUR/USD1.0853+0.02%OpenDiagnosticsSettingsPaper access: EnabledAccountDemoReal10,000.00$TPM AI CommandWait61%Selected assetEUR/USDCurrent "
+        },
+        {
+          "selector": ".tpmv2-main",
+          "rect": {
+            "width": 1427.0625,
+            "height": 932.875,
+            "top": 6.46875,
+            "left": 6.46875
+          },
+          "style": {
+            "display": "grid",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "relative",
+            "zIndex": "auto",
+            "width": "1427.06px",
+            "height": "932.875px",
+            "minHeight": "0px",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
+          },
+          "text": "TPMTrading Pro MaxTrading Workstation CoreEUR/USD1.0853+0.02%OpenDiagnosticsSettingsPaper access: EnabledAccountDemoReal10,000.00$TPM AI CommandWait61%Selected assetEUR/USDCurrent "
+        },
+        {
+          "selector": ".tpmv2-chart",
+          "rect": {
+            "width": 1427.0625,
+            "height": 782,
+            "top": 125.34375,
+            "left": 6.46875
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "static",
+            "zIndex": "auto",
+            "width": "1427.06px",
+            "height": "782px",
+            "minHeight": "0px",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "rgba(0, 0, 0, 0) none repeat scroll 0px 0px / auto padding-box border-box"
+          },
+          "text": "EUR/USD1.0853+0.02%OpenTypeCandlesAreaLineBarsTimeframe1m5m15m1hMarketsExecution PanelJournalCursorTrendLevelRangeNoteIndicatorsEMA 20RSIMACDVOL-100%+Reset1.08851.08661.08481.0829O"
+        }
+      ]
+    }
+  },
+  {
+    "config": "chrome-fresh",
+    "route": "en",
+    "status": 200,
+    "logs": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+      }
+    ],
+    "errors": [],
+    "inspection": {
+      "href": "http://localhost:3000/en",
+      "bodyTextLen": 1604,
+      "bodyTextSample": "TPM\nTrading Pro Max\nGLOBAL I18N FOUNDATION\nTRADING\nDIAGNOSTICS\nSETTINGS\nالعربية\nEnglish\nTPM\nTrading Pro Max\nTrading Workstation Core\nEUR/USD\n1.0853\n+0.02%\nOPEN\nDIAGNOSTICS\nSETTINGS\nPAPER ACCESS: ENABLED\nDemo\nReal\n10,000.00$\nTPM AI COMMAND\nWait\n61%\nSELECTED ASSET\nEUR/USD\nCurrent timeframe: 1m\nPAPER ACCESS\nENABLED\nPaper / Local\nCURRENT READINESS\nPape",
+      "dom": {
+        "tpmv2Page": true,
+        "shellDesktop": true,
+        "main": true,
+        "chart": true
+      },
+      "nodes": [
+        {
+          "selector": "body",
+          "rect": {
+            "width": 1440,
+            "height": 991.8125,
+            "top": 0,
+            "left": 0
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "static",
+            "zIndex": "auto",
+            "width": "1440px",
+            "height": "991.812px",
+            "minHeight": "100%",
+            "overflow": "hidden auto",
+            "transform": "none",
+            "background": "radial-gradient(circle at 100% 0%, rgba(45, 212, 191, 0.1), rgba(0, 0, 0, 0) 24%) repeat scroll 0% 0% / auto padding-box border-box, radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.08), rgba(0, 0, 0, 0) 24%) repeat scroll 0% 0% / auto padding-box border-box, rgb(7, 17, 29) none repeat scroll 0% 0% / auto padding-box border-box"
+          },
+          "text": "TPMTrading Pro MaxGlobal i18n foundationTradingDiagnosticsSettingsالعربيةEnglishTPMTrading Pro MaxTrading Workstation CoreEUR/USD1.0853+0.02%OpenDiagnosticsSettingsPaper access: En"
+        },
+        {
+          "selector": "main",
+          "rect": {
+            "width": 1440,
+            "height": 945.8125,
+            "top": 46,
+            "left": 0
+          },
+          "style": {
+            "display": "grid",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "static",
+            "zIndex": "auto",
+            "width": "1440px",
+            "height": "945.812px",
+            "minHeight": "100%",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
+          },
+          "text": "TPMTrading Pro MaxTrading Workstation CoreEUR/USD1.0853+0.02%OpenDiagnosticsSettingsPaper access: EnabledAccountDemoReal10,000.00$TPM AI CommandWait61%Selected assetEUR/USDCurrent "
+        },
+        {
+          "selector": ".tpm-foundation-frame",
+          "rect": {
+            "width": 1440,
+            "height": 991.8125,
+            "top": 0,
+            "left": 0
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "static",
+            "zIndex": "auto",
+            "width": "1440px",
+            "height": "991.812px",
+            "minHeight": "900px",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "radial-gradient(circle at 14% 0px, rgba(45, 212, 191, 0.11), rgba(0, 0, 0, 0) 28%) repeat scroll 0% 0% / auto padding-box border-box, radial-gradient(circle at 82% 10%, rgba(96, 165, 250, 0.09), rgba(0, 0, 0, 0) 34%) repeat scroll 0% 0% / auto padding-box border-box, rgba(0, 0, 0, 0) linear-gradient(rgba(4, 10, 18, 0.92), rgb(3, 7, 13)) repeat scroll 0% 0% / auto padding-box border-box"
+          },
+          "text": "TPMTrading Pro MaxGlobal i18n foundationTradingDiagnosticsSettingsالعربيةEnglishTPMTrading Pro MaxTrading Workstation CoreEUR/USD1.0853+0.02%OpenDiagnosticsSettingsPaper access: En"
+        },
+        {
+          "selector": ".tpm-foundation-body",
+          "rect": {
+            "width": 1440,
+            "height": 945.8125,
+            "top": 46,
+            "left": 0
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "relative",
+            "zIndex": "auto",
+            "width": "1440px",
+            "height": "945.812px",
+            "minHeight": "854px",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
+          },
+          "text": "TPMTrading Pro MaxTrading Workstation CoreEUR/USD1.0853+0.02%OpenDiagnosticsSettingsPaper access: EnabledAccountDemoReal10,000.00$TPM AI CommandWait61%Selected assetEUR/USDCurrent "
+        },
+        {
+          "selector": ".tpmv2-page",
+          "rect": {
+            "width": 1440,
+            "height": 945.8125,
+            "top": 46,
+            "left": 0
+          },
+          "style": {
+            "display": "grid",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "static",
+            "zIndex": "auto",
+            "width": "1440px",
+            "height": "945.812px",
+            "minHeight": "100%",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
+          },
+          "text": "TPMTrading Pro MaxTrading Workstation CoreEUR/USD1.0853+0.02%OpenDiagnosticsSettingsPaper access: EnabledAccountDemoReal10,000.00$TPM AI CommandWait61%Selected assetEUR/USDCurrent "
+        },
+        {
+          "selector": ".tpmv2-shell-desktop",
+          "rect": {
+            "width": 1427.0625,
+            "height": 932.875,
+            "top": 52.46875,
+            "left": 6.46875
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "relative",
+            "zIndex": "auto",
+            "width": "1427.06px",
+            "height": "932.875px",
+            "minHeight": "0px",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
+          },
+          "text": "TPMTrading Pro MaxTrading Workstation CoreEUR/USD1.0853+0.02%OpenDiagnosticsSettingsPaper access: EnabledAccountDemoReal10,000.00$TPM AI CommandWait61%Selected assetEUR/USDCurrent "
+        },
+        {
+          "selector": ".tpmv2-main",
+          "rect": {
+            "width": 1427.0625,
+            "height": 932.875,
+            "top": 52.46875,
+            "left": 6.46875
+          },
+          "style": {
+            "display": "grid",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "relative",
+            "zIndex": "auto",
+            "width": "1427.06px",
+            "height": "932.875px",
+            "minHeight": "0px",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
+          },
+          "text": "TPMTrading Pro MaxTrading Workstation CoreEUR/USD1.0853+0.02%OpenDiagnosticsSettingsPaper access: EnabledAccountDemoReal10,000.00$TPM AI CommandWait61%Selected assetEUR/USDCurrent "
+        },
+        {
+          "selector": ".tpmv2-chart",
+          "rect": {
+            "width": 1427.0625,
+            "height": 782,
+            "top": 171.34375,
+            "left": 6.46875
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "static",
+            "zIndex": "auto",
+            "width": "1427.06px",
+            "height": "782px",
+            "minHeight": "0px",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "rgba(0, 0, 0, 0) none repeat scroll 0px 0px / auto padding-box border-box"
+          },
+          "text": "EUR/USD1.0853+0.02%OpenTypeCandlesAreaLineBarsTimeframe1m5m15m1hMarketsExecution PanelJournalCursorTrendLevelRangeNoteIndicatorsEMA 20RSIMACDVOL-100%+Reset1.08851.08661.08481.0829O"
+        }
+      ]
+    }
+  },
+  {
+    "config": "edge-profile",
+    "error": "Error: browserType.launchPersistentContext: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --profile-directory=Default --user-data-dir=C:\\Users\\ahmad\\AppData\\Local\\Microsoft\\Edge\\User Data --remote-debugging-pipe about:blank\n<launched> pid=5868\nCall log:\n\u001b[2m  - <launching> C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --profile-directory=Default --user-data-dir=C:\\Users\\ahmad\\AppData\\Local\\Microsoft\\Edge\\User Data --remote-debugging-pipe about:blank\u001b[22m\n\u001b[2m  - <launched> pid=5868\u001b[22m\n\u001b[2m  - [pid=5868] <gracefully close start>\u001b[22m\n\u001b[2m  - [pid=5868] <kill>\u001b[22m\n\u001b[2m  - [pid=5868] <will force kill>\u001b[22m\n\u001b[2m  - [pid=5868] taskkill stderr: ERROR: The process \"5868\" not found.\u001b[22m\n\u001b[2m  - [pid=5868] <process did exit: exitCode=21, signal=null>\u001b[22m\n\u001b[2m  - [pid=5868] starting temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=5868] finished temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=5868] <gracefully close end>\u001b[22m\n"
+  },
+  {
+    "config": "chrome-profile",
+    "error": "TimeoutError: browserType.launchPersistentContext: Timeout 180000ms exceeded.\nCall log:\n\u001b[2m  - <launching> C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --profile-directory=Default --user-data-dir=C:\\Users\\ahmad\\AppData\\Local\\Google\\Chrome\\User Data --remote-debugging-pipe about:blank\u001b[22m\n\u001b[2m  - <launched> pid=1148\u001b[22m\n\u001b[2m  - [pid=1148][err]\u001b[22m\n\u001b[2m  - [pid=1148][err] DevTools remote debugging requires a non-default data directory. Specify this using --user-data-dir.\u001b[22m\n\u001b[2m  - [pid=1148][err] [1148:29068:0423/014200.135:ERROR:google_apis\\gcm\\engine\\registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT\u001b[22m\n\u001b[2m  - [pid=1148][err] [1148:29068:0423/014222.304:ERROR:google_apis\\gcm\\engine\\registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT\u001b[22m\n\u001b[2m  - [pid=1148][err] [1148:29068:0423/014316.575:ERROR:google_apis\\gcm\\engine\\registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT\u001b[22m\n\u001b[2m  - [pid=1148][err] [1148:29068:0423/014451.252:ERROR:google_apis\\gcm\\engine\\registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT\u001b[22m\n"
+  }
+]

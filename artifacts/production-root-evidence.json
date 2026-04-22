@@ -1,0 +1,41 @@
+{
+  "status": 200,
+  "logs": [
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    }
+  ],
+  "pageErrors": [],
+  "url": "http://localhost:3000/",
+  "statusTextSample": "TPM\nTrading Pro Max\nTrading Workstation Core\nEUR/USD\n1.0849\n+0.02%\nOPEN\nDIAGNOSTICS\nSETTINGS\nPAPER ACCESS: ENABLED\nDemo\nReal\n10,000.00$\nTPM AI COMMAND\nWait\n61%\nSELECTED ASSET\nEUR/USD\nCurrent timeframe: 1m\nPAPER ACCESS\nENABLED\nPaper / Local\nCURRENT READINESS\nPaper-ready\nConfidence: 61%\nOPEN TRADES\n0\nJournal: 0 / Session result: +$0.00\nEUR/USD\n1.0849\n+0.02%\nOPEN\nTYPE\nCandles\nArea\nLine\nBars\nTIMEFRAME",
+  "domSummary": {
+    "tpmv2PageExists": true,
+    "tpmv2ShellDesktopExists": true
+  },
+  "topLevelVisibleWorkstationContainer": {
+    "selector": ".tpmv2-page",
+    "tag": "MAIN",
+    "className": "tpmv2-page",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "width": 1440,
+      "height": 945.8125,
+      "top": 0,
+      "left": 0
+    },
+    "computedStyle": {
+      "display": "grid",
+      "visibility": "visible",
+      "opacity": "1",
+      "position": "static",
+      "zIndex": "auto",
+      "width": "1440px",
+      "height": "945.812px",
+      "minHeight": "900px",
+      "overflow": "visible",
+      "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
+    }
+  }
+}

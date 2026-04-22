@@ -1,0 +1,732 @@
+[
+  {
+    "route": "root",
+    "requestedUrl": "http://localhost:3000/",
+    "status": 200,
+    "finalUrl": "http://localhost:3000/en",
+    "logs": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+      }
+    ],
+    "errors": [],
+    "inspection": {
+      "href": "http://localhost:3000/en",
+      "bodyTextSample": "TPM\nTrading Pro Max\nGLOBAL I18N FOUNDATION\nTRADING\nDIAGNOSTICS\nSETTINGS\nالعربية\nEnglish\nTPM\nTrading Pro Max\nTrading Workstation Core\nEUR/USD\n1.0855\n+0.03%\nOPEN\nDIAGNOSTICS\nSETTINGS\nPAPER ACCESS: ENABLED\nDemo\nReal\n10,000.00$\nTPM AI COMMAND\nWait\n61%\nSELECTED ASSET\nEUR/USD\nCurrent timeframe: 1m\nPAPER ACCESS\nENABLED\nPaper / Local\nCURRENT READINESS\nPaper-ready\nConfidence: 61%\nOPEN TRADES\n0\nJournal: 0 /",
+      "domSummary": {
+        "tpmv2PageExists": true,
+        "tpmv2ShellDesktopExists": true,
+        "workstationRootExists": true
+      },
+      "boxes": [
+        {
+          "selector": "body",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 1440,
+            "height": 991.8125,
+            "top": 0,
+            "left": 0
+          },
+          "computedStyle": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "static",
+            "zIndex": "auto",
+            "width": "1440px",
+            "height": "991.812px",
+            "minHeight": "100%",
+            "overflow": "hidden auto",
+            "transform": "none",
+            "background": "radial-gradient(circle at 100% 0%, rgba(45, 212, 191, 0.1), rgba(0, 0, 0, 0) 24%) repeat scroll 0% 0% / auto padding-box border-box, radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.08), rgba(0, 0, 0, 0) 24%) repeat scroll 0% 0% / auto padding-box border-box, rgb(7, 17, 29) none repeat scroll 0% 0% / auto padding-box border-box"
+          }
+        },
+        {
+          "selector": "main",
+          "rect": {
+            "x": 0,
+            "y": 46,
+            "width": 1440,
+            "height": 945.8125,
+            "top": 46,
+            "left": 0
+          },
+          "computedStyle": {
+            "display": "grid",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "static",
+            "zIndex": "auto",
+            "width": "1440px",
+            "height": "945.812px",
+            "minHeight": "100%",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
+          }
+        },
+        {
+          "selector": ".tpm-foundation-frame",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 1440,
+            "height": 991.8125,
+            "top": 0,
+            "left": 0
+          },
+          "computedStyle": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "static",
+            "zIndex": "auto",
+            "width": "1440px",
+            "height": "991.812px",
+            "minHeight": "900px",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "radial-gradient(circle at 14% 0px, rgba(45, 212, 191, 0.11), rgba(0, 0, 0, 0) 28%) repeat scroll 0% 0% / auto padding-box border-box, radial-gradient(circle at 82% 10%, rgba(96, 165, 250, 0.09), rgba(0, 0, 0, 0) 34%) repeat scroll 0% 0% / auto padding-box border-box, rgba(0, 0, 0, 0) linear-gradient(rgba(4, 10, 18, 0.92), rgb(3, 7, 13)) repeat scroll 0% 0% / auto padding-box border-box"
+          }
+        },
+        {
+          "selector": ".tpm-foundation-body",
+          "rect": {
+            "x": 0,
+            "y": 46,
+            "width": 1440,
+            "height": 945.8125,
+            "top": 46,
+            "left": 0
+          },
+          "computedStyle": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "relative",
+            "zIndex": "auto",
+            "width": "1440px",
+            "height": "945.812px",
+            "minHeight": "854px",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
+          }
+        },
+        {
+          "selector": ".tpmv2-page",
+          "rect": {
+            "x": 0,
+            "y": 46,
+            "width": 1440,
+            "height": 945.8125,
+            "top": 46,
+            "left": 0
+          },
+          "computedStyle": {
+            "display": "grid",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "static",
+            "zIndex": "auto",
+            "width": "1440px",
+            "height": "945.812px",
+            "minHeight": "100%",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
+          }
+        },
+        {
+          "selector": ".tpmv2-shell-desktop",
+          "rect": {
+            "x": 6.46875,
+            "y": 52.46875,
+            "width": 1427.0625,
+            "height": 932.875,
+            "top": 52.46875,
+            "left": 6.46875
+          },
+          "computedStyle": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "relative",
+            "zIndex": "auto",
+            "width": "1427.06px",
+            "height": "932.875px",
+            "minHeight": "0px",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
+          }
+        },
+        {
+          "selector": ".tpmv2-main",
+          "rect": {
+            "x": 6.46875,
+            "y": 52.46875,
+            "width": 1427.0625,
+            "height": 932.875,
+            "top": 52.46875,
+            "left": 6.46875
+          },
+          "computedStyle": {
+            "display": "grid",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "relative",
+            "zIndex": "auto",
+            "width": "1427.06px",
+            "height": "932.875px",
+            "minHeight": "0px",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
+          }
+        },
+        {
+          "selector": ".tpmv2-chart",
+          "rect": {
+            "x": 6.46875,
+            "y": 171.34375,
+            "width": 1427.0625,
+            "height": 782,
+            "top": 171.34375,
+            "left": 6.46875
+          },
+          "computedStyle": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "static",
+            "zIndex": "auto",
+            "width": "1427.06px",
+            "height": "782px",
+            "minHeight": "0px",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "rgba(0, 0, 0, 0) none repeat scroll 0px 0px / auto padding-box border-box"
+          }
+        }
+      ],
+      "workstationRoot": {
+        "selector": ".tpmv2-page",
+        "rect": {
+          "x": 0,
+          "y": 46,
+          "width": 1440,
+          "height": 945.8125,
+          "top": 46,
+          "left": 0
+        },
+        "computedStyle": {
+          "display": "grid",
+          "visibility": "visible",
+          "opacity": "1",
+          "position": "static",
+          "zIndex": "auto",
+          "width": "1440px",
+          "height": "945.812px",
+          "minHeight": "100%",
+          "overflow": "visible",
+          "transform": "none",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
+        }
+      }
+    }
+  },
+  {
+    "route": "en",
+    "requestedUrl": "http://localhost:3000/en",
+    "status": 200,
+    "finalUrl": "http://localhost:3000/en",
+    "logs": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+      }
+    ],
+    "errors": [],
+    "inspection": {
+      "href": "http://localhost:3000/en",
+      "bodyTextSample": "TPM\nTrading Pro Max\nGLOBAL I18N FOUNDATION\nTRADING\nDIAGNOSTICS\nSETTINGS\nالعربية\nEnglish\nTPM\nTrading Pro Max\nTrading Workstation Core\nEUR/USD\n1.0855\n+0.03%\nOPEN\nDIAGNOSTICS\nSETTINGS\nPAPER ACCESS: ENABLED\nDemo\nReal\n10,000.00$\nTPM AI COMMAND\nWait\n61%\nSELECTED ASSET\nEUR/USD\nCurrent timeframe: 1m\nPAPER ACCESS\nENABLED\nPaper / Local\nCURRENT READINESS\nPaper-ready\nConfidence: 61%\nOPEN TRADES\n0\nJournal: 0 /",
+      "domSummary": {
+        "tpmv2PageExists": true,
+        "tpmv2ShellDesktopExists": true,
+        "workstationRootExists": true
+      },
+      "boxes": [
+        {
+          "selector": "body",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 1440,
+            "height": 991.8125,
+            "top": 0,
+            "left": 0
+          },
+          "computedStyle": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "static",
+            "zIndex": "auto",
+            "width": "1440px",
+            "height": "991.812px",
+            "minHeight": "100%",
+            "overflow": "hidden auto",
+            "transform": "none",
+            "background": "radial-gradient(circle at 100% 0%, rgba(45, 212, 191, 0.1), rgba(0, 0, 0, 0) 24%) repeat scroll 0% 0% / auto padding-box border-box, radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.08), rgba(0, 0, 0, 0) 24%) repeat scroll 0% 0% / auto padding-box border-box, rgb(7, 17, 29) none repeat scroll 0% 0% / auto padding-box border-box"
+          }
+        },
+        {
+          "selector": "main",
+          "rect": {
+            "x": 0,
+            "y": 46,
+            "width": 1440,
+            "height": 945.8125,
+            "top": 46,
+            "left": 0
+          },
+          "computedStyle": {
+            "display": "grid",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "static",
+            "zIndex": "auto",
+            "width": "1440px",
+            "height": "945.812px",
+            "minHeight": "100%",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
+          }
+        },
+        {
+          "selector": ".tpm-foundation-frame",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 1440,
+            "height": 991.8125,
+            "top": 0,
+            "left": 0
+          },
+          "computedStyle": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "static",
+            "zIndex": "auto",
+            "width": "1440px",
+            "height": "991.812px",
+            "minHeight": "900px",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "radial-gradient(circle at 14% 0px, rgba(45, 212, 191, 0.11), rgba(0, 0, 0, 0) 28%) repeat scroll 0% 0% / auto padding-box border-box, radial-gradient(circle at 82% 10%, rgba(96, 165, 250, 0.09), rgba(0, 0, 0, 0) 34%) repeat scroll 0% 0% / auto padding-box border-box, rgba(0, 0, 0, 0) linear-gradient(rgba(4, 10, 18, 0.92), rgb(3, 7, 13)) repeat scroll 0% 0% / auto padding-box border-box"
+          }
+        },
+        {
+          "selector": ".tpm-foundation-body",
+          "rect": {
+            "x": 0,
+            "y": 46,
+            "width": 1440,
+            "height": 945.8125,
+            "top": 46,
+            "left": 0
+          },
+          "computedStyle": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "relative",
+            "zIndex": "auto",
+            "width": "1440px",
+            "height": "945.812px",
+            "minHeight": "854px",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
+          }
+        },
+        {
+          "selector": ".tpmv2-page",
+          "rect": {
+            "x": 0,
+            "y": 46,
+            "width": 1440,
+            "height": 945.8125,
+            "top": 46,
+            "left": 0
+          },
+          "computedStyle": {
+            "display": "grid",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "static",
+            "zIndex": "auto",
+            "width": "1440px",
+            "height": "945.812px",
+            "minHeight": "100%",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
+          }
+        },
+        {
+          "selector": ".tpmv2-shell-desktop",
+          "rect": {
+            "x": 6.46875,
+            "y": 52.46875,
+            "width": 1427.0625,
+            "height": 932.875,
+            "top": 52.46875,
+            "left": 6.46875
+          },
+          "computedStyle": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "relative",
+            "zIndex": "auto",
+            "width": "1427.06px",
+            "height": "932.875px",
+            "minHeight": "0px",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
+          }
+        },
+        {
+          "selector": ".tpmv2-main",
+          "rect": {
+            "x": 6.46875,
+            "y": 52.46875,
+            "width": 1427.0625,
+            "height": 932.875,
+            "top": 52.46875,
+            "left": 6.46875
+          },
+          "computedStyle": {
+            "display": "grid",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "relative",
+            "zIndex": "auto",
+            "width": "1427.06px",
+            "height": "932.875px",
+            "minHeight": "0px",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
+          }
+        },
+        {
+          "selector": ".tpmv2-chart",
+          "rect": {
+            "x": 6.46875,
+            "y": 171.34375,
+            "width": 1427.0625,
+            "height": 782,
+            "top": 171.34375,
+            "left": 6.46875
+          },
+          "computedStyle": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "static",
+            "zIndex": "auto",
+            "width": "1427.06px",
+            "height": "782px",
+            "minHeight": "0px",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "rgba(0, 0, 0, 0) none repeat scroll 0px 0px / auto padding-box border-box"
+          }
+        }
+      ],
+      "workstationRoot": {
+        "selector": ".tpmv2-page",
+        "rect": {
+          "x": 0,
+          "y": 46,
+          "width": 1440,
+          "height": 945.8125,
+          "top": 46,
+          "left": 0
+        },
+        "computedStyle": {
+          "display": "grid",
+          "visibility": "visible",
+          "opacity": "1",
+          "position": "static",
+          "zIndex": "auto",
+          "width": "1440px",
+          "height": "945.812px",
+          "minHeight": "100%",
+          "overflow": "visible",
+          "transform": "none",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
+        }
+      }
+    }
+  },
+  {
+    "route": "en-settings",
+    "requestedUrl": "http://localhost:3000/en/settings",
+    "status": 200,
+    "finalUrl": "http://localhost:3000/en/settings",
+    "logs": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+      }
+    ],
+    "errors": [],
+    "inspection": {
+      "href": "http://localhost:3000/en/settings",
+      "bodyTextSample": "TPM\nTrading Pro Max\nGLOBAL I18N FOUNDATION\nTRADING\nDIAGNOSTICS\nSETTINGS\nالعربية\nEnglish\nTPM CONTROL\nSettings\n\nBase platform settings page.\n\nENABLED\nACCOUNT\nMode and persistence\nMODE\nDemo\nReal\nBlocked locally\nSTATE SAVING\npersistent_local\nlocal_storage\nCHART\nWorkspace chart behavior\nCHART TYPE\nCandles\nArea\nLine\nBars\nTIMEFRAME\n1m\n5m\n15m\n1h\nINDICATORS\nEMA 20\nRSI\nMACD\nVOL\nDRAWING TOOL\nCursor\nTrend\nLev",
+      "domSummary": {
+        "tpmv2PageExists": false,
+        "tpmv2ShellDesktopExists": false,
+        "workstationRootExists": true
+      },
+      "boxes": [
+        {
+          "selector": "body",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 1440,
+            "height": 1577.46875,
+            "top": 0,
+            "left": 0
+          },
+          "computedStyle": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "static",
+            "zIndex": "auto",
+            "width": "1440px",
+            "height": "1577.47px",
+            "minHeight": "100%",
+            "overflow": "hidden auto",
+            "transform": "none",
+            "background": "radial-gradient(circle at 100% 0%, rgba(45, 212, 191, 0.1), rgba(0, 0, 0, 0) 24%) repeat scroll 0% 0% / auto padding-box border-box, radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.08), rgba(0, 0, 0, 0) 24%) repeat scroll 0% 0% / auto padding-box border-box, rgb(7, 17, 29) none repeat scroll 0% 0% / auto padding-box border-box"
+          }
+        },
+        {
+          "selector": "main",
+          "rect": {
+            "x": 60,
+            "y": 46,
+            "width": 1320,
+            "height": 1531.46875,
+            "top": 46,
+            "left": 60
+          },
+          "computedStyle": {
+            "display": "grid",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "relative",
+            "zIndex": "1",
+            "width": "1320px",
+            "height": "1531.47px",
+            "minHeight": "0px",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
+          }
+        },
+        {
+          "selector": ".tpm-foundation-frame",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 1440,
+            "height": 1577.46875,
+            "top": 0,
+            "left": 0
+          },
+          "computedStyle": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "static",
+            "zIndex": "auto",
+            "width": "1440px",
+            "height": "1577.47px",
+            "minHeight": "900px",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "radial-gradient(circle at 14% 0px, rgba(45, 212, 191, 0.11), rgba(0, 0, 0, 0) 28%) repeat scroll 0% 0% / auto padding-box border-box, radial-gradient(circle at 82% 10%, rgba(96, 165, 250, 0.09), rgba(0, 0, 0, 0) 34%) repeat scroll 0% 0% / auto padding-box border-box, rgba(0, 0, 0, 0) linear-gradient(rgba(4, 10, 18, 0.92), rgb(3, 7, 13)) repeat scroll 0% 0% / auto padding-box border-box"
+          }
+        },
+        {
+          "selector": ".tpm-foundation-body",
+          "rect": {
+            "x": 0,
+            "y": 46,
+            "width": 1440,
+            "height": 1531.46875,
+            "top": 46,
+            "left": 0
+          },
+          "computedStyle": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "relative",
+            "zIndex": "auto",
+            "width": "1440px",
+            "height": "1531.47px",
+            "minHeight": "854px",
+            "overflow": "hidden",
+            "transform": "none",
+            "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
+          }
+        },
+        null,
+        null,
+        null,
+        null
+      ],
+      "workstationRoot": {
+        "selector": "main",
+        "rect": {
+          "x": 60,
+          "y": 46,
+          "width": 1320,
+          "height": 1531.46875,
+          "top": 46,
+          "left": 60
+        },
+        "computedStyle": {
+          "display": "grid",
+          "visibility": "visible",
+          "opacity": "1",
+          "position": "relative",
+          "zIndex": "1",
+          "width": "1320px",
+          "height": "1531.47px",
+          "minHeight": "0px",
+          "overflow": "visible",
+          "transform": "none",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
+        }
+      }
+    }
+  },
+  {
+    "route": "diagnostics",
+    "requestedUrl": "http://localhost:3000/diagnostics",
+    "status": 200,
+    "finalUrl": "http://localhost:3000/diagnostics",
+    "logs": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+      }
+    ],
+    "errors": [],
+    "inspection": {
+      "href": "http://localhost:3000/diagnostics",
+      "bodyTextSample": "TPM SYSTEM\nDiagnostics\n\nBase technical status page for the platform.\n\nENABLED\nSELECTED ASSET\nEUR/USD\n1.0855\nDECISION\nWait\n61%\nEXECUTION PANEL\nStandby\nSignal execution is on standby while manual paper entry remains available.\nFOUNDATION\nSystem readiness\nRUNTIME\nServer runtime ready\nRoute handlers, Prisma connectivity, and paper-safe application services are responding.\nMARKET LAYER\nfallback_ready\nF",
+      "domSummary": {
+        "tpmv2PageExists": false,
+        "tpmv2ShellDesktopExists": false,
+        "workstationRootExists": true
+      },
+      "boxes": [
+        {
+          "selector": "body",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 1440,
+            "height": 2087.421875,
+            "top": 0,
+            "left": 0
+          },
+          "computedStyle": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "static",
+            "zIndex": "auto",
+            "width": "1440px",
+            "height": "2087.42px",
+            "minHeight": "100%",
+            "overflow": "hidden auto",
+            "transform": "none",
+            "background": "radial-gradient(circle at 100% 0%, rgba(45, 212, 191, 0.1), rgba(0, 0, 0, 0) 24%) repeat scroll 0% 0% / auto padding-box border-box, radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.08), rgba(0, 0, 0, 0) 24%) repeat scroll 0% 0% / auto padding-box border-box, rgb(7, 17, 29) none repeat scroll 0% 0% / auto padding-box border-box"
+          }
+        },
+        {
+          "selector": "main",
+          "rect": {
+            "x": 60,
+            "y": 0,
+            "width": 1320,
+            "height": 2087.421875,
+            "top": 0,
+            "left": 60
+          },
+          "computedStyle": {
+            "display": "grid",
+            "visibility": "visible",
+            "opacity": "1",
+            "position": "relative",
+            "zIndex": "1",
+            "width": "1320px",
+            "height": "2087.42px",
+            "minHeight": "0px",
+            "overflow": "visible",
+            "transform": "none",
+            "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
+          }
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "workstationRoot": {
+        "selector": "main",
+        "rect": {
+          "x": 60,
+          "y": 0,
+          "width": 1320,
+          "height": 2087.421875,
+          "top": 0,
+          "left": 60
+        },
+        "computedStyle": {
+          "display": "grid",
+          "visibility": "visible",
+          "opacity": "1",
+          "position": "relative",
+          "zIndex": "1",
+          "width": "1320px",
+          "height": "2087.42px",
+          "minHeight": "0px",
+          "overflow": "visible",
+          "transform": "none",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"
+        }
+      }
+    }
+  }
+]
