@@ -31,6 +31,15 @@ function modeButtonStyle(active: boolean): CSSProperties {
   };
 }
 
+function toneClassFromValue(value: string) {
+  const normalized = value.trim();
+
+  if (normalized.startsWith("+")) return "positive";
+  if (normalized.startsWith("-")) return "negative";
+
+  return "neutral";
+}
+
 function AnchorChip({ text }: { text: string }) {
   return <span className="tpmv2-badge tpmv2-chip">{text}</span>;
 }
@@ -113,7 +122,7 @@ export function DesktopRail({
 }) {
   return (
     <aside className="tpmv2-card tpmv2-rail">
-      <div className="tpmv2-brand">
+      <div className="tpmv2-brand tpmv2-brand-compact">
         <div className="tpmv2-logo">TPM</div>
         <div>
           <div className="tpmv2-brand-title">{dict.shell.title}</div>
@@ -127,6 +136,12 @@ export function DesktopRail({
       </div>
 
       <div className="tpmv2-search">{dict.market.search}</div>
+
+      <div className="tpmv2-watchlist-head">
+        <span>{dict.market.selectedAsset}</span>
+        <span>{dict.market.currentPrice}</span>
+        <span>{dict.market.change}</span>
+      </div>
 
       <div className="tpmv2-watchlist">
         {MARKET_ASSETS.map((asset, index) => (
@@ -144,11 +159,10 @@ export function DesktopRail({
               <strong>{asset.symbol}</strong>
               <small>{asset.status}</small>
             </div>
-
-            <div className="tpmv2-watch-side">
-              <span className="tpmv2-watch-price">{asset.price}</span>
-              <span className="tpmv2-watch-change">{asset.change}</span>
-            </div>
+            <span className="tpmv2-watch-price">{asset.price}</span>
+            <span className={`tpmv2-watch-change ${toneClassFromValue(asset.change)}`}>
+              {asset.change}
+            </span>
           </button>
         ))}
       </div>
@@ -221,15 +235,26 @@ export function TradingTopbar({
 
       <div className="tpmv2-topbar-market">
         <div className="tpmv2-topbar-market-main">
-          <span className="tpmv2-section-label">{dict.market.selectedAsset}</span>
           <div className="tpmv2-topbar-market-strip">
+            <span className="tpmv2-section-label">{dict.market.selectedAsset}</span>
             <div className="tpmv2-topbar-market-symbol">{selectedAssetSymbol}</div>
             <div className="tpmv2-topbar-market-price">{selectedAssetPrice}</div>
-            <div className="tpmv2-topbar-market-change">{selectedAssetChange}</div>
+            <div
+              className={`tpmv2-topbar-market-change ${toneClassFromValue(
+                selectedAssetChange,
+              )}`}
+            >
+              {selectedAssetChange}
+            </div>
           </div>
           <div className="tpmv2-topbar-market-line">
-            {dict.market.marketStatus}: {marketStatus} / {dict.risk.sessionStatus}:{" "}
-            {sessionStateLabel} / {accountStatusValue}
+            <span>
+              {dict.market.marketStatus}: {marketStatus}
+            </span>
+            <span>
+              {dict.risk.sessionStatus}: {sessionStateLabel}
+            </span>
+            <span>{accountStatusValue}</span>
           </div>
         </div>
 
@@ -237,22 +262,18 @@ export function TradingTopbar({
       </div>
 
       <div className="tpmv2-topbar-controls">
-        <div className="tpmv2-topbar-activation">
-          <StatusTag text={accountLifecycleLabel} tone={accountLifecycleTone} />
-          <StatusTag text={reviewStatusLabel} tone={reviewStatusTone} />
+        <div className="tpmv2-topbar-activation tpmv2-topbar-essentials">
           <StatusTag
             text={`${paperAccessLabel}: ${paperAccessValue}`}
             tone={paperAccessTone}
           />
+          <AnchorChip text={`${liveAccessLabel}: ${liveAccessValue}`} />
+          <AnchorChip text={`${disclosureSummaryLabel}: ${disclosureSummaryValue}`} />
         </div>
 
         <div className="tpmv2-topbar-status-line">
-          <span>
-            {disclosureSummaryLabel}: {disclosureSummaryValue}
-          </span>
-          <span>
-            {liveAccessLabel}: {liveAccessValue}
-          </span>
+          <span className={accountLifecycleTone}>{accountLifecycleLabel}</span>
+          <span className={reviewStatusTone}>{reviewStatusLabel}</span>
           <span>{dict.risk.sessionStatus}: {sessionStateLabel}</span>
         </div>
 
@@ -313,9 +334,11 @@ export function SummaryCard({
           <div className="tpmv2-summary-hero">
             <h1 className="tpmv2-symbol">{symbol}</h1>
             <div className="tpmv2-summary-price">{price}</div>
-            <div className="tpmv2-summary-change">{change}</div>
+            <div className={`tpmv2-summary-change ${toneClassFromValue(change)}`}>
+              {change}
+            </div>
           </div>
-          <div className="tpmv2-subline">{dict.market.change}</div>
+          <div className="tpmv2-subline">{dict.market.marketStatus}</div>
         </div>
 
         <div className="tpmv2-summary-signal" style={signalStyle}>
@@ -411,17 +434,21 @@ export function ChartCard({
           <div className="tpmv2-chart-subtitle">{dict.chart.subtitle}</div>
         </div>
 
-        <div className="tpmv2-timeframes">
-          {TIMEFRAMES.map((tf) => (
-            <button
-              key={tf}
-              type="button"
-              className={tf === selectedTimeframe ? "active" : ""}
-              onClick={() => onSelectTimeframe(tf)}
-            >
-              {tf}
-            </button>
-          ))}
+        <div className="tpmv2-chart-toolbar">
+          <AnchorChip text={selectedAsset.status} />
+
+          <div className="tpmv2-timeframes">
+            {TIMEFRAMES.map((tf) => (
+              <button
+                key={tf}
+                type="button"
+                className={tf === selectedTimeframe ? "active" : ""}
+                onClick={() => onSelectTimeframe(tf)}
+              >
+                {tf}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -450,7 +477,11 @@ export function ChartCard({
         <div className="tpmv2-chart-overlay">
           <div>
             <div className="tpmv2-chart-overlay-title">{selectedAsset.symbol}</div>
-            <div className="tpmv2-chart-overlay-line">
+            <div
+              className={`tpmv2-chart-overlay-line ${toneClassFromValue(
+                selectedAsset.change,
+              )}`}
+            >
               {selectedAsset.price} / {selectedAsset.change}
             </div>
           </div>
@@ -580,10 +611,13 @@ export function ExecutionCard({
           <div className="tpmv2-exec-subtitle">{dict.trade.subtitle}</div>
         </div>
 
-        <AnchorChip text={modeValue} />
+        <div className="tpmv2-chip-list">
+          <AnchorChip text={selectedAssetSymbol} />
+          <AnchorChip text={modeValue} />
+        </div>
       </div>
 
-      <div className="tpmv2-ticket-signal">
+      <div className={`tpmv2-ticket-signal ${decision.signal}`}>
         <div className="tpmv2-decision-top">
           <strong>{signalLabel}</strong>
           <span className="tpmv2-ticket-confidence">
@@ -591,43 +625,6 @@ export function ExecutionCard({
           </span>
         </div>
         <div className="tpmv2-ticket-reason">{decision.reason}</div>
-      </div>
-
-      <div className="tpmv2-ticket-status">
-        <div className="tpmv2-ticket-badges">
-          <StatusTag text={accountLifecycleLabel} tone={accountLifecycleTone} />
-          <StatusTag text={reviewStatusLabel} tone={reviewStatusTone} />
-        </div>
-
-        <div className="tpmv2-ticket-status-grid">
-          <div className="tpmv2-ticket-status-row">
-            <span>{ticketReadinessLabel}</span>
-            <strong className={`tpmv2-ticket-status-value ${ticketReadinessTone}`}>
-              {ticketReadinessValue}
-            </strong>
-          </div>
-
-          <div className="tpmv2-ticket-status-row">
-            <span>{ticketGateLabel}</span>
-            <strong className={`tpmv2-ticket-status-value ${ticketGateTone}`}>
-              {ticketGateValue}
-            </strong>
-          </div>
-
-          <div className="tpmv2-ticket-status-row">
-            <span>{ticketNextStepLabel}</span>
-            <strong className="tpmv2-ticket-status-value">
-              {ticketNextStepValue}
-            </strong>
-          </div>
-
-          <div className="tpmv2-ticket-status-row">
-            <span>{ticketOperationalLabel}</span>
-            <strong className={`tpmv2-ticket-status-value ${ticketOperationalTone}`}>
-              {ticketOperationalValue}
-            </strong>
-          </div>
-        </div>
       </div>
 
       <div className="tpmv2-ticket-grid">
@@ -699,6 +696,43 @@ export function ExecutionCard({
           >
             {dict.trade.openSell}
           </button>
+        </div>
+      </div>
+
+      <div className="tpmv2-ticket-status">
+        <div className="tpmv2-ticket-badges">
+          <StatusTag text={accountLifecycleLabel} tone={accountLifecycleTone} />
+          <StatusTag text={reviewStatusLabel} tone={reviewStatusTone} />
+        </div>
+
+        <div className="tpmv2-ticket-status-grid">
+          <div className="tpmv2-ticket-status-row">
+            <span>{ticketReadinessLabel}</span>
+            <strong className={`tpmv2-ticket-status-value ${ticketReadinessTone}`}>
+              {ticketReadinessValue}
+            </strong>
+          </div>
+
+          <div className="tpmv2-ticket-status-row">
+            <span>{ticketGateLabel}</span>
+            <strong className={`tpmv2-ticket-status-value ${ticketGateTone}`}>
+              {ticketGateValue}
+            </strong>
+          </div>
+
+          <div className="tpmv2-ticket-status-row">
+            <span>{ticketNextStepLabel}</span>
+            <strong className="tpmv2-ticket-status-value">
+              {ticketNextStepValue}
+            </strong>
+          </div>
+
+          <div className="tpmv2-ticket-status-row">
+            <span>{ticketOperationalLabel}</span>
+            <strong className={`tpmv2-ticket-status-value ${ticketOperationalTone}`}>
+              {ticketOperationalValue}
+            </strong>
+          </div>
         </div>
       </div>
 

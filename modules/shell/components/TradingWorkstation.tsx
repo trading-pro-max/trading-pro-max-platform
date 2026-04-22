@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
 import { usePlatformState } from "../hooks/use-platform-state";
 import {
@@ -19,6 +20,8 @@ import {
 } from "./PlatformShellV2";
 import { createTradingWorkstationViewModel } from "./trading-workstation-view-model";
 
+type DesktopBlotterTab = "positions" | "history" | "audit" | "compliance";
+
 export default function TradingWorkstation({
   locale,
   dict,
@@ -27,6 +30,8 @@ export default function TradingWorkstation({
   dict: Dictionary;
 }) {
   const platformState = usePlatformState(locale, dict.decision.reasons);
+  const [desktopBlotterTab, setDesktopBlotterTab] =
+    useState<DesktopBlotterTab>("positions");
   const viewModel = createTradingWorkstationViewModel({
     locale,
     dict,
@@ -49,6 +54,15 @@ export default function TradingWorkstation({
   const executionFoundationChips = [
     `${viewModel.executionRouteLabel}: ${viewModel.executionRouteValue}`,
     ...viewModel.executionGuardrailChips,
+  ];
+  const blotterTabs: Array<{
+    id: DesktopBlotterTab;
+    label: string;
+  }> = [
+    { id: "positions", label: dict.journal.openTradesTitle },
+    { id: "history", label: dict.journal.historyTitle },
+    { id: "audit", label: viewModel.auditTitle },
+    { id: "compliance", label: viewModel.policyPanelLabel },
   ];
 
   return (
@@ -164,95 +178,132 @@ export default function TradingWorkstation({
             </aside>
           </section>
 
-          <section className="tpmv2-activity">
-            <ActivityOpenTradesPanel
-              dict={dict}
-              openTrades={platformState.openTrades}
-              closePaperTrade={platformState.closePaperTrade}
-            />
+          <section className="tpmv2-card tpmv2-blotter">
+            <div className="tpmv2-blotter-tabs" role="tablist" aria-label={viewModel.auditTitle}>
+              {blotterTabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={desktopBlotterTab === tab.id}
+                  className={
+                    desktopBlotterTab === tab.id
+                      ? "tpmv2-blotter-tab active"
+                      : "tpmv2-blotter-tab"
+                  }
+                  onClick={() => setDesktopBlotterTab(tab.id)}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
 
-            <ActivityHistoryPanel dict={dict} history={platformState.history} />
+            <div className="tpmv2-blotter-body">
+              {desktopBlotterTab === "positions" ? (
+                <div className="tpmv2-blotter-grid">
+                  <ActivityOpenTradesPanel
+                    dict={dict}
+                    openTrades={platformState.openTrades}
+                    closePaperTrade={platformState.closePaperTrade}
+                  />
 
-            <ComplianceActivationPanel
-              title={viewModel.policyPanelLabel}
-              subtitle={viewModel.compliancePanelSubtitle}
-              badge={viewModel.compliancePanelBadge}
-              badgeTone={viewModel.paperAccessTone}
-              accountLifecycleLabel={viewModel.accountLifecycleLabel}
-              accountLifecycleDescription={viewModel.accountLifecycleDescription}
-              accountLifecycleTone={viewModel.accountLifecycleTone}
-              reviewStatusLabel={viewModel.reviewStatusLabel}
-              reviewStatusDescription={viewModel.reviewStatusDescription}
-              reviewStatusTone={viewModel.reviewStatusTone}
-              disclosureRows={viewModel.disclosureRows}
-              activationRows={viewModel.activationRows}
-              acceptDisclosuresLabel={viewModel.acceptDisclosuresLabel}
-              submitReviewLabel={viewModel.submitReviewLabel}
-              canAcceptDisclosures={platformState.canAcknowledgeDisclosures}
-              canSubmitReview={platformState.canSubmitAccountReview}
-              onAcceptDisclosures={platformState.acceptPendingDisclosures}
-              onSubmitReview={platformState.submitActivationReview}
-            />
+                  <SecondarySurfacePanel
+                    title={viewModel.executionFoundationLabel}
+                    subtitle={`${viewModel.executionIntentLabel}: ${viewModel.executionIntentValue}`}
+                    chips={executionFoundationChips}
+                  />
+                </div>
+              ) : null}
 
-            <SecondarySurfacePanel
-              title={viewModel.executionFoundationLabel}
-              subtitle={`${viewModel.executionIntentLabel}: ${viewModel.executionIntentValue}`}
-              chips={executionFoundationChips}
-            />
+              {desktopBlotterTab === "history" ? (
+                <div className="tpmv2-blotter-grid">
+                  <ActivityHistoryPanel dict={dict} history={platformState.history} />
 
-            <SecondarySurfacePanel
-              title={viewModel.riskFoundationLabel}
-              subtitle={viewModel.riskOperatorNote}
-              chips={viewModel.riskFoundationChips}
-            />
+                  <SecondarySurfacePanel
+                    title={viewModel.riskFoundationLabel}
+                    subtitle={viewModel.riskOperatorNote}
+                    chips={viewModel.riskFoundationChips}
+                  />
+                </div>
+              ) : null}
 
-            <SecondarySurfacePanel
-              title={viewModel.dataStateFoundationLabel}
-              subtitle={viewModel.dataStateOperatorNote}
-              chips={viewModel.dataStateFoundationChips}
-            />
+              {desktopBlotterTab === "audit" ? (
+                <div className="tpmv2-blotter-grid">
+                  <AuditTracePanel
+                    title={viewModel.auditTitle}
+                    subtitle={viewModel.auditSubtitle}
+                    actorLabel={viewModel.auditActorLabel}
+                    actorValue={platformState.auditTraceFoundation.currentActor}
+                    accountModeLabel={viewModel.auditAccountModeLabel}
+                    accountModeValue={viewModel.auditAccountModeValue}
+                    visibilityLabel={viewModel.auditVisibilityLabel}
+                    visibilityValue={viewModel.auditVisibilityValue}
+                    traceLabel={viewModel.auditTraceLabel}
+                    traceValue={viewModel.auditTraceValue}
+                    lastEventLabel={viewModel.auditLastEventLabel}
+                    lastEventValue={platformState.auditTraceFoundation.lastEventAt}
+                    events={platformState.auditTraceFoundation.recentEvents}
+                    emptyLabel={viewModel.auditEmptyLabel}
+                  />
 
-            <AuditTracePanel
-              title={viewModel.auditTitle}
-              subtitle={viewModel.auditSubtitle}
-              actorLabel={viewModel.auditActorLabel}
-              actorValue={platformState.auditTraceFoundation.currentActor}
-              accountModeLabel={viewModel.auditAccountModeLabel}
-              accountModeValue={viewModel.auditAccountModeValue}
-              visibilityLabel={viewModel.auditVisibilityLabel}
-              visibilityValue={viewModel.auditVisibilityValue}
-              traceLabel={viewModel.auditTraceLabel}
-              traceValue={viewModel.auditTraceValue}
-              lastEventLabel={viewModel.auditLastEventLabel}
-              lastEventValue={platformState.auditTraceFoundation.lastEventAt}
-              events={platformState.auditTraceFoundation.recentEvents}
-              emptyLabel={viewModel.auditEmptyLabel}
-            />
+                  <SecurityFoundationPanel
+                    title={viewModel.securityTitle}
+                    subtitle={viewModel.securitySubtitle}
+                    routeLabel={viewModel.securityRouteLabel}
+                    routeValue={viewModel.securityRouteValue}
+                    accessLabel={viewModel.securityAccessLabel}
+                    accessValue={viewModel.securityAccessValue}
+                    executionLabel={viewModel.securityExecutionLabel}
+                    executionValue={viewModel.securityExecutionValue}
+                    dataProtectionLabel={viewModel.securityDataLabel}
+                    dataProtectionValue={viewModel.securityDataValue}
+                    secretsLabel={viewModel.securitySecretsLabel}
+                    secretsValue={viewModel.securitySecretsValue}
+                    sessionLabel={viewModel.securitySessionLabel}
+                    sessionValue={viewModel.securitySessionValue}
+                    recoveryLabel={viewModel.securityRecoveryLabel}
+                    recoveryValue={viewModel.securityRecoveryValue}
+                    alertLabel={viewModel.securityAlertLabel}
+                    alertValue={viewModel.securityAlertValue}
+                    accountModeLabel={viewModel.securityAccountLabel}
+                    accountModeValue={viewModel.securityAccountValue}
+                    reviewedAtLabel={viewModel.securityReviewedAtLabel}
+                    reviewedAtValue={platformState.securityFoundation.lastReviewedAt}
+                  />
+                </div>
+              ) : null}
 
-            <SecurityFoundationPanel
-              title={viewModel.securityTitle}
-              subtitle={viewModel.securitySubtitle}
-              routeLabel={viewModel.securityRouteLabel}
-              routeValue={viewModel.securityRouteValue}
-              accessLabel={viewModel.securityAccessLabel}
-              accessValue={viewModel.securityAccessValue}
-              executionLabel={viewModel.securityExecutionLabel}
-              executionValue={viewModel.securityExecutionValue}
-              dataProtectionLabel={viewModel.securityDataLabel}
-              dataProtectionValue={viewModel.securityDataValue}
-              secretsLabel={viewModel.securitySecretsLabel}
-              secretsValue={viewModel.securitySecretsValue}
-              sessionLabel={viewModel.securitySessionLabel}
-              sessionValue={viewModel.securitySessionValue}
-              recoveryLabel={viewModel.securityRecoveryLabel}
-              recoveryValue={viewModel.securityRecoveryValue}
-              alertLabel={viewModel.securityAlertLabel}
-              alertValue={viewModel.securityAlertValue}
-              accountModeLabel={viewModel.securityAccountLabel}
-              accountModeValue={viewModel.securityAccountValue}
-              reviewedAtLabel={viewModel.securityReviewedAtLabel}
-              reviewedAtValue={platformState.securityFoundation.lastReviewedAt}
-            />
+              {desktopBlotterTab === "compliance" ? (
+                <div className="tpmv2-blotter-grid">
+                  <ComplianceActivationPanel
+                    title={viewModel.policyPanelLabel}
+                    subtitle={viewModel.compliancePanelSubtitle}
+                    badge={viewModel.compliancePanelBadge}
+                    badgeTone={viewModel.paperAccessTone}
+                    accountLifecycleLabel={viewModel.accountLifecycleLabel}
+                    accountLifecycleDescription={viewModel.accountLifecycleDescription}
+                    accountLifecycleTone={viewModel.accountLifecycleTone}
+                    reviewStatusLabel={viewModel.reviewStatusLabel}
+                    reviewStatusDescription={viewModel.reviewStatusDescription}
+                    reviewStatusTone={viewModel.reviewStatusTone}
+                    disclosureRows={viewModel.disclosureRows}
+                    activationRows={viewModel.activationRows}
+                    acceptDisclosuresLabel={viewModel.acceptDisclosuresLabel}
+                    submitReviewLabel={viewModel.submitReviewLabel}
+                    canAcceptDisclosures={platformState.canAcknowledgeDisclosures}
+                    canSubmitReview={platformState.canSubmitAccountReview}
+                    onAcceptDisclosures={platformState.acceptPendingDisclosures}
+                    onSubmitReview={platformState.submitActivationReview}
+                  />
+
+                  <SecondarySurfacePanel
+                    title={viewModel.dataStateFoundationLabel}
+                    subtitle={viewModel.dataStateOperatorNote}
+                    chips={viewModel.dataStateFoundationChips}
+                  />
+                </div>
+              ) : null}
+            </div>
           </section>
         </section>
       </section>
