@@ -11,6 +11,7 @@ import {
   ExecutionCard,
   NarrowStrip,
   RiskCardGrid,
+  SecondarySurfacePanel,
   SecurityFoundationPanel,
   SummaryCard,
   TradingTopbar,
@@ -43,6 +44,23 @@ export default function TradingWorkstation({
     openTradesCount: platformState.openTrades.length,
   });
 
+  const executionNote =
+    platformState.accountMode === "real"
+      ? viewModel.realReadinessNote
+      : viewModel.riskNote ||
+        viewModel.dataStateOperatorNote ||
+        viewModel.riskOperatorNote;
+
+  const complianceChips = [
+    ...viewModel.jurisdictionChips,
+    ...viewModel.permissionChips,
+  ];
+
+  const executionFoundationChips = [
+    `${viewModel.executionRouteLabel}: ${viewModel.executionRouteValue}`,
+    ...viewModel.executionGuardrailChips,
+  ];
+
   return (
     <main className="tpmv2-page">
       <section className="tpmv2-shell-desktop">
@@ -61,18 +79,13 @@ export default function TradingWorkstation({
             modeLabel={viewModel.modeLabel}
             demoLabel={viewModel.demoLabel}
             realLabel={viewModel.realLabel}
-            userName={platformState.userIdentity.displayName}
-            userEmail={platformState.userIdentity.email}
-            userRegion={platformState.userIdentity.region}
-            userRole={viewModel.userRole}
-            verificationLabel={viewModel.verificationLabel}
-            accountStatusLabel={viewModel.accountStatusLabel}
+            selectedAssetSymbol={platformState.selectedAsset.symbol}
+            selectedAssetPrice={platformState.selectedAsset.price}
+            selectedAssetChange={platformState.selectedAsset.change}
+            marketStatus={platformState.selectedAsset.status}
+            signalLabel={viewModel.signalLabel}
+            sessionStateLabel={viewModel.sessionStateLabel}
             accountStatusValue={viewModel.accountStatusValue}
-            jurisdictionChips={viewModel.jurisdictionChips}
-            permissionChips={viewModel.permissionChips}
-            profileLabel={viewModel.profileLabel}
-            settingsLabel={viewModel.settingsLabel}
-            signOutLabel={viewModel.signOutLabel}
           />
 
           <section className="tpmv2-desktop-master">
@@ -89,6 +102,14 @@ export default function TradingWorkstation({
                 confidence={platformState.decision.confidence}
               />
 
+              <ChartCard
+                dict={dict}
+                selectedAsset={platformState.selectedAsset}
+                selectedTimeframe={platformState.selectedTimeframe}
+                onSelectTimeframe={platformState.setSelectedTimeframe}
+                candles={platformState.candles}
+              />
+
               <RiskCardGrid
                 dict={dict}
                 openTradesText={viewModel.openTradesText}
@@ -97,14 +118,6 @@ export default function TradingWorkstation({
                 lossCount={platformState.lossCount}
                 sessionStateLabel={viewModel.sessionStateLabel}
                 sessionLocked={platformState.sessionLocked}
-              />
-
-              <ChartCard
-                dict={dict}
-                selectedAsset={platformState.selectedAsset}
-                selectedTimeframe={platformState.selectedTimeframe}
-                onSelectTimeframe={platformState.setSelectedTimeframe}
-                candles={platformState.candles}
               />
             </section>
 
@@ -128,28 +141,9 @@ export default function TradingWorkstation({
                 accountMode={platformState.accountMode}
                 openTradeBySignal={platformState.openTradeBySignal}
                 openPaperTrade={platformState.openPaperTrade}
-                riskNote={viewModel.riskNote}
-                modeFieldLabel={viewModel.modeLabel}
+                note={executionNote}
                 demoLabel={viewModel.demoLabel}
                 realLabel={viewModel.realLabel}
-                realReadinessNote={viewModel.realReadinessNote}
-                policyPanelLabel={viewModel.policyPanelLabel}
-                verificationLabel={viewModel.verificationLabel}
-                permissionChips={viewModel.permissionChips}
-                jurisdictionChips={viewModel.jurisdictionChips}
-                executionFoundationLabel={viewModel.executionFoundationLabel}
-                executionRouteLabel={viewModel.executionRouteLabel}
-                executionRouteValue={viewModel.executionRouteValue}
-                executionIntentLabel={viewModel.executionIntentLabel}
-                executionIntentValue={viewModel.executionIntentValue}
-                executionGuardrailsLabel={viewModel.executionGuardrailsLabel}
-                executionGuardrailChips={viewModel.executionGuardrailChips}
-                riskFoundationLabel={viewModel.riskFoundationLabel}
-                riskFoundationChips={viewModel.riskFoundationChips}
-                riskOperatorNote={viewModel.riskOperatorNote}
-                dataStateFoundationLabel={viewModel.dataStateFoundationLabel}
-                dataStateFoundationChips={viewModel.dataStateFoundationChips}
-                dataStateOperatorNote={viewModel.dataStateOperatorNote}
               />
             </aside>
           </section>
@@ -162,6 +156,31 @@ export default function TradingWorkstation({
             />
 
             <ActivityHistoryPanel dict={dict} history={platformState.history} />
+
+            <SecondarySurfacePanel
+              title={viewModel.policyPanelLabel}
+              subtitle={`${viewModel.accountStatusLabel}: ${viewModel.accountStatusValue}`}
+              badge={viewModel.verificationLabel}
+              chips={complianceChips}
+            />
+
+            <SecondarySurfacePanel
+              title={viewModel.executionFoundationLabel}
+              subtitle={`${viewModel.executionIntentLabel}: ${viewModel.executionIntentValue}`}
+              chips={executionFoundationChips}
+            />
+
+            <SecondarySurfacePanel
+              title={viewModel.riskFoundationLabel}
+              subtitle={viewModel.riskOperatorNote}
+              chips={viewModel.riskFoundationChips}
+            />
+
+            <SecondarySurfacePanel
+              title={viewModel.dataStateFoundationLabel}
+              subtitle={viewModel.dataStateOperatorNote}
+              chips={viewModel.dataStateFoundationChips}
+            />
 
             <AuditTracePanel
               title={viewModel.auditTitle}
@@ -217,18 +236,13 @@ export default function TradingWorkstation({
           modeLabel={viewModel.modeLabel}
           demoLabel={viewModel.demoLabel}
           realLabel={viewModel.realLabel}
-          userName={platformState.userIdentity.displayName}
-          userEmail={platformState.userIdentity.email}
-          userRegion={platformState.userIdentity.region}
-          userRole={viewModel.userRole}
-          verificationLabel={viewModel.verificationLabel}
-          accountStatusLabel={viewModel.accountStatusLabel}
+          selectedAssetSymbol={platformState.selectedAsset.symbol}
+          selectedAssetPrice={platformState.selectedAsset.price}
+          selectedAssetChange={platformState.selectedAsset.change}
+          marketStatus={platformState.selectedAsset.status}
+          signalLabel={viewModel.signalLabel}
+          sessionStateLabel={viewModel.sessionStateLabel}
           accountStatusValue={viewModel.accountStatusValue}
-          jurisdictionChips={viewModel.jurisdictionChips}
-          permissionChips={viewModel.permissionChips}
-          profileLabel={viewModel.profileLabel}
-          settingsLabel={viewModel.settingsLabel}
-          signOutLabel={viewModel.signOutLabel}
         />
 
         <NarrowStrip
@@ -249,6 +263,14 @@ export default function TradingWorkstation({
           confidence={platformState.decision.confidence}
         />
 
+        <ChartCard
+          dict={dict}
+          selectedAsset={platformState.selectedAsset}
+          selectedTimeframe={platformState.selectedTimeframe}
+          onSelectTimeframe={platformState.setSelectedTimeframe}
+          candles={platformState.candles}
+        />
+
         <RiskCardGrid
           dict={dict}
           openTradesText={viewModel.openTradesText}
@@ -257,14 +279,6 @@ export default function TradingWorkstation({
           lossCount={platformState.lossCount}
           sessionStateLabel={viewModel.sessionStateLabel}
           sessionLocked={platformState.sessionLocked}
-        />
-
-        <ChartCard
-          dict={dict}
-          selectedAsset={platformState.selectedAsset}
-          selectedTimeframe={platformState.selectedTimeframe}
-          onSelectTimeframe={platformState.setSelectedTimeframe}
-          candles={platformState.candles}
         />
 
         <ExecutionCard
@@ -286,28 +300,9 @@ export default function TradingWorkstation({
           accountMode={platformState.accountMode}
           openTradeBySignal={platformState.openTradeBySignal}
           openPaperTrade={platformState.openPaperTrade}
-          riskNote={viewModel.riskNote}
-          modeFieldLabel={viewModel.modeLabel}
+          note={executionNote}
           demoLabel={viewModel.demoLabel}
           realLabel={viewModel.realLabel}
-          realReadinessNote={viewModel.realReadinessNote}
-          policyPanelLabel={viewModel.policyPanelLabel}
-          verificationLabel={viewModel.verificationLabel}
-          permissionChips={viewModel.permissionChips}
-          jurisdictionChips={viewModel.jurisdictionChips}
-          executionFoundationLabel={viewModel.executionFoundationLabel}
-          executionRouteLabel={viewModel.executionRouteLabel}
-          executionRouteValue={viewModel.executionRouteValue}
-          executionIntentLabel={viewModel.executionIntentLabel}
-          executionIntentValue={viewModel.executionIntentValue}
-          executionGuardrailsLabel={viewModel.executionGuardrailsLabel}
-          executionGuardrailChips={viewModel.executionGuardrailChips}
-          riskFoundationLabel={viewModel.riskFoundationLabel}
-          riskFoundationChips={viewModel.riskFoundationChips}
-          riskOperatorNote={viewModel.riskOperatorNote}
-          dataStateFoundationLabel={viewModel.dataStateFoundationLabel}
-          dataStateFoundationChips={viewModel.dataStateFoundationChips}
-          dataStateOperatorNote={viewModel.dataStateOperatorNote}
         />
 
         <ActivityOpenTradesPanel
@@ -317,6 +312,31 @@ export default function TradingWorkstation({
         />
 
         <ActivityHistoryPanel dict={dict} history={platformState.history} />
+
+        <SecondarySurfacePanel
+          title={viewModel.policyPanelLabel}
+          subtitle={`${viewModel.accountStatusLabel}: ${viewModel.accountStatusValue}`}
+          badge={viewModel.verificationLabel}
+          chips={complianceChips}
+        />
+
+        <SecondarySurfacePanel
+          title={viewModel.executionFoundationLabel}
+          subtitle={`${viewModel.executionIntentLabel}: ${viewModel.executionIntentValue}`}
+          chips={executionFoundationChips}
+        />
+
+        <SecondarySurfacePanel
+          title={viewModel.riskFoundationLabel}
+          subtitle={viewModel.riskOperatorNote}
+          chips={viewModel.riskFoundationChips}
+        />
+
+        <SecondarySurfacePanel
+          title={viewModel.dataStateFoundationLabel}
+          subtitle={viewModel.dataStateOperatorNote}
+          chips={viewModel.dataStateFoundationChips}
+        />
 
         <AuditTracePanel
           title={viewModel.auditTitle}

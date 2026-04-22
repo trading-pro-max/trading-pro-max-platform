@@ -1,7 +1,11 @@
 "use client";
 
-import type { CSSProperties } from "react";
-import { TIMEFRAMES } from "../../../lib/constants/platform";
+import type { CSSProperties, ReactNode } from "react";
+import {
+  TIMEFRAMES,
+  type PlatformExecutionDuration,
+  type PlatformTimeframe,
+} from "../../../lib/constants/platform";
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
 import { MARKET_ASSETS } from "../../market/data/assets";
 import type {
@@ -23,16 +27,26 @@ function modeButtonStyle(active: boolean): CSSProperties {
 }
 
 function AnchorChip({ text }: { text: string }) {
+  return <span className="tpmv2-badge tpmv2-chip">{text}</span>;
+}
+
+function PanelHeader({
+  title,
+  subtitle,
+  badge,
+}: {
+  title: string;
+  subtitle?: string;
+  badge?: ReactNode;
+}) {
   return (
-    <span
-      className="tpmv2-badge"
-      style={{
-        minHeight: 28,
-        fontSize: 11,
-      }}
-    >
-      {text}
-    </span>
+    <div className="tpmv2-panel-head">
+      <div>
+        <div className="tpmv2-panel-title">{title}</div>
+        {subtitle ? <div className="tpmv2-panel-subtitle">{subtitle}</div> : null}
+      </div>
+      {badge}
+    </div>
   );
 }
 
@@ -55,7 +69,11 @@ export function DesktopRail({
         </div>
       </div>
 
-      <div className="tpmv2-section-label">{dict.market.title}</div>
+      <div className="tpmv2-rail-head">
+        <div className="tpmv2-section-label">{dict.market.title}</div>
+        <AnchorChip text={`${MARKET_ASSETS.length}`} />
+      </div>
+
       <div className="tpmv2-search">{dict.market.search}</div>
 
       <div className="tpmv2-watchlist">
@@ -63,7 +81,11 @@ export function DesktopRail({
           <button
             key={asset.symbol}
             type="button"
-            className={index === selectedAssetIndex ? "tpmv2-watchitem active" : "tpmv2-watchitem"}
+            className={
+              index === selectedAssetIndex
+                ? "tpmv2-watchitem active"
+                : "tpmv2-watchitem"
+            }
             onClick={() => onSelectAsset(index)}
           >
             <div className="tpmv2-watch-main">
@@ -90,18 +112,13 @@ export function TradingTopbar({
   modeLabel,
   demoLabel,
   realLabel,
-  userName,
-  userEmail,
-  userRegion,
-  userRole,
-  verificationLabel,
-  accountStatusLabel,
+  selectedAssetSymbol,
+  selectedAssetPrice,
+  selectedAssetChange,
+  marketStatus,
+  signalLabel,
+  sessionStateLabel,
   accountStatusValue,
-  jurisdictionChips,
-  permissionChips,
-  profileLabel,
-  settingsLabel,
-  signOutLabel,
 }: {
   dict: Dictionary;
   balance: string;
@@ -110,139 +127,72 @@ export function TradingTopbar({
   modeLabel: string;
   demoLabel: string;
   realLabel: string;
-  userName: string;
-  userEmail: string;
-  userRegion: string;
-  userRole: string;
-  verificationLabel: string;
-  accountStatusLabel: string;
+  selectedAssetSymbol: string;
+  selectedAssetPrice: string;
+  selectedAssetChange: string;
+  marketStatus: string;
+  signalLabel: string;
+  sessionStateLabel: string;
   accountStatusValue: string;
-  jurisdictionChips: string[];
-  permissionChips: string[];
-  profileLabel: string;
-  settingsLabel: string;
-  signOutLabel: string;
 }) {
   return (
     <header className="tpmv2-card tpmv2-topbar">
-      <div className="tpmv2-topbar-left">
-        <div className="tpmv2-badge">{dict.common.paper}</div>
-        <div className="tpmv2-badge">{dict.common.liveFeed}</div>
-        <div className="tpmv2-badge">{dict.common.stable}</div>
+      <div className="tpmv2-topbar-brand">
+        <div className="tpmv2-topbar-mark">TPM</div>
+        <div className="tpmv2-topbar-brand-copy">
+          <strong>{dict.shell.title}</strong>
+          <span>{dict.shell.subtitle}</span>
+        </div>
       </div>
 
-      <div
-        style={{
-          display: "grid",
-          gap: 8,
-          minWidth: "min(100%, 460px)",
-          flex: "1 1 460px",
-          justifyItems: "end",
-        }}
-      >
-        <section
-          style={{
-            width: "min(100%, 520px)",
-            display: "grid",
-            gap: 8,
-            padding: 12,
-            borderRadius: 16,
-            border: "1px solid var(--tpm-border)",
-            background: "var(--tpm-surface-alt)",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              gap: 10,
-              justifyContent: "space-between",
-              alignItems: "center",
-              flexWrap: "wrap",
-            }}
+      <div className="tpmv2-topbar-market">
+        <div className="tpmv2-topbar-market-main">
+          <span className="tpmv2-section-label">{dict.market.selectedAsset}</span>
+          <div className="tpmv2-topbar-market-symbol">{selectedAssetSymbol}</div>
+          <div className="tpmv2-topbar-market-line">
+            {dict.market.currentPrice} {selectedAssetPrice} / {dict.market.change}{" "}
+            {selectedAssetChange}
+          </div>
+        </div>
+
+        <div className="tpmv2-topbar-badges">
+          <AnchorChip text={`${dict.market.marketStatus}: ${marketStatus}`} />
+          <AnchorChip text={signalLabel} />
+          <AnchorChip text={sessionStateLabel} />
+          <AnchorChip text={accountStatusValue} />
+        </div>
+      </div>
+
+      <div className="tpmv2-topbar-controls">
+        <div className="tpmv2-topbar-status-row">
+          <AnchorChip text={dict.common.paper} />
+          <AnchorChip text={dict.common.liveFeed} />
+          <AnchorChip text={dict.common.stable} />
+        </div>
+
+        <div className="tpmv2-topbar-toggle">
+          <span className="tpmv2-mode-label">{modeLabel}</span>
+
+          <button
+            type="button"
+            className="tpmv2-badge"
+            style={modeButtonStyle(accountMode === "demo")}
+            onClick={() => onModeChange("demo")}
           >
-            <strong>{userName}</strong>
-            <AnchorChip text={verificationLabel} />
-          </div>
+            {demoLabel}
+          </button>
 
-          <div className="tpmv2-note">{userEmail}</div>
-
-          <div className="tpmv2-note">
-            {userRegion} · {userRole} · {accountStatusLabel}: {accountStatusValue}
-          </div>
-
-          <div
-            style={{
-              display: "flex",
-              gap: 8,
-              flexWrap: "wrap",
-            }}
+          <button
+            type="button"
+            className="tpmv2-badge"
+            style={modeButtonStyle(accountMode === "real")}
+            onClick={() => onModeChange("real")}
           >
-            {(Array.isArray(jurisdictionChips) ? jurisdictionChips : []).map((item, index) => (
-              <AnchorChip key={`${index}-${item}`} text={item} />
-            ))}
-          </div>
+            {realLabel}
+          </button>
 
-          <div
-            style={{
-              display: "flex",
-              gap: 8,
-              flexWrap: "wrap",
-            }}
-          >
-            {(Array.isArray(permissionChips) ? permissionChips : []).map((item, index) => (
-              <AnchorChip key={`${index}-${item}`} text={item} />
-            ))}
-          </div>
-
-          <div
-            style={{
-              display: "flex",
-              gap: 8,
-              flexWrap: "wrap",
-              alignItems: "center",
-            }}
-          >
-            <span className="tpmv2-badge">{modeLabel}</span>
-
-            <button
-              type="button"
-              className="tpmv2-badge"
-              style={modeButtonStyle(accountMode === "demo")}
-              onClick={() => onModeChange("demo")}
-            >
-              {demoLabel}
-            </button>
-
-            <button
-              type="button"
-              className="tpmv2-badge"
-              style={modeButtonStyle(accountMode === "real")}
-              onClick={() => onModeChange("real")}
-            >
-              {realLabel}
-            </button>
-
-            <span className="tpmv2-badge">{balance}$</span>
-          </div>
-
-          <div
-            style={{
-              display: "flex",
-              gap: 8,
-              flexWrap: "wrap",
-            }}
-          >
-            <button type="button" className="tpmv2-small-button">
-              {profileLabel}
-            </button>
-            <button type="button" className="tpmv2-small-button">
-              {settingsLabel}
-            </button>
-            <button type="button" className="tpmv2-small-button">
-              {signOutLabel}
-            </button>
-          </div>
-        </section>
+          <span className="tpmv2-badge tpmv2-topbar-balance">{balance}$</span>
+        </div>
       </div>
     </header>
   );
@@ -271,11 +221,15 @@ export function SummaryCard({
 }) {
   return (
     <section className="tpmv2-card tpmv2-summary">
-      <div className="tpmv2-summary-head">
-        <div>
-          <h1 className="tpmv2-symbol">{symbol}</h1>
+      <div className="tpmv2-summary-main">
+        <div className="tpmv2-summary-primary">
+          <span className="tpmv2-section-label">{dict.market.selectedAsset}</span>
+          <div className="tpmv2-summary-hero">
+            <h1 className="tpmv2-symbol">{symbol}</h1>
+            <div className="tpmv2-summary-price">{price}</div>
+          </div>
           <div className="tpmv2-subline">
-            {dict.market.currentPrice} {price} — {dict.market.change} {change}
+            {dict.market.change} {change}
           </div>
         </div>
 
@@ -285,17 +239,17 @@ export function SummaryCard({
       </div>
 
       <div className="tpmv2-summary-grid">
-        <div className="tpmv2-metric">
+        <div className="tpmv2-summary-stat">
           <span>{dict.market.marketStatus}</span>
           <strong>{marketStatus}</strong>
         </div>
 
-        <div className="tpmv2-metric">
+        <div className="tpmv2-summary-stat">
           <span>{dict.market.currentTimeframe}</span>
           <strong>{timeframe}</strong>
         </div>
 
-        <div className="tpmv2-metric">
+        <div className="tpmv2-summary-stat">
           <span>{dict.decision.confidence}</span>
           <strong>{confidence}</strong>
         </div>
@@ -359,8 +313,8 @@ export function ChartCard({
 }: {
   dict: Dictionary;
   selectedAsset: Asset;
-  selectedTimeframe: string;
-  onSelectTimeframe: (timeframe: any) => void;
+  selectedTimeframe: PlatformTimeframe;
+  onSelectTimeframe: (timeframe: PlatformTimeframe) => void;
   candles: number[];
 }) {
   return (
@@ -406,11 +360,22 @@ export function ChartCard({
 
       <div className="tpmv2-chart-surface">
         <div className="tpmv2-chart-grid-bg" />
+
+        <div className="tpmv2-chart-overlay">
+          <div className="tpmv2-chart-overlay-title">{selectedAsset.symbol}</div>
+          <div className="tpmv2-chart-overlay-meta">
+            <AnchorChip text={selectedAsset.status} />
+            <AnchorChip text={selectedTimeframe} />
+          </div>
+        </div>
+
         <div className="tpmv2-candles">
           {candles.map((height, index) => (
             <div key={index} className="tpmv2-candle-wrap">
               <span
-                className={index % 2 === 0 ? "tpmv2-candle up" : "tpmv2-candle down"}
+                className={
+                  index % 2 === 0 ? "tpmv2-candle up" : "tpmv2-candle down"
+                }
                 style={{ height: `${height}%` }}
               />
             </div>
@@ -457,37 +422,18 @@ export function ExecutionCard({
   accountMode,
   openTradeBySignal,
   openPaperTrade,
-  riskNote,
-  modeFieldLabel,
+  note,
   demoLabel,
   realLabel,
-  realReadinessNote,
-  policyPanelLabel,
-  verificationLabel,
-  permissionChips,
-  jurisdictionChips,
-  executionFoundationLabel,
-  executionRouteLabel,
-  executionRouteValue,
-  executionIntentLabel,
-  executionIntentValue,
-  executionGuardrailsLabel,
-  executionGuardrailChips,
-  riskFoundationLabel,
-  riskFoundationChips,
-  riskOperatorNote,
-  dataStateFoundationLabel,
-  dataStateFoundationChips,
-  dataStateOperatorNote,
 }: {
   dict: Dictionary;
   decision: Decision;
   signalLabel: string;
   selectedAssetSymbol: string;
-  selectedTimeframe: string;
-  selectedDuration: string;
-  durationOptions: readonly string[];
-  onSelectDuration: (duration: any) => void;
+  selectedTimeframe: PlatformTimeframe;
+  selectedDuration: PlatformExecutionDuration;
+  durationOptions: readonly PlatformExecutionDuration[];
+  onSelectDuration: (duration: PlatformExecutionDuration) => void;
   analysisTimeframeLabel: string;
   durationFieldLabel: string;
   amount: string;
@@ -498,121 +444,32 @@ export function ExecutionCard({
   accountMode: AccountMode;
   openTradeBySignal: () => void;
   openPaperTrade: (direction: "buy" | "sell") => void;
-  riskNote: string;
-  modeFieldLabel: string;
+  note: string;
   demoLabel: string;
   realLabel: string;
-  realReadinessNote: string;
-  policyPanelLabel: string;
-  verificationLabel: string;
-  permissionChips: string[];
-  jurisdictionChips: string[];
-  executionFoundationLabel: string;
-  executionRouteLabel: string;
-  executionRouteValue: string;
-  executionIntentLabel: string;
-  executionIntentValue: string;
-  executionGuardrailsLabel: string;
-  executionGuardrailChips: string[];
-  riskFoundationLabel: string;
-  riskFoundationChips: string[];
-  riskOperatorNote: string;
-  dataStateFoundationLabel: string;
-  dataStateFoundationChips: string[];
-  dataStateOperatorNote: string;
 }) {
   const disabled = !canExecute || sessionLocked || !canOpenMore;
-  const finalNote =
-    accountMode === "real"
-      ? realReadinessNote
-      : riskNote || dataStateOperatorNote || riskOperatorNote;
+  const modeValue = accountMode === "demo" ? demoLabel : realLabel;
 
   return (
     <section className="tpmv2-card tpmv2-execution">
-      <div>
-        <div className="tpmv2-exec-title">{dict.trade.title}</div>
-        <div className="tpmv2-exec-subtitle">{dict.trade.subtitle}</div>
+      <div className="tpmv2-ticket-head">
+        <div>
+          <div className="tpmv2-exec-title">{dict.trade.title}</div>
+          <div className="tpmv2-exec-subtitle">{dict.trade.subtitle}</div>
+        </div>
+
+        <AnchorChip text={modeValue} />
       </div>
 
-      <div className="tpmv2-decision">
+      <div className="tpmv2-ticket-signal">
         <div className="tpmv2-decision-top">
           <strong>{signalLabel}</strong>
           <span>
             {dict.decision.confidence}: {decision.confidence}
           </span>
         </div>
-        <div className="tpmv2-note">{decision.reason}</div>
-      </div>
-
-      <div className="tpmv2-decision">
-        <div className="tpmv2-decision-top">
-          <strong style={{ fontSize: 16 }}>{policyPanelLabel}</strong>
-          <span>{verificationLabel}</span>
-        </div>
-
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-          {(Array.isArray(jurisdictionChips) ? jurisdictionChips : []).map((item, index) => (
-            <AnchorChip key={`${index}-${item}`} text={item} />
-          ))}
-        </div>
-
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-          {(Array.isArray(permissionChips) ? permissionChips : []).map((item, index) => (
-            <AnchorChip key={`${index}-${item}`} text={item} />
-          ))}
-        </div>
-      </div>
-
-      <div className="tpmv2-decision">
-        <div className="tpmv2-decision-top">
-          <strong style={{ fontSize: 16 }}>{executionFoundationLabel}</strong>
-          <span>{executionIntentValue}</span>
-        </div>
-        <div className="tpmv2-note">
-          {executionRouteLabel}: {executionRouteValue}
-        </div>
-        <div className="tpmv2-note">
-          {executionIntentLabel}: {executionIntentValue}
-        </div>
-        <div className="tpmv2-note">{executionGuardrailsLabel}</div>
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-          {(Array.isArray(executionGuardrailChips) ? executionGuardrailChips : []).map(
-            (item, index) => (
-              <AnchorChip key={`${index}-${item}`} text={item} />
-            )
-          )}
-        </div>
-      </div>
-
-      <div className="tpmv2-decision">
-        <div className="tpmv2-decision-top">
-          <strong style={{ fontSize: 16 }}>{riskFoundationLabel}</strong>
-          <span>{riskOperatorNote}</span>
-        </div>
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-          {(Array.isArray(riskFoundationChips) ? riskFoundationChips : []).map((item, index) => (
-            <AnchorChip key={`${index}-${item}`} text={item} />
-          ))}
-        </div>
-      </div>
-
-      <div className="tpmv2-decision">
-        <div className="tpmv2-decision-top">
-          <strong style={{ fontSize: 16 }}>{dataStateFoundationLabel}</strong>
-          <span>{dataStateOperatorNote}</span>
-        </div>
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-          {(Array.isArray(dataStateFoundationChips) ? dataStateFoundationChips : []).map(
-            (item, index) => (
-              <AnchorChip key={`${index}-${item}`} text={item} />
-            )
-          )}
-        </div>
-      </div>
-
-      <div className="tpmv2-field">
-        <label>{modeFieldLabel}</label>
-        <div className="tpmv2-input">{accountMode === "demo" ? demoLabel : realLabel}</div>
+        <div className="tpmv2-ticket-reason">{decision.reason}</div>
       </div>
 
       <div className="tpmv2-field">
@@ -628,7 +485,7 @@ export function ExecutionCard({
       <div className="tpmv2-field">
         <label>{durationFieldLabel}</label>
         <div className="tpmv2-timeframes">
-          {(Array.isArray(durationOptions) ? durationOptions : []).map((duration) => (
+          {durationOptions.map((duration) => (
             <button
               key={duration}
               type="button"
@@ -651,11 +508,6 @@ export function ExecutionCard({
         />
       </div>
 
-      <div className="tpmv2-field">
-        <label>{dict.trade.mode}</label>
-        <div className="tpmv2-input">{dict.trade.paperMode}</div>
-      </div>
-
       <div className="tpmv2-actions">
         <button
           type="button"
@@ -668,7 +520,7 @@ export function ExecutionCard({
 
         <button
           type="button"
-          className="tpmv2-buy"
+          className="tpmv2-buy tpmv2-buy-secondary"
           onClick={() => openPaperTrade("buy")}
           disabled={disabled}
         >
@@ -685,7 +537,41 @@ export function ExecutionCard({
         </button>
       </div>
 
-      <div className="tpmv2-note">{finalNote}</div>
+      <div className="tpmv2-note">{note}</div>
+    </section>
+  );
+}
+
+export function SecondarySurfacePanel({
+  title,
+  subtitle,
+  badge,
+  chips,
+  note,
+}: {
+  title: string;
+  subtitle?: string;
+  badge?: string;
+  chips: string[];
+  note?: string;
+}) {
+  return (
+    <section className="tpmv2-card tpmv2-panel">
+      <PanelHeader
+        title={title}
+        subtitle={subtitle}
+        badge={badge ? <AnchorChip text={badge} /> : undefined}
+      />
+
+      {chips.length > 0 ? (
+        <div className="tpmv2-chip-list">
+          {chips.map((item, index) => (
+            <AnchorChip key={`${title}-${index}-${item}`} text={item} />
+          ))}
+        </div>
+      ) : null}
+
+      {note ? <div className="tpmv2-note">{note}</div> : null}
     </section>
   );
 }
@@ -701,12 +587,10 @@ export function ActivityOpenTradesPanel({
 }) {
   return (
     <section className="tpmv2-card tpmv2-panel">
-      <div className="tpmv2-panel-head">
-        <div>
-          <div className="tpmv2-panel-title">{dict.journal.openTradesTitle}</div>
-          <div className="tpmv2-panel-subtitle">{dict.journal.openTradesSubtitle}</div>
-        </div>
-      </div>
+      <PanelHeader
+        title={dict.journal.openTradesTitle}
+        subtitle={dict.journal.openTradesSubtitle}
+      />
 
       {openTrades.length === 0 ? (
         <div className="tpmv2-empty">{dict.journal.noOpenTrades}</div>
@@ -717,12 +601,13 @@ export function ActivityOpenTradesPanel({
               <div className="tpmv2-list-row">
                 <strong>{trade.symbol}</strong>
                 <span>
-                  {dict.decision.signals[trade.direction]} — {trade.amount}$
+                  {dict.decision.signals[trade.direction]} / {trade.amount}$
                 </span>
               </div>
 
               <div className="tpmv2-list-meta">
-                {trade.timeframe} · {trade.duration} — {dict.journal.openAt}: {trade.openedAt}
+                {trade.timeframe} / {trade.duration} / {dict.journal.openAt}:{" "}
+                {trade.openedAt}
               </div>
 
               <button
@@ -749,12 +634,10 @@ export function ActivityHistoryPanel({
 }) {
   return (
     <section className="tpmv2-card tpmv2-panel">
-      <div className="tpmv2-panel-head">
-        <div>
-          <div className="tpmv2-panel-title">{dict.journal.historyTitle}</div>
-          <div className="tpmv2-panel-subtitle">{dict.journal.historySubtitle}</div>
-        </div>
-      </div>
+      <PanelHeader
+        title={dict.journal.historyTitle}
+        subtitle={dict.journal.historySubtitle}
+      />
 
       {history.length === 0 ? (
         <div className="tpmv2-empty">{dict.journal.noHistory}</div>
@@ -765,12 +648,12 @@ export function ActivityHistoryPanel({
               <div className="tpmv2-list-row">
                 <strong>{trade.symbol}</strong>
                 <span>
-                  {dict.decision.signals[trade.direction]} — {trade.amount}$
+                  {dict.decision.signals[trade.direction]} / {trade.amount}$
                 </span>
               </div>
 
               <div className="tpmv2-list-meta">
-                {trade.timeframe} · {trade.duration}
+                {trade.timeframe} / {trade.duration}
               </div>
 
               <div className="tpmv2-list-meta">
@@ -780,7 +663,11 @@ export function ActivityHistoryPanel({
                 {dict.journal.closeAt}: {trade.closedAt}
               </div>
 
-              <div className={`tpmv2-result ${(trade.result || "").startsWith("+") ? "win" : "loss"}`}>
+              <div
+                className={`tpmv2-result ${
+                  (trade.result || "").startsWith("+") ? "win" : "loss"
+                }`}
+              >
                 {dict.journal.result}: {trade.result}
               </div>
             </div>
@@ -824,27 +711,14 @@ export function AuditTracePanel({
 }) {
   return (
     <section className="tpmv2-card tpmv2-panel">
-      <div className="tpmv2-panel-head">
-        <div>
-          <div className="tpmv2-panel-title">{title}</div>
-          <div className="tpmv2-panel-subtitle">{subtitle}</div>
-        </div>
-      </div>
+      <PanelHeader title={title} subtitle={subtitle} />
 
-      <div
-        style={{
-          display: "grid",
-          gap: 10,
-          marginBottom: 14,
-        }}
-      >
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-          <AnchorChip text={`${actorLabel}: ${actorValue}`} />
-          <AnchorChip text={`${accountModeLabel}: ${accountModeValue}`} />
-          <AnchorChip text={`${visibilityLabel}: ${visibilityValue}`} />
-          <AnchorChip text={`${traceLabel}: ${traceValue}`} />
-          <AnchorChip text={`${lastEventLabel}: ${lastEventValue}`} />
-        </div>
+      <div className="tpmv2-chip-list">
+        <AnchorChip text={`${actorLabel}: ${actorValue}`} />
+        <AnchorChip text={`${accountModeLabel}: ${accountModeValue}`} />
+        <AnchorChip text={`${visibilityLabel}: ${visibilityValue}`} />
+        <AnchorChip text={`${traceLabel}: ${traceValue}`} />
+        <AnchorChip text={`${lastEventLabel}: ${lastEventValue}`} />
       </div>
 
       {events.length === 0 ? (
@@ -861,7 +735,7 @@ export function AuditTracePanel({
               <div className="tpmv2-list-meta">{event.message}</div>
 
               <div className="tpmv2-list-meta">
-                {event.createdAt} · {event.accountMode}
+                {event.createdAt} / {event.accountMode}
               </div>
             </div>
           ))}
@@ -920,14 +794,9 @@ export function SecurityFoundationPanel({
 }) {
   return (
     <section className="tpmv2-card tpmv2-panel">
-      <div className="tpmv2-panel-head">
-        <div>
-          <div className="tpmv2-panel-title">{title}</div>
-          <div className="tpmv2-panel-subtitle">{subtitle}</div>
-        </div>
-      </div>
+      <PanelHeader title={title} subtitle={subtitle} />
 
-      <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 14 }}>
+      <div className="tpmv2-chip-list">
         <AnchorChip text={`${routeLabel}: ${routeValue}`} />
         <AnchorChip text={`${accessLabel}: ${accessValue}`} />
         <AnchorChip text={`${executionLabel}: ${executionValue}`} />
@@ -962,7 +831,11 @@ export function NarrowStrip({
           <button
             key={asset.symbol}
             type="button"
-            className={index === selectedAssetIndex ? "tpmv2-strip-item active" : "tpmv2-strip-item"}
+            className={
+              index === selectedAssetIndex
+                ? "tpmv2-strip-item active"
+                : "tpmv2-strip-item"
+            }
             onClick={() => onSelectAsset(index)}
           >
             <div className="tpmv2-watch-main">
