@@ -13,8 +13,8 @@ export default async function LocaleLayout({
 }) {
   const { locale } = await params;
   const resolvedLocale = resolveDictionaryLocale(locale);
-  const dict = getDictionary(locale);
-  const dir = getDirection(locale);
+  const dict = getDictionary(resolvedLocale);
+  const dir = getDirection(resolvedLocale);
 
   const navItems = [
     { href: `/${resolvedLocale}`, label: dict.nav.trade },

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { CSSProperties, ReactNode } from "react";
 import {
   TIMEFRAMES,
@@ -866,8 +866,8 @@ export function ChartCard({
         </div>
 
         <div className="tpmv2-chart-price-scale" aria-hidden="true">
-          {priceScale.map((price) => (
-            <span key={price}>{price}</span>
+          {priceScale.map((price, index) => (
+            <span key={`${price}-${index}`}>{price}</span>
           ))}
         </div>
 
@@ -987,8 +987,8 @@ export function ChartCard({
         </div>
 
         <div className="tpmv2-chart-time-scale" aria-hidden="true">
-          {timeScale.map((label) => (
-            <span key={label}>{label}</span>
+          {timeScale.map((label, index) => (
+            <span key={`${label}-${index}`}>{label}</span>
           ))}
         </div>
       </div>
@@ -1071,10 +1071,65 @@ export function ExecutionCard({
   ticketOperationalValue: string;
   ticketOperationalTone: WorkstationStatusTone;
 }) {
-  const disabled = !canExecute || sessionLocked || !canOpenMore;
+  const [controlsMounted, setControlsMounted] = useState(false);
+  const disabled = !controlsMounted || !canExecute || sessionLocked || !canOpenMore;
   const aiActionDisabled = decision.signal === "wait" || disabled;
   const modeValue = accountMode === "demo" ? demoLabel : realLabel;
   const executionRef = usePointerField<HTMLElement>();
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setControlsMounted(true);
+    }, 0);
+
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  function renderCoreAction({
+    className,
+    ariaLabel,
+    label,
+    meta,
+    actionDisabled,
+    onClick,
+  }: {
+    className: string;
+    ariaLabel: string;
+    label: string;
+    meta: string;
+    actionDisabled: boolean;
+    onClick: () => void;
+  }) {
+    if (!controlsMounted) {
+      return (
+        <span
+          role="button"
+          aria-disabled="true"
+          aria-label={ariaLabel}
+          className={className}
+          data-disabled="true"
+          tabIndex={-1}
+        >
+          <span>{label}</span>
+          <small>{meta}</small>
+        </span>
+      );
+    }
+
+    return (
+      <button
+        type="button"
+        className={className}
+        aria-disabled={actionDisabled}
+        aria-label={ariaLabel}
+        onClick={onClick}
+        disabled={actionDisabled}
+      >
+        <span>{label}</span>
+        <small>{meta}</small>
+      </button>
+    );
+  }
 
   return (
     <section
@@ -1094,38 +1149,32 @@ export function ExecutionCard({
       </div>
 
       <div className="tpmv2-core-actions" aria-label={dict.decision.title}>
-        <button
-          type="button"
-          className="tpmv2-core-action tpmv2-core-buy"
-          aria-label={dict.trade.openBuy}
-          onClick={() => openPaperTrade("buy")}
-          disabled={disabled}
-        >
-          <span>{dict.decision.signals.buy}</span>
-          <small>{dict.common.paper}</small>
-        </button>
+        {renderCoreAction({
+          className: "tpmv2-core-action tpmv2-core-buy",
+          ariaLabel: dict.trade.openBuy,
+          label: dict.decision.signals.buy,
+          meta: dict.common.paper,
+          actionDisabled: disabled,
+          onClick: () => openPaperTrade("buy"),
+        })}
 
-        <button
-          type="button"
-          className="tpmv2-core-action tpmv2-core-ai"
-          aria-label={dict.decision.executeBySignal}
-          onClick={openTradeBySignal}
-          disabled={aiActionDisabled}
-        >
-          <span>AI</span>
-          <small>{signalLabel}</small>
-        </button>
+        {renderCoreAction({
+          className: "tpmv2-core-action tpmv2-core-ai",
+          ariaLabel: dict.decision.executeBySignal,
+          label: "AI",
+          meta: signalLabel,
+          actionDisabled: aiActionDisabled,
+          onClick: openTradeBySignal,
+        })}
 
-        <button
-          type="button"
-          className="tpmv2-core-action tpmv2-core-sell"
-          aria-label={dict.trade.openSell}
-          onClick={() => openPaperTrade("sell")}
-          disabled={disabled}
-        >
-          <span>{dict.decision.signals.sell}</span>
-          <small>{dict.common.paper}</small>
-        </button>
+        {renderCoreAction({
+          className: "tpmv2-core-action tpmv2-core-sell",
+          ariaLabel: dict.trade.openSell,
+          label: dict.decision.signals.sell,
+          meta: dict.common.paper,
+          actionDisabled: disabled,
+          onClick: () => openPaperTrade("sell"),
+        })}
       </div>
 
       <div className={`tpmv2-ticket-signal ${decision.signal}`}>

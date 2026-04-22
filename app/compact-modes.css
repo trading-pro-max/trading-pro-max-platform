@@ -2068,6 +2068,8 @@
 .tpmv2-buy:disabled,
 .tpmv2-sell:disabled,
 .tpmv2-core-action:disabled,
+.tpmv2-core-action[aria-disabled="true"],
+.tpmv2-core-action[data-disabled="true"],
 .tpmv2-small-button:disabled,
 .tpmv2-timeframes button:disabled {
   opacity: 0.56;

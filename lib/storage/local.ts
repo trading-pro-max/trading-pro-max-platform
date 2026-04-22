@@ -3,7 +3,10 @@ export function readLocalJson<T>(key: string, fallback: T): T {
 
   try {
     const raw = window.localStorage.getItem(key);
-    return raw ? (JSON.parse(raw) as T) : fallback;
+    if (!raw) return fallback;
+
+    const parsed = JSON.parse(raw) as unknown;
+    return parsed === null ? fallback : (parsed as T);
   } catch {
     return fallback;
   }

@@ -263,13 +263,38 @@ function formatReason(template: string, symbol: string, timeframe: string) {
 function normalizeTrades(value: unknown, fallbackDuration: string): Trade[] {
   if (!Array.isArray(value)) return [];
 
+  const usedIds = new Set<string>();
+
+  function getTradeId(rawId: unknown) {
+    const baseId =
+      typeof rawId === "string" && rawId.trim().length > 0
+        ? rawId.trim()
+        : uid();
+
+    if (!usedIds.has(baseId)) {
+      usedIds.add(baseId);
+      return baseId;
+    }
+
+    let suffix = 2;
+    let nextId = `${baseId}-${suffix}`;
+
+    while (usedIds.has(nextId)) {
+      suffix += 1;
+      nextId = `${baseId}-${suffix}`;
+    }
+
+    usedIds.add(nextId);
+    return nextId;
+  }
+
   return value
     .filter((item) => !!item && typeof item === "object")
     .map((item) => {
       const record = item as Record<string, unknown>;
 
       return {
-        id: typeof record.id === "string" ? record.id : uid(),
+        id: getTradeId(record.id),
         symbol: typeof record.symbol === "string" ? record.symbol : "EURUSD",
         direction: record.direction === "sell" ? "sell" : "buy",
         amount: typeof record.amount === "string" ? record.amount : "100",
@@ -1061,7 +1086,7 @@ export function usePlatformState(
   const canSubmitAccountReview =
     canSubmitComplianceReview(activeComplianceState);
   const canExecute =
-    accountMode === "demo" && compliancePolicy.activation.executionEnabled;
+    hydrated && accountMode === "demo" && compliancePolicy.activation.executionEnabled;
   const accountStatus: AccountRuntimeState =
     compliancePolicy.activation.executionEnabled ? "active" : "read_only";
 
