@@ -12,6 +12,7 @@ import {
   ExecutionCard,
   NarrowStrip,
   TradingTopbar,
+  WorkstationCommandCenter,
 } from "./PlatformShellV2";
 import { createTradingWorkstationViewModel } from "./trading-workstation-view-model";
 
@@ -127,6 +128,23 @@ export default function TradingWorkstation({
             settingsLabel={dict.nav.settings}
           />
 
+          <WorkstationCommandCenter
+            dict={dict}
+            selectedAssetSymbol={platformState.selectedAsset.symbol}
+            selectedTimeframe={platformState.selectedTimeframe}
+            signalLabel={viewModel.signalLabel}
+            decision={platformState.decision}
+            openTradesCount={platformState.openTrades.length}
+            historyCount={platformState.history.length}
+            sessionPnLText={viewModel.sessionPnLText}
+            ticketReadinessLabel={viewModel.ticketReadinessLabel}
+            ticketReadinessValue={viewModel.ticketReadinessValue}
+            ticketReadinessTone={viewModel.ticketReadinessTone}
+            paperAccessLabel={viewModel.paperAccessLabel}
+            paperAccessValue={viewModel.paperAccessValue}
+            paperAccessTone={viewModel.paperAccessTone}
+          />
+
           <section
             className={
               desktopTicketVisible
@@ -216,18 +234,21 @@ export default function TradingWorkstation({
                 </div>
               </div>
 
-              <button
-                type="button"
-                className={
-                  desktopBlotterExpanded
-                    ? "tpmv2-blotter-toggle active"
-                    : "tpmv2-blotter-toggle"
-                }
-                aria-expanded={desktopBlotterExpanded}
-                onClick={() => setDesktopBlotterExpanded((current) => !current)}
-              >
-                {dict.journal.historyTitle}
-              </button>
+              <div className="tpmv2-blotter-actions">
+                <span>{desktopBlotterExpanded ? dict.common.enabled : dict.common.closed}</span>
+                <button
+                  type="button"
+                  className={
+                    desktopBlotterExpanded
+                      ? "tpmv2-blotter-toggle active"
+                      : "tpmv2-blotter-toggle"
+                  }
+                  aria-expanded={desktopBlotterExpanded}
+                  onClick={() => setDesktopBlotterExpanded((current) => !current)}
+                >
+                  {dict.journal.historyTitle}
+                </button>
+              </div>
             </div>
 
             {desktopBlotterExpanded ? (
@@ -278,6 +299,23 @@ export default function TradingWorkstation({
           dict={dict}
           selectedAssetIndex={platformState.selectedAssetIndex}
           onSelectAsset={platformState.setSelectedAssetIndex}
+        />
+
+        <WorkstationCommandCenter
+          dict={dict}
+          selectedAssetSymbol={platformState.selectedAsset.symbol}
+          selectedTimeframe={platformState.selectedTimeframe}
+          signalLabel={viewModel.signalLabel}
+          decision={platformState.decision}
+          openTradesCount={platformState.openTrades.length}
+          historyCount={platformState.history.length}
+          sessionPnLText={viewModel.sessionPnLText}
+          ticketReadinessLabel={viewModel.ticketReadinessLabel}
+          ticketReadinessValue={viewModel.ticketReadinessValue}
+          ticketReadinessTone={viewModel.ticketReadinessTone}
+          paperAccessLabel={viewModel.paperAccessLabel}
+          paperAccessValue={viewModel.paperAccessValue}
+          paperAccessTone={viewModel.paperAccessTone}
         />
 
         <ChartCard

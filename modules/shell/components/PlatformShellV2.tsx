@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { CSSProperties, ReactNode } from "react";
 import {
   TIMEFRAMES,
@@ -82,6 +82,74 @@ const CHART_TYPES: { id: ChartType; label: string }[] = [
 
 const INDICATOR_TOOLS = ["EMA 20", "RSI", "MACD", "VOL"] as const;
 const DRAWING_TOOLS = ["Cursor", "Trend", "Level", "Range", "Note"] as const;
+
+function clampPointerValue(value: number, max: number) {
+  return Math.min(max, Math.max(0, value));
+}
+
+function writePointerField(target: HTMLElement, rect: DOMRect, clientX: number, clientY: number) {
+  const xPx = clampPointerValue(clientX - rect.left, rect.width);
+  const yPx = clampPointerValue(clientY - rect.top, rect.height);
+  const xPercent = (xPx / Math.max(rect.width, 1)) * 100;
+  const yPercent = (yPx / Math.max(rect.height, 1)) * 100;
+
+  target.style.setProperty("--tpmv2-cursor-x", `${xPercent.toFixed(2)}%`);
+  target.style.setProperty("--tpmv2-cursor-y", `${yPercent.toFixed(2)}%`);
+  target.style.setProperty("--tpmv2-cursor-x-px", `${xPx.toFixed(1)}px`);
+  target.style.setProperty("--tpmv2-cursor-y-px", `${yPx.toFixed(1)}px`);
+}
+
+function clearPointerField(target: HTMLElement) {
+  target.style.removeProperty("--tpmv2-cursor-x");
+  target.style.removeProperty("--tpmv2-cursor-y");
+  target.style.removeProperty("--tpmv2-cursor-x-px");
+  target.style.removeProperty("--tpmv2-cursor-y-px");
+}
+
+function usePointerField<T extends HTMLElement>() {
+  const ref = useRef<T | null>(null);
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return undefined;
+
+    let rect = node.getBoundingClientRect();
+    const refreshRect = () => {
+      rect = node.getBoundingClientRect();
+    };
+
+    const syncPointer = (event: PointerEvent) => {
+      writePointerField(node, rect, event.clientX, event.clientY);
+    };
+
+    const syncPointerFromEnter = (event: PointerEvent) => {
+      refreshRect();
+      writePointerField(node, rect, event.clientX, event.clientY);
+    };
+
+    const clearPointer = () => {
+      clearPointerField(node);
+    };
+
+    const moveEventName = "onpointerrawupdate" in window ? "pointerrawupdate" : "pointermove";
+
+    node.addEventListener("pointerenter", syncPointerFromEnter, { passive: true });
+    node.addEventListener(moveEventName, syncPointer as EventListener, { passive: true });
+    node.addEventListener("pointerleave", clearPointer, { passive: true });
+    window.addEventListener("resize", refreshRect, { passive: true });
+    window.addEventListener("scroll", refreshRect, { capture: true, passive: true });
+
+    return () => {
+      node.removeEventListener("pointerenter", syncPointerFromEnter);
+      node.removeEventListener(moveEventName, syncPointer as EventListener);
+      node.removeEventListener("pointerleave", clearPointer);
+      window.removeEventListener("resize", refreshRect);
+      window.removeEventListener("scroll", refreshRect, { capture: true });
+    };
+  }, []);
+
+  return ref;
+}
 
 function AnchorChip({ text }: { text: string }) {
   return <span className="tpmv2-badge tpmv2-chip">{text}</span>;
@@ -421,6 +489,85 @@ export function RiskCardGrid({
   );
 }
 
+export function WorkstationCommandCenter({
+  dict,
+  selectedAssetSymbol,
+  selectedTimeframe,
+  signalLabel,
+  decision,
+  openTradesCount,
+  historyCount,
+  sessionPnLText,
+  ticketReadinessLabel,
+  ticketReadinessValue,
+  ticketReadinessTone,
+  paperAccessLabel,
+  paperAccessValue,
+  paperAccessTone,
+}: {
+  dict: Dictionary;
+  selectedAssetSymbol: string;
+  selectedTimeframe: PlatformTimeframe;
+  signalLabel: string;
+  decision: Decision;
+  openTradesCount: number;
+  historyCount: number;
+  sessionPnLText: string;
+  ticketReadinessLabel: string;
+  ticketReadinessValue: string;
+  ticketReadinessTone: WorkstationStatusTone;
+  paperAccessLabel: string;
+  paperAccessValue: string;
+  paperAccessTone: WorkstationStatusTone;
+}) {
+  const commandCenterRef = usePointerField<HTMLElement>();
+
+  return (
+    <section
+      ref={commandCenterRef}
+      className="tpmv2-card tpmv2-command-center"
+      aria-label={dict.shell.title}
+    >
+      <div className={`tpmv2-command-primary ${decision.signal}`}>
+        <div>
+          <span className="tpmv2-command-kicker">TPM AI Command</span>
+          <strong>{signalLabel}</strong>
+        </div>
+        <span>{decision.confidence}</span>
+      </div>
+
+      <div className="tpmv2-command-cell">
+        <span>{dict.market.selectedAsset}</span>
+        <strong>{selectedAssetSymbol}</strong>
+        <small>{dict.market.currentTimeframe}: {selectedTimeframe}</small>
+      </div>
+
+      <div className="tpmv2-command-cell">
+        <span>{paperAccessLabel}</span>
+        <StatusTag text={paperAccessValue} tone={paperAccessTone} />
+        <small>{dict.common.paper} / {dict.common.local}</small>
+      </div>
+
+      <div className="tpmv2-command-cell">
+        <span>{ticketReadinessLabel}</span>
+        <strong className={`tpmv2-ticket-status-value ${ticketReadinessTone}`}>
+          {ticketReadinessValue}
+        </strong>
+        <small>{dict.decision.confidence}: {decision.confidence}</small>
+      </div>
+
+      <div className="tpmv2-command-cell tpmv2-command-cell-metrics">
+        <span>{dict.journal.openTradesTitle}</span>
+        <strong>{openTradesCount}</strong>
+        <small>
+          {dict.journal.historyTitle}: {historyCount} / {dict.risk.sessionResult}:{" "}
+          {sessionPnLText}
+        </small>
+      </div>
+    </section>
+  );
+}
+
 export function ChartCard({
   dict,
   selectedAsset,
@@ -459,6 +606,11 @@ export function ChartCard({
   const chartAreaPoints = `0,100 ${chartPathPoints} 100,100`;
   const latestHeight = candles[candles.length - 1] ?? 50;
   const priceMarkerTop = `${Math.max(16, Math.min(82, 100 - latestHeight))}%`;
+  const highPrice = priceScale[0] ?? selectedAsset.price;
+  const lowPrice = priceScale[priceScale.length - 1] ?? selectedAsset.price;
+  const activeIndicatorSummary =
+    activeIndicators.length > 0 ? activeIndicators.join(" / ") : "Clean chart";
+  const chartSurfaceRef = usePointerField<HTMLDivElement>();
 
   function toggleIndicator(indicator: string) {
     setActiveIndicators((current) =>
@@ -473,11 +625,17 @@ export function ChartCard({
       className={`tpmv2-card tpmv2-chart tpmv2-chart-${chartType}`}
       aria-label={dict.chart.title}
     >
-      <div className="tpmv2-chart-surface">
+      <div ref={chartSurfaceRef} className="tpmv2-chart-surface">
         <div className="tpmv2-chart-grid-bg" />
         <div className="tpmv2-chart-crosshair">
           <span className="tpmv2-chart-crosshair-v" />
           <span className="tpmv2-chart-crosshair-h" />
+        </div>
+        <div className="tpmv2-chart-market-structure" aria-hidden="true">
+          <span className="tpmv2-chart-session-zone" />
+          <span className="tpmv2-chart-vwap-line" />
+          <span className="tpmv2-chart-liquidity-zone tpmv2-chart-liquidity-zone-high" />
+          <span className="tpmv2-chart-liquidity-zone tpmv2-chart-liquidity-zone-low" />
         </div>
 
         <div className="tpmv2-chart-floating-bar">
@@ -608,6 +766,12 @@ export function ChartCard({
           </div>
         </div>
 
+        <div className="tpmv2-chart-session-panel" aria-hidden="true">
+          <span>H {highPrice}</span>
+          <span>L {lowPrice}</span>
+          <span>{activeIndicatorSummary}</span>
+        </div>
+
         <div className={`tpmv2-chart-ai-panel ${decision.signal}`}>
           <div className="tpmv2-chart-ai-kicker">TPM AI</div>
           <div className="tpmv2-chart-ai-row">
@@ -648,16 +812,22 @@ export function ChartCard({
                 : "tpmv2-candles tpmv2-candles-ghost"
             }
           >
-            {candles.map((height, index) => (
-              <div key={index} className="tpmv2-candle-wrap">
-                <span
-                  className={
-                    index % 2 === 0 ? "tpmv2-candle up" : "tpmv2-candle down"
-                  }
-                  style={{ height: `${height}%` }}
-                />
-              </div>
-            ))}
+            {candles.map((height, index) => {
+              const candleTone = index % 2 === 0 ? "up" : "down";
+
+              return (
+                <div
+                  key={index}
+                  className={`tpmv2-candle-wrap ${candleTone}`}
+                  style={{ "--tpmv2-candle-height": `${height}%` } as CSSProperties}
+                >
+                  <span
+                    className={`tpmv2-candle ${candleTone}`}
+                    style={{ height: `${height}%` }}
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
 
@@ -749,9 +919,13 @@ export function ExecutionCard({
   const disabled = !canExecute || sessionLocked || !canOpenMore;
   const aiActionDisabled = decision.signal === "wait" || disabled;
   const modeValue = accountMode === "demo" ? demoLabel : realLabel;
+  const executionRef = usePointerField<HTMLElement>();
 
   return (
-    <section className="tpmv2-card tpmv2-execution">
+    <section
+      ref={executionRef}
+      className="tpmv2-card tpmv2-execution"
+    >
       <div className="tpmv2-ticket-head">
         <div>
           <div className="tpmv2-exec-title">{dict.trade.title}</div>
@@ -807,6 +981,23 @@ export function ExecutionCard({
           </span>
         </div>
         <div className="tpmv2-ticket-reason">{decision.reason}</div>
+      </div>
+
+      <div className="tpmv2-ticket-exec-strip" aria-label={ticketReadinessLabel}>
+        <div>
+          <span>{ticketReadinessLabel}</span>
+          <strong className={ticketReadinessTone}>{ticketReadinessValue}</strong>
+        </div>
+
+        <div>
+          <span>{dict.decision.confidence}</span>
+          <strong>{decision.confidence}</strong>
+        </div>
+
+        <div>
+          <span>{ticketGateLabel}</span>
+          <strong className={ticketGateTone}>{ticketGateValue}</strong>
+        </div>
       </div>
 
       <div className="tpmv2-ticket-grid">
@@ -1330,6 +1521,10 @@ export function NarrowStrip({
               <strong>{asset.symbol}</strong>
               <small>{asset.status}</small>
             </div>
+            <span className="tpmv2-watch-price">{asset.price}</span>
+            <span className={`tpmv2-watch-change ${toneClassFromValue(asset.change)}`}>
+              {asset.change}
+            </span>
           </button>
         ))}
       </div>
