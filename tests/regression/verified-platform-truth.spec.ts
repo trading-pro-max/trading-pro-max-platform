@@ -278,6 +278,11 @@ test.describe("verified platform truth", () => {
       failedChecklist: expect.any(Number),
       warnedDomains: expect.any(Number),
     });
+    expect(healthPayload.launchOperations).toMatchObject({
+      mode: "closed_beta_preparation",
+      status: expect.stringMatching(/in_progress|blocked/),
+      supportRoute: "/api/launch/feedback",
+    });
     expect(healthPayload.truthSemantics).toMatchObject({
       blocked: expect.arrayContaining([
         "live_execution",
@@ -439,6 +444,9 @@ test.describe("verified platform truth", () => {
     expect(["ready", "degraded"]).toContain(
       probes.get("launch_readiness_gate")?.status
     );
+    expect(["ready", "unconfigured", "degraded"]).toContain(
+      probes.get("closed_beta_preparation")?.status
+    );
 
     const routes = new Map<string, { path: string; status: string }>(
       diagnosticsPayload.health.routes.map((route: { path: string; status: string }) => [
@@ -521,6 +529,12 @@ test.describe("verified platform truth", () => {
     expect(["ready", "degraded"]).toContain(
       routes.get("/api/launch/readiness")?.status
     );
+    expect(routes.get("/api/launch/operations")).toMatchObject({
+      status: "auth_required",
+    });
+    expect(routes.get("/api/launch/feedback")).toMatchObject({
+      status: "auth_required",
+    });
 
     const launchReadiness = await request.get("/api/launch/readiness");
     expect(launchReadiness.status()).toBe(200);
@@ -552,6 +566,10 @@ test.describe("verified platform truth", () => {
     expect(automationStateUnauth.status()).toBe(401);
     const deliveryStateUnauth = await request.get("/api/alerts/delivery/state");
     expect(deliveryStateUnauth.status()).toBe(401);
+    const launchOperationsUnauth = await request.get("/api/launch/operations");
+    expect(launchOperationsUnauth.status()).toBe(401);
+    const launchFeedbackUnauth = await request.get("/api/launch/feedback");
+    expect(launchFeedbackUnauth.status()).toBe(401);
     const commercialStateUnauth = await request.get("/api/account/commercial-state");
     expect(commercialStateUnauth.status()).toBe(401);
     const commercialActivationUnauth = await request.get(
@@ -958,6 +976,105 @@ test.describe("verified platform truth", () => {
       subscriptions: "unconfigured",
       plan: "evaluation",
     });
+
+    const launchOperations = await request.get("/api/launch/operations");
+    expect(launchOperations.status()).toBe(200);
+    const launchOperationsPayload = await launchOperations.json();
+    expect(launchOperationsPayload.snapshot).toMatchObject({
+      mode: "closed_beta_preparation",
+      program: {
+        releaseTrack: "controlled_launch_operations",
+        currentStage: "closed_beta_preparation",
+        launchClaim: "not_launched",
+        publicLaunchClaim: "not_claimed",
+        publicAccess: "not_open",
+      },
+      truth: {
+        launchClaim: "not_launched",
+        publicLaunchClaim: "not_claimed",
+        liveExecution: "blocked",
+        realMoneyRouting: "blocked",
+        billing: "inactive",
+      },
+    });
+    expect(launchOperationsPayload.snapshot.stages).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          key: "launch_readiness_verification_gate",
+          required: true,
+          state: expect.stringMatching(/ready|blocked/),
+        }),
+        expect.objectContaining({
+          key: "closed_beta_preparation",
+          required: true,
+          state: expect.stringMatching(/in_progress|blocked/),
+        }),
+      ])
+    );
+    expect(launchOperationsPayload.snapshot.closedBeta).toMatchObject({
+      access: "allowlist_only",
+      evaluatorEligibility: expect.stringMatching(
+        /eligible|review_required|allowlist_unconfigured/
+      ),
+      matchSource: expect.stringMatching(/email|account|none/),
+      cohort: {
+        userEmail: expect.any(String),
+        accountId: expect.any(String),
+        supportLane: "operator_review",
+        feedbackRoute: "/api/launch/feedback",
+      },
+      safety: {
+        paperOnly: true,
+        liveExecution: "blocked",
+        realMoneyRouting: "blocked",
+        billing: "inactive",
+      },
+    });
+
+    const launchFeedback = await request.get("/api/launch/feedback");
+    expect(launchFeedback.status()).toBe(200);
+    const launchFeedbackPayload = await launchFeedback.json();
+    expect(launchFeedbackPayload.snapshot).toMatchObject({
+      mode: "closed_beta_feedback",
+      intake: {
+        route: "/api/launch/feedback",
+        auth: "required",
+        queue: "operator_review",
+      },
+      truth: {
+        launchClaim: "not_launched",
+        publicLaunchClaim: "not_claimed",
+        liveExecution: "blocked",
+        billing: "inactive",
+      },
+    });
+    const baselineFeedbackCount =
+      launchFeedbackPayload.snapshot.summary.submissions30d;
+    expect(typeof baselineFeedbackCount).toBe("number");
+    expect(Array.isArray(launchFeedbackPayload.snapshot.recent)).toBe(true);
+
+    const launchFeedbackUpdate = await request.post("/api/launch/feedback", {
+      data: {
+        category: "usability",
+        severity: "medium",
+        summary: "Ticket defaults are clear in closed beta mode.",
+        detail:
+          "Operator feedback capture should stay account-scoped and auditable while access is limited.",
+      },
+    });
+    expect(launchFeedbackUpdate.status()).toBe(200);
+    const launchFeedbackUpdatePayload = await launchFeedbackUpdate.json();
+    expect(launchFeedbackUpdatePayload.snapshot.summary.submissions30d).toBeGreaterThanOrEqual(
+      baselineFeedbackCount
+    );
+    expect(launchFeedbackUpdatePayload.snapshot.recent).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          category: "usability",
+          severity: "medium",
+        }),
+      ])
+    );
 
     const opsTelemetry = await request.get("/api/ops/telemetry");
     expect(opsTelemetry.status()).toBe(200);

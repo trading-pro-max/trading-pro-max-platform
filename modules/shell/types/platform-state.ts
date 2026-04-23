@@ -654,6 +654,12 @@ export type DiagnosticsHealthSnapshot = {
     failedChecklist: number;
     warnedDomains: number;
   };
+  launchOperations?: {
+    checkedAt: string;
+    mode: "closed_beta_preparation";
+    status: "in_progress" | "blocked";
+    supportRoute: "/api/launch/feedback";
+  };
 };
 
 export type DiagnosticsRoutePayload = {

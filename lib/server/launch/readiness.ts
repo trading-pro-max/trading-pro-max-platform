@@ -140,6 +140,14 @@ function buildChecklist(health: DiagnosticsHealthSnapshot) {
   const alertsRouteStatus = findRouteStatus(health, "/api/alerts/workflows");
   const aiInsightsRouteStatus = findRouteStatus(health, "/api/intelligence/insights");
   const diagnosticsRouteStatus = findRouteStatus(health, "/api/diagnostics/probes");
+  const launchOperationsRouteStatus = findRouteStatus(
+    health,
+    "/api/launch/operations"
+  );
+  const launchFeedbackRouteStatus = findRouteStatus(
+    health,
+    "/api/launch/feedback"
+  );
 
   const items: LaunchReadinessChecklistItem[] = [
     {
@@ -191,6 +199,18 @@ function buildChecklist(health: DiagnosticsHealthSnapshot) {
         diagnosticsRouteStatus === "degraded",
       evidence: `/api/diagnostics/probes=${diagnosticsRouteStatus}`,
     },
+    {
+      key: "closed_beta_operations_guard",
+      label: "Closed-beta operations route is explicitly account-guarded",
+      passed: launchOperationsRouteStatus === "auth_required",
+      evidence: `/api/launch/operations=${launchOperationsRouteStatus}`,
+    },
+    {
+      key: "closed_beta_feedback_guard",
+      label: "Closed-beta feedback route is explicitly account-guarded",
+      passed: launchFeedbackRouteStatus === "auth_required",
+      evidence: `/api/launch/feedback=${launchFeedbackRouteStatus}`,
+    },
   ];
 
   return {
@@ -234,6 +254,7 @@ export function buildLaunchReadinessGateSnapshot(
         "runtime_baseline",
         "runtime_ops",
         "product_backend_state",
+        "closed_beta_preparation",
       ],
       evidence: "Server/runtime/product contracts are healthy and diagnosable.",
     }),

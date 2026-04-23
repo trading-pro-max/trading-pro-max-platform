@@ -41,7 +41,10 @@ import {
   getEnterpriseOpsDiagnosticsProbe,
   getOpsProductionActivationDiagnosticsProbe,
 } from "@/lib/server/ops";
-import { buildLaunchReadinessGateSnapshot } from "@/lib/server/launch";
+import {
+  buildLaunchReadinessGateSnapshot,
+  getClosedBetaPreparationDiagnosticsProbe,
+} from "@/lib/server/launch";
 import type {
   DiagnosticsHealthSnapshot,
   DiagnosticsProbe,
@@ -170,6 +173,7 @@ function buildRouteProbes(input: {
   integrationsFoundation: DiagnosticsProbe;
   commercialFoundation: DiagnosticsProbe;
   commercialActivation: DiagnosticsProbe;
+  closedBetaPreparation: DiagnosticsProbe;
   opsFoundation: DiagnosticsProbe;
   opsActivation: DiagnosticsProbe;
   workspace: DiagnosticsProbe;
@@ -356,6 +360,20 @@ function buildRouteProbes(input: {
         "Operator-assist intelligence route serves deepened bounded risk/execution context with explicit non-predictive semantics.",
     },
     {
+      path: "/api/launch/operations",
+      method: "GET",
+      status: "auth_required",
+      detail:
+        `${input.closedBetaPreparation.summary}. Route is account-scoped and exposes controlled launch operations semantics.`,
+    },
+    {
+      path: "/api/launch/feedback",
+      method: "GET",
+      status: "auth_required",
+      detail:
+        "Closed-beta feedback route is account-scoped and operator-reviewed.",
+    },
+    {
       path: "/api/account/compliance",
       method: "GET",
       status: "auth_required",
@@ -389,6 +407,7 @@ function buildSubsystems(input: {
   integrationsFoundation: DiagnosticsProbe;
   commercialFoundation: DiagnosticsProbe;
   commercialActivation: DiagnosticsProbe;
+  closedBetaPreparation: DiagnosticsProbe;
   opsFoundation: DiagnosticsProbe;
   opsActivation: DiagnosticsProbe;
   preferences: DiagnosticsProbe;
@@ -488,6 +507,13 @@ function buildSubsystems(input: {
       status: input.commercialActivation.status,
       summary: input.commercialActivation.summary,
       detail: input.commercialActivation.detail,
+    },
+    {
+      key: "closed_beta_preparation",
+      label: input.closedBetaPreparation.label,
+      status: input.closedBetaPreparation.status,
+      summary: input.closedBetaPreparation.summary,
+      detail: input.closedBetaPreparation.detail,
     },
     {
       key: "ops",
@@ -599,6 +625,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     integrationsFoundation,
     commercialFoundation,
     commercialActivation,
+    closedBetaPreparation,
     opsFoundation,
     opsActivation,
     alerts,
@@ -621,6 +648,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     Promise.resolve(getRealIntegrationsDiagnosticsProbe(checkedAt)),
     getCommercialScalingDiagnosticsProbe(),
     getCommercialActivationDiagnosticsProbe(),
+    getClosedBetaPreparationDiagnosticsProbe(),
     getEnterpriseOpsDiagnosticsProbe(),
     getOpsProductionActivationDiagnosticsProbe(),
     getAlertWorkflowDiagnosticsProbe(),
@@ -666,6 +694,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       alertsAutomation,
       alertsDelivery,
       commercialActivation,
+      closedBetaPreparation,
       opsActivation,
       intelligence,
       aiFoundation,
@@ -686,6 +715,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     integrationsFoundation,
     commercialFoundation,
     commercialActivation,
+    closedBetaPreparation,
     opsFoundation,
     opsActivation,
     preferences,
@@ -723,6 +753,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     aiDeepening,
     security,
     productBackend,
+    closedBetaPreparation,
     operatorReviewConfigured:
       brokerConnector.operatorReview.state !== "unconfigured",
   });
@@ -738,6 +769,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     integrationsFoundation,
     commercialFoundation,
     commercialActivation,
+    closedBetaPreparation,
     opsFoundation,
     opsActivation,
     preferences,
@@ -837,6 +869,12 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       score: launchGate.overall.score,
       failedChecklist: launchGate.checklist.failedCount,
       warnedDomains: launchGate.overall.warnCount,
+    },
+    launchOperations: {
+      checkedAt: closedBetaPreparation.checkedAt,
+      mode: "closed_beta_preparation",
+      status: closedBetaPreparation.status === "ready" ? "in_progress" : "blocked",
+      supportRoute: "/api/launch/feedback",
     },
   };
 }

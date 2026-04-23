@@ -41,12 +41,14 @@ export async function GET() {
         warnedDomains: launchReadinessGate.overall.warnCount,
         checkedAt: launchReadinessGate.checkedAt,
       },
+      launchOperations: health.launchOperations ?? null,
       truthSemantics: {
         blocked: [
           "live_execution",
           "real_money_routing",
           "external_money_movement",
           "auto_trading",
+          "public_launch_access",
         ],
         fallback: ["market_data_fallback_first"],
         unconfigured: [
