@@ -35,6 +35,12 @@ export type DesktopProductizationSnapshot = {
     strategy: "backend_session_with_local_resume";
     secureStore: "host_keychain_required";
   };
+  continuity: {
+    workspaceState: "backend_workspace_depth_linked";
+    preferenceState: "hybrid_preference_sync";
+    sessionBridge: "guarded_cross_client";
+    notificationSemantics: "shared_guarded_readiness";
+  };
   notifications: {
     readiness: "unconfigured" | "local_channel_guarded";
     deliveryClaims: "none";
@@ -156,6 +162,12 @@ export function getDesktopProductizationSnapshot(
       strategy: "backend_session_with_local_resume",
       secureStore: "host_keychain_required",
     },
+    continuity: {
+      workspaceState: "backend_workspace_depth_linked",
+      preferenceState: "hybrid_preference_sync",
+      sessionBridge: "guarded_cross_client",
+      notificationSemantics: "shared_guarded_readiness",
+    },
     notifications: {
       readiness: localNotificationChannelConfigured
         ? "local_channel_guarded"
@@ -182,9 +194,9 @@ export function getDesktopProductizationSnapshot(
       stage: readiness.stage as DesktopProductizationStage,
     },
     summary:
-      "Desktop productization contracts are active for pilot usability across Windows, macOS, and Linux with explicit guarded release truth.",
+      "Desktop productization contracts are active for pilot usability across Windows, macOS, and Linux with explicit guarded release and cross-client continuity truth.",
     detail:
-      "Desktop shell usability, session restoration, packaging/install/update contracts, and notification-readiness semantics are expanded for pilot operation. Public-store release claims remain disabled and live/real-money execution remains blocked.",
+      "Desktop shell usability, session restoration, packaging/install/update contracts, and notification-readiness semantics are expanded for pilot operation. Workspace depth and preference continuity remain aligned with shared web/mobile contracts. Public-store release claims remain disabled and live/real-money execution remains blocked.",
   };
 }
 

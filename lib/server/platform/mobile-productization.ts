@@ -34,6 +34,12 @@ export type MobileProductizationSnapshot = {
     strategy: "session_or_token_bridge";
     secureStore: "device_keystore_required";
   };
+  continuity: {
+    workspaceState: "backend_workspace_depth_linked";
+    preferenceState: "hybrid_preference_sync";
+    sessionBridge: "guarded_cross_client";
+    notificationSemantics: "shared_guarded_readiness";
+  };
   persistence: {
     workspacePreferences: "backend_or_local_fallback";
     offlineCache: "reserved";
@@ -129,6 +135,12 @@ export function getMobileProductizationSnapshot(
       strategy: foundation.authSession.sessionStrategy,
       secureStore: foundation.authSession.secureStore,
     },
+    continuity: {
+      workspaceState: "backend_workspace_depth_linked",
+      preferenceState: "hybrid_preference_sync",
+      sessionBridge: "guarded_cross_client",
+      notificationSemantics: "shared_guarded_readiness",
+    },
     persistence: {
       workspacePreferences: "backend_or_local_fallback",
       offlineCache: foundation.persistence.offlineCache,
@@ -150,9 +162,9 @@ export function getMobileProductizationSnapshot(
       stage: readiness.stage as MobileProductizationStage,
     },
     summary:
-      "Mobile productization contracts are active for Android and iOS with guarded session/persistence and explicit push-delivery truth.",
+      "Mobile productization contracts are active for Android and iOS with guarded session/persistence, explicit push-delivery truth, and cross-client continuity semantics.",
     detail:
-      "Mobile client flow, session restoration, persistence behavior, and distribution contracts are expanded for pilot usability. Push delivery remains non-claiming, and live/real-money/auto-trading paths remain blocked.",
+      "Mobile client flow, session restoration, persistence behavior, and distribution contracts are expanded for pilot usability. Workspace depth and preference continuity stay aligned with web/desktop contracts. Push delivery remains non-claiming, and live/real-money/auto-trading paths remain blocked.",
   };
 }
 

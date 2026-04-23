@@ -10,6 +10,10 @@ export type ClientExpansionSnapshot = {
     apiContract: "http_json_v1";
     authContract: "session_or_bearer";
     executionSafety: "paper_only_live_blocked";
+    workspaceContinuity: "backend_workspace_depth_contract";
+    preferenceContinuity: "hybrid_preference_contract";
+    sessionContinuity: "guarded_cross_client";
+    notificationTruth: "readiness_state_shared";
   };
   web: {
     state: "active";
@@ -33,6 +37,11 @@ export type ClientExpansionSnapshot = {
       updateState: "unconfigured" | "pilot_update_ready";
       releaseClaims: "no_public_store_release_claim";
     };
+    continuity: {
+      workspaceState: "backend_workspace_depth_linked";
+      sessionBridge: "guarded_cross_client";
+      notificationSemantics: "shared_guarded_readiness";
+    };
   };
   mobile: {
     state: "future_ready";
@@ -52,6 +61,11 @@ export type ClientExpansionSnapshot = {
       distributionState: "unconfigured" | "pilot_distribution_ready";
       releaseClaims: "no_store_release_claim";
     };
+    continuity: {
+      workspaceState: "backend_workspace_depth_linked";
+      sessionBridge: "guarded_cross_client";
+      notificationSemantics: "shared_guarded_readiness";
+    };
   };
   summary: string;
 };
@@ -70,6 +84,10 @@ export function getClientExpansionSnapshot(
       apiContract: "http_json_v1",
       authContract: "session_or_bearer",
       executionSafety: "paper_only_live_blocked",
+      workspaceContinuity: "backend_workspace_depth_contract",
+      preferenceContinuity: "hybrid_preference_contract",
+      sessionContinuity: "guarded_cross_client",
+      notificationTruth: "readiness_state_shared",
     },
     web: {
       state: "active",
@@ -93,6 +111,11 @@ export function getClientExpansionSnapshot(
         updateState: desktopProductization.targets[0]?.updateState ?? "unconfigured",
         releaseClaims: desktopProductization.truth.releaseClaims,
       },
+      continuity: {
+        workspaceState: desktopProductization.continuity.workspaceState,
+        sessionBridge: desktopProductization.continuity.sessionBridge,
+        notificationSemantics: desktopProductization.continuity.notificationSemantics,
+      },
     },
     mobile: {
       state: "future_ready",
@@ -113,8 +136,13 @@ export function getClientExpansionSnapshot(
           mobileProductization.targets[0]?.distributionState ?? "unconfigured",
         releaseClaims: mobileProductization.truth.releaseClaims,
       },
+      continuity: {
+        workspaceState: mobileProductization.continuity.workspaceState,
+        sessionBridge: mobileProductization.continuity.sessionBridge,
+        notificationSemantics: mobileProductization.continuity.notificationSemantics,
+      },
     },
     summary:
-      "Web runtime is active. Desktop and mobile client shells are future-ready through shared API/auth contracts, with notification delivery intentionally unconfigured.",
+      "Web runtime is active. Desktop and mobile client shells are future-ready through shared API/auth contracts, guarded cross-client continuity, and intentionally unconfigured outbound notification delivery.",
   };
 }

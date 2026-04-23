@@ -587,6 +587,10 @@ export type DiagnosticsHealthSnapshot = {
       apiContract: "http_json_v1";
       authContract: "session_or_bearer";
       executionSafety: "paper_only_live_blocked";
+      workspaceContinuity: "backend_workspace_depth_contract";
+      preferenceContinuity: "hybrid_preference_contract";
+      sessionContinuity: "guarded_cross_client";
+      notificationTruth: "readiness_state_shared";
     };
     web: {
       state: "active";
@@ -610,6 +614,11 @@ export type DiagnosticsHealthSnapshot = {
         updateState: "unconfigured" | "pilot_update_ready";
         releaseClaims: "no_public_store_release_claim";
       };
+      continuity?: {
+        workspaceState: "backend_workspace_depth_linked";
+        sessionBridge: "guarded_cross_client";
+        notificationSemantics: "shared_guarded_readiness";
+      };
     };
     mobile: {
       state: "future_ready";
@@ -628,6 +637,11 @@ export type DiagnosticsHealthSnapshot = {
         sessionRestore: "disabled" | "guarded_enabled";
         distributionState: "unconfigured" | "pilot_distribution_ready";
         releaseClaims: "no_store_release_claim";
+      };
+      continuity?: {
+        workspaceState: "backend_workspace_depth_linked";
+        sessionBridge: "guarded_cross_client";
+        notificationSemantics: "shared_guarded_readiness";
       };
     };
     summary: string;

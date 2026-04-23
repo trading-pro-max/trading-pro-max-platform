@@ -310,6 +310,22 @@ test.describe("verified platform truth", () => {
         },
       },
     });
+    expect(healthPayload.clientExpansion.shared).toMatchObject({
+      workspaceContinuity: "backend_workspace_depth_contract",
+      preferenceContinuity: "hybrid_preference_contract",
+      sessionContinuity: "guarded_cross_client",
+      notificationTruth: "readiness_state_shared",
+    });
+    expect(healthPayload.clientExpansion.desktop.continuity).toMatchObject({
+      workspaceState: "backend_workspace_depth_linked",
+      sessionBridge: "guarded_cross_client",
+      notificationSemantics: "shared_guarded_readiness",
+    });
+    expect(healthPayload.clientExpansion.mobile.continuity).toMatchObject({
+      workspaceState: "backend_workspace_depth_linked",
+      sessionBridge: "guarded_cross_client",
+      notificationSemantics: "shared_guarded_readiness",
+    });
     expect(healthPayload.clientExpansion.desktop.foundation.targets).toEqual(
       expect.arrayContaining(["windows", "macos", "linux"])
     );
@@ -567,6 +583,12 @@ test.describe("verified platform truth", () => {
       usability: "operator_pilot_usable",
       windowLayouts: "restorable",
     });
+    expect(desktopProductizationPayload.snapshot.continuity).toMatchObject({
+      workspaceState: "backend_workspace_depth_linked",
+      preferenceState: "hybrid_preference_sync",
+      sessionBridge: "guarded_cross_client",
+      notificationSemantics: "shared_guarded_readiness",
+    });
     expect(desktopProductizationPayload.snapshot.safety).toMatchObject({
       paperOnly: true,
       liveExecution: "blocked",
@@ -613,6 +635,12 @@ test.describe("verified platform truth", () => {
     expect(mobileProductizationPayload.snapshot.clientFlow).toMatchObject({
       navigationModel: "workstation_compact_tabs",
       routeScope: "operator_assist",
+    });
+    expect(mobileProductizationPayload.snapshot.continuity).toMatchObject({
+      workspaceState: "backend_workspace_depth_linked",
+      preferenceState: "hybrid_preference_sync",
+      sessionBridge: "guarded_cross_client",
+      notificationSemantics: "shared_guarded_readiness",
     });
     expect(mobileProductizationPayload.snapshot.safety).toMatchObject({
       paperOnly: true,
