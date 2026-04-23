@@ -567,6 +567,17 @@ export type DiagnosticsHealthSnapshot = {
       readinessScore?: number;
       readinessStage?: string;
     };
+    activationPilot?: {
+      mode: "sandbox_guarded";
+      state:
+        | "inactive_unconfigured"
+        | "inactive_guarded"
+        | "pilot_requested_blocked"
+        | "pilot_guarded_ready";
+      canEnterPilotSandbox: boolean;
+      readinessScore?: number;
+      readinessStage?: string;
+    };
   };
   clientExpansion?: {
     checkedAt: string;

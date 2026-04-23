@@ -24,7 +24,11 @@ import {
 import { getClientExpansionSnapshot } from "@/lib/server/platform/client-contracts";
 import { getDesktopAppsDiagnosticsProbe } from "@/lib/server/platform/desktop-foundation";
 import { getMobileAppsDiagnosticsProbe } from "@/lib/server/platform/mobile-foundation";
-import { getRealIntegrationsDiagnosticsProbe } from "@/lib/server/integrations";
+import {
+  getRealActivationPilotDiagnosticsProbe,
+  getRealActivationPilotSnapshot,
+  getRealIntegrationsDiagnosticsProbe,
+} from "@/lib/server/integrations";
 import { getCommercialScalingDiagnosticsProbe } from "@/lib/server/commercial";
 import { getEnterpriseOpsDiagnosticsProbe } from "@/lib/server/ops";
 import type {
@@ -149,6 +153,7 @@ function buildRouteProbes(input: {
   broker: DiagnosticsProbe;
   desktopFoundation: DiagnosticsProbe;
   mobileFoundation: DiagnosticsProbe;
+  activationPilot: DiagnosticsProbe;
   integrationsFoundation: DiagnosticsProbe;
   commercialFoundation: DiagnosticsProbe;
   opsFoundation: DiagnosticsProbe;
@@ -205,6 +210,13 @@ function buildRouteProbes(input: {
       status: input.mobileFoundation.status,
       detail:
         "Mobile foundation route reports runtime bridge, auth/session, persistence, push readiness, and paper-only safety contracts.",
+    },
+    {
+      path: "/api/integrations/pilot",
+      method: "GET",
+      status: input.activationPilot.status,
+      detail:
+        "Real activation pilot route reports sandbox-only broker/feed pilot gating with explicit paper-only and blocked live-money semantics.",
     },
     {
       path: "/api/integrations/readiness",
@@ -314,6 +326,7 @@ function buildSubsystems(input: {
   security: DiagnosticsProbe;
   desktopFoundation: DiagnosticsProbe;
   mobileFoundation: DiagnosticsProbe;
+  activationPilot: DiagnosticsProbe;
   integrationsFoundation: DiagnosticsProbe;
   commercialFoundation: DiagnosticsProbe;
   opsFoundation: DiagnosticsProbe;
@@ -370,6 +383,13 @@ function buildSubsystems(input: {
       status: input.mobileFoundation.status,
       summary: input.mobileFoundation.summary,
       detail: input.mobileFoundation.detail,
+    },
+    {
+      key: "activation_pilot",
+      label: input.activationPilot.label,
+      status: input.activationPilot.status,
+      summary: input.activationPilot.summary,
+      detail: input.activationPilot.detail,
     },
     {
       key: "integrations",
@@ -468,6 +488,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     productBackend,
     desktopFoundation,
     mobileFoundation,
+    activationPilot,
     integrationsFoundation,
     commercialFoundation,
     opsFoundation,
@@ -483,6 +504,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     getProductBackendDiagnosticsProbe(),
     Promise.resolve(getDesktopAppsDiagnosticsProbe(checkedAt)),
     Promise.resolve(getMobileAppsDiagnosticsProbe(checkedAt)),
+    Promise.resolve(getRealActivationPilotDiagnosticsProbe(checkedAt)),
     Promise.resolve(getRealIntegrationsDiagnosticsProbe(checkedAt)),
     getCommercialScalingDiagnosticsProbe(),
     getEnterpriseOpsDiagnosticsProbe(),
@@ -497,6 +519,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
   const broker = getBrokerConnectorDiagnosticsProbe(brokerConnector);
   const brokerIntegration = getBrokerIntegrationSnapshot(checkedAt);
   const marketFeedArchitecture = getMarketFeedArchitectureSnapshot(checkedAt);
+  const activationPilotSnapshot = getRealActivationPilotSnapshot(checkedAt);
   const security = getSecurityDiagnosticsProbe();
   const clientExpansion = getClientExpansionSnapshot(checkedAt);
 
@@ -518,6 +541,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     expectedTruthful: [
       market,
       broker,
+      activationPilot,
       integrationsFoundation,
       alerts,
       alertsAutomation,
@@ -536,6 +560,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       security,
       desktopFoundation,
       mobileFoundation,
+      activationPilot,
       integrationsFoundation,
       commercialFoundation,
       opsFoundation,
@@ -556,6 +581,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       broker,
       desktopFoundation,
       mobileFoundation,
+      activationPilot,
       integrationsFoundation,
       commercialFoundation,
       opsFoundation,
@@ -575,6 +601,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       security,
       desktopFoundation,
       mobileFoundation,
+      activationPilot,
       integrationsFoundation,
       commercialFoundation,
       opsFoundation,
@@ -611,6 +638,13 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         externalConfigured: marketFeedArchitecture.externalDriver.endpointConfigured,
         readinessScore: marketFeedArchitecture.readiness.score,
         readinessStage: marketFeedArchitecture.readiness.stage,
+      },
+      activationPilot: {
+        mode: activationPilotSnapshot.activation.mode,
+        state: activationPilotSnapshot.activation.state,
+        canEnterPilotSandbox: activationPilotSnapshot.activation.canEnterPilotSandbox,
+        readinessScore: activationPilotSnapshot.readiness.score,
+        readinessStage: activationPilotSnapshot.readiness.stage,
       },
     },
     clientExpansion,

@@ -1,4 +1,9 @@
 export {
+  getRealActivationPilotDiagnosticsProbe,
+  getRealActivationPilotSnapshot,
+  type RealActivationPilotSnapshot,
+} from "./pilot";
+export {
   getRealIntegrationsDiagnosticsProbe,
   getRealIntegrationsFoundationSnapshot,
   type RealIntegrationsFoundationSnapshot,

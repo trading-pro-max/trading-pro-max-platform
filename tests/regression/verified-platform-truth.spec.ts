@@ -276,6 +276,12 @@ test.describe("verified platform truth", () => {
     expect(typeof healthPayload.architecture.marketFeed.readinessStage).toBe("string");
     expect(typeof healthPayload.architecture.broker.readinessScore).toBe("number");
     expect(typeof healthPayload.architecture.broker.readinessStage).toBe("string");
+    expect(healthPayload.architecture.activationPilot).toMatchObject({
+      mode: "sandbox_guarded",
+    });
+    expect(
+      ["inactive_unconfigured", "inactive_guarded", "pilot_requested_blocked", "pilot_guarded_ready"]
+    ).toContain(healthPayload.architecture.activationPilot.state);
     expect(healthPayload.clientExpansion).toMatchObject({
       shared: {
         apiContract: "http_json_v1",
@@ -355,6 +361,9 @@ test.describe("verified platform truth", () => {
     expect(["unconfigured", "blocked"]).toContain(
       probes.get("real_integrations_foundation")?.status
     );
+    expect(["unconfigured", "blocked", "ready"]).toContain(
+      probes.get("real_activation_pilot")?.status
+    );
     expect(probes.get("alerts_automation")).toMatchObject({
       status: "unconfigured",
     });
@@ -415,6 +424,9 @@ test.describe("verified platform truth", () => {
     });
     expect(["unconfigured", "blocked"]).toContain(
       routes.get("/api/integrations/readiness")?.status
+    );
+    expect(["unconfigured", "blocked", "ready"]).toContain(
+      routes.get("/api/integrations/pilot")?.status
     );
     expect(routes.get("/api/account/compliance")).toMatchObject({
       status: "auth_required",
@@ -546,6 +558,23 @@ test.describe("verified platform truth", () => {
     expect(["unconfigured", "configured_inactive", "configured_blocked"]).toContain(
       integrationPayload.snapshot.marketFeed.state
     );
+
+    const integrationPilot = await request.get("/api/integrations/pilot");
+    expect(integrationPilot.status()).toBe(200);
+    const integrationPilotPayload = await integrationPilot.json();
+    expect(integrationPilotPayload.snapshot.truth).toMatchObject({
+      environment: "sandbox_pilot_only",
+      scope: "single_broker_single_feed",
+      claims: "no_live_ready_claims",
+    });
+    expect(integrationPilotPayload.snapshot.safety).toMatchObject({
+      paperOnlyDefault: true,
+      liveExecution: "blocked",
+      realMoneyRouting: "blocked",
+      externalMoneyMovement: "blocked",
+    });
+    expect(typeof integrationPilotPayload.snapshot.readiness.score).toBe("number");
+    expect(typeof integrationPilotPayload.snapshot.readiness.stage).toBe("string");
 
     const commercialCatalog = await request.get("/api/commercial/catalog");
     expect(commercialCatalog.status()).toBe(200);
