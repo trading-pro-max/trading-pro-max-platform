@@ -817,6 +817,7 @@ test.describe("verified platform truth", () => {
       availability: "bounded",
     });
     expect(intelligencePayload.snapshot.truth).toMatchObject({
+      modelScope: "deterministic_context",
       predictiveScope: "interpretive_only",
       liveExecution: "blocked",
       predictiveGuarantee: "none",
@@ -824,13 +825,29 @@ test.describe("verified platform truth", () => {
       degradedModeExplicit: true,
     });
     expect(intelligencePayload.snapshot.multiTimeframe.windows).toHaveLength(3);
+    expect(intelligencePayload.snapshot.multiTimeframe.structureBias).toMatch(
+      /trend_following|range_balanced|mixed_structure/
+    );
     expect(["aligned", "mixed", "unclear"]).toContain(
       intelligencePayload.snapshot.multiTimeframe.alignment
     );
+    expect(intelligencePayload.snapshot.executionContext).toMatchObject({
+      route: "paper_only",
+      operatorControl: "required",
+      riskBudgetBand: expect.stringMatching(/low|medium/),
+      sessionCadence: expect.stringMatching(/slow|moderate/),
+    });
     expect(intelligencePayload.snapshot.journal.coverage).toBe(
       "local_audit_limited"
     );
+    expect(intelligencePayload.snapshot.journal.qualitySignal).toMatch(
+      /limited|emerging|structured/
+    );
     expect(intelligencePayload.snapshot.coaching.mode).toBe("bounded_guidance");
+    expect(intelligencePayload.snapshot.coaching.reviewWindowMinutes).toBeGreaterThan(0);
+    expect(Array.isArray(intelligencePayload.snapshot.coaching.degradedBoundaries)).toBe(
+      true
+    );
 
     const intelligenceInsights = await request.get(
       "/api/intelligence/insights?symbol=EUR/USD&timeframe=5m"
@@ -839,6 +856,7 @@ test.describe("verified platform truth", () => {
     const intelligenceInsightsPayload = await intelligenceInsights.json();
     expect(intelligenceInsightsPayload.view).toBe("expanded_intelligence_context");
     expect(intelligenceInsightsPayload.snapshot.truth).toMatchObject({
+      modelScope: "deterministic_context",
       predictiveGuarantee: "none",
       winRateClaim: "none",
       liveExecution: "blocked",
@@ -855,6 +873,12 @@ test.describe("verified platform truth", () => {
       dataBoundaries: "bounded_local_context",
       executionAuthority: "operator_manual",
     });
+    expect(Array.isArray(intelligenceOperatorAssistPayload.snapshot.assist.workspaceActions)).toBe(
+      true
+    );
+    expect(
+      intelligenceOperatorAssistPayload.snapshot.assist.workspaceActions.length
+    ).toBeGreaterThan(0);
     expect(typeof intelligenceOperatorAssistPayload.snapshot.multiTimeframe.consensusScore).toBe(
       "number"
     );
@@ -1224,18 +1248,36 @@ test.describe("verified platform truth", () => {
     expect(intelligencePayload.snapshot.workflow.state).toBe("configured_local");
     expect(intelligencePayload.snapshot.execution.liveExecution).toBe("blocked");
     expect(intelligencePayload.snapshot.multiTimeframe.windows).toHaveLength(3);
+    expect(intelligencePayload.snapshot.multiTimeframe.structureBias).toMatch(
+      /trend_following|range_balanced|mixed_structure/
+    );
     expect(intelligencePayload.snapshot.performance.disciplineScore).toBeGreaterThanOrEqual(
       0
     );
     expect(intelligencePayload.snapshot.performance.disciplineScore).toBeLessThanOrEqual(
       100
     );
+    expect(intelligencePayload.snapshot.performance.stabilityScore).toBeGreaterThanOrEqual(
+      0
+    );
+    expect(intelligencePayload.snapshot.performance.stabilityScore).toBeLessThanOrEqual(
+      100
+    );
+    expect(intelligencePayload.snapshot.journal.qualitySignal).toMatch(
+      /limited|emerging|structured/
+    );
     expect(intelligencePayload.snapshot.coaching.mode).toBe("bounded_guidance");
+    expect(intelligencePayload.snapshot.coaching.reviewWindowMinutes).toBeGreaterThan(0);
     expect(Array.isArray(intelligencePayload.snapshot.coaching.actions)).toBe(true);
+    expect(Array.isArray(intelligencePayload.snapshot.coaching.degradedBoundaries)).toBe(
+      true
+    );
+    expect(Array.isArray(intelligencePayload.snapshot.assist.workspaceActions)).toBe(true);
     expect(intelligencePayload.snapshot.truth.executionAuthority).toBe(
       "operator_manual"
     );
     expect(intelligencePayload.snapshot.truth).toMatchObject({
+      modelScope: "deterministic_context",
       predictiveGuarantee: "none",
       winRateClaim: "none",
       liveExecution: "blocked",

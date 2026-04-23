@@ -12,6 +12,10 @@ export type IntelligenceBackendAvailability = "bounded" | "degraded";
 type IntelligenceTrend = "up_bias" | "down_bias" | "balanced";
 type IntelligenceAlignment = "aligned" | "mixed" | "unclear";
 type IntelligenceConfidence = "low" | "guarded";
+type IntelligenceStructureBias =
+  | "trend_following"
+  | "range_balanced"
+  | "mixed_structure";
 
 export type IntelligenceBackendContextSnapshot = {
   checkedAt: string;
@@ -32,6 +36,7 @@ export type IntelligenceBackendContextSnapshot = {
   multiTimeframe: {
     symbol: string;
     alignment: IntelligenceAlignment;
+    structureBias: IntelligenceStructureBias;
     boundedConfidence: IntelligenceConfidence;
     consensusScore: number;
     windows: Array<{
@@ -63,6 +68,8 @@ export type IntelligenceBackendContextSnapshot = {
   executionContext: {
     route: "paper_only";
     operatorControl: "required";
+    riskBudgetBand: "low" | "medium";
+    sessionCadence: "slow" | "moderate";
     preflight: Array<{
       key: "market_feed_health" | "workflow_ack" | "paper_access";
       state: "pass" | "guarded";
@@ -78,28 +85,34 @@ export type IntelligenceBackendContextSnapshot = {
     riskEvents: number;
     reviewEvents: number;
     preferenceSyncEvents: number;
+    qualitySignal: "limited" | "emerging" | "structured";
     note: string;
   };
   performance: {
     state: "insufficient_data" | "baseline" | "growing";
     disciplineScore: number;
+    stabilityScore: number;
     consistency: "insufficient_data" | "emerging" | "stable";
     highlights: string[];
   };
   coaching: {
     mode: "bounded_guidance";
     confidenceBand: "low" | "guarded";
+    reviewWindowMinutes: number;
     priorities: string[];
     cautions: string[];
     actions: string[];
     playbooks: string[];
+    degradedBoundaries: string[];
   };
   assist: {
     depth: "expanded_operator_assist";
     dataBoundaries: "bounded_local_context";
     executionAuthority: "operator_manual";
+    workspaceActions: string[];
   };
   truth: {
+    modelScope: "deterministic_context";
     predictiveScope: "interpretive_only";
     confidenceSemantics: "context_only";
     executionAuthority: "operator_manual";
@@ -183,6 +196,22 @@ function deriveAlignment(
   return "mixed";
 }
 
+function deriveStructureBias(input: {
+  windows: IntelligenceBackendContextSnapshot["multiTimeframe"]["windows"];
+  alignment: IntelligenceAlignment;
+}): IntelligenceStructureBias {
+  if (input.alignment === "aligned") return "trend_following";
+
+  const balancedWindowCount = input.windows.filter(
+    (window) => window.trend === "balanced"
+  ).length;
+  if (input.alignment === "unclear" || balancedWindowCount >= 2) {
+    return "range_balanced";
+  }
+
+  return "mixed_structure";
+}
+
 function deriveBoundedConfidence(input: {
   availability: IntelligenceBackendAvailability;
   alignment: IntelligenceAlignment;
@@ -259,10 +288,26 @@ function buildExecutionContext(input: {
   paperAccess: "ready" | "guarded";
   marketFeedState: string;
   operatorAckRequiredCount: number;
+  consensusScore: number;
 }): IntelligenceBackendContextSnapshot["executionContext"] {
+  const riskBudgetBand =
+    input.paperAccess === "ready" &&
+    input.operatorAckRequiredCount === 0 &&
+    input.consensusScore >= 60
+      ? ("medium" as const)
+      : ("low" as const);
+  const sessionCadence =
+    input.marketFeedState === "degraded" ||
+    input.marketFeedState === "unavailable" ||
+    input.operatorAckRequiredCount > 0
+      ? ("slow" as const)
+      : ("moderate" as const);
+
   return {
     route: "paper_only",
     operatorControl: "required",
+    riskBudgetBand,
+    sessionCadence,
     preflight: [
       {
         key: "market_feed_health",
@@ -298,12 +343,14 @@ async function getJournalPerformance(input: {
         riskEvents: 0,
         reviewEvents: 0,
         preferenceSyncEvents: 0,
+        qualitySignal: "limited",
         note:
           "No authenticated account context. Journal/performance insight is limited to bounded public semantics.",
       },
       performance: {
         state: "insufficient_data",
         disciplineScore: 0,
+        stabilityScore: 0,
         consistency: "insufficient_data",
         highlights: [
           "Sign in to include account-scoped journal and workflow history in coaching context.",
@@ -370,6 +417,21 @@ async function getJournalPerformance(input: {
       : tradeEvents >= 8 && disciplineScore >= 65
       ? "stable"
       : "emerging";
+  const stabilityScore = Math.max(
+    0,
+    Math.min(
+      100,
+      Math.round(
+        disciplineScore - Math.min(30, riskEvents * 4) + Math.min(15, reviewEvents * 2)
+      )
+    )
+  );
+  const qualitySignal =
+    tradeEvents === 0
+      ? ("limited" as const)
+      : tradeEvents >= 8 && preferenceSyncEvents >= 3
+      ? ("structured" as const)
+      : ("emerging" as const);
 
   return {
     journal: {
@@ -379,12 +441,14 @@ async function getJournalPerformance(input: {
       riskEvents,
       reviewEvents,
       preferenceSyncEvents,
+      qualitySignal,
       note:
         "Insights are derived from local account audit history and remain bounded guidance, not predictive guarantees.",
     },
     performance: {
       state,
       disciplineScore,
+      stabilityScore,
       consistency,
       highlights: [
         `Trade events in last 7 days: ${tradeEvents}.`,
@@ -398,6 +462,7 @@ async function getJournalPerformance(input: {
 function buildCoaching(input: {
   availability: IntelligenceBackendAvailability;
   alignment: IntelligenceAlignment;
+  structureBias: IntelligenceStructureBias;
   confidence: IntelligenceConfidence;
   paperAccess: "ready" | "guarded";
   enabledRuleCount: number;
@@ -422,6 +487,9 @@ function buildCoaching(input: {
     cautions.push("Timeframe alignment is mixed; treat signals as exploratory.");
   } else {
     cautions.push("Directional context is unclear; reduce conviction and size.");
+  }
+  if (input.structureBias === "range_balanced") {
+    priorities.push("Treat current structure as range-balanced and avoid breakout certainty bias.");
   }
 
   if (input.marketFeedState === "degraded" || input.availability === "degraded") {
@@ -453,10 +521,22 @@ function buildCoaching(input: {
   }
 
   actions.push("No automated/live execution path is available; all actions remain manual.");
+  const reviewWindowMinutes =
+    input.availability === "degraded" || input.risk.executionRisk === "elevated"
+      ? 45
+      : 25;
+  const degradedBoundaries =
+    input.availability === "degraded"
+      ? [
+          "Feed quality is degraded; guidance confidence is reduced.",
+          "No predictive certainty is available in degraded context.",
+        ]
+      : ["none"];
 
   return {
     mode: "bounded_guidance" as const,
     confidenceBand: input.confidence,
+    reviewWindowMinutes,
     priorities,
     cautions,
     actions,
@@ -465,6 +545,7 @@ function buildCoaching(input: {
       "Log rationale before and after each paper action to strengthen journal signal quality.",
       "Escalate to operator review when risk pressure is elevated or feed quality degrades.",
     ],
+    degradedBoundaries,
   };
 }
 
@@ -521,6 +602,7 @@ export async function getIntelligenceBackendContext(input: {
     }),
   ];
   const alignment = deriveAlignment(windows);
+  const structureBias = deriveStructureBias({ windows, alignment });
   const boundedConfidence = deriveBoundedConfidence({
     availability,
     alignment,
@@ -538,10 +620,12 @@ export async function getIntelligenceBackendContext(input: {
     paperAccess,
     marketFeedState: marketSnapshot.feed.state,
     operatorAckRequiredCount,
+    consensusScore,
   });
   const coaching = buildCoaching({
     availability,
     alignment,
+    structureBias,
     confidence: boundedConfidence,
     paperAccess,
     enabledRuleCount,
@@ -570,6 +654,7 @@ export async function getIntelligenceBackendContext(input: {
     multiTimeframe: {
       symbol: marketSnapshot.request.normalizedSymbol,
       alignment,
+      structureBias,
       boundedConfidence,
       consensusScore,
       windows,
@@ -595,8 +680,14 @@ export async function getIntelligenceBackendContext(input: {
       depth: "expanded_operator_assist",
       dataBoundaries: "bounded_local_context",
       executionAuthority: "operator_manual",
+      workspaceActions: [
+        "Confirm 1m/5m/15m alignment and structure bias before any paper entry.",
+        "Use ticket preflight states to verify feed health and workflow acknowledgements.",
+        "Record rationale in journal after each guarded manual action.",
+      ],
     },
     truth: {
+      modelScope: "deterministic_context",
       predictiveScope: "interpretive_only",
       confidenceSemantics: "context_only",
       executionAuthority: "operator_manual",
