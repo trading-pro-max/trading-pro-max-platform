@@ -765,13 +765,24 @@ export function usePlatformState(
           buildFallbackCandles(selectedAssetSymbol, selectedTimeframe)
         );
         setMarketFeed({
-          provider: "Trading Pro Max Feed Foundation",
+          provider: "Trading Pro Max Fallback Feed",
           adapter: "fallback_simulated",
           state: "degraded",
           sourceLabel: "Local market fallback",
           updateCadenceMs: 30_000,
           supportsStreaming: false,
           configured: false,
+          externalFeedConfigured: false,
+          externalFeedActive: false,
+          degradedReason: "Client market route request failed; local fallback candles are active.",
+          notices: [
+            {
+              code: "fallback_adapter_degraded",
+              severity: "warning",
+              message:
+                "Client market route request failed; local fallback candles are active.",
+            },
+          ],
           lastUpdatedAt: nowIso(),
         });
       }

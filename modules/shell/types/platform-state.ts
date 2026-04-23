@@ -342,6 +342,29 @@ export type MarketCandle = {
   volume: number;
 };
 
+export type MarketFeedNoticeSeverity = "info" | "warning";
+export type MarketFeedNoticeCode =
+  | "symbol_fallback_applied"
+  | "timeframe_fallback_applied"
+  | "external_feed_reserved"
+  | "fallback_adapter_active"
+  | "fallback_adapter_degraded";
+
+export type MarketFeedNotice = {
+  code: MarketFeedNoticeCode;
+  severity: MarketFeedNoticeSeverity;
+  message: string;
+};
+
+export type MarketRequestResolution = {
+  inputSymbol: string | null;
+  inputTimeframe: string | null;
+  normalizedSymbol: string;
+  normalizedTimeframe: string;
+  symbolFallbackApplied: boolean;
+  timeframeFallbackApplied: boolean;
+};
+
 export type MarketFeedSummary = {
   provider: string;
   adapter: "fallback_simulated";
@@ -350,12 +373,17 @@ export type MarketFeedSummary = {
   updateCadenceMs: number;
   supportsStreaming: boolean;
   configured: boolean;
+  externalFeedConfigured: boolean;
+  externalFeedActive: false;
+  degradedReason?: string;
+  notices: MarketFeedNotice[];
   lastUpdatedAt: string;
 };
 
 export type MarketDataSnapshot = {
   requestedSymbol: string;
   requestedTimeframe: string;
+  request: MarketRequestResolution;
   feed: MarketFeedSummary;
   assets: Asset[];
   candles: MarketCandle[];

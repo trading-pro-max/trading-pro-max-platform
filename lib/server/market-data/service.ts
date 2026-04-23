@@ -7,6 +7,7 @@ import {
   DEFAULT_MARKET_SYMBOL,
   MARKET_INSTRUMENTS,
   getMarketInstrument,
+  hasMarketInstrument,
   type MarketInstrumentDefinition,
 } from "@/lib/market/catalog";
 import type {
@@ -15,10 +16,12 @@ import type {
   MarketCandle,
   MarketDataSnapshot,
   MarketFeedSummary,
+  MarketFeedNotice,
+  MarketRequestResolution,
 } from "@/modules/shell/types/platform-state";
 
 const DEFAULT_CANDLE_COUNT = 36;
-const MARKET_PROVIDER = "Trading Pro Max Feed Foundation";
+const MARKET_PROVIDER = "Trading Pro Max Fallback Feed";
 const FALLBACK_SOURCE_LABEL = "Fallback market adapter";
 const CONFIGURED_EXTERNAL_FEED = Boolean(
   process.env.TPM_MARKET_FEED_URL?.trim()
@@ -31,6 +34,16 @@ function isPlatformTimeframe(value?: string | null): value is PlatformTimeframe 
 function normalizeMarketInput(value: string | null | undefined, maxLength = 32) {
   const normalized = value?.trim();
   return normalized ? normalized.slice(0, maxLength) : null;
+}
+
+function normalizeSymbolInput(value: string | null | undefined) {
+  const normalized = normalizeMarketInput(value, 32);
+  return normalized ? normalized.toUpperCase().replace(/\s+/g, "") : null;
+}
+
+function normalizeTimeframeInput(value: string | null | undefined) {
+  const normalized = normalizeMarketInput(value, 8);
+  return normalized ? normalized.toLowerCase() : null;
 }
 
 function getTimeframeIntervalMs(timeframe: PlatformTimeframe) {
@@ -196,52 +209,140 @@ function buildAssetSnapshot(
   };
 }
 
-function buildFeedSummary(timeframe: PlatformTimeframe): MarketFeedSummary {
+function buildFeedSummary(input: {
+  timeframe: PlatformTimeframe;
+  notices: MarketFeedNotice[];
+  state?: MarketFeedSummary["state"];
+  degradedReason?: string;
+}): MarketFeedSummary {
   return {
     provider: MARKET_PROVIDER,
     adapter: "fallback_simulated",
-    state: "fallback_ready",
-    sourceLabel: CONFIGURED_EXTERNAL_FEED
-      ? `${FALLBACK_SOURCE_LABEL} (external feed reserved)`
-      : FALLBACK_SOURCE_LABEL,
-    updateCadenceMs: getRecommendedCadenceMs(timeframe),
+    state: input.state ?? "fallback_ready",
+    sourceLabel: FALLBACK_SOURCE_LABEL,
+    updateCadenceMs: getRecommendedCadenceMs(input.timeframe),
     supportsStreaming: false,
-    configured: CONFIGURED_EXTERNAL_FEED,
+    configured: false,
+    externalFeedConfigured: CONFIGURED_EXTERNAL_FEED,
+    externalFeedActive: false,
+    degradedReason: input.degradedReason,
+    notices: input.notices,
     lastUpdatedAt: new Date().toISOString(),
   };
+}
+
+function buildMarketFeedNotices(input: {
+  resolution: MarketRequestResolution;
+  degradedReason?: string;
+}): MarketFeedNotice[] {
+  const notices: MarketFeedNotice[] = [
+    {
+      code: "fallback_adapter_active",
+      severity: "info",
+      message:
+        "The fallback market adapter is active and no external live feed is being used.",
+    },
+  ];
+
+  if (CONFIGURED_EXTERNAL_FEED) {
+    notices.push({
+      code: "external_feed_reserved",
+      severity: "info",
+      message:
+        "External feed configuration is present but reserved; fallback remains the serving adapter.",
+    });
+  }
+
+  if (input.resolution.symbolFallbackApplied) {
+    notices.push({
+      code: "symbol_fallback_applied",
+      severity: "warning",
+      message: `Requested symbol was not supported and was normalized to ${input.resolution.normalizedSymbol}.`,
+    });
+  }
+
+  if (input.resolution.timeframeFallbackApplied) {
+    notices.push({
+      code: "timeframe_fallback_applied",
+      severity: "warning",
+      message: `Requested timeframe was not supported and was normalized to ${input.resolution.normalizedTimeframe}.`,
+    });
+  }
+
+  if (input.degradedReason) {
+    notices.push({
+      code: "fallback_adapter_degraded",
+      severity: "warning",
+      message: input.degradedReason,
+    });
+  }
+
+  return notices;
 }
 
 export function resolveMarketRequest(input: {
   symbol?: string | null;
   timeframe?: string | null;
 }) {
-  const requestedTimeframe = normalizeMarketInput(input.timeframe, 8);
-  const requestedSymbol = normalizeMarketInput(input.symbol, 32);
+  const requestedTimeframe = normalizeTimeframeInput(input.timeframe);
+  const requestedSymbol = normalizeSymbolInput(input.symbol);
   const timeframe = isPlatformTimeframe(requestedTimeframe)
     ? requestedTimeframe
     : ("1m" satisfies PlatformTimeframe);
-  const instrument = getMarketInstrument(requestedSymbol ?? DEFAULT_MARKET_SYMBOL);
+  const requestedSymbolSupported = hasMarketInstrument(requestedSymbol);
+  const instrument = getMarketInstrument(
+    requestedSymbolSupported ? requestedSymbol : DEFAULT_MARKET_SYMBOL
+  );
+  const request: MarketRequestResolution = {
+    inputSymbol: normalizeMarketInput(input.symbol, 32),
+    inputTimeframe: normalizeMarketInput(input.timeframe, 8),
+    normalizedSymbol: instrument.symbol,
+    normalizedTimeframe: timeframe,
+    symbolFallbackApplied: Boolean(requestedSymbol) && !requestedSymbolSupported,
+    timeframeFallbackApplied:
+      Boolean(requestedTimeframe) && !isPlatformTimeframe(requestedTimeframe),
+  };
 
   return {
     instrument,
     timeframe,
+    request,
   };
 }
 
 export async function getMarketDataSnapshot(input: {
   symbol?: string | null;
   timeframe?: string | null;
+  degradedReason?: string;
 } = {}): Promise<MarketDataSnapshot> {
-  const { instrument, timeframe } = resolveMarketRequest(input);
-  const feed = buildFeedSummary(timeframe);
+  const { instrument, timeframe, request } = resolveMarketRequest(input);
+  const notices = buildMarketFeedNotices({
+    resolution: request,
+    degradedReason: input.degradedReason,
+  });
+  const feed = buildFeedSummary({
+    timeframe,
+    notices,
+    state: input.degradedReason ? "degraded" : "fallback_ready",
+    degradedReason: input.degradedReason,
+  });
 
   return {
     requestedSymbol: instrument.symbol,
     requestedTimeframe: timeframe,
+    request,
     feed,
     assets: MARKET_INSTRUMENTS.map((definition) => buildAssetSnapshot(definition, feed)),
     candles: buildMarketCandles(instrument, timeframe),
   };
+}
+
+export function classifyMarketDataError(error: unknown) {
+  if (error instanceof Error) {
+    return `Fallback adapter recovered after market data error: ${error.message}`;
+  }
+
+  return "Fallback adapter recovered after an unknown market data error.";
 }
 
 export async function getMarketDiagnosticsProbe(): Promise<DiagnosticsProbe> {
@@ -255,8 +356,8 @@ export async function getMarketDiagnosticsProbe(): Promise<DiagnosticsProbe> {
       ? "Fallback adapter active"
       : "Fallback adapter ready",
     detail: CONFIGURED_EXTERNAL_FEED
-      ? "External feed configuration is reserved, but the paper-safe fallback adapter remains active."
-      : "No external feed is configured. The paper-safe fallback adapter is serving normalized market data.",
+      ? "External feed configuration is present but inactive. The paper-safe fallback adapter is serving normalized market data."
+      : "No external feed is configured or active. The paper-safe fallback adapter is serving normalized market data.",
     checkedAt,
   };
 }

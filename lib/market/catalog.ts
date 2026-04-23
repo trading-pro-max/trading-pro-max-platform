@@ -104,13 +104,32 @@ export const MARKET_INSTRUMENTS: readonly MarketInstrumentDefinition[] = [
 
 export const DEFAULT_MARKET_SYMBOL = MARKET_INSTRUMENTS[0].symbol;
 
+function canonicalMarketSymbol(value: string) {
+  return value.trim().toUpperCase().replace(/\s+/g, "");
+}
+
 export function getMarketInstrument(symbol?: string | null) {
   if (!symbol) return MARKET_INSTRUMENTS[0];
+
+  const canonicalSymbol = canonicalMarketSymbol(symbol);
 
   return (
     MARKET_INSTRUMENTS.find(
       (instrument) =>
-        instrument.symbol === symbol || instrument.providerSymbol === symbol
+        canonicalMarketSymbol(instrument.symbol) === canonicalSymbol ||
+        canonicalMarketSymbol(instrument.providerSymbol) === canonicalSymbol
     ) ?? MARKET_INSTRUMENTS[0]
+  );
+}
+
+export function hasMarketInstrument(symbol?: string | null) {
+  if (!symbol) return false;
+
+  const canonicalSymbol = canonicalMarketSymbol(symbol);
+
+  return MARKET_INSTRUMENTS.some(
+    (instrument) =>
+      canonicalMarketSymbol(instrument.symbol) === canonicalSymbol ||
+      canonicalMarketSymbol(instrument.providerSymbol) === canonicalSymbol
   );
 }
