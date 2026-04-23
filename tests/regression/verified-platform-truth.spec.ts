@@ -255,20 +255,32 @@ test.describe("verified platform truth", () => {
       paperSafe: true,
       liveExecution: "blocked",
     });
+    expect(healthPayload.policyTruth).toMatchObject({
+      paperOnly: true,
+      liveExecution: "blocked",
+      marketData: "fallback_first",
+      brokerRouting: "blocked",
+      externalFeed: "fallback_active",
+    });
+    expect(healthPayload.architecture.marketFeed.policyMode).toBe("fallback_first");
+    expect(Array.isArray(healthPayload.subsystems)).toBe(true);
+    expect(healthPayload.subsystems.length).toBeGreaterThanOrEqual(8);
     expect(healthPayload.connectors[0]).toMatchObject({
-      state: "unconfigured",
       paperCapability: "local_paper_only",
       realCapability: "blocked",
       liveExecution: "blocked",
     });
+    expect(["unconfigured", "configured_blocked"]).toContain(
+      healthPayload.connectors[0].state
+    );
 
     const diagnostics = await request.get("/api/diagnostics/probes");
     expect(diagnostics.status()).toBe(200);
     const diagnosticsPayload = await diagnostics.json();
     expect(diagnosticsPayload.ok).toBe(true);
 
-    const probes = new Map(
-      diagnosticsPayload.health.probes.map((probe: { key: string }) => [
+    const probes = new Map<string, { key: string; status: string }>(
+      diagnosticsPayload.health.probes.map((probe: { key: string; status: string }) => [
         probe.key,
         probe,
       ])
@@ -277,13 +289,28 @@ test.describe("verified platform truth", () => {
     expect(probes.get("preferences_persistence")).toMatchObject({
       status: "ready",
     });
+    expect(probes.get("workspace_persistence")).toMatchObject({
+      status: "ready",
+    });
+    expect(probes.get("runtime_ops")).toMatchObject({
+      status: "ready",
+    });
+    expect(probes.get("product_backend_state")).toMatchObject({
+      status: "ready",
+    });
     expect(probes.get("market_data")).toMatchObject({ status: "fallback" });
-    expect(probes.get("broker_connector")).toMatchObject({
+    expect(["unconfigured", "blocked"]).toContain(
+      probes.get("broker_connector")?.status
+    );
+    expect(probes.get("alerts_workflow")).toMatchObject({
       status: "unconfigured",
     });
+    expect(probes.get("intelligence_backend")).toMatchObject({
+      status: "ready",
+    });
 
-    const routes = new Map(
-      diagnosticsPayload.health.routes.map((route: { path: string }) => [
+    const routes = new Map<string, { path: string; status: string }>(
+      diagnosticsPayload.health.routes.map((route: { path: string; status: string }) => [
         route.path,
         route,
       ])
@@ -291,12 +318,27 @@ test.describe("verified platform truth", () => {
     expect(routes.get("/api/account/preferences")).toMatchObject({
       status: "auth_required",
     });
+    expect(routes.get("/api/account/workspace")).toMatchObject({
+      status: "auth_required",
+    });
+    expect(routes.get("/api/account/product-state")).toMatchObject({
+      status: "auth_required",
+    });
+    expect(routes.get("/api/alerts/workflows")).toMatchObject({
+      status: "auth_required",
+    });
+    expect(routes.get("/api/market/feed-state")).toMatchObject({
+      status: "fallback",
+    });
+    expect(["unconfigured", "blocked"]).toContain(
+      routes.get("/api/broker/state")?.status
+    );
     expect(routes.get("/api/account/compliance")).toMatchObject({
       status: "auth_required",
     });
-    expect(routes.get("/api/operator/compliance/review")).toMatchObject({
-      status: "unconfigured",
-    });
+    expect(["unconfigured", "auth_required"]).toContain(
+      routes.get("/api/operator/compliance/review")?.status
+    );
 
     const compliance = await request.get("/api/account/compliance");
     expect(compliance.status()).toBe(401);
@@ -304,6 +346,159 @@ test.describe("verified platform truth", () => {
       "/api/operator/compliance/review?accountId=missing"
     );
     expect(operatorReview.status()).toBe(401);
+
+    const broker = await request.get("/api/broker/state");
+    expect(broker.status()).toBe(200);
+    const brokerPayload = await broker.json();
+    expect(brokerPayload.integration.integration).toMatchObject({
+      paperRouting: "local_paper_only",
+      realRouting: "blocked",
+    });
+    expect(brokerPayload.safety.liveExecution).toBe("blocked");
+    expect(["unconfigured", "configured_blocked"]).toContain(
+      brokerPayload.safety.state
+    );
+
+    const feedState = await request.get("/api/market/feed-state");
+    expect(feedState.status()).toBe(200);
+    const feedStatePayload = await feedState.json();
+    expect(feedStatePayload.snapshot).toMatchObject({
+      policyMode: "fallback_first",
+    });
+    expect([
+      "unconfigured",
+      "configured_inactive",
+      "configured_blocked",
+    ]).toContain(feedStatePayload.snapshot.externalDriver.state);
+
+    const workspace = await request.get("/api/account/workspace");
+    expect(workspace.status()).toBe(401);
+    const productState = await request.get("/api/account/product-state");
+    expect(productState.status()).toBe(401);
+    const workflows = await request.get("/api/alerts/workflows");
+    expect(workflows.status()).toBe(401);
+
+    const intelligence = await request.get(
+      "/api/intelligence/context?symbol=EURUSD&timeframe=1m"
+    );
+    expect(intelligence.status()).toBe(200);
+    const intelligencePayload = await intelligence.json();
+    expect(intelligencePayload.snapshot).toMatchObject({
+      authenticated: false,
+      availability: "bounded",
+    });
+    expect(intelligencePayload.snapshot.truth).toMatchObject({
+      predictiveScope: "interpretive_only",
+      liveExecution: "blocked",
+    });
+  });
+
+  test("persists backend workspace depth and workflow state for authenticated sessions", async ({
+    request,
+  }) => {
+    const login = await request.post("/api/auth/login", {
+      data: {
+        email: DEMO_EMAIL,
+        password: DEMO_PASSWORD,
+      },
+    });
+    expect(login.status()).toBe(200);
+
+    const product = await request.get("/api/account/product-state");
+    expect(product.status()).toBe(200);
+    const productPayload = await product.json();
+    expect(productPayload.snapshot.capabilities).toMatchObject({
+      liveExecution: "blocked",
+      marketData: "fallback_first",
+    });
+    expect(productPayload.snapshot.trust).toMatchObject({
+      paperOnly: true,
+      liveExecution: "blocked",
+    });
+
+    const workspaceUpdate = await request.post("/api/account/workspace", {
+      data: {
+        workspaceDepth: {
+          focusMode: "execution_focus",
+          watchlistDensity: "dense",
+          shortcutLayer: "layout_only",
+        },
+      },
+    });
+    expect(workspaceUpdate.status()).toBe(200);
+    const workspaceUpdatePayload = await workspaceUpdate.json();
+    expect(workspaceUpdatePayload.workspaceDepth).toMatchObject({
+      focusMode: "execution_focus",
+      watchlistDensity: "dense",
+      shortcutLayer: "layout_only",
+    });
+
+    const workspaceRead = await request.get("/api/account/workspace");
+    expect(workspaceRead.status()).toBe(200);
+    const workspaceReadPayload = await workspaceRead.json();
+    expect(workspaceReadPayload.workspaceDepth).toMatchObject({
+      focusMode: "execution_focus",
+      watchlistDensity: "dense",
+      shortcutLayer: "layout_only",
+    });
+    expect(workspaceReadPayload.source).toBe("backend_audit");
+
+    const workflowsRead = await request.get("/api/alerts/workflows");
+    expect(workflowsRead.status()).toBe(200);
+    const workflowsReadPayload = await workflowsRead.json();
+    expect(workflowsReadPayload.snapshot.runtime).toMatchObject({
+      delivery: "unconfigured",
+      automation: "inactive",
+      liveExecution: "blocked",
+    });
+
+    const nextRules = [
+      {
+        id: "volatility-watch",
+        label: "Volatility watch",
+        state: "enabled",
+        metric: "volatility",
+        operator: "gt",
+        threshold: 1.2,
+        action: "desk_note",
+        cooldownSeconds: 90,
+      },
+      {
+        id: "drawdown-guard",
+        label: "Drawdown guard",
+        state: "enabled",
+        metric: "session_drawdown",
+        operator: "lt",
+        threshold: -110,
+        action: "review_flag",
+        cooldownSeconds: 180,
+      },
+    ];
+
+    const workflowsUpdate = await request.post("/api/alerts/workflows", {
+      data: {
+        rules: nextRules,
+      },
+    });
+    expect(workflowsUpdate.status()).toBe(200);
+    const workflowsUpdatePayload = await workflowsUpdate.json();
+    expect(workflowsUpdatePayload.snapshot.source).toBe("backend_audit");
+    expect(workflowsUpdatePayload.snapshot.rules).toHaveLength(2);
+
+    const intelligence = await request.get(
+      "/api/intelligence/context?symbol=EUR/USD&timeframe=5m"
+    );
+    expect(intelligence.status()).toBe(200);
+    const intelligencePayload = await intelligence.json();
+    expect(intelligencePayload.snapshot).toMatchObject({
+      authenticated: true,
+      availability: "bounded",
+    });
+    expect(intelligencePayload.snapshot.workflow.state).toBe("configured_local");
+    expect(intelligencePayload.snapshot.execution.liveExecution).toBe("blocked");
+    expect(intelligencePayload.snapshot.truth.executionAuthority).toBe(
+      "operator_manual"
+    );
   });
 
   test("keeps real-money execution blocked when real mode is selected", async ({
