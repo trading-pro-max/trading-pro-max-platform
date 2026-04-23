@@ -12,7 +12,12 @@ export {
   createLaunchFeedbackForAuthenticatedSession,
   getLaunchFeedbackSnapshotForAuthenticatedSession,
   getLaunchFeedbackStoreDiagnostics,
+  isLaunchFeedbackLifecycleMutationInput,
   isLaunchFeedbackMutationInput,
+  updateLaunchFeedbackLifecycleForAuthenticatedSession,
+  type LaunchFeedbackLifecycleMutationInput,
+  type LaunchFeedbackLifecycleState,
+  type LaunchFeedbackLifecycleUpdateResult,
   type LaunchFeedbackMutationInput,
   type LaunchFeedbackSnapshot,
 } from "./feedback";

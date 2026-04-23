@@ -291,6 +291,13 @@ test.describe("verified platform truth", () => {
       ),
       status: expect.stringMatching(/in_progress|blocked/),
       supportRoute: "/api/launch/feedback",
+      feedbackLoop: expect.stringMatching(
+        /operational_guarded|triage_backlog_guarded/
+      ),
+      pendingTriage: expect.any(Number),
+      highSeverityOpen: expect.any(Number),
+      hardeningFollowUps: expect.any(Number),
+      recoveryLinked: expect.any(Number),
       productionHardening: expect.stringMatching(/ready|guarded/),
       softLaunch: expect.stringMatching(/ready|guarded/),
       publicLaunch: expect.stringMatching(/ready|guarded/),
@@ -1194,6 +1201,19 @@ test.describe("verified platform truth", () => {
         state: expect.stringMatching(/active_guarded|inactive_guarded/),
         activationRoute: "/api/launch/operations",
       },
+      feedbackLoop: {
+        state: expect.stringMatching(
+          /operational_guarded|triage_backlog_guarded/
+        ),
+        pendingTriage: expect.any(Number),
+        hardeningInProgress: expect.any(Number),
+        highSeverityOpen: expect.any(Number),
+        hardeningFollowUps: expect.any(Number),
+        recoveryLinked: expect.any(Number),
+        lifecycleRoute: "/api/launch/feedback",
+        hardeningRoute: "/api/ops/hardening",
+        recoveryRoute: "/api/ops/recovery",
+      },
       safety: {
         paperOnly: true,
         liveExecution: "blocked",
@@ -1290,6 +1310,19 @@ test.describe("verified platform truth", () => {
     expect(
       launchOperationsPayload.snapshot.publicLaunch.checklist.items.length
     ).toBeGreaterThan(3);
+    expect(launchOperationsPayload.snapshot.support).toMatchObject({
+      mode: "closed_beta_operator_review",
+      feedbackSubmissions30d: expect.any(Number),
+      feedbackLifecycleUpdates30d: expect.any(Number),
+      pendingTriage: expect.any(Number),
+      hardeningInProgress: expect.any(Number),
+      highSeverityOpen: expect.any(Number),
+      hardeningFollowUps: expect.any(Number),
+      recoveryLinked: expect.any(Number),
+      feedbackRoute: "/api/launch/feedback",
+      hardeningRoute: "/api/ops/hardening",
+      recoveryRoute: "/api/ops/recovery",
+    });
 
     const launchBetaReadiness = await request.get("/api/launch/beta-readiness");
     expect(launchBetaReadiness.status()).toBe(200);
@@ -1386,6 +1419,35 @@ test.describe("verified platform truth", () => {
         auth: "required",
         queue: "operator_review",
       },
+      summary: {
+        submissions30d: expect.any(Number),
+        lifecycleUpdates30d: expect.any(Number),
+        openItems: expect.any(Number),
+        pendingTriage: expect.any(Number),
+        hardeningInProgress: expect.any(Number),
+        highSeverityOpen: expect.any(Number),
+      },
+      triage: {
+        contract: "beta_feedback_hardening_loop",
+        queue: {
+          submitted: expect.any(Number),
+          triaged: expect.any(Number),
+          hardeningInProgress: expect.any(Number),
+          resolved: expect.any(Number),
+          deferred: expect.any(Number),
+        },
+        hardeningFollowUps: expect.any(Number),
+        recoveryLinked: expect.any(Number),
+        hardeningRoute: "/api/ops/hardening",
+        recoveryRoute: "/api/ops/recovery",
+      },
+      support: {
+        mode: "closed_beta_support_guarded",
+        lane: "operator_review",
+        incidentLane: "operator_incident_review",
+        feedbackRoute: "/api/launch/feedback",
+        escalationRoute: "/api/ops/recovery",
+      },
       truth: {
         launchClaim: "not_launched",
         publicLaunchClaim: "not_claimed",
@@ -1395,6 +1457,8 @@ test.describe("verified platform truth", () => {
     });
     const baselineFeedbackCount =
       launchFeedbackPayload.snapshot.summary.submissions30d;
+    const baselineLifecycleCount =
+      launchFeedbackPayload.snapshot.summary.lifecycleUpdates30d;
     expect(typeof baselineFeedbackCount).toBe("number");
     expect(Array.isArray(launchFeedbackPayload.snapshot.recent)).toBe(true);
 
@@ -1409,14 +1473,52 @@ test.describe("verified platform truth", () => {
     });
     expect(launchFeedbackUpdate.status()).toBe(200);
     const launchFeedbackUpdatePayload = await launchFeedbackUpdate.json();
+    expect(launchFeedbackUpdatePayload.action).toBe("submit_feedback");
+    expect(launchFeedbackUpdatePayload.reason).toBe("feedback_submitted");
     expect(launchFeedbackUpdatePayload.snapshot.summary.submissions30d).toBeGreaterThanOrEqual(
       baselineFeedbackCount
     );
     expect(launchFeedbackUpdatePayload.snapshot.recent).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
+          feedbackId: expect.any(String),
           category: "usability",
           severity: "medium",
+          lifecycleState: expect.stringMatching(
+            /submitted|triaged|hardening_in_progress|resolved|deferred/
+          ),
+        }),
+      ])
+    );
+
+    const lifecycleFeedbackId =
+      launchFeedbackUpdatePayload.snapshot.recent[0]?.feedbackId;
+    expect(typeof lifecycleFeedbackId).toBe("string");
+
+    const lifecycleUpdate = await request.post("/api/launch/feedback", {
+      data: {
+        action: "update_feedback_lifecycle",
+        feedbackId: lifecycleFeedbackId,
+        lifecycleState: "triaged",
+        reviewNote: "Triaged for hardening follow-up in closed beta support queue.",
+      },
+    });
+    expect(lifecycleUpdate.status()).toBe(200);
+    const lifecycleUpdatePayload = await lifecycleUpdate.json();
+    expect(lifecycleUpdatePayload).toMatchObject({
+      ok: true,
+      authenticated: true,
+      action: "update_feedback_lifecycle",
+      reason: "feedback_lifecycle_updated",
+    });
+    expect(lifecycleUpdatePayload.snapshot.summary.lifecycleUpdates30d).toBeGreaterThanOrEqual(
+      baselineLifecycleCount
+    );
+    expect(lifecycleUpdatePayload.snapshot.recent).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          feedbackId: lifecycleFeedbackId,
+          lifecycleState: "triaged",
         }),
       ])
     );

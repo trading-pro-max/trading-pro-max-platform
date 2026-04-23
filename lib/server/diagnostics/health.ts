@@ -46,6 +46,7 @@ import {
 import {
   buildLaunchReadinessGateSnapshot,
   getClosedBetaPreparationDiagnosticsProbe,
+  getLaunchFeedbackStoreDiagnostics,
   getLaunchOperationsControlStateSnapshot,
   getPublicLaunchPreparationDiagnosticsProbe,
   getSoftLaunchPreparationDiagnosticsProbe,
@@ -731,6 +732,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     aiFoundation,
     aiDeepening,
     launchOperationsControl,
+    feedbackStoreDiagnostics,
   ] = await Promise.all([
     probeServerReadiness(),
     getMarketDiagnosticsProbe(),
@@ -759,6 +761,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     getAiIqBrainDiagnosticsProbe(),
     getAiIqBrainDeepeningDiagnosticsProbe(),
     getLaunchOperationsControlStateSnapshot({ checkedAt }),
+    getLaunchFeedbackStoreDiagnostics({ checkedAt }),
   ]);
   const runtimeBaseline = probeRuntimeBaseline(checkedAt);
   const runtimeOps = probeRuntimeOps(checkedAt);
@@ -1030,6 +1033,16 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       stage: launchOperationsControl.stage,
       status: publicLaunchPreparation.status === "ready" ? "in_progress" : "blocked",
       supportRoute: "/api/launch/feedback",
+      feedbackLoop:
+        feedbackStoreDiagnostics.pendingTriageCount > 20 ||
+        feedbackStoreDiagnostics.highSeverityOpenCount > 0
+          ? "triage_backlog_guarded"
+          : "operational_guarded",
+      pendingTriage: feedbackStoreDiagnostics.pendingTriageCount,
+      highSeverityOpen: feedbackStoreDiagnostics.highSeverityOpenCount,
+      hardeningFollowUps: feedbackStoreDiagnostics.hardeningFollowUpCount,
+      recoveryLinked: feedbackStoreDiagnostics.recoveryLinkedCount,
+      lastLifecycleUpdateAt: feedbackStoreDiagnostics.lastLifecycleUpdateAt,
       productionHardening:
         productionHardening.status === "ready" ? "ready" : "guarded",
       softLaunch: softLaunchPreparation.status === "ready" ? "ready" : "guarded",

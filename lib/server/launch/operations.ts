@@ -122,6 +122,18 @@ export type LaunchOperationsSnapshot = {
       activationRoute: "/api/launch/operations";
       blockers: string[];
     };
+    feedbackLoop: {
+      state: "operational_guarded" | "triage_backlog_guarded";
+      pendingTriage: number;
+      hardeningInProgress: number;
+      highSeverityOpen: number;
+      hardeningFollowUps: number;
+      recoveryLinked: number;
+      lastLifecycleUpdateAt: string | null;
+      lifecycleRoute: "/api/launch/feedback";
+      hardeningRoute: "/api/ops/hardening";
+      recoveryRoute: "/api/ops/recovery";
+    };
     safety: {
       paperOnly: true;
       liveExecution: "blocked";
@@ -218,8 +230,17 @@ export type LaunchOperationsSnapshot = {
   support: {
     mode: "closed_beta_operator_review";
     feedbackSubmissions30d: number;
+    feedbackLifecycleUpdates30d: number;
+    pendingTriage: number;
+    hardeningInProgress: number;
+    highSeverityOpen: number;
+    hardeningFollowUps: number;
+    recoveryLinked: number;
     lastFeedbackAt: string | null;
+    lastLifecycleUpdateAt: string | null;
     feedbackRoute: "/api/launch/feedback";
+    hardeningRoute: "/api/ops/hardening";
+    recoveryRoute: "/api/ops/recovery";
   };
   truth: {
     launchClaim: "not_launched";
@@ -676,6 +697,10 @@ export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: 
     controlState.stage === "public_launch_gate_active"
       ? ("active_guarded" as const)
       : ("inactive_guarded" as const);
+  const feedbackLoopState =
+    feedbackSnapshot.summary.pendingTriage > 20
+      ? ("triage_backlog_guarded" as const)
+      : ("operational_guarded" as const);
 
   return {
     checkedAt,
@@ -701,7 +726,9 @@ export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: 
         key: "closed_beta_preparation",
         state: stageState.closedBetaState,
         required: true,
-        evidence: `closed_beta_mode=${programMode} access=${closedBetaAccessDecision} eligibility=${closedBeta.eligibility}`,
+        evidence:
+          `closed_beta_mode=${programMode} access=${closedBetaAccessDecision} eligibility=${closedBeta.eligibility}; ` +
+          `pending_triage=${feedbackSnapshot.summary.pendingTriage} hardening_followups=${feedbackSnapshot.triage.hardeningFollowUps}`,
       },
       {
         key: "production_hardening",
@@ -753,6 +780,18 @@ export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: 
         activatedAt: controlState.transitions.closedBetaActivatedAt,
         activationRoute: "/api/launch/operations",
         blockers: closedBetaActivationBlockers,
+      },
+      feedbackLoop: {
+        state: feedbackLoopState,
+        pendingTriage: feedbackSnapshot.summary.pendingTriage,
+        hardeningInProgress: feedbackSnapshot.summary.hardeningInProgress,
+        highSeverityOpen: feedbackSnapshot.summary.highSeverityOpen,
+        hardeningFollowUps: feedbackSnapshot.triage.hardeningFollowUps,
+        recoveryLinked: feedbackSnapshot.triage.recoveryLinked,
+        lastLifecycleUpdateAt: feedbackSnapshot.summary.lastLifecycleUpdateAt,
+        lifecycleRoute: "/api/launch/feedback",
+        hardeningRoute: "/api/ops/hardening",
+        recoveryRoute: "/api/ops/recovery",
       },
       safety: {
         paperOnly: true,
@@ -840,8 +879,17 @@ export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: 
     support: {
       mode: "closed_beta_operator_review",
       feedbackSubmissions30d: feedbackSnapshot.summary.submissions30d,
+      feedbackLifecycleUpdates30d: feedbackSnapshot.summary.lifecycleUpdates30d,
+      pendingTriage: feedbackSnapshot.summary.pendingTriage,
+      hardeningInProgress: feedbackSnapshot.summary.hardeningInProgress,
+      highSeverityOpen: feedbackSnapshot.summary.highSeverityOpen,
+      hardeningFollowUps: feedbackSnapshot.triage.hardeningFollowUps,
+      recoveryLinked: feedbackSnapshot.triage.recoveryLinked,
       lastFeedbackAt: feedbackSnapshot.summary.lastSubmittedAt,
+      lastLifecycleUpdateAt: feedbackSnapshot.summary.lastLifecycleUpdateAt,
       feedbackRoute: "/api/launch/feedback",
+      hardeningRoute: "/api/ops/hardening",
+      recoveryRoute: "/api/ops/recovery",
     },
     truth: {
       launchClaim: "not_launched",
@@ -855,6 +903,7 @@ export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: 
       "Public launch preparation provides checklist and go-live semantics only; it does not claim launch has happened.",
       "Rollout access remains guarded and may be blocked by readiness/capacity evidence.",
       "Live execution, real-money routing, and paid billing remain blocked or inactive.",
+      "Closed-beta feedback triage and hardening follow-up remain operator-manual and auditable.",
     ],
   };
 }
@@ -992,10 +1041,15 @@ export async function getClosedBetaPreparationDiagnosticsProbe(
       controlState.stage === "closed_beta_active" ||
       controlState.stage === "soft_launch_active" ||
       controlState.stage === "public_launch_gate_active";
+    const feedbackLoopPressure =
+      feedbackStore.pendingTriageCount > 20 ||
+      feedbackStore.highSeverityOpenCount > 0;
     const status = !closedBetaActive
       ? "degraded"
       : !allowlistConfigured
       ? "unconfigured"
+      : feedbackLoopPressure
+      ? "degraded"
       : remainingSlots > 0
       ? "ready"
       : "degraded";
@@ -1014,7 +1068,9 @@ export async function getClosedBetaPreparationDiagnosticsProbe(
         `activation_mode=${controlState.mode}; program_mode=${programMode}; ` +
         `Allowlist email entries ${emailAllowlist.length}, account entries ${accountAllowlist.length}. ` +
         `Capacity ${activeEvaluators}/${maxEvaluators} with ${remainingSlots} slot(s) remaining. ` +
-        `Feedback store ${feedbackStore.feedbackStore} has ${feedbackStore.feedbackEvents30d} event(s) in the last 30 days.`,
+        `Feedback store ${feedbackStore.feedbackStore} has ${feedbackStore.feedbackEvents30d} submissions and ${feedbackStore.feedbackLifecycleEvents30d} lifecycle update(s) in the last 30 days. ` +
+        `pending_triage=${feedbackStore.pendingTriageCount} hardening_in_progress=${feedbackStore.hardeningInProgressCount} ` +
+        `high_severity_open=${feedbackStore.highSeverityOpenCount} recovery_linked=${feedbackStore.recoveryLinkedCount}.`,
       checkedAt,
     };
   } catch (error) {

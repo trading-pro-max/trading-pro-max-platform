@@ -677,6 +677,12 @@ export type DiagnosticsHealthSnapshot = {
       | "public_launch_gate_active";
     status: "in_progress" | "blocked";
     supportRoute: "/api/launch/feedback";
+    feedbackLoop?: "operational_guarded" | "triage_backlog_guarded";
+    pendingTriage?: number;
+    highSeverityOpen?: number;
+    hardeningFollowUps?: number;
+    recoveryLinked?: number;
+    lastLifecycleUpdateAt?: string | null;
     productionHardening: "ready" | "guarded";
     softLaunch?: "ready" | "guarded";
     publicLaunch?: "ready" | "guarded";
