@@ -17,7 +17,10 @@ import {
   getAlertAutomationDiagnosticsProbe,
   getAlertWorkflowDiagnosticsProbe,
 } from "@/lib/server/workflows";
-import { getIntelligenceBackendDiagnosticsProbe } from "@/lib/server/intelligence";
+import {
+  getAiIqBrainDiagnosticsProbe,
+  getIntelligenceBackendDiagnosticsProbe,
+} from "@/lib/server/intelligence";
 import { getClientExpansionSnapshot } from "@/lib/server/platform/client-contracts";
 import { getDesktopAppsDiagnosticsProbe } from "@/lib/server/platform/desktop-foundation";
 import { getMobileAppsDiagnosticsProbe } from "@/lib/server/platform/mobile-foundation";
@@ -153,6 +156,7 @@ function buildRouteProbes(input: {
   alerts: DiagnosticsProbe;
   alertsAutomation: DiagnosticsProbe;
   intelligence: DiagnosticsProbe;
+  aiFoundation: DiagnosticsProbe;
   security: DiagnosticsProbe;
   productBackend: DiagnosticsProbe;
   operatorReviewConfigured: boolean;
@@ -276,6 +280,13 @@ function buildRouteProbes(input: {
       detail: "Intelligence context route serves bounded, interpretive-only backend context.",
     },
     {
+      path: "/api/intelligence/insights",
+      method: "GET",
+      status: input.aiFoundation.status,
+      detail:
+        "Intelligence insights route serves expanded bounded AI/IQ/Brain context with explicit non-predictive semantics.",
+    },
+    {
       path: "/api/account/compliance",
       method: "GET",
       status: "auth_required",
@@ -314,6 +325,7 @@ function buildSubsystems(input: {
   alerts: DiagnosticsProbe;
   alertsAutomation: DiagnosticsProbe;
   intelligence: DiagnosticsProbe;
+  aiFoundation: DiagnosticsProbe;
   readiness: DiagnosticsProbe;
 }) {
   return [
@@ -436,6 +448,13 @@ function buildSubsystems(input: {
       summary: input.intelligence.summary,
       detail: input.intelligence.detail,
     },
+    {
+      key: "ai_iq_brain",
+      label: input.aiFoundation.label,
+      status: input.aiFoundation.status,
+      summary: input.aiFoundation.summary,
+      detail: input.aiFoundation.detail,
+    },
   ];
 }
 
@@ -455,6 +474,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     alerts,
     alertsAutomation,
     intelligence,
+    aiFoundation,
   ] = await Promise.all([
     probeServerReadiness(),
     getMarketDiagnosticsProbe(),
@@ -469,6 +489,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     getAlertWorkflowDiagnosticsProbe(),
     getAlertAutomationDiagnosticsProbe(),
     getIntelligenceBackendDiagnosticsProbe(),
+    getAiIqBrainDiagnosticsProbe(),
   ]);
   const runtimeBaseline = probeRuntimeBaseline(checkedAt);
   const runtimeOps = probeRuntimeOps(checkedAt);
@@ -501,6 +522,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       alerts,
       alertsAutomation,
       intelligence,
+      aiFoundation,
     ],
   });
 
@@ -525,6 +547,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       alerts,
       alertsAutomation,
       intelligence,
+      aiFoundation,
     ],
     connectors: [brokerConnector],
     routes: buildRouteProbes({
@@ -540,6 +563,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       alerts,
       alertsAutomation,
       intelligence,
+      aiFoundation,
       security,
       productBackend,
       operatorReviewConfigured:
@@ -562,6 +586,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       alerts,
       alertsAutomation,
       intelligence,
+      aiFoundation,
       readiness,
     }),
     policyTruth: {

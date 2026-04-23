@@ -1,4 +1,5 @@
 export {
+  getAiIqBrainDiagnosticsProbe,
   getIntelligenceBackendContext,
   getIntelligenceBackendDiagnosticsProbe,
   type IntelligenceBackendAvailability,

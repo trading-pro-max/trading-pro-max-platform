@@ -364,6 +364,9 @@ test.describe("verified platform truth", () => {
     expect(probes.get("intelligence_backend")).toMatchObject({
       status: "ready",
     });
+    expect(["ready", "degraded"]).toContain(
+      probes.get("ai_iq_brain_foundation")?.status
+    );
 
     const routes = new Map<string, { path: string; status: string }>(
       diagnosticsPayload.health.routes.map((route: { path: string; status: string }) => [
@@ -418,6 +421,9 @@ test.describe("verified platform truth", () => {
     });
     expect(["unconfigured", "auth_required"]).toContain(
       routes.get("/api/operator/compliance/review")?.status
+    );
+    expect(["ready", "degraded"]).toContain(
+      routes.get("/api/intelligence/insights")?.status
     );
 
     const compliance = await request.get("/api/account/compliance");
@@ -575,6 +581,29 @@ test.describe("verified platform truth", () => {
     });
     expect(intelligencePayload.snapshot.truth).toMatchObject({
       predictiveScope: "interpretive_only",
+      liveExecution: "blocked",
+      predictiveGuarantee: "none",
+      winRateClaim: "none",
+      degradedModeExplicit: true,
+    });
+    expect(intelligencePayload.snapshot.multiTimeframe.windows).toHaveLength(3);
+    expect(["aligned", "mixed", "unclear"]).toContain(
+      intelligencePayload.snapshot.multiTimeframe.alignment
+    );
+    expect(intelligencePayload.snapshot.journal.coverage).toBe(
+      "local_audit_limited"
+    );
+    expect(intelligencePayload.snapshot.coaching.mode).toBe("bounded_guidance");
+
+    const intelligenceInsights = await request.get(
+      "/api/intelligence/insights?symbol=EUR/USD&timeframe=5m"
+    );
+    expect(intelligenceInsights.status()).toBe(200);
+    const intelligenceInsightsPayload = await intelligenceInsights.json();
+    expect(intelligenceInsightsPayload.view).toBe("expanded_intelligence_context");
+    expect(intelligenceInsightsPayload.snapshot.truth).toMatchObject({
+      predictiveGuarantee: "none",
+      winRateClaim: "none",
       liveExecution: "blocked",
     });
   });
@@ -789,9 +818,23 @@ test.describe("verified platform truth", () => {
     });
     expect(intelligencePayload.snapshot.workflow.state).toBe("configured_local");
     expect(intelligencePayload.snapshot.execution.liveExecution).toBe("blocked");
+    expect(intelligencePayload.snapshot.multiTimeframe.windows).toHaveLength(3);
+    expect(intelligencePayload.snapshot.performance.disciplineScore).toBeGreaterThanOrEqual(
+      0
+    );
+    expect(intelligencePayload.snapshot.performance.disciplineScore).toBeLessThanOrEqual(
+      100
+    );
+    expect(intelligencePayload.snapshot.coaching.mode).toBe("bounded_guidance");
+    expect(Array.isArray(intelligencePayload.snapshot.coaching.actions)).toBe(true);
     expect(intelligencePayload.snapshot.truth.executionAuthority).toBe(
       "operator_manual"
     );
+    expect(intelligencePayload.snapshot.truth).toMatchObject({
+      predictiveGuarantee: "none",
+      winRateClaim: "none",
+      liveExecution: "blocked",
+    });
   });
 
   test("keeps real-money execution blocked when real mode is selected", async ({
