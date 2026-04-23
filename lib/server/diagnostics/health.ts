@@ -48,6 +48,10 @@ import {
   getPublicLaunchPreparationDiagnosticsProbe,
   getSoftLaunchPreparationDiagnosticsProbe,
 } from "@/lib/server/launch";
+import {
+  buildFinalMarketParitySnapshot,
+  getFinalMarketParityDiagnosticsProbe,
+} from "@/lib/server/parity";
 import type {
   DiagnosticsHealthSnapshot,
   DiagnosticsProbe,
@@ -906,10 +910,24 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       `Gate score ${launchGate.overall.score}/100 with ${launchGate.checklist.failedCount} failed checklist item(s), ${launchGate.overall.warnCount} warned domain(s), and ${launchGate.overall.failCount} failed domain(s).`,
     checkedAt,
   };
+  const marketParitySnapshot = buildFinalMarketParitySnapshot({
+    health: {
+      ...baseHealth,
+      probes: [...baseHealth.probes, launchProbe],
+    },
+    launchReadinessGate: {
+      status: launchGate.overall.status,
+      score: launchGate.overall.score,
+    },
+    checkedAt,
+  });
+  const marketParityProbe = getFinalMarketParityDiagnosticsProbe(
+    marketParitySnapshot
+  );
 
   return {
     ...baseHealth,
-    probes: [...baseHealth.probes, launchProbe],
+    probes: [...baseHealth.probes, launchProbe, marketParityProbe],
     routes: [
       ...baseHealth.routes,
       {
@@ -918,6 +936,13 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         status: launchProbe.status,
         detail:
           "Launch readiness route provides machine-checkable launch gate evidence and checklist truth.",
+      },
+      {
+        path: "/api/parity/final",
+        method: "GET",
+        status: marketParityProbe.status,
+        detail:
+          "Final market parity route provides auditable parity-closure evidence with explicit guarded capability truth.",
       },
     ],
     subsystems: [
@@ -929,6 +954,13 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         summary: launchProbe.summary,
         detail: launchProbe.detail,
       },
+      {
+        key: "market_parity",
+        label: marketParityProbe.label,
+        status: marketParityProbe.status,
+        summary: marketParityProbe.summary,
+        detail: marketParityProbe.detail,
+      },
     ],
     launchReadiness: {
       checkedAt: launchGate.checkedAt,
@@ -937,6 +969,14 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       score: launchGate.overall.score,
       failedChecklist: launchGate.checklist.failedCount,
       warnedDomains: launchGate.overall.warnCount,
+    },
+    marketParity: {
+      checkedAt: marketParitySnapshot.checkedAt,
+      mode: marketParitySnapshot.mode,
+      status: marketParitySnapshot.status,
+      score: marketParitySnapshot.score,
+      guardedCapabilities: marketParitySnapshot.guards.length,
+      launchReadiness: marketParitySnapshot.evidence.launchReadinessGate.status,
     },
     launchOperations: {
       checkedAt: publicLaunchPreparation.checkedAt,

@@ -278,6 +278,13 @@ test.describe("verified platform truth", () => {
       failedChecklist: expect.any(Number),
       warnedDomains: expect.any(Number),
     });
+    expect(healthPayload.marketParity).toMatchObject({
+      mode: "final_market_parity_closure",
+      status: expect.stringMatching(/closed|partially_closed/),
+      score: expect.any(Number),
+      guardedCapabilities: expect.any(Number),
+      launchReadiness: expect.stringMatching(/pass|fail/),
+    });
     expect(healthPayload.launchOperations).toMatchObject({
       mode: expect.stringMatching(
         /closed_beta_preparation|soft_launch_preparation|public_launch_preparation/
@@ -461,6 +468,9 @@ test.describe("verified platform truth", () => {
     expect(["ready", "degraded"]).toContain(
       probes.get("public_launch_preparation")?.status
     );
+    expect(["ready", "degraded"]).toContain(
+      probes.get("market_parity_closure")?.status
+    );
 
     const routes = new Map<string, { path: string; status: string }>(
       diagnosticsPayload.health.routes.map((route: { path: string; status: string }) => [
@@ -558,6 +568,9 @@ test.describe("verified platform truth", () => {
     expect(routes.get("/api/launch/public-readiness")).toMatchObject({
       status: "auth_required",
     });
+    expect(["ready", "degraded"]).toContain(
+      routes.get("/api/parity/final")?.status
+    );
 
     const launchReadiness = await request.get("/api/launch/readiness");
     expect(launchReadiness.status()).toBe(200);
@@ -576,6 +589,35 @@ test.describe("verified platform truth", () => {
     });
     expect(launchReadinessPayload.gate.domains).toHaveLength(9);
     expect(launchReadinessPayload.gate.checklist.items.length).toBeGreaterThan(4);
+
+    const marketParity = await request.get("/api/parity/final");
+    expect(marketParity.status()).toBe(200);
+    const marketParityPayload = await marketParity.json();
+    expect(marketParityPayload.snapshot).toMatchObject({
+      mode: "final_market_parity_closure",
+      status: expect.stringMatching(/closed|partially_closed/),
+      score: expect.any(Number),
+      evidence: {
+        diagnosticsReadiness: expect.stringMatching(
+          /ready|fallback|blocked|auth_required|degraded|unconfigured|unavailable/
+        ),
+        launchReadinessGate: {
+          status: expect.stringMatching(/pass|fail/),
+          score: expect.any(Number),
+        },
+      },
+      truth: {
+        launchClaim: "not_launched",
+        publicLaunchClaim: "not_claimed",
+        liveExecution: "blocked",
+        billing: "inactive",
+        predictiveGuarantee: "none",
+      },
+    });
+    expect(Array.isArray(marketParityPayload.snapshot.objectives)).toBe(true);
+    expect(marketParityPayload.snapshot.objectives.length).toBeGreaterThanOrEqual(7);
+    expect(Array.isArray(marketParityPayload.snapshot.guards)).toBe(true);
+    expect(marketParityPayload.snapshot.guards.length).toBeGreaterThan(3);
 
     const compliance = await request.get("/api/account/compliance");
     expect(compliance.status()).toBe(401);

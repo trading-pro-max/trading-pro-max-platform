@@ -41,6 +41,7 @@ export async function GET() {
         warnedDomains: launchReadinessGate.overall.warnCount,
         checkedAt: launchReadinessGate.checkedAt,
       },
+      marketParity: health.marketParity ?? null,
       launchOperations: health.launchOperations ?? null,
       truthSemantics: {
         blocked: [

@@ -654,6 +654,14 @@ export type DiagnosticsHealthSnapshot = {
     failedChecklist: number;
     warnedDomains: number;
   };
+  marketParity?: {
+    checkedAt: string;
+    mode: "final_market_parity_closure";
+    status: "closed" | "partially_closed";
+    score: number;
+    guardedCapabilities: number;
+    launchReadiness: "pass" | "fail";
+  };
   launchOperations?: {
     checkedAt: string;
     mode:
