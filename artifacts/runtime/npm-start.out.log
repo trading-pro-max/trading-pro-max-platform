@@ -1,0 +1,8 @@
+
+> trading-pro-max-platform@0.1.0 prestart
+> node scripts/verify-runtime-baseline.mjs
+
+
+> trading-pro-max-platform@0.1.0 start
+> next start
+

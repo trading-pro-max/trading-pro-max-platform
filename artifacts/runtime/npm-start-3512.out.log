@@ -1,0 +1,12 @@
+
+> trading-pro-max-platform@0.1.0 prestart
+> node scripts/verify-runtime-baseline.mjs
+
+
+> trading-pro-max-platform@0.1.0 start
+> next start -p 3512
+
+▲ Next.js 16.2.4
+- Local:         http://localhost:3512
+- Network:       http://26.15.183.73:3512
+✓ Ready in 412ms
