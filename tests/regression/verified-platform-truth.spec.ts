@@ -13,7 +13,7 @@ test.describe("verified platform truth", () => {
       {
         path: "/",
         expectedUrl: /\/$/,
-        text: /Public Commercial Entry|Product capability map|Commercial operating ledger|First-use route map/,
+        text: /Public Commercial Entry|Platform truth|First-use path|Route flow/,
       },
       {
         path: "/en",
@@ -47,13 +47,10 @@ test.describe("verified platform truth", () => {
           /Paper-only evaluation|Fallback-first market data|Live execution blocked/
         );
         await expect(page.locator("body")).toContainText(
-          /Evaluation workstation|TPM IQ \/ Brain|Fallback data disclosed/
+          /TPM IQ \/ Brain|Interpretive, bounded guidance|Chart \+ execution stay primary/
         );
         await expect(page.locator("body")).toContainText(
-          /Broker, billing, and operator review|No billing system active|not a live brokerage terminal/
-        );
-        await expect(page.locator("body")).toContainText(
-          /Public entry|Localized workstation|Settings|Diagnostics/
+          /Broker unconfigured|no fake activation|not a live brokerage terminal/
         );
       }
 
@@ -61,7 +58,6 @@ test.describe("verified platform truth", () => {
         await expect(page.locator(".tpmv2-command-center").first()).toBeVisible();
         await expect(page.locator(".tpmv2-brain-deck").first()).toBeVisible();
         await expect(page.locator(".tpmv2-workspace-depth-bar").first()).toBeVisible();
-        await expect(page.locator(".tpmv2-commercial-bridge").first()).toBeVisible();
         await expect(page.locator(".tpmv2-chart-surface").first()).toBeVisible();
         await expect(page.locator(".tpmv2-chart-depth-panel").first()).toBeVisible();
         await expect(page.locator(".tpmv2-execution").first()).toBeVisible();
@@ -74,10 +70,7 @@ test.describe("verified platform truth", () => {
           /Workspace depth|Shortcut layer|Layout-only|Recent desk activity|Market depth/
         );
         await expect(page.locator("body")).toContainText(
-          /Operator onboarding and trust layer|Manual paper rehearsal only|Fallback-first context discipline/
-        );
-        await expect(page.locator("body")).toContainText(
-          /Operator onboarding and trust layer|No broker connected|No order hotkeys armed/
+          /Paper access|Fallback-bound|Interpretive only|Live blocked/
         );
         await expect(page.locator("body")).toContainText("Fallback-bound");
         await expect(page.locator("body")).toContainText("Interpretive only");

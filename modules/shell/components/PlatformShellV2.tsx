@@ -1141,7 +1141,6 @@ export function ExecutionCard({
   accountMode,
   openTradeBySignal,
   openPaperTrade,
-  note,
   demoLabel,
   realLabel,
   accountLifecycleLabel,
@@ -1159,10 +1158,6 @@ export function ExecutionCard({
   ticketOperationalLabel,
   ticketOperationalValue,
   ticketOperationalTone,
-  intelligenceKicker,
-  intelligenceHeadline,
-  intelligenceSummary,
-  intelligenceNote,
   preflightItems,
   amountPresets,
   onApplyAmountPreset,
@@ -1188,7 +1183,6 @@ export function ExecutionCard({
   accountMode: AccountMode;
   openTradeBySignal: () => void;
   openPaperTrade: (direction: "buy" | "sell") => void;
-  note: string;
   demoLabel: string;
   realLabel: string;
   accountLifecycleLabel: string;
@@ -1206,10 +1200,6 @@ export function ExecutionCard({
   ticketOperationalLabel: string;
   ticketOperationalValue: string;
   ticketOperationalTone: WorkstationStatusTone;
-  intelligenceKicker: string;
-  intelligenceHeadline: string;
-  intelligenceSummary: string;
-  intelligenceNote: string;
   preflightItems: SurfaceDetailItem[];
   amountPresets: readonly string[];
   onApplyAmountPreset: (value: string) => void;
@@ -1331,13 +1321,6 @@ export function ExecutionCard({
           </span>
         </div>
         <div className="tpmv2-ticket-reason">{decision.reason}</div>
-      </div>
-
-      <div className="tpmv2-ticket-intelligence">
-        <span className="tpmv2-ticket-intelligence-kicker">{intelligenceKicker}</span>
-        <strong>{intelligenceHeadline}</strong>
-        <p>{intelligenceSummary}</p>
-        <small>{intelligenceNote}</small>
       </div>
 
       <div className="tpmv2-ticket-exec-strip" aria-label={ticketReadinessLabel}>
@@ -1462,14 +1445,6 @@ export function ExecutionCard({
         <span>{recentActivityLabel}</span>
         <strong>{recentActivityValue}</strong>
         <small>{recentActivityNote}</small>
-      </div>
-
-      <div className="tpmv2-ticket-ops-note">
-        <span>{ticketOperationalLabel}</span>
-        <strong className={`tpmv2-ticket-status-value ${ticketOperationalTone}`}>
-          {ticketOperationalValue}
-        </strong>
-        <small>{note}</small>
       </div>
     </section>
   );

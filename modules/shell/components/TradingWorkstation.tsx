@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useEffectEvent, useMemo, useState } from "react";
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
 import OperatorIntelligenceDeck from "../../intelligence/components/OperatorIntelligenceDeck";
@@ -115,94 +114,6 @@ function WorkspaceDepthBar({
   );
 }
 
-function WorkstationCommercialBridge({
-  productHref,
-  productLabel,
-  diagnosticsHref,
-  diagnosticsLabel,
-  settingsHref,
-  settingsLabel,
-}: {
-  productHref: string;
-  productLabel: string;
-  diagnosticsHref: string;
-  diagnosticsLabel: string;
-  settingsHref: string;
-  settingsLabel: string;
-}) {
-  const bridgeCards = [
-    {
-      label: "Orientation order",
-      value: "Topbar -> IQ / Brain -> chart depth -> paper ticket",
-      note: "First-use guidance is embedded in the surface, not hidden in a separate tutorial.",
-    },
-    {
-      label: "Execution truth",
-      value: "Manual paper rehearsal only",
-      note: "Operators can evaluate decisions inside a serious ticket without enabling real-money routing.",
-    },
-    {
-      label: "Market truth",
-      value: "Fallback-first context discipline",
-      note: "Market state, TPM IQ / Brain, and degraded conditions stay explicit and bounded.",
-    },
-    {
-      label: "Product routes",
-      value: "Entry, settings, diagnostics, localized workspace",
-      note: "Every route repeats the same paper-only, fallback-first, broker-blocked product truth.",
-    },
-  ];
-  const truthChips = [
-    "No broker connected",
-    "Live execution blocked",
-    "Fallback feed disclosed",
-    "No order hotkeys armed",
-  ];
-
-  return (
-    <section className="tpmv2-card tpmv2-commercial-bridge" aria-label="Product guidance">
-      <div className="tpmv2-commercial-bridge-head">
-        <div className="tpmv2-commercial-bridge-copy">
-          <span>Operator onboarding and trust layer</span>
-          <strong>Public product framing and workstation truth move together.</strong>
-          <p>
-            First-time evaluators can understand what Trading Pro Max is, what remains
-            intentionally blocked, and how to move through the workspace without losing
-            paper-only and fallback-first product truth.
-          </p>
-          <div className="tpmv2-commercial-bridge-truths">
-            {truthChips.map((chip) => (
-              <span key={chip}>{chip}</span>
-            ))}
-          </div>
-        </div>
-
-        <div className="tpmv2-commercial-bridge-actions">
-          <Link href={productHref} className="tpmv2-commercial-bridge-link">
-            {productLabel}
-          </Link>
-          <Link href={diagnosticsHref} className="tpmv2-commercial-bridge-link">
-            {diagnosticsLabel}
-          </Link>
-          <Link href={settingsHref} className="tpmv2-commercial-bridge-link">
-            {settingsLabel}
-          </Link>
-        </div>
-      </div>
-
-      <div className="tpmv2-commercial-bridge-grid">
-        {bridgeCards.map((card) => (
-          <article key={card.label} className="tpmv2-commercial-bridge-card">
-            <span>{card.label}</span>
-            <strong>{card.value}</strong>
-            <p>{card.note}</p>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
-
 export default function TradingWorkstation({
   locale,
   dict,
@@ -238,9 +149,7 @@ export default function TradingWorkstation({
   const [shortcutHint, setShortcutHint] = useState(
     "Workspace depth layer active."
   );
-  const executionNote = viewModel.ticketSupportNote;
   const localePrefix = locale ? `/${locale}` : "";
-  const productHref = "/";
   const diagnosticsHref = `${localePrefix}/diagnostics`;
   const settingsHref = `${localePrefix}/settings`;
   const marketDepthItems = useMemo(
@@ -489,15 +398,6 @@ export default function TradingWorkstation({
             settingsLabel={dict.nav.settings}
           />
 
-          <WorkstationCommercialBridge
-            productHref={productHref}
-            productLabel={dict.nav.product}
-            diagnosticsHref={diagnosticsHref}
-            diagnosticsLabel={dict.nav.diagnostics}
-            settingsHref={settingsHref}
-            settingsLabel={dict.nav.settings}
-          />
-
           <WorkstationCommandCenter
             dict={dict}
             selectedAssetSymbol={platformState.selectedAsset.symbol}
@@ -513,22 +413,6 @@ export default function TradingWorkstation({
             paperAccessLabel={viewModel.paperAccessLabel}
             paperAccessValue={viewModel.paperAccessValue}
             paperAccessTone={viewModel.paperAccessTone}
-          />
-
-          <OperatorIntelligenceDeck intelligence={viewModel.intelligence} />
-
-          <WorkspaceDepthBar
-            focusMode={focusMode}
-            onSelectFocusMode={(nextMode) => {
-              platformState.setWorkspaceFocusMode(nextMode);
-              showShortcutHint(`${focusModeLabel(nextMode)} workspace focus engaged.`);
-            }}
-            watchlistDensity={watchlistDensity}
-            onSelectWatchlistDensity={(nextDensity) => {
-              platformState.setWatchlistDensity(nextDensity);
-              showShortcutHint(`${watchlistDensityLabel(nextDensity)} watchlist density engaged.`);
-            }}
-            shortcutHint={shortcutHint}
           />
 
           <section className={desktopMasterClass}>
@@ -591,7 +475,6 @@ export default function TradingWorkstation({
                   accountMode={platformState.accountMode}
                   openTradeBySignal={platformState.openTradeBySignal}
                   openPaperTrade={platformState.openPaperTrade}
-                  note={executionNote}
                   demoLabel={viewModel.demoLabel}
                   realLabel={viewModel.realLabel}
                   accountLifecycleLabel={viewModel.accountLifecycleLabel}
@@ -609,10 +492,6 @@ export default function TradingWorkstation({
                   ticketOperationalLabel={viewModel.ticketOperationalLabel}
                   ticketOperationalValue={viewModel.ticketOperationalValue}
                   ticketOperationalTone={viewModel.ticketOperationalTone}
-                  intelligenceKicker={viewModel.intelligence.executionKicker}
-                  intelligenceHeadline={viewModel.intelligence.executionHeadline}
-                  intelligenceSummary={viewModel.intelligence.executionSummary}
-                  intelligenceNote={viewModel.intelligence.executionNote}
                   preflightItems={preflightItems}
                   amountPresets={amountPresets}
                   onApplyAmountPreset={platformState.setAmount}
@@ -623,6 +502,22 @@ export default function TradingWorkstation({
               </aside>
             ) : null}
           </section>
+
+          <OperatorIntelligenceDeck intelligence={viewModel.intelligence} />
+
+          <WorkspaceDepthBar
+            focusMode={focusMode}
+            onSelectFocusMode={(nextMode) => {
+              platformState.setWorkspaceFocusMode(nextMode);
+              showShortcutHint(`${focusModeLabel(nextMode)} workspace focus engaged.`);
+            }}
+            watchlistDensity={watchlistDensity}
+            onSelectWatchlistDensity={(nextDensity) => {
+              platformState.setWatchlistDensity(nextDensity);
+              showShortcutHint(`${watchlistDensityLabel(nextDensity)} watchlist density engaged.`);
+            }}
+            shortcutHint={shortcutHint}
+          />
 
           <section
             className={
@@ -710,15 +605,6 @@ export default function TradingWorkstation({
           settingsLabel={dict.nav.settings}
         />
 
-        <WorkstationCommercialBridge
-          productHref={productHref}
-          productLabel={dict.nav.product}
-          diagnosticsHref={diagnosticsHref}
-          diagnosticsLabel={dict.nav.diagnostics}
-          settingsHref={settingsHref}
-          settingsLabel={dict.nav.settings}
-        />
-
         <NarrowStrip
           dict={dict}
           assets={platformState.marketAssets}
@@ -741,22 +627,6 @@ export default function TradingWorkstation({
           paperAccessLabel={viewModel.paperAccessLabel}
           paperAccessValue={viewModel.paperAccessValue}
           paperAccessTone={viewModel.paperAccessTone}
-        />
-
-        <OperatorIntelligenceDeck intelligence={viewModel.intelligence} />
-
-        <WorkspaceDepthBar
-          focusMode={focusMode}
-          onSelectFocusMode={(nextMode) => {
-            platformState.setWorkspaceFocusMode(nextMode);
-            showShortcutHint(`${focusModeLabel(nextMode)} workspace focus engaged.`);
-          }}
-          watchlistDensity={watchlistDensity}
-          onSelectWatchlistDensity={(nextDensity) => {
-            platformState.setWatchlistDensity(nextDensity);
-            showShortcutHint(`${watchlistDensityLabel(nextDensity)} watchlist density engaged.`);
-          }}
-          shortcutHint={shortcutHint}
         />
 
         <ChartCard
@@ -813,7 +683,6 @@ export default function TradingWorkstation({
           accountMode={platformState.accountMode}
           openTradeBySignal={platformState.openTradeBySignal}
           openPaperTrade={platformState.openPaperTrade}
-          note={executionNote}
           demoLabel={viewModel.demoLabel}
           realLabel={viewModel.realLabel}
           accountLifecycleLabel={viewModel.accountLifecycleLabel}
@@ -831,16 +700,28 @@ export default function TradingWorkstation({
           ticketOperationalLabel={viewModel.ticketOperationalLabel}
           ticketOperationalValue={viewModel.ticketOperationalValue}
           ticketOperationalTone={viewModel.ticketOperationalTone}
-          intelligenceKicker={viewModel.intelligence.executionKicker}
-          intelligenceHeadline={viewModel.intelligence.executionHeadline}
-          intelligenceSummary={viewModel.intelligence.executionSummary}
-          intelligenceNote={viewModel.intelligence.executionNote}
           preflightItems={preflightItems}
           amountPresets={amountPresets}
           onApplyAmountPreset={platformState.setAmount}
           recentActivityLabel="Recent desk activity"
           recentActivityValue={recentActivity}
           recentActivityNote="Activity reflects workspace controls, paper routing, and guarded execution only."
+        />
+
+        <OperatorIntelligenceDeck intelligence={viewModel.intelligence} />
+
+        <WorkspaceDepthBar
+          focusMode={focusMode}
+          onSelectFocusMode={(nextMode) => {
+            platformState.setWorkspaceFocusMode(nextMode);
+            showShortcutHint(`${focusModeLabel(nextMode)} workspace focus engaged.`);
+          }}
+          watchlistDensity={watchlistDensity}
+          onSelectWatchlistDensity={(nextDensity) => {
+            platformState.setWatchlistDensity(nextDensity);
+            showShortcutHint(`${watchlistDensityLabel(nextDensity)} watchlist density engaged.`);
+          }}
+          shortcutHint={shortcutHint}
         />
 
         <ActivityOpenTradesPanel

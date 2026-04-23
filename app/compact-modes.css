@@ -546,9 +546,9 @@
   align-items: stretch;
   border-color: color-mix(in srgb, var(--tpm-border-soft) 88%, transparent);
   background:
-    linear-gradient(180deg, rgba(7, 14, 25, 0.96), rgba(4, 9, 18, 0.96)),
-    radial-gradient(circle at 8% 0%, rgba(45, 212, 191, 0.11), transparent 34%),
-    radial-gradient(circle at 90% 10%, rgba(96, 165, 250, 0.08), transparent 32%);
+    linear-gradient(180deg, rgba(7, 14, 25, 0.95), rgba(4, 9, 18, 0.95)),
+    radial-gradient(circle at 12% 0%, rgba(45, 212, 191, 0.07), transparent 36%),
+    radial-gradient(circle at 90% 10%, rgba(96, 165, 250, 0.05), transparent 34%);
 }
 
 .tpmv2-command-center::before {
@@ -563,8 +563,8 @@
       transparent 28%
     ),
     radial-gradient(circle at 82% 18%, rgba(96, 165, 250, 0.08), transparent 30%);
-  opacity: 0.72;
-  animation: tpmv2AmbientDrift 16s var(--tpmv2-ease) infinite alternate;
+  opacity: 0.36;
+  animation: none;
 }
 
 .tpmv2-command-primary,
@@ -5411,7 +5411,7 @@ body {
 .tpm-product-workstation-shell,
 .tpm-product-ledger {
   display: grid;
-  gap: 16px;
+  gap: 12px;
 }
 
 .tpm-product-hero,
@@ -5489,7 +5489,7 @@ body {
 }
 
 .tpm-product-chip-row {
-  justify-content: flex-end;
+  justify-content: flex-start;
 }
 
 .tpm-product-chip-row-left {
@@ -5532,7 +5532,7 @@ body {
 .tpm-product-hero-layout,
 .tpm-product-section-head {
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
   gap: 18px;
 }
 
@@ -5699,63 +5699,9 @@ body {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.tpm-product-lane-grid,
-.tpm-product-route-map {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-}
-
-.tpm-product-lane-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 10px;
-}
-
-.tpm-product-lane-head span,
-.tpm-product-ledger-row > span {
-  min-height: 22px;
-  padding: 0 8px;
-  border-radius: 999px;
-  border: 1px solid rgba(191, 219, 254, 0.11);
-  background: rgba(8, 15, 26, 0.62);
-  display: inline-flex;
-  align-items: center;
-  white-space: nowrap;
-}
-
-.tpm-product-lane-points {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.tpm-product-lane-points span,
-.tpmv2-commercial-bridge-truths span {
-  min-height: 22px;
-  padding: 0 8px;
-  border-radius: 999px;
-  border: 1px solid rgba(191, 219, 254, 0.1);
-  background: rgba(7, 12, 20, 0.72);
-  display: inline-flex;
-  align-items: center;
-}
-
-.tpm-product-ledger {
-  margin-top: 10px;
-  padding: 14px;
-  border-color: rgba(191, 219, 254, 0.12);
-  background:
-    linear-gradient(180deg, rgba(8, 15, 27, 0.86), rgba(4, 9, 16, 0.86)),
-    rgba(255, 255, 255, 0.01);
-}
-
-.tpm-product-ledger-grid {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-}
-
 .tpm-product-step-grid,
 .tpmv2-commercial-bridge-grid {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .tpm-product-workstation-shell {
@@ -5822,12 +5768,6 @@ body {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .tpm-product-lane-grid,
-  .tpm-product-ledger-grid,
-  .tpm-product-route-map {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
   .tpm-product-step-grid,
   .tpmv2-commercial-bridge-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -5840,9 +5780,6 @@ body {
   .tpm-product-card-grid,
   .tpm-product-step-grid,
   .tpm-product-signal-grid,
-  .tpm-product-lane-grid,
-  .tpm-product-ledger-grid,
-  .tpm-product-route-map,
   .tpmv2-commercial-bridge-grid {
     grid-template-columns: 1fr;
   }
