@@ -171,6 +171,7 @@ function buildChecklist(health: DiagnosticsHealthSnapshot) {
   );
   const parityClosureRouteStatus = findRouteStatus(health, "/api/parity/final");
   const opsHardeningRouteStatus = findRouteStatus(health, "/api/ops/hardening");
+  const opsRecoveryRouteStatus = findRouteStatus(health, "/api/ops/recovery");
 
   const items: LaunchReadinessChecklistItem[] = [
     {
@@ -245,6 +246,12 @@ function buildChecklist(health: DiagnosticsHealthSnapshot) {
       label: "Production hardening route is explicitly operator-guarded",
       passed: opsHardeningRouteStatus === "auth_required",
       evidence: `/api/ops/hardening=${opsHardeningRouteStatus}`,
+    },
+    {
+      key: "ops_recovery_guard",
+      label: "Ops recovery route is explicitly operator-guarded",
+      passed: opsRecoveryRouteStatus === "auth_required",
+      evidence: `/api/ops/recovery=${opsRecoveryRouteStatus}`,
     },
     {
       key: "soft_launch_route_guard",
@@ -335,6 +342,7 @@ export function buildLaunchReadinessGateSnapshot(
         "enterprise_ops_foundation",
         "production_ops_activation",
         "production_hardening",
+        "ops_recovery",
       ],
       evidence:
         "Ops telemetry, runbook, and guarded activation semantics are available.",

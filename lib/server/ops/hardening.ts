@@ -63,6 +63,45 @@ export type OpsProductionHardeningSnapshot = {
   limitations: string[];
 };
 
+export type OpsRecoverySnapshot = {
+  checkedAt: string;
+  mode: "operator_recovery_guarded";
+  stage: "recoverable" | "guarded";
+  rollback: {
+    strategy: "manual_checkpoint_restore";
+    rollbackWindowMinutes: number;
+    readiness: "recoverable" | "guarded";
+    requiresOperatorConfirmation: true;
+    checkpoints: Array<
+      | "capture_diagnostics_snapshot"
+      | "freeze_new_rollout_changes"
+      | "restore_runtime_checkpoint"
+      | "verify_policy_truth"
+    >;
+  };
+  failurePaths: {
+    databasePath: "manual_operator_restore";
+    runtimePath: "manual_process_recycle";
+    sessionPath: "manual_session_hygiene";
+    workflowPath: "manual_queue_review";
+  };
+  truth: {
+    automation: "inactive";
+    liveExecution: "blocked";
+    realMoneyRouting: "blocked";
+    launchClaim: "not_launched";
+  };
+  references: {
+    runbookRoute: "/api/ops/runbook";
+    readinessRoute: "/api/ops/readiness";
+    hardeningRoute: "/api/ops/hardening";
+    diagnosticsRoute: "/api/diagnostics/probes";
+  };
+  recommendedActions: string[];
+  summary: string;
+  limitations: string[];
+};
+
 function timeoutAfter(ms: number) {
   return new Promise<never>((_, reject) => {
     const handle = setTimeout(() => {
@@ -260,6 +299,88 @@ export async function getProductionHardeningDiagnosticsProbe(
         error instanceof Error
           ? error.message
           : "Production hardening diagnostics probe failed.",
+      checkedAt,
+    };
+  }
+}
+
+export async function getOpsRecoverySnapshot(
+  checkedAt = new Date().toISOString()
+): Promise<OpsRecoverySnapshot> {
+  const hardening = await getOpsProductionHardeningSnapshot(checkedAt);
+  const stage = hardening.degraded.status === "stable" ? "recoverable" : "guarded";
+
+  return {
+    checkedAt,
+    mode: "operator_recovery_guarded",
+    stage,
+    rollback: {
+      strategy: "manual_checkpoint_restore",
+      rollbackWindowMinutes: 90,
+      readiness: stage,
+      requiresOperatorConfirmation: true,
+      checkpoints: [
+        "capture_diagnostics_snapshot",
+        "freeze_new_rollout_changes",
+        "restore_runtime_checkpoint",
+        "verify_policy_truth",
+      ],
+    },
+    failurePaths: {
+      databasePath: "manual_operator_restore",
+      runtimePath: "manual_process_recycle",
+      sessionPath: "manual_session_hygiene",
+      workflowPath: "manual_queue_review",
+    },
+    truth: {
+      automation: "inactive",
+      liveExecution: "blocked",
+      realMoneyRouting: "blocked",
+      launchClaim: "not_launched",
+    },
+    references: {
+      runbookRoute: "/api/ops/runbook",
+      readinessRoute: "/api/ops/readiness",
+      hardeningRoute: "/api/ops/hardening",
+      diagnosticsRoute: "/api/diagnostics/probes",
+    },
+    recommendedActions: hardening.recovery.recommendedActions,
+    summary:
+      "Operator recovery contract is available with guarded rollback semantics and explicit no-automation truth.",
+    limitations: [
+      "Recovery remains operator-manual and does not execute unattended rollback.",
+      "Rollback checkpoints are local-runtime safeguards and not multi-region failover claims.",
+      "Execution policy remains paper-only with live routing blocked.",
+    ],
+  };
+}
+
+export async function getOpsRecoveryDiagnosticsProbe(
+  checkedAt = new Date().toISOString()
+): Promise<DiagnosticsProbe> {
+  try {
+    const snapshot = await getOpsRecoverySnapshot(checkedAt);
+
+    return {
+      key: "ops_recovery",
+      label: "Ops recovery flow",
+      status: snapshot.stage === "recoverable" ? "ready" : "degraded",
+      summary: snapshot.summary,
+      detail:
+        `Recovery stage=${snapshot.stage}; rollback=${snapshot.rollback.strategy}; ` +
+        `automation=${snapshot.truth.automation}; checkpoints=${snapshot.rollback.checkpoints.length}.`,
+      checkedAt,
+    };
+  } catch (error) {
+    return {
+      key: "ops_recovery",
+      label: "Ops recovery flow",
+      status: "degraded",
+      summary: "Ops recovery diagnostics degraded",
+      detail:
+        error instanceof Error
+          ? error.message
+          : "Ops recovery diagnostics probe failed.",
       checkedAt,
     };
   }

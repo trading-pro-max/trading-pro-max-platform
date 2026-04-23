@@ -459,6 +459,9 @@ test.describe("verified platform truth", () => {
     expect(["ready", "degraded"]).toContain(
       probes.get("production_hardening")?.status
     );
+    expect(["ready", "degraded"]).toContain(
+      probes.get("ops_recovery")?.status
+    );
     expect(["ready", "unconfigured", "degraded"]).toContain(
       probes.get("closed_beta_preparation")?.status
     );
@@ -506,6 +509,9 @@ test.describe("verified platform truth", () => {
       status: "auth_required",
     });
     expect(routes.get("/api/ops/hardening")).toMatchObject({
+      status: "auth_required",
+    });
+    expect(routes.get("/api/ops/recovery")).toMatchObject({
       status: "auth_required",
     });
     expect(routes.get("/api/alerts/workflows")).toMatchObject({
@@ -648,6 +654,8 @@ test.describe("verified platform truth", () => {
     expect(opsReadinessUnauth.status()).toBe(401);
     const opsHardeningUnauth = await request.get("/api/ops/hardening");
     expect(opsHardeningUnauth.status()).toBe(401);
+    const opsRecoveryUnauth = await request.get("/api/ops/recovery");
+    expect(opsRecoveryUnauth.status()).toBe(401);
     const automationStateUnauth = await request.get("/api/alerts/automation/state");
     expect(automationStateUnauth.status()).toBe(401);
     const deliveryStateUnauth = await request.get("/api/alerts/delivery/state");
@@ -1377,6 +1385,41 @@ test.describe("verified platform truth", () => {
     expect(opsHardeningPayload.snapshot.recovery.recommendedActions.length).toBeGreaterThan(
       1
     );
+
+    const opsRecovery = await request.get("/api/ops/recovery");
+    expect(opsRecovery.status()).toBe(200);
+    const opsRecoveryPayload = await opsRecovery.json();
+    expect(opsRecoveryPayload.snapshot).toMatchObject({
+      mode: "operator_recovery_guarded",
+      stage: expect.stringMatching(/recoverable|guarded/),
+      rollback: {
+        strategy: "manual_checkpoint_restore",
+        rollbackWindowMinutes: expect.any(Number),
+        readiness: expect.stringMatching(/recoverable|guarded/),
+        requiresOperatorConfirmation: true,
+      },
+      failurePaths: {
+        databasePath: "manual_operator_restore",
+        runtimePath: "manual_process_recycle",
+        sessionPath: "manual_session_hygiene",
+        workflowPath: "manual_queue_review",
+      },
+      truth: {
+        automation: "inactive",
+        liveExecution: "blocked",
+        realMoneyRouting: "blocked",
+        launchClaim: "not_launched",
+      },
+      references: {
+        runbookRoute: "/api/ops/runbook",
+        readinessRoute: "/api/ops/readiness",
+        hardeningRoute: "/api/ops/hardening",
+        diagnosticsRoute: "/api/diagnostics/probes",
+      },
+    });
+    expect(Array.isArray(opsRecoveryPayload.snapshot.rollback.checkpoints)).toBe(true);
+    expect(opsRecoveryPayload.snapshot.rollback.checkpoints.length).toBeGreaterThan(2);
+    expect(Array.isArray(opsRecoveryPayload.snapshot.recommendedActions)).toBe(true);
 
     const opsRunbook = await request.get("/api/ops/runbook");
     expect(opsRunbook.status()).toBe(200);

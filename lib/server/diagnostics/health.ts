@@ -39,6 +39,7 @@ import {
 } from "@/lib/server/commercial";
 import {
   getEnterpriseOpsDiagnosticsProbe,
+  getOpsRecoveryDiagnosticsProbe,
   getOpsProductionActivationDiagnosticsProbe,
   getProductionHardeningDiagnosticsProbe,
 } from "@/lib/server/ops";
@@ -186,6 +187,7 @@ function buildRouteProbes(input: {
   opsFoundation: DiagnosticsProbe;
   opsActivation: DiagnosticsProbe;
   productionHardening: DiagnosticsProbe;
+  opsRecovery: DiagnosticsProbe;
   workspace: DiagnosticsProbe;
   alerts: DiagnosticsProbe;
   alertsAutomation: DiagnosticsProbe;
@@ -301,6 +303,12 @@ function buildRouteProbes(input: {
       method: "GET",
       status: "auth_required",
       detail: `${input.productionHardening.summary}. Route is operator-guarded and requires authentication.`,
+    },
+    {
+      path: "/api/ops/recovery",
+      method: "GET",
+      status: "auth_required",
+      detail: `${input.opsRecovery.summary}. Route is operator-guarded and requires authentication.`,
     },
     {
       path: "/api/account/preferences",
@@ -450,6 +458,7 @@ function buildSubsystems(input: {
   opsFoundation: DiagnosticsProbe;
   opsActivation: DiagnosticsProbe;
   productionHardening: DiagnosticsProbe;
+  opsRecovery: DiagnosticsProbe;
   preferences: DiagnosticsProbe;
   workspace: DiagnosticsProbe;
   productBackend: DiagnosticsProbe;
@@ -591,6 +600,13 @@ function buildSubsystems(input: {
       detail: input.productionHardening.detail,
     },
     {
+      key: "ops_recovery",
+      label: input.opsRecovery.label,
+      status: input.opsRecovery.status,
+      summary: input.opsRecovery.summary,
+      detail: input.opsRecovery.detail,
+    },
+    {
       key: "preferences",
       label: input.preferences.label,
       status: input.preferences.status,
@@ -692,6 +708,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     opsFoundation,
     opsActivation,
     productionHardening,
+    opsRecovery,
     alerts,
     alertsAutomation,
     alertsDelivery,
@@ -718,6 +735,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     getEnterpriseOpsDiagnosticsProbe(),
     getOpsProductionActivationDiagnosticsProbe(),
     getProductionHardeningDiagnosticsProbe(),
+    getOpsRecoveryDiagnosticsProbe(),
     getAlertWorkflowDiagnosticsProbe(),
     getAlertAutomationDiagnosticsProbe(),
     getAlertDeliveryActivationDiagnosticsProbe(),
@@ -766,6 +784,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       publicLaunchPreparation,
       opsActivation,
       productionHardening,
+      opsRecovery,
       intelligence,
       aiFoundation,
       aiDeepening,
@@ -791,6 +810,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     opsFoundation,
     opsActivation,
     productionHardening,
+    opsRecovery,
     preferences,
     workspace,
     productBackend,
@@ -820,6 +840,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     opsFoundation,
     opsActivation,
     productionHardening,
+    opsRecovery,
     workspace,
     alerts,
     alertsAutomation,
@@ -851,6 +872,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     opsFoundation,
     opsActivation,
     productionHardening,
+    opsRecovery,
     preferences,
     workspace,
     productBackend,
