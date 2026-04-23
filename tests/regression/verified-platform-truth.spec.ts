@@ -363,6 +363,9 @@ test.describe("verified platform truth", () => {
     expect(probes.get("enterprise_ops_foundation")).toMatchObject({
       status: "ready",
     });
+    expect(["ready", "degraded"]).toContain(
+      probes.get("production_ops_activation")?.status
+    );
     expect(probes.get("commercial_scaling_foundation")).toMatchObject({
       status: "ready",
     });
@@ -425,6 +428,9 @@ test.describe("verified platform truth", () => {
     expect(routes.get("/api/ops/runbook")).toMatchObject({
       status: "auth_required",
     });
+    expect(routes.get("/api/ops/readiness")).toMatchObject({
+      status: "auth_required",
+    });
     expect(routes.get("/api/alerts/workflows")).toMatchObject({
       status: "auth_required",
     });
@@ -474,6 +480,8 @@ test.describe("verified platform truth", () => {
     expect(opsTelemetryUnauth.status()).toBe(401);
     const opsRunbookUnauth = await request.get("/api/ops/runbook");
     expect(opsRunbookUnauth.status()).toBe(401);
+    const opsReadinessUnauth = await request.get("/api/ops/readiness");
+    expect(opsReadinessUnauth.status()).toBe(401);
     const automationStateUnauth = await request.get("/api/alerts/automation/state");
     expect(automationStateUnauth.status()).toBe(401);
     const deliveryStateUnauth = await request.get("/api/alerts/delivery/state");
@@ -768,6 +776,22 @@ test.describe("verified platform truth", () => {
         expect.objectContaining({ key: "execution_safety", state: "ready" }),
       ])
     );
+
+    const opsReadiness = await request.get("/api/ops/readiness");
+    expect(opsReadiness.status()).toBe(200);
+    const opsReadinessPayload = await opsReadiness.json();
+    expect(opsReadinessPayload.snapshot.adminGuard).toMatchObject({
+      operatorApi: "guarded",
+      remoteAdmin: "not_enabled",
+      commandExecution: "manual_review_required",
+      maintenanceMode: "manual_only",
+    });
+    expect(opsReadinessPayload.snapshot.runbookFlow).toMatchObject({
+      readinessReview: "manual_operator",
+      incidentReview: "manual_operator",
+      escalation: "manual_operator",
+      automation: "inactive",
+    });
 
     const commercialState = await request.get("/api/account/commercial-state");
     expect(commercialState.status()).toBe(200);

@@ -36,7 +36,10 @@ import {
   getCommercialActivationDiagnosticsProbe,
   getCommercialScalingDiagnosticsProbe,
 } from "@/lib/server/commercial";
-import { getEnterpriseOpsDiagnosticsProbe } from "@/lib/server/ops";
+import {
+  getEnterpriseOpsDiagnosticsProbe,
+  getOpsProductionActivationDiagnosticsProbe,
+} from "@/lib/server/ops";
 import type {
   DiagnosticsHealthSnapshot,
   DiagnosticsProbe,
@@ -166,6 +169,7 @@ function buildRouteProbes(input: {
   commercialFoundation: DiagnosticsProbe;
   commercialActivation: DiagnosticsProbe;
   opsFoundation: DiagnosticsProbe;
+  opsActivation: DiagnosticsProbe;
   workspace: DiagnosticsProbe;
   alerts: DiagnosticsProbe;
   alertsAutomation: DiagnosticsProbe;
@@ -270,6 +274,12 @@ function buildRouteProbes(input: {
         "Ops runbook route is operator-guarded and requires authentication.",
     },
     {
+      path: "/api/ops/readiness",
+      method: "GET",
+      status: "auth_required",
+      detail: `${input.opsActivation.summary}. Route is operator-guarded and requires authentication.`,
+    },
+    {
       path: "/api/account/preferences",
       method: "GET",
       status: "auth_required",
@@ -370,6 +380,7 @@ function buildSubsystems(input: {
   commercialFoundation: DiagnosticsProbe;
   commercialActivation: DiagnosticsProbe;
   opsFoundation: DiagnosticsProbe;
+  opsActivation: DiagnosticsProbe;
   preferences: DiagnosticsProbe;
   workspace: DiagnosticsProbe;
   productBackend: DiagnosticsProbe;
@@ -475,6 +486,13 @@ function buildSubsystems(input: {
       detail: input.opsFoundation.detail,
     },
     {
+      key: "ops_activation",
+      label: input.opsActivation.label,
+      status: input.opsActivation.status,
+      summary: input.opsActivation.summary,
+      detail: input.opsActivation.detail,
+    },
+    {
       key: "preferences",
       label: input.preferences.label,
       status: input.preferences.status,
@@ -564,6 +582,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     commercialFoundation,
     commercialActivation,
     opsFoundation,
+    opsActivation,
     alerts,
     alertsAutomation,
     alertsDelivery,
@@ -584,6 +603,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     getCommercialScalingDiagnosticsProbe(),
     getCommercialActivationDiagnosticsProbe(),
     getEnterpriseOpsDiagnosticsProbe(),
+    getOpsProductionActivationDiagnosticsProbe(),
     getAlertWorkflowDiagnosticsProbe(),
     getAlertAutomationDiagnosticsProbe(),
     getAlertDeliveryActivationDiagnosticsProbe(),
@@ -626,6 +646,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       alertsAutomation,
       alertsDelivery,
       commercialActivation,
+      opsActivation,
       intelligence,
       aiFoundation,
     ],
@@ -648,6 +669,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       commercialFoundation,
       commercialActivation,
       opsFoundation,
+      opsActivation,
       preferences,
       workspace,
       productBackend,
@@ -673,6 +695,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       commercialFoundation,
       commercialActivation,
       opsFoundation,
+      opsActivation,
       workspace,
       alerts,
       alertsAutomation,
@@ -697,6 +720,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       commercialFoundation,
       commercialActivation,
       opsFoundation,
+      opsActivation,
       preferences,
       workspace,
       productBackend,
