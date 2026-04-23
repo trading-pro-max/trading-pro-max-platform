@@ -148,6 +148,10 @@ function buildChecklist(health: DiagnosticsHealthSnapshot) {
     health,
     "/api/launch/feedback"
   );
+  const softLaunchRouteStatus = findRouteStatus(
+    health,
+    "/api/launch/soft-readiness"
+  );
   const opsHardeningRouteStatus = findRouteStatus(health, "/api/ops/hardening");
 
   const items: LaunchReadinessChecklistItem[] = [
@@ -217,6 +221,12 @@ function buildChecklist(health: DiagnosticsHealthSnapshot) {
       label: "Production hardening route is explicitly operator-guarded",
       passed: opsHardeningRouteStatus === "auth_required",
       evidence: `/api/ops/hardening=${opsHardeningRouteStatus}`,
+    },
+    {
+      key: "soft_launch_route_guard",
+      label: "Soft-launch readiness route is explicitly account-guarded",
+      passed: softLaunchRouteStatus === "auth_required",
+      evidence: `/api/launch/soft-readiness=${softLaunchRouteStatus}`,
     },
   ];
 
@@ -302,7 +312,11 @@ export function buildLaunchReadinessGateSnapshot(
       key: "commercial",
       label: "Commercial truth",
       required: true,
-      probeKeys: ["commercial_scaling_foundation", "commercial_activation"],
+      probeKeys: [
+        "commercial_scaling_foundation",
+        "commercial_activation",
+        "soft_launch_preparation",
+      ],
       evidence:
         "Commercial lifecycle contracts are explicit with inactive billing truth.",
     }),

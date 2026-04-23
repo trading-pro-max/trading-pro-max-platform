@@ -1,11 +1,21 @@
 import "server-only";
 import type { AuthenticatedSession } from "@/lib/auth/service";
-import type { OpsProductionHardeningSnapshot } from "@/lib/server/ops";
+import { prisma } from "@/lib/db/client";
+import {
+  getOpsProductionHardeningSnapshot,
+  type OpsProductionHardeningSnapshot,
+} from "@/lib/server/ops";
 import type { DiagnosticsProbe } from "@/modules/shell/types/platform-state";
 import type { LaunchReadinessGateSnapshot } from "./readiness";
-import { getLaunchFeedbackSnapshotForAuthenticatedSession, getLaunchFeedbackStoreDiagnostics } from "./feedback";
+import {
+  getLaunchFeedbackSnapshotForAuthenticatedSession,
+  getLaunchFeedbackStoreDiagnostics,
+} from "./feedback";
 
-export type LaunchOperationsMode = "closed_beta_preparation";
+export type LaunchOperationsMode =
+  | "closed_beta_preparation"
+  | "soft_launch_preparation"
+  | "public_launch_preparation";
 
 type LaunchPipelineStageKey =
   | "launch_readiness_verification_gate"
@@ -14,7 +24,11 @@ type LaunchPipelineStageKey =
   | "soft_launch_preparation"
   | "public_launch_preparation";
 
-type LaunchPipelineStageState = "ready" | "in_progress" | "blocked" | "not_started";
+type LaunchPipelineStageState =
+  | "ready"
+  | "in_progress"
+  | "blocked"
+  | "not_started";
 
 type ClosedBetaEligibility =
   | "eligible"
@@ -23,12 +37,16 @@ type ClosedBetaEligibility =
 
 type ClosedBetaMatchSource = "email" | "account" | "none";
 
+type SoftLaunchState = "prepared_guarded" | "blocked_guarded";
+type SoftLaunchCapacityState = "within_limit" | "at_limit";
+
 export type LaunchOperationsSnapshot = {
   checkedAt: string;
   mode: LaunchOperationsMode;
   program: {
     releaseTrack: "controlled_launch_operations";
-    currentStage: "closed_beta_preparation";
+    currentStage: "soft_launch_preparation";
+    previousStage: "closed_beta_preparation";
     launchClaim: "not_launched";
     publicLaunchClaim: "not_claimed";
     publicAccess: "not_open";
@@ -61,6 +79,29 @@ export type LaunchOperationsSnapshot = {
       billing: "inactive";
     };
   };
+  softLaunch: {
+    mode: "limited_rollout_guarded";
+    state: SoftLaunchState;
+    access: "cohort_and_capacity_guard";
+    capacity: {
+      maxAccounts: number;
+      activeAccounts: number;
+      remainingSlots: number;
+      state: SoftLaunchCapacityState;
+    };
+    channels: {
+      publicEntry: "limited_rollout_visibility";
+      inviteFlow: "operator_issue_only";
+      supportPath: "operator_review";
+    };
+    truth: {
+      launchClaim: "not_launched";
+      publicLaunchClaim: "not_claimed";
+      scaleClaims: "none";
+      liveExecution: "blocked";
+      billing: "inactive";
+    };
+  };
   support: {
     mode: "closed_beta_operator_review";
     feedbackSubmissions30d: number;
@@ -78,12 +119,39 @@ export type LaunchOperationsSnapshot = {
   limitations: string[];
 };
 
+export type SoftLaunchPreparationSnapshot = {
+  checkedAt: string;
+  mode: "soft_launch_preparation";
+  stage: LaunchPipelineStageState;
+  softLaunch: LaunchOperationsSnapshot["softLaunch"];
+  limitations: string[];
+};
+
 function parseCsvList(raw: string | null | undefined) {
   if (!raw) return [] as string[];
   return raw
     .split(",")
     .map((value) => value.trim().toLowerCase())
     .filter((value) => value.length > 0);
+}
+
+function resolveSoftLaunchMaxAccounts() {
+  const raw = Number(process.env.TPM_SOFT_LAUNCH_MAX_ACCOUNTS ?? 120);
+  if (!Number.isFinite(raw) || raw < 1) return 120;
+  return Math.min(5000, Math.max(10, Math.round(raw)));
+}
+
+async function getSoftLaunchCapacity() {
+  const maxAccounts = resolveSoftLaunchMaxAccounts();
+  const activeAccounts = await prisma.account.count();
+  const remainingSlots = Math.max(0, maxAccounts - activeAccounts);
+
+  return {
+    maxAccounts,
+    activeAccounts,
+    remainingSlots,
+    state: remainingSlots > 0 ? ("within_limit" as const) : ("at_limit" as const),
+  };
 }
 
 function evaluateClosedBetaEligibility(input: {
@@ -141,13 +209,18 @@ function buildStageState(input: {
   gate: LaunchReadinessGateSnapshot;
   closedBetaEligibility: ClosedBetaEligibility;
   hardening: OpsProductionHardeningSnapshot | null;
+  softLaunchCapacity: {
+    remainingSlots: number;
+  };
 }) {
   const gateState: LaunchPipelineStageState =
     input.gate.overall.status === "pass" ? "ready" : "blocked";
+
   const closedBetaState: LaunchPipelineStageState =
     gateState === "ready" && input.closedBetaEligibility !== "allowlist_unconfigured"
       ? "in_progress"
       : "blocked";
+
   const productionHardeningState: LaunchPipelineStageState =
     !input.hardening
       ? "not_started"
@@ -158,10 +231,18 @@ function buildStageState(input: {
       ? "in_progress"
       : "blocked";
 
+  const softLaunchState: LaunchPipelineStageState =
+    gateState === "ready" &&
+    productionHardeningState !== "blocked" &&
+    input.softLaunchCapacity.remainingSlots > 0
+      ? "ready"
+      : "blocked";
+
   return {
     gateState,
     closedBetaState,
     productionHardeningState,
+    softLaunchState,
   };
 }
 
@@ -176,22 +257,25 @@ export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: 
     email: input.session.user.email,
     accountId: input.session.account.id,
   });
+  const [feedbackSnapshot, softLaunchCapacity] = await Promise.all([
+    getLaunchFeedbackSnapshotForAuthenticatedSession(input.session, checkedAt),
+    getSoftLaunchCapacity(),
+  ]);
+
   const stageState = buildStageState({
     gate: input.gate,
     closedBetaEligibility: closedBeta.eligibility,
     hardening: input.hardening ?? null,
+    softLaunchCapacity,
   });
-  const feedbackSnapshot = await getLaunchFeedbackSnapshotForAuthenticatedSession(
-    input.session,
-    checkedAt
-  );
 
   return {
     checkedAt,
-    mode: "closed_beta_preparation",
+    mode: "soft_launch_preparation",
     program: {
       releaseTrack: "controlled_launch_operations",
-      currentStage: "closed_beta_preparation",
+      currentStage: "soft_launch_preparation",
+      previousStage: "closed_beta_preparation",
       launchClaim: "not_launched",
       publicLaunchClaim: "not_claimed",
       publicAccess: "not_open",
@@ -219,9 +303,9 @@ export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: 
       },
       {
         key: "soft_launch_preparation",
-        state: "not_started",
+        state: stageState.softLaunchState,
         required: true,
-        evidence: "Stage not started.",
+        evidence: `capacity=${softLaunchCapacity.activeAccounts}/${softLaunchCapacity.maxAccounts} remaining=${softLaunchCapacity.remainingSlots}`,
       },
       {
         key: "public_launch_preparation",
@@ -252,6 +336,29 @@ export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: 
         billing: "inactive",
       },
     },
+    softLaunch: {
+      mode: "limited_rollout_guarded",
+      state: stageState.softLaunchState === "ready" ? "prepared_guarded" : "blocked_guarded",
+      access: "cohort_and_capacity_guard",
+      capacity: {
+        maxAccounts: softLaunchCapacity.maxAccounts,
+        activeAccounts: softLaunchCapacity.activeAccounts,
+        remainingSlots: softLaunchCapacity.remainingSlots,
+        state: softLaunchCapacity.state,
+      },
+      channels: {
+        publicEntry: "limited_rollout_visibility",
+        inviteFlow: "operator_issue_only",
+        supportPath: "operator_review",
+      },
+      truth: {
+        launchClaim: "not_launched",
+        publicLaunchClaim: "not_claimed",
+        scaleClaims: "none",
+        liveExecution: "blocked",
+        billing: "inactive",
+      },
+    },
     support: {
       mode: "closed_beta_operator_review",
       feedbackSubmissions30d: feedbackSnapshot.summary.submissions30d,
@@ -267,10 +374,30 @@ export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: 
       notifications: "unconfigured",
     },
     limitations: [
-      "Closed-beta access remains allowlist-gated and does not imply public launch.",
-      "Support intake is operator-reviewed through authenticated feedback contracts.",
+      "Soft launch preparation supports limited rollout semantics only and does not imply public launch.",
+      "Rollout access remains constrained by capacity and guarded cohort policy.",
       "Live execution, real-money routing, and paid billing remain blocked or inactive.",
     ],
+  };
+}
+
+export async function getSoftLaunchPreparationSnapshotForAuthenticatedSession(input: {
+  session: AuthenticatedSession;
+  gate: LaunchReadinessGateSnapshot;
+  hardening?: OpsProductionHardeningSnapshot | null;
+  checkedAt?: string;
+}): Promise<SoftLaunchPreparationSnapshot> {
+  const snapshot = await getLaunchOperationsSnapshotForAuthenticatedSession(input);
+  const stage =
+    snapshot.stages.find((item) => item.key === "soft_launch_preparation")?.state ??
+    "blocked";
+
+  return {
+    checkedAt: snapshot.checkedAt,
+    mode: "soft_launch_preparation",
+    stage,
+    softLaunch: snapshot.softLaunch,
+    limitations: snapshot.limitations,
   };
 }
 
@@ -305,6 +432,47 @@ export async function getClosedBetaPreparationDiagnosticsProbe(
         error instanceof Error
           ? error.message
           : "Closed beta preparation diagnostics probe failed.",
+      checkedAt,
+    };
+  }
+}
+
+export async function getSoftLaunchPreparationDiagnosticsProbe(
+  checkedAt = new Date().toISOString()
+): Promise<DiagnosticsProbe> {
+  try {
+    const [hardening, activeAccounts] = await Promise.all([
+      getOpsProductionHardeningSnapshot(checkedAt),
+      prisma.account.count(),
+    ]);
+    const maxAccounts = resolveSoftLaunchMaxAccounts();
+    const remainingSlots = Math.max(0, maxAccounts - activeAccounts);
+    const status =
+      hardening.readiness.score >= 60 && remainingSlots > 0 ? "ready" : "degraded";
+
+    return {
+      key: "soft_launch_preparation",
+      label: "Soft launch preparation",
+      status,
+      summary:
+        status === "ready"
+          ? "Soft launch preparation is ready for guarded limited rollout."
+          : "Soft launch preparation remains guarded and not yet ready for wider rollout.",
+      detail:
+        `Hardening ${hardening.readiness.score}/100 (${hardening.readiness.stage}); ` +
+        `capacity ${activeAccounts}/${maxAccounts} with ${remainingSlots} slot(s) remaining.`,
+      checkedAt,
+    };
+  } catch (error) {
+    return {
+      key: "soft_launch_preparation",
+      label: "Soft launch preparation",
+      status: "degraded",
+      summary: "Soft launch preparation diagnostics degraded",
+      detail:
+        error instanceof Error
+          ? error.message
+          : "Soft launch preparation diagnostics probe failed.",
       checkedAt,
     };
   }

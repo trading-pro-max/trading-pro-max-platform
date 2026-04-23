@@ -656,10 +656,14 @@ export type DiagnosticsHealthSnapshot = {
   };
   launchOperations?: {
     checkedAt: string;
-    mode: "closed_beta_preparation";
+    mode:
+      | "closed_beta_preparation"
+      | "soft_launch_preparation"
+      | "public_launch_preparation";
     status: "in_progress" | "blocked";
     supportRoute: "/api/launch/feedback";
     productionHardening: "ready" | "guarded";
+    softLaunch?: "ready" | "guarded";
   };
 };
 

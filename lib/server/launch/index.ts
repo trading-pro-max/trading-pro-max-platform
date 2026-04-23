@@ -19,6 +19,9 @@ export {
 export {
   getClosedBetaPreparationDiagnosticsProbe,
   getLaunchOperationsSnapshotForAuthenticatedSession,
+  getSoftLaunchPreparationDiagnosticsProbe,
+  getSoftLaunchPreparationSnapshotForAuthenticatedSession,
   type LaunchOperationsMode,
   type LaunchOperationsSnapshot,
+  type SoftLaunchPreparationSnapshot,
 } from "./operations";
