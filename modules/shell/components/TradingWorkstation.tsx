@@ -132,9 +132,9 @@ function WorkstationCommercialBridge({
 }) {
   const bridgeCards = [
     {
-      label: "Product mode",
-      value: "Commercial evaluation foundation",
-      note: "Public framing, onboarding guidance, and the workstation now share one restrained truth layer.",
+      label: "Orientation order",
+      value: "Topbar -> IQ / Brain -> chart depth -> paper ticket",
+      note: "First-use guidance is embedded in the surface, not hidden in a separate tutorial.",
     },
     {
       label: "Execution truth",
@@ -147,23 +147,34 @@ function WorkstationCommercialBridge({
       note: "Market state, TPM IQ / Brain, and degraded conditions stay explicit and bounded.",
     },
     {
-      label: "First-use path",
-      value: "Topbar -> IQ / Brain -> chart depth -> ticket preflight -> blotter",
-      note: "The product now explains how to read the workstation instead of assuming insider familiarity.",
+      label: "Product routes",
+      value: "Entry, settings, diagnostics, localized workspace",
+      note: "Every route repeats the same paper-only, fallback-first, broker-blocked product truth.",
     },
+  ];
+  const truthChips = [
+    "No broker connected",
+    "Live execution blocked",
+    "Fallback feed disclosed",
+    "No order hotkeys armed",
   ];
 
   return (
     <section className="tpmv2-card tpmv2-commercial-bridge" aria-label="Product guidance">
       <div className="tpmv2-commercial-bridge-head">
         <div className="tpmv2-commercial-bridge-copy">
-          <span>Commercial trust layer</span>
-          <strong>Public product framing and workstation truth now move together.</strong>
+          <span>Operator onboarding and trust layer</span>
+          <strong>Public product framing and workstation truth move together.</strong>
           <p>
             First-time evaluators can understand what Trading Pro Max is, what remains
             intentionally blocked, and how to move through the workspace without losing
             paper-only and fallback-first product truth.
           </p>
+          <div className="tpmv2-commercial-bridge-truths">
+            {truthChips.map((chip) => (
+              <span key={chip}>{chip}</span>
+            ))}
+          </div>
         </div>
 
         <div className="tpmv2-commercial-bridge-actions">

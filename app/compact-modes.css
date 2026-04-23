@@ -5408,7 +5408,8 @@ body {
 .tpm-product-shell,
 .tpm-product-entry,
 .tpm-product-section,
-.tpm-product-workstation-shell {
+.tpm-product-workstation-shell,
+.tpm-product-ledger {
   display: grid;
   gap: 16px;
 }
@@ -5417,7 +5418,9 @@ body {
 .tpm-product-card,
 .tpm-product-step-card,
 .tpm-product-cta-panel,
-.tpm-product-workstation-head {
+.tpm-product-workstation-head,
+.tpm-product-lane-card,
+.tpm-product-route-card {
   position: relative;
   overflow: hidden;
   border-color: rgba(191, 219, 254, 0.12);
@@ -5449,9 +5452,15 @@ body {
 .tpm-product-card-head,
 .tpm-product-step-card span,
 .tpm-product-proof-row span,
+.tpm-product-lane-head span,
+.tpm-product-lane-points span,
+.tpm-product-ledger-head span,
+.tpm-product-ledger-row > span,
+.tpm-product-route-card span,
 .tpm-product-workstation-head span,
 .tpmv2-commercial-bridge-copy span,
-.tpmv2-commercial-bridge-card span {
+.tpmv2-commercial-bridge-card span,
+.tpmv2-commercial-bridge-truths span {
   color: var(--tpm-text-soft);
   font-size: 9px;
   font-weight: 850;
@@ -5461,6 +5470,7 @@ body {
 
 .tpm-product-kicker-row,
 .tpm-product-cta-panel,
+.tpm-product-ledger-head,
 .tpmv2-commercial-bridge-head {
   display: flex;
   align-items: flex-start;
@@ -5471,7 +5481,8 @@ body {
 
 .tpm-product-chip-row,
 .tpm-product-cta-row,
-.tpmv2-commercial-bridge-actions {
+.tpmv2-commercial-bridge-actions,
+.tpmv2-commercial-bridge-truths {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -5497,6 +5508,25 @@ body {
   font-size: 10px;
   font-weight: 700;
   line-height: 1;
+}
+
+.tpm-product-chip,
+.tpm-product-lane-points span,
+.tpmv2-commercial-bridge-truths span {
+  transition:
+    border-color 160ms var(--tpmv2-ease),
+    background 160ms var(--tpmv2-ease),
+    color 160ms var(--tpmv2-ease),
+    transform 160ms var(--tpmv2-ease);
+}
+
+.tpm-product-chip:hover,
+.tpm-product-lane-points span:hover,
+.tpmv2-commercial-bridge-truths span:hover {
+  border-color: rgba(94, 234, 212, 0.24);
+  background: rgba(94, 234, 212, 0.07);
+  color: #f2fffc;
+  transform: translateY(-1px);
 }
 
 .tpm-product-hero-layout,
@@ -5536,6 +5566,9 @@ body {
 .tpm-product-section-head p,
 .tpm-product-card p,
 .tpm-product-step-card p,
+.tpm-product-lane-card p,
+.tpm-product-ledger-row p,
+.tpm-product-route-card p,
 .tpm-product-workstation-head p,
 .tpmv2-commercial-bridge-copy p,
 .tpmv2-commercial-bridge-card p {
@@ -5588,6 +5621,9 @@ body {
 .tpm-product-proof-row,
 .tpm-product-card-grid,
 .tpm-product-step-grid,
+.tpm-product-lane-grid,
+.tpm-product-ledger-grid,
+.tpm-product-route-map,
 .tpmv2-commercial-bridge-grid {
   display: grid;
   gap: 10px;
@@ -5601,6 +5637,9 @@ body {
 .tpm-product-signal-card,
 .tpm-product-card,
 .tpm-product-step-card,
+.tpm-product-lane-card,
+.tpm-product-ledger-row,
+.tpm-product-route-card,
 .tpmv2-commercial-bridge-card {
   min-width: 0;
   padding: 12px;
@@ -5609,12 +5648,36 @@ body {
   background: rgba(4, 10, 18, 0.5);
   display: grid;
   gap: 6px;
+  transition:
+    border-color 180ms var(--tpmv2-ease),
+    background 180ms var(--tpmv2-ease),
+    box-shadow 180ms var(--tpmv2-ease),
+    transform 180ms var(--tpmv2-ease);
+}
+
+.tpm-product-signal-card:hover,
+.tpm-product-card:hover,
+.tpm-product-step-card:hover,
+.tpm-product-lane-card:hover,
+.tpm-product-ledger-row:hover,
+.tpm-product-route-card:hover,
+.tpmv2-commercial-bridge-card:hover {
+  border-color: rgba(94, 234, 212, 0.22);
+  background:
+    linear-gradient(180deg, rgba(12, 31, 40, 0.58), rgba(4, 10, 18, 0.66)),
+    rgba(255, 255, 255, 0.018);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.2);
+  transform: translateY(-1px);
 }
 
 .tpm-product-proof-row strong,
 .tpm-product-signal-card strong,
 .tpm-product-card strong,
 .tpm-product-step-card strong,
+.tpm-product-lane-head strong,
+.tpm-product-ledger-head strong,
+.tpm-product-ledger-row strong,
+.tpm-product-route-card strong,
 .tpmv2-commercial-bridge-copy strong,
 .tpmv2-commercial-bridge-card strong {
   font-size: 14px;
@@ -5634,6 +5697,60 @@ body {
 
 .tpm-product-card-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.tpm-product-lane-grid,
+.tpm-product-route-map {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.tpm-product-lane-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.tpm-product-lane-head span,
+.tpm-product-ledger-row > span {
+  min-height: 22px;
+  padding: 0 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(191, 219, 254, 0.11);
+  background: rgba(8, 15, 26, 0.62);
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.tpm-product-lane-points {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tpm-product-lane-points span,
+.tpmv2-commercial-bridge-truths span {
+  min-height: 22px;
+  padding: 0 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(191, 219, 254, 0.1);
+  background: rgba(7, 12, 20, 0.72);
+  display: inline-flex;
+  align-items: center;
+}
+
+.tpm-product-ledger {
+  margin-top: 10px;
+  padding: 14px;
+  border-color: rgba(191, 219, 254, 0.12);
+  background:
+    linear-gradient(180deg, rgba(8, 15, 27, 0.86), rgba(4, 9, 16, 0.86)),
+    rgba(255, 255, 255, 0.01);
+}
+
+.tpm-product-ledger-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .tpm-product-step-grid,
@@ -5677,6 +5794,10 @@ body {
   font-size: 10px;
 }
 
+.tpmv2-commercial-bridge-truths {
+  justify-content: flex-start;
+}
+
 .tpmv2-commercial-bridge-grid {
   gap: 8px;
 }
@@ -5701,6 +5822,12 @@ body {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .tpm-product-lane-grid,
+  .tpm-product-ledger-grid,
+  .tpm-product-route-map {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .tpm-product-step-grid,
   .tpmv2-commercial-bridge-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -5713,6 +5840,9 @@ body {
   .tpm-product-card-grid,
   .tpm-product-step-grid,
   .tpm-product-signal-grid,
+  .tpm-product-lane-grid,
+  .tpm-product-ledger-grid,
+  .tpm-product-route-map,
   .tpmv2-commercial-bridge-grid {
     grid-template-columns: 1fr;
   }

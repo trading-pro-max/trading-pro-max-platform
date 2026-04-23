@@ -422,6 +422,45 @@ export function PlatformDiagnosticsSurface({
     },
   ];
 
+  const trustLedgerItems = [
+    {
+      label: "Fallback-first market data",
+      value: "Disclosed",
+      tone: "pending" as const,
+      note: "Market and intelligence surfaces label fallback reliance and degraded behavior.",
+    },
+    {
+      label: "Live execution",
+      value: "Blocked",
+      tone: "blocked" as const,
+      note: "No real-money route is enabled from diagnostics, settings, or the workstation.",
+    },
+    {
+      label: "Broker connector",
+      value: "Unconfigured",
+      tone: "restricted" as const,
+      note: "Broker capability remains local-paper-only until explicitly configured.",
+    },
+    {
+      label: "Operator review",
+      value: "Unavailable unless configured",
+      tone: "restricted" as const,
+      note: "Review surfaces stay truthful instead of implying an active queue.",
+    },
+    {
+      label: "Billing and plans",
+      value: "No billing system active",
+      tone: "pending" as const,
+      note: "Commercial packaging is front-end ready but no paid plan gate is claimed.",
+    },
+    {
+      label: "Preferences route",
+      value: "Auth required",
+      tone: "pending" as const,
+      note: "Unauthenticated account preference writes remain protected by 401 behavior.",
+    },
+  ];
+
   return (
     <main className="tpm-foundation-page tpm-utility-page">
       <section className="tpm-foundation-card tpm-utility-hero">
@@ -496,6 +535,10 @@ export function PlatformDiagnosticsSurface({
         <UtilityGrid items={commercialItems} />
       </UtilitySection>
 
+      <UtilitySection eyebrow="TRUTH" title="Product trust ledger">
+        <UtilityGrid items={trustLedgerItems} />
+      </UtilitySection>
+
       <UtilitySection
         eyebrow="AUDIT"
         title={viewModel.auditTitle}
@@ -560,6 +603,45 @@ export function PlatformSettingsSurface({
       value: "Product -> Workspace -> Diagnostics -> Settings",
       tone: "approved" as const,
       note: "First-use evaluation flow is now explicit instead of implicit.",
+    },
+  ];
+
+  const productPackagingItems = [
+    {
+      label: "Plan and billing state",
+      value: "No billing system active",
+      tone: "pending" as const,
+      note: "Future commercial packaging is represented honestly without a fake checkout or paid gate.",
+    },
+    {
+      label: "Workspace access",
+      value: "Evaluation workstation visible",
+      tone: "approved" as const,
+      note: "Public entry and localized workspace remain accessible for product review.",
+    },
+    {
+      label: "Paper access",
+      value: viewModel.paperAccessValue,
+      tone: viewModel.paperAccessTone,
+      note: viewModel.ticketNextStepValue,
+    },
+    {
+      label: "Live activation",
+      value: "Blocked",
+      tone: "blocked" as const,
+      note: "Real-money routing cannot be enabled from settings.",
+    },
+    {
+      label: "Broker integration",
+      value: "Unconfigured",
+      tone: "restricted" as const,
+      note: "No broker readiness, account funding, or live connection is implied.",
+    },
+    {
+      label: "Product support route",
+      value: "Diagnostics first",
+      tone: "approved" as const,
+      note: "Diagnostics is the source for runtime, connector, and trust verification.",
     },
   ];
 
@@ -841,6 +923,10 @@ export function PlatformSettingsSurface({
         }
       >
         <UtilityGrid items={productStructureItems} />
+      </UtilitySection>
+
+      <UtilitySection eyebrow="PRODUCT ACCESS" title="Commercial packaging readiness">
+        <UtilityGrid items={productPackagingItems} />
       </UtilitySection>
 
       <UtilitySection
