@@ -41,6 +41,10 @@ type ExternalFeedState =
   | "unconfigured"
   | "configured_inactive"
   | "configured_blocked";
+type ExternalFeedCredentialState =
+  | "unconfigured"
+  | "partially_configured"
+  | "configured";
 
 export type MarketFeedArchitectureSnapshot = {
   checkedAt: string;
@@ -63,6 +67,17 @@ export type MarketFeedArchitectureSnapshot = {
     endpoint: string | null;
     activationRequested: boolean;
     state: ExternalFeedState;
+  };
+  credentials: {
+    apiKeyConfigured: boolean;
+    apiSecretConfigured: boolean;
+    state: ExternalFeedCredentialState;
+  };
+  activationPolicy: {
+    externalActivation: "blocked";
+    canActivate: false;
+    liveExecution: "blocked";
+    blockedReasons: string[];
   };
   contract: {
     requestNormalization: "strict";
@@ -107,22 +122,76 @@ function resolveExternalFeedState() {
   };
 }
 
+function resolveExternalFeedCredentials() {
+  const apiKeyConfigured = Boolean(process.env.TPM_MARKET_FEED_API_KEY?.trim());
+  const apiSecretConfigured = Boolean(
+    process.env.TPM_MARKET_FEED_API_SECRET?.trim()
+  );
+  const state: ExternalFeedCredentialState =
+    apiKeyConfigured && apiSecretConfigured
+      ? "configured"
+      : apiKeyConfigured || apiSecretConfigured
+      ? "partially_configured"
+      : "unconfigured";
+
+  return {
+    apiKeyConfigured,
+    apiSecretConfigured,
+    state,
+  };
+}
+
+function getExternalFeedBlockedReasons(input: {
+  endpointConfigured: boolean;
+  credentialsState: ExternalFeedCredentialState;
+  activationRequested: boolean;
+}) {
+  const blockedReasons: string[] = [];
+
+  if (!input.endpointConfigured) {
+    blockedReasons.push("external_endpoint_required");
+  }
+
+  if (input.credentialsState !== "configured") {
+    blockedReasons.push("external_credentials_required");
+  }
+
+  if (input.activationRequested) {
+    blockedReasons.push("external_activation_requested_but_blocked");
+  }
+
+  blockedReasons.push("fallback_policy_enforced");
+  blockedReasons.push("live_execution_blocked");
+  return blockedReasons;
+}
+
 export function getMarketFeedArchitectureSnapshot(
   checkedAt = new Date().toISOString()
 ): MarketFeedArchitectureSnapshot {
   const externalDriver = resolveExternalFeedState();
+  const credentials = resolveExternalFeedCredentials();
+  const blockedReasons = getExternalFeedBlockedReasons({
+    endpointConfigured: externalDriver.endpointConfigured,
+    credentialsState: credentials.state,
+    activationRequested: externalDriver.activationRequested,
+  });
   const readiness = buildReadinessSnapshot({
     components: [
-      { key: "fallback_driver", ok: true, weight: 50 },
+      { key: "fallback_driver", ok: true, weight: 40 },
       {
         key: "external_endpoint_reserved",
         ok: externalDriver.endpointConfigured,
         weight: 20,
       },
       {
+        key: "external_credentials_ready",
+        ok: credentials.state === "configured",
+        weight: 20,
+      },
+      {
         key: "fallback_policy_guard",
         ok: !externalDriver.activationRequested,
-        weight: 30,
+        weight: 20,
       },
     ],
     stageThresholds: [
@@ -154,6 +223,13 @@ export function getMarketFeedArchitectureSnapshot(
       activationRequested: externalDriver.activationRequested,
       state: externalDriver.state,
     },
+    credentials,
+    activationPolicy: {
+      externalActivation: "blocked",
+      canActivate: false,
+      liveExecution: "blocked",
+      blockedReasons,
+    },
     contract: {
       requestNormalization: "strict",
       responseShape: "stable",
@@ -165,9 +241,9 @@ export function getMarketFeedArchitectureSnapshot(
       : "Fallback feed active with no external driver configured",
     detail: externalDriver.endpointConfigured
       ? externalDriver.activationRequested
-        ? "External feed activation was requested, but fallback-first policy keeps the reserved external driver blocked and the fallback adapter remains authoritative."
-        : "External feed endpoint is configured but inactive; fallback adapter remains authoritative until explicit activation policy changes."
-      : "No external feed endpoint is configured; fallback adapter is the serving market feed.",
+        ? `External feed activation was requested, but fallback-first policy keeps the reserved external driver blocked and the fallback adapter remains authoritative. Blocked reasons: ${blockedReasons.join(", ")}.`
+        : `External feed endpoint is configured but inactive; fallback adapter remains authoritative until explicit activation policy changes. Blocked reasons: ${blockedReasons.join(", ")}.`
+      : `No external feed endpoint is configured; fallback adapter is the serving market feed. Blocked reasons: ${blockedReasons.join(", ")}.`,
   };
 }
 

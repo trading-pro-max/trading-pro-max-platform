@@ -23,6 +23,10 @@ type BrokerConnectivityState =
   | "configured_blocked";
 
 type BrokerIntegrationState = "unconfigured" | "configured_blocked";
+type BrokerCredentialState =
+  | "unconfigured"
+  | "partially_configured"
+  | "configured";
 
 export type BrokerIntegrationContracts = {
   orders: {
@@ -56,11 +60,22 @@ export type BrokerIntegrationSnapshot = {
     endpoint: string | null;
     connectivity: BrokerConnectivityState;
   };
+  credentials: {
+    apiKeyConfigured: boolean;
+    apiSecretConfigured: boolean;
+    state: BrokerCredentialState;
+  };
   integration: {
     state: BrokerIntegrationState;
     paperRouting: "local_paper_only";
     realRouting: "blocked";
     activationGate: "configuration_required" | "policy_blocked";
+  };
+  activationPolicy: {
+    liveExecution: "blocked";
+    canActivate: false;
+    operatorReviewRequired: true;
+    blockedReasons: string[];
   };
   contracts: BrokerIntegrationContracts;
   operatorReview: {
@@ -111,6 +126,46 @@ function resolveBrokerProviderState() {
     endpoint,
     connectivity: "configured_blocked" as const,
   };
+}
+
+function getBrokerCredentialState() {
+  const apiKeyConfigured = Boolean(process.env.TPM_BROKER_API_KEY?.trim());
+  const apiSecretConfigured = Boolean(process.env.TPM_BROKER_API_SECRET?.trim());
+  const state: BrokerCredentialState =
+    apiKeyConfigured && apiSecretConfigured
+      ? "configured"
+      : apiKeyConfigured || apiSecretConfigured
+      ? "partially_configured"
+      : "unconfigured";
+
+  return {
+    apiKeyConfigured,
+    apiSecretConfigured,
+    state,
+  };
+}
+
+function getBlockedReasons(input: {
+  providerConfigured: boolean;
+  credentialsState: BrokerCredentialState;
+  operatorReviewState: ConnectorOperatorReviewState;
+}) {
+  const blockedReasons: string[] = [];
+
+  if (!input.providerConfigured) {
+    blockedReasons.push("provider_endpoint_required");
+  }
+
+  if (input.credentialsState !== "configured") {
+    blockedReasons.push("broker_credentials_required");
+  }
+
+  if (input.operatorReviewState === "unconfigured") {
+    blockedReasons.push("operator_review_secret_required");
+  }
+
+  blockedReasons.push("live_policy_blocked");
+  return blockedReasons;
 }
 
 function getBrokerIntegrationContracts(): BrokerIntegrationContracts {
@@ -165,20 +220,31 @@ export function getBrokerIntegrationSnapshot(
   checkedAt = new Date().toISOString()
 ): BrokerIntegrationSnapshot {
   const provider = resolveBrokerProviderState();
+  const credentials = getBrokerCredentialState();
   const operatorReviewState = getOperatorReviewState();
+  const blockedReasons = getBlockedReasons({
+    providerConfigured: provider.configured,
+    credentialsState: credentials.state,
+    operatorReviewState,
+  });
   const readiness = buildReadinessSnapshot({
     components: [
-      { key: "provider_endpoint", ok: provider.configured, weight: 35 },
+      { key: "provider_endpoint", ok: provider.configured, weight: 25 },
+      {
+        key: "credentials_configured",
+        ok: credentials.state === "configured",
+        weight: 20,
+      },
       {
         key: "operator_review_guard",
         ok: operatorReviewState !== "unconfigured",
         weight: 20,
       },
-      { key: "paper_router_active", ok: true, weight: 25 },
+      { key: "paper_router_active", ok: true, weight: 20 },
       {
         key: "live_policy_guard",
-        ok: provider.configured,
-        weight: 20,
+        ok: true,
+        weight: 15,
       },
     ],
     stageThresholds: [
@@ -196,6 +262,7 @@ export function getBrokerIntegrationSnapshot(
       stage: readiness.stage as "unconfigured" | "configured_guarded" | "policy_blocked",
     },
     provider,
+    credentials,
     integration: {
       state: provider.configured ? "configured_blocked" : "unconfigured",
       paperRouting: "local_paper_only",
@@ -203,6 +270,12 @@ export function getBrokerIntegrationSnapshot(
       activationGate: provider.configured
         ? "policy_blocked"
         : "configuration_required",
+    },
+    activationPolicy: {
+      liveExecution: "blocked",
+      canActivate: false,
+      operatorReviewRequired: true,
+      blockedReasons,
     },
     contracts: getBrokerIntegrationContracts(),
     operatorReview: {
@@ -215,8 +288,8 @@ export function getBrokerIntegrationSnapshot(
       ? "Broker provider configured but live routing blocked"
       : "No broker provider configured",
     detail: provider.configured
-      ? "A broker endpoint is configured for future integration contracts, but connector activation is policy blocked and real-money execution remains unavailable."
-      : "No broker endpoint is configured. Paper execution stays local-only and real-money routing remains blocked.",
+      ? `A broker endpoint is configured for future integration contracts, but connector activation is policy blocked and real-money execution remains unavailable. Blocked reasons: ${blockedReasons.join(", ")}.`
+      : `No broker endpoint is configured. Paper execution stays local-only and real-money routing remains blocked. Blocked reasons: ${blockedReasons.join(", ")}.`,
   };
 }
 

@@ -343,6 +343,9 @@ test.describe("verified platform truth", () => {
     expect(["unconfigured", "blocked"]).toContain(
       probes.get("broker_connector")?.status
     );
+    expect(["unconfigured", "blocked"]).toContain(
+      probes.get("real_integrations_foundation")?.status
+    );
     expect(probes.get("alerts_workflow")).toMatchObject({
       status: "unconfigured",
     });
@@ -380,6 +383,9 @@ test.describe("verified platform truth", () => {
     expect(routes.get("/api/platform/mobile/state")).toMatchObject({
       status: "ready",
     });
+    expect(["unconfigured", "blocked"]).toContain(
+      routes.get("/api/integrations/readiness")?.status
+    );
     expect(routes.get("/api/account/compliance")).toMatchObject({
       status: "auth_required",
     });
@@ -471,6 +477,34 @@ test.describe("verified platform truth", () => {
       liveExecution: "blocked",
       realMoneyRouting: "blocked",
     });
+
+    const integrationReadiness = await request.get("/api/integrations/readiness");
+    expect(integrationReadiness.status()).toBe(200);
+    const integrationPayload = await integrationReadiness.json();
+    expect(integrationPayload.snapshot.policy).toMatchObject({
+      paperOnly: true,
+      liveExecution: "blocked",
+      realMoneyRouting: "blocked",
+      brokerActivation: "blocked_until_policy_release",
+      externalFeedActivation: "blocked_until_policy_release",
+      operatorApproval: "required",
+    });
+    expect(integrationPayload.snapshot.activation).toMatchObject({
+      mode: "operator_review_and_policy_guard",
+      canActivateNow: false,
+    });
+    expect(Array.isArray(integrationPayload.snapshot.activation.blockedReasons)).toBe(
+      true
+    );
+    expect(integrationPayload.snapshot.activation.blockedReasons.length).toBeGreaterThan(
+      0
+    );
+    expect(["unconfigured", "configured_blocked"]).toContain(
+      integrationPayload.snapshot.broker.state
+    );
+    expect(["unconfigured", "configured_inactive", "configured_blocked"]).toContain(
+      integrationPayload.snapshot.marketFeed.state
+    );
 
     const workspace = await request.get("/api/account/workspace");
     expect(workspace.status()).toBe(401);
