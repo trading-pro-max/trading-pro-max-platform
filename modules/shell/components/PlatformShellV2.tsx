@@ -713,10 +713,10 @@ export function WorkstationCommandCenter({
     >
       <div className={`tpmv2-command-primary ${decision.signal}`}>
         <div>
-          <span className="tpmv2-command-kicker">TPM IQ Context</span>
+          <span className="tpmv2-command-kicker">{dict.decision.title}</span>
           <strong>{signalLabel}</strong>
         </div>
-        <span>{decision.confidence}</span>
+        <StatusTag text={decision.confidence} tone="pending" />
       </div>
 
       <div className="tpmv2-command-cell">
@@ -740,11 +740,11 @@ export function WorkstationCommandCenter({
       </div>
 
       <div className="tpmv2-command-cell tpmv2-command-cell-metrics">
-        <span>{dict.journal.openTradesTitle}</span>
-        <strong>{openTradesCount}</strong>
+        <span>{dict.risk.sessionResult}</span>
+        <strong>{sessionPnLText}</strong>
         <small>
-          {dict.journal.historyTitle}: {historyCount} / {dict.risk.sessionResult}:{" "}
-          {sessionPnLText}
+          {dict.journal.openTradesTitle}: {openTradesCount} / {dict.journal.historyTitle}:{" "}
+          {historyCount}
         </small>
       </div>
     </section>
@@ -834,12 +834,6 @@ export function ChartCard({
   );
   const latestHeight = chartBars[chartBars.length - 1]?.height ?? 50;
   const priceMarkerTop = `${Math.max(16, Math.min(82, 100 - latestHeight))}%`;
-  const highPrice = priceScale[0] ?? selectedAsset.price;
-  const lowPrice = priceScale[priceScale.length - 1] ?? selectedAsset.price;
-  const activeIndicatorSummary =
-    activeIndicators.length > 0 ? activeIndicators.join(" / ") : "Clean chart";
-  const activeChartTypeLabel =
-    CHART_TYPES.find((type) => type.id === chartType)?.label ?? "Candles";
   const showEmaOverlay = activeIndicators.includes("EMA 20");
   const showMacdOverlay = activeIndicators.includes("MACD");
   const showRsiOverlay = activeIndicators.includes("RSI");
@@ -977,33 +971,15 @@ export function ChartCard({
           ))}
         </div>
 
-        <div className="tpmv2-chart-overlay">
-          <div className="tpmv2-chart-overlay-meta">
-            <span className="tpmv2-chart-overlay-tag">{selectedAsset.status}</span>
-            <span className="tpmv2-chart-overlay-tag">{selectedTimeframe}</span>
-            <span className="tpmv2-chart-overlay-tag">{dict.common.paper}</span>
-            <span className="tpmv2-chart-overlay-tag">
-              {selectedAsset.sourceLabel ?? dict.common.local}
-            </span>
-          </div>
-        </div>
-
-        <div className="tpmv2-chart-session-panel" aria-hidden="true">
-          <span>H {highPrice}</span>
-          <span>L {lowPrice}</span>
-          <span>{activeChartTypeLabel}</span>
-          <span>{activeDrawingTool}</span>
-          <span>{activeIndicatorSummary}</span>
-        </div>
-
         <div className={`tpmv2-chart-ai-panel ${decision.signal}`}>
           <div className="tpmv2-chart-ai-kicker">{intelligenceKicker}</div>
           <div className="tpmv2-chart-ai-row">
             <strong>{intelligenceHeadline}</strong>
             <span>{decision.confidence}</span>
           </div>
-          <p>{intelligenceSummary}</p>
-          <div className="tpmv2-chart-ai-note">{intelligenceNote}</div>
+          <div className="tpmv2-chart-ai-note">
+            {intelligenceSummary} {intelligenceNote}
+          </div>
         </div>
 
         <div className="tpmv2-chart-depth-panel">
@@ -1411,20 +1387,6 @@ export function ExecutionCard({
         </div>
 
         <div className="tpmv2-ticket-status-grid">
-          <div className="tpmv2-ticket-status-row">
-            <span>{ticketReadinessLabel}</span>
-            <strong className={`tpmv2-ticket-status-value ${ticketReadinessTone}`}>
-              {ticketReadinessValue}
-            </strong>
-          </div>
-
-          <div className="tpmv2-ticket-status-row">
-            <span>{ticketGateLabel}</span>
-            <strong className={`tpmv2-ticket-status-value ${ticketGateTone}`}>
-              {ticketGateValue}
-            </strong>
-          </div>
-
           <div className="tpmv2-ticket-status-row">
             <span>{ticketNextStepLabel}</span>
             <strong className="tpmv2-ticket-status-value">

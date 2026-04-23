@@ -230,7 +230,7 @@ export function PlatformDiagnosticsSurface({
   ];
 
   const probeItems =
-    diagnosticsHealth?.probes.map((probe) => ({
+    diagnosticsHealth?.probes.slice(0, 6).map((probe) => ({
       label: probe.label,
       value: probe.summary,
       tone: toneFromProbeStatus(probe.status),
@@ -245,7 +245,7 @@ export function PlatformDiagnosticsSurface({
     ];
 
   const routeItems =
-    diagnosticsHealth?.routes.map((route) => ({
+    diagnosticsHealth?.routes.slice(0, 6).map((route) => ({
       label: `${route.method} ${route.path}`,
       value: route.status,
       tone: toneFromProbeStatus(route.status),
@@ -281,15 +281,6 @@ export function PlatformDiagnosticsSurface({
         value: "Blocked",
         tone: "blocked" as const,
         note: `Activation gate: ${connector.activationGate}`,
-      },
-      {
-        label: "Operator review",
-        value: connector.operatorReview.summary,
-        tone:
-          connector.operatorReview.state === "unconfigured"
-            ? ("restricted" as const)
-            : ("pending" as const),
-        note: connector.operatorReview.detail,
       },
     ]) ?? [
       {
@@ -400,13 +391,7 @@ export function PlatformDiagnosticsSurface({
       label: "Public product entry",
       value: "Visible on /",
       tone: "approved" as const,
-      note: "Commercial framing, trust language, and workstation handoff are active.",
-    },
-    {
-      label: "Onboarding state",
-      value: "Guided",
-      tone: "pending" as const,
-      note: "New users can orient around chart, IQ / Brain, execution, diagnostics, and settings.",
+      note: "Commercial framing and workstation handoff stay explicit.",
     },
     {
       label: "Execution truth",
@@ -415,10 +400,10 @@ export function PlatformDiagnosticsSurface({
       note: "Live execution and broker activation remain blocked by policy.",
     },
     {
-      label: "Support routes",
-      value: "Product / Workspace / Diagnostics / Settings",
-      tone: "approved" as const,
-      note: "Public and operator surfaces now share one product shell.",
+      label: "Commercial readiness",
+      value: "No billing system active",
+      tone: "pending" as const,
+      note: "No paid activation claim is exposed.",
     },
   ];
 
@@ -427,7 +412,7 @@ export function PlatformDiagnosticsSurface({
       label: "Fallback-first market data",
       value: "Disclosed",
       tone: "pending" as const,
-      note: "Market and intelligence surfaces label fallback reliance and degraded behavior.",
+      note: "Market and intelligence surfaces label fallback reliance.",
     },
     {
       label: "Live execution",
@@ -440,24 +425,6 @@ export function PlatformDiagnosticsSurface({
       value: "Unconfigured",
       tone: "restricted" as const,
       note: "Broker capability remains local-paper-only until explicitly configured.",
-    },
-    {
-      label: "Operator review",
-      value: "Unavailable unless configured",
-      tone: "restricted" as const,
-      note: "Review surfaces stay truthful instead of implying an active queue.",
-    },
-    {
-      label: "Billing and plans",
-      value: "No billing system active",
-      tone: "pending" as const,
-      note: "Commercial packaging is front-end ready but no paid plan gate is claimed.",
-    },
-    {
-      label: "Preferences route",
-      value: "Auth required",
-      tone: "pending" as const,
-      note: "Unauthenticated account preference writes remain protected by 401 behavior.",
     },
   ];
 
@@ -598,12 +565,6 @@ export function PlatformSettingsSurface({
       tone: "restricted" as const,
       note: "Future packaging stays placeholder-only until explicitly built and configured.",
     },
-    {
-      label: "Support path",
-      value: "Product -> Workspace -> Diagnostics -> Settings",
-      tone: "approved" as const,
-      note: "First-use evaluation flow is now explicit instead of implicit.",
-    },
   ];
 
   const productPackagingItems = [
@@ -637,12 +598,6 @@ export function PlatformSettingsSurface({
       tone: "restricted" as const,
       note: "No broker readiness, account funding, or live connection is implied.",
     },
-    {
-      label: "Product support route",
-      value: "Diagnostics first",
-      tone: "approved" as const,
-      note: "Diagnostics is the source for runtime, connector, and trust verification.",
-    },
   ];
 
   const onboardingItems = [
@@ -663,12 +618,6 @@ export function PlatformSettingsSurface({
       value: "Paper rehearsal only",
       tone: viewModel.paperAccessTone,
       note: "Guarded ticket controls stay visible without weakening live-trading blocks.",
-    },
-    {
-      label: "Market layer",
-      value: "Fallback-first",
-      tone: "pending" as const,
-      note: "Confidence language stays honest when the market route is bounded or degraded.",
     },
   ];
 

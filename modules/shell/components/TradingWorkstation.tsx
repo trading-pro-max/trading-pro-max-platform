@@ -207,14 +207,10 @@ export default function TradingWorkstation({
         tone: platformState.accountMode === "demo" ? ("approved" as const) : ("blocked" as const),
       },
       {
-        label: "Session",
-        value: viewModel.sessionStateLabel,
-        tone: platformState.sessionLocked ? ("blocked" as const) : viewModel.ticketReadinessTone,
-      },
-      {
         label: "Ticket gate",
         value: viewModel.ticketGateValue,
         tone: viewModel.ticketGateTone,
+        note: `${viewModel.ticketReadinessLabel}: ${viewModel.ticketReadinessValue}`,
       },
       {
         label: "Workflow",
@@ -226,27 +222,22 @@ export default function TradingWorkstation({
         label: "Session load",
         value: `${platformState.openTrades.length}/${PLATFORM_LIMITS.maxOpenTrades} open`,
         tone: platformState.canOpenMore ? ("approved" as const) : ("blocked" as const),
-        note: `${viewModel.sessionPnLText} realized session P/L.`,
-      },
-      {
-        label: "Shortcut truth",
-        value: "Layout-only",
-        note: "Execution stays click-confirmed; Shift+7/8/9/0 applies safe ticket presets.",
+        note: `${viewModel.sessionStateLabel} / ${viewModel.sessionPnLText} realized.`,
       },
     ],
     [
       platformState.accountMode,
       platformState.canOpenMore,
       platformState.openTrades.length,
-      platformState.sessionLocked,
       workflowPreflight.note,
       workflowPreflight.tone,
       workflowPreflight.value,
+      viewModel.ticketReadinessLabel,
+      viewModel.ticketReadinessValue,
       viewModel.sessionPnLText,
       viewModel.sessionStateLabel,
       viewModel.ticketGateTone,
       viewModel.ticketGateValue,
-      viewModel.ticketReadinessTone,
     ]
   );
   const recentActivity =
@@ -632,8 +623,6 @@ export default function TradingWorkstation({
             ) : null}
           </section>
 
-          <OperatorIntelligenceDeck intelligence={viewModel.intelligence} />
-
           <WorkspaceDepthBar
             focusMode={focusMode}
             onSelectFocusMode={(nextMode) => {
@@ -709,6 +698,8 @@ export default function TradingWorkstation({
               </div>
             ) : null}
           </section>
+
+          <OperatorIntelligenceDeck intelligence={viewModel.intelligence} />
         </section>
       </section>
 
@@ -837,8 +828,6 @@ export default function TradingWorkstation({
           recentActivityNote="Activity reflects workspace controls, paper routing, and guarded execution only."
         />
 
-        <OperatorIntelligenceDeck intelligence={viewModel.intelligence} />
-
         <WorkspaceDepthBar
           focusMode={focusMode}
           onSelectFocusMode={(nextMode) => {
@@ -867,6 +856,8 @@ export default function TradingWorkstation({
           events={platformState.auditTraceFoundation.recentEvents}
           emptyLabel={viewModel.auditEmptyLabel}
         />
+
+        <OperatorIntelligenceDeck intelligence={viewModel.intelligence} />
       </section>
     </main>
   );
