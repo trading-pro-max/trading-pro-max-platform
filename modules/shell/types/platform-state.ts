@@ -602,6 +602,12 @@ export type DiagnosticsHealthSnapshot = {
         distributionState: "contract_only" | "packaging_ready";
         sessionStrategy: "http_session_bridge";
       };
+      productization?: {
+        stage: "foundation_only" | "pilot_usable" | "distribution_guarded";
+        sessionRestore: "disabled" | "guarded_enabled";
+        updateState: "unconfigured" | "pilot_update_ready";
+        releaseClaims: "no_public_store_release_claim";
+      };
     };
     mobile: {
       state: "future_ready";

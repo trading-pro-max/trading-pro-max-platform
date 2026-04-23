@@ -23,6 +23,7 @@ import {
 } from "@/lib/server/intelligence";
 import { getClientExpansionSnapshot } from "@/lib/server/platform/client-contracts";
 import { getDesktopAppsDiagnosticsProbe } from "@/lib/server/platform/desktop-foundation";
+import { getDesktopProductizationDiagnosticsProbe } from "@/lib/server/platform/desktop-productization";
 import { getMobileAppsDiagnosticsProbe } from "@/lib/server/platform/mobile-foundation";
 import {
   getRealActivationPilotDiagnosticsProbe,
@@ -152,6 +153,7 @@ function buildRouteProbes(input: {
   market: DiagnosticsProbe;
   broker: DiagnosticsProbe;
   desktopFoundation: DiagnosticsProbe;
+  desktopProductization: DiagnosticsProbe;
   mobileFoundation: DiagnosticsProbe;
   activationPilot: DiagnosticsProbe;
   integrationsFoundation: DiagnosticsProbe;
@@ -210,6 +212,13 @@ function buildRouteProbes(input: {
       status: input.mobileFoundation.status,
       detail:
         "Mobile foundation route reports runtime bridge, auth/session, persistence, push readiness, and paper-only safety contracts.",
+    },
+    {
+      path: "/api/platform/desktop/productization",
+      method: "GET",
+      status: input.desktopProductization.status,
+      detail:
+        "Desktop productization route reports pilot usability contracts for packaging/install/update/session restoration without claiming public release readiness.",
     },
     {
       path: "/api/integrations/pilot",
@@ -325,6 +334,7 @@ function buildSubsystems(input: {
   runtimeOps: DiagnosticsProbe;
   security: DiagnosticsProbe;
   desktopFoundation: DiagnosticsProbe;
+  desktopProductization: DiagnosticsProbe;
   mobileFoundation: DiagnosticsProbe;
   activationPilot: DiagnosticsProbe;
   integrationsFoundation: DiagnosticsProbe;
@@ -376,6 +386,13 @@ function buildSubsystems(input: {
       status: input.desktopFoundation.status,
       summary: input.desktopFoundation.summary,
       detail: input.desktopFoundation.detail,
+    },
+    {
+      key: "desktop_productization",
+      label: input.desktopProductization.label,
+      status: input.desktopProductization.status,
+      summary: input.desktopProductization.summary,
+      detail: input.desktopProductization.detail,
     },
     {
       key: "mobile",
@@ -487,6 +504,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     workspace,
     productBackend,
     desktopFoundation,
+    desktopProductization,
     mobileFoundation,
     activationPilot,
     integrationsFoundation,
@@ -503,6 +521,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     probeWorkspaceDepthPersistence(),
     getProductBackendDiagnosticsProbe(),
     Promise.resolve(getDesktopAppsDiagnosticsProbe(checkedAt)),
+    Promise.resolve(getDesktopProductizationDiagnosticsProbe(checkedAt)),
     Promise.resolve(getMobileAppsDiagnosticsProbe(checkedAt)),
     Promise.resolve(getRealActivationPilotDiagnosticsProbe(checkedAt)),
     Promise.resolve(getRealIntegrationsDiagnosticsProbe(checkedAt)),
@@ -541,6 +560,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     expectedTruthful: [
       market,
       broker,
+      desktopProductization,
       activationPilot,
       integrationsFoundation,
       alerts,
@@ -559,6 +579,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       runtimeOps,
       security,
       desktopFoundation,
+      desktopProductization,
       mobileFoundation,
       activationPilot,
       integrationsFoundation,
@@ -580,6 +601,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       market,
       broker,
       desktopFoundation,
+      desktopProductization,
       mobileFoundation,
       activationPilot,
       integrationsFoundation,
@@ -600,6 +622,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       runtimeOps,
       security,
       desktopFoundation,
+      desktopProductization,
       mobileFoundation,
       activationPilot,
       integrationsFoundation,

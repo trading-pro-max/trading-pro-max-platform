@@ -294,6 +294,9 @@ test.describe("verified platform truth", () => {
           packaging: "contract_ready",
           sessionStrategy: "http_session_bridge",
         },
+        productization: {
+          releaseClaims: "no_public_store_release_claim",
+        },
       },
       mobile: {
         state: "future_ready",
@@ -348,6 +351,9 @@ test.describe("verified platform truth", () => {
     expect(probes.get("product_backend_state")).toMatchObject({
       status: "ready",
     });
+    expect(["unconfigured", "ready"]).toContain(
+      probes.get("desktop_productization")?.status
+    );
     expect(probes.get("enterprise_ops_foundation")).toMatchObject({
       status: "ready",
     });
@@ -419,6 +425,9 @@ test.describe("verified platform truth", () => {
     expect(routes.get("/api/platform/desktop/state")).toMatchObject({
       status: "ready",
     });
+    expect(["unconfigured", "ready"]).toContain(
+      routes.get("/api/platform/desktop/productization")?.status
+    );
     expect(routes.get("/api/platform/mobile/state")).toMatchObject({
       status: "ready",
     });
@@ -499,6 +508,25 @@ test.describe("verified platform truth", () => {
       ])
     );
     expect(desktopStatePayload.snapshot.safety).toMatchObject({
+      paperOnly: true,
+      liveExecution: "blocked",
+      realMoneyRouting: "blocked",
+    });
+
+    const desktopProductization = await request.get(
+      "/api/platform/desktop/productization"
+    );
+    expect(desktopProductization.status()).toBe(200);
+    const desktopProductizationPayload = await desktopProductization.json();
+    expect(desktopProductizationPayload.snapshot.truth).toMatchObject({
+      hostRuntime: "desktop_shell_reserved",
+      releaseClaims: "no_public_store_release_claim",
+    });
+    expect(desktopProductizationPayload.snapshot.shell).toMatchObject({
+      usability: "operator_pilot_usable",
+      windowLayouts: "restorable",
+    });
+    expect(desktopProductizationPayload.snapshot.safety).toMatchObject({
       paperOnly: true,
       liveExecution: "blocked",
       realMoneyRouting: "blocked",

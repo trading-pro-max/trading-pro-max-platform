@@ -1,5 +1,6 @@
 import "server-only";
 import { getDesktopAppsFoundationSnapshot } from "@/lib/server/platform/desktop-foundation";
+import { getDesktopProductizationSnapshot } from "@/lib/server/platform/desktop-productization";
 import { getMobileAppsFoundationSnapshot } from "@/lib/server/platform/mobile-foundation";
 
 export type ClientExpansionSnapshot = {
@@ -25,6 +26,12 @@ export type ClientExpansionSnapshot = {
       distributionState: "contract_only" | "packaging_ready";
       sessionStrategy: "http_session_bridge";
     };
+    productization: {
+      stage: "foundation_only" | "pilot_usable" | "distribution_guarded";
+      sessionRestore: "disabled" | "guarded_enabled";
+      updateState: "unconfigured" | "pilot_update_ready";
+      releaseClaims: "no_public_store_release_claim";
+    };
   };
   mobile: {
     state: "future_ready";
@@ -46,6 +53,7 @@ export function getClientExpansionSnapshot(
   checkedAt = new Date().toISOString()
 ): ClientExpansionSnapshot {
   const desktop = getDesktopAppsFoundationSnapshot(checkedAt);
+  const desktopProductization = getDesktopProductizationSnapshot(checkedAt);
   const mobile = getMobileAppsFoundationSnapshot(checkedAt);
 
   return {
@@ -70,6 +78,12 @@ export function getClientExpansionSnapshot(
         packaging: desktop.packaging.buildScripts,
         distributionState: desktop.targets[0]?.distributionState ?? "contract_only",
         sessionStrategy: desktop.authSession.sessionStrategy,
+      },
+      productization: {
+        stage: desktopProductization.readiness.stage,
+        sessionRestore: desktopProductization.session.restoration,
+        updateState: desktopProductization.targets[0]?.updateState ?? "unconfigured",
+        releaseClaims: desktopProductization.truth.releaseClaims,
       },
     },
     mobile: {
