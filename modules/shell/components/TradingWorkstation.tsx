@@ -1,7 +1,12 @@
 "use client";
 
+import { useEffect, useEffectEvent, useMemo, useState } from "react";
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
 import OperatorIntelligenceDeck from "../../intelligence/components/OperatorIntelligenceDeck";
+import type {
+  WorkspaceFocusMode,
+  WatchlistDensityMode,
+} from "../types/platform-state";
 import { usePlatformState } from "../hooks/use-platform-state";
 import {
   ActivityHistoryPanel,
@@ -16,6 +21,99 @@ import {
 } from "./PlatformShellV2";
 import { createTradingWorkstationViewModel } from "./trading-workstation-view-model";
 
+function focusModeLabel(mode: WorkspaceFocusMode) {
+  if (mode === "chart_focus") return "Chart focus";
+  if (mode === "execution_focus") return "Execution focus";
+  return "Balanced";
+}
+
+function watchlistDensityLabel(mode: WatchlistDensityMode) {
+  return mode === "dense" ? "Dense" : "Standard";
+}
+
+function humanizeState(value: string) {
+  return value
+    .replaceAll("_", " ")
+    .replace(/^\w/, (match) => match.toUpperCase());
+}
+
+function isTypingTarget(target: EventTarget | null) {
+  if (!(target instanceof HTMLElement)) return false;
+
+  const tagName = target.tagName.toLowerCase();
+
+  return (
+    tagName === "input" ||
+    tagName === "textarea" ||
+    tagName === "select" ||
+    target.isContentEditable
+  );
+}
+
+function WorkspaceDepthBar({
+  focusMode,
+  onSelectFocusMode,
+  watchlistDensity,
+  onSelectWatchlistDensity,
+  shortcutHint,
+}: {
+  focusMode: WorkspaceFocusMode;
+  onSelectFocusMode: (mode: WorkspaceFocusMode) => void;
+  watchlistDensity: WatchlistDensityMode;
+  onSelectWatchlistDensity: (density: WatchlistDensityMode) => void;
+  shortcutHint: string;
+}) {
+  return (
+    <section className="tpmv2-card tpmv2-workspace-depth-bar" aria-label="Workspace depth">
+      <div className="tpmv2-workspace-depth-block">
+        <span>Workspace depth</span>
+        <div className="tpmv2-workspace-depth-buttons" role="toolbar" aria-label="Workstation focus">
+          {(["balanced", "chart_focus", "execution_focus"] as const).map((mode) => (
+            <button
+              key={mode}
+              type="button"
+              className={focusMode === mode ? "active" : ""}
+              aria-pressed={focusMode === mode}
+              onClick={() => onSelectFocusMode(mode)}
+            >
+              {focusModeLabel(mode)}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="tpmv2-workspace-depth-block">
+        <span>Market surface</span>
+        <div className="tpmv2-workspace-depth-buttons" role="toolbar" aria-label="Watchlist density">
+          {(["standard", "dense"] as const).map((density) => (
+            <button
+              key={density}
+              type="button"
+              className={watchlistDensity === density ? "active" : ""}
+              aria-pressed={watchlistDensity === density}
+              onClick={() => onSelectWatchlistDensity(density)}
+            >
+              {watchlistDensityLabel(density)}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="tpmv2-workspace-depth-status">
+        <span>Shortcut layer</span>
+        <strong>Layout-only</strong>
+        <small>Shift+1 watchlist, Shift+2 ticket, Shift+3 blotter, Shift+4/5/6 focus.</small>
+      </div>
+
+      <div className="tpmv2-workspace-depth-status tpmv2-workspace-depth-status-live">
+        <span>Operator feedback</span>
+        <strong>{shortcutHint}</strong>
+        <small>No order-entry hotkeys are armed.</small>
+      </div>
+    </section>
+  );
+}
+
 export default function TradingWorkstation({
   locale,
   dict,
@@ -29,6 +127,7 @@ export default function TradingWorkstation({
     ticketVisible: desktopTicketVisible,
     blotterExpanded: desktopBlotterExpanded,
   } = platformState.workspacePreferences;
+  const { focusMode, watchlistDensity } = platformState.workspaceDepth;
   const viewModel = createTradingWorkstationViewModel({
     locale,
     dict,
@@ -47,8 +146,155 @@ export default function TradingWorkstation({
     openTradesCount: platformState.openTrades.length,
   });
 
+  const [shortcutHint, setShortcutHint] = useState(
+    "Workspace depth layer active."
+  );
   const executionNote = viewModel.ticketSupportNote;
   const localePrefix = locale ? `/${locale}` : "";
+  const marketDepthItems = useMemo(
+    () => [
+      {
+        label: "Asset class",
+        value: platformState.selectedAsset.assetClass.toUpperCase(),
+      },
+      {
+        label: "Feed state",
+        value: humanizeState(platformState.dataStateFoundation.marketFeedState),
+        tone:
+          platformState.dataStateFoundation.marketFeedState === "external_ready"
+            ? ("approved" as const)
+            : platformState.dataStateFoundation.marketFeedState === "fallback_ready"
+            ? ("pending" as const)
+            : ("restricted" as const),
+      },
+      {
+        label: "Workspace focus",
+        value: focusModeLabel(focusMode),
+      },
+      {
+        label: "Chart binding",
+        value: humanizeState(platformState.dataStateFoundation.chartBindingState),
+      },
+    ],
+    [
+      focusMode,
+      platformState.dataStateFoundation.chartBindingState,
+      platformState.dataStateFoundation.marketFeedState,
+      platformState.selectedAsset.assetClass,
+    ]
+  );
+  const preflightItems = useMemo(
+    () => [
+      {
+        label: "Route",
+        value: platformState.accountMode === "demo" ? "Paper-only" : "Live blocked",
+        tone: platformState.accountMode === "demo" ? ("approved" as const) : ("blocked" as const),
+      },
+      {
+        label: "Session",
+        value: viewModel.sessionStateLabel,
+        tone: platformState.sessionLocked ? ("blocked" as const) : viewModel.ticketReadinessTone,
+      },
+      {
+        label: "Ticket gate",
+        value: viewModel.ticketGateValue,
+        tone: viewModel.ticketGateTone,
+      },
+      {
+        label: "Shortcut truth",
+        value: "Layout-only",
+        note: "Execution stays click-confirmed.",
+      },
+    ],
+    [
+      platformState.accountMode,
+      platformState.sessionLocked,
+      viewModel.sessionStateLabel,
+      viewModel.ticketGateTone,
+      viewModel.ticketGateValue,
+      viewModel.ticketReadinessTone,
+    ]
+  );
+  const recentActivity =
+    platformState.auditTraceFoundation.recentEvents[0]?.message ??
+    "Workspace state is standing by for the next operator action.";
+  const amountPresets = ["50", "100", "250", "500"] as const;
+  const showShortcutHint = (message: string) => {
+    setShortcutHint(message);
+  };
+
+  useEffect(() => {
+    if (!shortcutHint) return undefined;
+
+    const timeout = window.setTimeout(() => {
+      setShortcutHint("Workspace depth layer active.");
+    }, 3200);
+
+    return () => window.clearTimeout(timeout);
+  }, [shortcutHint]);
+
+  const handleShortcut = useEffectEvent((event: KeyboardEvent) => {
+    if (event.defaultPrevented || event.repeat || !event.shiftKey || isTypingTarget(event.target)) {
+      return;
+    }
+
+    const key = event.key.toLowerCase();
+
+    if (key === "1") {
+      event.preventDefault();
+      platformState.toggleWorkspacePanel("watchlistVisible");
+      showShortcutHint(
+        `Watchlist ${desktopWatchlistVisible ? "collapsed" : "opened"} from keyboard.`
+      );
+      return;
+    }
+
+    if (key === "2") {
+      event.preventDefault();
+      platformState.toggleWorkspacePanel("ticketVisible");
+      showShortcutHint(
+        `Execution ticket ${desktopTicketVisible ? "collapsed" : "opened"} from keyboard.`
+      );
+      return;
+    }
+
+    if (key === "3") {
+      event.preventDefault();
+      platformState.toggleWorkspacePanel("blotterExpanded");
+      showShortcutHint(
+        `Blotter ${desktopBlotterExpanded ? "collapsed" : "expanded"} from keyboard.`
+      );
+      return;
+    }
+
+    if (key === "4") {
+      event.preventDefault();
+      platformState.setWorkspaceFocusMode("balanced");
+      showShortcutHint("Balanced workspace focus engaged.");
+      return;
+    }
+
+    if (key === "5") {
+      event.preventDefault();
+      platformState.setWorkspaceFocusMode("chart_focus");
+      showShortcutHint("Chart focus engaged.");
+      return;
+    }
+
+    if (key === "6") {
+      event.preventDefault();
+      platformState.setWorkspaceFocusMode("execution_focus");
+      showShortcutHint("Execution focus engaged.");
+      return;
+    }
+  });
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleShortcut);
+
+    return () => window.removeEventListener("keydown", handleShortcut);
+  }, []);
+
   const workspaceControls = (
     <div className="tpmv2-workspace-controls" role="toolbar" aria-label={dict.chart.title}>
       <button
@@ -59,12 +305,8 @@ export default function TradingWorkstation({
             : "tpmv2-workspace-toggle"
         }
         aria-pressed={desktopWatchlistVisible}
-        onClick={() =>
-          platformState.setWorkspacePreference(
-            "watchlistVisible",
-            !desktopWatchlistVisible
-          )
-        }
+        aria-keyshortcuts="Shift+1"
+        onClick={() => platformState.toggleWorkspacePanel("watchlistVisible")}
       >
         {dict.market.title}
       </button>
@@ -77,9 +319,8 @@ export default function TradingWorkstation({
             : "tpmv2-workspace-toggle"
         }
         aria-pressed={desktopTicketVisible}
-        onClick={() =>
-          platformState.setWorkspacePreference("ticketVisible", !desktopTicketVisible)
-        }
+        aria-keyshortcuts="Shift+2"
+        onClick={() => platformState.toggleWorkspacePanel("ticketVisible")}
       >
         {dict.trade.title}
       </button>
@@ -92,17 +333,24 @@ export default function TradingWorkstation({
             : "tpmv2-workspace-toggle"
         }
         aria-pressed={desktopBlotterExpanded}
-        onClick={() =>
-          platformState.setWorkspacePreference(
-            "blotterExpanded",
-            !desktopBlotterExpanded
-          )
-        }
+        aria-keyshortcuts="Shift+3"
+        onClick={() => platformState.toggleWorkspacePanel("blotterExpanded")}
       >
         {dict.journal.historyTitle}
       </button>
     </div>
   );
+  const desktopMasterClass = [
+    "tpmv2-desktop-master",
+    !desktopTicketVisible ? "tpmv2-desktop-master-ticket-hidden" : "",
+    focusMode === "chart_focus"
+      ? "tpmv2-desktop-master-focus-chart"
+      : focusMode === "execution_focus"
+      ? "tpmv2-desktop-master-focus-execution"
+      : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <main className="tpmv2-page">
@@ -119,6 +367,11 @@ export default function TradingWorkstation({
             assets={platformState.marketAssets}
             selectedAssetIndex={platformState.selectedAssetIndex}
             onSelectAsset={platformState.setSelectedAssetIndex}
+            selectedAsset={platformState.selectedAsset}
+            watchlistDensity={watchlistDensity}
+            focusMode={focusMode}
+            feedState={platformState.dataStateFoundation.marketFeedState}
+            lastUpdatedAt={platformState.dataStateFoundation.lastUpdatedAt}
           />
         ) : null}
 
@@ -163,13 +416,21 @@ export default function TradingWorkstation({
 
           <OperatorIntelligenceDeck intelligence={viewModel.intelligence} />
 
-          <section
-            className={
-              desktopTicketVisible
-                ? "tpmv2-desktop-master"
-                : "tpmv2-desktop-master tpmv2-desktop-master-ticket-hidden"
-            }
-          >
+          <WorkspaceDepthBar
+            focusMode={focusMode}
+            onSelectFocusMode={(nextMode) => {
+              platformState.setWorkspaceFocusMode(nextMode);
+              showShortcutHint(`${focusModeLabel(nextMode)} workspace focus engaged.`);
+            }}
+            watchlistDensity={watchlistDensity}
+            onSelectWatchlistDensity={(nextDensity) => {
+              platformState.setWatchlistDensity(nextDensity);
+              showShortcutHint(`${watchlistDensityLabel(nextDensity)} watchlist density engaged.`);
+            }}
+            shortcutHint={shortcutHint}
+          />
+
+          <section className={desktopMasterClass}>
             <section className="tpmv2-primary">
               <ChartCard
                 dict={dict}
@@ -197,6 +458,13 @@ export default function TradingWorkstation({
                 intelligenceHeadline={viewModel.intelligence.chartHeadline}
                 intelligenceSummary={viewModel.intelligence.chartSummary}
                 intelligenceNote={viewModel.intelligence.chartNote}
+                marketDepthItems={marketDepthItems}
+                marketDepthNote={`Feed ${humanizeState(
+                  platformState.dataStateFoundation.marketFeedState
+                )} / ${watchlistDensityLabel(watchlistDensity)} watchlist / ${focusModeLabel(
+                  focusMode
+                )} composition.`}
+                focusMode={focusMode}
                 workspaceControls={workspaceControls}
               />
             </section>
@@ -244,6 +512,12 @@ export default function TradingWorkstation({
                   intelligenceHeadline={viewModel.intelligence.executionHeadline}
                   intelligenceSummary={viewModel.intelligence.executionSummary}
                   intelligenceNote={viewModel.intelligence.executionNote}
+                  preflightItems={preflightItems}
+                  amountPresets={amountPresets}
+                  onApplyAmountPreset={platformState.setAmount}
+                  recentActivityLabel="Recent desk activity"
+                  recentActivityValue={recentActivity}
+                  recentActivityNote="Activity reflects workspace controls, paper routing, and guarded execution only."
                 />
               </aside>
             ) : null}
@@ -284,12 +558,7 @@ export default function TradingWorkstation({
                       : "tpmv2-blotter-toggle"
                   }
                   aria-expanded={desktopBlotterExpanded}
-                  onClick={() =>
-                    platformState.setWorkspacePreference(
-                      "blotterExpanded",
-                      !desktopBlotterExpanded
-                    )
-                  }
+                  onClick={() => platformState.toggleWorkspacePanel("blotterExpanded")}
                 >
                   {dict.journal.historyTitle}
                 </button>
@@ -366,6 +635,20 @@ export default function TradingWorkstation({
 
         <OperatorIntelligenceDeck intelligence={viewModel.intelligence} />
 
+        <WorkspaceDepthBar
+          focusMode={focusMode}
+          onSelectFocusMode={(nextMode) => {
+            platformState.setWorkspaceFocusMode(nextMode);
+            showShortcutHint(`${focusModeLabel(nextMode)} workspace focus engaged.`);
+          }}
+          watchlistDensity={watchlistDensity}
+          onSelectWatchlistDensity={(nextDensity) => {
+            platformState.setWatchlistDensity(nextDensity);
+            showShortcutHint(`${watchlistDensityLabel(nextDensity)} watchlist density engaged.`);
+          }}
+          shortcutHint={shortcutHint}
+        />
+
         <ChartCard
           dict={dict}
           selectedAsset={platformState.selectedAsset}
@@ -392,6 +675,13 @@ export default function TradingWorkstation({
           intelligenceHeadline={viewModel.intelligence.chartHeadline}
           intelligenceSummary={viewModel.intelligence.chartSummary}
           intelligenceNote={viewModel.intelligence.chartNote}
+          marketDepthItems={marketDepthItems}
+          marketDepthNote={`Feed ${humanizeState(
+            platformState.dataStateFoundation.marketFeedState
+          )} / ${watchlistDensityLabel(watchlistDensity)} watchlist / ${focusModeLabel(
+            focusMode
+          )} composition.`}
+          focusMode={focusMode}
         />
 
         <ExecutionCard
@@ -435,6 +725,12 @@ export default function TradingWorkstation({
           intelligenceHeadline={viewModel.intelligence.executionHeadline}
           intelligenceSummary={viewModel.intelligence.executionSummary}
           intelligenceNote={viewModel.intelligence.executionNote}
+          preflightItems={preflightItems}
+          amountPresets={amountPresets}
+          onApplyAmountPreset={platformState.setAmount}
+          recentActivityLabel="Recent desk activity"
+          recentActivityValue={recentActivity}
+          recentActivityNote="Activity reflects workspace controls, paper routing, and guarded execution only."
         />
 
         <ActivityOpenTradesPanel

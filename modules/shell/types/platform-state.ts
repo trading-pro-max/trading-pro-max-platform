@@ -240,6 +240,7 @@ export type AuditEventKind =
   | "market_feed_updated"
   | "preferences_synced"
   | "data_state_updated"
+  | "workspace_depth_changed"
   | "security_state_updated";
 
 export type AuditActorRole = "owner";
@@ -417,6 +418,16 @@ export type Decision = {
 export type RiskNoteCode = "" | "session_locked" | "max_open_trades";
 
 export type PlatformChartType = "candlestick" | "area" | "line" | "bars";
+
+export type WorkspaceFocusMode = "balanced" | "chart_focus" | "execution_focus";
+export type WatchlistDensityMode = "standard" | "dense";
+export type WorkspaceShortcutLayer = "layout_only";
+
+export type WorkspaceDepthState = {
+  focusMode: WorkspaceFocusMode;
+  watchlistDensity: WatchlistDensityMode;
+  shortcutLayer: WorkspaceShortcutLayer;
+};
 
 export type WorkspacePreferences = {
   chartType: PlatformChartType;

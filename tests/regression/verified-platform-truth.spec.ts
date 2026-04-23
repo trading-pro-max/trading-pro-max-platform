@@ -41,10 +41,17 @@ test.describe("verified platform truth", () => {
       if (route.path === "/" || route.path === "/en") {
         await expect(page.locator(".tpmv2-command-center").first()).toBeVisible();
         await expect(page.locator(".tpmv2-brain-deck").first()).toBeVisible();
+        await expect(page.locator(".tpmv2-workspace-depth-bar").first()).toBeVisible();
         await expect(page.locator(".tpmv2-chart-surface").first()).toBeVisible();
+        await expect(page.locator(".tpmv2-chart-depth-panel").first()).toBeVisible();
         await expect(page.locator(".tpmv2-execution").first()).toBeVisible();
+        await expect(page.locator(".tpmv2-ticket-preflight").first()).toBeVisible();
+        await expect(page.locator(".tpmv2-ticket-activity").first()).toBeVisible();
         await expect(page.locator("body")).toContainText(
           /TPM IQ \/ Brain|Market context|Operator guidance|Truth layer/
+        );
+        await expect(page.locator("body")).toContainText(
+          /Workspace depth|Shortcut layer|Layout-only|Recent desk activity|Market depth/
         );
         await expect(page.locator("body")).toContainText("Fallback-bound");
         await expect(page.locator("body")).toContainText("Interpretive only");
@@ -67,6 +74,9 @@ test.describe("verified platform truth", () => {
       if (route.path === "/en/settings" || route.path === "/diagnostics") {
         await expect(page.locator(".tpm-utility-page").first()).toBeVisible();
         await expect(page.locator(".tpm-foundation-card").first()).toBeVisible();
+        await expect(page.locator("body")).toContainText(
+          /Workspace depth and interaction layer|Workstation depth and shortcut truth/
+        );
       }
     }
   });

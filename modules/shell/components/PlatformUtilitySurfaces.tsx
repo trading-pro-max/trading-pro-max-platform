@@ -358,6 +358,42 @@ export function PlatformDiagnosticsSurface({
     },
   ];
 
+  const depthItems = [
+    {
+      label: "Workspace focus",
+      value:
+        platformState.workspaceDepth.focusMode === "chart_focus"
+          ? "Chart focus"
+          : platformState.workspaceDepth.focusMode === "execution_focus"
+          ? "Execution focus"
+          : "Balanced",
+      tone: "approved" as const,
+      note: "Desktop composition remains panel-based and operator-controlled.",
+    },
+    {
+      label: "Watchlist density",
+      value: platformState.workspaceDepth.watchlistDensity === "dense" ? "Dense" : "Standard",
+      tone: "pending" as const,
+      note: "Market rows can compress without weakening route truth.",
+    },
+    {
+      label: "Shortcut layer",
+      value: "Layout-only",
+      tone: "approved" as const,
+      note: "No execution hotkeys are armed.",
+    },
+    {
+      label: "Panel state",
+      value: [
+        platformState.workspacePreferences.watchlistVisible ? "Watchlist on" : "Watchlist off",
+        platformState.workspacePreferences.ticketVisible ? "Ticket on" : "Ticket off",
+        platformState.workspacePreferences.blotterExpanded ? "Blotter open" : "Blotter compact",
+      ].join(" / "),
+      tone: "approved" as const,
+      note: "Depth state is stored locally-safe and coexists with backend preference sync.",
+    },
+  ];
+
   return (
     <main className="tpm-foundation-page tpm-utility-page">
       <section className="tpm-foundation-card tpm-utility-hero">
@@ -414,6 +450,10 @@ export function PlatformDiagnosticsSurface({
 
       <UtilitySection eyebrow="WORKSPACE" title="Chart and session binding">
         <UtilityGrid items={chartItems} />
+      </UtilitySection>
+
+      <UtilitySection eyebrow="DEPTH" title="Workspace depth and interaction layer">
+        <UtilityGrid items={depthItems} />
       </UtilitySection>
 
       <UtilitySection
@@ -632,33 +672,67 @@ export function PlatformSettingsSurface({
           <ToggleButton
             active={preferences.watchlistVisible}
             label={dict.market.title}
-            onClick={() =>
-              platformState.setWorkspacePreference(
-                "watchlistVisible",
-                !preferences.watchlistVisible
-              )
-            }
+            onClick={() => platformState.toggleWorkspacePanel("watchlistVisible")}
           />
           <ToggleButton
             active={preferences.ticketVisible}
             label={dict.trade.title}
-            onClick={() =>
-              platformState.setWorkspacePreference(
-                "ticketVisible",
-                !preferences.ticketVisible
-              )
-            }
+            onClick={() => platformState.toggleWorkspacePanel("ticketVisible")}
           />
           <ToggleButton
             active={preferences.blotterExpanded}
             label={dict.journal.historyTitle}
-            onClick={() =>
-              platformState.setWorkspacePreference(
-                "blotterExpanded",
-                !preferences.blotterExpanded
-              )
-            }
+            onClick={() => platformState.toggleWorkspacePanel("blotterExpanded")}
           />
+        </div>
+      </UtilitySection>
+
+      <UtilitySection eyebrow="DEPTH" title="Workstation depth and shortcut truth">
+        <div className="tpm-utility-control-grid">
+          <div className="tpm-utility-control">
+            <span>Workspace focus</span>
+            <div className="tpm-utility-button-row">
+              <ToggleButton
+                active={platformState.workspaceDepth.focusMode === "balanced"}
+                label="Balanced"
+                onClick={() => platformState.setWorkspaceFocusMode("balanced")}
+              />
+              <ToggleButton
+                active={platformState.workspaceDepth.focusMode === "chart_focus"}
+                label="Chart focus"
+                onClick={() => platformState.setWorkspaceFocusMode("chart_focus")}
+              />
+              <ToggleButton
+                active={platformState.workspaceDepth.focusMode === "execution_focus"}
+                label="Execution focus"
+                onClick={() => platformState.setWorkspaceFocusMode("execution_focus")}
+              />
+            </div>
+            <small>Panel emphasis changes without enabling any real-money path.</small>
+          </div>
+
+          <div className="tpm-utility-control">
+            <span>Watchlist density</span>
+            <div className="tpm-utility-button-row">
+              <ToggleButton
+                active={platformState.workspaceDepth.watchlistDensity === "standard"}
+                label="Standard"
+                onClick={() => platformState.setWatchlistDensity("standard")}
+              />
+              <ToggleButton
+                active={platformState.workspaceDepth.watchlistDensity === "dense"}
+                label="Dense"
+                onClick={() => platformState.setWatchlistDensity("dense")}
+              />
+            </div>
+            <small>Shortcut layer stays layout-only; no order hotkeys are armed.</small>
+          </div>
+
+          <div className="tpm-utility-control">
+            <span>Shortcut layer</span>
+            <strong>Layout-only</strong>
+            <small>Shift+1 watchlist, Shift+2 ticket, Shift+3 blotter, Shift+4/5/6 focus.</small>
+          </div>
         </div>
       </UtilitySection>
 

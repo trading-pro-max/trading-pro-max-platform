@@ -16,6 +16,8 @@ import type {
   MarketCandle,
   PlatformChartType,
   Trade,
+  WorkspaceFocusMode,
+  WatchlistDensityMode,
 } from "../types/platform-state";
 import type {
   ComplianceDisclosureView,
@@ -54,6 +56,38 @@ function formatPriceNumber(value: number, decimals: number) {
     maximumFractionDigits: decimals,
   });
 }
+
+function humanizeToken(value: string) {
+  return value
+    .replaceAll("_", " ")
+    .replaceAll("/", " / ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/^\w/, (match) => match.toUpperCase());
+}
+
+function assetClassLabel(assetClass: Asset["assetClass"]) {
+  if (assetClass === "fx") return "FX";
+  if (assetClass === "crypto") return "Crypto";
+  return "Commodity";
+}
+
+function focusModeLabel(mode: WorkspaceFocusMode) {
+  if (mode === "chart_focus") return "Chart focus";
+  if (mode === "execution_focus") return "Execution focus";
+  return "Balanced";
+}
+
+function densityLabel(mode: WatchlistDensityMode) {
+  return mode === "dense" ? "Dense" : "Standard";
+}
+
+type SurfaceDetailItem = {
+  label: string;
+  value: string;
+  tone?: WorkstationStatusTone;
+  note?: string;
+};
 
 function getChartPriceRange(candles: MarketCandle[], fallbackPrice: string) {
   if (candles.length === 0) {
@@ -314,17 +348,70 @@ export function DesktopRail({
   assets,
   selectedAssetIndex,
   onSelectAsset,
+  selectedAsset,
+  watchlistDensity,
+  focusMode,
+  feedState,
+  lastUpdatedAt,
 }: {
   dict: Dictionary;
   assets: Asset[];
   selectedAssetIndex: number;
   onSelectAsset: (index: number) => void;
+  selectedAsset: Asset;
+  watchlistDensity: WatchlistDensityMode;
+  focusMode: WorkspaceFocusMode;
+  feedState: string;
+  lastUpdatedAt: string;
 }) {
   return (
-    <aside className="tpmv2-card tpmv2-rail">
+    <aside
+      className={
+        watchlistDensity === "dense"
+          ? "tpmv2-card tpmv2-rail tpmv2-rail-dense"
+          : "tpmv2-card tpmv2-rail"
+      }
+    >
       <div className="tpmv2-rail-head">
         <div className="tpmv2-section-label">{dict.market.title}</div>
         <span className="tpmv2-rail-count">{assets.length}</span>
+      </div>
+
+      <div className="tpmv2-rail-summary-card">
+        <div className="tpmv2-rail-summary-head">
+          <div>
+            <strong>{selectedAsset.symbol}</strong>
+            <small>{selectedAsset.name}</small>
+          </div>
+          <span className="tpmv2-status-tag pending">{humanizeToken(feedState)}</span>
+        </div>
+
+        <div className="tpmv2-rail-summary-meta">
+          <span>{assetClassLabel(selectedAsset.assetClass)}</span>
+          <span>{densityLabel(watchlistDensity)}</span>
+          <span>{focusModeLabel(focusMode)}</span>
+        </div>
+
+        <div className="tpmv2-rail-summary-grid">
+          <div>
+            <span>{dict.market.currentPrice}</span>
+            <strong>{selectedAsset.price}</strong>
+          </div>
+          <div>
+            <span>{dict.market.change}</span>
+            <strong className={toneClassFromValue(selectedAsset.change)}>
+              {selectedAsset.change}
+            </strong>
+          </div>
+          <div>
+            <span>Source</span>
+            <strong>{selectedAsset.sourceLabel ?? dict.common.local}</strong>
+          </div>
+          <div>
+            <span>Updated</span>
+            <strong>{lastUpdatedAt}</strong>
+          </div>
+        </div>
       </div>
 
       <div className="tpmv2-search">{dict.market.search}</div>
@@ -349,12 +436,19 @@ export function DesktopRail({
           >
             <div className="tpmv2-watch-main">
               <strong>{asset.symbol}</strong>
-              <small>{asset.status}</small>
+              <small>
+                {assetClassLabel(asset.assetClass)} / {asset.status}
+              </small>
             </div>
             <span className="tpmv2-watch-price">{asset.price}</span>
-            <span className={`tpmv2-watch-change ${toneClassFromValue(asset.change)}`}>
-              {asset.change}
-            </span>
+            <div className="tpmv2-watch-side">
+              <span
+                className={`tpmv2-watch-change ${toneClassFromValue(asset.change)}`}
+              >
+                {asset.change}
+              </span>
+              <small>{watchlistDensity === "dense" ? assetClassLabel(asset.assetClass) : asset.name}</small>
+            </div>
           </button>
         ))}
       </div>
@@ -677,6 +771,9 @@ export function ChartCard({
   intelligenceHeadline,
   intelligenceSummary,
   intelligenceNote,
+  marketDepthItems,
+  marketDepthNote,
+  focusMode,
   workspaceControls,
 }: {
   dict: Dictionary;
@@ -698,6 +795,9 @@ export function ChartCard({
   intelligenceHeadline: string;
   intelligenceSummary: string;
   intelligenceNote: string;
+  marketDepthItems: SurfaceDetailItem[];
+  marketDepthNote: string;
+  focusMode: WorkspaceFocusMode;
   workspaceControls?: ReactNode;
 }) {
   const priceScale = buildPriceScale(
@@ -906,6 +1006,25 @@ export function ChartCard({
           <div className="tpmv2-chart-ai-note">{intelligenceNote}</div>
         </div>
 
+        <div className="tpmv2-chart-depth-panel">
+          <div className="tpmv2-chart-depth-head">
+            <span>Market depth</span>
+            <strong>{focusModeLabel(focusMode)}</strong>
+          </div>
+
+          <div className="tpmv2-chart-depth-grid">
+            {marketDepthItems.map((item) => (
+              <div key={`${item.label}-${item.value}`} className="tpmv2-chart-depth-card">
+                <span>{item.label}</span>
+                <strong className={item.tone ? item.tone : undefined}>{item.value}</strong>
+                {item.note ? <small>{item.note}</small> : null}
+              </div>
+            ))}
+          </div>
+
+          <div className="tpmv2-chart-depth-note">{marketDepthNote}</div>
+        </div>
+
         <div className="tpmv2-chart-price-marker" style={{ top: priceMarkerTop }}>
           <span>{selectedAsset.price}</span>
         </div>
@@ -1044,6 +1163,12 @@ export function ExecutionCard({
   intelligenceHeadline,
   intelligenceSummary,
   intelligenceNote,
+  preflightItems,
+  amountPresets,
+  onApplyAmountPreset,
+  recentActivityLabel,
+  recentActivityValue,
+  recentActivityNote,
 }: {
   dict: Dictionary;
   decision: Decision;
@@ -1085,6 +1210,12 @@ export function ExecutionCard({
   intelligenceHeadline: string;
   intelligenceSummary: string;
   intelligenceNote: string;
+  preflightItems: SurfaceDetailItem[];
+  amountPresets: readonly string[];
+  onApplyAmountPreset: (value: string) => void;
+  recentActivityLabel: string;
+  recentActivityValue: string;
+  recentActivityNote: string;
 }) {
   const [controlsMounted, setControlsMounted] = useState(false);
   const disabled = !controlsMounted || !canExecute || sessionLocked || !canOpenMore;
@@ -1226,6 +1357,16 @@ export function ExecutionCard({
         </div>
       </div>
 
+      <div className="tpmv2-ticket-preflight" aria-label="Execution preflight">
+        {preflightItems.map((item) => (
+          <div key={`${item.label}-${item.value}`} className="tpmv2-ticket-preflight-card">
+            <span>{item.label}</span>
+            <strong className={item.tone ? item.tone : undefined}>{item.value}</strong>
+            {item.note ? <small>{item.note}</small> : null}
+          </div>
+        ))}
+      </div>
+
       <div className="tpmv2-ticket-grid">
         <div className="tpmv2-field">
           <label>{dict.trade.asset}</label>
@@ -1267,6 +1408,19 @@ export function ExecutionCard({
         </div>
       </div>
 
+      <div className="tpmv2-ticket-presets" role="toolbar" aria-label="Paper amount presets">
+        {amountPresets.map((preset) => (
+          <button
+            key={preset}
+            type="button"
+            className={amount === preset ? "active" : ""}
+            onClick={() => onApplyAmountPreset(preset)}
+          >
+            ${preset}
+          </button>
+        ))}
+      </div>
+
       <div className="tpmv2-ticket-status">
         <div className="tpmv2-ticket-badges">
           <StatusTag text={accountLifecycleLabel} tone={accountLifecycleTone} />
@@ -1302,6 +1456,12 @@ export function ExecutionCard({
             </strong>
           </div>
         </div>
+      </div>
+
+      <div className="tpmv2-ticket-activity">
+        <span>{recentActivityLabel}</span>
+        <strong>{recentActivityValue}</strong>
+        <small>{recentActivityNote}</small>
       </div>
 
       <div className="tpmv2-ticket-ops-note">

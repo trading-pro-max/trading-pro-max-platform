@@ -54,7 +54,10 @@ import type {
   Trade,
   TradeDirection,
   UserIdentity,
+  WorkspaceDepthState,
+  WorkspaceFocusMode,
   WorkspacePreferences,
+  WatchlistDensityMode,
 } from "../types/platform-state";
 
 type WorkspaceState = {
@@ -72,6 +75,7 @@ type StoredPlatformState = {
   demo: WorkspaceState;
   real: WorkspaceState;
   workspacePreferences?: WorkspacePreferences;
+  workspaceDepth?: WorkspaceDepthState;
   compliance?: {
     demo?: LocalComplianceState;
     real?: LocalComplianceState;
@@ -117,11 +121,18 @@ const DEFAULT_WORKSPACE_PREFERENCES: WorkspacePreferences = {
   blotterExpanded: DEFAULT_PLATFORM_PREFERENCES.blotterExpanded,
 };
 
+const DEFAULT_WORKSPACE_DEPTH_STATE: WorkspaceDepthState = {
+  focusMode: "balanced",
+  watchlistDensity: "standard",
+  shortcutLayer: "layout_only",
+};
+
 const FALLBACK_STATE: StoredPlatformState = {
   accountMode: "demo",
   demo: DEFAULT_DEMO_STATE,
   real: DEFAULT_REAL_STATE,
   workspacePreferences: DEFAULT_WORKSPACE_PREFERENCES,
+  workspaceDepth: DEFAULT_WORKSPACE_DEPTH_STATE,
   compliance: {
     demo: createDefaultLocalComplianceState("demo"),
     real: createDefaultLocalComplianceState("real"),
@@ -372,6 +383,26 @@ function sanitizeWorkspacePreferences(
   };
 }
 
+function sanitizeWorkspaceDepthState(
+  value: Partial<WorkspaceDepthState> | undefined
+): WorkspaceDepthState {
+  const focusMode =
+    value?.focusMode === "chart_focus" || value?.focusMode === "execution_focus"
+      ? value.focusMode
+      : DEFAULT_WORKSPACE_DEPTH_STATE.focusMode;
+
+  const watchlistDensity =
+    value?.watchlistDensity === "dense"
+      ? value.watchlistDensity
+      : DEFAULT_WORKSPACE_DEPTH_STATE.watchlistDensity;
+
+  return {
+    focusMode,
+    watchlistDensity,
+    shortcutLayer: DEFAULT_WORKSPACE_DEPTH_STATE.shortcutLayer,
+  };
+}
+
 function buildPlatformPreferenceSnapshot(
   workspacePreferences: WorkspacePreferences,
   activeState: WorkspaceState
@@ -572,6 +603,8 @@ export function usePlatformState(
   const [realState, setRealState] = useState<WorkspaceState>(DEFAULT_REAL_STATE);
   const [workspacePreferences, setWorkspacePreferences] =
     useState<WorkspacePreferences>(DEFAULT_WORKSPACE_PREFERENCES);
+  const [workspaceDepth, setWorkspaceDepth] =
+    useState<WorkspaceDepthState>(DEFAULT_WORKSPACE_DEPTH_STATE);
   const [marketAssets, setMarketAssets] = useState<Asset[]>(MARKET_ASSETS);
   const [marketCandles, setMarketCandles] = useState<MarketCandle[]>(() =>
     buildFallbackCandles(
@@ -801,6 +834,7 @@ export function usePlatformState(
     setWorkspacePreferences(
       sanitizeWorkspacePreferences(saved.workspacePreferences)
     );
+    setWorkspaceDepth(sanitizeWorkspaceDepthState(saved.workspaceDepth));
     setDemoCompliance(
       sanitizeLocalComplianceState(
         saved.compliance?.demo,
@@ -849,6 +883,7 @@ export function usePlatformState(
       demo: demoState,
       real: realState,
       workspacePreferences,
+      workspaceDepth,
       compliance: {
         demo: demoCompliance,
         real: realCompliance,
@@ -859,6 +894,7 @@ export function usePlatformState(
     demoState,
     realState,
     workspacePreferences,
+    workspaceDepth,
     demoCompliance,
     realCompliance,
     hydrated,
@@ -986,6 +1022,12 @@ export function usePlatformState(
     setWorkspacePreferences((current) => sanitizeWorkspacePreferences(updater(current)));
   }
 
+  function updateWorkspaceDepth(
+    updater: (current: WorkspaceDepthState) => WorkspaceDepthState
+  ) {
+    setWorkspaceDepth((current) => sanitizeWorkspaceDepthState(updater(current)));
+  }
+
   function setWorkspacePreference<K extends keyof WorkspacePreferences>(
     key: K,
     value: WorkspacePreferences[K]
@@ -994,6 +1036,79 @@ export function usePlatformState(
       ...current,
       [key]: value,
     }));
+  }
+
+  function setWorkspaceDepthPreference<K extends keyof WorkspaceDepthState>(
+    key: K,
+    value: WorkspaceDepthState[K]
+  ) {
+    updateWorkspaceDepth((current) => ({
+      ...current,
+      [key]: value,
+    }));
+  }
+
+  function setWorkspaceFocusMode(nextMode: WorkspaceFocusMode) {
+    if (workspaceDepth.focusMode === nextMode) return;
+
+    updateWorkspaceDepth((current) => ({
+      ...current,
+      focusMode: nextMode,
+    }));
+
+    pushAuditEvent({
+      kind: "workspace_depth_changed",
+      scope: "platform",
+      accountMode,
+      message:
+        locale === "ar"
+          ? "تم تحديث تركيز مساحة العمل."
+          : `Workspace focus set to ${nextMode.replace("_", " ")}.`,
+    });
+  }
+
+  function setWatchlistDensity(nextDensity: WatchlistDensityMode) {
+    if (workspaceDepth.watchlistDensity === nextDensity) return;
+
+    updateWorkspaceDepth((current) => ({
+      ...current,
+      watchlistDensity: nextDensity,
+    }));
+
+    pushAuditEvent({
+      kind: "workspace_depth_changed",
+      scope: "platform",
+      accountMode,
+      message:
+        locale === "ar"
+          ? "تم تحديث كثافة قائمة السوق."
+          : `Watchlist density set to ${nextDensity}.`,
+    });
+  }
+
+  function toggleWorkspacePanel(
+    panel: "watchlistVisible" | "ticketVisible" | "blotterExpanded"
+  ) {
+    const nextValue = !workspacePreferences[panel];
+
+    setWorkspacePreference(panel, nextValue);
+
+    const panelLabel =
+      panel === "watchlistVisible"
+        ? "watchlist"
+        : panel === "ticketVisible"
+        ? "execution ticket"
+        : "blotter";
+
+    pushAuditEvent({
+      kind: "workspace_depth_changed",
+      scope: "platform",
+      accountMode,
+      message:
+        locale === "ar"
+          ? "تم تحديث لوحة مساحة العمل."
+          : `${panelLabel} ${nextValue ? "opened" : "collapsed"} from workspace controls.`,
+    });
   }
 
   function toggleWorkspaceIndicator(indicator: string) {
@@ -1526,7 +1641,12 @@ export function usePlatformState(
     securityFoundation,
     intelligence,
     workspacePreferences,
+    workspaceDepth,
     setWorkspacePreference,
+    setWorkspaceDepthPreference,
+    setWorkspaceFocusMode,
+    setWatchlistDensity,
+    toggleWorkspacePanel,
     toggleWorkspaceIndicator,
     resetChartWorkspace,
     switchAccountMode,
