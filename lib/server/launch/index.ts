@@ -34,3 +34,12 @@ export {
   type SoftLaunchAccessSnapshot,
   type SoftLaunchPreparationSnapshot,
 } from "./operations";
+export {
+  activateClosedBetaForAuthenticatedSession,
+  getLaunchOperationsControlStateSnapshot,
+  mapLaunchOperationsModeFromLifecycleStage,
+  type ClosedBetaActivationResult,
+  type LaunchOperationsControlStateSnapshot,
+  type LaunchOperationsLifecycleMode,
+  type LaunchOperationsLifecycleStage,
+} from "./control";

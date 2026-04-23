@@ -11,11 +11,28 @@ import {
   getLaunchFeedbackSnapshotForAuthenticatedSession,
   getLaunchFeedbackStoreDiagnostics,
 } from "./feedback";
+import {
+  getLaunchOperationsControlStateSnapshot,
+  mapLaunchOperationsModeFromLifecycleStage,
+  type LaunchOperationsControlStateSnapshot,
+} from "./control";
 
 export type LaunchOperationsMode =
   | "closed_beta_preparation"
   | "soft_launch_preparation"
-  | "public_launch_preparation";
+  | "public_launch_preparation"
+  | "closed_beta_activation"
+  | "soft_launch_activation"
+  | "public_launch_activation_gate";
+
+type LaunchProgramStage =
+  | "launch_readiness_verification_gate"
+  | "closed_beta_preparation"
+  | "soft_launch_preparation"
+  | "public_launch_preparation"
+  | "closed_beta_activation"
+  | "soft_launch_activation"
+  | "public_launch_activation_gate";
 
 type LaunchPipelineStageKey =
   | "launch_readiness_verification_gate"
@@ -61,12 +78,14 @@ export type LaunchOperationsSnapshot = {
   mode: LaunchOperationsMode;
   program: {
     releaseTrack: "controlled_launch_operations";
-    currentStage: "public_launch_preparation";
-    previousStage: "soft_launch_preparation";
+    currentStage: LaunchProgramStage;
+    previousStage: LaunchProgramStage;
     launchClaim: "not_launched";
     publicLaunchClaim: "not_claimed";
     publicAccess: "not_open";
+    lifecycleStage: LaunchOperationsControlStateSnapshot["stage"];
   };
+  lifecycle: LaunchOperationsControlStateSnapshot;
   stages: Array<{
     key: LaunchPipelineStageKey;
     state: LaunchPipelineStageState;
@@ -96,6 +115,12 @@ export type LaunchOperationsSnapshot = {
       accountId: string;
       supportLane: "operator_review";
       feedbackRoute: "/api/launch/feedback";
+    };
+    activation: {
+      state: "active_guarded" | "inactive_guarded";
+      activatedAt: string | null;
+      activationRoute: "/api/launch/operations";
+      blockers: string[];
     };
     safety: {
       paperOnly: true;
@@ -539,6 +564,51 @@ function resolvePublicLaunchDecision(stage: LaunchPipelineStageState) {
   };
 }
 
+function resolveLaunchProgramStages(mode: LaunchOperationsMode): {
+  currentStage: LaunchProgramStage;
+  previousStage: LaunchProgramStage;
+} {
+  if (mode === "closed_beta_activation") {
+    return {
+      currentStage: "closed_beta_activation",
+      previousStage: "launch_readiness_verification_gate",
+    };
+  }
+
+  if (mode === "soft_launch_activation") {
+    return {
+      currentStage: "soft_launch_activation",
+      previousStage: "closed_beta_activation",
+    };
+  }
+
+  if (mode === "public_launch_activation_gate") {
+    return {
+      currentStage: "public_launch_activation_gate",
+      previousStage: "soft_launch_activation",
+    };
+  }
+
+  if (mode === "closed_beta_preparation") {
+    return {
+      currentStage: "closed_beta_preparation",
+      previousStage: "launch_readiness_verification_gate",
+    };
+  }
+
+  if (mode === "soft_launch_preparation") {
+    return {
+      currentStage: "soft_launch_preparation",
+      previousStage: "closed_beta_preparation",
+    };
+  }
+
+  return {
+    currentStage: "public_launch_preparation",
+    previousStage: "soft_launch_preparation",
+  };
+}
+
 export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: {
   session: AuthenticatedSession;
   gate: LaunchReadinessGateSnapshot;
@@ -551,11 +621,18 @@ export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: 
     email: input.session.user.email,
     accountId: input.session.account.id,
   });
-  const [feedbackSnapshot, closedBetaCapacity, softLaunchCapacity] = await Promise.all([
-    getLaunchFeedbackSnapshotForAuthenticatedSession(input.session, checkedAt),
-    getClosedBetaCapacity(),
-    getSoftLaunchCapacity(),
-  ]);
+  const [controlState, feedbackSnapshot, closedBetaCapacity, softLaunchCapacity] =
+    await Promise.all([
+      getLaunchOperationsControlStateSnapshot({
+        checkedAt,
+        accountId: input.session.account.id,
+      }),
+      getLaunchFeedbackSnapshotForAuthenticatedSession(input.session, checkedAt),
+      getClosedBetaCapacity(),
+      getSoftLaunchCapacity(),
+    ]);
+  const mode = mapLaunchOperationsModeFromLifecycleStage(controlState.stage);
+  const programStages = resolveLaunchProgramStages(mode);
   const closedBetaAccessDecision = resolveClosedBetaAccessDecision({
     eligibility: closedBeta.eligibility,
     capacity: closedBetaCapacity,
@@ -586,18 +663,33 @@ export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: 
     checklistFailedCount: publicChecklist.failedCount,
   });
   const publicLaunchDecision = resolvePublicLaunchDecision(publicLaunchStage);
+  const closedBetaActivationBlockers =
+    input.gate.overall.status === "pass"
+      ? []
+      : [
+          `launch_readiness_gate_${input.gate.overall.status}`,
+          `checklist_failed_${input.gate.checklist.failedCount}`,
+        ];
+  const closedBetaActivationState =
+    controlState.stage === "closed_beta_active" ||
+    controlState.stage === "soft_launch_active" ||
+    controlState.stage === "public_launch_gate_active"
+      ? ("active_guarded" as const)
+      : ("inactive_guarded" as const);
 
   return {
     checkedAt,
-    mode: "public_launch_preparation",
+    mode,
     program: {
       releaseTrack: "controlled_launch_operations",
-      currentStage: "public_launch_preparation",
-      previousStage: "soft_launch_preparation",
+      currentStage: programStages.currentStage,
+      previousStage: programStages.previousStage,
       launchClaim: "not_launched",
       publicLaunchClaim: "not_claimed",
       publicAccess: "not_open",
+      lifecycleStage: controlState.stage,
     },
+    lifecycle: controlState,
     stages: [
       {
         key: "launch_readiness_verification_gate",
@@ -655,6 +747,12 @@ export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: 
         accountId: input.session.account.id,
         supportLane: "operator_review",
         feedbackRoute: "/api/launch/feedback",
+      },
+      activation: {
+        state: closedBetaActivationState,
+        activatedAt: controlState.transitions.closedBetaActivatedAt,
+        activationRoute: "/api/launch/operations",
+        blockers: closedBetaActivationBlockers,
       },
       safety: {
         paperOnly: true,
@@ -879,7 +977,8 @@ export async function getClosedBetaPreparationDiagnosticsProbe(
   checkedAt = new Date().toISOString()
 ): Promise<DiagnosticsProbe> {
   try {
-    const [feedbackStore, activeEvaluators] = await Promise.all([
+    const [controlState, feedbackStore, activeEvaluators] = await Promise.all([
+      getLaunchOperationsControlStateSnapshot({ checkedAt }),
       getLaunchFeedbackStoreDiagnostics({ checkedAt }),
       prisma.account.count(),
     ]);
@@ -889,7 +988,13 @@ export async function getClosedBetaPreparationDiagnosticsProbe(
     const allowlistConfigured = emailAllowlist.length > 0 || accountAllowlist.length > 0;
     const maxEvaluators = resolveClosedBetaMaxEvaluators();
     const remainingSlots = Math.max(0, maxEvaluators - activeEvaluators);
-    const status = !allowlistConfigured
+    const closedBetaActive =
+      controlState.stage === "closed_beta_active" ||
+      controlState.stage === "soft_launch_active" ||
+      controlState.stage === "public_launch_gate_active";
+    const status = !closedBetaActive
+      ? "degraded"
+      : !allowlistConfigured
       ? "unconfigured"
       : remainingSlots > 0
       ? "ready"
@@ -903,10 +1008,10 @@ export async function getClosedBetaPreparationDiagnosticsProbe(
         status === "ready"
           ? "Closed beta guardrails are configured with allowlist and capacity semantics."
           : status === "degraded"
-          ? "Closed beta guardrails are configured but evaluator capacity is exhausted."
+          ? "Closed beta is active with guarded limitations or capacity pressure."
           : "Closed beta allowlist is not configured yet.",
       detail:
-        `program_mode=${programMode}; ` +
+        `activation_mode=${controlState.mode}; program_mode=${programMode}; ` +
         `Allowlist email entries ${emailAllowlist.length}, account entries ${accountAllowlist.length}. ` +
         `Capacity ${activeEvaluators}/${maxEvaluators} with ${remainingSlots} slot(s) remaining. ` +
         `Feedback store ${feedbackStore.feedbackStore} has ${feedbackStore.feedbackEvents30d} event(s) in the last 30 days.`,

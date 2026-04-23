@@ -667,7 +667,14 @@ export type DiagnosticsHealthSnapshot = {
     mode:
       | "closed_beta_preparation"
       | "soft_launch_preparation"
-      | "public_launch_preparation";
+      | "public_launch_preparation"
+      | "closed_beta_activation"
+      | "soft_launch_activation"
+      | "public_launch_activation_gate";
+    stage?:
+      | "closed_beta_active"
+      | "soft_launch_active"
+      | "public_launch_gate_active";
     status: "in_progress" | "blocked";
     supportRoute: "/api/launch/feedback";
     productionHardening: "ready" | "guarded";

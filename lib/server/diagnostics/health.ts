@@ -46,6 +46,7 @@ import {
 import {
   buildLaunchReadinessGateSnapshot,
   getClosedBetaPreparationDiagnosticsProbe,
+  getLaunchOperationsControlStateSnapshot,
   getPublicLaunchPreparationDiagnosticsProbe,
   getSoftLaunchPreparationDiagnosticsProbe,
 } from "@/lib/server/launch";
@@ -729,6 +730,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     intelligence,
     aiFoundation,
     aiDeepening,
+    launchOperationsControl,
   ] = await Promise.all([
     probeServerReadiness(),
     getMarketDiagnosticsProbe(),
@@ -756,6 +758,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     getIntelligenceBackendDiagnosticsProbe(),
     getAiIqBrainDiagnosticsProbe(),
     getAiIqBrainDeepeningDiagnosticsProbe(),
+    getLaunchOperationsControlStateSnapshot({ checkedAt }),
   ]);
   const runtimeBaseline = probeRuntimeBaseline(checkedAt);
   const runtimeOps = probeRuntimeOps(checkedAt);
@@ -1023,7 +1026,8 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     },
     launchOperations: {
       checkedAt: publicLaunchPreparation.checkedAt,
-      mode: "public_launch_preparation",
+      mode: launchOperationsControl.mode,
+      stage: launchOperationsControl.stage,
       status: publicLaunchPreparation.status === "ready" ? "in_progress" : "blocked",
       supportRoute: "/api/launch/feedback",
       productionHardening:

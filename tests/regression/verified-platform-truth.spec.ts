@@ -287,7 +287,7 @@ test.describe("verified platform truth", () => {
     });
     expect(healthPayload.launchOperations).toMatchObject({
       mode: expect.stringMatching(
-        /closed_beta_preparation|soft_launch_preparation|public_launch_preparation/
+        /closed_beta_preparation|soft_launch_preparation|public_launch_preparation|closed_beta_activation|soft_launch_activation|public_launch_activation_gate/
       ),
       status: expect.stringMatching(/in_progress|blocked/),
       supportRoute: "/api/launch/feedback",
@@ -1092,15 +1092,15 @@ test.describe("verified platform truth", () => {
     const launchOperationsPayload = await launchOperations.json();
     expect(launchOperationsPayload.snapshot).toMatchObject({
       mode: expect.stringMatching(
-        /closed_beta_preparation|soft_launch_preparation|public_launch_preparation/
+        /closed_beta_preparation|soft_launch_preparation|public_launch_preparation|closed_beta_activation|soft_launch_activation|public_launch_activation_gate/
       ),
       program: {
         releaseTrack: "controlled_launch_operations",
         currentStage: expect.stringMatching(
-          /closed_beta_preparation|soft_launch_preparation|public_launch_preparation/
+          /launch_readiness_verification_gate|closed_beta_preparation|soft_launch_preparation|public_launch_preparation|closed_beta_activation|soft_launch_activation|public_launch_activation_gate/
         ),
         previousStage: expect.stringMatching(
-          /closed_beta_preparation|soft_launch_preparation/
+          /launch_readiness_verification_gate|closed_beta_preparation|soft_launch_preparation|closed_beta_activation|soft_launch_activation/
         ),
         launchClaim: "not_launched",
         publicLaunchClaim: "not_claimed",
@@ -1143,6 +1143,28 @@ test.describe("verified platform truth", () => {
         }),
       ])
     );
+
+    const closedBetaActivation = await request.post("/api/launch/operations", {
+      data: {
+        action: "activate_closed_beta",
+        note: "Activate guarded closed beta operations mode.",
+      },
+    });
+    expect(closedBetaActivation.status()).toBe(200);
+    const closedBetaActivationPayload = await closedBetaActivation.json();
+    expect(closedBetaActivationPayload).toMatchObject({
+      ok: true,
+      authenticated: true,
+      action: "activate_closed_beta",
+      reason: "closed_beta_activated",
+    });
+    expect(closedBetaActivationPayload.lifecycle).toMatchObject({
+      mode: "closed_beta_activation",
+      stage: "closed_beta_active",
+    });
+    expect(closedBetaActivationPayload.snapshot.mode).toMatch(
+      /closed_beta_activation|soft_launch_activation|public_launch_activation_gate/
+    );
     expect(launchOperationsPayload.snapshot.closedBeta).toMatchObject({
       mode: "controlled_closed_beta",
       programMode: expect.stringMatching(
@@ -1167,6 +1189,10 @@ test.describe("verified platform truth", () => {
         accountId: expect.any(String),
         supportLane: "operator_review",
         feedbackRoute: "/api/launch/feedback",
+      },
+      activation: {
+        state: expect.stringMatching(/active_guarded|inactive_guarded/),
+        activationRoute: "/api/launch/operations",
       },
       safety: {
         paperOnly: true,
