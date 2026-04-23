@@ -121,17 +121,20 @@ Added runtime harness script:
 ## 8. Archive and deletion
 
 Archive root:
-- `[TO_FILL_ARCHIVE_ROOT]`
+- `C:\Users\ahmad\Desktop\legacy-trading-pro-max-archives`
 
 Archive outputs:
-- `[TO_FILL_ARCHIVE_1]`
-- `[TO_FILL_ARCHIVE_2]`
-- `[TO_FILL_ARCHIVE_3]`
+- `C:\Users\ahmad\Desktop\legacy-trading-pro-max-archives\trading-pro-max-full-20260423-122430`
+- `C:\Users\ahmad\Desktop\legacy-trading-pro-max-archives\trading-pro-max-20260423-122430`
+- `C:\Users\ahmad\Desktop\legacy-trading-pro-max-archives\tpm9-updated-20260423-122430`
+
+Archive format note:
+- Timestamped archive directories were used as an equivalent archive format to preserve complete donor trees reliably before deletion.
 
 Deleted donor paths:
-- `[TO_FILL_DELETE_1]`
-- `[TO_FILL_DELETE_2]`
-- `[TO_FILL_DELETE_3]`
+- `C:\Users\ahmad\Desktop\trading-pro-max-full`
+- `C:\Users\ahmad\Desktop\trading-pro-max`
+- `C:\Users\ahmad\Desktop\trading-pro-max\tpm9-updated`
 
 Deletion safety rationale:
 - archives created and verified before deletion
