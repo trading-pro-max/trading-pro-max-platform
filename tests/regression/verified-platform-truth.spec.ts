@@ -291,10 +291,18 @@ test.describe("verified platform truth", () => {
       },
       mobile: {
         state: "future_ready",
+        foundation: {
+          runtimeBridge: "bridge_json_v1",
+          pushDelivery: "unconfigured",
+          sessionStrategy: "session_or_token_bridge",
+        },
       },
     });
     expect(healthPayload.clientExpansion.desktop.foundation.targets).toEqual(
       expect.arrayContaining(["windows", "macos", "linux"])
+    );
+    expect(healthPayload.clientExpansion.mobile.foundation.targets).toEqual(
+      expect.arrayContaining(["android", "ios"])
     );
     expect(Array.isArray(healthPayload.subsystems)).toBe(true);
     expect(healthPayload.subsystems.length).toBeGreaterThanOrEqual(8);
@@ -369,6 +377,9 @@ test.describe("verified platform truth", () => {
     expect(routes.get("/api/platform/desktop/state")).toMatchObject({
       status: "ready",
     });
+    expect(routes.get("/api/platform/mobile/state")).toMatchObject({
+      status: "ready",
+    });
     expect(routes.get("/api/account/compliance")).toMatchObject({
       status: "auth_required",
     });
@@ -429,6 +440,33 @@ test.describe("verified platform truth", () => {
       ])
     );
     expect(desktopStatePayload.snapshot.safety).toMatchObject({
+      paperOnly: true,
+      liveExecution: "blocked",
+      realMoneyRouting: "blocked",
+    });
+
+    const mobileState = await request.get("/api/platform/mobile/state");
+    expect(mobileState.status()).toBe(200);
+    const mobileStatePayload = await mobileState.json();
+    expect(mobileStatePayload.snapshot.truth).toMatchObject({
+      foundationState: "contract_ready",
+      runtime: "mobile_shell_reserved",
+      pushClaims: "none",
+    });
+    expect(mobileStatePayload.snapshot.bridge).toMatchObject({
+      protocol: "bridge_json_v1",
+      transport: "native_web_runtime_bridge",
+    });
+    expect(mobileStatePayload.snapshot.targets).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ platform: "android" }),
+        expect.objectContaining({ platform: "ios" }),
+      ])
+    );
+    expect(mobileStatePayload.snapshot.workflow).toMatchObject({
+      pushDelivery: "unconfigured",
+    });
+    expect(mobileStatePayload.snapshot.safety).toMatchObject({
       paperOnly: true,
       liveExecution: "blocked",
       realMoneyRouting: "blocked",

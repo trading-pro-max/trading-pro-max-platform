@@ -597,6 +597,13 @@ export type DiagnosticsHealthSnapshot = {
       shell: "react_native_or_native_wrapper";
       authFlow: "session_or_token_bridge";
       notificationDelivery: "unconfigured";
+      foundation?: {
+        runtimeBridge: "bridge_json_v1";
+        targets: Array<"android" | "ios">;
+        pushDelivery: "unconfigured";
+        distributionState: "contract_only" | "packaging_ready";
+        sessionStrategy: "session_or_token_bridge";
+      };
     };
     summary: string;
   };

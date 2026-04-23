@@ -1,5 +1,6 @@
 import "server-only";
 import { getDesktopAppsFoundationSnapshot } from "@/lib/server/platform/desktop-foundation";
+import { getMobileAppsFoundationSnapshot } from "@/lib/server/platform/mobile-foundation";
 
 export type ClientExpansionSnapshot = {
   checkedAt: string;
@@ -30,6 +31,13 @@ export type ClientExpansionSnapshot = {
     shell: "react_native_or_native_wrapper";
     authFlow: "session_or_token_bridge";
     notificationDelivery: "unconfigured";
+    foundation: {
+      runtimeBridge: "bridge_json_v1";
+      targets: Array<"android" | "ios">;
+      pushDelivery: "unconfigured";
+      distributionState: "contract_only" | "packaging_ready";
+      sessionStrategy: "session_or_token_bridge";
+    };
   };
   summary: string;
 };
@@ -38,6 +46,7 @@ export function getClientExpansionSnapshot(
   checkedAt = new Date().toISOString()
 ): ClientExpansionSnapshot {
   const desktop = getDesktopAppsFoundationSnapshot(checkedAt);
+  const mobile = getMobileAppsFoundationSnapshot(checkedAt);
 
   return {
     checkedAt,
@@ -68,6 +77,13 @@ export function getClientExpansionSnapshot(
       shell: "react_native_or_native_wrapper",
       authFlow: "session_or_token_bridge",
       notificationDelivery: "unconfigured",
+      foundation: {
+        runtimeBridge: mobile.bridge.protocol,
+        targets: mobile.targets.map((target) => target.platform),
+        pushDelivery: mobile.workflow.pushDelivery,
+        distributionState: mobile.targets[0]?.distributionState ?? "contract_only",
+        sessionStrategy: mobile.authSession.sessionStrategy,
+      },
     },
     summary:
       "Web runtime is active. Desktop and mobile client shells are future-ready through shared API/auth contracts, with notification delivery intentionally unconfigured.",
