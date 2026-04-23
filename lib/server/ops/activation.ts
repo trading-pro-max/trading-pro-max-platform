@@ -33,6 +33,16 @@ export type OpsProductionActivationSnapshot = {
     escalation: "manual_operator";
     automation: "inactive";
   };
+  degradationSurface: {
+    status: "stable" | "guarded";
+    signals: string[];
+    lastEvaluatedAt: string;
+  };
+  healthExposure: {
+    telemetryRoute: "authenticated";
+    runbookRoute: "authenticated";
+    diagnosticsRoute: "public_truthful";
+  };
   stores: {
     auditEvents24h: number;
     activeSessions: number;
@@ -88,6 +98,15 @@ export async function getOpsProductionActivationSnapshot(): Promise<OpsProductio
       { stage: "operational_guarded", minScore: 85 },
     ],
   });
+  const degradationSignals = [
+    ...(!tracingConfigured ? (["tracing_unconfigured"] as const) : []),
+    ...(!externalMonitoringConfigured
+      ? (["external_monitoring_unconfigured"] as const)
+      : []),
+    ...(pendingComplianceReviews > 0
+      ? (["pending_compliance_reviews"] as const)
+      : []),
+  ];
 
   return {
     checkedAt,
@@ -116,13 +135,23 @@ export async function getOpsProductionActivationSnapshot(): Promise<OpsProductio
       escalation: "manual_operator",
       automation: "inactive",
     },
+    degradationSurface: {
+      status: degradationSignals.length > 2 ? "guarded" : "stable",
+      signals: degradationSignals.length > 0 ? degradationSignals : ["none"],
+      lastEvaluatedAt: checkedAt,
+    },
+    healthExposure: {
+      telemetryRoute: "authenticated",
+      runbookRoute: "authenticated",
+      diagnosticsRoute: "public_truthful",
+    },
     stores: {
       auditEvents24h,
       activeSessions,
       pendingComplianceReviews,
     },
     summary:
-      "Production-ops activation is available with guarded telemetry, runbook, and admin-control semantics.",
+      "Production-ops activation is available with guarded telemetry, runbook, degraded-state surfacing, and admin-control semantics.",
     limitations: [
       "No remote admin control is enabled.",
       "Incident handling remains operator-manual; no unattended ops automation.",

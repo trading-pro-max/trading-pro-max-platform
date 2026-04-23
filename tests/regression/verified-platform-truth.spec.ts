@@ -903,6 +903,22 @@ test.describe("verified platform truth", () => {
       externalMonitoring: "unconfigured",
       incidentAutomation: "inactive",
     });
+    expect(opsTelemetryPayload.snapshot.degradation).toMatchObject({
+      status: expect.stringMatching(/stable|guarded/),
+      memoryPressure: expect.stringMatching(/normal|elevated/),
+      sessionBacklog: expect.stringMatching(/normal|elevated/),
+      auditVolume: expect.stringMatching(/stable|elevated/),
+    });
+    expect(Array.isArray(opsTelemetryPayload.snapshot.degradation.indicators)).toBe(
+      true
+    );
+    expect(opsTelemetryPayload.snapshot.runbookPointers).toEqual(
+      expect.arrayContaining([
+        "/api/ops/runbook",
+        "/api/ops/readiness",
+        "/api/diagnostics/probes",
+      ])
+    );
 
     const opsRunbook = await request.get("/api/ops/runbook");
     expect(opsRunbook.status()).toBe(200);
@@ -914,6 +930,16 @@ test.describe("verified platform truth", () => {
         expect.objectContaining({ key: "execution_safety", state: "ready" }),
       ])
     );
+    expect(opsRunbookPayload.snapshot.runbooks).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          key: "ops_incident_review",
+          severity: "elevated",
+          probeKey: "production_ops_activation",
+        }),
+      ])
+    );
+    expect(typeof opsRunbookPayload.snapshot.lastReviewedAt).toBe("string");
 
     const opsReadiness = await request.get("/api/ops/readiness");
     expect(opsReadiness.status()).toBe(200);
@@ -929,6 +955,17 @@ test.describe("verified platform truth", () => {
       incidentReview: "manual_operator",
       escalation: "manual_operator",
       automation: "inactive",
+    });
+    expect(opsReadinessPayload.snapshot.degradationSurface).toMatchObject({
+      status: expect.stringMatching(/stable|guarded/),
+    });
+    expect(Array.isArray(opsReadinessPayload.snapshot.degradationSurface.signals)).toBe(
+      true
+    );
+    expect(opsReadinessPayload.snapshot.healthExposure).toMatchObject({
+      telemetryRoute: "authenticated",
+      runbookRoute: "authenticated",
+      diagnosticsRoute: "public_truthful",
     });
 
     const commercialState = await request.get("/api/account/commercial-state");
