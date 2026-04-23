@@ -283,11 +283,19 @@ test.describe("verified platform truth", () => {
       },
       desktop: {
         state: "future_ready",
+        foundation: {
+          runtimeBridge: "ipc_json_v1",
+          packaging: "contract_ready",
+          sessionStrategy: "http_session_bridge",
+        },
       },
       mobile: {
         state: "future_ready",
       },
     });
+    expect(healthPayload.clientExpansion.desktop.foundation.targets).toEqual(
+      expect.arrayContaining(["windows", "macos", "linux"])
+    );
     expect(Array.isArray(healthPayload.subsystems)).toBe(true);
     expect(healthPayload.subsystems.length).toBeGreaterThanOrEqual(8);
     expect(healthPayload.connectors[0]).toMatchObject({
@@ -358,6 +366,9 @@ test.describe("verified platform truth", () => {
     expect(["unconfigured", "blocked"]).toContain(
       routes.get("/api/broker/state")?.status
     );
+    expect(routes.get("/api/platform/desktop/state")).toMatchObject({
+      status: "ready",
+    });
     expect(routes.get("/api/account/compliance")).toMatchObject({
       status: "auth_required",
     });
@@ -397,6 +408,31 @@ test.describe("verified platform truth", () => {
       "configured_inactive",
       "configured_blocked",
     ]).toContain(feedStatePayload.snapshot.externalDriver.state);
+
+    const desktopState = await request.get("/api/platform/desktop/state");
+    expect(desktopState.status()).toBe(200);
+    const desktopStatePayload = await desktopState.json();
+    expect(desktopStatePayload.snapshot.truth).toMatchObject({
+      foundationState: "contract_ready",
+      hostRuntime: "desktop_shell_reserved",
+      nativeClaims: "none",
+    });
+    expect(desktopStatePayload.snapshot.bridge).toMatchObject({
+      protocol: "ipc_json_v1",
+      transport: "local_host_bridge",
+    });
+    expect(desktopStatePayload.snapshot.targets).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ os: "windows" }),
+        expect.objectContaining({ os: "macos" }),
+        expect.objectContaining({ os: "linux" }),
+      ])
+    );
+    expect(desktopStatePayload.snapshot.safety).toMatchObject({
+      paperOnly: true,
+      liveExecution: "blocked",
+      realMoneyRouting: "blocked",
+    });
 
     const workspace = await request.get("/api/account/workspace");
     expect(workspace.status()).toBe(401);

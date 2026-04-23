@@ -16,6 +16,7 @@ import { getProductBackendDiagnosticsProbe } from "@/lib/server/product";
 import { getAlertWorkflowDiagnosticsProbe } from "@/lib/server/workflows";
 import { getIntelligenceBackendDiagnosticsProbe } from "@/lib/server/intelligence";
 import { getClientExpansionSnapshot } from "@/lib/server/platform/client-contracts";
+import { getDesktopAppsDiagnosticsProbe } from "@/lib/server/platform/desktop-foundation";
 import type {
   DiagnosticsHealthSnapshot,
   DiagnosticsProbe,
@@ -136,6 +137,7 @@ function buildRouteProbes(input: {
   readiness: DiagnosticsProbe;
   market: DiagnosticsProbe;
   broker: DiagnosticsProbe;
+  desktopFoundation: DiagnosticsProbe;
   workspace: DiagnosticsProbe;
   alerts: DiagnosticsProbe;
   intelligence: DiagnosticsProbe;
@@ -173,6 +175,13 @@ function buildRouteProbes(input: {
       method: "GET",
       status: input.broker.status,
       detail: "Broker architecture route reports provider contracts and blocked live-routing policy.",
+    },
+    {
+      path: "/api/platform/desktop/state",
+      method: "GET",
+      status: input.desktopFoundation.status,
+      detail:
+        "Desktop foundation route reports host bridge, persistence, packaging, and paper-only safety contracts.",
     },
     {
       path: "/api/account/preferences",
@@ -232,6 +241,7 @@ function buildSubsystems(input: {
   server: DiagnosticsProbe;
   runtimeOps: DiagnosticsProbe;
   security: DiagnosticsProbe;
+  desktopFoundation: DiagnosticsProbe;
   preferences: DiagnosticsProbe;
   workspace: DiagnosticsProbe;
   productBackend: DiagnosticsProbe;
@@ -269,6 +279,13 @@ function buildSubsystems(input: {
       status: input.security.status,
       summary: input.security.summary,
       detail: input.security.detail,
+    },
+    {
+      key: "desktop",
+      label: input.desktopFoundation.label,
+      status: input.desktopFoundation.status,
+      summary: input.desktopFoundation.summary,
+      detail: input.desktopFoundation.detail,
     },
     {
       key: "preferences",
@@ -330,6 +347,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     preferences,
     workspace,
     productBackend,
+    desktopFoundation,
     alerts,
     intelligence,
   ] = await Promise.all([
@@ -338,6 +356,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     probeWorkspacePreferencePersistence(),
     probeWorkspaceDepthPersistence(),
     getProductBackendDiagnosticsProbe(),
+    Promise.resolve(getDesktopAppsDiagnosticsProbe(checkedAt)),
     getAlertWorkflowDiagnosticsProbe(),
     getIntelligenceBackendDiagnosticsProbe(),
   ]);
@@ -360,6 +379,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       workspace,
       security,
       productBackend,
+      desktopFoundation,
     ],
     expectedTruthful: [market, broker, alerts, intelligence],
   });
@@ -372,6 +392,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       runtimeBaseline,
       runtimeOps,
       security,
+      desktopFoundation,
       preferences,
       workspace,
       productBackend,
@@ -385,6 +406,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       readiness,
       market,
       broker,
+      desktopFoundation,
       workspace,
       alerts,
       intelligence,
@@ -397,6 +419,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       server,
       runtimeOps,
       security,
+      desktopFoundation,
       preferences,
       workspace,
       productBackend,

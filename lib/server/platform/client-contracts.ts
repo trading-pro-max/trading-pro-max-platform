@@ -1,4 +1,5 @@
 import "server-only";
+import { getDesktopAppsFoundationSnapshot } from "@/lib/server/platform/desktop-foundation";
 
 export type ClientExpansionSnapshot = {
   checkedAt: string;
@@ -16,6 +17,13 @@ export type ClientExpansionSnapshot = {
     shell: "electron_or_tauri";
     localPersistence: "contract_ready";
     notificationDelivery: "unconfigured";
+    foundation: {
+      runtimeBridge: "ipc_json_v1";
+      targets: Array<"windows" | "macos" | "linux">;
+      packaging: "contract_ready";
+      distributionState: "contract_only" | "packaging_ready";
+      sessionStrategy: "http_session_bridge";
+    };
   };
   mobile: {
     state: "future_ready";
@@ -29,6 +37,8 @@ export type ClientExpansionSnapshot = {
 export function getClientExpansionSnapshot(
   checkedAt = new Date().toISOString()
 ): ClientExpansionSnapshot {
+  const desktop = getDesktopAppsFoundationSnapshot(checkedAt);
+
   return {
     checkedAt,
     shared: {
@@ -45,6 +55,13 @@ export function getClientExpansionSnapshot(
       shell: "electron_or_tauri",
       localPersistence: "contract_ready",
       notificationDelivery: "unconfigured",
+      foundation: {
+        runtimeBridge: desktop.bridge.protocol,
+        targets: desktop.targets.map((target) => target.os),
+        packaging: desktop.packaging.buildScripts,
+        distributionState: desktop.targets[0]?.distributionState ?? "contract_only",
+        sessionStrategy: desktop.authSession.sessionStrategy,
+      },
     },
     mobile: {
       state: "future_ready",

@@ -584,6 +584,13 @@ export type DiagnosticsHealthSnapshot = {
       shell: "electron_or_tauri";
       localPersistence: "contract_ready";
       notificationDelivery: "unconfigured";
+      foundation?: {
+        runtimeBridge: "ipc_json_v1";
+        targets: Array<"windows" | "macos" | "linux">;
+        packaging: "contract_ready";
+        distributionState: "contract_only" | "packaging_ready";
+        sessionStrategy: "http_session_bridge";
+      };
     };
     mobile: {
       state: "future_ready";
