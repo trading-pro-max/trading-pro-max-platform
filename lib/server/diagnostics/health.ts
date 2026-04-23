@@ -32,7 +32,10 @@ import {
   getRealActivationPilotSnapshot,
   getRealIntegrationsDiagnosticsProbe,
 } from "@/lib/server/integrations";
-import { getCommercialScalingDiagnosticsProbe } from "@/lib/server/commercial";
+import {
+  getCommercialActivationDiagnosticsProbe,
+  getCommercialScalingDiagnosticsProbe,
+} from "@/lib/server/commercial";
 import { getEnterpriseOpsDiagnosticsProbe } from "@/lib/server/ops";
 import type {
   DiagnosticsHealthSnapshot,
@@ -161,6 +164,7 @@ function buildRouteProbes(input: {
   activationPilot: DiagnosticsProbe;
   integrationsFoundation: DiagnosticsProbe;
   commercialFoundation: DiagnosticsProbe;
+  commercialActivation: DiagnosticsProbe;
   opsFoundation: DiagnosticsProbe;
   workspace: DiagnosticsProbe;
   alerts: DiagnosticsProbe;
@@ -280,6 +284,13 @@ function buildRouteProbes(input: {
         "Account commercial-state route is available and requires authentication.",
     },
     {
+      path: "/api/account/commercial-activation",
+      method: "GET",
+      status: "auth_required",
+      detail:
+        `${input.commercialActivation.summary}. Route is authenticated and exposes guarded activation request flow semantics.`,
+    },
+    {
       path: "/api/account/workspace",
       method: "GET",
       status: "auth_required",
@@ -357,6 +368,7 @@ function buildSubsystems(input: {
   activationPilot: DiagnosticsProbe;
   integrationsFoundation: DiagnosticsProbe;
   commercialFoundation: DiagnosticsProbe;
+  commercialActivation: DiagnosticsProbe;
   opsFoundation: DiagnosticsProbe;
   preferences: DiagnosticsProbe;
   workspace: DiagnosticsProbe;
@@ -447,6 +459,13 @@ function buildSubsystems(input: {
       status: input.commercialFoundation.status,
       summary: input.commercialFoundation.summary,
       detail: input.commercialFoundation.detail,
+    },
+    {
+      key: "commercial_activation",
+      label: input.commercialActivation.label,
+      status: input.commercialActivation.status,
+      summary: input.commercialActivation.summary,
+      detail: input.commercialActivation.detail,
     },
     {
       key: "ops",
@@ -543,6 +562,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     activationPilot,
     integrationsFoundation,
     commercialFoundation,
+    commercialActivation,
     opsFoundation,
     alerts,
     alertsAutomation,
@@ -562,6 +582,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     Promise.resolve(getRealActivationPilotDiagnosticsProbe(checkedAt)),
     Promise.resolve(getRealIntegrationsDiagnosticsProbe(checkedAt)),
     getCommercialScalingDiagnosticsProbe(),
+    getCommercialActivationDiagnosticsProbe(),
     getEnterpriseOpsDiagnosticsProbe(),
     getAlertWorkflowDiagnosticsProbe(),
     getAlertAutomationDiagnosticsProbe(),
@@ -604,6 +625,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       alerts,
       alertsAutomation,
       alertsDelivery,
+      commercialActivation,
       intelligence,
       aiFoundation,
     ],
@@ -624,6 +646,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       activationPilot,
       integrationsFoundation,
       commercialFoundation,
+      commercialActivation,
       opsFoundation,
       preferences,
       workspace,
@@ -648,6 +671,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       activationPilot,
       integrationsFoundation,
       commercialFoundation,
+      commercialActivation,
       opsFoundation,
       workspace,
       alerts,
@@ -671,6 +695,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       activationPilot,
       integrationsFoundation,
       commercialFoundation,
+      commercialActivation,
       opsFoundation,
       preferences,
       workspace,

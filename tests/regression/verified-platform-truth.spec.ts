@@ -366,6 +366,9 @@ test.describe("verified platform truth", () => {
     expect(probes.get("commercial_scaling_foundation")).toMatchObject({
       status: "ready",
     });
+    expect(["ready", "degraded"]).toContain(
+      probes.get("commercial_activation")?.status
+    );
     expect(probes.get("market_data")).toMatchObject({ status: "fallback" });
     expect(["unconfigured", "blocked"]).toContain(
       probes.get("broker_connector")?.status
@@ -405,6 +408,9 @@ test.describe("verified platform truth", () => {
       status: "ready",
     });
     expect(routes.get("/api/account/commercial-state")).toMatchObject({
+      status: "auth_required",
+    });
+    expect(routes.get("/api/account/commercial-activation")).toMatchObject({
       status: "auth_required",
     });
     expect(routes.get("/api/account/workspace")).toMatchObject({
@@ -474,6 +480,10 @@ test.describe("verified platform truth", () => {
     expect(deliveryStateUnauth.status()).toBe(401);
     const commercialStateUnauth = await request.get("/api/account/commercial-state");
     expect(commercialStateUnauth.status()).toBe(401);
+    const commercialActivationUnauth = await request.get(
+      "/api/account/commercial-activation"
+    );
+    expect(commercialActivationUnauth.status()).toBe(401);
     const operatorReview = await request.get(
       "/api/operator/compliance/review?accountId=missing"
     );
@@ -776,6 +786,41 @@ test.describe("verified platform truth", () => {
       liveExecution: "blocked",
       paidPlanActivation: "not_enabled",
       billingClaims: "none",
+    });
+
+    const commercialActivation = await request.get(
+      "/api/account/commercial-activation"
+    );
+    expect(commercialActivation.status()).toBe(200);
+    const commercialActivationPayload = await commercialActivation.json();
+    expect(commercialActivationPayload.snapshot.plan).toMatchObject({
+      current: "evaluation",
+    });
+    expect(commercialActivationPayload.snapshot.commercialTruth).toMatchObject({
+      billingEngine: "inactive",
+      checkout: "not_enabled",
+      paidActivation: "not_enabled",
+      subscriptionState: "unconfigured",
+    });
+
+    const commercialActivationUpdate = await request.post(
+      "/api/account/commercial-activation",
+      {
+        data: {
+          requestedPlan: "team_review",
+          note: "Need multi-operator review lane",
+        },
+      }
+    );
+    expect(commercialActivationUpdate.status()).toBe(200);
+    const commercialActivationUpdatePayload = await commercialActivationUpdate.json();
+    expect(commercialActivationUpdatePayload.snapshot.activation).toMatchObject({
+      state: "requested",
+      operatorActionRequired: true,
+    });
+    expect(commercialActivationUpdatePayload.snapshot.plan).toMatchObject({
+      current: "evaluation",
+      requested: "team_review",
     });
 
     const workspaceUpdate = await request.post("/api/account/workspace", {
