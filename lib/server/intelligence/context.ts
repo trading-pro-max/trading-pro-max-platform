@@ -33,6 +33,7 @@ export type IntelligenceBackendContextSnapshot = {
     symbol: string;
     alignment: IntelligenceAlignment;
     boundedConfidence: IntelligenceConfidence;
+    consensusScore: number;
     windows: Array<{
       timeframe: "1m" | "5m" | "15m";
       trend: IntelligenceTrend;
@@ -50,7 +51,22 @@ export type IntelligenceBackendContextSnapshot = {
   workflow: {
     state: "unconfigured" | "configured_local";
     enabledRuleCount: number;
+    operatorAckRequiredCount: number;
     automation: "inactive";
+  };
+  risk: {
+    marketStress: "stable" | "elevated" | "degraded";
+    executionRisk: "guarded" | "elevated";
+    workflowPressure: "low" | "moderate" | "high";
+    constraints: string[];
+  };
+  executionContext: {
+    route: "paper_only";
+    operatorControl: "required";
+    preflight: Array<{
+      key: "market_feed_health" | "workflow_ack" | "paper_access";
+      state: "pass" | "guarded";
+    }>;
   };
   journal: {
     coverage: "local_audit_limited";
@@ -72,9 +88,16 @@ export type IntelligenceBackendContextSnapshot = {
   };
   coaching: {
     mode: "bounded_guidance";
+    confidenceBand: "low" | "guarded";
     priorities: string[];
     cautions: string[];
     actions: string[];
+    playbooks: string[];
+  };
+  assist: {
+    depth: "expanded_operator_assist";
+    dataBoundaries: "bounded_local_context";
+    executionAuthority: "operator_manual";
   };
   truth: {
     predictiveScope: "interpretive_only";
@@ -169,6 +192,95 @@ function deriveBoundedConfidence(input: {
   if (input.feedState === "degraded" || input.feedState === "unavailable") return "low";
   if (input.alignment === "aligned") return "guarded";
   return "low";
+}
+
+function deriveConsensusScore(
+  windows: IntelligenceBackendContextSnapshot["multiTimeframe"]["windows"],
+  alignment: IntelligenceAlignment
+) {
+  if (alignment === "unclear") return 35;
+  if (alignment === "mixed") return 50;
+
+  const averageVolatility =
+    windows.reduce((sum, window) => sum + window.volatilityPct, 0) /
+    Math.max(1, windows.length);
+  const volatilityPenalty = Math.min(20, Math.round(averageVolatility * 4));
+  return Math.max(55, 80 - volatilityPenalty);
+}
+
+function deriveRiskProfile(input: {
+  availability: IntelligenceBackendAvailability;
+  marketFeedState: string;
+  paperAccess: "ready" | "guarded";
+  operatorAckRequiredCount: number;
+  windows: IntelligenceBackendContextSnapshot["multiTimeframe"]["windows"];
+}): IntelligenceBackendContextSnapshot["risk"] {
+  const maxVolatility = input.windows.reduce(
+    (max, window) => Math.max(max, window.volatilityPct),
+    0
+  );
+  const marketStress =
+    input.availability === "degraded" || input.marketFeedState === "degraded"
+      ? "degraded"
+      : maxVolatility >= 1.8
+      ? "elevated"
+      : "stable";
+  const workflowPressure =
+    input.operatorAckRequiredCount >= 2
+      ? "high"
+      : input.operatorAckRequiredCount === 1
+      ? "moderate"
+      : "low";
+  const executionRisk =
+    input.paperAccess === "guarded" || marketStress !== "stable" || workflowPressure === "high"
+      ? "elevated"
+      : "guarded";
+  const constraints: string[] = [];
+
+  if (input.paperAccess === "guarded") {
+    constraints.push("paper_access_guarded");
+  }
+  if (marketStress === "degraded") {
+    constraints.push("market_feed_degraded");
+  }
+  if (workflowPressure !== "low") {
+    constraints.push("operator_ack_required");
+  }
+
+  return {
+    marketStress,
+    executionRisk,
+    workflowPressure,
+    constraints,
+  };
+}
+
+function buildExecutionContext(input: {
+  paperAccess: "ready" | "guarded";
+  marketFeedState: string;
+  operatorAckRequiredCount: number;
+}): IntelligenceBackendContextSnapshot["executionContext"] {
+  return {
+    route: "paper_only",
+    operatorControl: "required",
+    preflight: [
+      {
+        key: "market_feed_health",
+        state:
+          input.marketFeedState === "degraded" || input.marketFeedState === "unavailable"
+            ? "guarded"
+            : "pass",
+      },
+      {
+        key: "workflow_ack",
+        state: input.operatorAckRequiredCount > 0 ? "guarded" : "pass",
+      },
+      {
+        key: "paper_access",
+        state: input.paperAccess === "ready" ? "pass" : "guarded",
+      },
+    ],
+  };
 }
 
 async function getJournalPerformance(input: {
@@ -289,6 +401,8 @@ function buildCoaching(input: {
   confidence: IntelligenceConfidence;
   paperAccess: "ready" | "guarded";
   enabledRuleCount: number;
+  operatorAckRequiredCount: number;
+  risk: IntelligenceBackendContextSnapshot["risk"];
   performance: IntelligenceBackendContextSnapshot["performance"];
   marketFeedState: string;
 }) {
@@ -313,6 +427,14 @@ function buildCoaching(input: {
   if (input.marketFeedState === "degraded" || input.availability === "degraded") {
     cautions.push("Feed quality is degraded; bias toward risk-first, low-conviction decisions.");
   }
+  if (input.operatorAckRequiredCount > 0) {
+    cautions.push(
+      `${input.operatorAckRequiredCount} workflow rule(s) require operator acknowledgement before any action.`
+    );
+  }
+  if (input.risk.executionRisk === "elevated") {
+    cautions.push("Execution risk is elevated; keep sizing conservative and cadence slower.");
+  }
 
   if (input.enabledRuleCount === 0) {
     actions.push("Enable at least one guarded workflow rule for desk-note discipline.");
@@ -334,9 +456,15 @@ function buildCoaching(input: {
 
   return {
     mode: "bounded_guidance" as const,
+    confidenceBand: input.confidence,
     priorities,
     cautions,
     actions,
+    playbooks: [
+      "Use multi-timeframe alignment as context gating, never as predictive certainty.",
+      "Log rationale before and after each paper action to strengthen journal signal quality.",
+      "Escalate to operator review when risk pressure is elevated or feed quality degrades.",
+    ],
   };
 }
 
@@ -367,6 +495,10 @@ export async function getIntelligenceBackendContext(input: {
   ]);
   const enabledRuleCount =
     workflowSnapshot?.rules.filter((rule) => rule.state === "enabled").length ?? 0;
+  const operatorAckRequiredCount =
+    workflowSnapshot?.rules.filter(
+      (rule) => rule.state === "enabled" && rule.requiresOperatorAck
+    ).length ?? 0;
   const paperAccess =
     compliance?.activation.executionEnabled && compliance.activation.paperState === "enabled"
       ? "ready"
@@ -394,12 +526,27 @@ export async function getIntelligenceBackendContext(input: {
     alignment,
     feedState: marketSnapshot.feed.state,
   });
+  const consensusScore = deriveConsensusScore(windows, alignment);
+  const risk = deriveRiskProfile({
+    availability,
+    marketFeedState: marketSnapshot.feed.state,
+    paperAccess,
+    operatorAckRequiredCount,
+    windows,
+  });
+  const executionContext = buildExecutionContext({
+    paperAccess,
+    marketFeedState: marketSnapshot.feed.state,
+    operatorAckRequiredCount,
+  });
   const coaching = buildCoaching({
     availability,
     alignment,
     confidence: boundedConfidence,
     paperAccess,
     enabledRuleCount,
+    operatorAckRequiredCount,
+    risk,
     performance: journalPerformance.performance,
     marketFeedState: marketSnapshot.feed.state,
   });
@@ -424,6 +571,7 @@ export async function getIntelligenceBackendContext(input: {
       symbol: marketSnapshot.request.normalizedSymbol,
       alignment,
       boundedConfidence,
+      consensusScore,
       windows,
     },
     execution: {
@@ -435,11 +583,19 @@ export async function getIntelligenceBackendContext(input: {
     workflow: {
       state: workflowSnapshot ? "configured_local" : "unconfigured",
       enabledRuleCount,
+      operatorAckRequiredCount,
       automation: "inactive",
     },
+    risk,
+    executionContext,
     journal: journalPerformance.journal,
     performance: journalPerformance.performance,
     coaching,
+    assist: {
+      depth: "expanded_operator_assist",
+      dataBoundaries: "bounded_local_context",
+      executionAuthority: "operator_manual",
+    },
     truth: {
       predictiveScope: "interpretive_only",
       confidenceSemantics: "context_only",
@@ -488,6 +644,23 @@ export async function getAiIqBrainDiagnosticsProbe(): Promise<DiagnosticsProbe> 
         : "AI/IQ/Brain context expansion is active and bounded",
     detail:
       "Multi-timeframe context, journal/performance insights, and bounded coaching guidance are available with explicit non-predictive semantics, no win-rate guarantees, and no execution authority.",
+    checkedAt: snapshot.checkedAt,
+  };
+}
+
+export async function getAiIqBrainDeepeningDiagnosticsProbe(): Promise<DiagnosticsProbe> {
+  const snapshot = await getIntelligenceBackendContext({});
+
+  return {
+    key: "ai_iq_brain_deepening",
+    label: "AI / IQ / Brain deepening",
+    status: snapshot.availability === "degraded" ? "degraded" : "ready",
+    summary:
+      snapshot.availability === "degraded"
+        ? "Operator-assist deepening is available with degraded market context."
+        : "Operator-assist deepening is active with bounded risk/execution context.",
+    detail:
+      "Expanded operator-assist contracts include multi-timeframe consensus scoring, guarded risk/execution preflight context, journal-performance synthesis, and non-predictive coaching playbooks.",
     checkedAt: snapshot.checkedAt,
   };
 }

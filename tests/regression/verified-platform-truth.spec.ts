@@ -397,6 +397,9 @@ test.describe("verified platform truth", () => {
     expect(["ready", "degraded"]).toContain(
       probes.get("ai_iq_brain_foundation")?.status
     );
+    expect(["ready", "degraded"]).toContain(
+      probes.get("ai_iq_brain_deepening")?.status
+    );
 
     const routes = new Map<string, { path: string; status: string }>(
       diagnosticsPayload.health.routes.map((route: { path: string; status: string }) => [
@@ -472,6 +475,9 @@ test.describe("verified platform truth", () => {
     );
     expect(["ready", "degraded"]).toContain(
       routes.get("/api/intelligence/insights")?.status
+    );
+    expect(["ready", "degraded"]).toContain(
+      routes.get("/api/intelligence/operator-assist")?.status
     );
 
     const compliance = await request.get("/api/account/compliance");
@@ -719,6 +725,21 @@ test.describe("verified platform truth", () => {
       winRateClaim: "none",
       liveExecution: "blocked",
     });
+
+    const intelligenceOperatorAssist = await request.get(
+      "/api/intelligence/operator-assist?symbol=EUR/USD&timeframe=15m"
+    );
+    expect(intelligenceOperatorAssist.status()).toBe(200);
+    const intelligenceOperatorAssistPayload = await intelligenceOperatorAssist.json();
+    expect(intelligenceOperatorAssistPayload.view).toBe("operator_assist_pack");
+    expect(intelligenceOperatorAssistPayload.snapshot.assist).toMatchObject({
+      depth: "expanded_operator_assist",
+      dataBoundaries: "bounded_local_context",
+      executionAuthority: "operator_manual",
+    });
+    expect(typeof intelligenceOperatorAssistPayload.snapshot.multiTimeframe.consensusScore).toBe(
+      "number"
+    );
   });
 
   test("persists backend workspace depth and workflow state for authenticated sessions", async ({

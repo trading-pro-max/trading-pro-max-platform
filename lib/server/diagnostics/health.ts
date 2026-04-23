@@ -19,6 +19,7 @@ import {
   getAlertWorkflowDiagnosticsProbe,
 } from "@/lib/server/workflows";
 import {
+  getAiIqBrainDeepeningDiagnosticsProbe,
   getAiIqBrainDiagnosticsProbe,
   getIntelligenceBackendDiagnosticsProbe,
 } from "@/lib/server/intelligence";
@@ -176,6 +177,7 @@ function buildRouteProbes(input: {
   alertsDelivery: DiagnosticsProbe;
   intelligence: DiagnosticsProbe;
   aiFoundation: DiagnosticsProbe;
+  aiDeepening: DiagnosticsProbe;
   security: DiagnosticsProbe;
   productBackend: DiagnosticsProbe;
   operatorReviewConfigured: boolean;
@@ -346,6 +348,13 @@ function buildRouteProbes(input: {
         "Intelligence insights route serves expanded bounded AI/IQ/Brain context with explicit non-predictive semantics.",
     },
     {
+      path: "/api/intelligence/operator-assist",
+      method: "GET",
+      status: input.aiDeepening.status,
+      detail:
+        "Operator-assist intelligence route serves deepened bounded risk/execution context with explicit non-predictive semantics.",
+    },
+    {
       path: "/api/account/compliance",
       method: "GET",
       status: "auth_required",
@@ -391,6 +400,7 @@ function buildSubsystems(input: {
   alertsDelivery: DiagnosticsProbe;
   intelligence: DiagnosticsProbe;
   aiFoundation: DiagnosticsProbe;
+  aiDeepening: DiagnosticsProbe;
   readiness: DiagnosticsProbe;
 }) {
   return [
@@ -562,6 +572,13 @@ function buildSubsystems(input: {
       summary: input.aiFoundation.summary,
       detail: input.aiFoundation.detail,
     },
+    {
+      key: "ai_iq_brain_deepening",
+      label: input.aiDeepening.label,
+      status: input.aiDeepening.status,
+      summary: input.aiDeepening.summary,
+      detail: input.aiDeepening.detail,
+    },
   ];
 }
 
@@ -588,6 +605,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     alertsDelivery,
     intelligence,
     aiFoundation,
+    aiDeepening,
   ] = await Promise.all([
     probeServerReadiness(),
     getMarketDiagnosticsProbe(),
@@ -609,6 +627,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     getAlertDeliveryActivationDiagnosticsProbe(),
     getIntelligenceBackendDiagnosticsProbe(),
     getAiIqBrainDiagnosticsProbe(),
+    getAiIqBrainDeepeningDiagnosticsProbe(),
   ]);
   const runtimeBaseline = probeRuntimeBaseline(checkedAt);
   const runtimeOps = probeRuntimeOps(checkedAt);
@@ -649,6 +668,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       opsActivation,
       intelligence,
       aiFoundation,
+      aiDeepening,
     ],
   });
 
@@ -680,6 +700,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       alertsDelivery,
       intelligence,
       aiFoundation,
+      aiDeepening,
     ],
     connectors: [brokerConnector],
     routes: buildRouteProbes({
@@ -702,6 +723,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       alertsDelivery,
       intelligence,
       aiFoundation,
+      aiDeepening,
       security,
       productBackend,
       operatorReviewConfigured:
@@ -731,6 +753,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       alertsDelivery,
       intelligence,
       aiFoundation,
+      aiDeepening,
       readiness,
     }),
     policyTruth: {
