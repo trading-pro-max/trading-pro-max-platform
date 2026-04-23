@@ -173,6 +173,10 @@ function buildChecklist(health: DiagnosticsHealthSnapshot) {
     health,
     "/api/launch/public-readiness"
   );
+  const publicGoLiveRouteStatus = findRouteStatus(
+    health,
+    "/api/launch/public-go-live"
+  );
   const parityClosureRouteStatus = findRouteStatus(health, "/api/parity/final");
   const opsHardeningRouteStatus = findRouteStatus(health, "/api/ops/hardening");
   const opsRecoveryRouteStatus = findRouteStatus(health, "/api/ops/recovery");
@@ -274,6 +278,12 @@ function buildChecklist(health: DiagnosticsHealthSnapshot) {
       label: "Public-launch readiness route is explicitly account-guarded",
       passed: publicLaunchRouteStatus === "auth_required",
       evidence: `/api/launch/public-readiness=${publicLaunchRouteStatus}`,
+    },
+    {
+      key: "public_go_live_route_guard",
+      label: "Public go-live route is explicitly account-guarded",
+      passed: publicGoLiveRouteStatus === "auth_required",
+      evidence: `/api/launch/public-go-live=${publicGoLiveRouteStatus}`,
     },
     {
       key: "market_parity_route_operational",

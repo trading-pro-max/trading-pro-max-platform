@@ -54,6 +54,7 @@ type PublicLaunchState =
   | "prepared_guarded"
   | "in_progress_guarded"
   | "blocked_guarded";
+type PublicLaunchDecisionState = "ready_guarded" | "not_ready";
 
 export type LaunchOperationsSnapshot = {
   checkedAt: string;
@@ -156,6 +157,24 @@ export type LaunchOperationsSnapshot = {
         evidence: string;
       }>;
     };
+    contracts: {
+      checklistAuthority: "operator_manual";
+      legalDisclosures: "required_prelaunch";
+      customerComms: "prepared_guarded";
+      statusPage: "manual_guarded";
+    };
+    decision: {
+      goLiveState: PublicLaunchDecisionState;
+      reason:
+        | "checklist_passed_manual_release_required"
+        | "checklist_incomplete_or_gate_blocked";
+      releaseRoute: "/api/launch/public-go-live";
+    };
+    visibility: {
+      launchModeLabel: "public_launch_preparation";
+      customerStateLabel: "not_launched";
+      claimsPolicy: "no_false_public_launch_claims";
+    };
     goLive: {
       releaseAuthority: "operator_manual";
       rolloutWindow: "guarded_unset" | "guarded_planned";
@@ -221,6 +240,17 @@ export type PublicLaunchPreparationSnapshot = {
   mode: "public_launch_preparation";
   stage: LaunchPipelineStageState;
   publicLaunch: LaunchOperationsSnapshot["publicLaunch"];
+  limitations: string[];
+};
+
+export type PublicGoLiveSnapshot = {
+  checkedAt: string;
+  mode: "public_go_live_preparation";
+  stage: LaunchPipelineStageState;
+  publicLaunch: Pick<
+    LaunchOperationsSnapshot["publicLaunch"],
+    "state" | "checklist" | "contracts" | "decision" | "visibility" | "goLive"
+  >;
   limitations: string[];
 };
 
@@ -495,6 +525,20 @@ function mapPublicLaunchState(stage: LaunchPipelineStageState): PublicLaunchStat
   return "blocked_guarded";
 }
 
+function resolvePublicLaunchDecision(stage: LaunchPipelineStageState) {
+  if (stage === "ready") {
+    return {
+      goLiveState: "ready_guarded" as const,
+      reason: "checklist_passed_manual_release_required" as const,
+    };
+  }
+
+  return {
+    goLiveState: "not_ready" as const,
+    reason: "checklist_incomplete_or_gate_blocked" as const,
+  };
+}
+
 export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: {
   session: AuthenticatedSession;
   gate: LaunchReadinessGateSnapshot;
@@ -541,6 +585,7 @@ export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: 
     gateState: stageState.gateState,
     checklistFailedCount: publicChecklist.failedCount,
   });
+  const publicLaunchDecision = resolvePublicLaunchDecision(publicLaunchStage);
 
   return {
     checkedAt,
@@ -663,6 +708,22 @@ export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: 
       mode: "go_live_checklist_guarded",
       state: mapPublicLaunchState(publicLaunchStage),
       checklist: publicChecklist,
+      contracts: {
+        checklistAuthority: "operator_manual",
+        legalDisclosures: "required_prelaunch",
+        customerComms: "prepared_guarded",
+        statusPage: "manual_guarded",
+      },
+      decision: {
+        goLiveState: publicLaunchDecision.goLiveState,
+        reason: publicLaunchDecision.reason,
+        releaseRoute: "/api/launch/public-go-live",
+      },
+      visibility: {
+        launchModeLabel: "public_launch_preparation",
+        customerStateLabel: "not_launched",
+        claimsPolicy: "no_false_public_launch_claims",
+      },
       goLive: {
         releaseAuthority: "operator_manual",
         rolloutWindow: "guarded_unset",
@@ -787,6 +848,33 @@ export async function getPublicLaunchPreparationSnapshotForAuthenticatedSession(
   };
 }
 
+export async function getPublicGoLiveSnapshotForAuthenticatedSession(input: {
+  session: AuthenticatedSession;
+  gate: LaunchReadinessGateSnapshot;
+  hardening?: OpsProductionHardeningSnapshot | null;
+  checkedAt?: string;
+}): Promise<PublicGoLiveSnapshot> {
+  const snapshot = await getLaunchOperationsSnapshotForAuthenticatedSession(input);
+  const stage =
+    snapshot.stages.find((item) => item.key === "public_launch_preparation")?.state ??
+    "blocked";
+
+  return {
+    checkedAt: snapshot.checkedAt,
+    mode: "public_go_live_preparation",
+    stage,
+    publicLaunch: {
+      state: snapshot.publicLaunch.state,
+      checklist: snapshot.publicLaunch.checklist,
+      contracts: snapshot.publicLaunch.contracts,
+      decision: snapshot.publicLaunch.decision,
+      visibility: snapshot.publicLaunch.visibility,
+      goLive: snapshot.publicLaunch.goLive,
+    },
+    limitations: snapshot.limitations,
+  };
+}
+
 export async function getClosedBetaPreparationDiagnosticsProbe(
   checkedAt = new Date().toISOString()
 ): Promise<DiagnosticsProbe> {
@@ -905,7 +993,7 @@ export async function getPublicLaunchPreparationDiagnosticsProbe(
           : "Public launch preparation exists but remains blocked by readiness evidence.",
       detail:
         `Hardening ${hardening.readiness.score}/100 (${hardening.readiness.stage}); ` +
-        `feedback events 30d=${feedbackStore.feedbackEvents30d}; launchClaim=not_launched.`,
+        `feedback events 30d=${feedbackStore.feedbackEvents30d}; launchClaim=not_launched; public_go_live_route=/api/launch/public-go-live.`,
       checkedAt,
     };
   } catch (error) {

@@ -580,6 +580,9 @@ test.describe("verified platform truth", () => {
     expect(routes.get("/api/launch/public-readiness")).toMatchObject({
       status: "auth_required",
     });
+    expect(routes.get("/api/launch/public-go-live")).toMatchObject({
+      status: "auth_required",
+    });
     expect(["ready", "degraded"]).toContain(
       routes.get("/api/parity/final")?.status
     );
@@ -675,6 +678,8 @@ test.describe("verified platform truth", () => {
     expect(softLaunchAccessUnauth.status()).toBe(401);
     const publicLaunchUnauth = await request.get("/api/launch/public-readiness");
     expect(publicLaunchUnauth.status()).toBe(401);
+    const publicGoLiveUnauth = await request.get("/api/launch/public-go-live");
+    expect(publicGoLiveUnauth.status()).toBe(401);
     const commercialStateUnauth = await request.get("/api/account/commercial-state");
     expect(commercialStateUnauth.status()).toBe(401);
     const commercialActivationUnauth = await request.get(
@@ -1215,6 +1220,24 @@ test.describe("verified platform truth", () => {
       state: expect.stringMatching(
         /prepared_guarded|in_progress_guarded|blocked_guarded/
       ),
+      contracts: {
+        checklistAuthority: "operator_manual",
+        legalDisclosures: "required_prelaunch",
+        customerComms: "prepared_guarded",
+        statusPage: "manual_guarded",
+      },
+      decision: {
+        goLiveState: expect.stringMatching(/ready_guarded|not_ready/),
+        reason: expect.stringMatching(
+          /checklist_passed_manual_release_required|checklist_incomplete_or_gate_blocked/
+        ),
+        releaseRoute: "/api/launch/public-go-live",
+      },
+      visibility: {
+        launchModeLabel: "public_launch_preparation",
+        customerStateLabel: "not_launched",
+        claimsPolicy: "no_false_public_launch_claims",
+      },
       goLive: {
         releaseAuthority: "operator_manual",
         rolloutWindow: expect.stringMatching(/guarded_unset|guarded_planned/),
@@ -1303,6 +1326,27 @@ test.describe("verified platform truth", () => {
         state: expect.stringMatching(
           /prepared_guarded|in_progress_guarded|blocked_guarded/
         ),
+      },
+    });
+
+    const publicGoLive = await request.get("/api/launch/public-go-live");
+    expect(publicGoLive.status()).toBe(200);
+    const publicGoLivePayload = await publicGoLive.json();
+    expect(publicGoLivePayload.snapshot).toMatchObject({
+      mode: "public_go_live_preparation",
+      stage: expect.stringMatching(/ready|in_progress|blocked|not_started/),
+      publicLaunch: {
+        state: expect.stringMatching(
+          /prepared_guarded|in_progress_guarded|blocked_guarded/
+        ),
+        decision: {
+          goLiveState: expect.stringMatching(/ready_guarded|not_ready/),
+          releaseRoute: "/api/launch/public-go-live",
+        },
+        visibility: {
+          launchModeLabel: "public_launch_preparation",
+          customerStateLabel: "not_launched",
+        },
       },
     });
 

@@ -426,6 +426,13 @@ function buildRouteProbes(input: {
         `${input.publicLaunchPreparation.summary}. Route is account-scoped and exposes guarded public-launch preparation checklist semantics.`,
     },
     {
+      path: "/api/launch/public-go-live",
+      method: "GET",
+      status: "auth_required",
+      detail:
+        "Public go-live route is account-scoped and exposes guarded release decision semantics.",
+    },
+    {
       path: "/api/account/compliance",
       method: "GET",
       status: "auth_required",
