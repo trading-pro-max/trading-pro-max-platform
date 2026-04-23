@@ -298,6 +298,9 @@ test.describe("verified platform truth", () => {
       highSeverityOpen: expect.any(Number),
       hardeningFollowUps: expect.any(Number),
       recoveryLinked: expect.any(Number),
+      supportReadiness: expect.stringMatching(/operator_ready|operator_guarded/),
+      rollbackReadiness: expect.stringMatching(/recoverable_guarded|guarded/),
+      escalationState: expect.stringMatching(/normal|elevated/),
       productionHardening: expect.stringMatching(/ready|guarded/),
       softLaunch: expect.stringMatching(/ready|guarded/),
       publicLaunch: expect.stringMatching(/ready|guarded/),
@@ -1279,6 +1282,45 @@ test.describe("verified platform truth", () => {
         responseSlaHours: expect.any(Number),
         rolloutStatus: "limited_guarded",
       },
+      guardrails: {
+        capacityProtection: {
+          state: expect.stringMatching(
+            /stable_guarded|pressure_guarded|at_limit_guarded/
+          ),
+          utilizationPct: expect.any(Number),
+          thresholdPct: expect.any(Number),
+          protectionMode: "queue_then_operator_review",
+        },
+        supportReadiness: {
+          state: expect.stringMatching(/operator_ready|operator_guarded/),
+          pendingTriage: expect.any(Number),
+          highSeverityOpen: expect.any(Number),
+          supportLane: "operator_review",
+          incidentLane: "operator_incident_review",
+          responseSlaHours: expect.any(Number),
+        },
+        rollback: {
+          state: expect.stringMatching(/recoverable_guarded|guarded/),
+          strategy: "manual_checkpoint_restore",
+          rollbackWindowMinutes: expect.any(Number),
+          requiresOperatorConfirmation: true,
+          recoveryRoute: "/api/ops/recovery",
+          runbookRoute: "/api/ops/runbook",
+        },
+        commercial: {
+          billing: "inactive",
+          checkout: "not_enabled",
+          subscriptionActivation: "inactive_guarded",
+          rolloutClaim: "limited_rollout_only",
+        },
+        escalation: {
+          policy: "manual_threshold_escalation",
+          triggerState: expect.stringMatching(/normal|elevated/),
+          triggers: expect.any(Array),
+          feedbackRoute: "/api/launch/feedback",
+          recoveryRoute: "/api/ops/recovery",
+        },
+      },
       truth: {
         launchClaim: "not_launched",
         publicLaunchClaim: "not_claimed",
@@ -1351,6 +1393,8 @@ test.describe("verified platform truth", () => {
       highSeverityOpen: expect.any(Number),
       hardeningFollowUps: expect.any(Number),
       recoveryLinked: expect.any(Number),
+      supportReadiness: expect.stringMatching(/operator_ready|operator_guarded/),
+      escalationState: expect.stringMatching(/normal|elevated/),
       feedbackRoute: "/api/launch/feedback",
       hardeningRoute: "/api/ops/hardening",
       recoveryRoute: "/api/ops/recovery",
@@ -1383,6 +1427,19 @@ test.describe("verified platform truth", () => {
         programMode: expect.stringMatching(/limited_rollout_guarded|disabled_guarded/),
         state: expect.stringMatching(/prepared_guarded|active_guarded|blocked_guarded/),
         access: "cohort_and_capacity_guard",
+        guardrails: {
+          capacityProtection: {
+            state: expect.stringMatching(
+              /stable_guarded|pressure_guarded|at_limit_guarded/
+            ),
+          },
+          supportReadiness: {
+            state: expect.stringMatching(/operator_ready|operator_guarded/),
+          },
+          rollback: {
+            state: expect.stringMatching(/recoverable_guarded|guarded/),
+          },
+        },
       },
     });
 
@@ -1404,6 +1461,19 @@ test.describe("verified platform truth", () => {
         activation: {
           state: expect.stringMatching(/active_guarded|inactive_guarded/),
           activationRoute: "/api/launch/operations",
+        },
+        guardrails: {
+          capacityProtection: {
+            state: expect.stringMatching(
+              /stable_guarded|pressure_guarded|at_limit_guarded/
+            ),
+          },
+          supportReadiness: {
+            state: expect.stringMatching(/operator_ready|operator_guarded/),
+          },
+          rollback: {
+            state: expect.stringMatching(/recoverable_guarded|guarded/),
+          },
         },
       },
     });

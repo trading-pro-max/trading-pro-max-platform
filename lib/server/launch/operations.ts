@@ -2,7 +2,9 @@ import "server-only";
 import type { AuthenticatedSession } from "@/lib/auth/service";
 import { prisma } from "@/lib/db/client";
 import {
+  getOpsRecoverySnapshot,
   getOpsProductionHardeningSnapshot,
+  type OpsRecoverySnapshot,
   type OpsProductionHardeningSnapshot,
 } from "@/lib/server/ops";
 import type { DiagnosticsProbe } from "@/modules/shell/types/platform-state";
@@ -67,6 +69,11 @@ type SoftLaunchState = "prepared_guarded" | "active_guarded" | "blocked_guarded"
 type SoftLaunchCapacityState = "within_limit" | "at_limit";
 type SoftLaunchProgramMode = "limited_rollout_guarded" | "disabled_guarded";
 type SoftLaunchAdmissionDecision = "admitted" | "queue_review" | "blocked";
+type SoftLaunchCapacityProtectionState =
+  | "stable_guarded"
+  | "pressure_guarded"
+  | "at_limit_guarded";
+type SoftLaunchSupportReadinessState = "operator_ready" | "operator_guarded";
 type PublicLaunchState =
   | "prepared_guarded"
   | "in_progress_guarded"
@@ -178,6 +185,43 @@ export type LaunchOperationsSnapshot = {
       responseSlaHours: number;
       rolloutStatus: "limited_guarded";
     };
+    guardrails: {
+      capacityProtection: {
+        state: SoftLaunchCapacityProtectionState;
+        utilizationPct: number;
+        thresholdPct: number;
+        protectionMode: "queue_then_operator_review";
+      };
+      supportReadiness: {
+        state: SoftLaunchSupportReadinessState;
+        pendingTriage: number;
+        highSeverityOpen: number;
+        supportLane: "operator_review";
+        incidentLane: "operator_incident_review";
+        responseSlaHours: number;
+      };
+      rollback: {
+        state: "recoverable_guarded" | "guarded";
+        strategy: "manual_checkpoint_restore";
+        rollbackWindowMinutes: number;
+        requiresOperatorConfirmation: true;
+        recoveryRoute: "/api/ops/recovery";
+        runbookRoute: "/api/ops/runbook";
+      };
+      commercial: {
+        billing: "inactive";
+        checkout: "not_enabled";
+        subscriptionActivation: "inactive_guarded";
+        rolloutClaim: "limited_rollout_only";
+      };
+      escalation: {
+        policy: "manual_threshold_escalation";
+        triggerState: "normal" | "elevated";
+        triggers: string[];
+        feedbackRoute: "/api/launch/feedback";
+        recoveryRoute: "/api/ops/recovery";
+      };
+    };
     truth: {
       launchClaim: "not_launched";
       publicLaunchClaim: "not_claimed";
@@ -244,6 +288,8 @@ export type LaunchOperationsSnapshot = {
     recoveryLinked: number;
     lastFeedbackAt: string | null;
     lastLifecycleUpdateAt: string | null;
+    supportReadiness: SoftLaunchSupportReadinessState;
+    escalationState: "normal" | "elevated";
     feedbackRoute: "/api/launch/feedback";
     hardeningRoute: "/api/ops/hardening";
     recoveryRoute: "/api/ops/recovery";
@@ -273,7 +319,13 @@ export type SoftLaunchAccessSnapshot = {
   stage: LaunchPipelineStageState;
   softLaunch: Pick<
     LaunchOperationsSnapshot["softLaunch"],
-    "programMode" | "state" | "admission" | "activation" | "capacity" | "support"
+    | "programMode"
+    | "state"
+    | "admission"
+    | "activation"
+    | "capacity"
+    | "support"
+    | "guardrails"
   >;
   limitations: string[];
 };
@@ -392,6 +444,90 @@ function resolveSoftLaunchAdmission(input: {
   return {
     decision: "queue_review" as const,
     reason: "requires_operator_review" as const,
+  };
+}
+
+function resolveSoftLaunchCapacityProtection(input: {
+  activeAccounts: number;
+  maxAccounts: number;
+  remainingSlots: number;
+}) {
+  const utilizationPct =
+    input.maxAccounts > 0
+      ? Math.min(
+          100,
+          Math.max(0, Math.round((input.activeAccounts / input.maxAccounts) * 100))
+        )
+      : 100;
+  const thresholdPct = 80;
+  const state: SoftLaunchCapacityProtectionState =
+    input.remainingSlots <= 0
+      ? "at_limit_guarded"
+      : utilizationPct >= thresholdPct
+      ? "pressure_guarded"
+      : "stable_guarded";
+
+  return {
+    state,
+    utilizationPct,
+    thresholdPct,
+    protectionMode: "queue_then_operator_review" as const,
+  };
+}
+
+function resolveSoftLaunchSupportReadiness(input: {
+  feedbackSnapshot: Awaited<
+    ReturnType<typeof getLaunchFeedbackSnapshotForAuthenticatedSession>
+  >;
+  hardening: OpsProductionHardeningSnapshot | null;
+}): {
+  state: SoftLaunchSupportReadinessState;
+  pendingTriage: number;
+  highSeverityOpen: number;
+  responseSlaHours: number;
+} {
+  const pendingTriage = input.feedbackSnapshot.summary.pendingTriage;
+  const highSeverityOpen = input.feedbackSnapshot.summary.highSeverityOpen;
+  const hardeningGuarded = input.hardening?.degraded.status === "guarded";
+  const state: SoftLaunchSupportReadinessState =
+    pendingTriage > 20 || highSeverityOpen > 0 || hardeningGuarded
+      ? "operator_guarded"
+      : "operator_ready";
+
+  return {
+    state,
+    pendingTriage,
+    highSeverityOpen,
+    responseSlaHours: state === "operator_ready" ? 24 : 48,
+  };
+}
+
+function buildSoftLaunchEscalation(input: {
+  capacityProtection: ReturnType<typeof resolveSoftLaunchCapacityProtection>;
+  supportReadiness: ReturnType<typeof resolveSoftLaunchSupportReadiness>;
+  hardening: OpsProductionHardeningSnapshot | null;
+  recovery: OpsRecoverySnapshot;
+}) {
+  const triggers = [
+    ...(input.supportReadiness.pendingTriage > 20
+      ? ["pending_triage_threshold"]
+      : []),
+    ...(input.supportReadiness.highSeverityOpen > 0
+      ? ["high_severity_open_feedback"]
+      : []),
+    ...(input.capacityProtection.state === "pressure_guarded" ||
+    input.capacityProtection.state === "at_limit_guarded"
+      ? ["capacity_pressure"]
+      : []),
+    ...(input.hardening?.degraded.status === "guarded"
+      ? ["hardening_degraded"]
+      : []),
+    ...(input.recovery.stage === "guarded" ? ["rollback_guarded"] : []),
+  ];
+
+  return {
+    triggerState: triggers.length > 0 ? ("elevated" as const) : ("normal" as const),
+    triggers: triggers.length > 0 ? triggers : ["none"],
   };
 }
 
@@ -648,7 +784,13 @@ export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: 
     email: input.session.user.email,
     accountId: input.session.account.id,
   });
-  const [controlState, feedbackSnapshot, closedBetaCapacity, softLaunchCapacity] =
+  const [
+    controlState,
+    feedbackSnapshot,
+    closedBetaCapacity,
+    softLaunchCapacity,
+    opsRecovery,
+  ] =
     await Promise.all([
       getLaunchOperationsControlStateSnapshot({
         checkedAt,
@@ -657,6 +799,7 @@ export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: 
       getLaunchFeedbackSnapshotForAuthenticatedSession(input.session, checkedAt),
       getClosedBetaCapacity(),
       getSoftLaunchCapacity(),
+      getOpsRecoverySnapshot(checkedAt),
     ]);
   const mode = mapLaunchOperationsModeFromLifecycleStage(controlState.stage);
   const programStages = resolveLaunchProgramStages(mode);
@@ -739,6 +882,21 @@ export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: 
       : softLaunchActivated
       ? "active_guarded"
       : "prepared_guarded";
+  const softLaunchCapacityProtection = resolveSoftLaunchCapacityProtection({
+    activeAccounts: softLaunchCapacity.activeAccounts,
+    maxAccounts: softLaunchCapacity.maxAccounts,
+    remainingSlots: softLaunchCapacity.remainingSlots,
+  });
+  const softLaunchSupportReadiness = resolveSoftLaunchSupportReadiness({
+    feedbackSnapshot,
+    hardening: input.hardening ?? null,
+  });
+  const softLaunchEscalation = buildSoftLaunchEscalation({
+    capacityProtection: softLaunchCapacityProtection,
+    supportReadiness: softLaunchSupportReadiness,
+    hardening: input.hardening ?? null,
+    recovery: opsRecovery,
+  });
 
   return {
     checkedAt,
@@ -874,8 +1032,49 @@ export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: 
       },
       support: {
         feedbackRoute: "/api/launch/feedback",
-        responseSlaHours: 48,
+        responseSlaHours: softLaunchSupportReadiness.responseSlaHours,
         rolloutStatus: "limited_guarded",
+      },
+      guardrails: {
+        capacityProtection: {
+          state: softLaunchCapacityProtection.state,
+          utilizationPct: softLaunchCapacityProtection.utilizationPct,
+          thresholdPct: softLaunchCapacityProtection.thresholdPct,
+          protectionMode: softLaunchCapacityProtection.protectionMode,
+        },
+        supportReadiness: {
+          state: softLaunchSupportReadiness.state,
+          pendingTriage: softLaunchSupportReadiness.pendingTriage,
+          highSeverityOpen: softLaunchSupportReadiness.highSeverityOpen,
+          supportLane: "operator_review",
+          incidentLane: "operator_incident_review",
+          responseSlaHours: softLaunchSupportReadiness.responseSlaHours,
+        },
+        rollback: {
+          state:
+            opsRecovery.stage === "recoverable"
+              ? "recoverable_guarded"
+              : "guarded",
+          strategy: opsRecovery.rollback.strategy,
+          rollbackWindowMinutes: opsRecovery.rollback.rollbackWindowMinutes,
+          requiresOperatorConfirmation:
+            opsRecovery.rollback.requiresOperatorConfirmation,
+          recoveryRoute: "/api/ops/recovery",
+          runbookRoute: "/api/ops/runbook",
+        },
+        commercial: {
+          billing: "inactive",
+          checkout: "not_enabled",
+          subscriptionActivation: "inactive_guarded",
+          rolloutClaim: "limited_rollout_only",
+        },
+        escalation: {
+          policy: "manual_threshold_escalation",
+          triggerState: softLaunchEscalation.triggerState,
+          triggers: softLaunchEscalation.triggers,
+          feedbackRoute: "/api/launch/feedback",
+          recoveryRoute: "/api/ops/recovery",
+        },
       },
       truth: {
         launchClaim: "not_launched",
@@ -931,6 +1130,8 @@ export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: 
       recoveryLinked: feedbackSnapshot.triage.recoveryLinked,
       lastFeedbackAt: feedbackSnapshot.summary.lastSubmittedAt,
       lastLifecycleUpdateAt: feedbackSnapshot.summary.lastLifecycleUpdateAt,
+      supportReadiness: softLaunchSupportReadiness.state,
+      escalationState: softLaunchEscalation.triggerState,
       feedbackRoute: "/api/launch/feedback",
       hardeningRoute: "/api/ops/hardening",
       recoveryRoute: "/api/ops/recovery",
@@ -1015,6 +1216,7 @@ export async function getSoftLaunchAccessSnapshotForAuthenticatedSession(input: 
       activation: snapshot.softLaunch.activation,
       capacity: snapshot.softLaunch.capacity,
       support: snapshot.softLaunch.support,
+      guardrails: snapshot.softLaunch.guardrails,
     },
     limitations: snapshot.limitations,
   };
@@ -1137,19 +1339,31 @@ export async function getSoftLaunchPreparationDiagnosticsProbe(
   checkedAt = new Date().toISOString()
 ): Promise<DiagnosticsProbe> {
   try {
-    const [controlState, hardening, activeAccounts] = await Promise.all([
+    const [controlState, hardening, activeAccounts, feedbackStore, opsRecovery] =
+      await Promise.all([
       getLaunchOperationsControlStateSnapshot({ checkedAt }),
       getOpsProductionHardeningSnapshot(checkedAt),
       prisma.account.count(),
+      getLaunchFeedbackStoreDiagnostics({ checkedAt }),
+      getOpsRecoverySnapshot(checkedAt),
     ]);
     const maxAccounts = resolveSoftLaunchMaxAccounts();
     const remainingSlots = Math.max(0, maxAccounts - activeAccounts);
     const softLaunchEnabled = isSoftLaunchEnabled();
+    const capacityProtection = resolveSoftLaunchCapacityProtection({
+      activeAccounts,
+      maxAccounts,
+      remainingSlots,
+    });
     const softLaunchPrepared =
       softLaunchEnabled && hardening.readiness.score >= 60 && remainingSlots > 0;
     const softLaunchActive =
       controlState.stage === "soft_launch_active" ||
       controlState.stage === "public_launch_gate_active";
+    const supportGuarded =
+      feedbackStore.pendingTriageCount > 20 ||
+      feedbackStore.highSeverityOpenCount > 0 ||
+      hardening.degraded.status === "guarded";
     const status = softLaunchPrepared ? "ready" : "degraded";
 
     return {
@@ -1166,7 +1380,9 @@ export async function getSoftLaunchPreparationDiagnosticsProbe(
         `activation_mode=${controlState.mode}; activation_stage=${controlState.stage}; ` +
         `soft_launch_enabled=${softLaunchEnabled}; ` +
         `Hardening ${hardening.readiness.score}/100 (${hardening.readiness.stage}); ` +
-        `capacity ${activeAccounts}/${maxAccounts} with ${remainingSlots} slot(s) remaining.`,
+        `capacity ${activeAccounts}/${maxAccounts} with ${remainingSlots} slot(s) remaining (${capacityProtection.state}). ` +
+        `support_guarded=${supportGuarded}; pending_triage=${feedbackStore.pendingTriageCount}; high_severity_open=${feedbackStore.highSeverityOpenCount}; ` +
+        `rollback_stage=${opsRecovery.stage}.`,
       checkedAt,
     };
   } catch (error) {

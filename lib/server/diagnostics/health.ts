@@ -1043,6 +1043,21 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       hardeningFollowUps: feedbackStoreDiagnostics.hardeningFollowUpCount,
       recoveryLinked: feedbackStoreDiagnostics.recoveryLinkedCount,
       lastLifecycleUpdateAt: feedbackStoreDiagnostics.lastLifecycleUpdateAt,
+      supportReadiness:
+        feedbackStoreDiagnostics.pendingTriageCount > 20 ||
+        feedbackStoreDiagnostics.highSeverityOpenCount > 0
+          ? "operator_guarded"
+          : "operator_ready",
+      rollbackReadiness:
+        productionHardening.status === "ready"
+          ? "recoverable_guarded"
+          : "guarded",
+      escalationState:
+        feedbackStoreDiagnostics.pendingTriageCount > 20 ||
+        feedbackStoreDiagnostics.highSeverityOpenCount > 0 ||
+        productionHardening.status !== "ready"
+          ? "elevated"
+          : "normal",
       productionHardening:
         productionHardening.status === "ready" ? "ready" : "guarded",
       softLaunch: softLaunchPreparation.status === "ready" ? "ready" : "guarded",

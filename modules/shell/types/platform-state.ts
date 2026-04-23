@@ -683,6 +683,9 @@ export type DiagnosticsHealthSnapshot = {
     hardeningFollowUps?: number;
     recoveryLinked?: number;
     lastLifecycleUpdateAt?: string | null;
+    supportReadiness?: "operator_ready" | "operator_guarded";
+    rollbackReadiness?: "recoverable_guarded" | "guarded";
+    escalationState?: "normal" | "elevated";
     productionHardening: "ready" | "guarded";
     softLaunch?: "ready" | "guarded";
     publicLaunch?: "ready" | "guarded";
