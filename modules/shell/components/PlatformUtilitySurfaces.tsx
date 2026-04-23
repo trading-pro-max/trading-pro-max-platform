@@ -257,6 +257,47 @@ export function PlatformDiagnosticsSurface({
       },
     ];
 
+  const connectorItems =
+    diagnosticsHealth?.connectors.flatMap((connector) => [
+      {
+        label: connector.label,
+        value: connector.summary,
+        tone:
+          connector.state === "unconfigured"
+            ? ("restricted" as const)
+            : ("blocked" as const),
+        note: connector.detail,
+      },
+      {
+        label: "Paper capability",
+        value: "Local paper only",
+        tone: "pending" as const,
+        note: `Connection state: ${connector.connectionState}`,
+      },
+      {
+        label: "Real-money capability",
+        value: "Blocked",
+        tone: "blocked" as const,
+        note: `Activation gate: ${connector.activationGate}`,
+      },
+      {
+        label: "Operator review",
+        value: connector.operatorReview.summary,
+        tone:
+          connector.operatorReview.state === "unconfigured"
+            ? ("restricted" as const)
+            : ("pending" as const),
+        note: connector.operatorReview.detail,
+      },
+    ]) ?? [
+      {
+        label: "Broker connector",
+        value: "Loading",
+        tone: "pending" as const,
+        note: "Waiting for connector safety state.",
+      },
+    ];
+
   const readinessItems = [
     {
       label: viewModel.paperAccessLabel,
@@ -356,6 +397,10 @@ export function PlatformDiagnosticsSurface({
 
       <UtilitySection eyebrow="PROBES" title="Backend and connector probes">
         <UtilityGrid items={probeItems} />
+      </UtilitySection>
+
+      <UtilitySection eyebrow="CONNECTORS" title="Connector safety state">
+        <UtilityGrid items={connectorItems} />
       </UtilitySection>
 
       <UtilitySection eyebrow="ROUTES" title="API route visibility">

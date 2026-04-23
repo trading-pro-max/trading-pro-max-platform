@@ -16,6 +16,7 @@ export async function GET() {
       paperSafe: true,
       liveExecution: "blocked",
       readiness: health.readiness,
+      connectors: health.connectors,
     },
     {
       status: ready ? 200 : 503,

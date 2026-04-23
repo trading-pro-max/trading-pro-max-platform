@@ -443,11 +443,50 @@ export type DiagnosticsRouteProbe = {
   detail: string;
 };
 
+export type ConnectorState = "unconfigured" | "configured_blocked";
+export type ConnectorConnectionState =
+  | "unconfigured"
+  | "configured_not_connected";
+export type ConnectorActivationGate =
+  | "configuration_required"
+  | "policy_blocked";
+export type ConnectorCapabilityState = "local_paper_only" | "blocked";
+export type ConnectorOperatorKeyMode =
+  | "configured"
+  | "local_explicit"
+  | "unconfigured";
+export type ConnectorOperatorReviewState =
+  | "unconfigured"
+  | "configured_guarded"
+  | "local_explicit_guarded";
+
+export type ConnectorSafetySnapshot = {
+  key: "broker";
+  label: string;
+  state: ConnectorState;
+  configured: boolean;
+  connectionState: ConnectorConnectionState;
+  activationGate: ConnectorActivationGate;
+  paperCapability: Extract<ConnectorCapabilityState, "local_paper_only">;
+  realCapability: Extract<ConnectorCapabilityState, "blocked">;
+  liveExecution: "blocked";
+  operatorReview: {
+    state: ConnectorOperatorReviewState;
+    keyMode: ConnectorOperatorKeyMode;
+    summary: string;
+    detail: string;
+  };
+  summary: string;
+  detail: string;
+  checkedAt: string;
+};
+
 export type DiagnosticsHealthSnapshot = {
   checkedAt: string;
   readiness: DiagnosticsProbe;
   probes: DiagnosticsProbe[];
   routes: DiagnosticsRouteProbe[];
+  connectors: ConnectorSafetySnapshot[];
 };
 
 export type DiagnosticsRoutePayload = {

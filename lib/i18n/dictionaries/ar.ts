@@ -7,7 +7,7 @@ const ar = {
   },
   common: {
     paper: "ورقي",
-    liveFeed: "تغذية حية",
+    liveFeed: "تغذية احتياطية",
     stable: "مستقر",
     ready: "جاهز",
     closed: "مغلق",

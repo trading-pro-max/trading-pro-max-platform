@@ -1,5 +1,9 @@
 import "server-only";
 import { prisma } from "@/lib/db/client";
+import {
+  getBrokerConnectorDiagnosticsProbe,
+  getBrokerConnectorSafetySnapshot,
+} from "@/lib/server/connectors/broker";
 import { getMarketDiagnosticsProbe } from "@/lib/server/market-data/service";
 import { probeWorkspacePreferencePersistence } from "@/lib/server/preferences/state";
 import { getSecurityDiagnosticsProbe } from "@/lib/server/security";
@@ -9,7 +13,6 @@ import type {
   DiagnosticsRouteProbe,
 } from "@/modules/shell/types/platform-state";
 
-const BROKER_CONNECTOR_URL = process.env.TPM_BROKER_CONNECTOR_URL?.trim();
 const REQUIRED_READY_STATUSES = new Set<DiagnosticsProbe["status"]>(["ready"]);
 const NON_BLOCKING_TRUTHFUL_STATUSES = new Set<DiagnosticsProbe["status"]>([
   "auth_required",
@@ -63,30 +66,6 @@ function probeRuntimeBaseline(checkedAt: string): DiagnosticsProbe {
   };
 }
 
-function buildBrokerConnectorProbe(checkedAt: string): DiagnosticsProbe {
-  if (!BROKER_CONNECTOR_URL) {
-    return {
-      key: "broker_connector",
-      label: "Connector visibility",
-      status: "unconfigured",
-      summary: "No broker connector configured",
-      detail:
-        "Broker connectivity is not configured, activation is blocked, and real-money execution remains disabled.",
-      checkedAt,
-    };
-  }
-
-  return {
-    key: "broker_connector",
-    label: "Connector visibility",
-    status: "blocked",
-    summary: "Connector configured but blocked",
-    detail:
-      "A connector endpoint is configured for future integration work, but broker activation and real-money execution remain blocked by policy.",
-    checkedAt,
-  };
-}
-
 function buildAggregateReadiness(input: {
   checkedAt: string;
   required: DiagnosticsProbe[];
@@ -132,6 +111,7 @@ function buildRouteProbes(input: {
   preferences: DiagnosticsProbe;
   security: DiagnosticsProbe;
   broker: DiagnosticsProbe;
+  operatorReviewConfigured: boolean;
 }): DiagnosticsRouteProbe[] {
   return [
     {
@@ -177,8 +157,7 @@ function buildRouteProbes(input: {
     {
       path: "/api/operator/compliance/review",
       method: "POST",
-      status:
-        input.broker.status === "unavailable" ? "unavailable" : "blocked",
+      status: input.operatorReviewConfigured ? "auth_required" : "unconfigured",
       detail:
         "Operator review requires operator auth plus an explicit operator secret and is unavailable unless configured.",
     },
@@ -193,7 +172,8 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     probeWorkspacePreferencePersistence(),
   ]);
   const runtimeBaseline = probeRuntimeBaseline(checkedAt);
-  const broker = buildBrokerConnectorProbe(checkedAt);
+  const brokerConnector = getBrokerConnectorSafetySnapshot(checkedAt);
+  const broker = getBrokerConnectorDiagnosticsProbe(brokerConnector);
   const security = getSecurityDiagnosticsProbe();
   const readiness = buildAggregateReadiness({
     checkedAt,
@@ -205,12 +185,15 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     checkedAt,
     readiness,
     probes: [server, runtimeBaseline, market, preferences, security, broker],
+    connectors: [brokerConnector],
     routes: buildRouteProbes({
       readiness,
       market,
       preferences,
       security,
       broker,
+      operatorReviewConfigured:
+        brokerConnector.operatorReview.state !== "unconfigured",
     }),
   };
 }

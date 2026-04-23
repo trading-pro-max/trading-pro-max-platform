@@ -7,7 +7,7 @@ const en = {
   },
   common: {
     paper: "Paper",
-    liveFeed: "Live Feed",
+    liveFeed: "Fallback Feed",
     stable: "Stable",
     ready: "Ready",
     closed: "Closed",
