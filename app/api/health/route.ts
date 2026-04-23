@@ -1,11 +1,13 @@
 import { NextResponse } from "next/server";
 import { getDiagnosticsHealthSnapshot } from "@/lib/server/diagnostics/health";
+import { buildLaunchReadinessGateSnapshot } from "@/lib/server/launch";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
   const health = await getDiagnosticsHealthSnapshot();
+  const launchReadinessGate = buildLaunchReadinessGateSnapshot(health);
   const ready = health.readiness.status === "ready";
   const opsSubsystem = health.subsystems?.find((subsystem) => subsystem.key === "ops");
   const degradedSubsystems =
@@ -31,6 +33,14 @@ export async function GET() {
           }
         : null,
       policyTruth: health.policyTruth,
+      launchReadinessGate: {
+        mode: launchReadinessGate.mode,
+        status: launchReadinessGate.overall.status,
+        score: launchReadinessGate.overall.score,
+        failedChecklist: launchReadinessGate.checklist.failedCount,
+        warnedDomains: launchReadinessGate.overall.warnCount,
+        checkedAt: launchReadinessGate.checkedAt,
+      },
       truthSemantics: {
         blocked: [
           "live_execution",

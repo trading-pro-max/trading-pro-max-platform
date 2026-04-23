@@ -646,6 +646,14 @@ export type DiagnosticsHealthSnapshot = {
     };
     summary: string;
   };
+  launchReadiness?: {
+    checkedAt: string;
+    mode: "verification_gate";
+    status: "pass" | "fail";
+    score: number;
+    failedChecklist: number;
+    warnedDomains: number;
+  };
 };
 
 export type DiagnosticsRoutePayload = {

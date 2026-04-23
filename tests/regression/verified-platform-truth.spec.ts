@@ -271,6 +271,13 @@ test.describe("verified platform truth", () => {
       brokerRouting: "blocked",
       externalFeed: "fallback_active",
     });
+    expect(healthPayload.launchReadinessGate).toMatchObject({
+      mode: "verification_gate",
+      status: expect.stringMatching(/pass|fail/),
+      score: expect.any(Number),
+      failedChecklist: expect.any(Number),
+      warnedDomains: expect.any(Number),
+    });
     expect(healthPayload.truthSemantics).toMatchObject({
       blocked: expect.arrayContaining([
         "live_execution",
@@ -429,6 +436,9 @@ test.describe("verified platform truth", () => {
     expect(["ready", "degraded"]).toContain(
       probes.get("ai_iq_brain_deepening")?.status
     );
+    expect(["ready", "degraded"]).toContain(
+      probes.get("launch_readiness_gate")?.status
+    );
 
     const routes = new Map<string, { path: string; status: string }>(
       diagnosticsPayload.health.routes.map((route: { path: string; status: string }) => [
@@ -508,6 +518,27 @@ test.describe("verified platform truth", () => {
     expect(["ready", "degraded"]).toContain(
       routes.get("/api/intelligence/operator-assist")?.status
     );
+    expect(["ready", "degraded"]).toContain(
+      routes.get("/api/launch/readiness")?.status
+    );
+
+    const launchReadiness = await request.get("/api/launch/readiness");
+    expect(launchReadiness.status()).toBe(200);
+    const launchReadinessPayload = await launchReadiness.json();
+    expect(launchReadinessPayload.gate).toMatchObject({
+      gateVersion: "tpm.launch.readiness.v1",
+      mode: "verification_gate",
+      overall: {
+        status: expect.stringMatching(/pass|fail/),
+      },
+      truth: {
+        launchClaim: "not_launched",
+        publicLaunchClaim: "not_claimed",
+        liveExecution: "blocked",
+      },
+    });
+    expect(launchReadinessPayload.gate.domains).toHaveLength(9);
+    expect(launchReadinessPayload.gate.checklist.items.length).toBeGreaterThan(4);
 
     const compliance = await request.get("/api/account/compliance");
     expect(compliance.status()).toBe(401);
