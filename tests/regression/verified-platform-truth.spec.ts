@@ -304,6 +304,9 @@ test.describe("verified platform truth", () => {
     expect(healthPayload.clientExpansion.mobile.foundation.targets).toEqual(
       expect.arrayContaining(["android", "ios"])
     );
+    expect(healthPayload.ops).toMatchObject({
+      status: "ready",
+    });
     expect(Array.isArray(healthPayload.subsystems)).toBe(true);
     expect(healthPayload.subsystems.length).toBeGreaterThanOrEqual(8);
     expect(healthPayload.connectors[0]).toMatchObject({
@@ -337,6 +340,9 @@ test.describe("verified platform truth", () => {
       status: "ready",
     });
     expect(probes.get("product_backend_state")).toMatchObject({
+      status: "ready",
+    });
+    expect(probes.get("enterprise_ops_foundation")).toMatchObject({
       status: "ready",
     });
     expect(probes.get("commercial_scaling_foundation")).toMatchObject({
@@ -380,6 +386,12 @@ test.describe("verified platform truth", () => {
     expect(routes.get("/api/account/product-state")).toMatchObject({
       status: "auth_required",
     });
+    expect(routes.get("/api/ops/telemetry")).toMatchObject({
+      status: "auth_required",
+    });
+    expect(routes.get("/api/ops/runbook")).toMatchObject({
+      status: "auth_required",
+    });
     expect(routes.get("/api/alerts/workflows")).toMatchObject({
       status: "auth_required",
     });
@@ -410,6 +422,10 @@ test.describe("verified platform truth", () => {
 
     const compliance = await request.get("/api/account/compliance");
     expect(compliance.status()).toBe(401);
+    const opsTelemetryUnauth = await request.get("/api/ops/telemetry");
+    expect(opsTelemetryUnauth.status()).toBe(401);
+    const opsRunbookUnauth = await request.get("/api/ops/runbook");
+    expect(opsRunbookUnauth.status()).toBe(401);
     const automationStateUnauth = await request.get("/api/alerts/automation/state");
     expect(automationStateUnauth.status()).toBe(401);
     const commercialStateUnauth = await request.get("/api/account/commercial-state");
@@ -590,6 +606,34 @@ test.describe("verified platform truth", () => {
       subscriptions: "unconfigured",
       plan: "evaluation",
     });
+
+    const opsTelemetry = await request.get("/api/ops/telemetry");
+    expect(opsTelemetry.status()).toBe(200);
+    const opsTelemetryPayload = await opsTelemetry.json();
+    expect(opsTelemetryPayload.snapshot.observability).toMatchObject({
+      mode: "local_observability",
+      logging: "structured_local",
+      metrics: "runtime_process",
+      tracing: "inactive",
+      alerting: "unconfigured",
+    });
+    expect(opsTelemetryPayload.snapshot.opsTruth).toMatchObject({
+      adminSurface: "operator_guarded_api",
+      remoteControl: "not_enabled",
+      externalMonitoring: "unconfigured",
+      incidentAutomation: "inactive",
+    });
+
+    const opsRunbook = await request.get("/api/ops/runbook");
+    expect(opsRunbook.status()).toBe(200);
+    const opsRunbookPayload = await opsRunbook.json();
+    expect(opsRunbookPayload.snapshot.mode).toBe("operator_manual");
+    expect(opsRunbookPayload.snapshot.runbooks).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ key: "runtime_readiness", state: "ready" }),
+        expect.objectContaining({ key: "execution_safety", state: "ready" }),
+      ])
+    );
 
     const commercialState = await request.get("/api/account/commercial-state");
     expect(commercialState.status()).toBe(200);

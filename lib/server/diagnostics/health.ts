@@ -23,6 +23,7 @@ import { getDesktopAppsDiagnosticsProbe } from "@/lib/server/platform/desktop-fo
 import { getMobileAppsDiagnosticsProbe } from "@/lib/server/platform/mobile-foundation";
 import { getRealIntegrationsDiagnosticsProbe } from "@/lib/server/integrations";
 import { getCommercialScalingDiagnosticsProbe } from "@/lib/server/commercial";
+import { getEnterpriseOpsDiagnosticsProbe } from "@/lib/server/ops";
 import type {
   DiagnosticsHealthSnapshot,
   DiagnosticsProbe,
@@ -147,6 +148,7 @@ function buildRouteProbes(input: {
   mobileFoundation: DiagnosticsProbe;
   integrationsFoundation: DiagnosticsProbe;
   commercialFoundation: DiagnosticsProbe;
+  opsFoundation: DiagnosticsProbe;
   workspace: DiagnosticsProbe;
   alerts: DiagnosticsProbe;
   alertsAutomation: DiagnosticsProbe;
@@ -213,6 +215,19 @@ function buildRouteProbes(input: {
       status: input.commercialFoundation.status,
       detail:
         "Commercial catalog route reports plan/capability contracts and explicit inactive billing semantics.",
+    },
+    {
+      path: "/api/ops/telemetry",
+      method: "GET",
+      status: "auth_required",
+      detail: `${input.opsFoundation.summary}. Ops telemetry route is operator-guarded and requires authentication.`,
+    },
+    {
+      path: "/api/ops/runbook",
+      method: "GET",
+      status: "auth_required",
+      detail:
+        "Ops runbook route is operator-guarded and requires authentication.",
     },
     {
       path: "/api/account/preferences",
@@ -290,6 +305,7 @@ function buildSubsystems(input: {
   mobileFoundation: DiagnosticsProbe;
   integrationsFoundation: DiagnosticsProbe;
   commercialFoundation: DiagnosticsProbe;
+  opsFoundation: DiagnosticsProbe;
   preferences: DiagnosticsProbe;
   workspace: DiagnosticsProbe;
   productBackend: DiagnosticsProbe;
@@ -356,6 +372,13 @@ function buildSubsystems(input: {
       status: input.commercialFoundation.status,
       summary: input.commercialFoundation.summary,
       detail: input.commercialFoundation.detail,
+    },
+    {
+      key: "ops",
+      label: input.opsFoundation.label,
+      status: input.opsFoundation.status,
+      summary: input.opsFoundation.summary,
+      detail: input.opsFoundation.detail,
     },
     {
       key: "preferences",
@@ -428,6 +451,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     mobileFoundation,
     integrationsFoundation,
     commercialFoundation,
+    opsFoundation,
     alerts,
     alertsAutomation,
     intelligence,
@@ -441,6 +465,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     Promise.resolve(getMobileAppsDiagnosticsProbe(checkedAt)),
     Promise.resolve(getRealIntegrationsDiagnosticsProbe(checkedAt)),
     getCommercialScalingDiagnosticsProbe(),
+    getEnterpriseOpsDiagnosticsProbe(),
     getAlertWorkflowDiagnosticsProbe(),
     getAlertAutomationDiagnosticsProbe(),
     getIntelligenceBackendDiagnosticsProbe(),
@@ -467,6 +492,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       desktopFoundation,
       mobileFoundation,
       commercialFoundation,
+      opsFoundation,
     ],
     expectedTruthful: [
       market,
@@ -490,6 +516,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       mobileFoundation,
       integrationsFoundation,
       commercialFoundation,
+      opsFoundation,
       preferences,
       workspace,
       productBackend,
@@ -508,6 +535,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       mobileFoundation,
       integrationsFoundation,
       commercialFoundation,
+      opsFoundation,
       workspace,
       alerts,
       alertsAutomation,
@@ -525,6 +553,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       mobileFoundation,
       integrationsFoundation,
       commercialFoundation,
+      opsFoundation,
       preferences,
       workspace,
       productBackend,

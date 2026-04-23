@@ -7,6 +7,7 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   const health = await getDiagnosticsHealthSnapshot();
   const ready = health.readiness.status === "ready";
+  const opsSubsystem = health.subsystems?.find((subsystem) => subsystem.key === "ops");
 
   return NextResponse.json(
     {
@@ -18,6 +19,13 @@ export async function GET() {
       readiness: health.readiness,
       connectors: health.connectors,
       subsystems: health.subsystems ?? [],
+      ops: opsSubsystem
+        ? {
+            status: opsSubsystem.status,
+            summary: opsSubsystem.summary,
+            detail: opsSubsystem.detail,
+          }
+        : null,
       policyTruth: health.policyTruth,
       architecture: health.architecture,
       clientExpansion: health.clientExpansion,
