@@ -19,6 +19,7 @@ import { getClientExpansionSnapshot } from "@/lib/server/platform/client-contrac
 import { getDesktopAppsDiagnosticsProbe } from "@/lib/server/platform/desktop-foundation";
 import { getMobileAppsDiagnosticsProbe } from "@/lib/server/platform/mobile-foundation";
 import { getRealIntegrationsDiagnosticsProbe } from "@/lib/server/integrations";
+import { getCommercialScalingDiagnosticsProbe } from "@/lib/server/commercial";
 import type {
   DiagnosticsHealthSnapshot,
   DiagnosticsProbe,
@@ -142,6 +143,7 @@ function buildRouteProbes(input: {
   desktopFoundation: DiagnosticsProbe;
   mobileFoundation: DiagnosticsProbe;
   integrationsFoundation: DiagnosticsProbe;
+  commercialFoundation: DiagnosticsProbe;
   workspace: DiagnosticsProbe;
   alerts: DiagnosticsProbe;
   intelligence: DiagnosticsProbe;
@@ -202,11 +204,25 @@ function buildRouteProbes(input: {
         "Real integrations route reports broker/feed configuration truth, activation gating, and policy-blocked live semantics.",
     },
     {
+      path: "/api/commercial/catalog",
+      method: "GET",
+      status: input.commercialFoundation.status,
+      detail:
+        "Commercial catalog route reports plan/capability contracts and explicit inactive billing semantics.",
+    },
+    {
       path: "/api/account/preferences",
       method: "GET",
       status: "auth_required",
       detail:
         "Backend preference route is available but requires authentication.",
+    },
+    {
+      path: "/api/account/commercial-state",
+      method: "GET",
+      status: "auth_required",
+      detail:
+        "Account commercial-state route is available and requires authentication.",
     },
     {
       path: "/api/account/workspace",
@@ -262,6 +278,7 @@ function buildSubsystems(input: {
   desktopFoundation: DiagnosticsProbe;
   mobileFoundation: DiagnosticsProbe;
   integrationsFoundation: DiagnosticsProbe;
+  commercialFoundation: DiagnosticsProbe;
   preferences: DiagnosticsProbe;
   workspace: DiagnosticsProbe;
   productBackend: DiagnosticsProbe;
@@ -320,6 +337,13 @@ function buildSubsystems(input: {
       status: input.integrationsFoundation.status,
       summary: input.integrationsFoundation.summary,
       detail: input.integrationsFoundation.detail,
+    },
+    {
+      key: "commercial",
+      label: input.commercialFoundation.label,
+      status: input.commercialFoundation.status,
+      summary: input.commercialFoundation.summary,
+      detail: input.commercialFoundation.detail,
     },
     {
       key: "preferences",
@@ -384,6 +408,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     desktopFoundation,
     mobileFoundation,
     integrationsFoundation,
+    commercialFoundation,
     alerts,
     intelligence,
   ] = await Promise.all([
@@ -395,6 +420,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     Promise.resolve(getDesktopAppsDiagnosticsProbe(checkedAt)),
     Promise.resolve(getMobileAppsDiagnosticsProbe(checkedAt)),
     Promise.resolve(getRealIntegrationsDiagnosticsProbe(checkedAt)),
+    getCommercialScalingDiagnosticsProbe(),
     getAlertWorkflowDiagnosticsProbe(),
     getIntelligenceBackendDiagnosticsProbe(),
   ]);
@@ -419,6 +445,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       productBackend,
       desktopFoundation,
       mobileFoundation,
+      commercialFoundation,
     ],
     expectedTruthful: [market, broker, integrationsFoundation, alerts, intelligence],
   });
@@ -434,6 +461,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       desktopFoundation,
       mobileFoundation,
       integrationsFoundation,
+      commercialFoundation,
       preferences,
       workspace,
       productBackend,
@@ -450,6 +478,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       desktopFoundation,
       mobileFoundation,
       integrationsFoundation,
+      commercialFoundation,
       workspace,
       alerts,
       intelligence,
@@ -465,6 +494,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       desktopFoundation,
       mobileFoundation,
       integrationsFoundation,
+      commercialFoundation,
       preferences,
       workspace,
       productBackend,

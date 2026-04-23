@@ -339,6 +339,9 @@ test.describe("verified platform truth", () => {
     expect(probes.get("product_backend_state")).toMatchObject({
       status: "ready",
     });
+    expect(probes.get("commercial_scaling_foundation")).toMatchObject({
+      status: "ready",
+    });
     expect(probes.get("market_data")).toMatchObject({ status: "fallback" });
     expect(["unconfigured", "blocked"]).toContain(
       probes.get("broker_connector")?.status
@@ -360,6 +363,12 @@ test.describe("verified platform truth", () => {
       ])
     );
     expect(routes.get("/api/account/preferences")).toMatchObject({
+      status: "auth_required",
+    });
+    expect(routes.get("/api/commercial/catalog")).toMatchObject({
+      status: "ready",
+    });
+    expect(routes.get("/api/account/commercial-state")).toMatchObject({
       status: "auth_required",
     });
     expect(routes.get("/api/account/workspace")).toMatchObject({
@@ -395,6 +404,8 @@ test.describe("verified platform truth", () => {
 
     const compliance = await request.get("/api/account/compliance");
     expect(compliance.status()).toBe(401);
+    const commercialStateUnauth = await request.get("/api/account/commercial-state");
+    expect(commercialStateUnauth.status()).toBe(401);
     const operatorReview = await request.get(
       "/api/operator/compliance/review?accountId=missing"
     );
@@ -506,6 +517,22 @@ test.describe("verified platform truth", () => {
       integrationPayload.snapshot.marketFeed.state
     );
 
+    const commercialCatalog = await request.get("/api/commercial/catalog");
+    expect(commercialCatalog.status()).toBe(200);
+    const commercialCatalogPayload = await commercialCatalog.json();
+    expect(commercialCatalogPayload.snapshot.truth).toMatchObject({
+      billingEngine: "inactive",
+      subscriptionEngine: "unconfigured",
+      checkoutSurface: "not_enabled",
+      paidPlanActivation: "not_enabled",
+    });
+    expect(commercialCatalogPayload.snapshot.plans).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ key: "evaluation", billing: "inactive" }),
+        expect.objectContaining({ key: "team_review", billing: "inactive" }),
+      ])
+    );
+
     const workspace = await request.get("/api/account/workspace");
     expect(workspace.status()).toBe(401);
     const productState = await request.get("/api/account/product-state");
@@ -549,6 +576,30 @@ test.describe("verified platform truth", () => {
     expect(productPayload.snapshot.trust).toMatchObject({
       paperOnly: true,
       liveExecution: "blocked",
+    });
+    expect(productPayload.snapshot.commercial).toMatchObject({
+      billing: "inactive",
+      subscriptions: "unconfigured",
+      plan: "evaluation",
+    });
+
+    const commercialState = await request.get("/api/account/commercial-state");
+    expect(commercialState.status()).toBe(200);
+    const commercialStatePayload = await commercialState.json();
+    expect(commercialStatePayload.snapshot.plan).toMatchObject({
+      key: "evaluation",
+      state: "active_evaluation",
+    });
+    expect(commercialStatePayload.snapshot.billing).toMatchObject({
+      engine: "inactive",
+      subscriptions: "unconfigured",
+      checkout: "not_enabled",
+    });
+    expect(commercialStatePayload.snapshot.trust).toMatchObject({
+      paperOnly: true,
+      liveExecution: "blocked",
+      paidPlanActivation: "not_enabled",
+      billingClaims: "none",
     });
 
     const workspaceUpdate = await request.post("/api/account/workspace", {

@@ -45,6 +45,9 @@ export type ProductBackendStateSnapshot = {
     billing: "inactive";
     subscriptions: "unconfigured";
     supportWorkflow: "operator_review_guarded";
+    plan: "evaluation";
+    customerLifecycle: "linked";
+    productOps: "manual_controlled";
   };
   trust: {
     paperOnly: true;
@@ -143,6 +146,9 @@ export async function getProductBackendStateForAuthenticatedSession(
       billing: "inactive",
       subscriptions: "unconfigured",
       supportWorkflow: "operator_review_guarded",
+      plan: "evaluation",
+      customerLifecycle: "linked",
+      productOps: "manual_controlled",
     },
     trust: {
       paperOnly: true,
