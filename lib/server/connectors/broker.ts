@@ -6,8 +6,125 @@ import type {
   DiagnosticsProbe,
 } from "@/modules/shell/types/platform-state";
 
-function brokerEndpointConfigured() {
-  return Boolean(process.env.TPM_BROKER_CONNECTOR_URL?.trim());
+const BROKER_PROVIDER_UNCONFIGURED = "unconfigured";
+const BROKER_PROVIDER_HTTP = "http_connector";
+const BROKER_PROVIDER_DEFAULT_LABEL = "Reserved broker connector";
+const BROKER_POLICY_MODE = "paper_safe_blocked_live";
+
+type BrokerProviderKey =
+  | typeof BROKER_PROVIDER_UNCONFIGURED
+  | typeof BROKER_PROVIDER_HTTP;
+
+type BrokerConnectivityState =
+  | "unconfigured"
+  | "configured_inactive"
+  | "configured_blocked";
+
+type BrokerIntegrationState = "unconfigured" | "configured_blocked";
+
+export type BrokerIntegrationContracts = {
+  orders: {
+    paperSubmit: "local_router";
+    realSubmit: "blocked";
+    cancel: "paper_only";
+  };
+  account: {
+    paperBalances: "local_ledger";
+    brokerBalances: "unavailable";
+    positions: "paper_only";
+  };
+  connectivity: {
+    healthPing: "reserved";
+    websocket: "inactive";
+    credentialHandshake: "required";
+  };
+};
+
+export type BrokerIntegrationSnapshot = {
+  checkedAt: string;
+  policyMode: typeof BROKER_POLICY_MODE;
+  provider: {
+    key: BrokerProviderKey;
+    label: string;
+    configured: boolean;
+    endpoint: string | null;
+    connectivity: BrokerConnectivityState;
+  };
+  integration: {
+    state: BrokerIntegrationState;
+    paperRouting: "local_paper_only";
+    realRouting: "blocked";
+    activationGate: "configuration_required" | "policy_blocked";
+  };
+  contracts: BrokerIntegrationContracts;
+  operatorReview: {
+    state: ConnectorOperatorReviewState;
+    keyMode: ReturnType<typeof getOperatorKeyMode>;
+    summary: string;
+    detail: string;
+  };
+  summary: string;
+  detail: string;
+};
+
+function normalizeBrokerProviderKey(value: string | null | undefined): BrokerProviderKey {
+  if (!value?.trim()) return BROKER_PROVIDER_HTTP;
+  const normalized = value.trim().toLowerCase();
+
+  if (normalized === "http_connector") return BROKER_PROVIDER_HTTP;
+
+  return BROKER_PROVIDER_HTTP;
+}
+
+function getBrokerEndpoint() {
+  const endpoint = process.env.TPM_BROKER_CONNECTOR_URL?.trim();
+  return endpoint ? endpoint.slice(0, 1024) : null;
+}
+
+function resolveBrokerProviderState() {
+  const endpoint = getBrokerEndpoint();
+
+  if (!endpoint) {
+    return {
+      key: BROKER_PROVIDER_UNCONFIGURED as BrokerProviderKey,
+      label: "Broker connector unconfigured",
+      configured: false,
+      endpoint: null,
+      connectivity: "unconfigured" as const,
+    };
+  }
+
+  const configuredProvider = normalizeBrokerProviderKey(
+    process.env.TPM_BROKER_PROVIDER
+  );
+
+  return {
+    key: configuredProvider,
+    label: BROKER_PROVIDER_DEFAULT_LABEL,
+    configured: true,
+    endpoint,
+    connectivity: "configured_blocked" as const,
+  };
+}
+
+function getBrokerIntegrationContracts(): BrokerIntegrationContracts {
+  return {
+    orders: {
+      paperSubmit: "local_router",
+      realSubmit: "blocked",
+      cancel: "paper_only",
+    },
+    account: {
+      paperBalances: "local_ledger",
+      brokerBalances: "unavailable",
+      positions: "paper_only",
+    },
+    connectivity: {
+      healthPing: "reserved",
+      websocket: "inactive",
+      credentialHandshake: "required",
+    },
+  };
 }
 
 function getOperatorReviewState(): ConnectorOperatorReviewState {
@@ -38,34 +155,62 @@ function getOperatorReviewDetail(state: ConnectorOperatorReviewState) {
   return "No operator review secret is configured, so operator review is unavailable.";
 }
 
-export function getBrokerConnectorSafetySnapshot(
+export function getBrokerIntegrationSnapshot(
   checkedAt = new Date().toISOString()
-): ConnectorSafetySnapshot {
-  const configured = brokerEndpointConfigured();
+): BrokerIntegrationSnapshot {
+  const provider = resolveBrokerProviderState();
   const operatorReviewState = getOperatorReviewState();
 
   return {
-    key: "broker",
-    label: "Broker connector",
-    state: configured ? "configured_blocked" : "unconfigured",
-    configured,
-    connectionState: configured ? "configured_not_connected" : "unconfigured",
-    activationGate: configured ? "policy_blocked" : "configuration_required",
-    paperCapability: "local_paper_only",
-    realCapability: "blocked",
-    liveExecution: "blocked",
+    checkedAt,
+    policyMode: BROKER_POLICY_MODE,
+    provider,
+    integration: {
+      state: provider.configured ? "configured_blocked" : "unconfigured",
+      paperRouting: "local_paper_only",
+      realRouting: "blocked",
+      activationGate: provider.configured
+        ? "policy_blocked"
+        : "configuration_required",
+    },
+    contracts: getBrokerIntegrationContracts(),
     operatorReview: {
       state: operatorReviewState,
       keyMode: getOperatorKeyMode(),
       summary: getOperatorReviewSummary(operatorReviewState),
       detail: getOperatorReviewDetail(operatorReviewState),
     },
-    summary: configured
-      ? "Broker endpoint configured but blocked"
-      : "No broker connector configured",
-    detail: configured
-      ? "A broker endpoint is present for future integration, but no broker connection is opened and real-money routing remains blocked by policy."
-      : "Broker connectivity is not configured. Paper execution stays local-only and real-money routing remains blocked by policy.",
+    summary: provider.configured
+      ? "Broker provider configured but live routing blocked"
+      : "No broker provider configured",
+    detail: provider.configured
+      ? "A broker endpoint is configured for future integration contracts, but connector activation is policy blocked and real-money execution remains unavailable."
+      : "No broker endpoint is configured. Paper execution stays local-only and real-money routing remains blocked.",
+  };
+}
+
+export function getBrokerConnectorSafetySnapshot(
+  checkedAt = new Date().toISOString()
+): ConnectorSafetySnapshot {
+  const broker = getBrokerIntegrationSnapshot(checkedAt);
+  const configured = broker.provider.configured;
+
+  return {
+    key: "broker",
+    label: "Broker connector",
+    state: configured ? "configured_blocked" : "unconfigured",
+    configured,
+    connectionState:
+      broker.provider.connectivity === "unconfigured"
+        ? "unconfigured"
+        : "configured_not_connected",
+    activationGate: configured ? "policy_blocked" : "configuration_required",
+    paperCapability: "local_paper_only",
+    realCapability: "blocked",
+    liveExecution: "blocked",
+    operatorReview: broker.operatorReview,
+    summary: broker.summary,
+    detail: broker.detail,
     checkedAt,
   };
 }
@@ -78,7 +223,7 @@ export function getBrokerConnectorDiagnosticsProbe(
     label: "Connector visibility",
     status: snapshot.configured ? "blocked" : "unconfigured",
     summary: snapshot.summary,
-    detail: snapshot.detail,
+    detail: `${snapshot.detail} Broker contracts are explicit for paper order routing, real-order blocking, and reserved connectivity checks.`,
     checkedAt: snapshot.checkedAt,
   };
 }

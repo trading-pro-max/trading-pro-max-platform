@@ -26,6 +26,108 @@ const FALLBACK_SOURCE_LABEL = "Fallback market adapter";
 const CONFIGURED_EXTERNAL_FEED = Boolean(
   process.env.TPM_MARKET_FEED_URL?.trim()
 );
+const EXTERNAL_FEED_POLICY_FLAG = "true";
+const EXTERNAL_FEED_POLICY_MODE = "fallback_first";
+
+type ExternalFeedState =
+  | "unconfigured"
+  | "configured_inactive"
+  | "configured_blocked";
+
+export type MarketFeedArchitectureSnapshot = {
+  checkedAt: string;
+  policyMode: typeof EXTERNAL_FEED_POLICY_MODE;
+  fallbackDriver: {
+    key: "fallback_simulated";
+    state: "active";
+    sourceLabel: string;
+  };
+  externalDriver: {
+    key: "external_reserved";
+    endpointConfigured: boolean;
+    endpoint: string | null;
+    activationRequested: boolean;
+    state: ExternalFeedState;
+  };
+  contract: {
+    requestNormalization: "strict";
+    responseShape: "stable";
+    deterministicFallback: true;
+    streaming: "inactive";
+  };
+  summary: string;
+  detail: string;
+};
+
+function getExternalFeedEndpoint() {
+  const endpoint = process.env.TPM_MARKET_FEED_URL?.trim();
+  return endpoint ? endpoint.slice(0, 1024) : null;
+}
+
+function externalFeedActivationRequested() {
+  return process.env.TPM_MARKET_FEED_ENABLE_EXTERNAL === EXTERNAL_FEED_POLICY_FLAG;
+}
+
+function resolveExternalFeedState() {
+  const endpoint = getExternalFeedEndpoint();
+
+  if (!endpoint) {
+    return {
+      endpoint,
+      endpointConfigured: false,
+      activationRequested: false,
+      state: "unconfigured" as const,
+    };
+  }
+
+  const activationRequested = externalFeedActivationRequested();
+
+  return {
+    endpoint,
+    endpointConfigured: true,
+    activationRequested,
+    state: activationRequested
+      ? ("configured_blocked" as const)
+      : ("configured_inactive" as const),
+  };
+}
+
+export function getMarketFeedArchitectureSnapshot(
+  checkedAt = new Date().toISOString()
+): MarketFeedArchitectureSnapshot {
+  const externalDriver = resolveExternalFeedState();
+
+  return {
+    checkedAt,
+    policyMode: EXTERNAL_FEED_POLICY_MODE,
+    fallbackDriver: {
+      key: "fallback_simulated",
+      state: "active",
+      sourceLabel: FALLBACK_SOURCE_LABEL,
+    },
+    externalDriver: {
+      key: "external_reserved",
+      endpointConfigured: externalDriver.endpointConfigured,
+      endpoint: externalDriver.endpoint,
+      activationRequested: externalDriver.activationRequested,
+      state: externalDriver.state,
+    },
+    contract: {
+      requestNormalization: "strict",
+      responseShape: "stable",
+      deterministicFallback: true,
+      streaming: "inactive",
+    },
+    summary: externalDriver.endpointConfigured
+      ? "Fallback feed active with external driver reserved"
+      : "Fallback feed active with no external driver configured",
+    detail: externalDriver.endpointConfigured
+      ? externalDriver.activationRequested
+        ? "External feed activation was requested, but fallback-first policy keeps the reserved external driver blocked and the fallback adapter remains authoritative."
+        : "External feed endpoint is configured but inactive; fallback adapter remains authoritative until explicit activation policy changes."
+      : "No external feed endpoint is configured; fallback adapter is the serving market feed.",
+  };
+}
 
 function isPlatformTimeframe(value?: string | null): value is PlatformTimeframe {
   return TIMEFRAMES.includes(value as PlatformTimeframe);
@@ -215,6 +317,8 @@ function buildFeedSummary(input: {
   state?: MarketFeedSummary["state"];
   degradedReason?: string;
 }): MarketFeedSummary {
+  const architecture = getMarketFeedArchitectureSnapshot();
+
   return {
     provider: MARKET_PROVIDER,
     adapter: "fallback_simulated",
@@ -223,8 +327,10 @@ function buildFeedSummary(input: {
     updateCadenceMs: getRecommendedCadenceMs(input.timeframe),
     supportsStreaming: false,
     configured: false,
-    externalFeedConfigured: CONFIGURED_EXTERNAL_FEED,
+    externalFeedConfigured: architecture.externalDriver.endpointConfigured,
     externalFeedActive: false,
+    policyMode: architecture.policyMode,
+    externalFeedState: architecture.externalDriver.state,
     degradedReason: input.degradedReason,
     notices: input.notices,
     lastUpdatedAt: new Date().toISOString(),
@@ -347,17 +453,14 @@ export function classifyMarketDataError(error: unknown) {
 
 export async function getMarketDiagnosticsProbe(): Promise<DiagnosticsProbe> {
   const checkedAt = new Date().toISOString();
+  const architecture = getMarketFeedArchitectureSnapshot(checkedAt);
 
   return {
     key: "market_data",
     label: "Market data layer",
     status: "fallback",
-    summary: CONFIGURED_EXTERNAL_FEED
-      ? "Fallback adapter active"
-      : "Fallback adapter ready",
-    detail: CONFIGURED_EXTERNAL_FEED
-      ? "External feed configuration is present but inactive. The paper-safe fallback adapter is serving normalized market data."
-      : "No external feed is configured or active. The paper-safe fallback adapter is serving normalized market data.",
+    summary: architecture.summary,
+    detail: architecture.detail,
     checkedAt,
   };
 }

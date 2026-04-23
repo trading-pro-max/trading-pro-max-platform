@@ -376,6 +376,11 @@ export type MarketFeedSummary = {
   configured: boolean;
   externalFeedConfigured: boolean;
   externalFeedActive: false;
+  policyMode?: "fallback_first";
+  externalFeedState?:
+    | "unconfigured"
+    | "configured_inactive"
+    | "configured_blocked";
   degradedReason?: string;
   notices: MarketFeedNotice[];
   lastUpdatedAt: string;
@@ -526,6 +531,33 @@ export type DiagnosticsHealthSnapshot = {
   probes: DiagnosticsProbe[];
   routes: DiagnosticsRouteProbe[];
   connectors: ConnectorSafetySnapshot[];
+  subsystems?: Array<{
+    key: string;
+    label: string;
+    status: DiagnosticsProbeStatus;
+    summary: string;
+    detail: string;
+  }>;
+  policyTruth?: {
+    paperOnly: true;
+    liveExecution: "blocked";
+    marketData: "fallback_first";
+    brokerRouting: "blocked";
+    externalFeed: "fallback_active";
+  };
+  architecture?: {
+    broker: {
+      policyMode: string;
+      provider: string;
+      state: string;
+      activationGate: string;
+    };
+    marketFeed: {
+      policyMode: "fallback_first";
+      externalState: string;
+      externalConfigured: boolean;
+    };
+  };
 };
 
 export type DiagnosticsRoutePayload = {
