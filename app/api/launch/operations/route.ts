@@ -5,6 +5,7 @@ import { getDiagnosticsHealthSnapshot } from "@/lib/server/diagnostics/health";
 import { getOpsProductionHardeningSnapshot } from "@/lib/server/ops";
 import {
   activateClosedBetaForAuthenticatedSession,
+  activateSoftLaunchForAuthenticatedSession,
   buildLaunchReadinessGateSnapshot,
   getLaunchOperationsSnapshotForAuthenticatedSession,
 } from "@/lib/server/launch";
@@ -25,7 +26,7 @@ async function getAuthenticatedSession(request: NextRequest) {
 }
 
 type LaunchOperationsMutationBody = {
-  action?: "activate_closed_beta";
+  action?: "activate_closed_beta" | "activate_soft_launch";
   note?: string | null;
 };
 
@@ -85,7 +86,10 @@ export async function POST(request: NextRequest) {
   });
   if (!bodyResult.ok) return bodyResult.response;
 
-  if (bodyResult.body.action !== "activate_closed_beta") {
+  if (
+    bodyResult.body.action !== "activate_closed_beta" &&
+    bodyResult.body.action !== "activate_soft_launch"
+  ) {
     return noStoreJson(
       { ok: false, error: "Unsupported launch operations action." },
       400
@@ -94,11 +98,27 @@ export async function POST(request: NextRequest) {
 
   const health = await getDiagnosticsHealthSnapshot();
   const gate = buildLaunchReadinessGateSnapshot(health);
-  const activation = await activateClosedBetaForAuthenticatedSession({
+  const hardening = await getOpsProductionHardeningSnapshot();
+  const currentSnapshot = await getLaunchOperationsSnapshotForAuthenticatedSession({
     session,
     gate,
-    note: bodyResult.body.note,
+    hardening,
   });
+  const activation =
+    bodyResult.body.action === "activate_closed_beta"
+      ? await activateClosedBetaForAuthenticatedSession({
+          session,
+          gate,
+          note: bodyResult.body.note,
+        })
+      : await activateSoftLaunchForAuthenticatedSession({
+          session,
+          gate,
+          softLaunchPrepared:
+            currentSnapshot.softLaunch.state !== "blocked_guarded" &&
+            currentSnapshot.softLaunch.admission.decision !== "blocked",
+          note: bodyResult.body.note,
+        });
 
   if (!activation.ok) {
     return noStoreJson(
@@ -113,7 +133,6 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const hardening = await getOpsProductionHardeningSnapshot();
   const snapshot = await getLaunchOperationsSnapshotForAuthenticatedSession({
     session,
     gate,

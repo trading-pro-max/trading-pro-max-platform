@@ -62,6 +62,16 @@ export type ClosedBetaActivationResult = {
   snapshot: LaunchOperationsControlStateSnapshot;
 };
 
+export type SoftLaunchActivationResult = {
+  ok: boolean;
+  reason:
+    | "soft_launch_activated"
+    | "launch_readiness_gate_blocked"
+    | "closed_beta_activation_required"
+    | "soft_launch_preparation_blocked";
+  snapshot: LaunchOperationsControlStateSnapshot;
+};
+
 function trimOptionalNote(value: string | null | undefined) {
   const trimmed = value?.trim() ?? "";
   return trimmed.length > 0 ? trimmed.slice(0, 320) : null;
@@ -276,6 +286,91 @@ export async function activateClosedBetaForAuthenticatedSession(input: {
   return {
     ok: true,
     reason: "closed_beta_activated",
+    snapshot: buildControlSnapshot({
+      checkedAt,
+      metadata: nextMetadata,
+    }),
+  };
+}
+
+export async function activateSoftLaunchForAuthenticatedSession(input: {
+  session: AuthenticatedSession;
+  gate: LaunchReadinessGateSnapshot;
+  softLaunchPrepared: boolean;
+  note?: string | null;
+  checkedAt?: string;
+}): Promise<SoftLaunchActivationResult> {
+  const checkedAt = input.checkedAt ?? new Date().toISOString();
+  const currentMetadata = await getControlMetadata({
+    checkedAt,
+    accountId: input.session.account.id,
+  });
+
+  if (input.gate.overall.status !== "pass") {
+    return {
+      ok: false,
+      reason: "launch_readiness_gate_blocked",
+      snapshot: buildControlSnapshot({
+        checkedAt,
+        metadata: currentMetadata,
+      }),
+    };
+  }
+
+  if (
+    currentMetadata.stage !== "closed_beta_active" &&
+    currentMetadata.stage !== "soft_launch_active"
+  ) {
+    return {
+      ok: false,
+      reason: "closed_beta_activation_required",
+      snapshot: buildControlSnapshot({
+        checkedAt,
+        metadata: currentMetadata,
+      }),
+    };
+  }
+
+  if (!input.softLaunchPrepared) {
+    return {
+      ok: false,
+      reason: "soft_launch_preparation_blocked",
+      snapshot: buildControlSnapshot({
+        checkedAt,
+        metadata: currentMetadata,
+      }),
+    };
+  }
+
+  const nextMetadata: LaunchOpsControlMetadata = {
+    schema: LAUNCH_CONTROL_SCHEMA,
+    stage: "soft_launch_active",
+    closedBetaActivatedAt: currentMetadata.closedBetaActivatedAt ?? checkedAt,
+    softLaunchActivatedAt: currentMetadata.softLaunchActivatedAt ?? checkedAt,
+    publicLaunchGateActivatedAt: currentMetadata.publicLaunchGateActivatedAt,
+    lastAction: "activate_soft_launch",
+    note: trimOptionalNote(input.note),
+    updatedAt: checkedAt,
+    updatedByUserId: input.session.user.id,
+    updatedByAccountId: input.session.account.id,
+  };
+
+  await prisma.auditEvent.create({
+    data: {
+      userId: input.session.user.id,
+      accountId: input.session.account.id,
+      kind: LAUNCH_CONTROL_KIND,
+      scope: LAUNCH_CONTROL_SCOPE,
+      actorRole: "owner",
+      accountMode: input.session.account.mode,
+      message: LAUNCH_CONTROL_MESSAGE,
+      metadataJson: JSON.stringify(nextMetadata),
+    },
+  });
+
+  return {
+    ok: true,
+    reason: "soft_launch_activated",
     snapshot: buildControlSnapshot({
       checkedAt,
       metadata: nextMetadata,

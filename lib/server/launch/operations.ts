@@ -63,7 +63,7 @@ type ClosedBetaAccessDecision =
   | "blocked_unconfigured";
 type ClosedBetaCapacityState = "within_limit" | "at_limit";
 
-type SoftLaunchState = "prepared_guarded" | "blocked_guarded";
+type SoftLaunchState = "prepared_guarded" | "active_guarded" | "blocked_guarded";
 type SoftLaunchCapacityState = "within_limit" | "at_limit";
 type SoftLaunchProgramMode = "limited_rollout_guarded" | "disabled_guarded";
 type SoftLaunchAdmissionDecision = "admitted" | "queue_review" | "blocked";
@@ -155,6 +155,12 @@ export type LaunchOperationsSnapshot = {
         | "soft_launch_disabled_or_blocked";
       supportLane: "operator_review";
       queueRoute: "/api/launch/feedback";
+    };
+    activation: {
+      state: "active_guarded" | "inactive_guarded";
+      activatedAt: string | null;
+      activationRoute: "/api/launch/operations";
+      blockers: string[];
     };
     capacity: {
       maxAccounts: number;
@@ -267,7 +273,7 @@ export type SoftLaunchAccessSnapshot = {
   stage: LaunchPipelineStageState;
   softLaunch: Pick<
     LaunchOperationsSnapshot["softLaunch"],
-    "programMode" | "state" | "admission" | "capacity" | "support"
+    "programMode" | "state" | "admission" | "activation" | "capacity" | "support"
   >;
   limitations: string[];
 };
@@ -701,6 +707,38 @@ export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: 
     feedbackSnapshot.summary.pendingTriage > 20
       ? ("triage_backlog_guarded" as const)
       : ("operational_guarded" as const);
+  const softLaunchActivated =
+    controlState.stage === "soft_launch_active" ||
+    controlState.stage === "public_launch_gate_active";
+  const softLaunchActivationState = softLaunchActivated
+    ? ("active_guarded" as const)
+    : ("inactive_guarded" as const);
+  const softLaunchActivationBlockers = [
+    ...(controlState.stage === "closed_beta_active" ||
+    controlState.stage === "soft_launch_active" ||
+    controlState.stage === "public_launch_gate_active"
+      ? []
+      : ["closed_beta_activation_required"]),
+    ...(input.gate.overall.status === "pass"
+      ? []
+      : [
+          `launch_readiness_gate_${input.gate.overall.status}`,
+          `checklist_failed_${input.gate.checklist.failedCount}`,
+        ]),
+    ...(softLaunchEnabled ? [] : ["soft_launch_disabled"]),
+    ...(stageState.softLaunchState === "ready"
+      ? []
+      : [`soft_launch_stage_${stageState.softLaunchState}`]),
+    ...(softLaunchCapacity.remainingSlots > 0
+      ? []
+      : ["soft_launch_capacity_limit"]),
+  ];
+  const softLaunchState: SoftLaunchState =
+    !softLaunchEnabled || stageState.softLaunchState !== "ready"
+      ? "blocked_guarded"
+      : softLaunchActivated
+      ? "active_guarded"
+      : "prepared_guarded";
 
   return {
     checkedAt,
@@ -809,13 +847,19 @@ export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: 
       programMode: softLaunchEnabled
         ? "limited_rollout_guarded"
         : "disabled_guarded",
-      state: stageState.softLaunchState === "ready" ? "prepared_guarded" : "blocked_guarded",
+      state: softLaunchState,
       access: "cohort_and_capacity_guard",
       admission: {
         decision: softLaunchAdmission.decision,
         reason: softLaunchAdmission.reason,
         supportLane: "operator_review",
         queueRoute: "/api/launch/feedback",
+      },
+      activation: {
+        state: softLaunchActivationState,
+        activatedAt: controlState.transitions.softLaunchActivatedAt,
+        activationRoute: "/api/launch/operations",
+        blockers: softLaunchActivationBlockers,
       },
       capacity: {
         maxAccounts: softLaunchCapacity.maxAccounts,
@@ -968,6 +1012,7 @@ export async function getSoftLaunchAccessSnapshotForAuthenticatedSession(input: 
       programMode: snapshot.softLaunch.programMode,
       state: snapshot.softLaunch.state,
       admission: snapshot.softLaunch.admission,
+      activation: snapshot.softLaunch.activation,
       capacity: snapshot.softLaunch.capacity,
       support: snapshot.softLaunch.support,
     },
@@ -1092,27 +1137,33 @@ export async function getSoftLaunchPreparationDiagnosticsProbe(
   checkedAt = new Date().toISOString()
 ): Promise<DiagnosticsProbe> {
   try {
-    const [hardening, activeAccounts] = await Promise.all([
+    const [controlState, hardening, activeAccounts] = await Promise.all([
+      getLaunchOperationsControlStateSnapshot({ checkedAt }),
       getOpsProductionHardeningSnapshot(checkedAt),
       prisma.account.count(),
     ]);
     const maxAccounts = resolveSoftLaunchMaxAccounts();
     const remainingSlots = Math.max(0, maxAccounts - activeAccounts);
     const softLaunchEnabled = isSoftLaunchEnabled();
-    const status =
-      softLaunchEnabled && hardening.readiness.score >= 60 && remainingSlots > 0
-        ? "ready"
-        : "degraded";
+    const softLaunchPrepared =
+      softLaunchEnabled && hardening.readiness.score >= 60 && remainingSlots > 0;
+    const softLaunchActive =
+      controlState.stage === "soft_launch_active" ||
+      controlState.stage === "public_launch_gate_active";
+    const status = softLaunchPrepared ? "ready" : "degraded";
 
     return {
       key: "soft_launch_preparation",
       label: "Soft launch preparation",
       status,
       summary:
-        status === "ready"
+        status === "ready" && softLaunchActive
+          ? "Soft launch is active with guarded limited-rollout controls."
+          : status === "ready"
           ? "Soft launch preparation is ready for guarded limited rollout."
           : "Soft launch preparation remains guarded and not yet ready for wider rollout.",
       detail:
+        `activation_mode=${controlState.mode}; activation_stage=${controlState.stage}; ` +
         `soft_launch_enabled=${softLaunchEnabled}; ` +
         `Hardening ${hardening.readiness.score}/100 (${hardening.readiness.stage}); ` +
         `capacity ${activeAccounts}/${maxAccounts} with ${remainingSlots} slot(s) remaining.`,

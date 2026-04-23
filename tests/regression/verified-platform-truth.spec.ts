@@ -1172,6 +1172,34 @@ test.describe("verified platform truth", () => {
     expect(closedBetaActivationPayload.snapshot.mode).toMatch(
       /closed_beta_activation|soft_launch_activation|public_launch_activation_gate/
     );
+    const softLaunchActivation = await request.post("/api/launch/operations", {
+      data: {
+        action: "activate_soft_launch",
+        note: "Activate guarded soft launch limited rollout mode.",
+      },
+    });
+    expect(softLaunchActivation.status()).toBe(200);
+    const softLaunchActivationPayload = await softLaunchActivation.json();
+    expect(softLaunchActivationPayload).toMatchObject({
+      ok: true,
+      authenticated: true,
+      action: "activate_soft_launch",
+      reason: "soft_launch_activated",
+    });
+    expect(softLaunchActivationPayload.lifecycle).toMatchObject({
+      mode: "soft_launch_activation",
+      stage: "soft_launch_active",
+    });
+    expect(softLaunchActivationPayload.snapshot.mode).toMatch(
+      /soft_launch_activation|public_launch_activation_gate/
+    );
+    expect(softLaunchActivationPayload.snapshot.softLaunch.activation).toMatchObject({
+      state: "active_guarded",
+      activationRoute: "/api/launch/operations",
+    });
+    expect(typeof softLaunchActivationPayload.snapshot.softLaunch.activation.activatedAt).toBe(
+      "string"
+    );
     expect(launchOperationsPayload.snapshot.closedBeta).toMatchObject({
       mode: "controlled_closed_beta",
       programMode: expect.stringMatching(
@@ -1227,7 +1255,7 @@ test.describe("verified platform truth", () => {
     expect(launchOperationsPayload.snapshot.softLaunch).toMatchObject({
       mode: "limited_rollout_guarded",
       programMode: expect.stringMatching(/limited_rollout_guarded|disabled_guarded/),
-      state: expect.stringMatching(/prepared_guarded|blocked_guarded/),
+      state: expect.stringMatching(/prepared_guarded|active_guarded|blocked_guarded/),
       access: "cohort_and_capacity_guard",
       admission: {
         decision: expect.stringMatching(/admitted|queue_review|blocked/),
@@ -1236,6 +1264,10 @@ test.describe("verified platform truth", () => {
         ),
         supportLane: "operator_review",
         queueRoute: "/api/launch/feedback",
+      },
+      activation: {
+        state: expect.stringMatching(/active_guarded|inactive_guarded/),
+        activationRoute: "/api/launch/operations",
       },
       channels: {
         publicEntry: "limited_rollout_visibility",
@@ -1349,7 +1381,7 @@ test.describe("verified platform truth", () => {
       softLaunch: {
         mode: "limited_rollout_guarded",
         programMode: expect.stringMatching(/limited_rollout_guarded|disabled_guarded/),
-        state: expect.stringMatching(/prepared_guarded|blocked_guarded/),
+        state: expect.stringMatching(/prepared_guarded|active_guarded|blocked_guarded/),
         access: "cohort_and_capacity_guard",
       },
     });
@@ -1362,12 +1394,16 @@ test.describe("verified platform truth", () => {
       stage: expect.stringMatching(/ready|in_progress|blocked|not_started/),
       softLaunch: {
         programMode: expect.stringMatching(/limited_rollout_guarded|disabled_guarded/),
-        state: expect.stringMatching(/prepared_guarded|blocked_guarded/),
+        state: expect.stringMatching(/prepared_guarded|active_guarded|blocked_guarded/),
         admission: {
           decision: expect.stringMatching(/admitted|queue_review|blocked/),
           reason: expect.stringMatching(
             /capacity_available|requires_operator_review|soft_launch_disabled_or_blocked/
           ),
+        },
+        activation: {
+          state: expect.stringMatching(/active_guarded|inactive_guarded/),
+          activationRoute: "/api/launch/operations",
         },
       },
     });

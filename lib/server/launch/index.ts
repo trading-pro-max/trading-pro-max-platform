@@ -41,10 +41,12 @@ export {
 } from "./operations";
 export {
   activateClosedBetaForAuthenticatedSession,
+  activateSoftLaunchForAuthenticatedSession,
   getLaunchOperationsControlStateSnapshot,
   mapLaunchOperationsModeFromLifecycleStage,
   type ClosedBetaActivationResult,
   type LaunchOperationsControlStateSnapshot,
   type LaunchOperationsLifecycleMode,
   type LaunchOperationsLifecycleStage,
+  type SoftLaunchActivationResult,
 } from "./control";
