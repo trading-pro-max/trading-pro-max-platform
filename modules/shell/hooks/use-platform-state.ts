@@ -1549,16 +1549,40 @@ export function usePlatformState(
     ]
   );
 
+  const pushExecutionBlockedAudit = useCallback(
+    (reason: string) => {
+      pushAuditEvent({
+        kind: "execution_blocked",
+        scope: "execution",
+        accountMode,
+        symbol: selectedAsset.symbol,
+        message: reason,
+      });
+    },
+    [accountMode, pushAuditEvent, selectedAsset.symbol]
+  );
+
   function openPaperTrade(direction: TradeDirection) {
-    if (!canExecute) return;
+    if (!canExecute) {
+      pushExecutionBlockedAudit(
+        "Paper execution attempt blocked by account/compliance gate."
+      );
+      return;
+    }
 
     if (sessionLocked) {
       setRiskNoteCode("session_locked");
+      pushExecutionBlockedAudit(
+        "Paper execution attempt blocked because the current session is locked."
+      );
       return;
     }
 
     if (!canOpenMore) {
       setRiskNoteCode("max_open_trades");
+      pushExecutionBlockedAudit(
+        "Paper execution attempt blocked because max open trades was reached."
+      );
       return;
     }
 
@@ -1593,15 +1617,35 @@ export function usePlatformState(
   }
 
   function openTradeBySignal() {
-    if (!canExecute) return;
+    if (!canExecute) {
+      pushExecutionBlockedAudit(
+        "Signal execution attempt blocked by account/compliance gate."
+      );
+      return;
+    }
 
     if (decision.signal === "buy" || decision.signal === "sell") {
       openPaperTrade(decision.signal);
+      return;
     }
+
+    pushAuditEvent({
+      kind: "execution_signal_ignored",
+      scope: "execution",
+      accountMode,
+      symbol: selectedAsset.symbol,
+      message:
+        "Signal execution skipped because the signal is wait and no directional entry is available.",
+    });
   }
 
   function closePaperTrade(id: string) {
-    if (!canExecute) return;
+    if (!canExecute) {
+      pushExecutionBlockedAudit(
+        "Trade close attempt blocked because paper execution gate is not ready."
+      );
+      return;
+    }
 
     updateActiveState((current) => {
       const trade = current.openTrades.find((item) => item.id === id);

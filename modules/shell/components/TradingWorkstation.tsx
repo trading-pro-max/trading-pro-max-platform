@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useEffectEvent, useMemo, useState } from "react";
+import { PLATFORM_LIMITS } from "../../../lib/constants/platform";
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
 import OperatorIntelligenceDeck from "../../intelligence/components/OperatorIntelligenceDeck";
 import type {
@@ -49,6 +50,12 @@ function isTypingTarget(target: EventTarget | null) {
     target.isContentEditable
   );
 }
+
+type WorkflowPreflightState = {
+  value: string;
+  tone: "approved" | "pending" | "restricted" | "blocked";
+  note: string;
+};
 
 function WorkspaceDepthBar({
   focusMode,
@@ -102,7 +109,10 @@ function WorkspaceDepthBar({
       <div className="tpmv2-workspace-depth-status">
         <span>Shortcut layer</span>
         <strong>Layout-only</strong>
-        <small>Shift+1 watchlist, Shift+2 ticket, Shift+3 blotter, Shift+4/5/6 focus.</small>
+        <small>
+          Shift+1 watchlist, Shift+2 ticket, Shift+3 blotter, Shift+4/5/6 focus, Shift+7/8/9/0
+          amount presets.
+        </small>
       </div>
 
       <div className="tpmv2-workspace-depth-status tpmv2-workspace-depth-status-live">
@@ -149,6 +159,11 @@ export default function TradingWorkstation({
   const [shortcutHint, setShortcutHint] = useState(
     "Workspace depth layer active."
   );
+  const [workflowPreflight, setWorkflowPreflight] = useState<WorkflowPreflightState>({
+    value: "Loading",
+    tone: "pending",
+    note: "Loading workflow automation truth.",
+  });
   const localePrefix = locale ? `/${locale}` : "";
   const diagnosticsHref = `${localePrefix}/diagnostics`;
   const settingsHref = `${localePrefix}/settings`;
@@ -202,14 +217,32 @@ export default function TradingWorkstation({
         tone: viewModel.ticketGateTone,
       },
       {
+        label: "Workflow",
+        value: workflowPreflight.value,
+        tone: workflowPreflight.tone,
+        note: workflowPreflight.note,
+      },
+      {
+        label: "Session load",
+        value: `${platformState.openTrades.length}/${PLATFORM_LIMITS.maxOpenTrades} open`,
+        tone: platformState.canOpenMore ? ("approved" as const) : ("blocked" as const),
+        note: `${viewModel.sessionPnLText} realized session P/L.`,
+      },
+      {
         label: "Shortcut truth",
         value: "Layout-only",
-        note: "Execution stays click-confirmed.",
+        note: "Execution stays click-confirmed; Shift+7/8/9/0 applies safe ticket presets.",
       },
     ],
     [
       platformState.accountMode,
+      platformState.canOpenMore,
+      platformState.openTrades.length,
       platformState.sessionLocked,
+      workflowPreflight.note,
+      workflowPreflight.tone,
+      workflowPreflight.value,
+      viewModel.sessionPnLText,
       viewModel.sessionStateLabel,
       viewModel.ticketGateTone,
       viewModel.ticketGateValue,
@@ -233,6 +266,88 @@ export default function TradingWorkstation({
 
     return () => window.clearTimeout(timeout);
   }, [shortcutHint]);
+
+  useEffect(() => {
+    let active = true;
+
+    async function loadWorkflowPreflight() {
+      try {
+        const response = await fetch("/api/alerts/automation/state", {
+          method: "GET",
+          cache: "no-store",
+        });
+
+        if (!active) return;
+
+        if (response.status === 401) {
+          setWorkflowPreflight({
+            value: "Auth required",
+            tone: "restricted",
+            note: "Sign in to load account workflow/automation preflight truth.",
+          });
+          return;
+        }
+
+        if (!response.ok) {
+          throw new Error(`Workflow preflight failed with ${response.status}.`);
+        }
+
+        const payload = (await response.json()) as {
+          snapshot?: {
+            runtime?: {
+              scheduler?: string;
+              delivery?: string;
+              autoTrading?: string;
+            };
+            triggers?: {
+              enabledRuleCount?: number;
+              operatorAckRequiredCount?: number;
+            };
+          };
+        };
+        const enabledRuleCount = Math.max(
+          0,
+          Number(payload.snapshot?.triggers?.enabledRuleCount ?? 0)
+        );
+        const operatorAckRequiredCount = Math.max(
+          0,
+          Number(payload.snapshot?.triggers?.operatorAckRequiredCount ?? 0)
+        );
+        const scheduler = payload.snapshot?.runtime?.scheduler ?? "inactive";
+        const delivery = payload.snapshot?.runtime?.delivery ?? "unconfigured";
+        const autoTrading = payload.snapshot?.runtime?.autoTrading ?? "blocked";
+
+        setWorkflowPreflight({
+          value:
+            enabledRuleCount > 0
+              ? `${enabledRuleCount} rule(s) / ${humanizeState(scheduler)}`
+              : "No enabled rules",
+          tone:
+            enabledRuleCount > 0 && scheduler === "configured_guarded"
+              ? "approved"
+              : "pending",
+          note: `${humanizeState(delivery)} delivery, ${operatorAckRequiredCount} ack-required, auto-trading ${humanizeState(autoTrading)}.`,
+        });
+      } catch {
+        if (!active) return;
+        setWorkflowPreflight({
+          value: "Unavailable",
+          tone: "blocked",
+          note: "Workflow preflight route is temporarily unavailable.",
+        });
+      }
+    }
+
+    void loadWorkflowPreflight();
+    const interval = window.setInterval(() => {
+      void loadWorkflowPreflight();
+    }, 45_000);
+
+    return () => {
+      active = false;
+      window.clearInterval(interval);
+    };
+  }, []);
 
   const handleShortcut = useEffectEvent((event: KeyboardEvent) => {
     if (event.defaultPrevented || event.repeat || !event.shiftKey || isTypingTarget(event.target)) {
@@ -287,6 +402,20 @@ export default function TradingWorkstation({
       platformState.setWorkspaceFocusMode("execution_focus");
       showShortcutHint("Execution focus engaged.");
       return;
+    }
+
+    const shortcutAmountPresetByKey: Record<string, string> = {
+      "7": amountPresets[0],
+      "8": amountPresets[1],
+      "9": amountPresets[2],
+      "0": amountPresets[3],
+    };
+    const preset = shortcutAmountPresetByKey[key];
+
+    if (preset) {
+      event.preventDefault();
+      platformState.setAmount(preset);
+      showShortcutHint(`Ticket amount preset applied: $${preset}.`);
     }
   });
 

@@ -236,6 +236,8 @@ export type AuditEventKind =
   | "review_state_changed"
   | "trade_opened"
   | "trade_closed"
+  | "execution_blocked"
+  | "execution_signal_ignored"
   | "risk_state_changed"
   | "market_feed_updated"
   | "preferences_synced"
