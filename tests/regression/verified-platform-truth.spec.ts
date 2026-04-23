@@ -271,6 +271,19 @@ test.describe("verified platform truth", () => {
       brokerRouting: "blocked",
       externalFeed: "fallback_active",
     });
+    expect(healthPayload.truthSemantics).toMatchObject({
+      blocked: expect.arrayContaining([
+        "live_execution",
+        "real_money_routing",
+        "auto_trading",
+      ]),
+      fallback: expect.arrayContaining(["market_data_fallback_first"]),
+      unconfigured: expect.arrayContaining([
+        "notification_delivery_unconfigured",
+        "billing_checkout_inactive",
+      ]),
+    });
+    expect(Array.isArray(healthPayload.truthSemantics.degraded)).toBe(true);
     expect(healthPayload.architecture.marketFeed.policyMode).toBe("fallback_first");
     expect(typeof healthPayload.architecture.marketFeed.readinessScore).toBe("number");
     expect(typeof healthPayload.architecture.marketFeed.readinessStage).toBe("string");
@@ -847,10 +860,26 @@ test.describe("verified platform truth", () => {
     expect(productPayload.snapshot.capabilities).toMatchObject({
       liveExecution: "blocked",
       marketData: "fallback_first",
+      alertsWorkflow: "configured_local",
     });
     expect(productPayload.snapshot.trust).toMatchObject({
       paperOnly: true,
       liveExecution: "blocked",
+      degradedDisclosure: "explicit",
+      liveExecutionControls: "hard_blocked",
+    });
+    expect(productPayload.snapshot.availabilitySemantics).toMatchObject({
+      paperExecution: expect.stringMatching(/available|guarded|blocked/),
+      liveExecution: "blocked",
+      marketData: "fallback_first",
+      brokerRouting: "blocked",
+      workflowDelivery: expect.stringMatching(/unconfigured|configured_guarded/),
+    });
+    expect(productPayload.snapshot.guardrails).toMatchObject({
+      executionConfirmation: "required",
+      disclosureAcknowledgement: "required_before_paper_enablement",
+      degradedStateLabeling: "explicit",
+      auditTrace: "active",
     });
     expect(productPayload.snapshot.commercial).toMatchObject({
       billing: "inactive",

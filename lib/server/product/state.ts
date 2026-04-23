@@ -7,6 +7,7 @@ import { getBrokerConnectorSafetySnapshot } from "@/lib/server/connectors/broker
 import { getMarketFeedArchitectureSnapshot } from "@/lib/server/market-data/service";
 import { getWorkspacePreferenceSnapshot } from "@/lib/server/preferences/state";
 import { getWorkspaceDepthStateSnapshot } from "@/lib/server/workspace";
+import { getAlertWorkflowSnapshot } from "@/lib/server/workflows";
 import type { DiagnosticsProbe } from "@/modules/shell/types/platform-state";
 
 export type ProductBackendReadinessState =
@@ -55,6 +56,22 @@ export type ProductBackendStateSnapshot = {
     brokerConnectivity: "unconfigured" | "configured_blocked";
     marketFeed: "fallback_first";
     operatorReview: string;
+    workflowDelivery: "unconfigured" | "configured_guarded";
+    degradedDisclosure: "explicit";
+    liveExecutionControls: "hard_blocked";
+  };
+  availabilitySemantics: {
+    paperExecution: "available" | "guarded" | "blocked";
+    liveExecution: "blocked";
+    marketData: "fallback_first";
+    brokerRouting: "blocked";
+    workflowDelivery: "unconfigured" | "configured_guarded";
+  };
+  guardrails: {
+    executionConfirmation: "required";
+    disclosureAcknowledgement: "required_before_paper_enablement";
+    degradedStateLabeling: "explicit";
+    auditTrace: "active";
   };
 };
 
@@ -98,13 +115,14 @@ export async function getProductBackendStateForAuthenticatedSession(
   session: AuthenticatedSession
 ): Promise<ProductBackendStateSnapshot> {
   const checkedAt = new Date().toISOString();
-  const [compliance, broker, feedArchitecture, preferences, workspaceDepth] =
+  const [compliance, broker, feedArchitecture, preferences, workspaceDepth, workflow] =
     await Promise.all([
       getAccountComplianceSnapshotForAuthenticatedSession(session),
       Promise.resolve(getBrokerConnectorSafetySnapshot(checkedAt)),
       Promise.resolve(getMarketFeedArchitectureSnapshot(checkedAt)),
       getWorkspacePreferenceSnapshot(session.account.id),
       getWorkspaceDepthStateSnapshot(session.account.id),
+      getAlertWorkflowSnapshot(session.account.id),
     ]);
   const activationReason = compliance?.activation.reason ?? "review_pending";
   const activationNextStep = compliance?.activation.nextStep ?? "await_review";
@@ -134,7 +152,7 @@ export async function getProductBackendStateForAuthenticatedSession(
       marketData: "fallback_first",
       broker: broker.state,
       workspacePersistence: "backend_ready",
-      alertsWorkflow: "unconfigured",
+      alertsWorkflow: workflow.rules.length > 0 ? "configured_local" : "unconfigured",
       intelligenceContext: "bounded",
     },
     persistence: {
@@ -156,6 +174,27 @@ export async function getProductBackendStateForAuthenticatedSession(
       brokerConnectivity: broker.state,
       marketFeed: feedArchitecture.policyMode,
       operatorReview: broker.operatorReview.state,
+      workflowDelivery: workflow.runtime.delivery,
+      degradedDisclosure: "explicit",
+      liveExecutionControls: "hard_blocked",
+    },
+    availabilitySemantics: {
+      paperExecution:
+        readiness.state === "paper_ready"
+          ? "available"
+          : readiness.state === "paper_guarded"
+          ? "guarded"
+          : "blocked",
+      liveExecution: "blocked",
+      marketData: "fallback_first",
+      brokerRouting: "blocked",
+      workflowDelivery: workflow.runtime.delivery,
+    },
+    guardrails: {
+      executionConfirmation: "required",
+      disclosureAcknowledgement: "required_before_paper_enablement",
+      degradedStateLabeling: "explicit",
+      auditTrace: "active",
     },
   };
 }
@@ -169,7 +208,7 @@ export async function getProductBackendDiagnosticsProbe(): Promise<DiagnosticsPr
     status: "ready",
     summary: "Commercial backend state contracts are available",
     detail:
-      "Account readiness, capability truth, persistence anchors, and commercial packaging state are served from backend contracts without enabling billing or live execution.",
+      "Account readiness, capability truth, persistence anchors, trust guardrails, and commercial packaging state are served from backend contracts without enabling billing or live execution.",
     checkedAt,
   };
 }

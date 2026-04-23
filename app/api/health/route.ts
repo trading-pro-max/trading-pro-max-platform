@@ -8,6 +8,10 @@ export async function GET() {
   const health = await getDiagnosticsHealthSnapshot();
   const ready = health.readiness.status === "ready";
   const opsSubsystem = health.subsystems?.find((subsystem) => subsystem.key === "ops");
+  const degradedSubsystems =
+    health.subsystems
+      ?.filter((subsystem) => subsystem.status === "degraded")
+      .map((subsystem) => subsystem.key) ?? [];
 
   return NextResponse.json(
     {
@@ -27,6 +31,24 @@ export async function GET() {
           }
         : null,
       policyTruth: health.policyTruth,
+      truthSemantics: {
+        blocked: [
+          "live_execution",
+          "real_money_routing",
+          "external_money_movement",
+          "auto_trading",
+        ],
+        fallback: ["market_data_fallback_first"],
+        unconfigured: [
+          "notification_delivery_unconfigured",
+          "billing_checkout_inactive",
+          "external_monitoring_unconfigured",
+        ],
+        degraded:
+          degradedSubsystems.length > 0
+            ? degradedSubsystems
+            : ["none"],
+      },
       architecture: health.architecture,
       clientExpansion: health.clientExpansion,
     },
