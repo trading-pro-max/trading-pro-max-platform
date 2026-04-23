@@ -22,12 +22,22 @@ export type RealIntegrationsFoundationSnapshot = {
     credentialsState: "unconfigured" | "partially_configured" | "configured";
     operatorReviewState: string;
     activationGate: "configuration_required" | "policy_blocked";
+    credentialLifecycle: {
+      rotationMode: "manual_operator_rotation";
+      validation: "guarded_local_probe";
+      auditTrail: "local_audit";
+    };
   };
   marketFeed: {
     state: "unconfigured" | "configured_inactive" | "configured_blocked";
     endpointConfigured: boolean;
     credentialsState: "unconfigured" | "partially_configured" | "configured";
     activationRequested: boolean;
+    credentialLifecycle: {
+      rotationMode: "manual_operator_rotation";
+      validation: "guarded_local_probe";
+      auditTrail: "local_audit";
+    };
   };
   policy: {
     paperOnly: true;
@@ -41,7 +51,24 @@ export type RealIntegrationsFoundationSnapshot = {
     mode: "operator_review_and_policy_guard";
     canActivateNow: false;
     operatorKeyMode: ReturnType<typeof getOperatorKeyMode>;
+    sandboxState: "inactive_guarded";
+    auditReference: "local_audit_contract";
+    checklist: Array<
+      | "broker_endpoint"
+      | "broker_credentials"
+      | "feed_endpoint"
+      | "feed_credentials"
+      | "operator_review"
+      | "policy_release"
+    >;
     blockedReasons: string[];
+  };
+  pilotPath: {
+    mode: "sandbox_only";
+    scope: "single_broker_single_feed";
+    state: "inactive_guarded";
+    canEnterPilot: false;
+    nextMilestones: string[];
   };
   summary: string;
   detail: string;
@@ -107,12 +134,22 @@ export function getRealIntegrationsFoundationSnapshot(
       credentialsState: broker.credentials.state,
       operatorReviewState: broker.operatorReview.state,
       activationGate: broker.integration.activationGate,
+      credentialLifecycle: {
+        rotationMode: "manual_operator_rotation",
+        validation: "guarded_local_probe",
+        auditTrail: "local_audit",
+      },
     },
     marketFeed: {
       state: marketFeed.externalDriver.state,
       endpointConfigured: marketFeed.externalDriver.endpointConfigured,
       credentialsState: marketFeed.credentials.state,
       activationRequested: marketFeed.externalDriver.activationRequested,
+      credentialLifecycle: {
+        rotationMode: "manual_operator_rotation",
+        validation: "guarded_local_probe",
+        auditTrail: "local_audit",
+      },
     },
     policy: {
       paperOnly: true,
@@ -126,7 +163,29 @@ export function getRealIntegrationsFoundationSnapshot(
       mode: "operator_review_and_policy_guard",
       canActivateNow: false,
       operatorKeyMode,
+      sandboxState: "inactive_guarded",
+      auditReference: "local_audit_contract",
+      checklist: [
+        "broker_endpoint",
+        "broker_credentials",
+        "feed_endpoint",
+        "feed_credentials",
+        "operator_review",
+        "policy_release",
+      ],
       blockedReasons,
+    },
+    pilotPath: {
+      mode: "sandbox_only",
+      scope: "single_broker_single_feed",
+      state: "inactive_guarded",
+      canEnterPilot: false,
+      nextMilestones: [
+        "configure broker endpoint and credentials",
+        "configure external feed endpoint and credentials",
+        "complete operator review setup",
+        "request explicit policy release for guarded pilot",
+      ],
     },
     summary:
       readinessStage === "unconfigured"

@@ -41,6 +41,11 @@ export type RealActivationPilotSnapshot = {
     endpointConfigured: boolean;
     credentialsState: PilotCredentialsState;
     state: PilotPathState;
+    credentialLifecycle: {
+      rotationMode: "manual_operator_rotation";
+      verification: "guarded_probe_only";
+      auditTrail: "local_audit";
+    };
   };
   feedPath: {
     key: typeof FEED_PATH_KEY;
@@ -48,6 +53,11 @@ export type RealActivationPilotSnapshot = {
     endpointConfigured: boolean;
     credentialsState: PilotCredentialsState;
     state: PilotPathState;
+    credentialLifecycle: {
+      rotationMode: "manual_operator_rotation";
+      verification: "guarded_probe_only";
+      auditTrail: "local_audit";
+    };
   };
   activation: {
     requested: boolean;
@@ -55,7 +65,21 @@ export type RealActivationPilotSnapshot = {
     mode: "sandbox_guarded";
     state: PilotActivationState;
     canEnterPilotSandbox: boolean;
+    checklist: Array<
+      | "broker_endpoint"
+      | "broker_credentials"
+      | "feed_endpoint"
+      | "feed_credentials"
+      | "policy_release"
+      | "paper_only_guard"
+    >;
     blockedReasons: string[];
+  };
+  controls: {
+    credentialScope: "sandbox_namespace_only";
+    dataPlaneIsolation: "sandbox_only";
+    releaseMode: "operator_guarded_manual";
+    auditReference: "local_audit_contract";
   };
   safety: {
     paperOnlyDefault: true;
@@ -208,6 +232,11 @@ export function getRealActivationPilotSnapshot(
       endpointConfigured: brokerEndpointConfigured,
       credentialsState: brokerCredentialsState,
       state: brokerEndpointConfigured ? "configured_guarded" : "unconfigured",
+      credentialLifecycle: {
+        rotationMode: "manual_operator_rotation",
+        verification: "guarded_probe_only",
+        auditTrail: "local_audit",
+      },
     },
     feedPath: {
       key: FEED_PATH_KEY,
@@ -215,6 +244,11 @@ export function getRealActivationPilotSnapshot(
       endpointConfigured: feedEndpointConfigured,
       credentialsState: feedCredentialsState,
       state: feedEndpointConfigured ? "configured_guarded" : "unconfigured",
+      credentialLifecycle: {
+        rotationMode: "manual_operator_rotation",
+        verification: "guarded_probe_only",
+        auditTrail: "local_audit",
+      },
     },
     activation: {
       requested,
@@ -222,7 +256,21 @@ export function getRealActivationPilotSnapshot(
       mode: "sandbox_guarded",
       state: activationState,
       canEnterPilotSandbox,
+      checklist: [
+        "broker_endpoint",
+        "broker_credentials",
+        "feed_endpoint",
+        "feed_credentials",
+        "policy_release",
+        "paper_only_guard",
+      ],
       blockedReasons,
+    },
+    controls: {
+      credentialScope: "sandbox_namespace_only",
+      dataPlaneIsolation: "sandbox_only",
+      releaseMode: "operator_guarded_manual",
+      auditReference: "local_audit_contract",
     },
     safety: {
       paperOnlyDefault: true,
@@ -239,7 +287,7 @@ export function getRealActivationPilotSnapshot(
         ? "Pilot sandbox path is configured and policy-released for guarded sandbox validation."
         : "Pilot sandbox path is present but remains guarded/unconfigured.",
     detail:
-      "A single broker path and single feed path are isolated for sandbox pilot activation only. Paper-only defaults stay enforced, live execution remains blocked, and real-money routing cannot be enabled through this pilot contract.",
+      "A single broker path and single feed path are isolated for sandbox pilot activation only. Credential lifecycle and activation checklist contracts are explicit and audit-linked. Paper-only defaults stay enforced, live execution remains blocked, and real-money routing cannot be enabled through this pilot contract.",
   };
 }
 

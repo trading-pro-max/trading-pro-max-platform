@@ -663,7 +663,19 @@ test.describe("verified platform truth", () => {
     expect(integrationPayload.snapshot.activation).toMatchObject({
       mode: "operator_review_and_policy_guard",
       canActivateNow: false,
+      sandboxState: "inactive_guarded",
+      auditReference: "local_audit_contract",
     });
+    expect(integrationPayload.snapshot.activation.checklist).toEqual(
+      expect.arrayContaining([
+        "broker_endpoint",
+        "broker_credentials",
+        "feed_endpoint",
+        "feed_credentials",
+        "operator_review",
+        "policy_release",
+      ])
+    );
     expect(Array.isArray(integrationPayload.snapshot.activation.blockedReasons)).toBe(
       true
     );
@@ -673,8 +685,30 @@ test.describe("verified platform truth", () => {
     expect(["unconfigured", "configured_blocked"]).toContain(
       integrationPayload.snapshot.broker.state
     );
+    expect(integrationPayload.snapshot.broker.credentialLifecycle).toMatchObject({
+      rotationMode: "manual_operator_rotation",
+      validation: "guarded_local_probe",
+      auditTrail: "local_audit",
+    });
     expect(["unconfigured", "configured_inactive", "configured_blocked"]).toContain(
       integrationPayload.snapshot.marketFeed.state
+    );
+    expect(integrationPayload.snapshot.marketFeed.credentialLifecycle).toMatchObject({
+      rotationMode: "manual_operator_rotation",
+      validation: "guarded_local_probe",
+      auditTrail: "local_audit",
+    });
+    expect(integrationPayload.snapshot.pilotPath).toMatchObject({
+      mode: "sandbox_only",
+      scope: "single_broker_single_feed",
+      state: "inactive_guarded",
+      canEnterPilot: false,
+    });
+    expect(integrationPayload.snapshot.pilotPath.nextMilestones).toEqual(
+      expect.arrayContaining([
+        "configure broker endpoint and credentials",
+        "configure external feed endpoint and credentials",
+      ])
     );
 
     const integrationPilot = await request.get("/api/integrations/pilot");
@@ -690,6 +724,32 @@ test.describe("verified platform truth", () => {
       liveExecution: "blocked",
       realMoneyRouting: "blocked",
       externalMoneyMovement: "blocked",
+    });
+    expect(integrationPilotPayload.snapshot.brokerPath.credentialLifecycle).toMatchObject({
+      rotationMode: "manual_operator_rotation",
+      verification: "guarded_probe_only",
+      auditTrail: "local_audit",
+    });
+    expect(integrationPilotPayload.snapshot.feedPath.credentialLifecycle).toMatchObject({
+      rotationMode: "manual_operator_rotation",
+      verification: "guarded_probe_only",
+      auditTrail: "local_audit",
+    });
+    expect(integrationPilotPayload.snapshot.activation.checklist).toEqual(
+      expect.arrayContaining([
+        "broker_endpoint",
+        "broker_credentials",
+        "feed_endpoint",
+        "feed_credentials",
+        "policy_release",
+        "paper_only_guard",
+      ])
+    );
+    expect(integrationPilotPayload.snapshot.controls).toMatchObject({
+      credentialScope: "sandbox_namespace_only",
+      dataPlaneIsolation: "sandbox_only",
+      releaseMode: "operator_guarded_manual",
+      auditReference: "local_audit_contract",
     });
     expect(typeof integrationPilotPayload.snapshot.readiness.score).toBe("number");
     expect(typeof integrationPilotPayload.snapshot.readiness.stage).toBe("string");
