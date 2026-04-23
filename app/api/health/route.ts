@@ -17,6 +17,9 @@ export async function GET() {
       liveExecution: "blocked",
       readiness: health.readiness,
       connectors: health.connectors,
+      subsystems: health.subsystems ?? [],
+      policyTruth: health.policyTruth,
+      architecture: health.architecture,
     },
     {
       status: ready ? 200 : 503,
