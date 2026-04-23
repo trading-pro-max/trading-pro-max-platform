@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "prebuild": "npm run prisma:generate",
     "dev": "next dev",
     "build": "next build",
+    "prestart": "node scripts/verify-runtime-baseline.mjs",
     "start": "next start",
     "lint": "eslint",
     "prisma:generate": "node scripts/clean-prisma-client.mjs && prisma generate",

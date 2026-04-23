@@ -6,16 +6,20 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   const health = await getDiagnosticsHealthSnapshot();
+  const ready = health.readiness.status === "ready";
 
   return NextResponse.json(
     {
-      ok: true,
+      ok: ready,
       status: health.readiness.status,
       checkedAt: health.checkedAt,
       paperSafe: true,
       liveExecution: "blocked",
       readiness: health.readiness,
     },
-    { headers: { "Cache-Control": "no-store" } }
+    {
+      status: ready ? 200 : 503,
+      headers: { "Cache-Control": "no-store" },
+    }
   );
 }

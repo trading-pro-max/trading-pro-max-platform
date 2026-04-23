@@ -451,6 +451,6 @@ export type DiagnosticsHealthSnapshot = {
 };
 
 export type DiagnosticsRoutePayload = {
-  ok: true;
+  ok: boolean;
   health: DiagnosticsHealthSnapshot;
 };

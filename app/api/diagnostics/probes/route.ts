@@ -10,7 +10,7 @@ export async function GET() {
 
   return NextResponse.json(
     {
-      ok: true,
+      ok: health.readiness.status === "ready",
       health,
     } satisfies DiagnosticsRoutePayload,
     { headers: { "Cache-Control": "no-store" } }

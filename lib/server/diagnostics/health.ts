@@ -10,6 +10,18 @@ import type {
 } from "@/modules/shell/types/platform-state";
 
 const BROKER_CONNECTOR_URL = process.env.TPM_BROKER_CONNECTOR_URL?.trim();
+const REQUIRED_READY_STATUSES = new Set<DiagnosticsProbe["status"]>(["ready"]);
+const NON_BLOCKING_TRUTHFUL_STATUSES = new Set<DiagnosticsProbe["status"]>([
+  "auth_required",
+  "blocked",
+  "fallback",
+  "unconfigured",
+]);
+
+function statusIsOperational(status: DiagnosticsProbe["status"]) {
+  return REQUIRED_READY_STATUSES.has(status) ||
+    NON_BLOCKING_TRUTHFUL_STATUSES.has(status);
+}
 
 async function probeServerReadiness(): Promise<DiagnosticsProbe> {
   const checkedAt = new Date().toISOString();
@@ -30,13 +42,25 @@ async function probeServerReadiness(): Promise<DiagnosticsProbe> {
     return {
       key: "server_readiness",
       label: "App/server readiness",
-      status: "degraded",
-      summary: "Server runtime degraded",
+      status: "unavailable",
+      summary: "Server runtime unavailable",
       detail:
         error instanceof Error ? error.message : "Server readiness probe failed.",
       checkedAt,
     };
   }
+}
+
+function probeRuntimeBaseline(checkedAt: string): DiagnosticsProbe {
+  return {
+    key: "runtime_baseline",
+    label: "Runtime baseline",
+    status: "ready",
+    summary: "Runtime baseline verified",
+    detail:
+      "The route bundle loaded after the npm build/start baseline verifier and generated Prisma client import completed.",
+    checkedAt,
+  };
 }
 
 function buildBrokerConnectorProbe(checkedAt: string): DiagnosticsProbe {
@@ -63,17 +87,64 @@ function buildBrokerConnectorProbe(checkedAt: string): DiagnosticsProbe {
   };
 }
 
+function buildAggregateReadiness(input: {
+  checkedAt: string;
+  required: DiagnosticsProbe[];
+  expectedTruthful: DiagnosticsProbe[];
+}): DiagnosticsProbe {
+  const failingRequired = input.required.filter(
+    (probe) => !REQUIRED_READY_STATUSES.has(probe.status)
+  );
+  const failingExpected = input.expectedTruthful.filter(
+    (probe) => !statusIsOperational(probe.status)
+  );
+  const failures = [...failingRequired, ...failingExpected];
+
+  if (failures.length === 0) {
+    return {
+      key: "platform_readiness",
+      label: "Platform readiness",
+      status: "ready",
+      summary: "Required runtime services ready",
+      detail:
+        "Required runtime services are responding. Intentional fallback, auth-required, blocked, and unconfigured states are being reported explicitly.",
+      checkedAt: input.checkedAt,
+    };
+  }
+
+  return {
+    key: "platform_readiness",
+    label: "Platform readiness",
+    status: failures.some((probe) => probe.status === "unavailable")
+      ? "unavailable"
+      : "degraded",
+    summary: "Required runtime services degraded",
+    detail: failures
+      .map((probe) => `${probe.label}: ${probe.summary}`)
+      .join(" "),
+    checkedAt: input.checkedAt,
+  };
+}
+
 function buildRouteProbes(input: {
+  readiness: DiagnosticsProbe;
   market: DiagnosticsProbe;
   preferences: DiagnosticsProbe;
   security: DiagnosticsProbe;
+  broker: DiagnosticsProbe;
 }): DiagnosticsRouteProbe[] {
   return [
     {
       path: "/api/health",
       method: "GET",
-      status: "ready",
-      detail: "External readiness probe is available.",
+      status: input.readiness.status,
+      detail: input.readiness.summary,
+    },
+    {
+      path: "/api/diagnostics/probes",
+      method: "GET",
+      status: input.readiness.status,
+      detail: "Diagnostics probe route reports aggregate readiness and subsystem truth.",
     },
     {
       path: "/api/market",
@@ -106,30 +177,40 @@ function buildRouteProbes(input: {
     {
       path: "/api/operator/compliance/review",
       method: "POST",
-      status: "blocked",
-      detail: "Operator review requires operator auth plus an explicit operator secret.",
+      status:
+        input.broker.status === "unavailable" ? "unavailable" : "blocked",
+      detail:
+        "Operator review requires operator auth plus an explicit operator secret and is unavailable unless configured.",
     },
   ];
 }
 
 export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthSnapshot> {
   const checkedAt = new Date().toISOString();
-  const [readiness, market, preferences] = await Promise.all([
+  const [server, market, preferences] = await Promise.all([
     probeServerReadiness(),
     getMarketDiagnosticsProbe(),
     probeWorkspacePreferencePersistence(),
   ]);
+  const runtimeBaseline = probeRuntimeBaseline(checkedAt);
   const broker = buildBrokerConnectorProbe(checkedAt);
   const security = getSecurityDiagnosticsProbe();
+  const readiness = buildAggregateReadiness({
+    checkedAt,
+    required: [server, runtimeBaseline, preferences, security],
+    expectedTruthful: [market, broker],
+  });
 
   return {
     checkedAt,
     readiness,
-    probes: [market, preferences, security, broker],
+    probes: [server, runtimeBaseline, market, preferences, security, broker],
     routes: buildRouteProbes({
+      readiness,
       market,
       preferences,
       security,
+      broker,
     }),
   };
 }
