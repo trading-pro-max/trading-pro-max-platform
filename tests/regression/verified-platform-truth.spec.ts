@@ -13,7 +13,7 @@ test.describe("verified platform truth", () => {
       {
         path: "/",
         expectedUrl: /\/$/,
-        text: /Commercial Product Readiness|Enter workstation|Public trust layer/,
+        text: /Public Commercial Entry|Product capability map|Commercial operating ledger|First-use route map/,
       },
       {
         path: "/en",
@@ -46,6 +46,15 @@ test.describe("verified platform truth", () => {
         await expect(page.locator("body")).toContainText(
           /Paper-only evaluation|Fallback-first market data|Live execution blocked/
         );
+        await expect(page.locator("body")).toContainText(
+          /Evaluation workstation|TPM IQ \/ Brain|Fallback data disclosed/
+        );
+        await expect(page.locator("body")).toContainText(
+          /Broker, billing, and operator review|No billing system active|not a live brokerage terminal/
+        );
+        await expect(page.locator("body")).toContainText(
+          /Public entry|Localized workstation|Settings|Diagnostics/
+        );
       }
 
       if (route.path === "/" || route.path === "/en") {
@@ -65,7 +74,10 @@ test.describe("verified platform truth", () => {
           /Workspace depth|Shortcut layer|Layout-only|Recent desk activity|Market depth/
         );
         await expect(page.locator("body")).toContainText(
-          /Commercial trust layer|Commercial evaluation foundation|Manual paper rehearsal only/
+          /Operator onboarding and trust layer|Manual paper rehearsal only|Fallback-first context discipline/
+        );
+        await expect(page.locator("body")).toContainText(
+          /Operator onboarding and trust layer|No broker connected|No order hotkeys armed/
         );
         await expect(page.locator("body")).toContainText("Fallback-bound");
         await expect(page.locator("body")).toContainText("Interpretive only");
@@ -93,6 +105,9 @@ test.describe("verified platform truth", () => {
         );
         await expect(page.locator("body")).toContainText(
           /Commercial trust and public product state|Account and commercial readiness|First-use platform guidance/
+        );
+        await expect(page.locator("body")).toContainText(
+          /Product trust ledger|Commercial packaging readiness|No billing system active|Broker integration/
         );
       }
     }
