@@ -331,6 +331,7 @@ export type Asset = {
   bid?: string;
   ask?: string;
   spread?: string;
+  freshness?: "Fresh" | "Warm" | "Session Closed" | "Delayed" | "Stale" | "Pending";
 };
 
 export type MarketCandle = {
@@ -382,6 +383,11 @@ export type MarketFeedSummary = {
     | "configured_inactive"
     | "configured_blocked";
   degradedReason?: string;
+  readinessScore?: number;
+  freshness?: {
+    chart: "Fresh" | "Warm" | "Session Closed" | "Delayed" | "Stale" | "Pending";
+    health: "Healthy" | "Stable" | "Delayed" | "Degraded" | "Session Closed";
+  };
   notices: MarketFeedNotice[];
   lastUpdatedAt: string;
 };
@@ -551,12 +557,41 @@ export type DiagnosticsHealthSnapshot = {
       provider: string;
       state: string;
       activationGate: string;
+      readinessScore?: number;
+      readinessStage?: string;
     };
     marketFeed: {
       policyMode: "fallback_first";
       externalState: string;
       externalConfigured: boolean;
+      readinessScore?: number;
+      readinessStage?: string;
     };
+  };
+  clientExpansion?: {
+    checkedAt: string;
+    shared: {
+      apiContract: "http_json_v1";
+      authContract: "session_or_bearer";
+      executionSafety: "paper_only_live_blocked";
+    };
+    web: {
+      state: "active";
+      routeSurface: "app_router";
+    };
+    desktop: {
+      state: "future_ready";
+      shell: "electron_or_tauri";
+      localPersistence: "contract_ready";
+      notificationDelivery: "unconfigured";
+    };
+    mobile: {
+      state: "future_ready";
+      shell: "react_native_or_native_wrapper";
+      authFlow: "session_or_token_bridge";
+      notificationDelivery: "unconfigured";
+    };
+    summary: string;
   };
 };
 

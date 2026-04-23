@@ -16,6 +16,7 @@ import {
   type PlatformTimeframe,
 } from "../../../lib/constants/platform";
 import { PLATFORM_STORAGE_KEY } from "../../../lib/constants/storage";
+import { normalizeWatchlistSymbols } from "../../../lib/watchlists/normalization";
 import {
   DEFAULT_PLATFORM_PREFERENCES,
   sanitizePlatformPreferenceSnapshot,
@@ -243,7 +244,10 @@ function getStoredAssetSymbol(
     typeof record?.selectedAssetSymbol === "string" &&
     record.selectedAssetSymbol.trim()
   ) {
-    return record.selectedAssetSymbol;
+    return normalizeWatchlistSymbols(
+      [record.selectedAssetSymbol],
+      [fallback.selectedAssetSymbol]
+    ).symbols[0];
   }
 
   if (typeof record?.selectedAssetIndex === "number") {

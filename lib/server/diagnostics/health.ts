@@ -15,6 +15,7 @@ import { probeWorkspaceDepthPersistence } from "@/lib/server/workspace";
 import { getProductBackendDiagnosticsProbe } from "@/lib/server/product";
 import { getAlertWorkflowDiagnosticsProbe } from "@/lib/server/workflows";
 import { getIntelligenceBackendDiagnosticsProbe } from "@/lib/server/intelligence";
+import { getClientExpansionSnapshot } from "@/lib/server/platform/client-contracts";
 import type {
   DiagnosticsHealthSnapshot,
   DiagnosticsProbe,
@@ -347,6 +348,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
   const brokerIntegration = getBrokerIntegrationSnapshot(checkedAt);
   const marketFeedArchitecture = getMarketFeedArchitectureSnapshot(checkedAt);
   const security = getSecurityDiagnosticsProbe();
+  const clientExpansion = getClientExpansionSnapshot(checkedAt);
 
   const readiness = buildAggregateReadiness({
     checkedAt,
@@ -417,12 +419,17 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         provider: brokerIntegration.provider.key,
         state: brokerIntegration.integration.state,
         activationGate: brokerIntegration.integration.activationGate,
+        readinessScore: brokerIntegration.readiness.score,
+        readinessStage: brokerIntegration.readiness.stage,
       },
       marketFeed: {
         policyMode: marketFeedArchitecture.policyMode,
         externalState: marketFeedArchitecture.externalDriver.state,
         externalConfigured: marketFeedArchitecture.externalDriver.endpointConfigured,
+        readinessScore: marketFeedArchitecture.readiness.score,
+        readinessStage: marketFeedArchitecture.readiness.stage,
       },
     },
+    clientExpansion,
   };
 }

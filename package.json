@@ -10,6 +10,7 @@
     "start": "next start",
     "lint": "eslint",
     "test:regression": "npm run build && npm run prisma:seed && playwright test",
+    "smoke:routes": "node scripts/tpm-canonical-routes-smoke.mjs --summary-only",
     "prisma:generate": "node scripts/clean-prisma-client.mjs && prisma generate",
     "prisma:seed": "prisma db seed",
     "prisma:validate": "prisma validate"

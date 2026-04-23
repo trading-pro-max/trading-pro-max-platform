@@ -3,26 +3,16 @@ import { prisma } from "@/lib/db/client";
 import type {
   DiagnosticsProbe,
   WorkspaceDepthState,
-  WorkspaceFocusMode,
-  WorkspaceShortcutLayer,
-  WatchlistDensityMode,
 } from "@/modules/shell/types/platform-state";
+import {
+  DEFAULT_WORKSPACE_DEPTH_STATE,
+  buildWorkspaceDepthMetadata,
+  normalizeWorkspaceDepthState,
+  parseWorkspaceDepthMetadata,
+} from "./normalization";
 
-const WORKSPACE_STATE_METADATA_SCHEMA = "tpm.workspace.state.v1";
 const WORKSPACE_AUDIT_KIND = "workspace_depth_changed";
 const WORKSPACE_AUDIT_SCOPE = "platform";
-
-const DEFAULT_WORKSPACE_DEPTH_STATE: WorkspaceDepthState = {
-  focusMode: "balanced",
-  watchlistDensity: "standard",
-  shortcutLayer: "layout_only",
-};
-
-type WorkspaceDepthMetadataPayload = {
-  schema: typeof WORKSPACE_STATE_METADATA_SCHEMA;
-  workspaceDepth: WorkspaceDepthState;
-  updatedAt: string;
-};
 
 type WorkspaceDepthStateSource = "defaults" | "backend_audit";
 
@@ -31,87 +21,6 @@ export type WorkspaceDepthStateSnapshot = {
   source: WorkspaceDepthStateSource;
   updatedAt: string | null;
 };
-
-function isFocusMode(value: string): value is WorkspaceFocusMode {
-  return value === "balanced" || value === "chart_focus" || value === "execution_focus";
-}
-
-function isWatchlistDensity(value: string): value is WatchlistDensityMode {
-  return value === "standard" || value === "dense";
-}
-
-function isShortcutLayer(value: string): value is WorkspaceShortcutLayer {
-  return value === "layout_only";
-}
-
-function asRecord(value: unknown) {
-  return typeof value === "object" && value !== null ? (value as Record<string, unknown>) : null;
-}
-
-function normalizeWorkspaceDepthState(
-  value: unknown,
-  fallback: WorkspaceDepthState = DEFAULT_WORKSPACE_DEPTH_STATE
-): WorkspaceDepthState {
-  const record = asRecord(value);
-
-  if (!record) return fallback;
-
-  const focusCandidate =
-    typeof record.focusMode === "string"
-      ? record.focusMode
-      : typeof record.focus === "string"
-      ? record.focus
-      : null;
-  const densityCandidate =
-    typeof record.watchlistDensity === "string"
-      ? record.watchlistDensity
-      : typeof record.density === "string"
-      ? record.density
-      : null;
-  const shortcutCandidate =
-    typeof record.shortcutLayer === "string"
-      ? record.shortcutLayer
-      : typeof record.shortcuts === "string"
-      ? record.shortcuts
-      : null;
-
-  return {
-    focusMode:
-      typeof focusCandidate === "string" && isFocusMode(focusCandidate)
-        ? focusCandidate
-        : fallback.focusMode,
-    watchlistDensity:
-      typeof densityCandidate === "string" && isWatchlistDensity(densityCandidate)
-        ? densityCandidate
-        : fallback.watchlistDensity,
-    shortcutLayer:
-      typeof shortcutCandidate === "string" && isShortcutLayer(shortcutCandidate)
-        ? shortcutCandidate
-        : fallback.shortcutLayer,
-  };
-}
-
-function parseWorkspaceDepthMetadata(
-  metadataJson: string | null | undefined
-): WorkspaceDepthMetadataPayload | null {
-  if (!metadataJson) return null;
-
-  try {
-    const parsed = JSON.parse(metadataJson) as unknown;
-    const record = asRecord(parsed);
-    if (!record) return null;
-    if (record.schema !== WORKSPACE_STATE_METADATA_SCHEMA) return null;
-    if (typeof record.updatedAt !== "string") return null;
-
-    return {
-      schema: WORKSPACE_STATE_METADATA_SCHEMA,
-      workspaceDepth: normalizeWorkspaceDepthState(record.workspaceDepth),
-      updatedAt: record.updatedAt,
-    };
-  } catch {
-    return null;
-  }
-}
 
 async function getLatestWorkspaceDepthEvent(accountId: string) {
   return prisma.auditEvent.findFirst({
@@ -156,11 +65,10 @@ export async function upsertWorkspaceDepthState(input: {
     existing.workspaceDepth
   );
   const updatedAt = new Date().toISOString();
-  const metadata: WorkspaceDepthMetadataPayload = {
-    schema: WORKSPACE_STATE_METADATA_SCHEMA,
+  const metadata = buildWorkspaceDepthMetadata({
     workspaceDepth: nextWorkspaceDepth,
     updatedAt,
-  };
+  });
 
   await prisma.auditEvent.create({
     data: {

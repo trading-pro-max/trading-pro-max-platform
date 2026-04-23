@@ -183,6 +183,15 @@ test.describe("verified platform truth", () => {
       sourceLabel: "Fallback market adapter",
       externalFeedActive: false,
     });
+    expect(typeof validPayload.snapshot.feed.readinessScore).toBe("number");
+    expect(validPayload.snapshot.feed.readinessScore).toBeGreaterThanOrEqual(0);
+    expect(validPayload.snapshot.feed.freshness).toMatchObject({
+      chart: expect.stringMatching(/Fresh|Warm|Session Closed|Delayed|Stale|Pending/),
+      health: expect.stringMatching(/Healthy|Stable|Delayed|Degraded|Session Closed/),
+    });
+    expect(validPayload.snapshot.assets[0].freshness).toMatch(
+      /Fresh|Warm|Session Closed|Delayed|Stale|Pending/
+    );
     expect(validPayload.snapshot.request).toMatchObject({
       normalizedSymbol: "EUR/USD",
       normalizedTimeframe: "1m",
@@ -263,6 +272,22 @@ test.describe("verified platform truth", () => {
       externalFeed: "fallback_active",
     });
     expect(healthPayload.architecture.marketFeed.policyMode).toBe("fallback_first");
+    expect(typeof healthPayload.architecture.marketFeed.readinessScore).toBe("number");
+    expect(typeof healthPayload.architecture.marketFeed.readinessStage).toBe("string");
+    expect(typeof healthPayload.architecture.broker.readinessScore).toBe("number");
+    expect(typeof healthPayload.architecture.broker.readinessStage).toBe("string");
+    expect(healthPayload.clientExpansion).toMatchObject({
+      shared: {
+        apiContract: "http_json_v1",
+        executionSafety: "paper_only_live_blocked",
+      },
+      desktop: {
+        state: "future_ready",
+      },
+      mobile: {
+        state: "future_ready",
+      },
+    });
     expect(Array.isArray(healthPayload.subsystems)).toBe(true);
     expect(healthPayload.subsystems.length).toBeGreaterThanOrEqual(8);
     expect(healthPayload.connectors[0]).toMatchObject({
@@ -365,6 +390,8 @@ test.describe("verified platform truth", () => {
     expect(feedStatePayload.snapshot).toMatchObject({
       policyMode: "fallback_first",
     });
+    expect(typeof feedStatePayload.snapshot.readiness.score).toBe("number");
+    expect(typeof feedStatePayload.snapshot.readiness.stage).toBe("string");
     expect([
       "unconfigured",
       "configured_inactive",

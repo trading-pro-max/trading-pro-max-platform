@@ -20,6 +20,7 @@ export async function GET() {
       subsystems: health.subsystems ?? [],
       policyTruth: health.policyTruth,
       architecture: health.architecture,
+      clientExpansion: health.clientExpansion,
     },
     {
       status: ready ? 200 : 503,

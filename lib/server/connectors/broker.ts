@@ -1,5 +1,7 @@
 import "server-only";
 import { getOperatorKeyMode } from "@/lib/server/operator/access";
+import { buildReadinessSnapshot } from "@/lib/server/diagnostics/readiness-score";
+import { normalizeConnectorReadinessState } from "@/lib/server/connectors/readiness";
 import type {
   ConnectorSafetySnapshot,
   ConnectorOperatorReviewState,
@@ -43,6 +45,10 @@ export type BrokerIntegrationContracts = {
 export type BrokerIntegrationSnapshot = {
   checkedAt: string;
   policyMode: typeof BROKER_POLICY_MODE;
+  readiness: {
+    score: number;
+    stage: "unconfigured" | "configured_guarded" | "policy_blocked";
+  };
   provider: {
     key: BrokerProviderKey;
     label: string;
@@ -160,10 +166,35 @@ export function getBrokerIntegrationSnapshot(
 ): BrokerIntegrationSnapshot {
   const provider = resolveBrokerProviderState();
   const operatorReviewState = getOperatorReviewState();
+  const readiness = buildReadinessSnapshot({
+    components: [
+      { key: "provider_endpoint", ok: provider.configured, weight: 35 },
+      {
+        key: "operator_review_guard",
+        ok: operatorReviewState !== "unconfigured",
+        weight: 20,
+      },
+      { key: "paper_router_active", ok: true, weight: 25 },
+      {
+        key: "live_policy_guard",
+        ok: provider.configured,
+        weight: 20,
+      },
+    ],
+    stageThresholds: [
+      { stage: "unconfigured", minScore: 0 },
+      { stage: "configured_guarded", minScore: 55 },
+      { stage: "policy_blocked", minScore: 80 },
+    ],
+  });
 
   return {
     checkedAt,
     policyMode: BROKER_POLICY_MODE,
+    readiness: {
+      score: readiness.score,
+      stage: readiness.stage as "unconfigured" | "configured_guarded" | "policy_blocked",
+    },
     provider,
     integration: {
       state: provider.configured ? "configured_blocked" : "unconfigured",
@@ -218,12 +249,16 @@ export function getBrokerConnectorSafetySnapshot(
 export function getBrokerConnectorDiagnosticsProbe(
   snapshot: ConnectorSafetySnapshot
 ): DiagnosticsProbe {
+  const connectorReadiness = normalizeConnectorReadinessState(
+    snapshot.configured ? "blocked" : "not_configured"
+  );
+
   return {
     key: "broker_connector",
     label: "Connector visibility",
     status: snapshot.configured ? "blocked" : "unconfigured",
     summary: snapshot.summary,
-    detail: `${snapshot.detail} Broker contracts are explicit for paper order routing, real-order blocking, and reserved connectivity checks.`,
+    detail: `${snapshot.detail} Broker contracts are explicit for paper order routing, real-order blocking, and reserved connectivity checks. Connector readiness state: ${connectorReadiness}.`,
     checkedAt: snapshot.checkedAt,
   };
 }

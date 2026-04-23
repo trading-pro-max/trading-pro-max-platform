@@ -10,10 +10,18 @@ import {
   hasMarketInstrument,
   type MarketInstrumentDefinition,
 } from "@/lib/market/catalog";
+import {
+  buildDeterministicCandles,
+  buildDeterministicQuote,
+} from "@/lib/server/market-data/deterministic";
+import {
+  classifyChartFreshness,
+  classifyQuoteFreshness,
+} from "@/lib/server/market-data/freshness";
+import { buildReadinessSnapshot } from "@/lib/server/diagnostics/readiness-score";
 import type {
   Asset,
   DiagnosticsProbe,
-  MarketCandle,
   MarketDataSnapshot,
   MarketFeedSummary,
   MarketFeedNotice,
@@ -37,6 +45,13 @@ type ExternalFeedState =
 export type MarketFeedArchitectureSnapshot = {
   checkedAt: string;
   policyMode: typeof EXTERNAL_FEED_POLICY_MODE;
+  readiness: {
+    score: number;
+    stage:
+      | "fallback_active"
+      | "fallback_with_external_reserved"
+      | "fallback_policy_guarded";
+  };
   fallbackDriver: {
     key: "fallback_simulated";
     state: "active";
@@ -96,10 +111,37 @@ export function getMarketFeedArchitectureSnapshot(
   checkedAt = new Date().toISOString()
 ): MarketFeedArchitectureSnapshot {
   const externalDriver = resolveExternalFeedState();
+  const readiness = buildReadinessSnapshot({
+    components: [
+      { key: "fallback_driver", ok: true, weight: 50 },
+      {
+        key: "external_endpoint_reserved",
+        ok: externalDriver.endpointConfigured,
+        weight: 20,
+      },
+      {
+        key: "fallback_policy_guard",
+        ok: !externalDriver.activationRequested,
+        weight: 30,
+      },
+    ],
+    stageThresholds: [
+      { stage: "fallback_active", minScore: 0 },
+      { stage: "fallback_with_external_reserved", minScore: 70 },
+      { stage: "fallback_policy_guarded", minScore: 100 },
+    ],
+  });
 
   return {
     checkedAt,
     policyMode: EXTERNAL_FEED_POLICY_MODE,
+    readiness: {
+      score: readiness.score,
+      stage: readiness.stage as
+        | "fallback_active"
+        | "fallback_with_external_reserved"
+        | "fallback_policy_guarded",
+    },
     fallbackDriver: {
       key: "fallback_simulated",
       state: "active",
@@ -148,19 +190,6 @@ function normalizeTimeframeInput(value: string | null | undefined) {
   return normalized ? normalized.toLowerCase() : null;
 }
 
-function getTimeframeIntervalMs(timeframe: PlatformTimeframe) {
-  switch (timeframe) {
-    case "1m":
-      return 60_000;
-    case "5m":
-      return 300_000;
-    case "15m":
-      return 900_000;
-    case "1h":
-      return 3_600_000;
-  }
-}
-
 function getRecommendedCadenceMs(timeframe: PlatformTimeframe) {
   switch (timeframe) {
     case "1m":
@@ -174,11 +203,6 @@ function getRecommendedCadenceMs(timeframe: PlatformTimeframe) {
   }
 }
 
-function roundPrice(value: number, decimals: number) {
-  const factor = 10 ** decimals;
-  return Math.round(value * factor) / factor;
-}
-
 function formatPrice(value: number, decimals: number) {
   return value.toLocaleString("en-US", {
     minimumFractionDigits: decimals,
@@ -188,14 +212,6 @@ function formatPrice(value: number, decimals: number) {
 
 function formatPercentChange(value: number) {
   return `${value >= 0 ? "+" : ""}${value.toFixed(2)}%`;
-}
-
-function getSpreadSize(definition: MarketInstrumentDefinition) {
-  const minimumTick = 1 / 10 ** definition.priceDecimals;
-
-  if (definition.assetClass === "crypto") return minimumTick * 12;
-  if (definition.assetClass === "commodity") return minimumTick * 6;
-  return minimumTick * 2;
 }
 
 function getMarketStatus(
@@ -211,88 +227,29 @@ function getMarketStatus(
   return "Open";
 }
 
-function buildAnchorPrice(
-  definition: MarketInstrumentDefinition,
-  bucketIndex: number
-) {
-  const sessionTrend =
-    Math.sin((bucketIndex + definition.id.length * 17) / 34) *
-    definition.dailyDrift;
-  const intradayWave =
-    Math.cos((bucketIndex + definition.id.length * 9) / 9) *
-    definition.intradayVolatility;
-  const microWave =
-    Math.sin((bucketIndex + definition.id.length * 5) / 3.5) *
-    definition.intradayVolatility *
-    0.42;
-
-  return definition.baselinePrice * (1 + sessionTrend + intradayWave + microWave);
-}
-
-function buildMarketCandles(
-  definition: MarketInstrumentDefinition,
-  timeframe: PlatformTimeframe,
-  count = DEFAULT_CANDLE_COUNT
-) {
-  const intervalMs = getTimeframeIntervalMs(timeframe);
-  const nowMs = Date.now();
-  const currentBucketMs = nowMs - (nowMs % intervalMs);
-  const candles: MarketCandle[] = [];
-  let previousClose = definition.baselinePrice;
-
-  for (let index = count - 1; index >= 0; index -= 1) {
-    const bucketMs = currentBucketMs - index * intervalMs;
-    const bucketIndex = Math.floor(bucketMs / intervalMs);
-    const anchorPrice = buildAnchorPrice(definition, bucketIndex);
-    const open = previousClose;
-    const close = open + (anchorPrice - open) * 0.58;
-    const wickSpan =
-      definition.baselinePrice *
-        definition.intradayVolatility *
-        (0.24 + Math.abs(Math.sin(bucketIndex / 4.7))) +
-      getSpreadSize(definition) * 2;
-    const high = Math.max(open, close) + wickSpan;
-    const low = Math.min(open, close) - wickSpan;
-    const displacement = Math.abs(close - open) / Math.max(open, 1);
-    const volume = Math.round(
-      definition.volumeBase *
-        (1 + displacement * 120 + Math.abs(Math.cos(bucketIndex / 7.1)) * 0.35)
-    );
-    const time = new Date(bucketMs).toISOString();
-    const label = new Date(bucketMs).toLocaleTimeString("en-US", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-    });
-
-    candles.push({
-      time,
-      label,
-      open: roundPrice(open, definition.priceDecimals),
-      high: roundPrice(high, definition.priceDecimals),
-      low: roundPrice(low, definition.priceDecimals),
-      close: roundPrice(close, definition.priceDecimals),
-      volume,
-    });
-
-    previousClose = close;
-  }
-
-  return candles;
-}
-
 function buildAssetSnapshot(
   definition: MarketInstrumentDefinition,
   feed: MarketFeedSummary
 ): Asset {
-  const candles = buildMarketCandles(definition, "5m", 3);
+  const candles = buildDeterministicCandles({
+    definition,
+    timeframe: "5m",
+    count: 3,
+  });
   const latest = candles[candles.length - 1] ?? candles[0];
   const previous = candles[candles.length - 2] ?? latest;
-  const spread = getSpreadSize(definition);
+  const quote = buildDeterministicQuote(definition);
+  const quoteAgeSeconds = Math.max(
+    0,
+    Math.round((Date.now() - Date.parse(feed.lastUpdatedAt)) / 1000)
+  );
+  const quoteFreshness = classifyQuoteFreshness({
+    assetClass: definition.assetClass,
+    ageSeconds: quoteAgeSeconds,
+    providerSymbol: definition.providerSymbol,
+  });
   const changePct =
     previous.close === 0 ? 0 : ((latest.close - previous.close) / previous.close) * 100;
-  const bid = latest.close - spread / 2;
-  const ask = latest.close + spread / 2;
 
   return {
     id: definition.id,
@@ -301,23 +258,31 @@ function buildAssetSnapshot(
     assetClass: definition.assetClass,
     priceDecimals: definition.priceDecimals,
     status: getMarketStatus(definition, Date.now()),
-    price: formatPrice(latest.close, definition.priceDecimals),
+    price: formatPrice(quote.mid, definition.priceDecimals),
     change: formatPercentChange(changePct),
     sourceLabel: feed.sourceLabel,
     lastUpdatedAt: feed.lastUpdatedAt,
-    bid: formatPrice(bid, definition.priceDecimals),
-    ask: formatPrice(ask, definition.priceDecimals),
-    spread: formatPrice(spread, definition.priceDecimals),
+    bid: formatPrice(quote.bid, definition.priceDecimals),
+    ask: formatPrice(quote.ask, definition.priceDecimals),
+    spread: formatPrice(quote.spread, Math.max(definition.priceDecimals, 4)),
+    freshness: quoteFreshness.freshness,
   };
 }
 
 function buildFeedSummary(input: {
   timeframe: PlatformTimeframe;
+  instrument: MarketInstrumentDefinition;
+  candlesLastUpdatedAt: string | null;
   notices: MarketFeedNotice[];
   state?: MarketFeedSummary["state"];
   degradedReason?: string;
 }): MarketFeedSummary {
   const architecture = getMarketFeedArchitectureSnapshot();
+  const chartFreshness = classifyChartFreshness({
+    assetClass: input.instrument.assetClass,
+    timeframe: input.timeframe,
+    lastTimestamp: input.candlesLastUpdatedAt,
+  });
 
   return {
     provider: MARKET_PROVIDER,
@@ -331,7 +296,12 @@ function buildFeedSummary(input: {
     externalFeedActive: false,
     policyMode: architecture.policyMode,
     externalFeedState: architecture.externalDriver.state,
-    degradedReason: input.degradedReason,
+    degradedReason: input.degradedReason ?? chartFreshness.degradedReason ?? undefined,
+    readinessScore: architecture.readiness.score,
+    freshness: {
+      chart: chartFreshness.freshness,
+      health: chartFreshness.feedHealth,
+    },
     notices: input.notices,
     lastUpdatedAt: new Date().toISOString(),
   };
@@ -422,15 +392,33 @@ export async function getMarketDataSnapshot(input: {
   degradedReason?: string;
 } = {}): Promise<MarketDataSnapshot> {
   const { instrument, timeframe, request } = resolveMarketRequest(input);
+  const candles = buildDeterministicCandles({
+    definition: instrument,
+    timeframe,
+    count: DEFAULT_CANDLE_COUNT,
+  });
+  const candlesLastUpdatedAt = candles[candles.length - 1]?.time ?? null;
+  const chartFreshness = classifyChartFreshness({
+    assetClass: instrument.assetClass,
+    timeframe,
+    lastTimestamp: candlesLastUpdatedAt,
+  });
+  const marketDegradedReason =
+    input.degradedReason ??
+    (chartFreshness.feedHealth === "Delayed" || chartFreshness.feedHealth === "Degraded"
+      ? chartFreshness.degradedReason ?? undefined
+      : undefined);
   const notices = buildMarketFeedNotices({
     resolution: request,
-    degradedReason: input.degradedReason,
+    degradedReason: marketDegradedReason,
   });
   const feed = buildFeedSummary({
+    instrument,
+    candlesLastUpdatedAt,
     timeframe,
     notices,
-    state: input.degradedReason ? "degraded" : "fallback_ready",
-    degradedReason: input.degradedReason,
+    state: marketDegradedReason ? "degraded" : "fallback_ready",
+    degradedReason: marketDegradedReason,
   });
 
   return {
@@ -439,7 +427,7 @@ export async function getMarketDataSnapshot(input: {
     request,
     feed,
     assets: MARKET_INSTRUMENTS.map((definition) => buildAssetSnapshot(definition, feed)),
-    candles: buildMarketCandles(instrument, timeframe),
+    candles,
   };
 }
 
@@ -460,7 +448,7 @@ export async function getMarketDiagnosticsProbe(): Promise<DiagnosticsProbe> {
     label: "Market data layer",
     status: "fallback",
     summary: architecture.summary,
-    detail: architecture.detail,
+    detail: `${architecture.detail} Readiness ${architecture.readiness.score}/100 (${architecture.readiness.stage}).`,
     checkedAt,
   };
 }
