@@ -1058,6 +1058,16 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         productionHardening.status !== "ready"
           ? "elevated"
           : "normal",
+      publicLaunchGate:
+        launchOperationsControl.stage === "public_launch_gate_active"
+          ? "active_guarded"
+          : "inactive_guarded",
+      publicLaunchDecision:
+        launchOperationsControl.stage === "public_launch_gate_active" &&
+        publicLaunchPreparation.status === "ready"
+          ? "ready_guarded"
+          : "not_ready",
+      publicLaunchAuthority: "operator_manual_release_only",
       productionHardening:
         productionHardening.status === "ready" ? "ready" : "guarded",
       softLaunch: softLaunchPreparation.status === "ready" ? "ready" : "guarded",

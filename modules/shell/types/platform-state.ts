@@ -686,6 +686,9 @@ export type DiagnosticsHealthSnapshot = {
     supportReadiness?: "operator_ready" | "operator_guarded";
     rollbackReadiness?: "recoverable_guarded" | "guarded";
     escalationState?: "normal" | "elevated";
+    publicLaunchGate?: "active_guarded" | "inactive_guarded";
+    publicLaunchDecision?: "ready_guarded" | "not_ready";
+    publicLaunchAuthority?: "operator_manual_release_only";
     productionHardening: "ready" | "guarded";
     softLaunch?: "ready" | "guarded";
     publicLaunch?: "ready" | "guarded";

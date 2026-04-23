@@ -301,6 +301,9 @@ test.describe("verified platform truth", () => {
       supportReadiness: expect.stringMatching(/operator_ready|operator_guarded/),
       rollbackReadiness: expect.stringMatching(/recoverable_guarded|guarded/),
       escalationState: expect.stringMatching(/normal|elevated/),
+      publicLaunchGate: expect.stringMatching(/active_guarded|inactive_guarded/),
+      publicLaunchDecision: expect.stringMatching(/ready_guarded|not_ready/),
+      publicLaunchAuthority: "operator_manual_release_only",
       productionHardening: expect.stringMatching(/ready|guarded/),
       softLaunch: expect.stringMatching(/ready|guarded/),
       publicLaunch: expect.stringMatching(/ready|guarded/),
@@ -1338,7 +1341,7 @@ test.describe("verified platform truth", () => {
     expect(launchOperationsPayload.snapshot.publicLaunch).toMatchObject({
       mode: "go_live_checklist_guarded",
       state: expect.stringMatching(
-        /prepared_guarded|in_progress_guarded|blocked_guarded/
+        /prepared_guarded|gate_active_guarded|in_progress_guarded|blocked_guarded/
       ),
       contracts: {
         checklistAuthority: "operator_manual",
@@ -1349,14 +1352,22 @@ test.describe("verified platform truth", () => {
       decision: {
         goLiveState: expect.stringMatching(/ready_guarded|not_ready/),
         reason: expect.stringMatching(
-          /checklist_passed_manual_release_required|checklist_incomplete_or_gate_blocked/
+          /public_launch_gate_active_manual_release_required|public_launch_gate_not_activated|checklist_incomplete_or_gate_blocked/
         ),
         releaseRoute: "/api/launch/public-go-live",
+        releaseAuthority: "operator_manual_release_only",
       },
       visibility: {
-        launchModeLabel: "public_launch_preparation",
+        launchModeLabel: expect.stringMatching(
+          /public_launch_preparation|public_launch_activation_gate/
+        ),
         customerStateLabel: "not_launched",
         claimsPolicy: "no_false_public_launch_claims",
+      },
+      activation: {
+        state: expect.stringMatching(/active_guarded|inactive_guarded/),
+        activationRoute: "/api/launch/public-go-live",
+        releaseAuthority: "operator_manual_release_only",
       },
       goLive: {
         releaseAuthority: "operator_manual",
@@ -1489,10 +1500,35 @@ test.describe("verified platform truth", () => {
       publicLaunch: {
         mode: "go_live_checklist_guarded",
         state: expect.stringMatching(
-          /prepared_guarded|in_progress_guarded|blocked_guarded/
+          /prepared_guarded|gate_active_guarded|in_progress_guarded|blocked_guarded/
         ),
       },
     });
+
+    const publicLaunchGateActivation = await request.post(
+      "/api/launch/public-go-live",
+      {
+        data: {
+          action: "activate_public_launch_gate",
+          note: "Activate guarded final public launch gate for manual release authority.",
+        },
+      }
+    );
+    expect(publicLaunchGateActivation.status()).toBe(200);
+    const publicLaunchGateActivationPayload = await publicLaunchGateActivation.json();
+    expect(publicLaunchGateActivationPayload).toMatchObject({
+      ok: true,
+      authenticated: true,
+      action: "activate_public_launch_gate",
+      reason: "public_launch_gate_activated",
+    });
+    expect(publicLaunchGateActivationPayload.lifecycle).toMatchObject({
+      mode: "public_launch_activation_gate",
+      stage: "public_launch_gate_active",
+    });
+    expect(publicLaunchGateActivationPayload.launchOperations.mode).toBe(
+      "public_launch_activation_gate"
+    );
 
     const publicGoLive = await request.get("/api/launch/public-go-live");
     expect(publicGoLive.status()).toBe(200);
@@ -1502,15 +1538,26 @@ test.describe("verified platform truth", () => {
       stage: expect.stringMatching(/ready|in_progress|blocked|not_started/),
       publicLaunch: {
         state: expect.stringMatching(
-          /prepared_guarded|in_progress_guarded|blocked_guarded/
+          /prepared_guarded|gate_active_guarded|in_progress_guarded|blocked_guarded/
         ),
         decision: {
           goLiveState: expect.stringMatching(/ready_guarded|not_ready/),
+          reason: expect.stringMatching(
+            /public_launch_gate_active_manual_release_required|public_launch_gate_not_activated|checklist_incomplete_or_gate_blocked/
+          ),
           releaseRoute: "/api/launch/public-go-live",
+          releaseAuthority: "operator_manual_release_only",
         },
         visibility: {
-          launchModeLabel: "public_launch_preparation",
+          launchModeLabel: expect.stringMatching(
+            /public_launch_preparation|public_launch_activation_gate/
+          ),
           customerStateLabel: "not_launched",
+        },
+        activation: {
+          state: expect.stringMatching(/active_guarded|inactive_guarded/),
+          activationRoute: "/api/launch/public-go-live",
+          releaseAuthority: "operator_manual_release_only",
         },
       },
     });

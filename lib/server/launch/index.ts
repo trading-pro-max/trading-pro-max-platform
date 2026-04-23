@@ -41,6 +41,7 @@ export {
 } from "./operations";
 export {
   activateClosedBetaForAuthenticatedSession,
+  activatePublicLaunchGateForAuthenticatedSession,
   activateSoftLaunchForAuthenticatedSession,
   getLaunchOperationsControlStateSnapshot,
   mapLaunchOperationsModeFromLifecycleStage,
@@ -48,5 +49,6 @@ export {
   type LaunchOperationsControlStateSnapshot,
   type LaunchOperationsLifecycleMode,
   type LaunchOperationsLifecycleStage,
+  type PublicLaunchGateActivationResult,
   type SoftLaunchActivationResult,
 } from "./control";
