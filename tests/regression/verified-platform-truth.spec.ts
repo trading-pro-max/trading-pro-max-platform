@@ -576,10 +576,25 @@ test.describe("verified platform truth", () => {
     expect(launchReadiness.status()).toBe(200);
     const launchReadinessPayload = await launchReadiness.json();
     expect(launchReadinessPayload.gate).toMatchObject({
-      gateVersion: "tpm.launch.readiness.v1",
+      gateVersion: "tpm.launch.readiness.v2",
       mode: "verification_gate",
+      contracts: {
+        minimumScore: expect.any(Number),
+        requiredDomains: expect.arrayContaining([
+          "platform",
+          "integrations",
+          "ops",
+          "trust",
+          "commercial",
+          "intelligence",
+        ]),
+        requiredChecklistPassRate: 1,
+      },
       overall: {
         status: expect.stringMatching(/pass|fail/),
+      },
+      decision: {
+        canEnterControlledLaunchOperations: expect.any(Boolean),
       },
       truth: {
         launchClaim: "not_launched",
@@ -589,6 +604,7 @@ test.describe("verified platform truth", () => {
     });
     expect(launchReadinessPayload.gate.domains).toHaveLength(9);
     expect(launchReadinessPayload.gate.checklist.items.length).toBeGreaterThan(4);
+    expect(Array.isArray(launchReadinessPayload.gate.decision.blockers)).toBe(true);
 
     const marketParity = await request.get("/api/parity/final");
     expect(marketParity.status()).toBe(200);

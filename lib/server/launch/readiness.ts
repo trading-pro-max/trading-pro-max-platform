@@ -36,8 +36,13 @@ export type LaunchReadinessChecklistItem = {
 
 export type LaunchReadinessGateSnapshot = {
   checkedAt: string;
-  gateVersion: "tpm.launch.readiness.v1";
+  gateVersion: "tpm.launch.readiness.v2";
   mode: LaunchReadinessMode;
+  contracts: {
+    minimumScore: number;
+    requiredDomains: LaunchReadinessDomainKey[];
+    requiredChecklistPassRate: number;
+  };
   overall: {
     status: LaunchReadinessGateStatus;
     score: number;
@@ -58,6 +63,10 @@ export type LaunchReadinessGateSnapshot = {
     probeCoverage: number;
     routeCoverage: number;
     subsystemCoverage: number;
+  };
+  decision: {
+    canEnterControlledLaunchOperations: boolean;
+    blockers: string[];
   };
   truth: {
     launchClaim: "not_launched";
@@ -156,6 +165,7 @@ function buildChecklist(health: DiagnosticsHealthSnapshot) {
     health,
     "/api/launch/public-readiness"
   );
+  const parityClosureRouteStatus = findRouteStatus(health, "/api/parity/final");
   const opsHardeningRouteStatus = findRouteStatus(health, "/api/ops/hardening");
 
   const items: LaunchReadinessChecklistItem[] = [
@@ -238,6 +248,14 @@ function buildChecklist(health: DiagnosticsHealthSnapshot) {
       passed: publicLaunchRouteStatus === "auth_required",
       evidence: `/api/launch/public-readiness=${publicLaunchRouteStatus}`,
     },
+    {
+      key: "market_parity_route_operational",
+      label: "Final market parity closure route is operational and auditable",
+      passed:
+        parityClosureRouteStatus === "ready" ||
+        parityClosureRouteStatus === "degraded",
+      evidence: `/api/parity/final=${parityClosureRouteStatus}`,
+    },
   ];
 
   return {
@@ -282,6 +300,7 @@ export function buildLaunchReadinessGateSnapshot(
         "runtime_ops",
         "product_backend_state",
         "closed_beta_preparation",
+        "market_parity_closure",
       ],
       evidence: "Server/runtime/product contracts are healthy and diagnosable.",
     }),
@@ -327,6 +346,7 @@ export function buildLaunchReadinessGateSnapshot(
         "commercial_activation",
         "soft_launch_preparation",
         "public_launch_preparation",
+        "market_parity_closure",
       ],
       evidence:
         "Commercial lifecycle contracts are explicit with inactive billing truth.",
@@ -374,9 +394,29 @@ export function buildLaunchReadinessGateSnapshot(
   ];
   const checklist = buildChecklist(health);
   const domainScore = scoreDomains(domains);
+  const contracts: LaunchReadinessGateSnapshot["contracts"] = {
+    minimumScore: 70,
+    requiredDomains: [
+      "platform",
+      "integrations",
+      "ops",
+      "trust",
+      "commercial",
+      "intelligence",
+    ],
+    requiredChecklistPassRate: 1,
+  };
+  const checklistPassRate = checklist.passedCount / Math.max(1, checklist.requiredCount);
+  const requiredFailingDomains = domains.filter(
+    (domain) => domain.required && domain.state === "fail"
+  );
+  const belowScoreThreshold = domainScore.score < contracts.minimumScore;
+  const checklistContractFailed =
+    checklistPassRate < contracts.requiredChecklistPassRate;
   const criticalFailure =
-    domains.some((domain) => domain.required && domain.state === "fail") ||
-    checklist.failedCount > 0;
+    requiredFailingDomains.length > 0 ||
+    checklistContractFailed ||
+    belowScoreThreshold;
   const overallStatus: LaunchReadinessGateStatus = criticalFailure
     ? "fail"
     : "pass";
@@ -385,10 +425,25 @@ export function buildLaunchReadinessGateSnapshot(
     Math.min(100, Math.round((domainScore.score * 0.75 + (checklist.passedCount / Math.max(1, checklist.requiredCount)) * 100 * 0.25)))
   );
 
+  const blockers = [
+    ...requiredFailingDomains.map(
+      (domain) => `required_domain_failed:${domain.key}`
+    ),
+    ...(checklistContractFailed
+      ? checklist.items
+          .filter((item) => !item.passed)
+          .map((item) => `checklist_failed:${item.key}`)
+      : []),
+    ...(belowScoreThreshold
+      ? [`domain_score_below_minimum:${domainScore.score}<${contracts.minimumScore}`]
+      : []),
+  ];
+
   return {
     checkedAt,
-    gateVersion: "tpm.launch.readiness.v1",
+    gateVersion: "tpm.launch.readiness.v2",
     mode: "verification_gate",
+    contracts,
     overall: {
       status: overallStatus,
       score: overallScore,
@@ -404,6 +459,10 @@ export function buildLaunchReadinessGateSnapshot(
       probeCoverage: health.probes.length,
       routeCoverage: health.routes.length,
       subsystemCoverage: health.subsystems?.length ?? 0,
+    },
+    decision: {
+      canEnterControlledLaunchOperations: overallStatus === "pass",
+      blockers,
     },
     truth: {
       launchClaim: "not_launched",
