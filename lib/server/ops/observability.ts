@@ -37,7 +37,10 @@ export type OpsTelemetrySnapshot = {
     incidentAutomation: "inactive";
   };
   runbookPointers: Array<
-    "/api/ops/runbook" | "/api/ops/readiness" | "/api/diagnostics/probes"
+    | "/api/ops/runbook"
+    | "/api/ops/readiness"
+    | "/api/ops/hardening"
+    | "/api/diagnostics/probes"
   >;
   readiness: {
     score: number;
@@ -147,6 +150,7 @@ export async function getOpsTelemetrySnapshot(): Promise<OpsTelemetrySnapshot> {
     runbookPointers: [
       "/api/ops/runbook",
       "/api/ops/readiness",
+      "/api/ops/hardening",
       "/api/diagnostics/probes",
     ],
     readiness: {
@@ -229,6 +233,7 @@ export function getOpsRunbookSnapshot(
         probeKey: "production_ops_activation",
         steps: [
           "Review diagnostics subsystem summaries and route probes.",
+          "Check /api/ops/hardening for runtime/db durability signals and recovery actions.",
           "Collect relevant audit events before operator intervention.",
           "Apply manual operator action; do not rely on automated incident responders.",
         ],

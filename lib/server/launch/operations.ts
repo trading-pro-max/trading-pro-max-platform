@@ -1,5 +1,6 @@
 import "server-only";
 import type { AuthenticatedSession } from "@/lib/auth/service";
+import type { OpsProductionHardeningSnapshot } from "@/lib/server/ops";
 import type { DiagnosticsProbe } from "@/modules/shell/types/platform-state";
 import type { LaunchReadinessGateSnapshot } from "./readiness";
 import { getLaunchFeedbackSnapshotForAuthenticatedSession, getLaunchFeedbackStoreDiagnostics } from "./feedback";
@@ -139,6 +140,7 @@ function evaluateClosedBetaEligibility(input: {
 function buildStageState(input: {
   gate: LaunchReadinessGateSnapshot;
   closedBetaEligibility: ClosedBetaEligibility;
+  hardening: OpsProductionHardeningSnapshot | null;
 }) {
   const gateState: LaunchPipelineStageState =
     input.gate.overall.status === "pass" ? "ready" : "blocked";
@@ -146,16 +148,27 @@ function buildStageState(input: {
     gateState === "ready" && input.closedBetaEligibility !== "allowlist_unconfigured"
       ? "in_progress"
       : "blocked";
+  const productionHardeningState: LaunchPipelineStageState =
+    !input.hardening
+      ? "not_started"
+      : input.hardening.degraded.status === "stable" &&
+        input.hardening.readiness.stage === "operational_resilient"
+      ? "ready"
+      : input.hardening.readiness.score >= 60
+      ? "in_progress"
+      : "blocked";
 
   return {
     gateState,
     closedBetaState,
+    productionHardeningState,
   };
 }
 
 export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: {
   session: AuthenticatedSession;
   gate: LaunchReadinessGateSnapshot;
+  hardening?: OpsProductionHardeningSnapshot | null;
   checkedAt?: string;
 }): Promise<LaunchOperationsSnapshot> {
   const checkedAt = input.checkedAt ?? new Date().toISOString();
@@ -166,6 +179,7 @@ export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: 
   const stageState = buildStageState({
     gate: input.gate,
     closedBetaEligibility: closedBeta.eligibility,
+    hardening: input.hardening ?? null,
   });
   const feedbackSnapshot = await getLaunchFeedbackSnapshotForAuthenticatedSession(
     input.session,
@@ -197,9 +211,11 @@ export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: 
       },
       {
         key: "production_hardening",
-        state: "not_started",
+        state: stageState.productionHardeningState,
         required: true,
-        evidence: "Stage not started.",
+        evidence: input.hardening
+          ? `hardening=${input.hardening.readiness.stage} score=${input.hardening.readiness.score} degraded=${input.hardening.degraded.status}`
+          : "No hardening evidence supplied.",
       },
       {
         key: "soft_launch_preparation",

@@ -659,6 +659,7 @@ export type DiagnosticsHealthSnapshot = {
     mode: "closed_beta_preparation";
     status: "in_progress" | "blocked";
     supportRoute: "/api/launch/feedback";
+    productionHardening: "ready" | "guarded";
   };
 };
 

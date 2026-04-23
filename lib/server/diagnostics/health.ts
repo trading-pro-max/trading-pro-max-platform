@@ -40,6 +40,7 @@ import {
 import {
   getEnterpriseOpsDiagnosticsProbe,
   getOpsProductionActivationDiagnosticsProbe,
+  getProductionHardeningDiagnosticsProbe,
 } from "@/lib/server/ops";
 import {
   buildLaunchReadinessGateSnapshot,
@@ -176,6 +177,7 @@ function buildRouteProbes(input: {
   closedBetaPreparation: DiagnosticsProbe;
   opsFoundation: DiagnosticsProbe;
   opsActivation: DiagnosticsProbe;
+  productionHardening: DiagnosticsProbe;
   workspace: DiagnosticsProbe;
   alerts: DiagnosticsProbe;
   alertsAutomation: DiagnosticsProbe;
@@ -285,6 +287,12 @@ function buildRouteProbes(input: {
       method: "GET",
       status: "auth_required",
       detail: `${input.opsActivation.summary}. Route is operator-guarded and requires authentication.`,
+    },
+    {
+      path: "/api/ops/hardening",
+      method: "GET",
+      status: "auth_required",
+      detail: `${input.productionHardening.summary}. Route is operator-guarded and requires authentication.`,
     },
     {
       path: "/api/account/preferences",
@@ -410,6 +418,7 @@ function buildSubsystems(input: {
   closedBetaPreparation: DiagnosticsProbe;
   opsFoundation: DiagnosticsProbe;
   opsActivation: DiagnosticsProbe;
+  productionHardening: DiagnosticsProbe;
   preferences: DiagnosticsProbe;
   workspace: DiagnosticsProbe;
   productBackend: DiagnosticsProbe;
@@ -530,6 +539,13 @@ function buildSubsystems(input: {
       detail: input.opsActivation.detail,
     },
     {
+      key: "ops_hardening",
+      label: input.productionHardening.label,
+      status: input.productionHardening.status,
+      summary: input.productionHardening.summary,
+      detail: input.productionHardening.detail,
+    },
+    {
       key: "preferences",
       label: input.preferences.label,
       status: input.preferences.status,
@@ -628,6 +644,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     closedBetaPreparation,
     opsFoundation,
     opsActivation,
+    productionHardening,
     alerts,
     alertsAutomation,
     alertsDelivery,
@@ -651,6 +668,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     getClosedBetaPreparationDiagnosticsProbe(),
     getEnterpriseOpsDiagnosticsProbe(),
     getOpsProductionActivationDiagnosticsProbe(),
+    getProductionHardeningDiagnosticsProbe(),
     getAlertWorkflowDiagnosticsProbe(),
     getAlertAutomationDiagnosticsProbe(),
     getAlertDeliveryActivationDiagnosticsProbe(),
@@ -696,6 +714,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       commercialActivation,
       closedBetaPreparation,
       opsActivation,
+      productionHardening,
       intelligence,
       aiFoundation,
       aiDeepening,
@@ -718,6 +737,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     closedBetaPreparation,
     opsFoundation,
     opsActivation,
+    productionHardening,
     preferences,
     workspace,
     productBackend,
@@ -744,6 +764,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     commercialActivation,
     opsFoundation,
     opsActivation,
+    productionHardening,
     workspace,
     alerts,
     alertsAutomation,
@@ -772,6 +793,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     closedBetaPreparation,
     opsFoundation,
     opsActivation,
+    productionHardening,
     preferences,
     workspace,
     productBackend,
@@ -875,6 +897,8 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       mode: "closed_beta_preparation",
       status: closedBetaPreparation.status === "ready" ? "in_progress" : "blocked",
       supportRoute: "/api/launch/feedback",
+      productionHardening:
+        productionHardening.status === "ready" ? "ready" : "guarded",
     },
   };
 }

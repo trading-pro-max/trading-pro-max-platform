@@ -1,12 +1,7 @@
 import { NextRequest } from "next/server";
 import { getSessionTokenFromRequest } from "@/lib/auth/cookies";
 import { validateSession } from "@/lib/auth/service";
-import { getDiagnosticsHealthSnapshot } from "@/lib/server/diagnostics/health";
 import { getOpsProductionHardeningSnapshot } from "@/lib/server/ops";
-import {
-  buildLaunchReadinessGateSnapshot,
-  getLaunchOperationsSnapshotForAuthenticatedSession,
-} from "@/lib/server/launch";
 import { getRequestContext, noStoreJson } from "@/lib/server/security";
 
 export const runtime = "nodejs";
@@ -23,14 +18,7 @@ export async function GET(request: NextRequest) {
     return noStoreJson({ ok: false, authenticated: false }, 401);
   }
 
-  const health = await getDiagnosticsHealthSnapshot();
-  const gate = buildLaunchReadinessGateSnapshot(health);
-  const hardening = await getOpsProductionHardeningSnapshot();
-  const snapshot = await getLaunchOperationsSnapshotForAuthenticatedSession({
-    session,
-    gate,
-    hardening,
-  });
+  const snapshot = await getOpsProductionHardeningSnapshot();
 
   return noStoreJson({
     ok: true,

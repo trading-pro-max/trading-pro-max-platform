@@ -10,3 +10,8 @@ export {
   getOpsProductionActivationSnapshot,
   type OpsProductionActivationSnapshot,
 } from "./activation";
+export {
+  getOpsProductionHardeningSnapshot,
+  getProductionHardeningDiagnosticsProbe,
+  type OpsProductionHardeningSnapshot,
+} from "./hardening";

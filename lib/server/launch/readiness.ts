@@ -148,6 +148,7 @@ function buildChecklist(health: DiagnosticsHealthSnapshot) {
     health,
     "/api/launch/feedback"
   );
+  const opsHardeningRouteStatus = findRouteStatus(health, "/api/ops/hardening");
 
   const items: LaunchReadinessChecklistItem[] = [
     {
@@ -210,6 +211,12 @@ function buildChecklist(health: DiagnosticsHealthSnapshot) {
       label: "Closed-beta feedback route is explicitly account-guarded",
       passed: launchFeedbackRouteStatus === "auth_required",
       evidence: `/api/launch/feedback=${launchFeedbackRouteStatus}`,
+    },
+    {
+      key: "ops_hardening_guard",
+      label: "Production hardening route is explicitly operator-guarded",
+      passed: opsHardeningRouteStatus === "auth_required",
+      evidence: `/api/ops/hardening=${opsHardeningRouteStatus}`,
     },
   ];
 
@@ -275,7 +282,11 @@ export function buildLaunchReadinessGateSnapshot(
       key: "ops",
       label: "Operational readiness",
       required: true,
-      probeKeys: ["enterprise_ops_foundation", "production_ops_activation"],
+      probeKeys: [
+        "enterprise_ops_foundation",
+        "production_ops_activation",
+        "production_hardening",
+      ],
       evidence:
         "Ops telemetry, runbook, and guarded activation semantics are available.",
     }),

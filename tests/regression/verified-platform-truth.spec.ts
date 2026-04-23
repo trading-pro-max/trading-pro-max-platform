@@ -282,6 +282,7 @@ test.describe("verified platform truth", () => {
       mode: "closed_beta_preparation",
       status: expect.stringMatching(/in_progress|blocked/),
       supportRoute: "/api/launch/feedback",
+      productionHardening: expect.stringMatching(/ready|guarded/),
     });
     expect(healthPayload.truthSemantics).toMatchObject({
       blocked: expect.arrayContaining([
@@ -444,6 +445,9 @@ test.describe("verified platform truth", () => {
     expect(["ready", "degraded"]).toContain(
       probes.get("launch_readiness_gate")?.status
     );
+    expect(["ready", "degraded"]).toContain(
+      probes.get("production_hardening")?.status
+    );
     expect(["ready", "unconfigured", "degraded"]).toContain(
       probes.get("closed_beta_preparation")?.status
     );
@@ -479,6 +483,9 @@ test.describe("verified platform truth", () => {
       status: "auth_required",
     });
     expect(routes.get("/api/ops/readiness")).toMatchObject({
+      status: "auth_required",
+    });
+    expect(routes.get("/api/ops/hardening")).toMatchObject({
       status: "auth_required",
     });
     expect(routes.get("/api/alerts/workflows")).toMatchObject({
@@ -562,6 +569,8 @@ test.describe("verified platform truth", () => {
     expect(opsRunbookUnauth.status()).toBe(401);
     const opsReadinessUnauth = await request.get("/api/ops/readiness");
     expect(opsReadinessUnauth.status()).toBe(401);
+    const opsHardeningUnauth = await request.get("/api/ops/hardening");
+    expect(opsHardeningUnauth.status()).toBe(401);
     const automationStateUnauth = await request.get("/api/alerts/automation/state");
     expect(automationStateUnauth.status()).toBe(401);
     const deliveryStateUnauth = await request.get("/api/alerts/delivery/state");
@@ -1009,6 +1018,11 @@ test.describe("verified platform truth", () => {
           required: true,
           state: expect.stringMatching(/in_progress|blocked/),
         }),
+        expect.objectContaining({
+          key: "production_hardening",
+          required: true,
+          state: expect.stringMatching(/ready|in_progress|blocked/),
+        }),
       ])
     );
     expect(launchOperationsPayload.snapshot.closedBeta).toMatchObject({
@@ -1105,8 +1119,48 @@ test.describe("verified platform truth", () => {
       expect.arrayContaining([
         "/api/ops/runbook",
         "/api/ops/readiness",
+        "/api/ops/hardening",
         "/api/diagnostics/probes",
       ])
+    );
+
+    const opsHardening = await request.get("/api/ops/hardening");
+    expect(opsHardening.status()).toBe(200);
+    const opsHardeningPayload = await opsHardening.json();
+    expect(opsHardeningPayload.snapshot).toMatchObject({
+      runtime: {
+        state: expect.stringMatching(/stable|guarded/),
+      },
+      database: {
+        state: expect.stringMatching(/reachable|guarded/),
+        timeoutMs: expect.any(Number),
+      },
+      durability: {
+        state: expect.stringMatching(/stable|guarded/),
+      },
+      degraded: {
+        status: expect.stringMatching(/stable|guarded/),
+        failureMode: "truthful_degraded_disclosure",
+        recoveryMode: "operator_guided_manual",
+      },
+      safeguards: {
+        responseTimeouts: "bounded",
+        retryPolicy: "single_retry_with_truthful_failure",
+        fallbackPolicy: "fallback_first",
+        executionSafety: "paper_only_live_blocked",
+      },
+      recovery: {
+        runbookRoute: "/api/ops/runbook",
+        readinessRoute: "/api/ops/readiness",
+        diagnosticsRoute: "/api/diagnostics/probes",
+        hardeningRoute: "/api/ops/hardening",
+      },
+    });
+    expect(Array.isArray(opsHardeningPayload.snapshot.recovery.recommendedActions)).toBe(
+      true
+    );
+    expect(opsHardeningPayload.snapshot.recovery.recommendedActions.length).toBeGreaterThan(
+      1
     );
 
     const opsRunbook = await request.get("/api/ops/runbook");
