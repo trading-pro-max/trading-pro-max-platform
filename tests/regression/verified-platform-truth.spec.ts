@@ -559,6 +559,9 @@ test.describe("verified platform truth", () => {
     expect(routes.get("/api/launch/operations")).toMatchObject({
       status: "auth_required",
     });
+    expect(routes.get("/api/launch/beta-readiness")).toMatchObject({
+      status: "auth_required",
+    });
     expect(routes.get("/api/launch/feedback")).toMatchObject({
       status: "auth_required",
     });
@@ -651,6 +654,8 @@ test.describe("verified platform truth", () => {
     expect(deliveryStateUnauth.status()).toBe(401);
     const launchOperationsUnauth = await request.get("/api/launch/operations");
     expect(launchOperationsUnauth.status()).toBe(401);
+    const betaReadinessUnauth = await request.get("/api/launch/beta-readiness");
+    expect(betaReadinessUnauth.status()).toBe(401);
     const launchFeedbackUnauth = await request.get("/api/launch/feedback");
     expect(launchFeedbackUnauth.status()).toBe(401);
     const softLaunchUnauth = await request.get("/api/launch/soft-readiness");
@@ -1101,7 +1106,7 @@ test.describe("verified platform truth", () => {
         expect.objectContaining({
           key: "closed_beta_preparation",
           required: true,
-          state: expect.stringMatching(/in_progress|blocked/),
+          state: expect.stringMatching(/ready|in_progress|blocked/),
         }),
         expect.objectContaining({
           key: "production_hardening",
@@ -1121,11 +1126,24 @@ test.describe("verified platform truth", () => {
       ])
     );
     expect(launchOperationsPayload.snapshot.closedBeta).toMatchObject({
+      mode: "controlled_closed_beta",
+      programMode: expect.stringMatching(
+        /closed_beta|soft_launch|public_launch_preparation/
+      ),
       access: "allowlist_only",
+      accessDecision: expect.stringMatching(
+        /granted|review_required|blocked_unconfigured/
+      ),
       evaluatorEligibility: expect.stringMatching(
         /eligible|review_required|allowlist_unconfigured/
       ),
       matchSource: expect.stringMatching(/email|account|none/),
+      capacity: {
+        maxEvaluators: expect.any(Number),
+        activeEvaluators: expect.any(Number),
+        remainingSlots: expect.any(Number),
+        state: expect.stringMatching(/within_limit|at_limit/),
+      },
       cohort: {
         userEmail: expect.any(String),
         accountId: expect.any(String),
@@ -1139,6 +1157,9 @@ test.describe("verified platform truth", () => {
         billing: "inactive",
       },
     });
+    expect(Array.isArray(launchOperationsPayload.snapshot.closedBeta.limitations)).toBe(
+      true
+    );
     expect(launchOperationsPayload.snapshot.softLaunch).toMatchObject({
       mode: "limited_rollout_guarded",
       state: expect.stringMatching(/prepared_guarded|blocked_guarded/),
@@ -1193,6 +1214,22 @@ test.describe("verified platform truth", () => {
     expect(
       launchOperationsPayload.snapshot.publicLaunch.checklist.items.length
     ).toBeGreaterThan(3);
+
+    const launchBetaReadiness = await request.get("/api/launch/beta-readiness");
+    expect(launchBetaReadiness.status()).toBe(200);
+    const launchBetaReadinessPayload = await launchBetaReadiness.json();
+    expect(launchBetaReadinessPayload.snapshot).toMatchObject({
+      mode: "closed_beta_preparation",
+      stage: expect.stringMatching(/ready|in_progress|blocked|not_started/),
+      closedBeta: {
+        mode: "controlled_closed_beta",
+        access: "allowlist_only",
+      },
+      support: {
+        mode: "closed_beta_operator_review",
+        feedbackRoute: "/api/launch/feedback",
+      },
+    });
 
     const softLaunchReadiness = await request.get("/api/launch/soft-readiness");
     expect(softLaunchReadiness.status()).toBe(200);

@@ -383,6 +383,13 @@ function buildRouteProbes(input: {
         `${input.closedBetaPreparation.summary}. Route is account-scoped and exposes controlled launch operations semantics.`,
     },
     {
+      path: "/api/launch/beta-readiness",
+      method: "GET",
+      status: "auth_required",
+      detail:
+        "Closed-beta readiness route is account-scoped and exposes cohort/capacity guarded evaluator semantics.",
+    },
+    {
       path: "/api/launch/feedback",
       method: "GET",
       status: "auth_required",

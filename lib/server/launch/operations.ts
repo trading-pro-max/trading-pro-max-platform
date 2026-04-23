@@ -36,6 +36,15 @@ type ClosedBetaEligibility =
   | "allowlist_unconfigured";
 
 type ClosedBetaMatchSource = "email" | "account" | "none";
+type ClosedBetaProgramMode =
+  | "closed_beta"
+  | "soft_launch"
+  | "public_launch_preparation";
+type ClosedBetaAccessDecision =
+  | "granted"
+  | "review_required"
+  | "blocked_unconfigured";
+type ClosedBetaCapacityState = "within_limit" | "at_limit";
 
 type SoftLaunchState = "prepared_guarded" | "blocked_guarded";
 type SoftLaunchCapacityState = "within_limit" | "at_limit";
@@ -62,13 +71,22 @@ export type LaunchOperationsSnapshot = {
     evidence: string;
   }>;
   closedBeta: {
+    mode: "controlled_closed_beta";
+    programMode: ClosedBetaProgramMode;
     access: "allowlist_only";
+    accessDecision: ClosedBetaAccessDecision;
     evaluatorEligibility: ClosedBetaEligibility;
     matchSource: ClosedBetaMatchSource;
     allowlist: {
       configured: boolean;
       emailEntries: number;
       accountEntries: number;
+    };
+    capacity: {
+      maxEvaluators: number;
+      activeEvaluators: number;
+      remainingSlots: number;
+      state: ClosedBetaCapacityState;
     };
     cohort: {
       userEmail: string;
@@ -82,6 +100,7 @@ export type LaunchOperationsSnapshot = {
       realMoneyRouting: "blocked";
       billing: "inactive";
     };
+    limitations: string[];
   };
   softLaunch: {
     mode: "limited_rollout_guarded";
@@ -160,6 +179,15 @@ export type SoftLaunchPreparationSnapshot = {
   limitations: string[];
 };
 
+export type ClosedBetaPreparationSnapshot = {
+  checkedAt: string;
+  mode: "closed_beta_preparation";
+  stage: LaunchPipelineStageState;
+  closedBeta: LaunchOperationsSnapshot["closedBeta"];
+  support: LaunchOperationsSnapshot["support"];
+  limitations: string[];
+};
+
 export type PublicLaunchPreparationSnapshot = {
   checkedAt: string;
   mode: "public_launch_preparation";
@@ -174,6 +202,32 @@ function parseCsvList(raw: string | null | undefined) {
     .split(",")
     .map((value) => value.trim().toLowerCase())
     .filter((value) => value.length > 0);
+}
+
+function resolveClosedBetaProgramMode(): ClosedBetaProgramMode {
+  const raw = process.env.TPM_LAUNCH_PROGRAM_MODE?.trim().toLowerCase();
+  if (raw === "soft_launch") return "soft_launch";
+  if (raw === "public_launch_preparation") return "public_launch_preparation";
+  return "closed_beta";
+}
+
+function resolveClosedBetaMaxEvaluators() {
+  const raw = Number(process.env.TPM_CLOSED_BETA_MAX_EVALUATORS ?? 80);
+  if (!Number.isFinite(raw) || raw < 1) return 80;
+  return Math.min(1000, Math.max(10, Math.round(raw)));
+}
+
+async function getClosedBetaCapacity() {
+  const maxEvaluators = resolveClosedBetaMaxEvaluators();
+  const activeEvaluators = await prisma.account.count();
+  const remainingSlots = Math.max(0, maxEvaluators - activeEvaluators);
+
+  return {
+    maxEvaluators,
+    activeEvaluators,
+    remainingSlots,
+    state: remainingSlots > 0 ? ("within_limit" as const) : ("at_limit" as const),
+  };
 }
 
 function resolveSoftLaunchMaxAccounts() {
@@ -246,9 +300,26 @@ function evaluateClosedBetaEligibility(input: {
   };
 }
 
+function resolveClosedBetaAccessDecision(input: {
+  eligibility: ClosedBetaEligibility;
+  capacity: {
+    remainingSlots: number;
+  };
+}) {
+  if (
+    input.eligibility === "allowlist_unconfigured" ||
+    input.capacity.remainingSlots <= 0
+  ) {
+    return "blocked_unconfigured" as const;
+  }
+  if (input.eligibility === "eligible") return "granted" as const;
+  return "review_required" as const;
+}
+
 function buildFoundationalStageState(input: {
   gate: LaunchReadinessGateSnapshot;
   closedBetaEligibility: ClosedBetaEligibility;
+  closedBetaAccessDecision: ClosedBetaAccessDecision;
   hardening: OpsProductionHardeningSnapshot | null;
   softLaunchCapacity: {
     remainingSlots: number;
@@ -258,7 +329,10 @@ function buildFoundationalStageState(input: {
     input.gate.overall.status === "pass" ? "ready" : "blocked";
 
   const closedBetaState: LaunchPipelineStageState =
-    gateState === "ready" && input.closedBetaEligibility !== "allowlist_unconfigured"
+    gateState === "ready" && input.closedBetaAccessDecision === "granted"
+      ? "ready"
+      : gateState === "ready" &&
+        input.closedBetaEligibility !== "allowlist_unconfigured"
       ? "in_progress"
       : "blocked";
 
@@ -364,18 +438,25 @@ export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: 
   checkedAt?: string;
 }): Promise<LaunchOperationsSnapshot> {
   const checkedAt = input.checkedAt ?? new Date().toISOString();
+  const programMode = resolveClosedBetaProgramMode();
   const closedBeta = evaluateClosedBetaEligibility({
     email: input.session.user.email,
     accountId: input.session.account.id,
   });
-  const [feedbackSnapshot, softLaunchCapacity] = await Promise.all([
+  const [feedbackSnapshot, closedBetaCapacity, softLaunchCapacity] = await Promise.all([
     getLaunchFeedbackSnapshotForAuthenticatedSession(input.session, checkedAt),
+    getClosedBetaCapacity(),
     getSoftLaunchCapacity(),
   ]);
+  const closedBetaAccessDecision = resolveClosedBetaAccessDecision({
+    eligibility: closedBeta.eligibility,
+    capacity: closedBetaCapacity,
+  });
 
   const stageState = buildFoundationalStageState({
     gate: input.gate,
     closedBetaEligibility: closedBeta.eligibility,
+    closedBetaAccessDecision,
     hardening: input.hardening ?? null,
     softLaunchCapacity,
   });
@@ -412,7 +493,7 @@ export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: 
         key: "closed_beta_preparation",
         state: stageState.closedBetaState,
         required: true,
-        evidence: `closed_beta_eligibility=${closedBeta.eligibility}`,
+        evidence: `closed_beta_mode=${programMode} access=${closedBetaAccessDecision} eligibility=${closedBeta.eligibility}`,
       },
       {
         key: "production_hardening",
@@ -436,13 +517,22 @@ export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: 
       },
     ],
     closedBeta: {
+      mode: "controlled_closed_beta",
+      programMode,
       access: "allowlist_only",
+      accessDecision: closedBetaAccessDecision,
       evaluatorEligibility: closedBeta.eligibility,
       matchSource: closedBeta.matchSource,
       allowlist: {
         configured: closedBeta.allowlistConfigured,
         emailEntries: closedBeta.emailEntries,
         accountEntries: closedBeta.accountEntries,
+      },
+      capacity: {
+        maxEvaluators: closedBetaCapacity.maxEvaluators,
+        activeEvaluators: closedBetaCapacity.activeEvaluators,
+        remainingSlots: closedBetaCapacity.remainingSlots,
+        state: closedBetaCapacity.state,
       },
       cohort: {
         userEmail: input.session.user.email,
@@ -456,6 +546,10 @@ export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: 
         realMoneyRouting: "blocked",
         billing: "inactive",
       },
+      limitations: [
+        "Closed beta access is allowlist and capacity guarded.",
+        "Live execution, real-money routing, and billing remain blocked/inactive.",
+      ],
     },
     softLaunch: {
       mode: "limited_rollout_guarded",
@@ -521,6 +615,27 @@ export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: 
   };
 }
 
+export async function getClosedBetaPreparationSnapshotForAuthenticatedSession(input: {
+  session: AuthenticatedSession;
+  gate: LaunchReadinessGateSnapshot;
+  hardening?: OpsProductionHardeningSnapshot | null;
+  checkedAt?: string;
+}): Promise<ClosedBetaPreparationSnapshot> {
+  const snapshot = await getLaunchOperationsSnapshotForAuthenticatedSession(input);
+  const stage =
+    snapshot.stages.find((item) => item.key === "closed_beta_preparation")?.state ??
+    "blocked";
+
+  return {
+    checkedAt: snapshot.checkedAt,
+    mode: "closed_beta_preparation",
+    stage,
+    closedBeta: snapshot.closedBeta,
+    support: snapshot.support,
+    limitations: snapshot.limitations,
+  };
+}
+
 export async function getSoftLaunchPreparationSnapshotForAuthenticatedSession(input: {
   session: AuthenticatedSession;
   gate: LaunchReadinessGateSnapshot;
@@ -565,20 +680,36 @@ export async function getClosedBetaPreparationDiagnosticsProbe(
   checkedAt = new Date().toISOString()
 ): Promise<DiagnosticsProbe> {
   try {
-    const feedbackStore = await getLaunchFeedbackStoreDiagnostics({ checkedAt });
+    const [feedbackStore, activeEvaluators] = await Promise.all([
+      getLaunchFeedbackStoreDiagnostics({ checkedAt }),
+      prisma.account.count(),
+    ]);
+    const programMode = resolveClosedBetaProgramMode();
     const emailAllowlist = parseCsvList(process.env.TPM_CLOSED_BETA_ALLOWLIST_EMAILS);
     const accountAllowlist = parseCsvList(process.env.TPM_CLOSED_BETA_ALLOWLIST_ACCOUNT_IDS);
     const allowlistConfigured = emailAllowlist.length > 0 || accountAllowlist.length > 0;
+    const maxEvaluators = resolveClosedBetaMaxEvaluators();
+    const remainingSlots = Math.max(0, maxEvaluators - activeEvaluators);
+    const status = !allowlistConfigured
+      ? "unconfigured"
+      : remainingSlots > 0
+      ? "ready"
+      : "degraded";
 
     return {
       key: "closed_beta_preparation",
       label: "Closed beta preparation",
-      status: allowlistConfigured ? "ready" : "unconfigured",
-      summary: allowlistConfigured
-        ? "Closed beta guardrails are configured with allowlist access semantics."
-        : "Closed beta allowlist is not configured yet.",
+      status,
+      summary:
+        status === "ready"
+          ? "Closed beta guardrails are configured with allowlist and capacity semantics."
+          : status === "degraded"
+          ? "Closed beta guardrails are configured but evaluator capacity is exhausted."
+          : "Closed beta allowlist is not configured yet.",
       detail:
+        `program_mode=${programMode}; ` +
         `Allowlist email entries ${emailAllowlist.length}, account entries ${accountAllowlist.length}. ` +
+        `Capacity ${activeEvaluators}/${maxEvaluators} with ${remainingSlots} slot(s) remaining. ` +
         `Feedback store ${feedbackStore.feedbackStore} has ${feedbackStore.feedbackEvents30d} event(s) in the last 30 days.`,
       checkedAt,
     };

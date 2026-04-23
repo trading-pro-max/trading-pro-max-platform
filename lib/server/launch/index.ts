@@ -17,12 +17,14 @@ export {
   type LaunchFeedbackSnapshot,
 } from "./feedback";
 export {
+  getClosedBetaPreparationSnapshotForAuthenticatedSession,
   getClosedBetaPreparationDiagnosticsProbe,
   getLaunchOperationsSnapshotForAuthenticatedSession,
   getPublicLaunchPreparationDiagnosticsProbe,
   getPublicLaunchPreparationSnapshotForAuthenticatedSession,
   getSoftLaunchPreparationDiagnosticsProbe,
   getSoftLaunchPreparationSnapshotForAuthenticatedSession,
+  type ClosedBetaPreparationSnapshot,
   type LaunchOperationsMode,
   type LaunchOperationsSnapshot,
   type PublicLaunchPreparationSnapshot,

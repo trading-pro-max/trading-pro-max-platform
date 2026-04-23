@@ -153,6 +153,10 @@ function buildChecklist(health: DiagnosticsHealthSnapshot) {
     health,
     "/api/launch/operations"
   );
+  const launchBetaReadinessRouteStatus = findRouteStatus(
+    health,
+    "/api/launch/beta-readiness"
+  );
   const launchFeedbackRouteStatus = findRouteStatus(
     health,
     "/api/launch/feedback"
@@ -223,6 +227,12 @@ function buildChecklist(health: DiagnosticsHealthSnapshot) {
       label: "Closed-beta operations route is explicitly account-guarded",
       passed: launchOperationsRouteStatus === "auth_required",
       evidence: `/api/launch/operations=${launchOperationsRouteStatus}`,
+    },
+    {
+      key: "closed_beta_readiness_guard",
+      label: "Closed-beta readiness route is explicitly account-guarded",
+      passed: launchBetaReadinessRouteStatus === "auth_required",
+      evidence: `/api/launch/beta-readiness=${launchBetaReadinessRouteStatus}`,
     },
     {
       key: "closed_beta_feedback_guard",
