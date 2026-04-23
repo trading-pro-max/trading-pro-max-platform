@@ -305,6 +305,9 @@ test.describe("verified platform truth", () => {
           pushDelivery: "unconfigured",
           sessionStrategy: "session_or_token_bridge",
         },
+        productization: {
+          releaseClaims: "no_store_release_claim",
+        },
       },
     });
     expect(healthPayload.clientExpansion.desktop.foundation.targets).toEqual(
@@ -353,6 +356,9 @@ test.describe("verified platform truth", () => {
     });
     expect(["unconfigured", "ready"]).toContain(
       probes.get("desktop_productization")?.status
+    );
+    expect(["unconfigured", "ready"]).toContain(
+      probes.get("mobile_productization")?.status
     );
     expect(probes.get("enterprise_ops_foundation")).toMatchObject({
       status: "ready",
@@ -431,6 +437,9 @@ test.describe("verified platform truth", () => {
     expect(routes.get("/api/platform/mobile/state")).toMatchObject({
       status: "ready",
     });
+    expect(["unconfigured", "ready"]).toContain(
+      routes.get("/api/platform/mobile/productization")?.status
+    );
     expect(["unconfigured", "blocked"]).toContain(
       routes.get("/api/integrations/readiness")?.status
     );
@@ -557,6 +566,27 @@ test.describe("verified platform truth", () => {
       paperOnly: true,
       liveExecution: "blocked",
       realMoneyRouting: "blocked",
+    });
+
+    const mobileProductization = await request.get(
+      "/api/platform/mobile/productization"
+    );
+    expect(mobileProductization.status()).toBe(200);
+    const mobileProductizationPayload = await mobileProductization.json();
+    expect(mobileProductizationPayload.snapshot.truth).toMatchObject({
+      runtime: "mobile_shell_reserved",
+      pushClaims: "none",
+      releaseClaims: "no_store_release_claim",
+    });
+    expect(mobileProductizationPayload.snapshot.clientFlow).toMatchObject({
+      navigationModel: "workstation_compact_tabs",
+      routeScope: "operator_assist",
+    });
+    expect(mobileProductizationPayload.snapshot.safety).toMatchObject({
+      paperOnly: true,
+      liveExecution: "blocked",
+      realMoneyRouting: "blocked",
+      autoTrading: "blocked",
     });
 
     const integrationReadiness = await request.get("/api/integrations/readiness");

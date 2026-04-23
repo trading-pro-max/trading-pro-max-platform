@@ -2,6 +2,7 @@ import "server-only";
 import { getDesktopAppsFoundationSnapshot } from "@/lib/server/platform/desktop-foundation";
 import { getDesktopProductizationSnapshot } from "@/lib/server/platform/desktop-productization";
 import { getMobileAppsFoundationSnapshot } from "@/lib/server/platform/mobile-foundation";
+import { getMobileProductizationSnapshot } from "@/lib/server/platform/mobile-productization";
 
 export type ClientExpansionSnapshot = {
   checkedAt: string;
@@ -45,6 +46,12 @@ export type ClientExpansionSnapshot = {
       distributionState: "contract_only" | "packaging_ready";
       sessionStrategy: "session_or_token_bridge";
     };
+    productization: {
+      stage: "foundation_only" | "pilot_usable" | "distribution_guarded";
+      sessionRestore: "disabled" | "guarded_enabled";
+      distributionState: "unconfigured" | "pilot_distribution_ready";
+      releaseClaims: "no_store_release_claim";
+    };
   };
   summary: string;
 };
@@ -55,6 +62,7 @@ export function getClientExpansionSnapshot(
   const desktop = getDesktopAppsFoundationSnapshot(checkedAt);
   const desktopProductization = getDesktopProductizationSnapshot(checkedAt);
   const mobile = getMobileAppsFoundationSnapshot(checkedAt);
+  const mobileProductization = getMobileProductizationSnapshot(checkedAt);
 
   return {
     checkedAt,
@@ -97,6 +105,13 @@ export function getClientExpansionSnapshot(
         pushDelivery: mobile.workflow.pushDelivery,
         distributionState: mobile.targets[0]?.distributionState ?? "contract_only",
         sessionStrategy: mobile.authSession.sessionStrategy,
+      },
+      productization: {
+        stage: mobileProductization.readiness.stage,
+        sessionRestore: mobileProductization.session.restoration,
+        distributionState:
+          mobileProductization.targets[0]?.distributionState ?? "unconfigured",
+        releaseClaims: mobileProductization.truth.releaseClaims,
       },
     },
     summary:

@@ -621,6 +621,12 @@ export type DiagnosticsHealthSnapshot = {
         distributionState: "contract_only" | "packaging_ready";
         sessionStrategy: "session_or_token_bridge";
       };
+      productization?: {
+        stage: "foundation_only" | "pilot_usable" | "distribution_guarded";
+        sessionRestore: "disabled" | "guarded_enabled";
+        distributionState: "unconfigured" | "pilot_distribution_ready";
+        releaseClaims: "no_store_release_claim";
+      };
     };
     summary: string;
   };

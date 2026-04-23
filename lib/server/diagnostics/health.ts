@@ -25,6 +25,7 @@ import { getClientExpansionSnapshot } from "@/lib/server/platform/client-contrac
 import { getDesktopAppsDiagnosticsProbe } from "@/lib/server/platform/desktop-foundation";
 import { getDesktopProductizationDiagnosticsProbe } from "@/lib/server/platform/desktop-productization";
 import { getMobileAppsDiagnosticsProbe } from "@/lib/server/platform/mobile-foundation";
+import { getMobileProductizationDiagnosticsProbe } from "@/lib/server/platform/mobile-productization";
 import {
   getRealActivationPilotDiagnosticsProbe,
   getRealActivationPilotSnapshot,
@@ -155,6 +156,7 @@ function buildRouteProbes(input: {
   desktopFoundation: DiagnosticsProbe;
   desktopProductization: DiagnosticsProbe;
   mobileFoundation: DiagnosticsProbe;
+  mobileProductization: DiagnosticsProbe;
   activationPilot: DiagnosticsProbe;
   integrationsFoundation: DiagnosticsProbe;
   commercialFoundation: DiagnosticsProbe;
@@ -212,6 +214,13 @@ function buildRouteProbes(input: {
       status: input.mobileFoundation.status,
       detail:
         "Mobile foundation route reports runtime bridge, auth/session, persistence, push readiness, and paper-only safety contracts.",
+    },
+    {
+      path: "/api/platform/mobile/productization",
+      method: "GET",
+      status: input.mobileProductization.status,
+      detail:
+        "Mobile productization route reports guarded Android/iOS product flow, session restoration, persistence behavior, and explicit push-readiness truth.",
     },
     {
       path: "/api/platform/desktop/productization",
@@ -336,6 +345,7 @@ function buildSubsystems(input: {
   desktopFoundation: DiagnosticsProbe;
   desktopProductization: DiagnosticsProbe;
   mobileFoundation: DiagnosticsProbe;
+  mobileProductization: DiagnosticsProbe;
   activationPilot: DiagnosticsProbe;
   integrationsFoundation: DiagnosticsProbe;
   commercialFoundation: DiagnosticsProbe;
@@ -400,6 +410,13 @@ function buildSubsystems(input: {
       status: input.mobileFoundation.status,
       summary: input.mobileFoundation.summary,
       detail: input.mobileFoundation.detail,
+    },
+    {
+      key: "mobile_productization",
+      label: input.mobileProductization.label,
+      status: input.mobileProductization.status,
+      summary: input.mobileProductization.summary,
+      detail: input.mobileProductization.detail,
     },
     {
       key: "activation_pilot",
@@ -506,6 +523,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     desktopFoundation,
     desktopProductization,
     mobileFoundation,
+    mobileProductization,
     activationPilot,
     integrationsFoundation,
     commercialFoundation,
@@ -523,6 +541,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     Promise.resolve(getDesktopAppsDiagnosticsProbe(checkedAt)),
     Promise.resolve(getDesktopProductizationDiagnosticsProbe(checkedAt)),
     Promise.resolve(getMobileAppsDiagnosticsProbe(checkedAt)),
+    Promise.resolve(getMobileProductizationDiagnosticsProbe(checkedAt)),
     Promise.resolve(getRealActivationPilotDiagnosticsProbe(checkedAt)),
     Promise.resolve(getRealIntegrationsDiagnosticsProbe(checkedAt)),
     getCommercialScalingDiagnosticsProbe(),
@@ -561,6 +580,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       market,
       broker,
       desktopProductization,
+      mobileProductization,
       activationPilot,
       integrationsFoundation,
       alerts,
@@ -581,6 +601,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       desktopFoundation,
       desktopProductization,
       mobileFoundation,
+      mobileProductization,
       activationPilot,
       integrationsFoundation,
       commercialFoundation,
@@ -603,6 +624,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       desktopFoundation,
       desktopProductization,
       mobileFoundation,
+      mobileProductization,
       activationPilot,
       integrationsFoundation,
       commercialFoundation,
@@ -624,6 +646,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       desktopFoundation,
       desktopProductization,
       mobileFoundation,
+      mobileProductization,
       activationPilot,
       integrationsFoundation,
       commercialFoundation,
