@@ -349,6 +349,9 @@ test.describe("verified platform truth", () => {
     expect(["unconfigured", "blocked"]).toContain(
       probes.get("real_integrations_foundation")?.status
     );
+    expect(probes.get("alerts_automation")).toMatchObject({
+      status: "unconfigured",
+    });
     expect(probes.get("alerts_workflow")).toMatchObject({
       status: "unconfigured",
     });
@@ -380,6 +383,9 @@ test.describe("verified platform truth", () => {
     expect(routes.get("/api/alerts/workflows")).toMatchObject({
       status: "auth_required",
     });
+    expect(routes.get("/api/alerts/automation/state")).toMatchObject({
+      status: "auth_required",
+    });
     expect(routes.get("/api/market/feed-state")).toMatchObject({
       status: "fallback",
     });
@@ -404,6 +410,8 @@ test.describe("verified platform truth", () => {
 
     const compliance = await request.get("/api/account/compliance");
     expect(compliance.status()).toBe(401);
+    const automationStateUnauth = await request.get("/api/alerts/automation/state");
+    expect(automationStateUnauth.status()).toBe(401);
     const commercialStateUnauth = await request.get("/api/account/commercial-state");
     expect(commercialStateUnauth.status()).toBe(401);
     const operatorReview = await request.get(
@@ -635,7 +643,16 @@ test.describe("verified platform truth", () => {
     expect(workflowsReadPayload.snapshot.runtime).toMatchObject({
       delivery: "unconfigured",
       automation: "inactive",
+      queue: "local_buffer_ready",
+      scheduler: "inactive",
       liveExecution: "blocked",
+      autoTrading: "blocked",
+    });
+    expect(workflowsReadPayload.snapshot.runtime.notificationChannels).toMatchObject({
+      inApp: "local_unconfigured",
+      push: "unconfigured",
+      email: "unconfigured",
+      webhook: "unconfigured",
     });
 
     const nextRules = [
@@ -643,21 +660,31 @@ test.describe("verified platform truth", () => {
         id: "volatility-watch",
         label: "Volatility watch",
         state: "enabled",
+        severity: "warning",
         metric: "volatility",
         operator: "gt",
         threshold: 1.2,
         action: "desk_note",
+        deliveryMode: "record_only",
+        schedule: "market_hours",
+        triggerWindowSeconds: 120,
         cooldownSeconds: 90,
+        requiresOperatorAck: false,
       },
       {
         id: "drawdown-guard",
         label: "Drawdown guard",
         state: "enabled",
+        severity: "critical",
         metric: "session_drawdown",
         operator: "lt",
         threshold: -110,
         action: "review_flag",
+        deliveryMode: "operator_queue",
+        schedule: "always",
+        triggerWindowSeconds: 60,
         cooldownSeconds: 180,
+        requiresOperatorAck: true,
       },
     ];
 
@@ -670,6 +697,42 @@ test.describe("verified platform truth", () => {
     const workflowsUpdatePayload = await workflowsUpdate.json();
     expect(workflowsUpdatePayload.snapshot.source).toBe("backend_audit");
     expect(workflowsUpdatePayload.snapshot.rules).toHaveLength(2);
+    expect(workflowsUpdatePayload.snapshot.rules[0]).toMatchObject({
+      severity: "warning",
+      deliveryMode: "record_only",
+      schedule: "market_hours",
+      triggerWindowSeconds: 120,
+      requiresOperatorAck: false,
+    });
+    expect(workflowsUpdatePayload.snapshot.rules[1]).toMatchObject({
+      severity: "critical",
+      deliveryMode: "operator_queue",
+      schedule: "always",
+      triggerWindowSeconds: 60,
+      requiresOperatorAck: true,
+    });
+
+    const automationState = await request.get("/api/alerts/automation/state");
+    expect(automationState.status()).toBe(200);
+    const automationStatePayload = await automationState.json();
+    expect(automationStatePayload.snapshot.runtime).toMatchObject({
+      triggerEngine: "deterministic_local_rules",
+      scheduler: "inactive",
+      queue: "local_buffer_ready",
+      delivery: "unconfigured",
+      autoTrading: "blocked",
+    });
+    expect(automationStatePayload.snapshot.queue).toMatchObject({
+      pending: 0,
+      processing: 0,
+      failed: 0,
+    });
+    expect(automationStatePayload.snapshot.triggers).toMatchObject({
+      enabledRuleCount: 2,
+      criticalRuleCount: 1,
+      operatorAckRequiredCount: 1,
+      scheduleMode: "deterministic_local",
+    });
 
     const intelligence = await request.get(
       "/api/intelligence/context?symbol=EUR/USD&timeframe=5m"

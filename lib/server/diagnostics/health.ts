@@ -13,7 +13,10 @@ import { probeWorkspacePreferencePersistence } from "@/lib/server/preferences/st
 import { getSecurityDiagnosticsProbe } from "@/lib/server/security";
 import { probeWorkspaceDepthPersistence } from "@/lib/server/workspace";
 import { getProductBackendDiagnosticsProbe } from "@/lib/server/product";
-import { getAlertWorkflowDiagnosticsProbe } from "@/lib/server/workflows";
+import {
+  getAlertAutomationDiagnosticsProbe,
+  getAlertWorkflowDiagnosticsProbe,
+} from "@/lib/server/workflows";
 import { getIntelligenceBackendDiagnosticsProbe } from "@/lib/server/intelligence";
 import { getClientExpansionSnapshot } from "@/lib/server/platform/client-contracts";
 import { getDesktopAppsDiagnosticsProbe } from "@/lib/server/platform/desktop-foundation";
@@ -146,6 +149,7 @@ function buildRouteProbes(input: {
   commercialFoundation: DiagnosticsProbe;
   workspace: DiagnosticsProbe;
   alerts: DiagnosticsProbe;
+  alertsAutomation: DiagnosticsProbe;
   intelligence: DiagnosticsProbe;
   security: DiagnosticsProbe;
   productBackend: DiagnosticsProbe;
@@ -244,6 +248,13 @@ function buildRouteProbes(input: {
         "Alerts/workflow route is account-scoped and requires authentication.",
     },
     {
+      path: "/api/alerts/automation/state",
+      method: "GET",
+      status: "auth_required",
+      detail:
+        "Alerts automation-state route is account-scoped and requires authentication.",
+    },
+    {
       path: "/api/intelligence/context",
       method: "GET",
       status: input.intelligence.status,
@@ -285,6 +296,7 @@ function buildSubsystems(input: {
   market: DiagnosticsProbe;
   broker: DiagnosticsProbe;
   alerts: DiagnosticsProbe;
+  alertsAutomation: DiagnosticsProbe;
   intelligence: DiagnosticsProbe;
   readiness: DiagnosticsProbe;
 }) {
@@ -388,6 +400,13 @@ function buildSubsystems(input: {
       detail: input.alerts.detail,
     },
     {
+      key: "alerts_automation",
+      label: input.alertsAutomation.label,
+      status: input.alertsAutomation.status,
+      summary: input.alertsAutomation.summary,
+      detail: input.alertsAutomation.detail,
+    },
+    {
       key: "intelligence",
       label: input.intelligence.label,
       status: input.intelligence.status,
@@ -410,6 +429,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     integrationsFoundation,
     commercialFoundation,
     alerts,
+    alertsAutomation,
     intelligence,
   ] = await Promise.all([
     probeServerReadiness(),
@@ -422,6 +442,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     Promise.resolve(getRealIntegrationsDiagnosticsProbe(checkedAt)),
     getCommercialScalingDiagnosticsProbe(),
     getAlertWorkflowDiagnosticsProbe(),
+    getAlertAutomationDiagnosticsProbe(),
     getIntelligenceBackendDiagnosticsProbe(),
   ]);
   const runtimeBaseline = probeRuntimeBaseline(checkedAt);
@@ -447,7 +468,14 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       mobileFoundation,
       commercialFoundation,
     ],
-    expectedTruthful: [market, broker, integrationsFoundation, alerts, intelligence],
+    expectedTruthful: [
+      market,
+      broker,
+      integrationsFoundation,
+      alerts,
+      alertsAutomation,
+      intelligence,
+    ],
   });
 
   return {
@@ -468,6 +496,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       market,
       broker,
       alerts,
+      alertsAutomation,
       intelligence,
     ],
     connectors: [brokerConnector],
@@ -481,6 +510,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       commercialFoundation,
       workspace,
       alerts,
+      alertsAutomation,
       intelligence,
       security,
       productBackend,
@@ -501,6 +531,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       market,
       broker,
       alerts,
+      alertsAutomation,
       intelligence,
       readiness,
     }),
