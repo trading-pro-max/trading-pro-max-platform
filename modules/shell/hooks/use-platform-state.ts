@@ -32,6 +32,7 @@ import {
   submitLocalComplianceReview,
   type LocalComplianceState,
 } from "../components/trading-workstation-compliance";
+import { deriveTradingIntelligence } from "../../intelligence/engine";
 import type {
   AccountMode,
   AccountPolicySurface,
@@ -1097,9 +1098,9 @@ export function usePlatformState(
     PLATFORM_LIMITS.maxOpenTrades - activeState.openTrades.length
   );
   const canOpenMore = remainingTradeSlots > 0;
-  const compliancePolicy = deriveAccountCompliancePolicy(
-    accountMode,
-    activeComplianceState
+  const compliancePolicy = useMemo(
+    () => deriveAccountCompliancePolicy(accountMode, activeComplianceState),
+    [accountMode, activeComplianceState]
   );
   const disclosuresAccepted = compliancePolicy.disclosures.every(
     (item) => item.state === "accepted"
@@ -1113,91 +1114,108 @@ export function usePlatformState(
   const accountStatus: AccountRuntimeState =
     compliancePolicy.activation.executionEnabled ? "active" : "read_only";
 
-  const accountPolicy: AccountPolicySurface = {
-    runtimeState: accountStatus,
-    executionAccess: accountMode === "demo" ? "demo_only" : "live_blocked",
-    permissionAnchors: buildPermissionAnchors(
-      accountMode,
-      compliancePolicy.activation.executionEnabled
-    ),
-    jurisdiction: {
-      key: "global_foundation",
-      executionPolicy: "demo_only",
-      disclosureState: disclosuresAccepted ? "ready" : "required",
-      activationState: compliancePolicy.activation.executionEnabled
-        ? "active"
-        : "review",
-    },
-    verificationWorkflow: buildVerificationWorkflow(
-      compliancePolicy.review.state,
-      disclosuresAccepted
-    ),
-    onboarding: buildOnboardingSurface(
-      compliancePolicy.lifecycle.state,
-      compliancePolicy.activation.executionEnabled
-    ),
-    preferences: buildAccountPreferences(locale),
-    lifecycle: compliancePolicy.lifecycle,
-    disclosures: compliancePolicy.disclosures,
-    review: compliancePolicy.review,
-    activation: compliancePolicy.activation,
-  };
+  const accountPolicy = useMemo<AccountPolicySurface>(
+    () => ({
+      runtimeState: accountStatus,
+      executionAccess: accountMode === "demo" ? "demo_only" : "live_blocked",
+      permissionAnchors: buildPermissionAnchors(
+        accountMode,
+        compliancePolicy.activation.executionEnabled
+      ),
+      jurisdiction: {
+        key: "global_foundation",
+        executionPolicy: "demo_only",
+        disclosureState: disclosuresAccepted ? "ready" : "required",
+        activationState: compliancePolicy.activation.executionEnabled
+          ? "active"
+          : "review",
+      },
+      verificationWorkflow: buildVerificationWorkflow(
+        compliancePolicy.review.state,
+        disclosuresAccepted
+      ),
+      onboarding: buildOnboardingSurface(
+        compliancePolicy.lifecycle.state,
+        compliancePolicy.activation.executionEnabled
+      ),
+      preferences: buildAccountPreferences(locale),
+      lifecycle: compliancePolicy.lifecycle,
+      disclosures: compliancePolicy.disclosures,
+      review: compliancePolicy.review,
+      activation: compliancePolicy.activation,
+    }),
+    [accountMode, accountStatus, compliancePolicy, disclosuresAccepted, locale]
+  );
 
-  const executionFoundation: ExecutionFoundationSurface = {
-    route: accountMode === "demo" ? "demo_router" : "live_blocked",
-    executionAccess: accountMode === "demo" ? "demo_only" : "live_blocked",
-    intentState:
-      !canExecute
-        ? "blocked"
-        : sessionLocked || !canOpenMore
-        ? "guarded"
-        : decision.signal === "wait"
-        ? "standby"
-        : "ready",
-    guardrails: [
-      ...(accountMode === "real" ? (["demo_only"] as const) : []),
-      ...(sessionLocked ? (["session_locked"] as const) : []),
-      ...(!canOpenMore ? (["max_open_trades"] as const) : []),
-    ],
-  };
+  const executionFoundation = useMemo<ExecutionFoundationSurface>(
+    () => ({
+      route: accountMode === "demo" ? "demo_router" : "live_blocked",
+      executionAccess: accountMode === "demo" ? "demo_only" : "live_blocked",
+      intentState:
+        !canExecute
+          ? "blocked"
+          : sessionLocked || !canOpenMore
+          ? "guarded"
+          : decision.signal === "wait"
+          ? "standby"
+          : "ready",
+      guardrails: [
+        ...(accountMode === "real" ? (["demo_only"] as const) : []),
+        ...(sessionLocked ? (["session_locked"] as const) : []),
+        ...(!canOpenMore ? (["max_open_trades"] as const) : []),
+      ],
+    }),
+    [accountMode, canExecute, canOpenMore, decision.signal, sessionLocked]
+  );
 
   const sessionGuardThreshold = PLATFORM_LIMITS.sessionLossLimit * 0.6;
 
-  const riskFoundation: RiskFoundationSurface = {
-    sessionState: sessionLocked
-      ? "locked"
-      : sessionPnL <= sessionGuardThreshold || remainingTradeSlots <= 1
-      ? "guarded"
-      : "active",
-    lockReason: sessionLocked
-      ? "loss_limit"
-      : !canOpenMore
-      ? "capacity_limit"
-      : "none",
-    sessionLossLimit: Math.abs(PLATFORM_LIMITS.sessionLossLimit),
-    currentSessionPnl: sessionPnL,
-    maxOpenTrades: PLATFORM_LIMITS.maxOpenTrades,
-    remainingTradeSlots,
-    losingTradesCount: lossCount,
-    riskMode: sessionLocked
-      ? "locked"
-      : sessionPnL <= sessionGuardThreshold || remainingTradeSlots <= 1
-      ? "guarded"
-      : "normal",
-    safeDegradation:
-      sessionLocked || !canExecute || !canOpenMore
-        ? "new_entries_blocked"
+  const riskFoundation = useMemo<RiskFoundationSurface>(
+    () => ({
+      sessionState: sessionLocked
+        ? "locked"
         : sessionPnL <= sessionGuardThreshold || remainingTradeSlots <= 1
-        ? "new_entries_restricted"
+        ? "guarded"
+        : "active",
+      lockReason: sessionLocked
+        ? "loss_limit"
+        : !canOpenMore
+        ? "capacity_limit"
         : "none",
-    operatorMessage: sessionLocked
-      ? "loss_limit_locked"
-      : !canOpenMore
-      ? "capacity_reached"
-      : sessionPnL <= sessionGuardThreshold || remainingTradeSlots <= 1
-      ? "session_guarded"
-      : "session_active",
-  };
+      sessionLossLimit: Math.abs(PLATFORM_LIMITS.sessionLossLimit),
+      currentSessionPnl: sessionPnL,
+      maxOpenTrades: PLATFORM_LIMITS.maxOpenTrades,
+      remainingTradeSlots,
+      losingTradesCount: lossCount,
+      riskMode: sessionLocked
+        ? "locked"
+        : sessionPnL <= sessionGuardThreshold || remainingTradeSlots <= 1
+        ? "guarded"
+        : "normal",
+      safeDegradation:
+        sessionLocked || !canExecute || !canOpenMore
+          ? "new_entries_blocked"
+          : sessionPnL <= sessionGuardThreshold || remainingTradeSlots <= 1
+          ? "new_entries_restricted"
+          : "none",
+      operatorMessage: sessionLocked
+        ? "loss_limit_locked"
+        : !canOpenMore
+        ? "capacity_reached"
+        : sessionPnL <= sessionGuardThreshold || remainingTradeSlots <= 1
+        ? "session_guarded"
+        : "session_active",
+    }),
+    [
+      canExecute,
+      canOpenMore,
+      lossCount,
+      remainingTradeSlots,
+      sessionGuardThreshold,
+      sessionLocked,
+      sessionPnL,
+    ]
+  );
 
   useEffect(() => {
     if (!hydrated) return;
@@ -1384,6 +1402,34 @@ export function usePlatformState(
     recentEvents: auditEvents,
   };
 
+  const intelligence = useMemo(
+    () =>
+      deriveTradingIntelligence({
+        accountMode,
+        accountPolicy,
+        asset: selectedAsset,
+        timeframe: activeState.selectedTimeframe,
+        candles,
+        marketFeed,
+        decision,
+        executionFoundation,
+        riskFoundation,
+        canExecute,
+      }),
+    [
+      accountMode,
+      accountPolicy,
+      activeState.selectedTimeframe,
+      canExecute,
+      candles,
+      decision,
+      executionFoundation,
+      marketFeed,
+      riskFoundation,
+      selectedAsset,
+    ]
+  );
+
   function openPaperTrade(direction: TradeDirection) {
     if (!canExecute) return;
 
@@ -1478,6 +1524,7 @@ export function usePlatformState(
     dataStateFoundation,
     auditTraceFoundation,
     securityFoundation,
+    intelligence,
     workspacePreferences,
     setWorkspacePreference,
     toggleWorkspaceIndicator,

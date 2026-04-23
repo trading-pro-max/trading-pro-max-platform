@@ -40,8 +40,15 @@ test.describe("verified platform truth", () => {
 
       if (route.path === "/" || route.path === "/en") {
         await expect(page.locator(".tpmv2-command-center").first()).toBeVisible();
+        await expect(page.locator(".tpmv2-brain-deck").first()).toBeVisible();
         await expect(page.locator(".tpmv2-chart-surface").first()).toBeVisible();
         await expect(page.locator(".tpmv2-execution").first()).toBeVisible();
+        await expect(page.locator("body")).toContainText(
+          /TPM IQ \/ Brain|Market context|Operator guidance|Truth layer/
+        );
+        await expect(page.locator("body")).toContainText("Fallback-bound");
+        await expect(page.locator("body")).toContainText("Interpretive only");
+        await expect(page.locator("body")).toContainText("Live blocked");
 
         const chartBox = await page
           .locator(".tpmv2-chart-surface")
@@ -178,6 +185,27 @@ test.describe("verified platform truth", () => {
       normalizedSymbol: "BTC/USD",
       normalizedTimeframe: "5m",
     });
+  });
+
+  test("shows truthful degraded intelligence when the market route falls back locally", async ({
+    page,
+  }) => {
+    await page.route("**/api/market**", async (route) => {
+      await route.abort();
+    });
+
+    await page.goto("/en");
+    await expect(page.locator("main").first()).toBeVisible();
+    await expect(page.locator(".tpmv2-brain-deck").first()).toBeVisible();
+    await expect(page.locator("body")).toContainText("Degraded");
+    await expect(page.locator("body")).toContainText(
+      "Context engine operating in degraded mode"
+    );
+    await expect(page.locator("body")).toContainText(
+      "fallback-safe structure cues"
+    );
+    await expect(page.locator("body")).toContainText("Interpretive only");
+    await expect(page.locator("body")).toContainText("Live blocked");
   });
 
   test("reports diagnostics, readiness, auth-required routes, and connector truth", async ({

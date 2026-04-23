@@ -1,6 +1,7 @@
 "use client";
 
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
+import OperatorIntelligenceDeck from "../../intelligence/components/OperatorIntelligenceDeck";
 import { usePlatformState } from "../hooks/use-platform-state";
 import {
   ActivityHistoryPanel,
@@ -38,6 +39,7 @@ export default function TradingWorkstation({
     dataStateFoundation: platformState.dataStateFoundation,
     auditTraceFoundation: platformState.auditTraceFoundation,
     securityFoundation: platformState.securityFoundation,
+    intelligence: platformState.intelligence,
     decision: platformState.decision,
     riskNoteCode: platformState.riskNoteCode,
     sessionPnL: platformState.sessionPnL,
@@ -159,6 +161,8 @@ export default function TradingWorkstation({
             paperAccessTone={viewModel.paperAccessTone}
           />
 
+          <OperatorIntelligenceDeck intelligence={viewModel.intelligence} />
+
           <section
             className={
               desktopTicketVisible
@@ -174,7 +178,6 @@ export default function TradingWorkstation({
                 onSelectTimeframe={platformState.setSelectedTimeframe}
                 candles={platformState.candles}
                 decision={platformState.decision}
-                signalLabel={viewModel.signalLabel}
                 chartType={platformState.workspacePreferences.chartType}
                 onSelectChartType={(chartType) =>
                   platformState.setWorkspacePreference("chartType", chartType)
@@ -190,6 +193,10 @@ export default function TradingWorkstation({
                   platformState.setWorkspacePreference("chartZoom", zoom)
                 }
                 onResetChart={platformState.resetChartWorkspace}
+                intelligenceKicker={viewModel.intelligence.chartKicker}
+                intelligenceHeadline={viewModel.intelligence.chartHeadline}
+                intelligenceSummary={viewModel.intelligence.chartSummary}
+                intelligenceNote={viewModel.intelligence.chartNote}
                 workspaceControls={workspaceControls}
               />
             </section>
@@ -233,6 +240,10 @@ export default function TradingWorkstation({
                   ticketOperationalLabel={viewModel.ticketOperationalLabel}
                   ticketOperationalValue={viewModel.ticketOperationalValue}
                   ticketOperationalTone={viewModel.ticketOperationalTone}
+                  intelligenceKicker={viewModel.intelligence.executionKicker}
+                  intelligenceHeadline={viewModel.intelligence.executionHeadline}
+                  intelligenceSummary={viewModel.intelligence.executionSummary}
+                  intelligenceNote={viewModel.intelligence.executionNote}
                 />
               </aside>
             ) : null}
@@ -353,6 +364,8 @@ export default function TradingWorkstation({
           paperAccessTone={viewModel.paperAccessTone}
         />
 
+        <OperatorIntelligenceDeck intelligence={viewModel.intelligence} />
+
         <ChartCard
           dict={dict}
           selectedAsset={platformState.selectedAsset}
@@ -360,7 +373,6 @@ export default function TradingWorkstation({
           onSelectTimeframe={platformState.setSelectedTimeframe}
           candles={platformState.candles}
           decision={platformState.decision}
-          signalLabel={viewModel.signalLabel}
           chartType={platformState.workspacePreferences.chartType}
           onSelectChartType={(chartType) =>
             platformState.setWorkspacePreference("chartType", chartType)
@@ -376,6 +388,10 @@ export default function TradingWorkstation({
             platformState.setWorkspacePreference("chartZoom", zoom)
           }
           onResetChart={platformState.resetChartWorkspace}
+          intelligenceKicker={viewModel.intelligence.chartKicker}
+          intelligenceHeadline={viewModel.intelligence.chartHeadline}
+          intelligenceSummary={viewModel.intelligence.chartSummary}
+          intelligenceNote={viewModel.intelligence.chartNote}
         />
 
         <ExecutionCard
@@ -415,6 +431,10 @@ export default function TradingWorkstation({
           ticketOperationalLabel={viewModel.ticketOperationalLabel}
           ticketOperationalValue={viewModel.ticketOperationalValue}
           ticketOperationalTone={viewModel.ticketOperationalTone}
+          intelligenceKicker={viewModel.intelligence.executionKicker}
+          intelligenceHeadline={viewModel.intelligence.executionHeadline}
+          intelligenceSummary={viewModel.intelligence.executionSummary}
+          intelligenceNote={viewModel.intelligence.executionNote}
         />
 
         <ActivityOpenTradesPanel

@@ -6,6 +6,7 @@ import {
   getSessionStateLabel,
   getSignalTone,
 } from "../../../lib/utils/workstation-view";
+import type { TradingIntelligenceSurface } from "../../intelligence/types";
 import type {
   AccountPolicySurface,
   AccountRuntimeState,
@@ -31,6 +32,10 @@ import {
   securitySecretsValue as resolveSecuritySecretsValue,
   securitySessionValue as resolveSecuritySessionValue,
 } from "./trading-workstation-labels";
+import {
+  createTradingIntelligenceViewModel,
+  type TradingIntelligenceViewModel,
+} from "./trading-intelligence-view-model";
 
 export type TradingWorkstationViewModelInput = {
   locale: string;
@@ -42,6 +47,7 @@ export type TradingWorkstationViewModelInput = {
   dataStateFoundation: DataStateFoundationSurface;
   auditTraceFoundation: AuditTraceFoundationSurface;
   securityFoundation: SecurityFoundationSurface;
+  intelligence: TradingIntelligenceSurface;
   decision: Decision;
   riskNoteCode: RiskNoteCode;
   sessionPnL: number;
@@ -65,6 +71,7 @@ export type ComplianceMetaView = {
 };
 
 export type TradingWorkstationViewModel = {
+  intelligence: TradingIntelligenceViewModel;
   modeLabel: string;
   demoLabel: string;
   realLabel: string;
@@ -1045,6 +1052,7 @@ export function createTradingWorkstationViewModel({
   dataStateFoundation,
   auditTraceFoundation,
   securityFoundation,
+  intelligence,
   decision,
   riskNoteCode,
   sessionPnL,
@@ -1056,6 +1064,7 @@ export function createTradingWorkstationViewModel({
   const riskNote = getRiskNote(riskNoteCode, dict);
 
   return {
+    intelligence: createTradingIntelligenceViewModel(dict, intelligence),
     ...coreCopy,
     signalStyle: getSignalTone(decision.signal),
     riskNote,

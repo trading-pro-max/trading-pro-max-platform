@@ -125,6 +125,7 @@ function useUtilityPlatformViewModel(locale: string, dict: Dictionary) {
     dataStateFoundation: platformState.dataStateFoundation,
     auditTraceFoundation: platformState.auditTraceFoundation,
     securityFoundation: platformState.securityFoundation,
+    intelligence: platformState.intelligence,
     decision: platformState.decision,
     riskNoteCode: platformState.riskNoteCode,
     sessionPnL: platformState.sessionPnL,

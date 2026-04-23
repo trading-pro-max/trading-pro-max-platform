@@ -619,7 +619,7 @@ export function WorkstationCommandCenter({
     >
       <div className={`tpmv2-command-primary ${decision.signal}`}>
         <div>
-          <span className="tpmv2-command-kicker">TPM AI Command</span>
+          <span className="tpmv2-command-kicker">TPM IQ Context</span>
           <strong>{signalLabel}</strong>
         </div>
         <span>{decision.confidence}</span>
@@ -664,7 +664,6 @@ export function ChartCard({
   onSelectTimeframe,
   candles,
   decision,
-  signalLabel,
   chartType,
   onSelectChartType,
   activeIndicators,
@@ -674,6 +673,10 @@ export function ChartCard({
   chartZoom,
   onSetChartZoom,
   onResetChart,
+  intelligenceKicker,
+  intelligenceHeadline,
+  intelligenceSummary,
+  intelligenceNote,
   workspaceControls,
 }: {
   dict: Dictionary;
@@ -682,7 +685,6 @@ export function ChartCard({
   onSelectTimeframe: (timeframe: PlatformTimeframe) => void;
   candles: MarketCandle[];
   decision: Decision;
-  signalLabel: string;
   chartType: PlatformChartType;
   onSelectChartType: (type: PlatformChartType) => void;
   activeIndicators: string[];
@@ -692,6 +694,10 @@ export function ChartCard({
   chartZoom: number;
   onSetChartZoom: (zoom: number) => void;
   onResetChart: () => void;
+  intelligenceKicker: string;
+  intelligenceHeadline: string;
+  intelligenceSummary: string;
+  intelligenceNote: string;
   workspaceControls?: ReactNode;
 }) {
   const priceScale = buildPriceScale(
@@ -891,12 +897,13 @@ export function ChartCard({
         </div>
 
         <div className={`tpmv2-chart-ai-panel ${decision.signal}`}>
-          <div className="tpmv2-chart-ai-kicker">TPM AI</div>
+          <div className="tpmv2-chart-ai-kicker">{intelligenceKicker}</div>
           <div className="tpmv2-chart-ai-row">
-            <strong>{signalLabel}</strong>
+            <strong>{intelligenceHeadline}</strong>
             <span>{decision.confidence}</span>
           </div>
-          <p>{decision.reason}</p>
+          <p>{intelligenceSummary}</p>
+          <div className="tpmv2-chart-ai-note">{intelligenceNote}</div>
         </div>
 
         <div className="tpmv2-chart-price-marker" style={{ top: priceMarkerTop }}>
@@ -1033,6 +1040,10 @@ export function ExecutionCard({
   ticketOperationalLabel,
   ticketOperationalValue,
   ticketOperationalTone,
+  intelligenceKicker,
+  intelligenceHeadline,
+  intelligenceSummary,
+  intelligenceNote,
 }: {
   dict: Dictionary;
   decision: Decision;
@@ -1070,6 +1081,10 @@ export function ExecutionCard({
   ticketOperationalLabel: string;
   ticketOperationalValue: string;
   ticketOperationalTone: WorkstationStatusTone;
+  intelligenceKicker: string;
+  intelligenceHeadline: string;
+  intelligenceSummary: string;
+  intelligenceNote: string;
 }) {
   const [controlsMounted, setControlsMounted] = useState(false);
   const disabled = !controlsMounted || !canExecute || sessionLocked || !canOpenMore;
@@ -1185,6 +1200,13 @@ export function ExecutionCard({
           </span>
         </div>
         <div className="tpmv2-ticket-reason">{decision.reason}</div>
+      </div>
+
+      <div className="tpmv2-ticket-intelligence">
+        <span className="tpmv2-ticket-intelligence-kicker">{intelligenceKicker}</span>
+        <strong>{intelligenceHeadline}</strong>
+        <p>{intelligenceSummary}</p>
+        <small>{intelligenceNote}</small>
       </div>
 
       <div className="tpmv2-ticket-exec-strip" aria-label={ticketReadinessLabel}>
