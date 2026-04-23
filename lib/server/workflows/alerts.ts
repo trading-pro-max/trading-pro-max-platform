@@ -51,15 +51,15 @@ export type AlertWorkflowSnapshot = {
   updatedAt: string | null;
   runtime: {
     evaluationMode: "deterministic_local_rules";
-    automation: "inactive";
-    delivery: "unconfigured";
-    queue: "local_buffer_ready";
-    scheduler: "inactive";
+    automation: "inactive" | "configured_guarded";
+    delivery: "unconfigured" | "configured_guarded";
+    queue: "local_buffer_ready" | "persistent_queue_guarded";
+    scheduler: "inactive" | "configured_guarded";
     notificationChannels: {
-      inApp: "local_unconfigured";
-      push: "unconfigured";
-      email: "unconfigured";
-      webhook: "unconfigured";
+      inApp: "local_unconfigured" | "configured_inactive" | "configured_guarded";
+      push: "unconfigured" | "configured_inactive" | "configured_guarded";
+      email: "unconfigured" | "configured_inactive" | "configured_guarded";
+      webhook: "unconfigured" | "configured_inactive" | "configured_guarded";
     };
     executionAuthority: "manual_operator";
     autoTrading: "blocked";
@@ -75,9 +75,15 @@ export type AlertAutomationStateSnapshot = {
   source: "defaults" | "backend_audit";
   runtime: {
     triggerEngine: "deterministic_local_rules";
-    scheduler: "inactive";
-    queue: "local_buffer_ready";
-    delivery: "unconfigured";
+    scheduler: "inactive" | "configured_guarded";
+    queue: "local_buffer_ready" | "persistent_queue_guarded";
+    delivery: "unconfigured" | "configured_guarded";
+    channels: {
+      inApp: "local_unconfigured" | "configured_inactive" | "configured_guarded";
+      push: "unconfigured" | "configured_inactive" | "configured_guarded";
+      email: "unconfigured" | "configured_inactive" | "configured_guarded";
+      webhook: "unconfigured" | "configured_inactive" | "configured_guarded";
+    };
     autoTrading: "blocked";
   };
   queue: {
@@ -96,6 +102,44 @@ export type AlertAutomationStateSnapshot = {
   summary: string;
   limitations: string[];
 };
+
+export type AlertDeliveryActivationSnapshot = {
+  checkedAt: string;
+  source: "defaults" | "backend_audit";
+  runtime: {
+    delivery: "unconfigured" | "configured_guarded";
+    scheduler: "inactive" | "configured_guarded";
+    queue: "local_buffer_ready" | "persistent_queue_guarded";
+    activationMode: "operator_guarded";
+    executionAuthority: "manual_operator";
+    autoTrading: "blocked";
+    liveExecution: "blocked";
+  };
+  channels: {
+    inApp: "local_unconfigured" | "configured_inactive" | "configured_guarded";
+    push: "unconfigured" | "configured_inactive" | "configured_guarded";
+    email: "unconfigured" | "configured_inactive" | "configured_guarded";
+    webhook: "unconfigured" | "configured_inactive" | "configured_guarded";
+  };
+  triggerAction: {
+    enabledRuleCount: number;
+    operatorAckRequiredCount: number;
+    actionModes: Array<"desk_note" | "review_flag">;
+    scheduleModes: Array<"always" | "market_hours">;
+  };
+  deliveryState: {
+    canDispatch: boolean;
+    blockedReasons: string[];
+    lastDispatchAt: string | null;
+    schedulerTickAt: string | null;
+  };
+  summary: string;
+  limitations: string[];
+};
+
+type AlertNotificationChannels = AlertWorkflowSnapshot["runtime"]["notificationChannels"];
+type AlertInAppChannelState = AlertNotificationChannels["inApp"];
+type AlertExternalChannelState = AlertNotificationChannels["push"];
 
 function isAlertRuleMetric(value: string): value is AlertRuleMetric {
   return ALERT_RULE_METRICS.includes(value as AlertRuleMetric);
@@ -297,12 +341,104 @@ async function getLatestAlertWorkflowEvent(accountId: string) {
   });
 }
 
+function envIsTrue(value: string | null | undefined) {
+  return value?.trim().toLowerCase() === "true";
+}
+
+function isConfigured(value: string | null | undefined) {
+  return Boolean(value?.trim());
+}
+
+function resolveInAppChannelState(input: {
+  configured: boolean;
+  operatorRelease: boolean;
+}): AlertInAppChannelState {
+  if (!input.configured) return "local_unconfigured";
+  return input.operatorRelease ? "configured_guarded" : "configured_inactive";
+}
+
+function resolveExternalChannelState(input: {
+  configured: boolean;
+  operatorRelease: boolean;
+}): AlertExternalChannelState {
+  if (!input.configured) return "unconfigured";
+  return input.operatorRelease ? "configured_guarded" : "configured_inactive";
+}
+
+function resolveAlertDeliveryRuntime() {
+  const operatorRelease = envIsTrue(process.env.TPM_ALERTS_DELIVERY_OPERATOR_RELEASE);
+  const schedulerRequested = envIsTrue(process.env.TPM_ALERTS_SCHEDULER_ENABLE);
+  const persistentQueueConfigured = isConfigured(
+    process.env.TPM_ALERTS_QUEUE_BACKEND_URL
+  );
+  const inAppConfigured = isConfigured(process.env.TPM_ALERTS_INAPP_CHANNEL_ID);
+  const pushConfigured = isConfigured(process.env.TPM_ALERTS_PUSH_PROVIDER);
+  const emailConfigured = isConfigured(process.env.TPM_ALERTS_EMAIL_PROVIDER);
+  const webhookConfigured = isConfigured(process.env.TPM_ALERTS_WEBHOOK_URL);
+  const channels: AlertNotificationChannels = {
+    inApp: resolveInAppChannelState({
+      configured: inAppConfigured,
+      operatorRelease,
+    }),
+    push: resolveExternalChannelState({
+      configured: pushConfigured,
+      operatorRelease,
+    }),
+    email: resolveExternalChannelState({
+      configured: emailConfigured,
+      operatorRelease,
+    }),
+    webhook: resolveExternalChannelState({
+      configured: webhookConfigured,
+      operatorRelease,
+    }),
+  };
+  const channelConfigured =
+    inAppConfigured || pushConfigured || emailConfigured || webhookConfigured;
+  const delivery = channelConfigured && operatorRelease
+    ? ("configured_guarded" as const)
+    : ("unconfigured" as const);
+  const scheduler = schedulerRequested && channelConfigured && operatorRelease
+    ? ("configured_guarded" as const)
+    : ("inactive" as const);
+  const queue = persistentQueueConfigured
+    ? ("persistent_queue_guarded" as const)
+    : ("local_buffer_ready" as const);
+  const automation =
+    scheduler === "configured_guarded" && delivery === "configured_guarded"
+      ? ("configured_guarded" as const)
+      : ("inactive" as const);
+  const blockedReasons: string[] = [];
+
+  if (!channelConfigured) blockedReasons.push("delivery_channel_unconfigured");
+  if (!operatorRelease) blockedReasons.push("operator_release_required");
+  if (schedulerRequested && !operatorRelease) {
+    blockedReasons.push("scheduler_requested_without_operator_release");
+  }
+  if (schedulerRequested && !channelConfigured) {
+    blockedReasons.push("scheduler_requested_without_channel");
+  }
+
+  return {
+    operatorRelease,
+    schedulerRequested,
+    channels,
+    delivery,
+    scheduler,
+    queue,
+    automation,
+    canDispatch: delivery === "configured_guarded",
+    blockedReasons,
+  };
+}
+
 function buildAlertWorkflowSnapshot(input: {
   source: "defaults" | "backend_audit";
   updatedAt: string | null;
   rules: AlertWorkflowRule[];
   checkedAt: string;
 }): AlertWorkflowSnapshot {
+  const deliveryRuntime = resolveAlertDeliveryRuntime();
   const enabledRuleCount = input.rules.filter((rule) => rule.state === "enabled").length;
   const criticalRuleCount = input.rules.filter(
     (rule) => rule.state === "enabled" && rule.severity === "critical"
@@ -317,26 +453,23 @@ function buildAlertWorkflowSnapshot(input: {
     updatedAt: input.updatedAt,
     runtime: {
       evaluationMode: "deterministic_local_rules",
-      automation: "inactive",
-      delivery: "unconfigured",
-      queue: "local_buffer_ready",
-      scheduler: "inactive",
-      notificationChannels: {
-        inApp: "local_unconfigured",
-        push: "unconfigured",
-        email: "unconfigured",
-        webhook: "unconfigured",
-      },
+      automation: deliveryRuntime.automation,
+      delivery: deliveryRuntime.delivery,
+      queue: deliveryRuntime.queue,
+      scheduler: deliveryRuntime.scheduler,
+      notificationChannels: deliveryRuntime.channels,
       executionAuthority: "manual_operator",
       autoTrading: "blocked",
       liveExecution: "blocked",
     },
     rules: input.rules,
     summary: enabledRuleCount > 0
-      ? `${enabledRuleCount} deterministic local rule(s) active (${criticalRuleCount} critical, ${operatorAckRequiredCount} requiring operator acknowledgement); delivery remains unconfigured.`
-      : "No enabled alert rules; delivery and automation remain unconfigured/inactive.",
+      ? `${enabledRuleCount} deterministic local rule(s) active (${criticalRuleCount} critical, ${operatorAckRequiredCount} requiring operator acknowledgement); delivery is ${deliveryRuntime.delivery} with scheduler ${deliveryRuntime.scheduler}.`
+      : `No enabled alert rules; delivery is ${deliveryRuntime.delivery} and automation is ${deliveryRuntime.automation}.`,
     limitations: [
-      "No outbound notification channel is configured.",
+      deliveryRuntime.delivery === "configured_guarded"
+        ? "Delivery channels are guarded and require authenticated operator workflows."
+        : "No outbound notification channel is configured.",
       "Rules annotate workflow context only and do not automate execution.",
       "Queue/scheduler contracts are local and guarded; no unattended automation is active.",
       "Live execution remains blocked regardless of rule output.",
@@ -407,6 +540,7 @@ export async function getAlertAutomationStateSnapshot(
   accountId: string
 ): Promise<AlertAutomationStateSnapshot> {
   const workflow = await getAlertWorkflowSnapshot(accountId);
+  const deliveryRuntime = resolveAlertDeliveryRuntime();
   const enabledRules = workflow.rules.filter((rule) => rule.state === "enabled");
   const criticalRuleCount = enabledRules.filter(
     (rule) => rule.severity === "critical"
@@ -421,9 +555,10 @@ export async function getAlertAutomationStateSnapshot(
     source: workflow.source,
     runtime: {
       triggerEngine: "deterministic_local_rules",
-      scheduler: "inactive",
-      queue: "local_buffer_ready",
-      delivery: "unconfigured",
+      scheduler: deliveryRuntime.scheduler,
+      queue: deliveryRuntime.queue,
+      delivery: deliveryRuntime.delivery,
+      channels: deliveryRuntime.channels,
       autoTrading: "blocked",
     },
     queue: {
@@ -441,18 +576,76 @@ export async function getAlertAutomationStateSnapshot(
     },
     summary:
       enabledRules.length > 0
-        ? `${enabledRules.length} rule trigger(s) prepared for manual operator workflows; delivery remains unconfigured and automation inactive.`
-        : "No enabled triggers; queue and scheduler contracts remain inactive.",
+        ? `${enabledRules.length} rule trigger(s) prepared for manual operator workflows; delivery is ${deliveryRuntime.delivery} and scheduler is ${deliveryRuntime.scheduler}.`
+        : `No enabled triggers; queue is ${deliveryRuntime.queue} and scheduler is ${deliveryRuntime.scheduler}.`,
     limitations: [
-      "No outbound notification channel is configured.",
+      deliveryRuntime.delivery === "configured_guarded"
+        ? "Delivery channels are guarded and remain operator-controlled."
+        : "No outbound notification channel is configured.",
       "Scheduler is intentionally inactive until an operator-controlled delivery channel is configured.",
       "Automation does not execute trades and cannot bypass live-execution blocks.",
     ],
   };
 }
 
+export async function getAlertDeliveryActivationSnapshot(
+  accountId: string
+): Promise<AlertDeliveryActivationSnapshot> {
+  const workflow = await getAlertWorkflowSnapshot(accountId);
+  const deliveryRuntime = resolveAlertDeliveryRuntime();
+  const enabledRules = workflow.rules.filter((rule) => rule.state === "enabled");
+  const operatorAckRequiredCount = enabledRules.filter(
+    (rule) => rule.requiresOperatorAck
+  ).length;
+  const actionModes = [
+    ...new Set(enabledRules.map((rule) => rule.action)),
+  ] as Array<"desk_note" | "review_flag">;
+  const scheduleModes = [
+    ...new Set(enabledRules.map((rule) => rule.schedule)),
+  ] as Array<"always" | "market_hours">;
+
+  return {
+    checkedAt: workflow.checkedAt,
+    source: workflow.source,
+    runtime: {
+      delivery: deliveryRuntime.delivery,
+      scheduler: deliveryRuntime.scheduler,
+      queue: deliveryRuntime.queue,
+      activationMode: "operator_guarded",
+      executionAuthority: "manual_operator",
+      autoTrading: "blocked",
+      liveExecution: "blocked",
+    },
+    channels: deliveryRuntime.channels,
+    triggerAction: {
+      enabledRuleCount: enabledRules.length,
+      operatorAckRequiredCount,
+      actionModes: actionModes.length > 0 ? actionModes : ["desk_note", "review_flag"],
+      scheduleModes: scheduleModes.length > 0 ? scheduleModes : ["always", "market_hours"],
+    },
+    deliveryState: {
+      canDispatch: deliveryRuntime.canDispatch,
+      blockedReasons: deliveryRuntime.blockedReasons,
+      lastDispatchAt: null,
+      schedulerTickAt: deliveryRuntime.scheduler === "configured_guarded"
+        ? workflow.checkedAt
+        : null,
+    },
+    summary:
+      enabledRules.length > 0
+        ? `Delivery activation is ${deliveryRuntime.delivery}; ${enabledRules.length} enabled rule(s) are mapped to guarded operator actions.`
+        : `Delivery activation is ${deliveryRuntime.delivery}; no enabled rules are currently mapped.`,
+    limitations: [
+      "Delivery activation is guard-railed and does not imply successful outbound delivery.",
+      "Scheduler and queue can only run in guarded operator mode and never route trades.",
+      "Auto-trading and live execution remain blocked regardless of delivery state.",
+    ],
+  };
+}
+
 export async function getAlertWorkflowDiagnosticsProbe(): Promise<DiagnosticsProbe> {
   const checkedAt = new Date().toISOString();
+  const deliveryRuntime = resolveAlertDeliveryRuntime();
 
   try {
     const workflowEventCount = await prisma.auditEvent.count({
@@ -466,13 +659,13 @@ export async function getAlertWorkflowDiagnosticsProbe(): Promise<DiagnosticsPro
     return {
       key: "alerts_workflow",
       label: "Alerts/workflow engine",
-      status: "unconfigured",
+      status: deliveryRuntime.delivery === "configured_guarded" ? "ready" : "unconfigured",
       summary:
         workflowEventCount > 0
-          ? "Local workflow rules stored; delivery unconfigured"
-          : "Workflow delivery unconfigured",
+          ? `Local workflow rules stored; delivery ${deliveryRuntime.delivery}`
+          : `Workflow delivery ${deliveryRuntime.delivery}`,
       detail:
-        "Deterministic local workflow contracts are available for rule evaluation, but delivery channels and live automation remain intentionally unconfigured.",
+        "Deterministic local workflow contracts are available for rule evaluation. Delivery channels remain explicit with operator-guarded semantics, and live automation remains blocked.",
       checkedAt,
     };
   } catch (error) {
@@ -492,6 +685,7 @@ export async function getAlertWorkflowDiagnosticsProbe(): Promise<DiagnosticsPro
 
 export async function getAlertAutomationDiagnosticsProbe(): Promise<DiagnosticsProbe> {
   const checkedAt = new Date().toISOString();
+  const deliveryRuntime = resolveAlertDeliveryRuntime();
 
   try {
     const ruleEventCount = await prisma.auditEvent.count({
@@ -505,13 +699,14 @@ export async function getAlertAutomationDiagnosticsProbe(): Promise<DiagnosticsP
     return {
       key: "alerts_automation",
       label: "Alerts automation foundation",
-      status: "unconfigured",
+      status:
+        deliveryRuntime.scheduler === "configured_guarded" ? "ready" : "unconfigured",
       summary:
         ruleEventCount > 0
-          ? "Automation trigger/queue contracts ready; delivery unconfigured"
-          : "Automation contracts are available but not configured",
+          ? `Automation trigger/queue contracts ready; scheduler ${deliveryRuntime.scheduler}`
+          : `Automation contracts are available with scheduler ${deliveryRuntime.scheduler}`,
       detail:
-        "Trigger evaluation, queue state, and scheduler contracts are present for operator workflows. Delivery channels remain unconfigured, scheduler execution is inactive, and auto-trading remains blocked.",
+        "Trigger evaluation, queue state, and scheduler contracts are present for operator workflows. Delivery and scheduler activation remain explicitly guarded, and auto-trading remains blocked.",
       checkedAt,
     };
   } catch (error) {
@@ -524,6 +719,46 @@ export async function getAlertAutomationDiagnosticsProbe(): Promise<DiagnosticsP
         error instanceof Error
           ? error.message
           : "Alerts automation foundation probe failed.",
+      checkedAt,
+    };
+  }
+}
+
+export async function getAlertDeliveryActivationDiagnosticsProbe(): Promise<DiagnosticsProbe> {
+  const checkedAt = new Date().toISOString();
+  const deliveryRuntime = resolveAlertDeliveryRuntime();
+
+  try {
+    const ruleEventCount = await prisma.auditEvent.count({
+      where: {
+        kind: ALERT_WORKFLOW_KIND,
+        scope: ALERT_WORKFLOW_SCOPE,
+        message: ALERT_WORKFLOW_MESSAGE,
+      },
+    });
+
+    return {
+      key: "alerts_delivery_activation",
+      label: "Alerts delivery activation",
+      status: deliveryRuntime.canDispatch ? "ready" : "unconfigured",
+      summary:
+        ruleEventCount > 0
+          ? `Delivery channels ${deliveryRuntime.delivery}; scheduler ${deliveryRuntime.scheduler}`
+          : `Delivery channels ${deliveryRuntime.delivery}`,
+      detail:
+        "Delivery-channel and scheduler activation contracts are explicit with blocked/unconfigured reasons, no fake delivery-success claims, and no execution authority.",
+      checkedAt,
+    };
+  } catch (error) {
+    return {
+      key: "alerts_delivery_activation",
+      label: "Alerts delivery activation",
+      status: "unavailable",
+      summary: "Alerts delivery activation unavailable",
+      detail:
+        error instanceof Error
+          ? error.message
+          : "Alerts delivery activation probe failed.",
       checkedAt,
     };
   }

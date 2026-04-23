@@ -15,6 +15,7 @@ import { probeWorkspaceDepthPersistence } from "@/lib/server/workspace";
 import { getProductBackendDiagnosticsProbe } from "@/lib/server/product";
 import {
   getAlertAutomationDiagnosticsProbe,
+  getAlertDeliveryActivationDiagnosticsProbe,
   getAlertWorkflowDiagnosticsProbe,
 } from "@/lib/server/workflows";
 import {
@@ -164,6 +165,7 @@ function buildRouteProbes(input: {
   workspace: DiagnosticsProbe;
   alerts: DiagnosticsProbe;
   alertsAutomation: DiagnosticsProbe;
+  alertsDelivery: DiagnosticsProbe;
   intelligence: DiagnosticsProbe;
   aiFoundation: DiagnosticsProbe;
   security: DiagnosticsProbe;
@@ -304,6 +306,12 @@ function buildRouteProbes(input: {
         "Alerts automation-state route is account-scoped and requires authentication.",
     },
     {
+      path: "/api/alerts/delivery/state",
+      method: "GET",
+      status: "auth_required",
+      detail: `${input.alertsDelivery.summary}. Route is account-scoped and requires authentication.`,
+    },
+    {
       path: "/api/intelligence/context",
       method: "GET",
       status: input.intelligence.status,
@@ -357,6 +365,7 @@ function buildSubsystems(input: {
   broker: DiagnosticsProbe;
   alerts: DiagnosticsProbe;
   alertsAutomation: DiagnosticsProbe;
+  alertsDelivery: DiagnosticsProbe;
   intelligence: DiagnosticsProbe;
   aiFoundation: DiagnosticsProbe;
   readiness: DiagnosticsProbe;
@@ -496,6 +505,13 @@ function buildSubsystems(input: {
       detail: input.alertsAutomation.detail,
     },
     {
+      key: "alerts_delivery",
+      label: input.alertsDelivery.label,
+      status: input.alertsDelivery.status,
+      summary: input.alertsDelivery.summary,
+      detail: input.alertsDelivery.detail,
+    },
+    {
       key: "intelligence",
       label: input.intelligence.label,
       status: input.intelligence.status,
@@ -530,6 +546,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     opsFoundation,
     alerts,
     alertsAutomation,
+    alertsDelivery,
     intelligence,
     aiFoundation,
   ] = await Promise.all([
@@ -548,6 +565,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     getEnterpriseOpsDiagnosticsProbe(),
     getAlertWorkflowDiagnosticsProbe(),
     getAlertAutomationDiagnosticsProbe(),
+    getAlertDeliveryActivationDiagnosticsProbe(),
     getIntelligenceBackendDiagnosticsProbe(),
     getAiIqBrainDiagnosticsProbe(),
   ]);
@@ -585,6 +603,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       integrationsFoundation,
       alerts,
       alertsAutomation,
+      alertsDelivery,
       intelligence,
       aiFoundation,
     ],
@@ -613,6 +632,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       broker,
       alerts,
       alertsAutomation,
+      alertsDelivery,
       intelligence,
       aiFoundation,
     ],
@@ -632,6 +652,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       workspace,
       alerts,
       alertsAutomation,
+      alertsDelivery,
       intelligence,
       aiFoundation,
       security,
@@ -658,6 +679,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       broker,
       alerts,
       alertsAutomation,
+      alertsDelivery,
       intelligence,
       aiFoundation,
       readiness,

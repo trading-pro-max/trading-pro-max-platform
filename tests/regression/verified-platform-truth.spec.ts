@@ -379,6 +379,9 @@ test.describe("verified platform truth", () => {
     expect(probes.get("alerts_automation")).toMatchObject({
       status: "unconfigured",
     });
+    expect(["unconfigured", "ready"]).toContain(
+      probes.get("alerts_delivery_activation")?.status
+    );
     expect(probes.get("alerts_workflow")).toMatchObject({
       status: "unconfigured",
     });
@@ -420,6 +423,9 @@ test.describe("verified platform truth", () => {
       status: "auth_required",
     });
     expect(routes.get("/api/alerts/automation/state")).toMatchObject({
+      status: "auth_required",
+    });
+    expect(routes.get("/api/alerts/delivery/state")).toMatchObject({
       status: "auth_required",
     });
     expect(routes.get("/api/market/feed-state")).toMatchObject({
@@ -464,6 +470,8 @@ test.describe("verified platform truth", () => {
     expect(opsRunbookUnauth.status()).toBe(401);
     const automationStateUnauth = await request.get("/api/alerts/automation/state");
     expect(automationStateUnauth.status()).toBe(401);
+    const deliveryStateUnauth = await request.get("/api/alerts/delivery/state");
+    expect(deliveryStateUnauth.status()).toBe(401);
     const commercialStateUnauth = await request.get("/api/account/commercial-state");
     expect(commercialStateUnauth.status()).toBe(401);
     const operatorReview = await request.get(
@@ -893,6 +901,23 @@ test.describe("verified platform truth", () => {
       operatorAckRequiredCount: 1,
       scheduleMode: "deterministic_local",
     });
+
+    const deliveryState = await request.get("/api/alerts/delivery/state");
+    expect(deliveryState.status()).toBe(200);
+    const deliveryStatePayload = await deliveryState.json();
+    expect(deliveryStatePayload.snapshot.runtime).toMatchObject({
+      activationMode: "operator_guarded",
+      executionAuthority: "manual_operator",
+      autoTrading: "blocked",
+      liveExecution: "blocked",
+    });
+    expect(deliveryStatePayload.snapshot.triggerAction).toMatchObject({
+      enabledRuleCount: 2,
+      operatorAckRequiredCount: 1,
+    });
+    expect(Array.isArray(deliveryStatePayload.snapshot.deliveryState.blockedReasons)).toBe(
+      true
+    );
 
     const intelligence = await request.get(
       "/api/intelligence/context?symbol=EUR/USD&timeframe=5m"
