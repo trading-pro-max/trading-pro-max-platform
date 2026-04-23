@@ -165,6 +165,10 @@ function buildChecklist(health: DiagnosticsHealthSnapshot) {
     health,
     "/api/launch/soft-readiness"
   );
+  const softLaunchAccessRouteStatus = findRouteStatus(
+    health,
+    "/api/launch/soft-access"
+  );
   const publicLaunchRouteStatus = findRouteStatus(
     health,
     "/api/launch/public-readiness"
@@ -258,6 +262,12 @@ function buildChecklist(health: DiagnosticsHealthSnapshot) {
       label: "Soft-launch readiness route is explicitly account-guarded",
       passed: softLaunchRouteStatus === "auth_required",
       evidence: `/api/launch/soft-readiness=${softLaunchRouteStatus}`,
+    },
+    {
+      key: "soft_launch_access_route_guard",
+      label: "Soft-launch access route is explicitly account-guarded",
+      passed: softLaunchAccessRouteStatus === "auth_required",
+      evidence: `/api/launch/soft-access=${softLaunchAccessRouteStatus}`,
     },
     {
       key: "public_launch_route_guard",

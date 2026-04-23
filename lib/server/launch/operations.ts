@@ -48,6 +48,8 @@ type ClosedBetaCapacityState = "within_limit" | "at_limit";
 
 type SoftLaunchState = "prepared_guarded" | "blocked_guarded";
 type SoftLaunchCapacityState = "within_limit" | "at_limit";
+type SoftLaunchProgramMode = "limited_rollout_guarded" | "disabled_guarded";
+type SoftLaunchAdmissionDecision = "admitted" | "queue_review" | "blocked";
 type PublicLaunchState =
   | "prepared_guarded"
   | "in_progress_guarded"
@@ -104,8 +106,18 @@ export type LaunchOperationsSnapshot = {
   };
   softLaunch: {
     mode: "limited_rollout_guarded";
+    programMode: SoftLaunchProgramMode;
     state: SoftLaunchState;
     access: "cohort_and_capacity_guard";
+    admission: {
+      decision: SoftLaunchAdmissionDecision;
+      reason:
+        | "capacity_available"
+        | "requires_operator_review"
+        | "soft_launch_disabled_or_blocked";
+      supportLane: "operator_review";
+      queueRoute: "/api/launch/feedback";
+    };
     capacity: {
       maxAccounts: number;
       activeAccounts: number;
@@ -116,6 +128,11 @@ export type LaunchOperationsSnapshot = {
       publicEntry: "limited_rollout_visibility";
       inviteFlow: "operator_issue_only";
       supportPath: "operator_review";
+    };
+    support: {
+      feedbackRoute: "/api/launch/feedback";
+      responseSlaHours: number;
+      rolloutStatus: "limited_guarded";
     };
     truth: {
       launchClaim: "not_launched";
@@ -176,6 +193,17 @@ export type SoftLaunchPreparationSnapshot = {
   mode: "soft_launch_preparation";
   stage: LaunchPipelineStageState;
   softLaunch: LaunchOperationsSnapshot["softLaunch"];
+  limitations: string[];
+};
+
+export type SoftLaunchAccessSnapshot = {
+  checkedAt: string;
+  mode: "soft_launch_access";
+  stage: LaunchPipelineStageState;
+  softLaunch: Pick<
+    LaunchOperationsSnapshot["softLaunch"],
+    "programMode" | "state" | "admission" | "capacity" | "support"
+  >;
   limitations: string[];
 };
 
@@ -246,6 +274,42 @@ async function getSoftLaunchCapacity() {
     activeAccounts,
     remainingSlots,
     state: remainingSlots > 0 ? ("within_limit" as const) : ("at_limit" as const),
+  };
+}
+
+function isSoftLaunchEnabled() {
+  const raw = process.env.TPM_SOFT_LAUNCH_ENABLED?.trim().toLowerCase();
+  if (raw === "false" || raw === "0") return false;
+  return true;
+}
+
+function resolveSoftLaunchAdmission(input: {
+  softLaunchEnabled: boolean;
+  softLaunchState: LaunchPipelineStageState;
+  closedBetaAccessDecision: ClosedBetaAccessDecision;
+  remainingSlots: number;
+}) {
+  if (
+    !input.softLaunchEnabled ||
+    input.softLaunchState === "blocked" ||
+    input.remainingSlots <= 0
+  ) {
+    return {
+      decision: "blocked" as const,
+      reason: "soft_launch_disabled_or_blocked" as const,
+    };
+  }
+
+  if (input.closedBetaAccessDecision === "granted") {
+    return {
+      decision: "admitted" as const,
+      reason: "capacity_available" as const,
+    };
+  }
+
+  return {
+    decision: "queue_review" as const,
+    reason: "requires_operator_review" as const,
   };
 }
 
@@ -460,6 +524,13 @@ export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: 
     hardening: input.hardening ?? null,
     softLaunchCapacity,
   });
+  const softLaunchEnabled = isSoftLaunchEnabled();
+  const softLaunchAdmission = resolveSoftLaunchAdmission({
+    softLaunchEnabled,
+    softLaunchState: stageState.softLaunchState,
+    closedBetaAccessDecision,
+    remainingSlots: softLaunchCapacity.remainingSlots,
+  });
   const publicChecklist = buildPublicLaunchChecklist({
     gateState: stageState.gateState,
     hardeningState: stageState.productionHardeningState,
@@ -553,8 +624,17 @@ export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: 
     },
     softLaunch: {
       mode: "limited_rollout_guarded",
+      programMode: softLaunchEnabled
+        ? "limited_rollout_guarded"
+        : "disabled_guarded",
       state: stageState.softLaunchState === "ready" ? "prepared_guarded" : "blocked_guarded",
       access: "cohort_and_capacity_guard",
+      admission: {
+        decision: softLaunchAdmission.decision,
+        reason: softLaunchAdmission.reason,
+        supportLane: "operator_review",
+        queueRoute: "/api/launch/feedback",
+      },
       capacity: {
         maxAccounts: softLaunchCapacity.maxAccounts,
         activeAccounts: softLaunchCapacity.activeAccounts,
@@ -565,6 +645,11 @@ export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: 
         publicEntry: "limited_rollout_visibility",
         inviteFlow: "operator_issue_only",
         supportPath: "operator_review",
+      },
+      support: {
+        feedbackRoute: "/api/launch/feedback",
+        responseSlaHours: 48,
+        rolloutStatus: "limited_guarded",
       },
       truth: {
         launchClaim: "not_launched",
@@ -656,6 +741,32 @@ export async function getSoftLaunchPreparationSnapshotForAuthenticatedSession(in
   };
 }
 
+export async function getSoftLaunchAccessSnapshotForAuthenticatedSession(input: {
+  session: AuthenticatedSession;
+  gate: LaunchReadinessGateSnapshot;
+  hardening?: OpsProductionHardeningSnapshot | null;
+  checkedAt?: string;
+}): Promise<SoftLaunchAccessSnapshot> {
+  const snapshot = await getLaunchOperationsSnapshotForAuthenticatedSession(input);
+  const stage =
+    snapshot.stages.find((item) => item.key === "soft_launch_preparation")?.state ??
+    "blocked";
+
+  return {
+    checkedAt: snapshot.checkedAt,
+    mode: "soft_launch_access",
+    stage,
+    softLaunch: {
+      programMode: snapshot.softLaunch.programMode,
+      state: snapshot.softLaunch.state,
+      admission: snapshot.softLaunch.admission,
+      capacity: snapshot.softLaunch.capacity,
+      support: snapshot.softLaunch.support,
+    },
+    limitations: snapshot.limitations,
+  };
+}
+
 export async function getPublicLaunchPreparationSnapshotForAuthenticatedSession(input: {
   session: AuthenticatedSession;
   gate: LaunchReadinessGateSnapshot;
@@ -738,8 +849,11 @@ export async function getSoftLaunchPreparationDiagnosticsProbe(
     ]);
     const maxAccounts = resolveSoftLaunchMaxAccounts();
     const remainingSlots = Math.max(0, maxAccounts - activeAccounts);
+    const softLaunchEnabled = isSoftLaunchEnabled();
     const status =
-      hardening.readiness.score >= 60 && remainingSlots > 0 ? "ready" : "degraded";
+      softLaunchEnabled && hardening.readiness.score >= 60 && remainingSlots > 0
+        ? "ready"
+        : "degraded";
 
     return {
       key: "soft_launch_preparation",
@@ -750,6 +864,7 @@ export async function getSoftLaunchPreparationDiagnosticsProbe(
           ? "Soft launch preparation is ready for guarded limited rollout."
           : "Soft launch preparation remains guarded and not yet ready for wider rollout.",
       detail:
+        `soft_launch_enabled=${softLaunchEnabled}; ` +
         `Hardening ${hardening.readiness.score}/100 (${hardening.readiness.stage}); ` +
         `capacity ${activeAccounts}/${maxAccounts} with ${remainingSlots} slot(s) remaining.`,
       checkedAt,

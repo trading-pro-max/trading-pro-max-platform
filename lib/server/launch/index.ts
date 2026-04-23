@@ -22,11 +22,13 @@ export {
   getLaunchOperationsSnapshotForAuthenticatedSession,
   getPublicLaunchPreparationDiagnosticsProbe,
   getPublicLaunchPreparationSnapshotForAuthenticatedSession,
+  getSoftLaunchAccessSnapshotForAuthenticatedSession,
   getSoftLaunchPreparationDiagnosticsProbe,
   getSoftLaunchPreparationSnapshotForAuthenticatedSession,
   type ClosedBetaPreparationSnapshot,
   type LaunchOperationsMode,
   type LaunchOperationsSnapshot,
   type PublicLaunchPreparationSnapshot,
+  type SoftLaunchAccessSnapshot,
   type SoftLaunchPreparationSnapshot,
 } from "./operations";

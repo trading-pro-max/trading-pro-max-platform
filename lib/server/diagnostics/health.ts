@@ -412,6 +412,13 @@ function buildRouteProbes(input: {
         `${input.softLaunchPreparation.summary}. Route is account-scoped and exposes guarded soft-launch readiness semantics.`,
     },
     {
+      path: "/api/launch/soft-access",
+      method: "GET",
+      status: "auth_required",
+      detail:
+        "Soft-launch access route is account-scoped and exposes guarded admission semantics.",
+    },
+    {
       path: "/api/launch/public-readiness",
       method: "GET",
       status: "auth_required",
