@@ -9,6 +9,7 @@
     "prestart": "node scripts/verify-runtime-baseline.mjs",
     "start": "next start",
     "lint": "eslint",
+    "test:regression": "npm run build && npm run prisma:seed && playwright test",
     "prisma:generate": "node scripts/clean-prisma-client.mjs && prisma generate",
     "prisma:seed": "prisma db seed",
     "prisma:validate": "prisma validate"
@@ -22,6 +23,7 @@
     "server-only": "^0.0.1"
   },
   "devDependencies": {
+    "@playwright/test": "^1.59.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
