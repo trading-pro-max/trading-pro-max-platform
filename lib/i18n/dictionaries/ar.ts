@@ -1,5 +1,6 @@
 const ar = {
   nav: {
+    product: "المنتج",
     trade: "منصة التداول",
     diagnostics: "التشخيص",
     settings: "الإعدادات",

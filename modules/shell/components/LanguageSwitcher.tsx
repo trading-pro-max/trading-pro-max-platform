@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
+import { SHOWCASED_LOCALES } from "../../../lib/i18n/config";
 
 export function LanguageSwitcher({
   locale,
@@ -14,7 +15,10 @@ export function LanguageSwitcher({
 
   function buildHref(target: string) {
     const segments = pathname.split("/").filter(Boolean);
-    const tail = segments.slice(1).join("/");
+    const hasLocalePrefix = SHOWCASED_LOCALES.includes(
+      segments[0] as (typeof SHOWCASED_LOCALES)[number]
+    );
+    const tail = hasLocalePrefix ? segments.slice(1).join("/") : segments.join("/");
     return tail ? `/${target}/${tail}` : `/${target}`;
   }
 

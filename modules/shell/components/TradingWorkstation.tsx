@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useEffectEvent, useMemo, useState } from "react";
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
 import OperatorIntelligenceDeck from "../../intelligence/components/OperatorIntelligenceDeck";
@@ -114,6 +115,83 @@ function WorkspaceDepthBar({
   );
 }
 
+function WorkstationCommercialBridge({
+  productHref,
+  productLabel,
+  diagnosticsHref,
+  diagnosticsLabel,
+  settingsHref,
+  settingsLabel,
+}: {
+  productHref: string;
+  productLabel: string;
+  diagnosticsHref: string;
+  diagnosticsLabel: string;
+  settingsHref: string;
+  settingsLabel: string;
+}) {
+  const bridgeCards = [
+    {
+      label: "Product mode",
+      value: "Commercial evaluation foundation",
+      note: "Public framing, onboarding guidance, and the workstation now share one restrained truth layer.",
+    },
+    {
+      label: "Execution truth",
+      value: "Manual paper rehearsal only",
+      note: "Operators can evaluate decisions inside a serious ticket without enabling real-money routing.",
+    },
+    {
+      label: "Market truth",
+      value: "Fallback-first context discipline",
+      note: "Market state, TPM IQ / Brain, and degraded conditions stay explicit and bounded.",
+    },
+    {
+      label: "First-use path",
+      value: "Topbar -> IQ / Brain -> chart depth -> ticket preflight -> blotter",
+      note: "The product now explains how to read the workstation instead of assuming insider familiarity.",
+    },
+  ];
+
+  return (
+    <section className="tpmv2-card tpmv2-commercial-bridge" aria-label="Product guidance">
+      <div className="tpmv2-commercial-bridge-head">
+        <div className="tpmv2-commercial-bridge-copy">
+          <span>Commercial trust layer</span>
+          <strong>Public product framing and workstation truth now move together.</strong>
+          <p>
+            First-time evaluators can understand what Trading Pro Max is, what remains
+            intentionally blocked, and how to move through the workspace without losing
+            paper-only and fallback-first product truth.
+          </p>
+        </div>
+
+        <div className="tpmv2-commercial-bridge-actions">
+          <Link href={productHref} className="tpmv2-commercial-bridge-link">
+            {productLabel}
+          </Link>
+          <Link href={diagnosticsHref} className="tpmv2-commercial-bridge-link">
+            {diagnosticsLabel}
+          </Link>
+          <Link href={settingsHref} className="tpmv2-commercial-bridge-link">
+            {settingsLabel}
+          </Link>
+        </div>
+      </div>
+
+      <div className="tpmv2-commercial-bridge-grid">
+        {bridgeCards.map((card) => (
+          <article key={card.label} className="tpmv2-commercial-bridge-card">
+            <span>{card.label}</span>
+            <strong>{card.value}</strong>
+            <p>{card.note}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 export default function TradingWorkstation({
   locale,
   dict,
@@ -151,6 +229,9 @@ export default function TradingWorkstation({
   );
   const executionNote = viewModel.ticketSupportNote;
   const localePrefix = locale ? `/${locale}` : "";
+  const productHref = "/";
+  const diagnosticsHref = `${localePrefix}/diagnostics`;
+  const settingsHref = `${localePrefix}/settings`;
   const marketDepthItems = useMemo(
     () => [
       {
@@ -391,9 +472,18 @@ export default function TradingWorkstation({
             paperAccessLabel={viewModel.paperAccessLabel}
             paperAccessValue={viewModel.paperAccessValue}
             paperAccessTone={viewModel.paperAccessTone}
-            diagnosticsHref={`${localePrefix}/diagnostics`}
+            diagnosticsHref={diagnosticsHref}
             diagnosticsLabel={dict.nav.diagnostics}
-            settingsHref={`${localePrefix}/settings`}
+            settingsHref={settingsHref}
+            settingsLabel={dict.nav.settings}
+          />
+
+          <WorkstationCommercialBridge
+            productHref={productHref}
+            productLabel={dict.nav.product}
+            diagnosticsHref={diagnosticsHref}
+            diagnosticsLabel={dict.nav.diagnostics}
+            settingsHref={settingsHref}
             settingsLabel={dict.nav.settings}
           />
 
@@ -603,9 +693,18 @@ export default function TradingWorkstation({
           paperAccessLabel={viewModel.paperAccessLabel}
           paperAccessValue={viewModel.paperAccessValue}
           paperAccessTone={viewModel.paperAccessTone}
-          diagnosticsHref={`${localePrefix}/diagnostics`}
+          diagnosticsHref={diagnosticsHref}
           diagnosticsLabel={dict.nav.diagnostics}
-          settingsHref={`${localePrefix}/settings`}
+          settingsHref={settingsHref}
+          settingsLabel={dict.nav.settings}
+        />
+
+        <WorkstationCommercialBridge
+          productHref={productHref}
+          productLabel={dict.nav.product}
+          diagnosticsHref={diagnosticsHref}
+          diagnosticsLabel={dict.nav.diagnostics}
+          settingsHref={settingsHref}
           settingsLabel={dict.nav.settings}
         />
 

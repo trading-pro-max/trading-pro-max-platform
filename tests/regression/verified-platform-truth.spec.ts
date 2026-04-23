@@ -12,8 +12,8 @@ test.describe("verified platform truth", () => {
     const routes = [
       {
         path: "/",
-        expectedUrl: /\/en$/,
-        text: /Trading Pro Max|Execution Panel|Decision/,
+        expectedUrl: /\/$/,
+        text: /Commercial Product Readiness|Enter workstation|Public trust layer/,
       },
       {
         path: "/en",
@@ -23,12 +23,13 @@ test.describe("verified platform truth", () => {
       {
         path: "/en/settings",
         expectedUrl: /\/en\/settings$/,
-        text: /Settings|Mode and persistence|Paper ticket defaults/,
+        text: /Settings|Mode and persistence|Paper ticket defaults|Account and commercial readiness/,
       },
       {
         path: "/diagnostics",
         expectedUrl: /\/diagnostics$/,
-        text: /Diagnostics|System readiness|Connector safety state/,
+        text:
+          /Diagnostics|System readiness|Connector safety state|Commercial trust and public product state/,
       },
     ];
 
@@ -38,10 +39,20 @@ test.describe("verified platform truth", () => {
       await expect(page.locator("main").first()).toBeVisible();
       await expect(page.locator("body")).toContainText(route.text);
 
+      if (route.path === "/") {
+        await expect(page.locator(".tpm-product-entry").first()).toBeVisible();
+        await expect(page.locator(".tpm-product-hero").first()).toBeVisible();
+        await expect(page.locator(".tpm-product-workstation-shell").first()).toBeVisible();
+        await expect(page.locator("body")).toContainText(
+          /Paper-only evaluation|Fallback-first market data|Live execution blocked/
+        );
+      }
+
       if (route.path === "/" || route.path === "/en") {
         await expect(page.locator(".tpmv2-command-center").first()).toBeVisible();
         await expect(page.locator(".tpmv2-brain-deck").first()).toBeVisible();
         await expect(page.locator(".tpmv2-workspace-depth-bar").first()).toBeVisible();
+        await expect(page.locator(".tpmv2-commercial-bridge").first()).toBeVisible();
         await expect(page.locator(".tpmv2-chart-surface").first()).toBeVisible();
         await expect(page.locator(".tpmv2-chart-depth-panel").first()).toBeVisible();
         await expect(page.locator(".tpmv2-execution").first()).toBeVisible();
@@ -52,6 +63,9 @@ test.describe("verified platform truth", () => {
         );
         await expect(page.locator("body")).toContainText(
           /Workspace depth|Shortcut layer|Layout-only|Recent desk activity|Market depth/
+        );
+        await expect(page.locator("body")).toContainText(
+          /Commercial trust layer|Commercial evaluation foundation|Manual paper rehearsal only/
         );
         await expect(page.locator("body")).toContainText("Fallback-bound");
         await expect(page.locator("body")).toContainText("Interpretive only");
@@ -76,6 +90,9 @@ test.describe("verified platform truth", () => {
         await expect(page.locator(".tpm-foundation-card").first()).toBeVisible();
         await expect(page.locator("body")).toContainText(
           /Workspace depth and interaction layer|Workstation depth and shortcut truth/
+        );
+        await expect(page.locator("body")).toContainText(
+          /Commercial trust and public product state|Account and commercial readiness|First-use platform guidance/
         );
       }
     }

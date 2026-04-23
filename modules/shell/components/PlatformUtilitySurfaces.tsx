@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState, type ReactNode } from "react";
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
 import {
@@ -394,6 +395,33 @@ export function PlatformDiagnosticsSurface({
     },
   ];
 
+  const commercialItems = [
+    {
+      label: "Public product entry",
+      value: "Visible on /",
+      tone: "approved" as const,
+      note: "Commercial framing, trust language, and workstation handoff are active.",
+    },
+    {
+      label: "Onboarding state",
+      value: "Guided",
+      tone: "pending" as const,
+      note: "New users can orient around chart, IQ / Brain, execution, diagnostics, and settings.",
+    },
+    {
+      label: "Execution truth",
+      value: "Paper-only evaluation",
+      tone: viewModel.paperAccessTone,
+      note: "Live execution and broker activation remain blocked by policy.",
+    },
+    {
+      label: "Support routes",
+      value: "Product / Workspace / Diagnostics / Settings",
+      tone: "approved" as const,
+      note: "Public and operator surfaces now share one product shell.",
+    },
+  ];
+
   return (
     <main className="tpm-foundation-page tpm-utility-page">
       <section className="tpm-foundation-card tpm-utility-hero">
@@ -457,6 +485,18 @@ export function PlatformDiagnosticsSurface({
       </UtilitySection>
 
       <UtilitySection
+        eyebrow="PUBLIC"
+        title="Commercial trust and public product state"
+        action={
+          <Link className="tpm-utility-link" href="/">
+            Product entry
+          </Link>
+        }
+      >
+        <UtilityGrid items={commercialItems} />
+      </UtilitySection>
+
+      <UtilitySection
         eyebrow="AUDIT"
         title={viewModel.auditTitle}
         action={
@@ -494,6 +534,61 @@ export function PlatformSettingsSurface({
 }) {
   const { platformState, viewModel } = useUtilityPlatformViewModel(locale, dict);
   const preferences = platformState.workspacePreferences;
+  const localePrefix = locale ? `/${locale}` : "";
+
+  const productStructureItems = [
+    {
+      label: "Product mode",
+      value: "Commercial evaluation foundation",
+      tone: "approved" as const,
+      note: "Public entry, workstation, settings, and diagnostics now read like one product.",
+    },
+    {
+      label: "Account authority",
+      value: "Manual paper operator",
+      tone: viewModel.paperAccessTone,
+      note: viewModel.liveAccessValue,
+    },
+    {
+      label: "Broker readiness",
+      value: "Unconfigured / blocked",
+      tone: "restricted" as const,
+      note: "Future packaging stays placeholder-only until explicitly built and configured.",
+    },
+    {
+      label: "Support path",
+      value: "Product -> Workspace -> Diagnostics -> Settings",
+      tone: "approved" as const,
+      note: "First-use evaluation flow is now explicit instead of implicit.",
+    },
+  ];
+
+  const onboardingItems = [
+    {
+      label: "Workspace orientation",
+      value: "Topbar -> IQ / Brain -> chart depth -> ticket preflight -> blotter",
+      tone: "approved" as const,
+      note: "The workstation now teaches a first pass without tutorial clutter.",
+    },
+    {
+      label: "TPM IQ / Brain",
+      value: "Interpretive operator assist",
+      tone: "pending" as const,
+      note: "Context and risk guidance remain grounded, bounded, and non-predictive.",
+    },
+    {
+      label: "Execution layer",
+      value: "Paper rehearsal only",
+      tone: viewModel.paperAccessTone,
+      note: "Guarded ticket controls stay visible without weakening live-trading blocks.",
+    },
+    {
+      label: "Market layer",
+      value: "Fallback-first",
+      tone: "pending" as const,
+      note: "Confidence language stays honest when the market route is bounded or degraded.",
+    },
+  ];
 
   return (
     <main className="tpm-foundation-page tpm-utility-page">
@@ -734,6 +829,30 @@ export function PlatformSettingsSurface({
             <small>Shift+1 watchlist, Shift+2 ticket, Shift+3 blotter, Shift+4/5/6 focus.</small>
           </div>
         </div>
+      </UtilitySection>
+
+      <UtilitySection
+        eyebrow="PRODUCT"
+        title="Account and commercial readiness"
+        action={
+          <Link className="tpm-utility-link" href="/">
+            Product entry
+          </Link>
+        }
+      >
+        <UtilityGrid items={productStructureItems} />
+      </UtilitySection>
+
+      <UtilitySection
+        eyebrow="ONBOARDING"
+        title="First-use platform guidance"
+        action={
+          <a className="tpm-utility-link" href={`${localePrefix || ""}/diagnostics`}>
+            {dict.nav.diagnostics}
+          </a>
+        }
+      >
+        <UtilityGrid items={onboardingItems} />
       </UtilitySection>
 
       <UtilitySection eyebrow="COMPLIANCE" title={viewModel.policyPanelLabel}>

@@ -1,5 +1,6 @@
 const en = {
   nav: {
+    product: "Product",
     trade: "Trading",
     diagnostics: "Diagnostics",
     settings: "Settings",
