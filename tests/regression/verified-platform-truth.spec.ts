@@ -37,6 +37,30 @@ test.describe("verified platform truth", () => {
       await expect(page).toHaveURL(route.expectedUrl);
       await expect(page.locator("main").first()).toBeVisible();
       await expect(page.locator("body")).toContainText(route.text);
+
+      if (route.path === "/" || route.path === "/en") {
+        await expect(page.locator(".tpmv2-command-center").first()).toBeVisible();
+        await expect(page.locator(".tpmv2-chart-surface").first()).toBeVisible();
+        await expect(page.locator(".tpmv2-execution").first()).toBeVisible();
+
+        const chartBox = await page
+          .locator(".tpmv2-chart-surface")
+          .first()
+          .boundingBox();
+        const executionBox = await page
+          .locator(".tpmv2-execution")
+          .first()
+          .boundingBox();
+
+        expect(chartBox?.width ?? 0).toBeGreaterThan(620);
+        expect(chartBox?.height ?? 0).toBeGreaterThan(420);
+        expect(executionBox?.width ?? 0).toBeGreaterThan(240);
+      }
+
+      if (route.path === "/en/settings" || route.path === "/diagnostics") {
+        await expect(page.locator(".tpm-utility-page").first()).toBeVisible();
+        await expect(page.locator(".tpm-foundation-card").first()).toBeVisible();
+      }
     }
   });
 
