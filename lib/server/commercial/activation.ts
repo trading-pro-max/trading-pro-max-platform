@@ -46,7 +46,14 @@ export type CommercialActivationSnapshot = {
     requestedAt: string | null;
     reviewedAt: string | null;
     operatorActionRequired: boolean;
+    queueState: "operator_review_queue" | "idle";
     reviewNote: string | null;
+  };
+  requestLedger: {
+    source: "local_audit";
+    policyMode: "manual_operator_review";
+    activationClaims: "no_paid_auto_activation";
+    lastUpdatedAt: string;
   };
   capabilityActivation: {
     workspaceSeats: "single_operator" | "multi_operator_reserved" | "enterprise_reserved";
@@ -59,6 +66,12 @@ export type CommercialActivationSnapshot = {
     checkout: "not_enabled";
     paidActivation: "not_enabled";
     subscriptionState: "unconfigured";
+  };
+  customerFacingSemantics: {
+    evaluationState: "active";
+    checkoutClaims: "none";
+    billingClaims: "none";
+    requestPath: "operator_review";
   };
   summary: string;
   limitations: string[];
@@ -176,7 +189,14 @@ function buildCommercialActivationSnapshot(input: {
       requestedAt,
       reviewedAt,
       operatorActionRequired: state === "requested" || state === "in_review",
+      queueState: state === "requested" || state === "in_review" ? "operator_review_queue" : "idle",
       reviewNote,
+    },
+    requestLedger: {
+      source: "local_audit",
+      policyMode: "manual_operator_review",
+      activationClaims: "no_paid_auto_activation",
+      lastUpdatedAt: input.metadata?.updatedAt ?? input.checkedAt,
     },
     capabilityActivation: {
       workspaceSeats: getWorkspaceSeatsCapability(requestedPlan),
@@ -189,6 +209,12 @@ function buildCommercialActivationSnapshot(input: {
       checkout: "not_enabled",
       paidActivation: "not_enabled",
       subscriptionState: "unconfigured",
+    },
+    customerFacingSemantics: {
+      evaluationState: "active",
+      checkoutClaims: "none",
+      billingClaims: "none",
+      requestPath: "operator_review",
     },
     summary:
       state === "none"

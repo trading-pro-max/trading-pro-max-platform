@@ -776,10 +776,27 @@ test.describe("verified platform truth", () => {
       checkoutSurface: "not_enabled",
       paidPlanActivation: "not_enabled",
     });
+    expect(commercialCatalogPayload.snapshot.productTruth).toMatchObject({
+      goToMarketState: "evaluation_only",
+      billingClaims: "none",
+      checkoutClaims: "none",
+      nativeClaims: "contract_only",
+    });
     expect(commercialCatalogPayload.snapshot.plans).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ key: "evaluation", billing: "inactive" }),
         expect.objectContaining({ key: "team_review", billing: "inactive" }),
+      ])
+    );
+    expect(commercialCatalogPayload.snapshot.plans).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          key: "evaluation",
+          capabilities: expect.objectContaining({
+            supportLane: "manual_operator_review",
+            notificationDelivery: "unconfigured",
+          }),
+        }),
       ])
     );
 
@@ -974,17 +991,34 @@ test.describe("verified platform truth", () => {
     expect(commercialStatePayload.snapshot.plan).toMatchObject({
       key: "evaluation",
       state: "active_evaluation",
+      activationLane: "operator_review_queue",
     });
     expect(commercialStatePayload.snapshot.billing).toMatchObject({
       engine: "inactive",
       subscriptions: "unconfigured",
       checkout: "not_enabled",
+      statementDelivery: "inactive",
     });
+    expect(commercialStatePayload.snapshot.account).toMatchObject({
+      tenancy: "single_account_guarded",
+    });
+    expect(commercialStatePayload.snapshot.customerLifecycle).toMatchObject({
+      stateExposure: "explicit",
+    });
+    expect(commercialStatePayload.snapshot.customerLifecycle.checkpoints).toEqual(
+      expect.arrayContaining(["disclosures", "verification", "paper_ready"])
+    );
     expect(commercialStatePayload.snapshot.trust).toMatchObject({
       paperOnly: true,
       liveExecution: "blocked",
       paidPlanActivation: "not_enabled",
       billingClaims: "none",
+    });
+    expect(commercialStatePayload.snapshot.commercialTruth).toMatchObject({
+      evaluationMode: "active",
+      contractMaturity: "operator_review_ready",
+      checkoutClaims: "none",
+      paidActivationClaims: "none",
     });
 
     const commercialActivation = await request.get(
@@ -1001,6 +1035,20 @@ test.describe("verified platform truth", () => {
       paidActivation: "not_enabled",
       subscriptionState: "unconfigured",
     });
+    expect(commercialActivationPayload.snapshot.activation).toMatchObject({
+      queueState: expect.stringMatching(/idle|operator_review_queue/),
+    });
+    expect(commercialActivationPayload.snapshot.requestLedger).toMatchObject({
+      source: "local_audit",
+      policyMode: "manual_operator_review",
+      activationClaims: "no_paid_auto_activation",
+    });
+    expect(commercialActivationPayload.snapshot.customerFacingSemantics).toMatchObject({
+      evaluationState: "active",
+      checkoutClaims: "none",
+      billingClaims: "none",
+      requestPath: "operator_review",
+    });
 
     const commercialActivationUpdate = await request.post(
       "/api/account/commercial-activation",
@@ -1016,6 +1064,7 @@ test.describe("verified platform truth", () => {
     expect(commercialActivationUpdatePayload.snapshot.activation).toMatchObject({
       state: "requested",
       operatorActionRequired: true,
+      queueState: "operator_review_queue",
     });
     expect(commercialActivationUpdatePayload.snapshot.plan).toMatchObject({
       current: "evaluation",

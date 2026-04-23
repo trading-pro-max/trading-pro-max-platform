@@ -21,18 +21,26 @@ export type CommercialPlanCatalogSnapshot = {
     state: "available" | "reserved";
     activation: "manual_review_required";
     billing: "inactive";
-    capabilities: {
-      workspaceSeats: string;
-      automation: "inactive";
-      liveExecution: "blocked";
-      brokerRouting: "blocked";
-    };
-  }>;
+      capabilities: {
+        workspaceSeats: string;
+        automation: "inactive";
+        liveExecution: "blocked";
+        brokerRouting: "blocked";
+        supportLane: "manual_operator_review";
+        notificationDelivery: "unconfigured";
+      };
+    }>;
   truth: {
     billingEngine: "inactive";
     subscriptionEngine: "unconfigured";
     checkoutSurface: "not_enabled";
     paidPlanActivation: "not_enabled";
+  };
+  productTruth: {
+    goToMarketState: "evaluation_only";
+    billingClaims: "none";
+    checkoutClaims: "none";
+    nativeClaims: "contract_only";
   };
   summary: string;
 };
@@ -42,6 +50,7 @@ export type CommercialScalingFoundationSnapshot = {
   account: {
     id: string;
     mode: "demo";
+    tenancy: "single_account_guarded";
     lifecycleState: string;
     region: string;
   };
@@ -50,11 +59,14 @@ export type CommercialScalingFoundationSnapshot = {
     reviewState: string;
     activationState: string;
     nextStep: string;
+    checkpoints: string[];
+    stateExposure: "explicit";
   };
   plan: {
     key: "evaluation";
     state: "active_evaluation";
     upgradePath: Array<"team_review" | "enterprise_guarded">;
+    activationLane: "operator_review_queue";
   };
   capabilities: {
     workspaceSeats: {
@@ -73,12 +85,17 @@ export type CommercialScalingFoundationSnapshot = {
     subscriptions: "unconfigured";
     invoicing: "not_enabled";
     checkout: "not_enabled";
+    statementDelivery: "inactive";
   };
   supportOps: {
     caseIntake: "manual_operator";
     queueState: "guarded";
     openCases: number;
     workflow: "operator_review_guarded";
+    channels: {
+      inApp: "guarded_manual";
+      email: "unconfigured";
+    };
   };
   productOps: {
     diagnostics: "active";
@@ -90,6 +107,12 @@ export type CommercialScalingFoundationSnapshot = {
     liveExecution: "blocked";
     paidPlanActivation: "not_enabled";
     billingClaims: "none";
+  };
+  commercialTruth: {
+    evaluationMode: "active";
+    contractMaturity: "operator_review_ready";
+    checkoutClaims: "none";
+    paidActivationClaims: "none";
   };
   readiness: {
     score: number;
@@ -116,6 +139,8 @@ export function getCommercialPlanCatalogSnapshot(
           automation: "inactive",
           liveExecution: "blocked",
           brokerRouting: "blocked",
+          supportLane: "manual_operator_review",
+          notificationDelivery: "unconfigured",
         },
       },
       {
@@ -129,6 +154,8 @@ export function getCommercialPlanCatalogSnapshot(
           automation: "inactive",
           liveExecution: "blocked",
           brokerRouting: "blocked",
+          supportLane: "manual_operator_review",
+          notificationDelivery: "unconfigured",
         },
       },
       {
@@ -142,6 +169,8 @@ export function getCommercialPlanCatalogSnapshot(
           automation: "inactive",
           liveExecution: "blocked",
           brokerRouting: "blocked",
+          supportLane: "manual_operator_review",
+          notificationDelivery: "unconfigured",
         },
       },
     ],
@@ -150,6 +179,12 @@ export function getCommercialPlanCatalogSnapshot(
       subscriptionEngine: "unconfigured",
       checkoutSurface: "not_enabled",
       paidPlanActivation: "not_enabled",
+    },
+    productTruth: {
+      goToMarketState: "evaluation_only",
+      billingClaims: "none",
+      checkoutClaims: "none",
+      nativeClaims: "contract_only",
     },
     summary:
       "Commercial catalog contracts are available with honest inactive billing/subscription semantics.",
@@ -213,6 +248,7 @@ export async function getCommercialScalingFoundationForAuthenticatedSession(
     account: {
       id: session.account.id,
       mode: "demo",
+      tenancy: "single_account_guarded",
       lifecycleState,
       region,
     },
@@ -221,11 +257,19 @@ export async function getCommercialScalingFoundationForAuthenticatedSession(
       reviewState,
       activationState,
       nextStep,
+      checkpoints: [
+        "disclosures",
+        "verification",
+        "activation_review",
+        "paper_ready",
+      ],
+      stateExposure: "explicit",
     },
     plan: {
       key: "evaluation",
       state: "active_evaluation",
       upgradePath: ["team_review", "enterprise_guarded"],
+      activationLane: "operator_review_queue",
     },
     capabilities: {
       workspaceSeats: {
@@ -244,12 +288,17 @@ export async function getCommercialScalingFoundationForAuthenticatedSession(
       subscriptions: "unconfigured",
       invoicing: "not_enabled",
       checkout: "not_enabled",
+      statementDelivery: "inactive",
     },
     supportOps: {
       caseIntake: "manual_operator",
       queueState: "guarded",
       openCases,
       workflow: "operator_review_guarded",
+      channels: {
+        inApp: "guarded_manual",
+        email: "unconfigured",
+      },
     },
     productOps: {
       diagnostics: "active",
@@ -261,6 +310,12 @@ export async function getCommercialScalingFoundationForAuthenticatedSession(
       liveExecution: "blocked",
       paidPlanActivation: "not_enabled",
       billingClaims: "none",
+    },
+    commercialTruth: {
+      evaluationMode: "active",
+      contractMaturity: "operator_review_ready",
+      checkoutClaims: "none",
+      paidActivationClaims: "none",
     },
     readiness: {
       score: readiness.score,
