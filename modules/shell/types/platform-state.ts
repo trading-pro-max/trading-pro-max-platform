@@ -664,6 +664,7 @@ export type DiagnosticsHealthSnapshot = {
     supportRoute: "/api/launch/feedback";
     productionHardening: "ready" | "guarded";
     softLaunch?: "ready" | "guarded";
+    publicLaunch?: "ready" | "guarded";
   };
 };
 

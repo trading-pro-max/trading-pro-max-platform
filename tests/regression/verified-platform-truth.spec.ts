@@ -286,6 +286,7 @@ test.describe("verified platform truth", () => {
       supportRoute: "/api/launch/feedback",
       productionHardening: expect.stringMatching(/ready|guarded/),
       softLaunch: expect.stringMatching(/ready|guarded/),
+      publicLaunch: expect.stringMatching(/ready|guarded/),
     });
     expect(healthPayload.truthSemantics).toMatchObject({
       blocked: expect.arrayContaining([
@@ -457,6 +458,9 @@ test.describe("verified platform truth", () => {
     expect(["ready", "degraded"]).toContain(
       probes.get("soft_launch_preparation")?.status
     );
+    expect(["ready", "degraded"]).toContain(
+      probes.get("public_launch_preparation")?.status
+    );
 
     const routes = new Map<string, { path: string; status: string }>(
       diagnosticsPayload.health.routes.map((route: { path: string; status: string }) => [
@@ -551,6 +555,9 @@ test.describe("verified platform truth", () => {
     expect(routes.get("/api/launch/soft-readiness")).toMatchObject({
       status: "auth_required",
     });
+    expect(routes.get("/api/launch/public-readiness")).toMatchObject({
+      status: "auth_required",
+    });
 
     const launchReadiness = await request.get("/api/launch/readiness");
     expect(launchReadiness.status()).toBe(200);
@@ -590,6 +597,8 @@ test.describe("verified platform truth", () => {
     expect(launchFeedbackUnauth.status()).toBe(401);
     const softLaunchUnauth = await request.get("/api/launch/soft-readiness");
     expect(softLaunchUnauth.status()).toBe(401);
+    const publicLaunchUnauth = await request.get("/api/launch/public-readiness");
+    expect(publicLaunchUnauth.status()).toBe(401);
     const commercialStateUnauth = await request.get("/api/account/commercial-state");
     expect(commercialStateUnauth.status()).toBe(401);
     const commercialActivationUnauth = await request.get(
@@ -1009,7 +1018,9 @@ test.describe("verified platform truth", () => {
         currentStage: expect.stringMatching(
           /closed_beta_preparation|soft_launch_preparation|public_launch_preparation/
         ),
-        previousStage: "closed_beta_preparation",
+        previousStage: expect.stringMatching(
+          /closed_beta_preparation|soft_launch_preparation/
+        ),
         launchClaim: "not_launched",
         publicLaunchClaim: "not_claimed",
         publicAccess: "not_open",
@@ -1041,6 +1052,11 @@ test.describe("verified platform truth", () => {
         }),
         expect.objectContaining({
           key: "soft_launch_preparation",
+          required: true,
+          state: expect.stringMatching(/ready|in_progress|blocked/),
+        }),
+        expect.objectContaining({
+          key: "public_launch_preparation",
           required: true,
           state: expect.stringMatching(/ready|in_progress|blocked/),
         }),
@@ -1088,6 +1104,37 @@ test.describe("verified platform truth", () => {
       remainingSlots: expect.any(Number),
       state: expect.stringMatching(/within_limit|at_limit/),
     });
+    expect(launchOperationsPayload.snapshot.publicLaunch).toMatchObject({
+      mode: "go_live_checklist_guarded",
+      state: expect.stringMatching(
+        /prepared_guarded|in_progress_guarded|blocked_guarded/
+      ),
+      goLive: {
+        releaseAuthority: "operator_manual",
+        rolloutWindow: expect.stringMatching(/guarded_unset|guarded_planned/),
+        rollbackPlan: "required",
+        customerComms: "prepared_guarded",
+        supportScale: "operator_limited",
+      },
+      truth: {
+        launchClaim: "not_launched",
+        publicLaunchClaim: "not_claimed",
+        billing: "inactive",
+        liveExecution: "blocked",
+        scaleClaims: "none",
+      },
+    });
+    expect(launchOperationsPayload.snapshot.publicLaunch.checklist).toMatchObject({
+      requiredCount: expect.any(Number),
+      passedCount: expect.any(Number),
+      failedCount: expect.any(Number),
+    });
+    expect(Array.isArray(launchOperationsPayload.snapshot.publicLaunch.checklist.items)).toBe(
+      true
+    );
+    expect(
+      launchOperationsPayload.snapshot.publicLaunch.checklist.items.length
+    ).toBeGreaterThan(3);
 
     const softLaunchReadiness = await request.get("/api/launch/soft-readiness");
     expect(softLaunchReadiness.status()).toBe(200);
@@ -1099,6 +1146,22 @@ test.describe("verified platform truth", () => {
         mode: "limited_rollout_guarded",
         state: expect.stringMatching(/prepared_guarded|blocked_guarded/),
         access: "cohort_and_capacity_guard",
+      },
+    });
+
+    const publicLaunchReadiness = await request.get(
+      "/api/launch/public-readiness"
+    );
+    expect(publicLaunchReadiness.status()).toBe(200);
+    const publicLaunchReadinessPayload = await publicLaunchReadiness.json();
+    expect(publicLaunchReadinessPayload.snapshot).toMatchObject({
+      mode: "public_launch_preparation",
+      stage: expect.stringMatching(/ready|in_progress|blocked|not_started/),
+      publicLaunch: {
+        mode: "go_live_checklist_guarded",
+        state: expect.stringMatching(
+          /prepared_guarded|in_progress_guarded|blocked_guarded/
+        ),
       },
     });
 

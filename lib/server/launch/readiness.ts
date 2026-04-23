@@ -152,6 +152,10 @@ function buildChecklist(health: DiagnosticsHealthSnapshot) {
     health,
     "/api/launch/soft-readiness"
   );
+  const publicLaunchRouteStatus = findRouteStatus(
+    health,
+    "/api/launch/public-readiness"
+  );
   const opsHardeningRouteStatus = findRouteStatus(health, "/api/ops/hardening");
 
   const items: LaunchReadinessChecklistItem[] = [
@@ -227,6 +231,12 @@ function buildChecklist(health: DiagnosticsHealthSnapshot) {
       label: "Soft-launch readiness route is explicitly account-guarded",
       passed: softLaunchRouteStatus === "auth_required",
       evidence: `/api/launch/soft-readiness=${softLaunchRouteStatus}`,
+    },
+    {
+      key: "public_launch_route_guard",
+      label: "Public-launch readiness route is explicitly account-guarded",
+      passed: publicLaunchRouteStatus === "auth_required",
+      evidence: `/api/launch/public-readiness=${publicLaunchRouteStatus}`,
     },
   ];
 
@@ -316,6 +326,7 @@ export function buildLaunchReadinessGateSnapshot(
         "commercial_scaling_foundation",
         "commercial_activation",
         "soft_launch_preparation",
+        "public_launch_preparation",
       ],
       evidence:
         "Commercial lifecycle contracts are explicit with inactive billing truth.",

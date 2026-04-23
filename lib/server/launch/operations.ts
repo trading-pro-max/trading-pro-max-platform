@@ -39,14 +39,18 @@ type ClosedBetaMatchSource = "email" | "account" | "none";
 
 type SoftLaunchState = "prepared_guarded" | "blocked_guarded";
 type SoftLaunchCapacityState = "within_limit" | "at_limit";
+type PublicLaunchState =
+  | "prepared_guarded"
+  | "in_progress_guarded"
+  | "blocked_guarded";
 
 export type LaunchOperationsSnapshot = {
   checkedAt: string;
   mode: LaunchOperationsMode;
   program: {
     releaseTrack: "controlled_launch_operations";
-    currentStage: "soft_launch_preparation";
-    previousStage: "closed_beta_preparation";
+    currentStage: "public_launch_preparation";
+    previousStage: "soft_launch_preparation";
     launchClaim: "not_launched";
     publicLaunchClaim: "not_claimed";
     publicAccess: "not_open";
@@ -102,6 +106,35 @@ export type LaunchOperationsSnapshot = {
       billing: "inactive";
     };
   };
+  publicLaunch: {
+    mode: "go_live_checklist_guarded";
+    state: PublicLaunchState;
+    checklist: {
+      requiredCount: number;
+      passedCount: number;
+      failedCount: number;
+      items: Array<{
+        key: string;
+        label: string;
+        passed: boolean;
+        evidence: string;
+      }>;
+    };
+    goLive: {
+      releaseAuthority: "operator_manual";
+      rolloutWindow: "guarded_unset" | "guarded_planned";
+      rollbackPlan: "required";
+      customerComms: "prepared_guarded";
+      supportScale: "operator_limited";
+    };
+    truth: {
+      launchClaim: "not_launched";
+      publicLaunchClaim: "not_claimed";
+      billing: "inactive";
+      liveExecution: "blocked";
+      scaleClaims: "none";
+    };
+  };
   support: {
     mode: "closed_beta_operator_review";
     feedbackSubmissions30d: number;
@@ -124,6 +157,14 @@ export type SoftLaunchPreparationSnapshot = {
   mode: "soft_launch_preparation";
   stage: LaunchPipelineStageState;
   softLaunch: LaunchOperationsSnapshot["softLaunch"];
+  limitations: string[];
+};
+
+export type PublicLaunchPreparationSnapshot = {
+  checkedAt: string;
+  mode: "public_launch_preparation";
+  stage: LaunchPipelineStageState;
+  publicLaunch: LaunchOperationsSnapshot["publicLaunch"];
   limitations: string[];
 };
 
@@ -205,7 +246,7 @@ function evaluateClosedBetaEligibility(input: {
   };
 }
 
-function buildStageState(input: {
+function buildFoundationalStageState(input: {
   gate: LaunchReadinessGateSnapshot;
   closedBetaEligibility: ClosedBetaEligibility;
   hardening: OpsProductionHardeningSnapshot | null;
@@ -246,6 +287,76 @@ function buildStageState(input: {
   };
 }
 
+function buildPublicLaunchChecklist(input: {
+  gateState: LaunchPipelineStageState;
+  hardeningState: LaunchPipelineStageState;
+  softLaunchState: LaunchPipelineStageState;
+  feedbackSubmissions30d: number;
+}) {
+  const items = [
+    {
+      key: "launch_gate_verification",
+      label: "Launch verification gate remains operational",
+      passed: input.gateState === "ready",
+      evidence: `launch_gate_state=${input.gateState}`,
+    },
+    {
+      key: "production_hardening_evidence",
+      label: "Production hardening evidence is available",
+      passed:
+        input.hardeningState === "ready" || input.hardeningState === "in_progress",
+      evidence: `hardening_state=${input.hardeningState}`,
+    },
+    {
+      key: "soft_launch_guarded_state",
+      label: "Soft-launch layer exists with guarded rollout semantics",
+      passed:
+        input.softLaunchState === "ready" || input.softLaunchState === "in_progress",
+      evidence: `soft_launch_state=${input.softLaunchState}`,
+    },
+    {
+      key: "feedback_support_path",
+      label: "Support feedback path is active for pre-launch operators",
+      passed: true,
+      evidence: `feedback_submissions_30d=${input.feedbackSubmissions30d}`,
+    },
+    {
+      key: "commercial_truth_guard",
+      label: "Commercial/billing truth remains explicit and non-deceptive",
+      passed: true,
+      evidence: "billing=inactive checkout=not_enabled",
+    },
+    {
+      key: "execution_safety_guard",
+      label: "Execution safety remains paper-only and live-blocked",
+      passed: true,
+      evidence: "paper_only=true live_execution=blocked",
+    },
+  ];
+
+  return {
+    requiredCount: items.length,
+    passedCount: items.filter((item) => item.passed).length,
+    failedCount: items.filter((item) => !item.passed).length,
+    items,
+  };
+}
+
+function resolvePublicLaunchStage(input: {
+  gateState: LaunchPipelineStageState;
+  checklistFailedCount: number;
+}) {
+  if (input.gateState === "blocked") return "blocked" as const;
+  if (input.checklistFailedCount === 0) return "ready" as const;
+  return "in_progress" as const;
+}
+
+function mapPublicLaunchState(stage: LaunchPipelineStageState): PublicLaunchState {
+  if (stage === "ready") return "prepared_guarded";
+  if (stage === "in_progress") return "in_progress_guarded";
+  return "blocked_guarded";
+}
+
 export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: {
   session: AuthenticatedSession;
   gate: LaunchReadinessGateSnapshot;
@@ -262,20 +373,30 @@ export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: 
     getSoftLaunchCapacity(),
   ]);
 
-  const stageState = buildStageState({
+  const stageState = buildFoundationalStageState({
     gate: input.gate,
     closedBetaEligibility: closedBeta.eligibility,
     hardening: input.hardening ?? null,
     softLaunchCapacity,
   });
+  const publicChecklist = buildPublicLaunchChecklist({
+    gateState: stageState.gateState,
+    hardeningState: stageState.productionHardeningState,
+    softLaunchState: stageState.softLaunchState,
+    feedbackSubmissions30d: feedbackSnapshot.summary.submissions30d,
+  });
+  const publicLaunchStage = resolvePublicLaunchStage({
+    gateState: stageState.gateState,
+    checklistFailedCount: publicChecklist.failedCount,
+  });
 
   return {
     checkedAt,
-    mode: "soft_launch_preparation",
+    mode: "public_launch_preparation",
     program: {
       releaseTrack: "controlled_launch_operations",
-      currentStage: "soft_launch_preparation",
-      previousStage: "closed_beta_preparation",
+      currentStage: "public_launch_preparation",
+      previousStage: "soft_launch_preparation",
       launchClaim: "not_launched",
       publicLaunchClaim: "not_claimed",
       publicAccess: "not_open",
@@ -309,9 +430,9 @@ export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: 
       },
       {
         key: "public_launch_preparation",
-        state: "not_started",
+        state: publicLaunchStage,
         required: true,
-        evidence: "Stage not started.",
+        evidence: `public_checklist_failed=${publicChecklist.failedCount}`,
       },
     ],
     closedBeta: {
@@ -359,6 +480,25 @@ export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: 
         billing: "inactive",
       },
     },
+    publicLaunch: {
+      mode: "go_live_checklist_guarded",
+      state: mapPublicLaunchState(publicLaunchStage),
+      checklist: publicChecklist,
+      goLive: {
+        releaseAuthority: "operator_manual",
+        rolloutWindow: "guarded_unset",
+        rollbackPlan: "required",
+        customerComms: "prepared_guarded",
+        supportScale: "operator_limited",
+      },
+      truth: {
+        launchClaim: "not_launched",
+        publicLaunchClaim: "not_claimed",
+        billing: "inactive",
+        liveExecution: "blocked",
+        scaleClaims: "none",
+      },
+    },
     support: {
       mode: "closed_beta_operator_review",
       feedbackSubmissions30d: feedbackSnapshot.summary.submissions30d,
@@ -374,8 +514,8 @@ export async function getLaunchOperationsSnapshotForAuthenticatedSession(input: 
       notifications: "unconfigured",
     },
     limitations: [
-      "Soft launch preparation supports limited rollout semantics only and does not imply public launch.",
-      "Rollout access remains constrained by capacity and guarded cohort policy.",
+      "Public launch preparation provides checklist and go-live semantics only; it does not claim launch has happened.",
+      "Rollout access remains guarded and may be blocked by readiness/capacity evidence.",
       "Live execution, real-money routing, and paid billing remain blocked or inactive.",
     ],
   };
@@ -397,6 +537,26 @@ export async function getSoftLaunchPreparationSnapshotForAuthenticatedSession(in
     mode: "soft_launch_preparation",
     stage,
     softLaunch: snapshot.softLaunch,
+    limitations: snapshot.limitations,
+  };
+}
+
+export async function getPublicLaunchPreparationSnapshotForAuthenticatedSession(input: {
+  session: AuthenticatedSession;
+  gate: LaunchReadinessGateSnapshot;
+  hardening?: OpsProductionHardeningSnapshot | null;
+  checkedAt?: string;
+}): Promise<PublicLaunchPreparationSnapshot> {
+  const snapshot = await getLaunchOperationsSnapshotForAuthenticatedSession(input);
+  const stage =
+    snapshot.stages.find((item) => item.key === "public_launch_preparation")?.state ??
+    "blocked";
+
+  return {
+    checkedAt: snapshot.checkedAt,
+    mode: "public_launch_preparation",
+    stage,
+    publicLaunch: snapshot.publicLaunch,
     limitations: snapshot.limitations,
   };
 }
@@ -473,6 +633,45 @@ export async function getSoftLaunchPreparationDiagnosticsProbe(
         error instanceof Error
           ? error.message
           : "Soft launch preparation diagnostics probe failed.",
+      checkedAt,
+    };
+  }
+}
+
+export async function getPublicLaunchPreparationDiagnosticsProbe(
+  checkedAt = new Date().toISOString()
+): Promise<DiagnosticsProbe> {
+  try {
+    const [hardening, feedbackStore] = await Promise.all([
+      getOpsProductionHardeningSnapshot(checkedAt),
+      getLaunchFeedbackStoreDiagnostics({ checkedAt }),
+    ]);
+
+    const status = hardening.readiness.score >= 60 ? "ready" : "degraded";
+
+    return {
+      key: "public_launch_preparation",
+      label: "Public launch preparation",
+      status,
+      summary:
+        status === "ready"
+          ? "Public launch preparation checklist layer is available with guarded go-live semantics."
+          : "Public launch preparation exists but remains blocked by readiness evidence.",
+      detail:
+        `Hardening ${hardening.readiness.score}/100 (${hardening.readiness.stage}); ` +
+        `feedback events 30d=${feedbackStore.feedbackEvents30d}; launchClaim=not_launched.`,
+      checkedAt,
+    };
+  } catch (error) {
+    return {
+      key: "public_launch_preparation",
+      label: "Public launch preparation",
+      status: "degraded",
+      summary: "Public launch preparation diagnostics degraded",
+      detail:
+        error instanceof Error
+          ? error.message
+          : "Public launch preparation diagnostics probe failed.",
       checkedAt,
     };
   }

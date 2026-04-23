@@ -45,6 +45,7 @@ import {
 import {
   buildLaunchReadinessGateSnapshot,
   getClosedBetaPreparationDiagnosticsProbe,
+  getPublicLaunchPreparationDiagnosticsProbe,
   getSoftLaunchPreparationDiagnosticsProbe,
 } from "@/lib/server/launch";
 import type {
@@ -177,6 +178,7 @@ function buildRouteProbes(input: {
   commercialActivation: DiagnosticsProbe;
   closedBetaPreparation: DiagnosticsProbe;
   softLaunchPreparation: DiagnosticsProbe;
+  publicLaunchPreparation: DiagnosticsProbe;
   opsFoundation: DiagnosticsProbe;
   opsActivation: DiagnosticsProbe;
   productionHardening: DiagnosticsProbe;
@@ -391,6 +393,13 @@ function buildRouteProbes(input: {
         `${input.softLaunchPreparation.summary}. Route is account-scoped and exposes guarded soft-launch readiness semantics.`,
     },
     {
+      path: "/api/launch/public-readiness",
+      method: "GET",
+      status: "auth_required",
+      detail:
+        `${input.publicLaunchPreparation.summary}. Route is account-scoped and exposes guarded public-launch preparation checklist semantics.`,
+    },
+    {
       path: "/api/account/compliance",
       method: "GET",
       status: "auth_required",
@@ -426,6 +435,7 @@ function buildSubsystems(input: {
   commercialActivation: DiagnosticsProbe;
   closedBetaPreparation: DiagnosticsProbe;
   softLaunchPreparation: DiagnosticsProbe;
+  publicLaunchPreparation: DiagnosticsProbe;
   opsFoundation: DiagnosticsProbe;
   opsActivation: DiagnosticsProbe;
   productionHardening: DiagnosticsProbe;
@@ -540,6 +550,13 @@ function buildSubsystems(input: {
       status: input.softLaunchPreparation.status,
       summary: input.softLaunchPreparation.summary,
       detail: input.softLaunchPreparation.detail,
+    },
+    {
+      key: "public_launch_preparation",
+      label: input.publicLaunchPreparation.label,
+      status: input.publicLaunchPreparation.status,
+      summary: input.publicLaunchPreparation.summary,
+      detail: input.publicLaunchPreparation.detail,
     },
     {
       key: "ops",
@@ -660,6 +677,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     commercialActivation,
     closedBetaPreparation,
     softLaunchPreparation,
+    publicLaunchPreparation,
     opsFoundation,
     opsActivation,
     productionHardening,
@@ -685,6 +703,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     getCommercialActivationDiagnosticsProbe(),
     getClosedBetaPreparationDiagnosticsProbe(),
     getSoftLaunchPreparationDiagnosticsProbe(),
+    getPublicLaunchPreparationDiagnosticsProbe(),
     getEnterpriseOpsDiagnosticsProbe(),
     getOpsProductionActivationDiagnosticsProbe(),
     getProductionHardeningDiagnosticsProbe(),
@@ -733,6 +752,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       commercialActivation,
       closedBetaPreparation,
       softLaunchPreparation,
+      publicLaunchPreparation,
       opsActivation,
       productionHardening,
       intelligence,
@@ -756,6 +776,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     commercialActivation,
     closedBetaPreparation,
     softLaunchPreparation,
+    publicLaunchPreparation,
     opsFoundation,
     opsActivation,
     productionHardening,
@@ -784,6 +805,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     commercialFoundation,
     commercialActivation,
     softLaunchPreparation,
+    publicLaunchPreparation,
     opsFoundation,
     opsActivation,
     productionHardening,
@@ -814,6 +836,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     commercialActivation,
     closedBetaPreparation,
     softLaunchPreparation,
+    publicLaunchPreparation,
     opsFoundation,
     opsActivation,
     productionHardening,
@@ -916,13 +939,14 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       warnedDomains: launchGate.overall.warnCount,
     },
     launchOperations: {
-      checkedAt: closedBetaPreparation.checkedAt,
-      mode: "soft_launch_preparation",
-      status: softLaunchPreparation.status === "ready" ? "in_progress" : "blocked",
+      checkedAt: publicLaunchPreparation.checkedAt,
+      mode: "public_launch_preparation",
+      status: publicLaunchPreparation.status === "ready" ? "in_progress" : "blocked",
       supportRoute: "/api/launch/feedback",
       productionHardening:
         productionHardening.status === "ready" ? "ready" : "guarded",
       softLaunch: softLaunchPreparation.status === "ready" ? "ready" : "guarded",
+      publicLaunch: publicLaunchPreparation.status === "ready" ? "ready" : "guarded",
     },
   };
 }
