@@ -49,3 +49,13 @@ The current Founder briefing snapshot includes:
 - what not to do today
 
 The briefing is generated from deterministic readiness state only. It does not include fake users, fake revenue, fake followers, or real private metrics.
+
+## Current Runtime Source
+
+The current command foundation builds this briefing from:
+
+- `lib/server/planet-os/state.ts`
+- `lib/server/founder-command/reporting.ts`
+- `lib/server/founder-command/room.ts`
+
+The reusable UI surface `FounderCommandRoom` renders the briefing as a private command panel only. It is not mounted as a public route.

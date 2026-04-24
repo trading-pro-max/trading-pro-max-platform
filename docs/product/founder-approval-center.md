@@ -2,6 +2,8 @@
 
 The Founder Approval Center is a future private queue inside the Founder Command App.
 
+Current implementation status: the approval queue is represented as a read-only foundation in `lib/server/founder-command/room.ts` and `modules/founder-command/components/FounderApprovalQueue.tsx`. It cannot approve, publish, launch, bill, activate broker/feed, enable live execution, or route real money.
+
 ## Approval States
 
 - pending_guardian_review

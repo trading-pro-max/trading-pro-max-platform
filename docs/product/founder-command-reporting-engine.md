@@ -5,6 +5,7 @@ The Founder Command Reporting Engine aggregates Planet OS ministry status for th
 Runtime source:
 
 - `lib/server/founder-command/reporting.ts`
+- `lib/server/founder-command/room.ts`
 - `/api/founder/briefing/readiness`
 
 It reports:
@@ -26,3 +27,5 @@ It reports:
 The readiness route is not a Founder Command action surface. It returns non-sensitive readiness truth only.
 
 It must not contain fake users, fake revenue, fake metrics, secrets, public command controls, or launch activation.
+
+The route now includes a sanitized `roomFoundation` payload so future private owner shells can verify the command-room contract without exposing a public command page.

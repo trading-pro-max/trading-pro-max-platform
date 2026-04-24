@@ -5,6 +5,7 @@ import "./ui-states.css";
 import "./compact-modes.css";
 import "./auth-ui.css";
 import "./theme-localization.css";
+import "./founder-command.css";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { THEME_STORAGE_KEY } from "../lib/constants/storage";

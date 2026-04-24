@@ -29,12 +29,15 @@ export type FounderCommandReadinessState =
 
 export type FounderApprovalLifecycle =
   | "draft"
+  | "pending_guardian_review"
+  | "pending_legal_review"
   | "reviewed_by_guardian"
   | "reviewed_by_legal"
   | "ready_for_founder"
   | "approved"
   | "rejected"
   | "blocked"
+  | "requires_revision"
   | "archived";
 
 export type FounderCommandModuleKey =
@@ -150,4 +153,3 @@ export interface FounderCommandSnapshot {
   ops: FounderOpsSignal[];
   blockers: string[];
 }
-

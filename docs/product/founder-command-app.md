@@ -14,6 +14,17 @@ The Founder Command App is the future private desktop and mobile command applica
 - no broker/feed activation
 - no public launch claim
 
+## Current Code Foundation
+
+The web repository now contains the first private command-room foundation:
+
+- sanitized room snapshot: `lib/server/founder-command/room.ts`
+- reusable command shell: `modules/founder-command/components/FounderCommandRoom.tsx`
+- command panels for planet overview, ministries, briefing, approvals, Guardian/Legal, Treasury, and Media/AI Video
+- readiness API exposure only through `/api/founder/briefing/readiness`
+
+This is not a public command app. The API payload is readiness truth only and contains no secrets, private user data, fake users, fake revenue, or fake metrics.
+
 ## Purpose
 
 The command app may eventually show:

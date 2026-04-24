@@ -1,4 +1,7 @@
-import { getFounderCommandReportingSnapshot } from "@/lib/server/founder-command";
+import {
+  getFounderCommandReportingSnapshot,
+  getFounderCommandRoomFoundationSnapshot,
+} from "@/lib/server/founder-command";
 import { noStoreJson } from "@/lib/server/security";
 
 export const runtime = "nodejs";
@@ -6,6 +9,7 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   const snapshot = getFounderCommandReportingSnapshot();
+  const roomFoundation = getFounderCommandRoomFoundationSnapshot(snapshot.checkedAt);
 
   return noStoreJson({
     ok: true,
@@ -16,6 +20,18 @@ export async function GET() {
       publicRouteExposed: snapshot.publicRouteExposed,
       briefing: snapshot.briefing,
       truth: snapshot.truth,
+      roomFoundation: {
+        mode: roomFoundation.mode,
+        access: roomFoundation.access,
+        visualStyle: roomFoundation.visualStyle,
+        overview: roomFoundation.overview,
+        ministries: roomFoundation.ministries,
+        approvalQueue: roomFoundation.approvalQueue,
+        guardianLegal: roomFoundation.guardianLegal,
+        treasury: roomFoundation.treasury,
+        mediaVideo: roomFoundation.mediaVideo,
+        security: roomFoundation.security,
+      },
     },
   });
 }

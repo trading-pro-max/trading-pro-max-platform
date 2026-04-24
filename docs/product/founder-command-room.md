@@ -24,5 +24,27 @@ It is built around three truths:
 
 ## Current Implementation Decision
 
-This pass keeps the Founder Command Room private and docs/contracts-first. No public route is created because the final owner-only device authentication and private app shell are not shipped yet.
+This pass keeps the Founder Command Room private and component/contracts-first. No public route is created because the final owner-only device authentication and private app shell are not shipped yet.
 
+## Runtime Foundation
+
+Current runtime foundation:
+
+- `lib/server/founder-command/room.ts` builds a deterministic room snapshot
+- `modules/founder-command/components/FounderCommandRoom.tsx` provides a reusable read-only command shell
+- `/api/founder/briefing/readiness` includes sanitized `roomFoundation` readiness data
+- public navigation does not include Founder Command
+- normal Free, Pro, VIP, and Enterprise surfaces do not expose Founder Command access
+
+The room snapshot includes Planet Overview, Ministry Reporting, Daily Briefing, Founder Approval Queue, Guardian, Legal Counsel, Treasury, Media, AI Video, and Product Truth panels.
+
+## Still Planned
+
+- private desktop Founder Command app
+- private mobile Founder Command app
+- owner-only authentication
+- device trust
+- step-up confirmation
+- audit-backed approval execution
+
+Until those are real, the command room remains read-only and hidden from public product navigation.

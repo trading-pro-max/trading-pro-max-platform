@@ -29,6 +29,7 @@ This index groups the private Founder King Command App foundation.
 ## Operations And Approval
 
 - [Founder Command Modules](./founder-command-modules.md)
+- [Founder Command UI Foundation](./founder-command-ui-foundation.md)
 - [Founder Approval Workflows](./founder-approval-workflows.md)
 - [Founder Approval Center](./founder-approval-center.md)
 - [Founder Daily Briefing](./founder-daily-briefing.md)

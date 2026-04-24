@@ -437,6 +437,10 @@ test.describe("verified platform truth", () => {
         page,
         route.path === "/" ? "entry" : route.path === "/en" ? "workstation" : "utility"
       );
+      const publicNavText = (
+        await page.locator(".tpm-foundation-nav a").allTextContents()
+      ).join(" ");
+      expect(publicNavText).not.toMatch(/Founder Command|Command Room/);
 
       if (route.path === "/") {
         await expect(page.locator(".tpm-product-entry").first()).toBeVisible();
@@ -1167,6 +1171,74 @@ test.describe("verified platform truth", () => {
         billing: "inactive",
       },
     });
+    expect(founderReadinessPayload.snapshot.roomFoundation).toMatchObject({
+      mode: "founder_command_room_foundation",
+      access: {
+        privateOwnerOnly: true,
+        publicRouteExposed: false,
+        publicNavigationVisible: false,
+        normalUserVisible: false,
+        userPlanFeature: false,
+        readOnly: true,
+      },
+      overview: {
+        ministryCount: 18,
+      },
+      approvalQueue: {
+        readOnly: true,
+        blockedActions: expect.arrayContaining([
+          "approval execution",
+          "external publishing",
+          "billing activation",
+          "broker/feed activation",
+          "public launch claim",
+          "live execution",
+          "real-money routing",
+        ]),
+      },
+      treasury: {
+        currentPerformanceFee: "0%",
+        futurePerformanceFeeResearchRange: "5%-10%",
+        ownerOnlyActivationLater: true,
+        visibleToPublicUsers: false,
+      },
+      mediaVideo: {
+        socialAccountsConnected: false,
+        externalPublishingActive: false,
+        aiVideoPublishingActive: false,
+      },
+      security: {
+        secretsExposed: false,
+        privateUserDataExposed: false,
+        fakeUsers: "blocked",
+        fakeRevenue: "blocked",
+        fakeMetrics: "blocked",
+        dangerousActionsRemainBlocked: true,
+      },
+    });
+    expect(founderReadinessPayload.snapshot.roomFoundation.ministries).toHaveLength(18);
+    expect(
+      founderReadinessPayload.snapshot.roomFoundation.approvalQueue.states
+    ).toEqual(
+      expect.arrayContaining([
+        "pending_guardian_review",
+        "pending_legal_review",
+        "ready_for_founder",
+        "requires_revision",
+        "blocked",
+      ])
+    );
+    const founderReadinessText = JSON.stringify(founderReadinessPayload);
+    expect(founderReadinessText).not.toMatch(/DATABASE_URL|TPM_OPERATOR_KEY/i);
+    expect(founderReadinessText).not.toMatch(
+      /DoNotLeak|TradingProMaxOperator|TradingProMaxDemo|Bearer\s+[A-Za-z0-9]/i
+    );
+
+    const founderCommandPath = await request.get("/founder-command");
+    expect([200, 404]).toContain(founderCommandPath.status());
+    expect(await founderCommandPath.text()).not.toMatch(
+      /Founder Command Room Foundation|TPM Planet Command|owner-only planned/i
+    );
 
     const companionContext = await request.get("/api/companion/context");
     expect(companionContext.status()).toBe(200);

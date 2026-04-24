@@ -1,8 +1,8 @@
 import "server-only";
 
 import { getFounderCommandSnapshot } from "./state";
-import { getFounderBriefing, getPlanetMinistryReports } from "@/lib/server/planet-os";
-import type { FounderBriefing, MinistryReport } from "@/lib/server/planet-os";
+import { getFounderBriefing, getPlanetMinistryReports } from "@/lib/server/planet-os/state";
+import type { FounderBriefing, MinistryReport } from "@/lib/server/planet-os/types";
 
 export type FounderCommandReportingSnapshot = {
   checkedAt: string;
