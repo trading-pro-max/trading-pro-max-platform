@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Trading Pro Max app icon dark source</title>
+  <desc id="desc">Dark graphite app icon source using the Trading Pro Max mark.</desc>
+  <rect width="512" height="512" rx="112" fill="#060b12"/>
+  <path d="M256 50 440 152.4v230.8L256 462 72 383.2V152.4L256 50Z" fill="#d8a83c"/>
+  <path d="M256 103 392 178.2v168.8L256 422 120 347V178.2L256 103Z" fill="#0b111c"/>
+  <path d="M174.4 288h43.2v76.8h-43.2V288Zm60-62.4h43.2v139.2h-43.2V225.6Zm60-52.8h43.2v192h-43.2v-192Z" fill="#f8fafc"/>
+  <path d="m172 224 72.8-54.4 43.2 36.8 68-80 14.4 69.6-66.4 78.4-45.6-38.4-70.4 51.2-16-63.2Z" fill="#2dd4bf"/>
+</svg>

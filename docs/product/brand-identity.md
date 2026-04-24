@@ -12,7 +12,9 @@ Trading Pro Max is a premium, paper-safe trading workstation. The brand should f
 
 ## App Icon Source
 
-The canonical app icon source is `app/icon.svg`. Future raster exports for desktop/mobile packaging should be generated from that SVG, not redrawn.
+The canonical app icon source is `app/icon.svg`. Future raster exports for desktop/mobile packaging should be generated from SVG sources, not redrawn.
+
+Export-ready SVG sources live in `public/brand/` and are documented in [Brand Assets](./brand-assets.md). They include compact mark, dark/light app icon sources, wordmarks, lockups, documentation header, and social preview source. These are not app-store or public launch assets.
 
 ## Color Tokens
 

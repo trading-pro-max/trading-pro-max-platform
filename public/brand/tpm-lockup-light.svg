@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 160" role="img" aria-labelledby="title desc">
+  <title id="title">Trading Pro Max light lockup</title>
+  <desc id="desc">Light lockup source with mark, wordmark, and product descriptor.</desc>
+  <rect width="720" height="160" rx="28" fill="#f8fafc"/>
+  <rect x="1" y="1" width="718" height="158" rx="27" fill="none" stroke="#d7dee8" stroke-width="2"/>
+  <g transform="translate(34 32) scale(1.5)">
+    <path d="M32 4 55 16.8v29.9L32 60 9 46.7V16.8L32 4Z" fill="#d8a83c"/>
+    <path d="M32 10.7 49.1 20v22.2L32 52.1 14.9 42.2V20L32 10.7Z" fill="#0b111c"/>
+    <path d="M22 35.5h5.2v10H22v-10Zm7.4-7.7h5.2v17.7h-5.2V27.8Zm7.4-6.4H42v24.1h-5.2V21.4Z" fill="#f8fafc"/>
+    <path d="M21.4 27.8 30.6 21l5.4 4.6 8.5-10.1 1.8 8.8-8.3 9.8-5.7-4.8-8.8 6.4-2.1-7.9Z" fill="#2dd4bf"/>
+  </g>
+  <text x="152" y="76" fill="#101827" font-family="Inter, Arial, sans-serif" font-size="46" font-weight="780">Trading Pro</text>
+  <text x="430" y="76" fill="#a97918" font-family="Inter, Arial, sans-serif" font-size="46" font-weight="820">Max</text>
+  <text x="154" y="112" fill="#64748b" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="600">Global trading foundation</text>
+</svg>

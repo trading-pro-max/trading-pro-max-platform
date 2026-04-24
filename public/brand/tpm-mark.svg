@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">Trading Pro Max brand mark</title>
+  <desc id="desc">A graphite and gold hexagon trading mark with three candles and a rising signal.</desc>
+  <path d="M32 4 55 16.8v29.9L32 60 9 46.7V16.8L32 4Z" fill="#d8a83c"/>
+  <path d="M32 10.7 49.1 20v22.2L32 52.1 14.9 42.2V20L32 10.7Z" fill="#0b111c"/>
+  <path d="M22 35.5h5.2v10H22v-10Zm7.4-7.7h5.2v17.7h-5.2V27.8Zm7.4-6.4H42v24.1h-5.2V21.4Z" fill="#f8fafc"/>
+  <path d="M21.4 27.8 30.6 21l5.4 4.6 8.5-10.1 1.8 8.8-8.3 9.8-5.7-4.8-8.8 6.4-2.1-7.9Z" fill="#2dd4bf"/>
+</svg>

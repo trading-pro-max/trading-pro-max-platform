@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Trading Pro Max social preview source</title>
+  <desc id="desc">Future social preview SVG source for Trading Pro Max. Not a published campaign asset.</desc>
+  <rect width="1200" height="630" rx="0" fill="#060b12"/>
+  <path d="M0 0h1200v630H0z" fill="#060b12"/>
+  <path d="M0 528h1200v102H0z" fill="#0b111c"/>
+  <g transform="translate(86 92) scale(2.4)">
+    <path d="M32 4 55 16.8v29.9L32 60 9 46.7V16.8L32 4Z" fill="#d8a83c"/>
+    <path d="M32 10.7 49.1 20v22.2L32 52.1 14.9 42.2V20L32 10.7Z" fill="#0b111c"/>
+    <path d="M22 35.5h5.2v10H22v-10Zm7.4-7.7h5.2v17.7h-5.2V27.8Zm7.4-6.4H42v24.1h-5.2V21.4Z" fill="#f8fafc"/>
+    <path d="M21.4 27.8 30.6 21l5.4 4.6 8.5-10.1 1.8 8.8-8.3 9.8-5.7-4.8-8.8 6.4-2.1-7.9Z" fill="#2dd4bf"/>
+  </g>
+  <text x="270" y="174" fill="#f8fafc" font-family="Inter, Arial, sans-serif" font-size="76" font-weight="780">Trading Pro</text>
+  <text x="782" y="174" fill="#d8a83c" font-family="Inter, Arial, sans-serif" font-size="76" font-weight="820">Max</text>
+  <text x="274" y="238" fill="#8ea0b8" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="600">Premium paper-safe trading workstation</text>
+  <text x="88" y="574" fill="#d8a83c" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="700">SOURCE ONLY</text>
+  <text x="244" y="574" fill="#8ea0b8" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="600">For future reviewed launch materials. No public launch claim.</text>
+</svg>
