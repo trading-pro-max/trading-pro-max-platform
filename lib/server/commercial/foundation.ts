@@ -1,5 +1,7 @@
 import "server-only";
 import type { AuthenticatedSession } from "@/lib/auth/service";
+import type { AssistantTierContract, AssistantTierSnapshot } from "@/lib/assistant/tiers";
+import { getAssistantTierForPlan, getAssistantTierSnapshot } from "@/lib/assistant/tiers";
 import { prisma } from "@/lib/db/client";
 import { getAccountComplianceSnapshotForAuthenticatedSession } from "@/lib/server/compliance";
 import { buildReadinessSnapshot } from "@/lib/server/diagnostics/readiness-score";
@@ -21,15 +23,17 @@ export type CommercialPlanCatalogSnapshot = {
     state: "available" | "reserved";
     activation: "manual_review_required";
     billing: "inactive";
-      capabilities: {
-        workspaceSeats: string;
-        automation: "inactive";
-        liveExecution: "blocked";
-        brokerRouting: "blocked";
-        supportLane: "manual_operator_review";
-        notificationDelivery: "unconfigured";
-      };
-    }>;
+    capabilities: {
+      workspaceSeats: string;
+      automation: "inactive";
+      liveExecution: "blocked";
+      brokerRouting: "blocked";
+      supportLane: "manual_operator_review";
+      notificationDelivery: "unconfigured";
+    };
+    assistantTier: AssistantTierContract;
+  }>;
+  assistant: AssistantTierSnapshot;
   truth: {
     billingEngine: "inactive";
     subscriptionEngine: "unconfigured";
@@ -68,6 +72,7 @@ export type CommercialScalingFoundationSnapshot = {
     upgradePath: Array<"team_review" | "enterprise_guarded">;
     activationLane: "operator_review_queue";
   };
+  assistant: AssistantTierSnapshot;
   capabilities: {
     workspaceSeats: {
       current: number;
@@ -142,6 +147,7 @@ export function getCommercialPlanCatalogSnapshot(
           supportLane: "manual_operator_review",
           notificationDelivery: "unconfigured",
         },
+        assistantTier: getAssistantTierForPlan("evaluation"),
       },
       {
         key: "team_review",
@@ -157,6 +163,7 @@ export function getCommercialPlanCatalogSnapshot(
           supportLane: "manual_operator_review",
           notificationDelivery: "unconfigured",
         },
+        assistantTier: getAssistantTierForPlan("team_review"),
       },
       {
         key: "enterprise_guarded",
@@ -172,8 +179,10 @@ export function getCommercialPlanCatalogSnapshot(
           supportLane: "manual_operator_review",
           notificationDelivery: "unconfigured",
         },
+        assistantTier: getAssistantTierForPlan("enterprise_guarded"),
       },
     ],
+    assistant: getAssistantTierSnapshot("evaluation"),
     truth: {
       billingEngine: "inactive",
       subscriptionEngine: "unconfigured",
@@ -271,6 +280,7 @@ export async function getCommercialScalingFoundationForAuthenticatedSession(
       upgradePath: ["team_review", "enterprise_guarded"],
       activationLane: "operator_review_queue",
     },
+    assistant: getAssistantTierSnapshot("evaluation"),
     capabilities: {
       workspaceSeats: {
         current: 1,

@@ -73,3 +73,7 @@ Critical actions remain blocked until production systems, credentials, legal rev
 ## Planet OS Boundary
 
 The Founder King Command Room may coordinate the planet, but it must not become a hidden bypass. Founder authority can approve high-risk reviewed actions, but cannot make false claims true, expose secrets, activate real-money routing without configured gates, or turn planned systems into active systems by wording alone.
+
+## Planet Earth Command View
+
+The Founder Command Room eventually groups reports by continents, states, cities, ministries, professions, citizen classes, and safety boundaries. It must show readiness truth only and must not expose itself to public users.

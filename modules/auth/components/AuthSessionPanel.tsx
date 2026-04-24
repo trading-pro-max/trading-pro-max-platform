@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useState, type FormEvent, type ReactNode } from "react";
+import { getAssistantTierSnapshot } from "../../../lib/assistant/tiers";
 import { getDefaultAccountTypeIdentity } from "../account-type";
 import { BrandMark } from "../../brand/components/ProductLogo";
 import { ProductStateNotice } from "../../shell/components/UiStates";
@@ -232,6 +233,7 @@ export default function AuthSessionPanel({
     .filter(Boolean)
     .join(" ");
   const accountTypeIdentity = getDefaultAccountTypeIdentity();
+  const assistantTier = getAssistantTierSnapshot("evaluation").current;
 
   const form = (
     <form className="tpm-auth-form" onSubmit={handleLogin}>
@@ -281,8 +283,13 @@ export default function AuthSessionPanel({
             <span>{humanize(state.account.mode)}</span>
             <span>{humanize(state.account.lifecycleState)}</span>
             <span>{accountTypeIdentity.label}</span>
+            <span>{assistantTier.label}</span>
           </div>
           <small className="tpm-auth-account-type">{accountTypeIdentity.note}</small>
+          <small className="tpm-auth-account-type">
+            Assistant tier: {assistantTier.label}. Pro, VIP, and Enterprise assistants remain locked
+            unless real entitlements exist.
+          </small>
           <small className="tpm-auth-session-expiry">{formatExpiry(state.session.expiresAt)}</small>
           {state.message ? <p className="tpm-auth-message">{state.message}</p> : null}
           <button type="button" className="tpm-auth-logout" disabled={submitting} onClick={handleLogout}>
@@ -339,6 +346,7 @@ export default function AuthSessionPanel({
               <span>{title}</span>
               <p>{statusText}</p>
               <small>{accountTypeIdentity.label}: {accountTypeIdentity.note}</small>
+              <small>{assistantTier.label}: paper-safe guidance only.</small>
             </div>
             {checkingNotice ?? form}
             {errorNotice}
@@ -359,6 +367,7 @@ export default function AuthSessionPanel({
         <strong>{variant === "required" ? "Sign in required" : "Protected account access"}</strong>
         <p>{note ?? statusText}</p>
         <small>{accountTypeIdentity.label}: {accountTypeIdentity.note}</small>
+        <small>{assistantTier.label}: paper-safe guidance only.</small>
       </div>
       {checkingNotice ?? form}
       {errorNotice}

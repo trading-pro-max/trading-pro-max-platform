@@ -47,3 +47,7 @@ Moderation must be privacy-conscious. Protection does not justify invasive surve
 ## Current State
 
 Community is planned. No rooms are active unless built, configured, and moderated later.
+
+## Planet Earth Community Role
+
+Community belongs to the People & Community Continent. It may later include general rooms, Pro rooms, VIP rooms, education rooms, feedback rooms, strategy discussion rooms, announcements, Islamic account discussion, beta tester rooms, and support rooms. All rooms require Guardian and Legal boundaries before activation.

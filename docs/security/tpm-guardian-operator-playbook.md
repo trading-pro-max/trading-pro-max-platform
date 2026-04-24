@@ -42,3 +42,11 @@ This playbook explains how Guardian operators should respond to risk.
 ## Privacy Caution
 
 Guardian must protect the platform without invasive surveillance. Use route, action, session, and account metadata only where necessary for safety.
+
+## Planet Earth Escalation Destinations
+
+- Trading Continent risk goes to Markets & Trading plus Guardian.
+- Intelligence Continent risk goes to AI/IQ Brain plus Legal when claims are involved.
+- Media Continent risk goes to Media, Guardian, Legal, then Founder.
+- Economy/Treasury risk goes to Treasury, Legal, then Founder.
+- Founder Command risk goes directly to Founder with Guardian and Legal context.

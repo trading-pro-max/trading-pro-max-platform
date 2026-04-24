@@ -76,3 +76,14 @@ Truth boundary:
 ## Citizenship Rule
 
 Plan identity is an access model, not a status hierarchy for claims. No citizen class may bypass Guardian, Legal Counsel, authentication, safety boundaries, or product truth.
+
+## Planet Earth Citizenship Alignment
+
+Citizenship classes are product access classes only:
+
+- Free / Demo: safe learning, paper mode, basic companion, basic academy, feedback
+- Pro: planned stronger assistant, journal, alerts, session coach, workspace memory
+- VIP: planned VIP Brain, advanced coaching, strategy review, deeper journal analytics, reports
+- Enterprise: future team/admin/audit/compliance/runbook support
+
+No citizenship class activates billing, live execution, real money, broker/feed, public launch, or guaranteed results.

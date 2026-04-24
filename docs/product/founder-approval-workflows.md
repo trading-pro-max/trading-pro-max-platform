@@ -52,3 +52,6 @@ Founder approval workflows keep sensitive actions disciplined inside TPM Planet 
 - timestamp
 - rollback note where applicable
 
+## Planet Earth Approval Center Alignment
+
+The Founder Approval Center uses these workflows for media, AI video, Pro/VIP, Islamic wording, launch wording, billing/pricing wording, broker/feed wording, assistant capability changes, ministry policy changes, and command app sensitive actions. Critical blocks remain blocked until remediated.

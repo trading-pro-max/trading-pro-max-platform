@@ -73,3 +73,28 @@ Ministries are product operating domains. Independent authorities can block unsa
 - Standard/Islamic account status, review requirements, not-certified state.
 - Owns careful Islamic account wording.
 - May not claim Sharia certification unless real certification exists.
+
+## Planet Earth Ministry Expansion
+
+TPM Planet Earth OS expands the ministry model into real-life operating functions:
+
+- Presidency & Command Ministry
+- Interior & Citizen Affairs Ministry
+- Guardian & Defense Ministry
+- Justice / Legal / Compliance Ministry
+- Engineering & Infrastructure Ministry
+- Treasury & Economy Ministry
+- Media & Communications Ministry
+- Academy & Education Ministry
+- Community & Culture Ministry
+- AI / IQ / Brain Ministry
+- Ops / Health / Reliability Ministry
+- Markets & Trading Ministry
+- Platforms & Devices Ministry
+- Account Types & Special Programs Ministry
+- Records / Audit / Journal Ministry
+- Emergency & Incident Ministry
+- Quality & Inspection Ministry
+- Rights / Brand / IP Ministry
+
+Each ministry must report status, risk, blockers, next actions, safety boundaries, legal boundaries, automation level, and what must not be faked to the private Founder Command Room.

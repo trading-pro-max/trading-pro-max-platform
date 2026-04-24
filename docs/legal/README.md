@@ -42,3 +42,9 @@ TPM Legal Counsel is a product governance layer for safer wording, disclosure re
 - operator review required
 - not legal advice
 - not financial advice
+
+## Planet Earth Legal Counsel Scope
+
+Legal Counsel protects product claims, media claims, AI wording, VIP wording, Islamic account wording, launch wording, broker/feed wording, billing/pricing wording, community wording, and public communication.
+
+TPM Legal Counsel is compliance guidance only. It is not a replacement for a qualified lawyer and does not certify legal compliance.

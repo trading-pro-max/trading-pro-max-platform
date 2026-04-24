@@ -63,3 +63,7 @@ VIP strategy review may be planned as advanced coaching. It must remain:
 - no "revenge trade" prompting
 - no pressure loops
 - no win-rate or certainty claims
+
+## Planet Earth Learning Role
+
+Academy, Journal, and Coach sit inside the Academy and Intelligence continents. They may teach, prompt reflection, summarize paper practice, and support discipline. They must not provide financial advice, manipulate behavior, create gambling-style urgency, or imply guaranteed improvement.

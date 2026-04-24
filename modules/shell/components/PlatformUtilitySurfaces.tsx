@@ -6,6 +6,7 @@ import {
   ACCOUNT_TYPE_IDENTITY_STATES,
   getDefaultAccountTypeIdentity,
 } from "../../auth/account-type";
+import { getAssistantTierSnapshot } from "../../../lib/assistant/tiers";
 import { getLocaleEntry } from "../../../lib/i18n/config";
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
 import AuthSessionPanel from "../../auth/components/AuthSessionPanel";
@@ -711,6 +712,7 @@ export function PlatformSettingsSurface({
   const localePrefix = locale ? `/${locale}` : "";
   const localeEntry = getLocaleEntry(locale);
   const accountTypeIdentity = getDefaultAccountTypeIdentity();
+  const assistantTier = getAssistantTierSnapshot("evaluation").current;
 
   const productStructureItems = [
     {
@@ -730,6 +732,12 @@ export function PlatformSettingsSurface({
       value: accountTypeIdentity.label,
       tone: accountTypeIdentity.tone,
       note: accountTypeIdentity.note,
+    },
+    {
+      label: "Personal companion",
+      value: assistantTier.label,
+      tone: "pending" as const,
+      note: "Demo / Paper guidance is active; Pro, VIP, and Enterprise assistants remain locked or planned until real entitlements exist.",
     },
     {
       label: "Broker readiness",

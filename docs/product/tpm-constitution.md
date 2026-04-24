@@ -63,3 +63,11 @@ The Founder King may approve high-risk direction, but cannot override truth. If 
 ## Planet Law
 
 Every planetary system must declare its real state: active, planned, inactive, blocked, fallback, degraded, review required, or founder approval required. No system may become active through language, design, or documentation alone.
+
+## Planet Earth Constitutional Addendum
+
+- Continents, states, cities, ministries, professions, citizens, and plan classes are governance metaphors only.
+- Founder approval does not override Guardian or Legal critical blocks without remediation.
+- Founder Command remains private and owner-only.
+- Public launch is always last, never early.
+- No ministry may use design, copy, or docs to imply live execution, real money, broker/feed activation, billing, legal certification, Sharia certification, production readiness, or public launch.

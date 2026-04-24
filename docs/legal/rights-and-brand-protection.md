@@ -32,3 +32,9 @@ This document prepares brand and rights protection. It does not claim trademark 
 ## Media Usage Rights
 
 Media assets should have documented rights before public use. AI-generated content requires review for likeness, copyright, and claim risk.
+
+## Planet Earth Rights Office
+
+The Rights & Brand Office protects logo usage, app icon sources, documentation headers, social preview sources, naming, brand tone, copyright readiness, privacy/terms readiness, trademark readiness, anti-copying rules, competitor non-copying rules, and generated asset review.
+
+No trademark registration, legal protection completion, or public launch asset approval is claimed unless it becomes real and documented.

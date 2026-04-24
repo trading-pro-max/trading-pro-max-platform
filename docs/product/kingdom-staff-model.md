@@ -41,3 +41,7 @@ The Founder Command Room eventually receives staff summaries:
 - claim legal, Swiss, or Sharia certification
 - expose secrets
 - bypass Founder approval for high-risk actions
+
+## Planet Earth Staff Model
+
+Staff roles become professions inside TPM Planet Earth OS. Ministries may report profession summaries to the Founder Command Room, but those reports must remain readiness/truth summaries and must not invent workers, users, revenue, followers, or shipped apps.

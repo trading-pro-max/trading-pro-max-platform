@@ -38,3 +38,7 @@ Roles are product responsibilities, not fake staff accounts. A role may be imple
 | Pro Citizens | Future paid class. | enhanced tools when entitled | assume paid active now | Treasury |
 | VIP Citizens | Future premium class. | advanced support when entitled | guaranteed results | Treasury + Legal |
 | Enterprise Houses | Future teams. | admin/audit when built | claim availability now | Enterprise roadmap |
+
+## Planet Earth Profession Alignment
+
+Roles are professions inside the digital planet. They may be human, operating responsibilities, or future AI-agent roles only when implemented. No role creates fake staff accounts, employment claims, legal authority, public authority, or hidden capability.

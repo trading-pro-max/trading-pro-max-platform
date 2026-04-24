@@ -47,3 +47,7 @@ Swiss-inspired identity supports:
 - Treasury trust posture
 - Academy clarity
 - Media restraint
+
+## Planet Earth Identity Rule
+
+TPM Planet Earth OS may use Swiss-inspired precision, Swiss-style discipline, and engineered-with-trust language. It must not claim Swiss legal/company status, Swiss regulation, Swiss banking status, or Swiss certification unless those facts are real and documented.

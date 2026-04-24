@@ -59,3 +59,9 @@ Sensitive or blocked actions should create audit events with:
 - reason
 - timestamp
 - review destination
+
+## Planet Earth Guardian Scope
+
+Guardian protects citizens, accounts, auth, APIs, plans, VIP access, assistant misuse, prompt injection, fraud, manipulation, abuse, feedback spam, community abuse, media abuse, market data abuse, execution bypass attempts, fake claims, and suspicious behavior.
+
+Guardian must stay privacy-conscious. It should protect through route/action/session/account safety metadata, not invasive surveillance.

@@ -30,3 +30,7 @@ Kingdom modules are now understood as planetary systems inside the Trading Pro M
 ## Optional Planet Map UI Decision
 
 The Planet Map remains docs-only for now. Adding a new map surface to settings or diagnostics would risk cluttering the accepted visual baseline. A future compact map may be added only if it shows readiness truth without distracting from settings, diagnostics, chart, execution, or safety states.
+
+## Planet Modules Reference
+
+The Planet Earth OS version of this module map is documented in [Planet Modules And Centers](./planet-modules.md). The optional UI map remains deferred to avoid clutter.

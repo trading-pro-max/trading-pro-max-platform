@@ -42,3 +42,7 @@ Engineering reports:
 ## Self-Managed Support
 
 The guild supplies data to Ops Tower, Guardian, Legal Counsel, and Founder Command so the kingdom can identify problems, explain blockers, and route hardening tasks without chaos.
+
+## Planet Earth Engineering Scope
+
+Engineering professions include platform, frontend/product, backend, AI/IQ, security, QA, ops/reliability, mobile, desktop, integration, and data/feed engineers. All engineering work must preserve regression discipline, visual discipline, security discipline, and the no-fake-capability rule.

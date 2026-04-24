@@ -45,3 +45,7 @@ Each blocked action should explain:
 ## Anti-Confusion Rule
 
 The user should never have to inspect an API response to understand why a product action is unavailable.
+
+## Planet Earth Coverage
+
+The Why Blocked engine must cover assistant capabilities, Founder Command access, ministry actions, media publishing, Pro/VIP features, Islamic status, public launch, monitoring, protected routes, billing, broker/feed, live execution, and real money.

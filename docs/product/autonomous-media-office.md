@@ -50,3 +50,7 @@ The Autonomous Media Office plans and reviews content for Trading Pro Max. It do
 - Guardian checks abuse and manipulation risks.
 - Legal Counsel checks claims.
 - Founder King approves high-risk or public release content.
+
+## Planet Earth Media Boundary
+
+The Media & Communications Continent includes Media Office, AI Video Studio, Content Calendar, Campaigns, and Social Account Registry. No account connection, token storage, external publishing, fake followers, fake campaign metrics, or public launch claims are introduced by this model.

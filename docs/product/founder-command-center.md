@@ -45,3 +45,7 @@ No recommendation may push live trading, real-money routing, billing, public lau
 ## No Public Route Rule
 
 The Founder Command Center is not a public product surface. It must not appear in public navigation, SEO, normal user settings, plan pages, or Free/Pro/VIP/Enterprise account surfaces.
+
+## Planet Earth Command Scope
+
+The command center receives ministry reports, daily briefings, Founder approval items, Guardian alerts, Legal warnings, Engineering flags, Treasury readiness, Media queues, and citizen feedback summaries. It must not display fake users, followers, revenue, native app releases, or public launch metrics.

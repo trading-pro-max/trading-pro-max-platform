@@ -76,3 +76,7 @@ Must not imply:
 - No fake entitlement.
 - No plan color may overpower chart, execution, or safety truth.
 - Blocked and not configured states must stay visually clear.
+
+## Planet Earth Visual Role
+
+Plan identities are citizenship-class visual cues only. Free/Demo, Pro, VIP, and Enterprise styling must stay serious, compact, and truthful. No color treatment may imply paid activation, VIP access, live execution, billing, broker/feed activation, or public launch.

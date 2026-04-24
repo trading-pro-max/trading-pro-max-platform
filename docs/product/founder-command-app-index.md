@@ -5,11 +5,14 @@ This index groups the private Founder King Command App foundation.
 ## Core
 
 - [Founder King Command App](./founder-king-command-app.md)
+- [Founder Command App](./founder-command-app.md)
 - [Founder King Command Room](./founder-king-command-room.md)
 - [Founder Command Room](./founder-command-room.md)
 - [Founder Command Center](./founder-command-center.md)
 - [TPM Planet Operating System](./tpm-planet-operating-system.md)
+- [Planet Earth Ecosystem Model](./planet-earth-ecosystem-model.md)
 - [Kingdom Modules Inside TPM Planet OS](./kingdom-modules.md)
+- [Planet Modules And Centers](./planet-modules.md)
 
 ## Desktop And Mobile
 
@@ -27,10 +30,12 @@ This index groups the private Founder King Command App foundation.
 
 - [Founder Command Modules](./founder-command-modules.md)
 - [Founder Approval Workflows](./founder-approval-workflows.md)
+- [Founder Approval Center](./founder-approval-center.md)
+- [Founder Daily Briefing](./founder-daily-briefing.md)
+- [Founder Command Reporting Model](./founder-command-reporting-model.md)
 - [Founder Treasury Controls](./founder-treasury-controls.md)
 - [Founder Media Command](./founder-media-command.md)
 
 ## Current Boundary
 
 The Founder Command App is architecture and contracts only. No public route, native app release, social account connection, billing activation, broker/feed activation, live execution, real-money routing, or public launch is created by this foundation.
-

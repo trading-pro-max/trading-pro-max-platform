@@ -35,3 +35,21 @@ The TPM Planet OS state hierarchy defines authority, visibility, and safety acro
 ## No Fake State
 
 State must not imply a capability that is not genuinely configured. Planned, inactive, blocked, fallback, degraded, and review-required are valid planet states.
+
+## Planet Earth Hierarchy
+
+The current hierarchy expands into:
+
+1. Founder King / Sovereign Creator
+2. Founder Command Capital
+3. Royal Executive Council
+4. Continents
+5. States
+6. Ministries
+7. Cities / Product Modules
+8. Workers / Employees / AI Agents
+9. Citizens / Users
+10. Plan-based citizenship classes
+11. Laws / Constitution / Safety Boundaries
+
+This hierarchy organizes responsibility. It does not create public political authority, fake staff accounts, or hidden user privileges.

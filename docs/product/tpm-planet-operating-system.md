@@ -168,3 +168,17 @@ The following remain blocked or inactive unless genuinely configured and release
 - Swiss legal/company status
 
 The Planet OS is the serious architecture for future growth. Product truth remains stronger than metaphor.
+
+## 9. Planet Earth OS Foundation
+
+The next vocabulary layer is TPM Planet Earth OS: continents, states, cities, ministries, professions, citizens, and the private Founder Command Capital. This is still an operating model, not a game and not a political claim.
+
+Related foundation docs:
+
+- [Planet Earth Ecosystem Model](./planet-earth-ecosystem-model.md)
+- [Planet Continents And States](./planet-continents-and-states.md)
+- [Planet Cities And Professions](./planet-cities-and-professions.md)
+- [Planet Modules And Centers](./planet-modules.md)
+- [Planet Ministries Operating Model](./planet-ministries-operating-model.md)
+
+The Founder King sees this planet through the private Founder Command Room and future private Founder Command App. Citizens see only appropriate product surfaces.

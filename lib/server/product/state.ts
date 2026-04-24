@@ -1,5 +1,7 @@
 import "server-only";
 import type { AuthenticatedSession } from "@/lib/auth/service";
+import type { AssistantTierSnapshot } from "@/lib/assistant/tiers";
+import { getAssistantTierSnapshot } from "@/lib/assistant/tiers";
 import {
   getAccountComplianceSnapshotForAuthenticatedSession,
 } from "@/lib/server/compliance";
@@ -50,6 +52,7 @@ export type ProductBackendStateSnapshot = {
     customerLifecycle: "linked";
     productOps: "manual_controlled";
   };
+  assistant: AssistantTierSnapshot;
   trust: {
     paperOnly: true;
     liveExecution: "blocked";
@@ -168,6 +171,7 @@ export async function getProductBackendStateForAuthenticatedSession(
       customerLifecycle: "linked",
       productOps: "manual_controlled",
     },
+    assistant: getAssistantTierSnapshot("evaluation"),
     trust: {
       paperOnly: true,
       liveExecution: "blocked",

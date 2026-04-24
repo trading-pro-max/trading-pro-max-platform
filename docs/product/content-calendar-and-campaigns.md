@@ -76,3 +76,7 @@ Each campaign should define:
 ## Founder Rule
 
 High-risk campaign language requires Founder approval after Guardian and Legal review.
+
+## Planet Earth Media Workflow
+
+Media items move through idea, draft, brand review, Guardian review, Legal review, Founder approval, scheduled, published, blocked, and archived states. In the current architecture, scheduled and published remain future states only because no external posting system is connected.

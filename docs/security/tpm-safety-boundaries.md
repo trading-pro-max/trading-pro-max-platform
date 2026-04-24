@@ -36,3 +36,16 @@ Safety boundaries define what can be automated, reviewed, approved, or blocked.
 - Every sensitive or blocked action creates an audit event.
 - No secrets are exposed.
 - No live execution or real money occurs without explicit configured future gates.
+
+## Planet Earth OS Coverage
+
+Safety boundaries apply to all continents, states, cities, ministries, professions, citizens, and Founder Command actions.
+
+Examples:
+
+- user Companion outputs: Low/Medium, auto or review depending content
+- Founder Personal Companion recommendations: Medium/High, review or Founder approval
+- media publishing: High, Founder approval after Guardian and Legal review
+- billing/subscription claims: High, Treasury, Legal, and Founder approval
+- live execution, real-money routing, secret exposure: Critical, blocked
+- public launch: High/Critical, all gates plus Founder approval

@@ -510,6 +510,9 @@ test.describe("verified platform truth", () => {
         await expect(page.locator("body")).toContainText(
           /Product trust ledger|Commercial packaging readiness|No billing system active|Broker integration/
         );
+        await expect(page.locator("body")).toContainText(
+          /Personal companion|Demo \/ Paper Assistant|Pro, VIP, and Enterprise assistants remain locked/
+        );
       }
     }
   });
@@ -1616,10 +1619,39 @@ test.describe("verified platform truth", () => {
       checkoutClaims: "none",
       nativeClaims: "contract_only",
     });
+    expect(commercialCatalogPayload.snapshot.assistant.current).toMatchObject({
+      tier: "demo_paper",
+      label: "Demo / Paper Assistant",
+      availability: "active",
+      currentAccess: true,
+    });
+    expect(commercialCatalogPayload.snapshot.assistant.truth).toMatchObject({
+      billing: "inactive",
+      paidAccess: "not_enabled",
+      vipActivation: "not_active",
+      liveExecution: "blocked",
+      realMoneyRouting: "blocked",
+      guaranteeClaims: "none",
+      winRateClaims: "none",
+    });
     expect(commercialCatalogPayload.snapshot.plans).toEqual(
       expect.arrayContaining([
-        expect.objectContaining({ key: "evaluation", billing: "inactive" }),
-        expect.objectContaining({ key: "team_review", billing: "inactive" }),
+        expect.objectContaining({
+          key: "evaluation",
+          billing: "inactive",
+          assistantTier: expect.objectContaining({
+            tier: "demo_paper",
+            currentAccess: true,
+          }),
+        }),
+        expect.objectContaining({
+          key: "team_review",
+          billing: "inactive",
+          assistantTier: expect.objectContaining({
+            tier: "pro",
+            currentAccess: false,
+          }),
+        }),
       ])
     );
     expect(commercialCatalogPayload.snapshot.plans).toEqual(
@@ -1681,6 +1713,14 @@ test.describe("verified platform truth", () => {
     expect(intelligencePayload.snapshot.coaching.reviewWindowMinutes).toBeGreaterThan(0);
     expect(Array.isArray(intelligencePayload.snapshot.coaching.degradedBoundaries)).toBe(
       true
+    );
+    expect(intelligencePayload.snapshot.assist.tier).toMatchObject({
+      tier: "demo_paper",
+      label: "Demo / Paper Assistant",
+      currentAccess: true,
+    });
+    expect(JSON.stringify(intelligencePayload.snapshot)).not.toMatch(
+      /guaranteed profit|win-rate claim|sure signal/i
     );
 
     const intelligenceInsights = await request.get(
@@ -1830,6 +1870,20 @@ test.describe("verified platform truth", () => {
       subscriptions: "unconfigured",
       plan: "evaluation",
     });
+    expect(productPayload.snapshot.assistant.current).toMatchObject({
+      tier: "demo_paper",
+      label: "Demo / Paper Assistant",
+      currentAccess: true,
+    });
+    expect(productPayload.snapshot.assistant.tiers).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          tier: "vip",
+          currentAccess: false,
+          unavailableReason: expect.stringContaining("VIP entitlement is not active"),
+        }),
+      ])
+    );
 
     const launchOperations = await request.get("/api/launch/operations");
     expect(launchOperations.status()).toBe(200);
@@ -2608,6 +2662,38 @@ test.describe("verified platform truth", () => {
       key: "evaluation",
       state: "active_evaluation",
       activationLane: "operator_review_queue",
+    });
+    expect(commercialStatePayload.snapshot.assistant.current).toMatchObject({
+      tier: "demo_paper",
+      label: "Demo / Paper Assistant",
+      availability: "active",
+      currentAccess: true,
+    });
+    expect(commercialStatePayload.snapshot.assistant.tiers).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          tier: "pro",
+          availability: "locked",
+          currentAccess: false,
+        }),
+        expect.objectContaining({
+          tier: "vip",
+          availability: "locked",
+          currentAccess: false,
+        }),
+        expect.objectContaining({
+          tier: "enterprise",
+          availability: "planned_later",
+          currentAccess: false,
+        }),
+      ])
+    );
+    expect(commercialStatePayload.snapshot.assistant.truth).toMatchObject({
+      billing: "inactive",
+      paidAccess: "not_enabled",
+      vipActivation: "not_active",
+      liveExecution: "blocked",
+      realMoneyRouting: "blocked",
     });
     expect(commercialStatePayload.snapshot.billing).toMatchObject({
       engine: "inactive",

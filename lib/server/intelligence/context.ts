@@ -1,5 +1,7 @@
 import "server-only";
 import type { AuthenticatedSession } from "@/lib/auth/service";
+import type { AssistantTierSnapshot } from "@/lib/assistant/tiers";
+import { getAssistantTierSnapshot } from "@/lib/assistant/tiers";
 import { prisma } from "@/lib/db/client";
 import { getAccountComplianceSnapshotForAuthenticatedSession } from "@/lib/server/compliance";
 import { getBrokerConnectorSafetySnapshot } from "@/lib/server/connectors/broker";
@@ -106,6 +108,7 @@ export type IntelligenceBackendContextSnapshot = {
     degradedBoundaries: string[];
   };
   assist: {
+    tier: AssistantTierSnapshot["current"];
     depth: "expanded_operator_assist";
     dataBoundaries: "bounded_local_context";
     executionAuthority: "operator_manual";
@@ -634,6 +637,7 @@ export async function getIntelligenceBackendContext(input: {
     performance: journalPerformance.performance,
     marketFeedState: marketSnapshot.feed.state,
   });
+  const assistantTier = getAssistantTierSnapshot("evaluation").current;
 
   return {
     checkedAt,
@@ -677,6 +681,7 @@ export async function getIntelligenceBackendContext(input: {
     performance: journalPerformance.performance,
     coaching,
     assist: {
+      tier: assistantTier,
       depth: "expanded_operator_assist",
       dataBoundaries: "bounded_local_context",
       executionAuthority: "operator_manual",

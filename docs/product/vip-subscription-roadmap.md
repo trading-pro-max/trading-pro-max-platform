@@ -9,9 +9,11 @@ VIP should feel like a serious premium command layer, not a promise of results.
 Future VIP may include:
 
 - VIP Brain summaries
+- VIP Assistant with advanced AI/IQ Brain guidance
 - advanced coaching
 - strategy review assistant
 - deeper journal analytics
+- personalized workflow memory
 - premium reports
 - priority support
 - private rooms
@@ -22,6 +24,7 @@ Future VIP may include:
 
 - billing provider configured and validated
 - entitlement model implemented and tested
+- VIP Assistant entitlement gates implemented and tested
 - refund, cancellation, and support policy reviewed
 - Legal Counsel review of every VIP claim
 - Guardian review of abuse and impersonation risks
@@ -37,16 +40,21 @@ Future VIP may include:
 - VIP users get live execution by default
 - VIP users receive certified financial advice
 - VIP includes Islamic/Sharia certification
+- VIP Assistant is active without entitlement
+- VIP Assistant guarantees signals, win rate, or performance outcomes
+- VIP Assistant activates broker/feed, billing, live execution, or real money
 
 ## Safe VIP Language
 
 - premium decision support
 - deeper context
 - advanced journal review
+- advanced AI/IQ Brain guidance when entitlement is active
+- VIP diagnostics summaries when configured
 - priority support readiness
 - future paid entitlement when configured
 - no guarantee
 
 ## Current State
 
-VIP is planned. Billing is inactive. Checkout is inactive. No user is granted fake VIP status by this roadmap.
+VIP is planned. Billing is inactive. Checkout is inactive. VIP Assistant access is locked/planned unless real account entitlements support it. No user is granted fake VIP status by this roadmap.

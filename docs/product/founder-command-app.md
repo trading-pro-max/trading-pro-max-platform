@@ -1,0 +1,49 @@
+# Founder Command App
+
+The Founder Command App is the future private desktop and mobile command application for Ahmad. It carries the Founder King Command Room outside the public web product while keeping owner controls private, audited, and guarded.
+
+## Current Truth
+
+- foundation only
+- no native app shipped
+- no public route
+- no normal user access
+- no Free, Pro, VIP, or Enterprise access
+- no social publishing
+- no billing activation
+- no broker/feed activation
+- no public launch claim
+
+## Purpose
+
+The command app may eventually show:
+
+- planet overview
+- continent/state/ministry status
+- citizens/users
+- plan distribution readiness
+- feedback
+- risks
+- Guardian incidents
+- Legal review queue
+- Media campaign queue
+- AI Video Studio queue
+- AI/Brain summaries
+- Engineering tasks
+- Ops readiness
+- beta state
+- product gaps
+- visual acceptance
+- revenue readiness later
+- secret rotation readiness
+- production blockers
+- next recommended actions
+
+## Access Rules
+
+- Founder King only.
+- Strong owner authentication required.
+- Read-only by default.
+- Sensitive actions require explicit confirmation.
+- Every sensitive action creates audit trail.
+- Critical blocks cannot be overridden by wording.

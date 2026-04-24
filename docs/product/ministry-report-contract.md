@@ -1,0 +1,47 @@
+# Ministry Report Contract
+
+Every ministry/state report sent to the Founder Command Room must use a consistent truth-first contract.
+
+## Required Fields
+
+| Field | Meaning |
+| --- | --- |
+| ministryId | stable id |
+| ministryName | display name |
+| leaderTitle | minister/governor/lead role |
+| status | ready, operating, degraded, blocked, or planned |
+| confidence | high, medium, or low |
+| riskLevel | low, medium, high, or critical |
+| summary | concise truth summary |
+| keyMetrics | non-sensitive local metrics or readiness facts |
+| activeWork | current work in progress |
+| blockers | blockers that prevent progress |
+| incidents | active or recent incidents |
+| pendingApprovals | items needing review/Founder decision |
+| guardianFlags | Guardian risks |
+| legalFlags | Legal risks |
+| engineeringFlags | engineering/test risks |
+| citizenImpact | user/citizen effect |
+| revenueImpactLater | future impact only, no fake revenue |
+| nextActions | safe next actions |
+| founderDecisionNeeded | true/false |
+| lastUpdated | ISO timestamp |
+| reportCadence | daily, weekly, event-driven, or manual |
+
+## Status Values
+
+- ready: contract or surface is ready in current scope
+- operating: functioning in current scope
+- degraded: available but limited
+- blocked: cannot proceed until blocker clears
+- planned: future concept only
+
+## Truth Rules
+
+- no secrets
+- no fake users
+- no fake revenue
+- no fake monitoring
+- no fake launch
+- no fake legal certification
+- no hidden live execution

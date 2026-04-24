@@ -63,3 +63,9 @@ Before any launch stage:
 ## Safety Rule
 
 The platform may recommend actions. It must not silently perform high-risk actions or claim readiness that validators do not prove.
+
+## Planet Earth Self-Management
+
+The self-managed layer feeds the Founder Command Room with health, readiness, incidents, feedback triage, hardening loop, secret rotation readiness, production blockers, launch blockers, support queues, Guardian alerts, Legal review queue, Engineering tasks, Media review queue, and Founder next actions.
+
+Self-management may recommend. It must not silently approve, launch, publish, bill, trade live, route real money, expose secrets, or fake metrics.

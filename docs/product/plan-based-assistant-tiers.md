@@ -1,10 +1,12 @@
 # Plan-Based Assistant Tiers
 
-Assistant tiers describe future capability boundaries by plan. They do not activate billing, paid access, or VIP entitlement. A tier is available only when the entitlement system, billing truth, and product gates are genuinely configured.
+Assistant tiers describe capability boundaries by plan. They do not activate billing, paid access, or VIP entitlement. The current verified account receives Demo / Paper Assistant only. Higher tiers stay locked or planned unless the entitlement system, billing truth, and product gates are genuinely configured.
 
 ## Demo / Paper Assistant
 
 Purpose: safe onboarding and paper-mode guidance.
+
+State: active for current evaluation accounts.
 
 Capabilities:
 
@@ -18,6 +20,10 @@ Capabilities:
 Limits:
 
 - no advanced performance claims
+- no advanced coaching
+- no premium insights
+- no strategy review
+- no personalized performance deep-dive
 - no guaranteed signals
 - no real execution
 - no paid entitlement claim
@@ -25,6 +31,8 @@ Limits:
 ## Pro Assistant
 
 Purpose: stronger daily guidance for a serious user when Pro is genuinely available.
+
+State: locked/planned unless real Pro entitlement exists.
 
 Capabilities:
 
@@ -41,6 +49,8 @@ Capabilities:
 Limits:
 
 - no prediction certainty
+- no VIP-only deep strategy review
+- no priority support claim unless support exists
 - no win-rate claim
 - no live execution bypass
 - no Pro active claim unless entitlement exists
@@ -48,6 +58,8 @@ Limits:
 ## VIP Assistant
 
 Purpose: premium operator-assist layer for advanced future users.
+
+State: locked/planned unless real VIP entitlement exists.
 
 Capabilities:
 
@@ -63,6 +75,11 @@ Capabilities:
 Limits:
 
 - no guaranteed outcome
+- no guaranteed signals
+- no win-rate claims
+- no live execution
+- no real-money activation
+- no broker/feed activation
 - no signal-selling behavior
 - no fake VIP activation
 - no copy-trading claim unless a future compliant product supports it
@@ -70,6 +87,8 @@ Limits:
 ## Enterprise Assistant
 
 Purpose: future team and operations assistant.
+
+State: future planned only unless enterprise entitlement exists.
 
 Capabilities:
 
@@ -88,3 +107,5 @@ Limits:
 ## Global Rule
 
 Assistant tier language must always distinguish available, planned, inactive, blocked, and not configured states.
+
+The assistant must not create manipulative engagement loops, urgency pressure, guaranteed-profit framing, or paid-access deception.

@@ -46,3 +46,7 @@ Every paid claim requires:
 - Founder approval for public launch language
 
 Billing is never a shortcut around execution, broker, feed, or risk controls.
+
+## Planet Earth Treasury Rule
+
+Treasury manages economy readiness, not active money movement. Performance-based revenue remains hidden/inactive with current fee 0%. Any future 5%-10% research concept requires Legal review, regulatory review, user consent, secure billing infrastructure, and Founder-only activation authority before it can be considered.
