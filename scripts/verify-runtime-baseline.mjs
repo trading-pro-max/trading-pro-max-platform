@@ -1,5 +1,5 @@
-import { existsSync, statSync } from "node:fs";
-import { resolve } from "node:path";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
+import { join, resolve } from "node:path";
 
 const workspaceRoot = process.cwd();
 const requiredPaths = [
@@ -13,6 +13,16 @@ const requiredPaths = [
   },
 ];
 const nextBuildIdPath = resolve(workspaceRoot, ".next", "BUILD_ID");
+const nextStaticPath = resolve(workspaceRoot, ".next", "static");
+const requiredCssSelectors = [
+  ".tpm-foundation-frame",
+  ".tpm-foundation-nav",
+  ".tpm-product-entry",
+  ".tpmv2-desktop-master",
+  ".tpmv2-chart-surface",
+  ".tpmv2-execution",
+  ".tpm-auth-panel",
+];
 
 function fail(message) {
   console.error(`[runtime-baseline] ${message}`);
@@ -27,6 +37,39 @@ for (const item of requiredPaths) {
 
 if (!existsSync(nextBuildIdPath)) {
   fail("Production build output is missing. Run npm run build before npm start.");
+}
+
+function collectCssFiles(directory) {
+  if (!existsSync(directory)) return [];
+
+  return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+    const entryPath = join(directory, entry.name);
+    if (entry.isDirectory()) return collectCssFiles(entryPath);
+    return entry.isFile() && entry.name.endsWith(".css") ? [entryPath] : [];
+  });
+}
+
+if (existsSync(nextBuildIdPath)) {
+  const cssFiles = collectCssFiles(nextStaticPath);
+
+  if (cssFiles.length === 0) {
+    fail("Built CSS assets are missing under .next/static. Run npm run build before npm start.");
+  } else {
+    const bundledCss = cssFiles
+      .map((filePath) => readFileSync(filePath, "utf8"))
+      .join("\n");
+    const missingSelectors = requiredCssSelectors.filter(
+      (selector) => !bundledCss.includes(selector),
+    );
+
+    if (missingSelectors.length > 0) {
+      fail(
+        `Built CSS assets are incomplete; missing selectors: ${missingSelectors.join(
+          ", ",
+        )}. Run npm run build and verify global CSS imports in app/layout.tsx.`,
+      );
+    }
+  }
 }
 
 const schemaPath = requiredPaths[0].path;

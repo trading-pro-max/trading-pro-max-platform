@@ -68,6 +68,111 @@ async function openWithTheme(
   await page.reload({ waitUntil: "domcontentloaded" });
 }
 
+async function expectRuntimeCssApplied(page: Page, mode: "entry" | "workstation" | "utility") {
+  const runtime = await page.evaluate(async (expectedMode) => {
+    const cssLinks = Array.from(
+      document.querySelectorAll<HTMLLinkElement>('link[rel="stylesheet"]')
+    ).map((link) => link.href);
+    const cssAssets = await Promise.all(
+      cssLinks.map(async (href) => {
+        try {
+          const response = await fetch(href, { cache: "no-store" });
+          const text = await response.text();
+
+          return {
+            href,
+            status: response.status,
+            length: text.length,
+            hasFrameSelectors: text.includes("tpm-foundation-frame"),
+            hasProductSelectors: text.includes("tpm-product-entry"),
+            hasWorkstationSelectors: text.includes("tpmv2-desktop-master"),
+            hasAuthSelectors: text.includes("tpm-auth-panel"),
+          };
+        } catch {
+          return {
+            href,
+            status: 0,
+            length: 0,
+            hasFrameSelectors: false,
+            hasProductSelectors: false,
+            hasWorkstationSelectors: false,
+            hasAuthSelectors: false,
+          };
+        }
+      })
+    );
+    const bodyStyle = window.getComputedStyle(document.body);
+    const frame = document.querySelector(".tpm-foundation-frame");
+    const nav = document.querySelector(".tpm-foundation-nav");
+    const entry = document.querySelector(".tpm-product-entry");
+    const workstation = document.querySelector(".tpmv2-desktop-master");
+    const utility = document.querySelector(".tpm-utility-page");
+
+    return {
+      cssLinks,
+      cssAssets,
+      bodyFont: bodyStyle.fontFamily,
+      bodyColor: bodyStyle.color,
+      frameDisplay: frame ? window.getComputedStyle(frame).display : "missing",
+      navDisplay: nav ? window.getComputedStyle(nav).display : "missing",
+      entryDisplay: entry ? window.getComputedStyle(entry).display : "missing",
+      workstationDisplay: workstation
+        ? window.getComputedStyle(workstation).display
+        : "missing",
+      workstationColumns: workstation
+        ? window.getComputedStyle(workstation).gridTemplateColumns
+        : "missing",
+      utilityDisplay: utility ? window.getComputedStyle(utility).display : "missing",
+      expectedMode,
+    };
+  }, mode);
+
+  expect(runtime.cssLinks.length).toBeGreaterThan(0);
+  expect(runtime.cssAssets).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({
+        status: 200,
+        hasFrameSelectors: true,
+        hasAuthSelectors: true,
+      }),
+    ])
+  );
+  expect(runtime.bodyFont).toContain("Inter");
+  expect(runtime.bodyColor).not.toBe("rgb(0, 0, 0)");
+  expect(runtime.frameDisplay).not.toBe("missing");
+  expect(runtime.navDisplay).toBe("flex");
+
+  if (mode === "entry") {
+    expect(runtime.cssAssets).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          hasProductSelectors: true,
+          hasWorkstationSelectors: true,
+        }),
+      ])
+    );
+    expect(runtime.entryDisplay).not.toBe("missing");
+    expect(runtime.workstationDisplay).toBe("grid");
+    expect(runtime.workstationColumns).not.toBe("none");
+  }
+
+  if (mode === "workstation") {
+    expect(runtime.cssAssets).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          hasWorkstationSelectors: true,
+        }),
+      ])
+    );
+    expect(runtime.workstationDisplay).toBe("grid");
+    expect(runtime.workstationColumns).not.toBe("none");
+  }
+
+  if (mode === "utility") {
+    expect(runtime.utilityDisplay).toBe("grid");
+  }
+}
+
 test.describe("verified platform truth", () => {
   test("keeps production readiness validation strict and secret-safe", () => {
     const monitorSecret = "DoNotLeak_MonitoringSecret_2026_Value!";
@@ -321,6 +426,10 @@ test.describe("verified platform truth", () => {
       await expect(page).toHaveURL(route.expectedUrl);
       await expect(page.locator("main").first()).toBeVisible();
       await expect(page.locator("body")).toContainText(route.text);
+      await expectRuntimeCssApplied(
+        page,
+        route.path === "/" ? "entry" : route.path === "/en" ? "workstation" : "utility"
+      );
 
       if (route.path === "/") {
         await expect(page.locator(".tpm-product-entry").first()).toBeVisible();
@@ -403,6 +512,7 @@ test.describe("verified platform truth", () => {
     await expect(page.locator(".tpm-theme-switcher").first()).toBeVisible();
     await expect(page.locator(".tpm-locale-select").first()).toBeVisible();
     await expect(page.locator("body")).toContainText("Public Commercial Entry");
+    await expectRuntimeCssApplied(page, "entry");
     await page.screenshot({
       fullPage: true,
       path: path.join(THEME_ARTIFACT_DIR, "dark-public-entry.png"),
@@ -410,6 +520,7 @@ test.describe("verified platform truth", () => {
 
     await openWithTheme(page, "/", "light");
     await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+    await expectRuntimeCssApplied(page, "entry");
     await page.screenshot({
       fullPage: true,
       path: path.join(THEME_ARTIFACT_DIR, "light-public-entry.png"),
@@ -418,6 +529,7 @@ test.describe("verified platform truth", () => {
     await openWithTheme(page, "/en", "dark");
     await expect(page.locator(".tpm-foundation-frame")).toHaveAttribute("dir", "ltr");
     await expect(page.locator(".tpmv2-chart-surface").first()).toBeVisible();
+    await expectRuntimeCssApplied(page, "workstation");
     await page.screenshot({
       fullPage: true,
       path: path.join(THEME_ARTIFACT_DIR, "dark-workstation.png"),
@@ -430,6 +542,7 @@ test.describe("verified platform truth", () => {
     await openWithTheme(page, "/en", "light");
     await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
     await expect(page.locator(".tpmv2-execution").first()).toBeVisible();
+    await expectRuntimeCssApplied(page, "workstation");
     await page.screenshot({
       fullPage: true,
       path: path.join(THEME_ARTIFACT_DIR, "light-workstation.png"),
@@ -438,6 +551,7 @@ test.describe("verified platform truth", () => {
     await openWithTheme(page, "/ar", "dark");
     await expect(page.locator(".tpm-foundation-frame")).toHaveAttribute("dir", "rtl");
     await expect(page.locator(".tpmv2-chart-surface").first()).toBeVisible();
+    await expectRuntimeCssApplied(page, "workstation");
     await page.screenshot({
       fullPage: true,
       path: path.join(THEME_ARTIFACT_DIR, "arabic-rtl-workstation.png"),
@@ -447,6 +561,7 @@ test.describe("verified platform truth", () => {
     await expect(page.locator(".tpm-foundation-frame")).toHaveAttribute("lang", "en");
     await expect(page.locator(".tpm-foundation-frame")).toHaveAttribute("dir", "ltr");
     await expect(page.locator("body")).toContainText("Settings");
+    await expectRuntimeCssApplied(page, "utility");
     await page.screenshot({
       fullPage: true,
       path: path.join(THEME_ARTIFACT_DIR, "settings.png"),
@@ -472,6 +587,7 @@ test.describe("verified platform truth", () => {
 
     await openWithTheme(page, "/en/diagnostics", "dark");
     await expect(page.locator("body")).toContainText("Language coverage");
+    await expectRuntimeCssApplied(page, "utility");
     await page.screenshot({
       fullPage: true,
       path: path.join(THEME_ARTIFACT_DIR, "diagnostics.png"),
