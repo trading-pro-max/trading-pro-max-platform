@@ -48,7 +48,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP_SCRIPT }} />
       </head>
-      <body>{children}</body>
+      <body className="tpm-app-body">{children}</body>
     </html>
   );
 }

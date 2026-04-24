@@ -19,6 +19,15 @@ body {
     var(--tpm-bg);
 }
 
+.tpm-app-body {
+  min-height: 100vh;
+  color: var(--tpm-text);
+  background:
+    radial-gradient(circle at 16% -10%, var(--tpm-bg-radial-b), transparent 26rem),
+    radial-gradient(circle at 86% 0%, var(--tpm-bg-radial-a), transparent 24rem),
+    var(--tpm-bg);
+}
+
 button,
 input,
 textarea,

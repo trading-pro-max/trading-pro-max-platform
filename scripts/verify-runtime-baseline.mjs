@@ -14,7 +14,18 @@ const requiredPaths = [
 ];
 const nextBuildIdPath = resolve(workspaceRoot, ".next", "BUILD_ID");
 const nextStaticPath = resolve(workspaceRoot, ".next", "static");
+const styleSourcePaths = [
+  resolve(workspaceRoot, "app", "layout.tsx"),
+  resolve(workspaceRoot, "app", "globals.css"),
+  resolve(workspaceRoot, "app", "design-foundation.css"),
+  resolve(workspaceRoot, "app", "foundation-nav.css"),
+  resolve(workspaceRoot, "app", "ui-states.css"),
+  resolve(workspaceRoot, "app", "compact-modes.css"),
+  resolve(workspaceRoot, "app", "auth-ui.css"),
+  resolve(workspaceRoot, "app", "theme-localization.css"),
+];
 const requiredCssSelectors = [
+  ".tpm-app-body",
   ".tpm-foundation-frame",
   ".tpm-foundation-nav",
   ".tpm-product-entry",
@@ -50,6 +61,19 @@ function collectCssFiles(directory) {
 }
 
 if (existsSync(nextBuildIdPath)) {
+  const buildMtime = statSync(nextBuildIdPath).mtimeMs;
+  const staleStyleSources = styleSourcePaths.filter(
+    (sourcePath) => existsSync(sourcePath) && statSync(sourcePath).mtimeMs > buildMtime + 1000,
+  );
+
+  if (staleStyleSources.length > 0) {
+    fail(
+      `Production build is older than styling/layout sources: ${staleStyleSources
+        .map((sourcePath) => sourcePath.replace(`${workspaceRoot}\\`, ""))
+        .join(", ")}. Run npm run build before npm start.`,
+    );
+  }
+
   const cssFiles = collectCssFiles(nextStaticPath);
 
   if (cssFiles.length === 0) {

@@ -28,23 +28,18 @@ const commandPillars = [
 const truthLedger = [
   {
     title: "Execution authority",
-    summary: "Manual paper entry is available. Live-money routing stays blocked.",
-    chips: ["Paper-only", "Manual operator", "Live blocked"],
+    summary: "Manual paper entry is available while live-money routing stays blocked.",
+    chips: ["Paper-only", "Live blocked"],
   },
   {
     title: "Market source truth",
-    summary: "Market responses remain fallback-first with explicit degraded semantics.",
-    chips: ["Fallback-first", "Degraded visible", "Bounded confidence"],
+    summary: "Fallback-first market data stays visible with bounded confidence.",
+    chips: ["Fallback-first", "Bounded confidence"],
   },
   {
     title: "Connector posture",
-    summary: "Broker and operator-review layers are unconfigured by default.",
-    chips: ["Broker unconfigured", "Review unavailable", "No fake activation"],
-  },
-  {
-    title: "Commercial claim boundary",
-    summary: "This is not a live brokerage terminal and it does not claim live activation.",
-    chips: ["not a live brokerage terminal", "No fake activation", "Truthful limits"],
+    summary: "Broker and operator-review layers are unconfigured; no fake activation is claimed.",
+    chips: ["Broker unconfigured", "No fake activation"],
   },
 ];
 
@@ -92,13 +87,13 @@ export default function PublicProductEntry({
           <div className="tpm-product-hero-layout">
             <div className="tpm-product-hero-copy">
               <h1>
-                Trading Pro Max is a disciplined trading workstation for
-                paper-safe market command.
+                Trading Pro Max is a paper-safe command terminal for serious
+                market work.
               </h1>
               <p>
                 Chart-first execution rehearsal, TPM IQ / Brain guidance, and diagnostics-ready
-                trust semantics stay in one operator flow. Paper-only operation, fallback feed
-                truth, blocked live routing, and broker state remain explicit without presenting
+                trust semantics stay in one operator flow. Paper-only operation, fallback market
+                data, blocked live routing, and broker state remain explicit without presenting
                 this as a live brokerage terminal.
               </p>
 
