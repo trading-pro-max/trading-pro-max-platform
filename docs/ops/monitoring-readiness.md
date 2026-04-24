@@ -4,13 +4,21 @@ Monitoring is a production readiness contract, not a simulated service.
 
 ## Required Configuration
 
-- `TPM_OPS_EXTERNAL_MONITOR_PROVIDER`
-- `TPM_OPS_EXTERNAL_MONITOR_URL`
-- `TPM_OPS_EXTERNAL_MONITOR_KEY`
+- `TPM_MONITORING_PROVIDER` or `TPM_OPS_EXTERNAL_MONITOR_PROVIDER`
+- `TPM_MONITORING_ENDPOINT` or `TPM_OPS_EXTERNAL_MONITOR_URL`
+- `TPM_MONITORING_KEY` or `TPM_OPS_EXTERNAL_MONITOR_KEY`
 
 The endpoint must be HTTPS. The key must be stored in the deployment secret
 manager and must not be committed. Validation checks provider/endpoint/key
 presence and basic shape only; it never prints secret values.
+
+Supported provider labels are `custom`, `sentry`, `datadog`, `grafana`,
+`newrelic`, `honeycomb`, `cloudwatch`, and `azure-monitor`.
+
+Manual placeholders are blocked for production readiness. `localhost`,
+`127.0.0.1`, example domains, and `.test` endpoints do not count as configured
+external monitoring except inside `--simulate-safe`, which is a validator logic
+test only.
 
 ## Truth States
 

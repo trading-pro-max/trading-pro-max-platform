@@ -8,17 +8,22 @@ Run a five-tester controlled beta that proves Trading Pro Max is usable, truthfu
 
 - Target size: 5 testers.
 - Required setup: unique tester email, rotated demo password, account session verified.
-- Access control: set `TPM_CLOSED_BETA_ALLOWLIST_EMAILS` to the five tester emails before seeding or issuing credentials.
+- Access control: set `TPM_CLOSED_BETA_ALLOWLIST` or `TPM_CLOSED_BETA_ALLOWLIST_EMAILS` to the five tester emails before seeding or issuing credentials.
 - Production env contract: follow `docs/ops/production-env.md` before treating the cohort as production-like.
 - Support lane: operator review through `/api/launch/feedback`.
 
 ## Daily Operator Flow
+
+Local rehearsal may use `npm run production:setup-local` to create the ignored
+`.env.production.local` file. Replace blockers with real values before treating
+the cohort as production-like.
 
 1. Run `npm run build`.
 2. Run `npm run prisma:validate`.
 3. Run `npm run production:validate`.
    - A blocked result means production blockers remain.
    - Do not treat the cohort as production-ready until the blockers are cleared with real external values.
+   - `--simulate-safe` is only a validator logic check, not launch evidence.
 4. Run `npm run smoke:routes -- --with-api` for local route confidence.
 5. Start with `npm start`.
 6. Check `/api/health`.

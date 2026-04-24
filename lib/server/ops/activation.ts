@@ -56,6 +56,14 @@ function isConfigured(value: string | null | undefined) {
   return Boolean(value?.trim());
 }
 
+function envFirst(names: string[]): string {
+  for (const name of names) {
+    if (isConfigured(process.env[name])) return process.env[name] ?? "";
+  }
+
+  return "";
+}
+
 function hasMinimumSecretShape(value: string | null | undefined, minLength: number) {
   const normalized = value?.trim() ?? "";
   if (normalized.length < minLength) return false;
@@ -75,11 +83,24 @@ export async function getOpsProductionActivationSnapshot(): Promise<OpsProductio
   const tracingConfigured = Boolean(
     process.env.TPM_OPS_TRACING_ENDPOINT?.trim().startsWith("https://")
   );
+  const monitorEndpoint = envFirst([
+    "TPM_OPS_EXTERNAL_MONITOR_URL",
+    "TPM_MONITORING_ENDPOINT",
+  ])
+    ?.trim()
+    .toLowerCase();
   const externalMonitoringConfigured = isConfigured(
-    process.env.TPM_OPS_EXTERNAL_MONITOR_PROVIDER
+    envFirst(["TPM_OPS_EXTERNAL_MONITOR_PROVIDER", "TPM_MONITORING_PROVIDER"])
   ) &&
-    Boolean(process.env.TPM_OPS_EXTERNAL_MONITOR_URL?.trim().startsWith("https://")) &&
-    hasMinimumSecretShape(process.env.TPM_OPS_EXTERNAL_MONITOR_KEY, 24);
+    Boolean(monitorEndpoint?.startsWith("https://")) &&
+    !monitorEndpoint.includes("localhost") &&
+    !monitorEndpoint.includes("127.0.0.1") &&
+    !monitorEndpoint.includes("example.") &&
+    !monitorEndpoint.endsWith(".test") &&
+    hasMinimumSecretShape(
+      envFirst(["TPM_OPS_EXTERNAL_MONITOR_KEY", "TPM_MONITORING_KEY"]),
+      24
+    );
   const [auditEvents24h, activeSessions, pendingComplianceReviews] = await Promise.all([
     prisma.auditEvent.count({
       where: {

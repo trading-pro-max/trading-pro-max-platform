@@ -106,6 +106,18 @@ function parseCsv(value: string | null | undefined) {
     .filter(Boolean);
 }
 
+function envFirst(names: string[]) {
+  for (const name of names) {
+    if (isConfigured(process.env[name])) return process.env[name];
+  }
+
+  return "";
+}
+
+function parseCsvFromEnv(names: string[]) {
+  return [...new Set(names.flatMap((name) => parseCsv(process.env[name])))];
+}
+
 function getDeploymentTarget(): DeploymentTarget {
   const target = normalize(process.env.TPM_DEPLOYMENT_TARGET).toLowerCase();
 
@@ -201,6 +213,22 @@ function publicSecretKeyNamesPresent() {
   });
 }
 
+function endpointIsConfigured(value: string | null | undefined) {
+  const endpoint = normalize(value).toLowerCase();
+  if (!endpoint.startsWith("https://")) return false;
+  if (
+    endpoint.includes("localhost") ||
+    endpoint.includes("127.0.0.1") ||
+    endpoint.includes("example.") ||
+    endpoint.endsWith(".test") ||
+    endpoint.includes("__")
+  ) {
+    return false;
+  }
+
+  return true;
+}
+
 function buildChecklist(input: {
   databaseUrlConfigured: boolean;
   databaseProvider: DatabaseProviderTruth;
@@ -290,19 +318,22 @@ export function getProductionDeploymentReadinessSnapshot(
   const operatorKeyConfigured = operatorKeyStrength === "configured_guarded";
   const credentials = getCredentialRotation();
   const publicSecretNamesPresent = publicSecretKeyNamesPresent();
-  const emailAllowlist = parseCsv(process.env.TPM_CLOSED_BETA_ALLOWLIST_EMAILS);
+  const emailAllowlist = parseCsvFromEnv([
+    "TPM_CLOSED_BETA_ALLOWLIST_EMAILS",
+    "TPM_CLOSED_BETA_ALLOWLIST",
+  ]);
   const accountAllowlist = parseCsv(process.env.TPM_CLOSED_BETA_ALLOWLIST_ACCOUNT_IDS);
   const minimumEntries = deploymentTarget === "production" ? 5 : 1;
   const closedBetaAllowlistConfigured =
     emailAllowlist.length + accountAllowlist.length >= minimumEntries;
   const monitoringProviderConfigured = isConfigured(
-    process.env.TPM_OPS_EXTERNAL_MONITOR_PROVIDER
+    envFirst(["TPM_OPS_EXTERNAL_MONITOR_PROVIDER", "TPM_MONITORING_PROVIDER"])
   );
-  const monitoringEndpointConfigured =
-    isConfigured(process.env.TPM_OPS_EXTERNAL_MONITOR_URL) &&
-    normalize(process.env.TPM_OPS_EXTERNAL_MONITOR_URL).startsWith("https://");
+  const monitoringEndpointConfigured = endpointIsConfigured(
+    envFirst(["TPM_OPS_EXTERNAL_MONITOR_URL", "TPM_MONITORING_ENDPOINT"])
+  );
   const monitoringKeyConfigured = hasMinimumSecretShape(
-    process.env.TPM_OPS_EXTERNAL_MONITOR_KEY,
+    envFirst(["TPM_OPS_EXTERNAL_MONITOR_KEY", "TPM_MONITORING_KEY"]),
     24
   );
   const monitoringConfigured =

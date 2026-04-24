@@ -12,6 +12,19 @@ values must live in the deployment secret manager, not in Git.
 `npm run production:validate` defaults to production/closed-beta validation when
 these values are omitted.
 
+For local setup rehearsal, run:
+
+```bash
+npm run production:setup-local -- --database-url file:/absolute/persistent/path/production.db --allowlist tester1@example.com,tester2@example.com,tester3@example.com,tester4@example.com,tester5@example.com
+node scripts/validate-production-readiness.mjs --env-file .env.production.local
+```
+
+`.env.production.local` is ignored by Git. The setup script preserves existing
+secret values unless `--force` is passed, generates local-only strong values for
+operator/demo passwords, and never prints full secrets. If no database URL is
+provided, it writes the local SQLite fallback so the app still runs locally but
+production validation remains blocked.
+
 ## Database
 
 Required:
@@ -41,6 +54,10 @@ presence and shape only; it never prints the key.
 Local/default keys such as `local-operator-review-key` are never production
 valid.
 
+For a real deployment, generate the key outside the repo with your secret
+manager or operating-system password tool. Do not paste it into docs, issues,
+logs, or command output.
+
 ## Rotated Seed Credentials
 
 Required:
@@ -58,7 +75,7 @@ must not share the same email.
 
 Required:
 
-- `TPM_CLOSED_BETA_ALLOWLIST_EMAILS` and/or
+- `TPM_CLOSED_BETA_ALLOWLIST` or `TPM_CLOSED_BETA_ALLOWLIST_EMAILS`, and/or
   `TPM_CLOSED_BETA_ALLOWLIST_ACCOUNT_IDS`
 
 For production closed beta, configure at least five real evaluator identities.
@@ -68,13 +85,15 @@ This is an allowlist, not public signup. Empty allowlists block readiness.
 
 Required for production readiness:
 
-- `TPM_OPS_EXTERNAL_MONITOR_PROVIDER`
-- `TPM_OPS_EXTERNAL_MONITOR_URL`
-- `TPM_OPS_EXTERNAL_MONITOR_KEY`
+- `TPM_MONITORING_PROVIDER` or `TPM_OPS_EXTERNAL_MONITOR_PROVIDER`
+- `TPM_MONITORING_ENDPOINT` or `TPM_OPS_EXTERNAL_MONITOR_URL`
+- `TPM_MONITORING_KEY` or `TPM_OPS_EXTERNAL_MONITOR_KEY`
 
 The URL must use HTTPS. The key is presence/shape checked only and never
-printed. The app does not claim monitoring delivery is active unless these
-values are configured.
+printed. Placeholder endpoints such as localhost, example domains, and `.test`
+domains are not accepted as real monitoring outside simulated validation. The
+app does not claim monitoring delivery is active unless these values are
+configured.
 
 Optional:
 
@@ -87,7 +106,12 @@ Run:
 ```bash
 npm run production:validate
 node scripts/validate-production-readiness.mjs --json
+node scripts/validate-production-readiness.mjs --env-file .env.production.local
+node scripts/validate-production-readiness.mjs --simulate-safe
 ```
 
 A blocked result means at least one production blocker remains. It is not a
 runtime bug; it is a deployment truth signal.
+
+`--simulate-safe` is only a validator logic check. It proves the pass path
+without using real secrets and must not be cited as real production readiness.

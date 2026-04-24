@@ -382,6 +382,10 @@ function parseCsvList(raw: string | null | undefined) {
     .filter((value) => value.length > 0);
 }
 
+function parseCsvEnvList(names: string[]) {
+  return [...new Set(names.flatMap((name) => parseCsvList(process.env[name])))];
+}
+
 function resolveClosedBetaProgramMode(): ClosedBetaProgramMode {
   const raw = process.env.TPM_LAUNCH_PROGRAM_MODE?.trim().toLowerCase();
   if (raw === "soft_launch") return "soft_launch";
@@ -551,7 +555,10 @@ function evaluateClosedBetaEligibility(input: {
   email: string;
   accountId: string;
 }) {
-  const emailAllowlist = parseCsvList(process.env.TPM_CLOSED_BETA_ALLOWLIST_EMAILS);
+  const emailAllowlist = parseCsvEnvList([
+    "TPM_CLOSED_BETA_ALLOWLIST_EMAILS",
+    "TPM_CLOSED_BETA_ALLOWLIST",
+  ]);
   const accountAllowlist = parseCsvList(process.env.TPM_CLOSED_BETA_ALLOWLIST_ACCOUNT_IDS);
   const allowlistConfigured = emailAllowlist.length > 0 || accountAllowlist.length > 0;
   const normalizedEmail = input.email.trim().toLowerCase();
@@ -1345,7 +1352,10 @@ export async function getClosedBetaPreparationDiagnosticsProbe(
       prisma.account.count(),
     ]);
     const programMode = resolveClosedBetaProgramMode();
-    const emailAllowlist = parseCsvList(process.env.TPM_CLOSED_BETA_ALLOWLIST_EMAILS);
+    const emailAllowlist = parseCsvEnvList([
+      "TPM_CLOSED_BETA_ALLOWLIST_EMAILS",
+      "TPM_CLOSED_BETA_ALLOWLIST",
+    ]);
     const accountAllowlist = parseCsvList(process.env.TPM_CLOSED_BETA_ALLOWLIST_ACCOUNT_IDS);
     const allowlistConfigured = emailAllowlist.length > 0 || accountAllowlist.length > 0;
     const maxEvaluators = resolveClosedBetaMaxEvaluators();

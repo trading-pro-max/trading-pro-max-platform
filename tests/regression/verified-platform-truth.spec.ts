@@ -1,11 +1,15 @@
 import { expect, test } from "@playwright/test";
 import { spawnSync } from "node:child_process";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
 
 const STORAGE_KEY = "tpm-platform-state-v1";
 const DEMO_EMAIL = process.env.TPM_DEMO_EMAIL ?? "demo@tradingpromax.local";
 const DEMO_PASSWORD =
   process.env.TPM_DEMO_PASSWORD ?? "TradingProMaxDemo!2026";
 const VALIDATOR_SCRIPT = "scripts/validate-production-readiness.mjs";
+const SETUP_SCRIPT = "scripts/setup-production-env-local.mjs";
 
 function validatorEnv(overrides: Record<string, string | undefined> = {}) {
   const env: Record<string, string | undefined> = {
@@ -25,8 +29,11 @@ function validatorEnv(overrides: Record<string, string | undefined> = {}) {
   };
 }
 
-function runProductionValidator(overrides: Record<string, string | undefined> = {}) {
-  return spawnSync(process.execPath, [VALIDATOR_SCRIPT, "--json"], {
+function runProductionValidator(
+  overrides: Record<string, string | undefined> = {},
+  extraArgs: string[] = []
+) {
+  return spawnSync(process.execPath, [VALIDATOR_SCRIPT, "--json", ...extraArgs], {
     cwd: process.cwd(),
     env: validatorEnv(overrides) as NodeJS.ProcessEnv,
     encoding: "utf8",
@@ -65,39 +72,77 @@ test.describe("verified platform truth", () => {
       ])
     );
 
-    const simulatedOperatorKey =
-      "TpmKey_2026_SimulatedOnly_Value_ABCDEFG12345!";
-    const simulatedMonitoringKey =
-      "MonKey_2026_SimulatedOnly_Value_ABCDEFG12345!";
-    const passResult = runProductionValidator({
-      NODE_ENV: "production",
-      TPM_DEPLOYMENT_TARGET: "production",
-      TPM_LAUNCH_MODE: "closed_beta",
-      DATABASE_URL: "file:/var/lib/trading-pro-max/production.db",
-      TPM_OPERATOR_KEY: simulatedOperatorKey,
-      TPM_DEMO_EMAIL: "demo.beta@example.test",
-      TPM_DEMO_PASSWORD: "DemoPass_2026_SimulatedOnly_Value!",
-      TPM_OPERATOR_EMAIL: "operator.beta@example.test",
-      TPM_OPERATOR_PASSWORD: "OperPass_2026_SimulatedOnly_Value!",
-      TPM_CLOSED_BETA_ALLOWLIST_EMAILS:
-        "tester1@example.test,tester2@example.test,tester3@example.test,tester4@example.test,tester5@example.test",
-      TPM_OPS_EXTERNAL_MONITOR_PROVIDER: "custom",
-      TPM_OPS_EXTERNAL_MONITOR_URL: "https://monitoring.example.test/tpm",
-      TPM_OPS_EXTERNAL_MONITOR_KEY: simulatedMonitoringKey,
-    });
+    const passResult = runProductionValidator({}, ["--simulate-safe"]);
 
     expect(passResult.status).toBe(0);
-    expect(passResult.stdout).not.toContain(simulatedOperatorKey);
-    expect(passResult.stdout).not.toContain(simulatedMonitoringKey);
+    expect(passResult.stdout).not.toContain(
+      "TpmKey_2026_SimulatedOnly_Value_ABCDEFG12345!"
+    );
+    expect(passResult.stdout).not.toContain(
+      "MonKey_2026_SimulatedOnly_Value_ABCDEFG12345!"
+    );
     const passPayload = JSON.parse(passResult.stdout);
     expect(passPayload).toMatchObject({
       ok: true,
       summary: {
         status: "pass",
+        simulated: true,
         blockers: 0,
       },
       secretExposurePolicy: "presence_and_shape_only",
     });
+  });
+
+  test("creates ignored local production env safely without printing secrets", () => {
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "tpm-prod-env-"));
+    const envPath = path.join(tempDir, ".env.production.local");
+    const setupResult = spawnSync(
+      process.execPath,
+      [
+        SETUP_SCRIPT,
+        "--path",
+        envPath,
+        "--database-url",
+        "file:/var/lib/trading-pro-max/production.db",
+        "--allowlist",
+        "tester1@example.test,tester2@example.test,tester3@example.test,tester4@example.test,tester5@example.test",
+        "--monitoring-provider",
+        "custom",
+        "--monitoring-endpoint",
+        "https://monitoring.tradingpromax.invalid/tpm",
+      ],
+      {
+        cwd: process.cwd(),
+        env: validatorEnv() as NodeJS.ProcessEnv,
+        encoding: "utf8",
+      }
+    );
+
+    expect(setupResult.status).toBe(0);
+    expect(fs.existsSync(envPath)).toBe(true);
+    const envFile = fs.readFileSync(envPath, "utf8");
+    const operatorKey = envFile.match(/^TPM_OPERATOR_KEY=(.+)$/m)?.[1] ?? "";
+    const monitoringKey =
+      envFile.match(/^TPM_OPS_EXTERNAL_MONITOR_KEY=(.+)$/m)?.[1] ?? "";
+    expect(operatorKey.length).toBeGreaterThan(32);
+    expect(monitoringKey.length).toBeGreaterThan(24);
+    expect(setupResult.stdout).not.toContain(operatorKey);
+    expect(setupResult.stdout).not.toContain(monitoringKey);
+    expect(setupResult.stdout).toContain("secret_output=redacted");
+
+    const validation = runProductionValidator(
+      {},
+      ["--env-file", envPath]
+    );
+    expect(validation.status).toBe(0);
+    const validationPayload = JSON.parse(validation.stdout);
+    expect(validationPayload.summary).toMatchObject({
+      status: "pass",
+      envFileLoaded: true,
+      blockers: 0,
+    });
+    expect(validation.stdout).not.toContain(operatorKey);
+    expect(validation.stdout).not.toContain(monitoringKey);
   });
 
   test("visibly renders the verified workstation and utility routes", async ({

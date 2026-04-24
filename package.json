@@ -11,6 +11,7 @@
     "lint": "eslint",
     "test:regression": "npm run build && npm run prisma:seed && playwright test",
     "smoke:routes": "node scripts/tpm-canonical-routes-smoke.mjs --summary-only",
+    "production:setup-local": "node scripts/setup-production-env-local.mjs",
     "production:validate": "node scripts/validate-production-readiness.mjs",
     "prisma:generate": "node scripts/clean-prisma-client.mjs && prisma generate",
     "prisma:seed": "prisma db seed",

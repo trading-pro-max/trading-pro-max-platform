@@ -74,6 +74,14 @@ function isConfigured(value: string | null | undefined) {
   return Boolean(value?.trim());
 }
 
+function envFirst(names: string[]): string {
+  for (const name of names) {
+    if (isConfigured(process.env[name])) return process.env[name] ?? "";
+  }
+
+  return "";
+}
+
 function hasMinimumSecretShape(value: string | null | undefined, minLength: number) {
   const normalized = value?.trim() ?? "";
   if (normalized.length < minLength) return false;
@@ -89,10 +97,23 @@ function hasMinimumSecretShape(value: string | null | undefined, minLength: numb
 }
 
 function getExternalMonitoringConfigured() {
+  const endpoint = envFirst(["TPM_OPS_EXTERNAL_MONITOR_URL", "TPM_MONITORING_ENDPOINT"])
+    ?.trim()
+    .toLowerCase();
+
   return (
-    isConfigured(process.env.TPM_OPS_EXTERNAL_MONITOR_PROVIDER) &&
-    Boolean(process.env.TPM_OPS_EXTERNAL_MONITOR_URL?.trim().startsWith("https://")) &&
-    hasMinimumSecretShape(process.env.TPM_OPS_EXTERNAL_MONITOR_KEY, 24)
+    isConfigured(
+      envFirst(["TPM_OPS_EXTERNAL_MONITOR_PROVIDER", "TPM_MONITORING_PROVIDER"])
+    ) &&
+    Boolean(endpoint?.startsWith("https://")) &&
+    !endpoint.includes("localhost") &&
+    !endpoint.includes("127.0.0.1") &&
+    !endpoint.includes("example.") &&
+    !endpoint.endsWith(".test") &&
+    hasMinimumSecretShape(
+      envFirst(["TPM_OPS_EXTERNAL_MONITOR_KEY", "TPM_MONITORING_KEY"]),
+      24
+    )
   );
 }
 

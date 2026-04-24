@@ -1,11 +1,13 @@
-import "dotenv/config";
 import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
+import { parse as parseDotenv } from "dotenv";
 
 const ROOT = process.cwd();
-const args = new Set(process.argv.slice(2));
+const rawArgs = process.argv.slice(2);
+const args = new Set(rawArgs);
 const JSON_OUTPUT = args.has("--json");
+const SIMULATE_SAFE = args.has("--simulate-safe");
 
 const DEFAULTS = {
   databaseUrl: "file:./prisma/dev.db",
@@ -16,8 +18,71 @@ const DEFAULTS = {
   localOperatorKey: "local-operator-review-key",
 };
 
+const SUPPORTED_MONITORING_PROVIDERS = new Set([
+  "custom",
+  "sentry",
+  "datadog",
+  "grafana",
+  "newrelic",
+  "honeycomb",
+  "cloudwatch",
+  "azure-monitor",
+]);
+
 const PLACEHOLDER_PATTERN =
-  /^(?:change-?me|todo|unset|replace-?me|example|placeholder|<.*>|\[.*\])$/i;
+  /^(?:change-?me|todo|unset|replace-?me|example|placeholder|__.*__|<.*>|\[.*\])$/i;
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function argValue(name) {
+  const exactIndex = rawArgs.indexOf(name);
+  if (exactIndex >= 0) return rawArgs[exactIndex + 1] ?? "";
+  const prefix = `${name}=`;
+  const match = rawArgs.find((arg) => arg.startsWith(prefix));
+  return match ? match.slice(prefix.length) : null;
+}
+
+function loadEnvFile(filePath, { override = false } = {}) {
+  const resolved = path.resolve(ROOT, filePath);
+  if (!fs.existsSync(resolved)) {
+    return { loaded: false, path: resolved };
+  }
+
+  const parsed = parseDotenv(fs.readFileSync(resolved));
+  for (const [key, value] of Object.entries(parsed)) {
+    if (override || process.env[key] === undefined) {
+      process.env[key] = value;
+    }
+  }
+
+  return { loaded: true, path: resolved };
+}
+
+function applySimulatedSafeEnv() {
+  Object.assign(process.env, {
+    NODE_ENV: "production",
+    TPM_DEPLOYMENT_TARGET: "production",
+    TPM_LAUNCH_MODE: "closed_beta",
+    DATABASE_URL: "file:/var/lib/trading-pro-max/production.db",
+    TPM_OPERATOR_KEY: "TpmKey_2026_SimulatedOnly_Value_ABCDEFG12345!",
+    TPM_DEMO_EMAIL: "demo.beta@example.test",
+    TPM_DEMO_PASSWORD: "DemoPass_2026_SimulatedOnly_Value!",
+    TPM_OPERATOR_EMAIL: "operator.beta@example.test",
+    TPM_OPERATOR_PASSWORD: "OperPass_2026_SimulatedOnly_Value!",
+    TPM_CLOSED_BETA_ALLOWLIST_EMAILS:
+      "tester1@example.test,tester2@example.test,tester3@example.test,tester4@example.test,tester5@example.test",
+    TPM_OPS_EXTERNAL_MONITOR_PROVIDER: "custom",
+    TPM_OPS_EXTERNAL_MONITOR_URL: "https://monitoring.example.test/tpm",
+    TPM_OPS_EXTERNAL_MONITOR_KEY:
+      "MonKey_2026_SimulatedOnly_Value_ABCDEFG12345!",
+  });
+}
+
+loadEnvFile(".env", { override: false });
+const requestedEnvFile = argValue("--env-file");
+const envFileLoad = requestedEnvFile
+  ? loadEnvFile(requestedEnvFile, { override: true })
+  : { loaded: false, path: null };
+if (SIMULATE_SAFE) applySimulatedSafeEnv();
 
 function configured(value) {
   return Boolean(value?.trim());
@@ -27,11 +92,23 @@ function normalize(value) {
   return value?.trim() ?? "";
 }
 
+function envFirst(names) {
+  for (const name of names) {
+    if (configured(process.env[name])) return process.env[name];
+  }
+
+  return "";
+}
+
 function csv(value) {
   return normalize(value)
     .split(",")
     .map((item) => item.trim())
     .filter(Boolean);
+}
+
+function csvFromEnv(names) {
+  return [...new Set(names.flatMap((name) => csv(process.env[name])))];
 }
 
 function isPlaceholder(value) {
@@ -96,14 +173,16 @@ function isProbablyLocalSqlitePath(databaseUrl) {
   return false;
 }
 
-function databaseReadiness() {
+function databaseReadiness(target) {
   const databaseUrl = normalize(process.env.DATABASE_URL);
   const configuredDatabase = configured(databaseUrl);
+  const placeholder = isPlaceholder(databaseUrl);
   const localSqlite = isProbablyLocalSqlitePath(databaseUrl);
   const absolutePersistentSqlite =
     databaseUrl.startsWith("file:/") && !databaseUrl.startsWith("file://") && !localSqlite;
   const externalManagedUrl =
     /^(?:postgresql|postgres|mysql|sqlserver):\/\//i.test(databaseUrl);
+  const localAllowed = target === "local" && localSqlite;
   const provider =
     externalManagedUrl
       ? "external_managed"
@@ -114,20 +193,30 @@ function databaseReadiness() {
           : configuredDatabase
             ? "unsupported"
             : "missing";
+  const ok =
+    !placeholder &&
+    configuredDatabase &&
+    (localAllowed || (!localSqlite && (absolutePersistentSqlite || externalManagedUrl)));
 
   return {
-    ok: configuredDatabase && !localSqlite && (absolutePersistentSqlite || externalManagedUrl),
+    ok,
     provider,
     configured: configuredDatabase,
     localSqlite,
     detail:
       provider === "missing"
-        ? "Set DATABASE_URL in the deployment secret store."
-        : provider === "local_sqlite"
-          ? "Replace the local SQLite fallback with a production database URL."
-          : provider === "unsupported"
-            ? "Use a production-supported database URL such as an absolute persistent file: path or managed SQL URL."
-            : "DATABASE_URL is present and not the local development fallback.",
+        ? "DATABASE_URL is missing."
+        : placeholder
+          ? "DATABASE_URL is still a placeholder."
+          : provider === "local_sqlite" && !localAllowed
+            ? "DATABASE_URL points at a local SQLite path."
+            : provider === "unsupported"
+              ? "DATABASE_URL format is not supported for production syntax readiness."
+              : "DATABASE_URL syntax is production-readable and not the local fallback.",
+    remediation:
+      target === "local"
+        ? "For local-only validation set TPM_DEPLOYMENT_TARGET=local; for staging/production set a persistent file: URL or managed SQL URL in the secret store."
+        : "Set DATABASE_URL in the deployment secret store to a persistent file: URL or managed SQL URL; do not use file:./prisma/dev.db.",
   };
 }
 
@@ -144,12 +233,14 @@ function operatorKeyReadiness() {
     configured: configured(key),
     localKeyEnabled,
     detail: !configured(key)
-      ? "Set TPM_OPERATOR_KEY in the deployment secret store."
+      ? "TPM_OPERATOR_KEY is missing."
       : forbidden
-        ? "Replace TPM_OPERATOR_KEY; local/default operator keys are never production-valid."
+        ? "TPM_OPERATOR_KEY is a local/default-looking key."
         : !strong
-          ? "Use a high-entropy TPM_OPERATOR_KEY of at least 32 characters."
+          ? "TPM_OPERATOR_KEY is too weak for production readiness."
           : "TPM_OPERATOR_KEY is configured with acceptable presence/strength.",
+    remediation:
+      "Generate a high-entropy key outside the repo, store it as TPM_OPERATOR_KEY, and never commit or print it.",
   };
 }
 
@@ -164,6 +255,7 @@ function credentialRotationReadiness() {
     demoEmail !== DEFAULTS.demoEmail &&
     demoPassword !== DEFAULTS.demoPassword &&
     !demoEmail.endsWith(".local") &&
+    EMAIL_PATTERN.test(demoEmail) &&
     hasMinimumSecretShape(demoPassword, 16);
   const operatorRotated =
     configured(operatorEmail) &&
@@ -171,6 +263,7 @@ function credentialRotationReadiness() {
     operatorEmail !== DEFAULTS.operatorEmail &&
     operatorPassword !== DEFAULTS.operatorPassword &&
     !operatorEmail.endsWith(".local") &&
+    EMAIL_PATTERN.test(operatorEmail) &&
     hasMinimumSecretShape(operatorPassword, 16);
 
   return {
@@ -180,67 +273,107 @@ function credentialRotationReadiness() {
     detail:
       demoRotated && operatorRotated && demoEmail !== operatorEmail
         ? "Demo and operator seed credentials are rotated away from local defaults."
-        : "Set rotated TPM_DEMO_* and TPM_OPERATOR_* credentials; local defaults are blocked.",
+        : "Demo/operator credentials are missing, defaulted, weak, invalid, or shared.",
+    remediation:
+      "Set TPM_DEMO_EMAIL, TPM_DEMO_PASSWORD, TPM_OPERATOR_EMAIL, and TPM_OPERATOR_PASSWORD to rotated values before seeding production-like accounts.",
   };
 }
 
 function allowlistReadiness(target) {
-  const emailEntries = csv(process.env.TPM_CLOSED_BETA_ALLOWLIST_EMAILS);
-  const accountEntries = csv(process.env.TPM_CLOSED_BETA_ALLOWLIST_ACCOUNT_IDS);
+  const emailEntries = csvFromEnv([
+    "TPM_CLOSED_BETA_ALLOWLIST_EMAILS",
+    "TPM_CLOSED_BETA_ALLOWLIST",
+  ]);
+  const accountEntries = csvFromEnv(["TPM_CLOSED_BETA_ALLOWLIST_ACCOUNT_IDS"]);
+  const invalidEmails = emailEntries.filter((entry) => !EMAIL_PATTERN.test(entry));
   const totalEntries = emailEntries.length + accountEntries.length;
   const minimumEntries = target === "production" ? 5 : 1;
+  const ok = totalEntries >= minimumEntries && invalidEmails.length === 0;
 
   return {
-    ok: totalEntries >= minimumEntries,
+    ok,
     configured: totalEntries > 0,
     emailEntries: emailEntries.length,
     accountEntries: accountEntries.length,
+    invalidEmailEntries: invalidEmails.length,
     minimumEntries,
     detail:
       totalEntries === 0
-        ? "Set TPM_CLOSED_BETA_ALLOWLIST_EMAILS or TPM_CLOSED_BETA_ALLOWLIST_ACCOUNT_IDS."
-        : totalEntries < minimumEntries
-          ? `Add at least ${minimumEntries} closed-beta allowlist entr${minimumEntries === 1 ? "y" : "ies"} for this target.`
-          : "Closed beta allowlist is configured and capacity-scoped.",
+        ? "Closed beta allowlist is empty."
+        : invalidEmails.length > 0
+          ? "Closed beta allowlist contains invalid email entries."
+          : totalEntries < minimumEntries
+            ? `Closed beta allowlist has ${totalEntries} entr${totalEntries === 1 ? "y" : "ies"} but requires ${minimumEntries}.`
+            : "Closed beta allowlist is configured and capacity-scoped.",
+    remediation:
+      "Set TPM_CLOSED_BETA_ALLOWLIST_EMAILS or TPM_CLOSED_BETA_ALLOWLIST to the first five evaluator emails; this is not public signup.",
   };
 }
 
+function isPlaceholderEndpoint(endpoint) {
+  const normalized = normalize(endpoint).toLowerCase();
+  if (SIMULATE_SAFE) return false;
+  return (
+    isPlaceholder(endpoint) ||
+    normalized.includes("localhost") ||
+    normalized.includes("127.0.0.1") ||
+    normalized.includes("example.") ||
+    normalized.endsWith(".test") ||
+    normalized.includes("__")
+  );
+}
+
 function monitoringReadiness(target, mode) {
-  const provider = normalize(process.env.TPM_OPS_EXTERNAL_MONITOR_PROVIDER);
-  const endpoint = normalize(process.env.TPM_OPS_EXTERNAL_MONITOR_URL);
-  const key = normalize(process.env.TPM_OPS_EXTERNAL_MONITOR_KEY);
-  const configuredMonitoring =
+  const provider = normalize(
+    envFirst(["TPM_OPS_EXTERNAL_MONITOR_PROVIDER", "TPM_MONITORING_PROVIDER"])
+  );
+  const endpoint = normalize(
+    envFirst(["TPM_OPS_EXTERNAL_MONITOR_URL", "TPM_MONITORING_ENDPOINT"])
+  );
+  const key = normalize(
+    envFirst(["TPM_OPS_EXTERNAL_MONITOR_KEY", "TPM_MONITORING_KEY"])
+  );
+  const providerKey = provider.toLowerCase();
+  const providerConfigured =
     configured(provider) &&
+    !isPlaceholder(provider) &&
+    SUPPORTED_MONITORING_PROVIDERS.has(providerKey);
+  const endpointConfigured =
     configured(endpoint) &&
     /^https:\/\//i.test(endpoint) &&
-    hasMinimumSecretShape(key, 24);
+    !isPlaceholderEndpoint(endpoint);
+  const keyConfigured = hasMinimumSecretShape(key, 24);
+  const configuredMonitoring = providerConfigured && endpointConfigured && keyConfigured;
   const required = target === "production" || mode === "production";
 
   return {
     ok: configuredMonitoring,
     required,
-    providerConfigured: configured(provider) && !isPlaceholder(provider),
-    endpointConfigured: configured(endpoint) && /^https:\/\//i.test(endpoint),
-    keyConfigured: hasMinimumSecretShape(key, 24),
+    providerConfigured,
+    endpointConfigured,
+    keyConfigured,
     detail: configuredMonitoring
       ? "External monitoring provider, HTTPS endpoint, and secret key are configured."
-      : "Configure TPM_OPS_EXTERNAL_MONITOR_PROVIDER, TPM_OPS_EXTERNAL_MONITOR_URL, and TPM_OPS_EXTERNAL_MONITOR_KEY.",
+      : "External monitoring is missing, unsupported, placeholder, or incomplete.",
+    remediation:
+      "Set TPM_MONITORING_PROVIDER/TPM_MONITORING_ENDPOINT/TPM_MONITORING_KEY or the TPM_OPS_EXTERNAL_MONITOR_* equivalents using a supported provider and HTTPS endpoint.",
   };
 }
 
-function check(key, ok, severity, detail, metadata = {}) {
+function check(key, ok, severity, detail, remediation, metadata = {}) {
   return {
     key,
     ok,
     severity: ok ? "pass" : severity,
     detail,
+    remediation,
     metadata,
   };
 }
 
 const target = deploymentTarget();
 const mode = launchMode();
-const database = databaseReadiness();
+const database = databaseReadiness(target);
 const operatorKey = operatorKeyReadiness();
 const credentials = credentialRotationReadiness();
 const allowlist = allowlistReadiness(target);
@@ -248,9 +381,22 @@ const monitoring = monitoringReadiness(target, mode);
 const publicSecretNames = publicSecretNamesPresent();
 const migrationsPresent = fs.existsSync(path.join(ROOT, "prisma", "migrations"));
 const productionRuntime = process.env.NODE_ENV === "production";
+const missingRequestedEnvFile = requestedEnvFile && !envFileLoad.loaded;
 
 const checks = [
-  check("database_url", database.ok, "blocker", database.detail, {
+  ...(missingRequestedEnvFile
+    ? [
+        check(
+          "env_file",
+          false,
+          "blocker",
+          `Requested env file was not found: ${requestedEnvFile}`,
+          "Create the env file first or pass an existing path with --env-file.",
+          { requested: requestedEnvFile }
+        ),
+      ]
+    : []),
+  check("database_url", database.ok, "blocker", database.detail, database.remediation, {
     configured: database.configured,
     provider: database.provider,
     localSqlite: database.localSqlite,
@@ -259,25 +405,42 @@ const checks = [
     "migration_directory",
     migrationsPresent,
     "blocker",
+    "Prisma migrations directory is available.",
     "Create and review Prisma migrations, then deploy with `prisma migrate deploy`."
   ),
-  check("operator_key", operatorKey.ok, "blocker", operatorKey.detail, {
-    configured: operatorKey.configured,
-    localKeyEnabled: operatorKey.localKeyEnabled,
-  }),
-  check("credentials_rotated", credentials.ok, "blocker", credentials.detail, {
-    demoRotated: credentials.demoRotated,
-    operatorRotated: credentials.operatorRotated,
-  }),
+  check(
+    "operator_key",
+    operatorKey.ok,
+    "blocker",
+    operatorKey.detail,
+    operatorKey.remediation,
+    {
+      configured: operatorKey.configured,
+      localKeyEnabled: operatorKey.localKeyEnabled,
+    }
+  ),
+  check(
+    "credentials_rotated",
+    credentials.ok,
+    "blocker",
+    credentials.detail,
+    credentials.remediation,
+    {
+      demoRotated: credentials.demoRotated,
+      operatorRotated: credentials.operatorRotated,
+    }
+  ),
   check(
     "closed_beta_allowlist",
     allowlist.ok,
     "blocker",
     allowlist.detail,
+    allowlist.remediation,
     {
       configured: allowlist.configured,
       emailEntries: allowlist.emailEntries,
       accountEntries: allowlist.accountEntries,
+      invalidEmailEntries: allowlist.invalidEmailEntries,
       minimumEntries: allowlist.minimumEntries,
     }
   ),
@@ -286,6 +449,7 @@ const checks = [
     monitoring.ok,
     monitoring.required ? "blocker" : "warning",
     monitoring.detail,
+    monitoring.remediation,
     {
       required: monitoring.required,
       providerConfigured: monitoring.providerConfigured,
@@ -297,13 +461,17 @@ const checks = [
     "public_secret_names",
     publicSecretNames.length === 0,
     "blocker",
-    "Remove NEXT_PUBLIC_* variables whose names imply secrets or tokens.",
+    "No NEXT_PUBLIC_* secret-looking names were detected.",
+    "Remove NEXT_PUBLIC_* variables whose names imply secrets, tokens, passwords, private data, or keys.",
     { count: publicSecretNames.length }
   ),
   check(
     "production_runtime",
     productionRuntime,
-    target === "production" ? "warning" : "warning",
+    "warning",
+    productionRuntime
+      ? "Production runtime flag is set."
+      : "NODE_ENV is not production for this validation process.",
     "Run final deployment verification with NODE_ENV=production, `npm run build`, and `npm start`.",
     { nodeEnv: process.env.NODE_ENV ?? "undefined" }
   ),
@@ -315,6 +483,8 @@ const summary = {
   status: blockers.length === 0 ? "pass" : "blocked",
   target,
   launchMode: mode,
+  simulated: SIMULATE_SAFE,
+  envFileLoaded: Boolean(envFileLoad.loaded),
   blockers: blockers.length,
   warnings: warnings.length,
 };
@@ -327,19 +497,28 @@ if (JSON_OUTPUT) {
         summary,
         checks,
         secretExposurePolicy: "presence_and_shape_only",
+        simulationNotice: SIMULATE_SAFE
+          ? "Simulated safe mode proves validator logic only; it is not real production readiness."
+          : null,
       },
       null,
       2
     )
   );
 } else {
+  if (SIMULATE_SAFE) {
+    console.log(
+      "SIMULATION - validator logic check only; not real production readiness."
+    );
+  }
   for (const item of checks) {
     const state = item.ok ? "PASS" : item.severity.toUpperCase();
     console.log(`${state} ${item.key} - ${item.detail}`);
+    if (!item.ok) console.log(`  Remediation: ${item.remediation}`);
   }
 
   console.log(
-    `production readiness: ${summary.status.toUpperCase()} | target=${target} launchMode=${mode} blockers=${summary.blockers} warnings=${summary.warnings}`
+    `production readiness: ${summary.status.toUpperCase()} | target=${target} launchMode=${mode} simulated=${summary.simulated ? "yes" : "no"} blockers=${summary.blockers} warnings=${summary.warnings}`
   );
 }
 
