@@ -1,0 +1,49 @@
+# Swiss Precision Identity
+
+Trading Pro Max may use Swiss-inspired precision as a design and trust principle. It must not claim Swiss legal status, Swiss company registration, Swiss regulation, Swiss banking status, or Swiss certification unless those facts become real and documented.
+
+## Identity Principles
+
+- precision
+- neutrality
+- clean design
+- financial seriousness
+- engineering discipline
+- privacy
+- reliability
+- global credibility
+- calm confidence
+
+## Safe Wording
+
+- Swiss-inspired precision
+- Swiss-style discipline
+- engineered with precision and trust
+- clean, neutral, disciplined operating model
+
+## Unsafe Wording
+
+- Swiss regulated
+- Swiss bank-grade unless reviewed and substantiated
+- Swiss certified
+- Swiss company unless incorporated
+- official Swiss financial product
+
+## Visual Rules
+
+- use restraint, grid discipline, clean spacing, and strong typography
+- avoid heavy flag usage, stereotypes, or nationalistic claims
+- do not rely on Swiss cliches as decoration
+- keep premium graphite, gold, aqua, and disciplined light-theme surfaces
+
+## Product Relevance
+
+Swiss-inspired identity supports:
+
+- Founder Command precision
+- Guardian calm enforcement
+- Legal careful language
+- Engineering validation discipline
+- Treasury trust posture
+- Academy clarity
+- Media restraint

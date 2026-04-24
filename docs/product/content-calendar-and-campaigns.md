@@ -1,0 +1,78 @@
+# Content Calendar And Campaigns
+
+The content calendar organizes media work without publishing externally. It gives each content item a lifecycle, risk class, and approval path.
+
+## Content Lifecycle
+
+1. idea
+2. draft
+3. brand review
+4. Guardian review
+5. Legal review
+6. Founder approval
+7. scheduled
+8. published
+9. blocked
+10. archived
+
+Published means actually released on an external channel. This document does not publish anything.
+
+## Risk Classification
+
+### Safe Auto Publish Later
+
+Future low-risk examples after publishing infrastructure exists:
+
+- education
+- platform tips
+- paper-mode explanation
+- fallback or blocked state explanation
+- academy content
+- non-sensitive product updates
+
+Even safe auto-publish must respect brand and claim rules.
+
+### Approval Required
+
+- Pro/VIP claims
+- AI capability claims
+- Islamic account wording
+- launch wording
+- broker/feed/live wording
+- billing/pricing wording
+- ads
+- performance discussion
+
+### Blocked
+
+- guaranteed profit
+- win-rate claims
+- risk-free wording
+- sure signal
+- fake live trading
+- fake broker/feed/billing
+- fake public launch
+- fake Islamic/Sharia certification
+- misleading urgency
+- gambling-style marketing
+- financial advice
+- legal advice
+- copied competitor content
+
+## Campaign Fields
+
+Each campaign should define:
+
+- objective
+- audience
+- channel
+- language/region
+- content items
+- approval owner
+- risk class
+- launch dependency
+- rollback message if needed
+
+## Founder Rule
+
+High-risk campaign language requires Founder approval after Guardian and Legal review.
