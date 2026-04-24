@@ -182,3 +182,15 @@ Related foundation docs:
 - [Planet Ministries Operating Model](./planet-ministries-operating-model.md)
 
 The Founder King sees this planet through the private Founder Command Room and future private Founder Command App. Citizens see only appropriate product surfaces.
+
+## 10. Runtime Activation
+
+TPM Planet OS is now active as an internal product operating model through a deterministic server snapshot:
+
+- `lib/server/planet-os/types.ts`
+- `lib/server/planet-os/state.ts`
+- `app/api/planet/status/route.ts`
+
+The runtime model reports Planet -> Continents -> States -> Ministries -> Cities/Modules -> Citizens -> Founder Command Room. It exposes readiness/planned/blocked truth only. It does not expose secrets, private user data, revenue metrics, follower counts, or launch claims.
+
+The internal status API is public-safe because it returns only product governance truth. It is not a Founder Command Room, not an owner action surface, and not a public launch signal.

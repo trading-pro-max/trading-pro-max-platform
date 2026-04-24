@@ -28,3 +28,16 @@ This document defines the continent/state model for TPM Planet Earth OS. It is a
 - automation level
 - safety/truth rules
 - what must not be faked
+
+## Runtime Status
+
+The official runtime structure is now defined in `lib/server/planet-os/state.ts`. The current deterministic model contains 11 continents, state summaries, city/module entries, plan-based citizen classes, professions, and Founder Command reporting metadata.
+
+Every continent reports to the Founder Command Room and keeps separate lists for:
+
+- active product truth
+- planned systems
+- blocked capabilities
+- safety/truth rules
+
+Blocked capabilities remain blocked even when the operating model is active.

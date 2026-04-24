@@ -49,3 +49,20 @@ Examples:
 - billing/subscription claims: High, Treasury, Legal, and Founder approval
 - live execution, real-money routing, secret exposure: Critical, blocked
 - public launch: High/Critical, all gates plus Founder approval
+
+## Runtime Boundary State
+
+The Planet OS runtime snapshot exposes the current safety boundary state:
+
+- live execution: blocked
+- real-money routing: blocked
+- broker/feed activation: blocked
+- billing activation: blocked
+- public launch claim: blocked
+- social publishing: blocked
+- secret exposure: blocked
+- critical override: blocked without remediation
+- Founder approval: required for high-risk actions
+- audit trail: required for sensitive actions
+
+This boundary state is intentionally strict. It activates reporting and governance, not live capabilities.

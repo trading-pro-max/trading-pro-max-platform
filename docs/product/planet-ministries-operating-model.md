@@ -24,3 +24,21 @@ Planet ministries are serious operating functions inside TPM Planet Earth OS. Th
 | Rights / Brand / IP | brand protection | logo, claims, assets | Rights Office | trust | brand risks | review | trademark registration |
 
 Every ministry reports to the Founder Command Room and must show status, risk, blockers, next action, legal boundaries, safety boundaries, and what must not be faked.
+
+## Runtime Ministry Snapshot
+
+The internal runtime snapshot now emits one deterministic report for each ministry through `getPlanetMinistryReports()`:
+
+- ministry id and name
+- leader title
+- status
+- confidence
+- risk level
+- automation level
+- active work
+- blockers
+- Guardian, Legal, and Engineering flags
+- Founder decision requirement
+- product truth
+
+The reports are readiness contracts only. They must not be interpreted as real staff accounts, real metrics, real users, revenue, production activation, or launch completion.

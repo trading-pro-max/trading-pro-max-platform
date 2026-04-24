@@ -12,6 +12,7 @@ Every ministry/state report sent to the Founder Command Room must use a consiste
 | status | ready, operating, degraded, blocked, or planned |
 | confidence | high, medium, or low |
 | riskLevel | low, medium, high, or critical |
+| automationLevel | auto, review, founder_approval, or blocked |
 | summary | concise truth summary |
 | keyMetrics | non-sensitive local metrics or readiness facts |
 | activeWork | current work in progress |
@@ -25,6 +26,8 @@ Every ministry/state report sent to the Founder Command Room must use a consiste
 | revenueImpactLater | future impact only, no fake revenue |
 | nextActions | safe next actions |
 | founderDecisionNeeded | true/false |
+| productTruth | live execution, real-money, billing, public launch, social publishing, and secrets truth |
+| reportDestination | Founder Command Room |
 | lastUpdated | ISO timestamp |
 | reportCadence | daily, weekly, event-driven, or manual |
 
@@ -45,3 +48,9 @@ Every ministry/state report sent to the Founder Command Room must use a consiste
 - no fake launch
 - no fake legal certification
 - no hidden live execution
+
+## Runtime Contract
+
+`lib/server/planet-os/types.ts` defines the executable contract and `lib/server/planet-os/state.ts` emits deterministic reports for all 18 ministries. `app/api/planet/status` exposes the aggregate snapshot for diagnostics and internal readiness visibility.
+
+The route is safe to inspect because it contains no secrets, private account data, revenue numbers, follower counts, or activation credentials.

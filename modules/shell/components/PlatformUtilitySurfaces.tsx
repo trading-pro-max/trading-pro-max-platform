@@ -215,6 +215,45 @@ type DiagnosticsHealthLoadState =
   | { health: DiagnosticsHealthSnapshot; status: "ready" }
   | { health: null; status: "error" };
 
+type PlanetOsStatusPayload = {
+  ok: boolean;
+  snapshot: {
+    status: "operating" | "ready" | "planned" | "blocked" | "degraded";
+    continents: Array<{ id: string; name: string; readiness: string }>;
+    ministries: Array<{ ministryId: string; ministryName: string; status: string }>;
+    founderCommand: {
+      privateOwnerOnly: true;
+      publicRouteExposed: false;
+      desktopAppShipped: false;
+      mobileAppShipped: false;
+      reportDestination: "Founder Command Room";
+    };
+    safetyBoundaries: {
+      liveExecution: "blocked";
+      realMoneyRouting: "blocked";
+      brokerFeedActivation: "blocked";
+      billingActivation: "blocked";
+      publicLaunchClaim: "blocked";
+    };
+    founderBriefing: {
+      topRisks: string[];
+      approvalsNeeded: string[];
+      nextSafeActions: string[];
+    };
+    truth: {
+      liveExecution: "blocked";
+      realMoneyRouting: "blocked";
+      billing: "inactive";
+      publicLaunch: "not_claimed";
+    };
+  };
+};
+
+type PlanetOsLoadState =
+  | { snapshot: null; status: "loading" }
+  | { snapshot: PlanetOsStatusPayload["snapshot"]; status: "ready" }
+  | { snapshot: null; status: "error" };
+
 function useDiagnosticsHealth() {
   const [state, setState] = useState<DiagnosticsHealthLoadState>({
     health: null,
@@ -259,6 +298,50 @@ function useDiagnosticsHealth() {
   return state;
 }
 
+function usePlanetOsStatus() {
+  const [state, setState] = useState<PlanetOsLoadState>({
+    snapshot: null,
+    status: "loading",
+  });
+
+  useEffect(() => {
+    let active = true;
+
+    async function loadPlanetOsStatus() {
+      try {
+        const response = await fetch("/api/planet/status", {
+          method: "GET",
+          cache: "no-store",
+        });
+
+        if (!response.ok) {
+          throw new Error(`Planet OS status failed with ${response.status}.`);
+        }
+
+        const payload = (await response.json()) as PlanetOsStatusPayload;
+
+        if (!active) return;
+        setState({ snapshot: payload.snapshot, status: "ready" });
+      } catch {
+        if (!active) return;
+        setState({ snapshot: null, status: "error" });
+      }
+    }
+
+    void loadPlanetOsStatus();
+    const interval = window.setInterval(() => {
+      void loadPlanetOsStatus();
+    }, 60_000);
+
+    return () => {
+      active = false;
+      window.clearInterval(interval);
+    };
+  }, []);
+
+  return state;
+}
+
 export function PlatformDiagnosticsSurface({
   locale,
   dict,
@@ -268,7 +351,9 @@ export function PlatformDiagnosticsSurface({
 }) {
   const { platformState, viewModel } = useUtilityPlatformViewModel(locale, dict);
   const diagnosticsLoadState = useDiagnosticsHealth();
+  const planetOsLoadState = usePlanetOsStatus();
   const diagnosticsHealth = diagnosticsLoadState.health;
+  const planetOsSnapshot = planetOsLoadState.snapshot;
   const localePrefix = locale ? `/${locale}` : "";
   const localeEntry = getLocaleEntry(locale);
 
@@ -335,6 +420,46 @@ export function PlatformDiagnosticsSurface({
         note: "Waiting for backend diagnostics probes.",
       },
     ];
+
+  const planetOsItems = planetOsSnapshot
+    ? [
+        {
+          label: "Planet OS status",
+          value: planetOsSnapshot.status,
+          tone:
+            planetOsSnapshot.status === "operating" || planetOsSnapshot.status === "ready"
+              ? ("approved" as const)
+              : planetOsSnapshot.status === "degraded"
+              ? ("pending" as const)
+              : ("restricted" as const),
+          note: "Internal operating model only; not a launch or integration state.",
+        },
+        {
+          label: "Continents",
+          value: `${planetOsSnapshot.continents.length} reporting`,
+          tone: "approved" as const,
+          note: "Planet -> continents -> states -> ministries -> modules.",
+        },
+        {
+          label: "Ministries",
+          value: `${planetOsSnapshot.ministries.length} deterministic reports`,
+          tone: "approved" as const,
+          note: planetOsSnapshot.founderCommand.reportDestination,
+        },
+        {
+          label: "Founder Command",
+          value: "Private owner-only",
+          tone: "restricted" as const,
+          note: "No public command route, desktop app, or mobile app is shipped.",
+        },
+        {
+          label: "Safety boundaries",
+          value: "Blocked where critical",
+          tone: "blocked" as const,
+          note: `Live=${planetOsSnapshot.safetyBoundaries.liveExecution}; money=${planetOsSnapshot.safetyBoundaries.realMoneyRouting}; billing=${planetOsSnapshot.truth.billing}.`,
+        },
+      ]
+    : [];
 
   const routeItems =
     diagnosticsHealth?.routes.slice(0, 6).map((route) => ({
@@ -598,6 +723,23 @@ export function PlatformDiagnosticsSurface({
 
       <UtilitySection eyebrow="FOUNDATION" title="System readiness">
         <UtilityGrid items={systemItems} />
+      </UtilitySection>
+
+      <UtilitySection eyebrow="PLANET OS" title="Internal operating system">
+        {planetOsLoadState.status === "ready" ? (
+          <UtilityGrid items={planetOsItems} />
+        ) : (
+          <ProductStateNotice
+            compact
+            kind={planetOsLoadState.status === "error" ? "recovery" : "loading"}
+            title={
+              planetOsLoadState.status === "error"
+                ? "Planet OS snapshot unavailable"
+                : "Loading Planet OS snapshot"
+            }
+            text="Diagnostics is checking the internal Planet OS reporting model without exposing owner controls or fake launch states."
+          />
+        )}
       </UtilitySection>
 
       <UtilitySection eyebrow="PROBES" title="Backend and connector probes">

@@ -31,3 +31,14 @@ The Founder Command Room receives reports from ministries, continents, states, a
 - Critical risk: block and explain remediation.
 
 Founder approval cannot convert false readiness into true readiness.
+
+## Runtime Reporting Source
+
+The Founder Command reporting model is now backed by the Planet OS snapshot:
+
+- `getPlanetOsStatusSnapshot()`
+- `getPlanetMinistryReports()`
+- `getFounderBriefing()`
+- `/api/planet/status`
+
+The snapshot allows diagnostics to show whether continents and ministries are reporting, what is blocked, and what the Founder must not do now. It remains read-only and does not expose a Founder action surface.

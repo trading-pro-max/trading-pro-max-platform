@@ -29,3 +29,23 @@ The briefing must explicitly call out forbidden shortcuts when relevant:
 - do not expose secrets
 - do not override Guardian/Legal critical blocks
 - do not turn planned systems into active claims
+
+## Runtime Briefing Fields
+
+The current Founder briefing snapshot includes:
+
+- overall Planet OS status
+- top risks
+- operating ministries
+- blocked/degraded ministries
+- approvals needed
+- Guardian alerts
+- Legal warnings
+- Media queue readiness
+- Engineering tasks
+- Product gaps
+- Pro/VIP readiness
+- next safe actions
+- what not to do today
+
+The briefing is generated from deterministic readiness state only. It does not include fake users, fake revenue, fake followers, or real private metrics.

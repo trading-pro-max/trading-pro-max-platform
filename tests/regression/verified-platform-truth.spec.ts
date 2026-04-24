@@ -1059,6 +1059,57 @@ test.describe("verified platform truth", () => {
     const diagnosticsPayload = await diagnostics.json();
     expect(diagnosticsPayload.ok).toBe(true);
 
+    const planetStatus = await request.get("/api/planet/status");
+    expect(planetStatus.status()).toBe(200);
+    const planetPayload = await planetStatus.json();
+    expect(planetPayload.ok).toBe(true);
+    expect(planetPayload.snapshot).toMatchObject({
+      model: "tpm_planet_earth_os",
+      founderCommand: {
+        privateOwnerOnly: true,
+        publicRouteExposed: false,
+        desktopAppShipped: false,
+        mobileAppShipped: false,
+        reportDestination: "Founder Command Room",
+      },
+      safetyBoundaries: {
+        liveExecution: "blocked",
+        realMoneyRouting: "blocked",
+        brokerFeedActivation: "blocked",
+        billingActivation: "blocked",
+        publicLaunchClaim: "blocked",
+        socialPublishing: "blocked",
+        secretExposure: "blocked",
+      },
+      truth: {
+        liveExecution: "blocked",
+        realMoneyRouting: "blocked",
+        billing: "inactive",
+        publicLaunch: "not_claimed",
+        socialPublishing: "inactive",
+        secrets: "not_exposed",
+      },
+    });
+    expect(planetPayload.snapshot.continents).toHaveLength(11);
+    expect(planetPayload.snapshot.ministries).toHaveLength(18);
+    expect(planetPayload.snapshot.citizenClasses).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ key: "free_demo", state: "active_paper" }),
+        expect.objectContaining({ key: "pro", state: "planned" }),
+        expect.objectContaining({ key: "vip", state: "planned" }),
+        expect.objectContaining({ key: "enterprise", state: "future" }),
+      ])
+    );
+    expect(planetPayload.snapshot.founderBriefing.whatNotToDoToday).toEqual(
+      expect.arrayContaining([
+        expect.stringMatching(/Do not launch/),
+        expect.stringMatching(/Do not expose secrets/),
+      ])
+    );
+    const planetPayloadText = JSON.stringify(planetPayload);
+    expect(planetPayloadText).not.toMatch(/billing active/i);
+    expect(planetPayloadText).not.toMatch(/win-rate claim active/i);
+
     const probes = new Map<string, { key: string; status: string }>(
       diagnosticsPayload.health.probes.map((probe: { key: string; status: string }) => [
         probe.key,
@@ -1155,6 +1206,9 @@ test.describe("verified platform truth", () => {
         route,
       ])
     );
+    expect(routes.get("/api/planet/status")).toMatchObject({
+      status: "ready",
+    });
     expect(routes.get("/api/account/preferences")).toMatchObject({
       status: "auth_required",
     });

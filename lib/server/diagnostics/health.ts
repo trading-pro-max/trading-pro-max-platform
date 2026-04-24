@@ -220,6 +220,13 @@ function buildRouteProbes(input: {
       detail: "Diagnostics probe route reports aggregate readiness and subsystem truth.",
     },
     {
+      path: "/api/planet/status",
+      method: "GET",
+      status: input.productBackend.status,
+      detail:
+        "Planet OS status route reports internal continents, ministries, Founder Command readiness, and blocked product truth without secrets or private data.",
+    },
+    {
       path: "/api/market",
       method: "GET",
       status: input.market.status,
