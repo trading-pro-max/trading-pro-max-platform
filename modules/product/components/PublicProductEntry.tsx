@@ -9,31 +9,31 @@ type PublicProductEntryProps = {
 
 const commandPillars = [
   {
-    label: "Workstation core",
-    value: "Chart + execution stay primary",
-    note: "Decision context and ticket controls stay in one operator-first lane.",
+    label: "Chart first",
+    value: "Price, signal, and context lead",
+    note: "The workspace opens around the market, not around administration.",
   },
   {
     label: "TPM IQ / Brain",
-    value: "Interpretive, bounded guidance",
-    note: "Intelligence stays visible but non-predictive and guardrail-bound.",
+    value: "Quiet operator assist",
+    note: "Guidance stays bounded, visible, and non-predictive.",
   },
   {
     label: "Trust posture",
-    value: "Paper-only, fallback-first, live blocked",
-    note: "Broker and review layers remain unavailable until configured.",
+    value: "Paper-only, fallback-first",
+    note: "Live execution and broker routing remain blocked until configured.",
   },
 ];
 
 const truthLedger = [
   {
     title: "Execution authority",
-    summary: "Manual paper entry is available while live-money routing stays blocked.",
+    summary: "Manual paper entry is available; live-money routing stays blocked.",
     chips: ["Paper-only", "Live blocked"],
   },
   {
     title: "Market source truth",
-    summary: "Fallback-first market data stays visible with bounded confidence.",
+    summary: "Fallback-first market data stays labeled with bounded confidence.",
     chips: ["Fallback-first", "Bounded confidence"],
   },
   {
@@ -46,23 +46,23 @@ const truthLedger = [
 const firstUseSteps = [
   {
     step: "01",
-    title: "Read symbol and state",
-    note: "Confirm asset, signal, and ticket readiness before taking action.",
+    title: "Read market",
+    note: "Asset, price, signal, and readiness are visible first.",
   },
   {
     step: "02",
-    title: "Work from chart and execution",
-    note: "Chart context and the execution ticket are the primary surfaces.",
+    title: "Use chart + ticket",
+    note: "Decision context and paper controls stay in one flow.",
   },
   {
     step: "03",
-    title: "Verify trust truth",
-    note: "Fallback feed, blocked live route, and connector state stay explicit.",
+    title: "Check trust",
+    note: "Fallback feed and blocked live route remain compact but explicit.",
   },
   {
     step: "04",
-    title: "Route to diagnostics/settings",
-    note: "Use support routes for proof, not speculation.",
+    title: "Verify support",
+    note: "Settings and diagnostics are available without taking over the screen.",
   },
 ];
 
@@ -87,14 +87,13 @@ export default function PublicProductEntry({
           <div className="tpm-product-hero-layout">
             <div className="tpm-product-hero-copy">
               <h1>
-                Trading Pro Max is a paper-safe command terminal for serious
-                market work.
+                Trading Pro Max keeps the chart first and every action paper-safe.
               </h1>
               <p>
-                Chart-first execution rehearsal, TPM IQ / Brain guidance, and diagnostics-ready
-                trust semantics stay in one operator flow. Paper-only operation, fallback market
-                data, blocked live routing, and broker state remain explicit without presenting
-                this as a live brokerage terminal.
+                A focused trading workspace for paper execution rehearsal, TPM IQ / Brain
+                guidance, and runtime trust. Paper-only operation, fallback market data, blocked
+                live routing, and broker state remain explicit without presenting this as a live
+                brokerage terminal.
               </p>
 
               <div className="tpm-product-cta-row">
@@ -115,7 +114,7 @@ export default function PublicProductEntry({
               <div className="tpm-product-proof-row">
                 <div>
                   <span>Product mode</span>
-                  <strong>Commercial evaluation workstation</strong>
+                  <strong>Evaluation workstation</strong>
                 </div>
                 <div>
                   <span>Execution</span>
@@ -152,11 +151,11 @@ export default function PublicProductEntry({
           <div className="tpm-product-section-head">
             <div>
               <span className="tpm-product-kicker">Platform truth</span>
-              <h2>Capability and limits are explicit before command begins.</h2>
+              <h2>Capability and limits stay visible without slowing the trade flow.</h2>
             </div>
             <p>
-              The entry shows what is available now, what is blocked by policy, and where to
-              verify runtime truth.
+              The entry shows what is available, what is blocked, and where to verify truth in a
+              compact operator path.
             </p>
           </div>
 
@@ -183,10 +182,11 @@ export default function PublicProductEntry({
           <div className="tpm-product-section-head">
             <div>
               <span className="tpm-product-kicker">First-use path</span>
-              <h2>A short operator path keeps attention on decisions, not onboarding noise.</h2>
+              <h2>A short operator path keeps attention on the market.</h2>
             </div>
             <p>
-              Use this path to orient fast, execute paper rehearsal, and verify trust semantics.
+              Orient fast, rehearse paper execution, and verify trust semantics without onboarding
+              noise.
             </p>
           </div>
 
