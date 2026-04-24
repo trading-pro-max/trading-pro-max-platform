@@ -26,6 +26,7 @@ import type {
   ComplianceMetaView,
   WorkstationStatusTone,
 } from "./trading-workstation-view-model";
+import { ProductStateNotice } from "./UiStates";
 
 function modeButtonStyle(active: boolean): CSSProperties {
   if (!active) return {};
@@ -323,6 +324,16 @@ function DetailGrid({
       ))}
     </div>
   );
+}
+
+function EmptyPanelState({
+  title,
+  text,
+}: {
+  text: string;
+  title: string;
+}) {
+  return <ProductStateNotice compact kind="empty" title={title} text={text} />;
 }
 
 function PanelHeader({
@@ -1186,7 +1197,15 @@ export function ExecutionCard({
   recentActivityNote: string;
 }) {
   const [controlsMounted, setControlsMounted] = useState(false);
-  const disabled = !controlsMounted || !canExecute || sessionLocked || !canOpenMore;
+  const normalizedAmount = amount.trim();
+  const amountNumber = Number(normalizedAmount);
+  const amountInvalid =
+    normalizedAmount.length === 0 ||
+    !Number.isFinite(amountNumber) ||
+    amountNumber <= 0 ||
+    amountNumber > 100000;
+  const disabled =
+    !controlsMounted || !canExecute || sessionLocked || !canOpenMore || amountInvalid;
   const aiActionDisabled = decision.signal === "wait" || disabled;
   const modeValue = accountMode === "demo" ? demoLabel : realLabel;
   const executionRef = usePointerField<HTMLElement>();
@@ -1362,11 +1381,25 @@ export function ExecutionCard({
           <span className="tpmv2-ticket-currency">$</span>
           <input
             className="tpmv2-real-input"
+            aria-invalid={amountInvalid}
+            aria-describedby={amountInvalid ? "tpm-ticket-amount-state" : undefined}
+            data-state={amountInvalid ? "invalid_input" : undefined}
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
             inputMode="numeric"
           />
         </div>
+        {amountInvalid ? (
+          <ProductStateNotice
+            compact
+            id="tpm-ticket-amount-state"
+            kind="invalid_input"
+            title="Paper amount needs review"
+            text="Enter a positive paper amount up to 100,000 before the ticket can be rehearsed."
+            detail="This guards the local paper workflow only; it does not enable live execution."
+            className="tpm-ticket-amount-state"
+          />
+        ) : null}
       </div>
 
       <div className="tpmv2-ticket-presets" role="toolbar" aria-label="Paper amount presets">
@@ -1558,7 +1591,10 @@ export function ActivityOpenTradesPanel({
       />
 
       {openTrades.length === 0 ? (
-        <div className="tpmv2-empty">{dict.journal.noOpenTrades}</div>
+        <EmptyPanelState
+          title={dict.journal.noOpenTrades}
+          text="Paper positions will appear here after a guarded manual action."
+        />
       ) : (
         <div className="tpmv2-list">
           {openTrades.map((trade) => (
@@ -1605,7 +1641,10 @@ export function ActivityHistoryPanel({
       />
 
       {history.length === 0 ? (
-        <div className="tpmv2-empty">{dict.journal.noHistory}</div>
+        <EmptyPanelState
+          title={dict.journal.noHistory}
+          text="Closed paper trades will appear here after an operator closes a rehearsal position."
+        />
       ) : (
         <div className="tpmv2-list">
           {history.map((trade) => (
@@ -1659,7 +1698,10 @@ export function ActivityLogPanel({
       <PanelHeader title={title} subtitle={subtitle} />
 
       {events.length === 0 ? (
-        <div className="tpmv2-empty">{emptyLabel}</div>
+        <EmptyPanelState
+          title={emptyLabel}
+          text="Audit events will appear here after protected, preference, or paper workflow actions."
+        />
       ) : (
         <div className="tpmv2-list tpmv2-activity-list">
           {events.slice(0, 6).map((event) => (
@@ -1724,7 +1766,10 @@ export function AuditTracePanel({
       />
 
       {events.length === 0 ? (
-        <div className="tpmv2-empty">{emptyLabel}</div>
+        <EmptyPanelState
+          title={emptyLabel}
+          text="No protected audit trail is available for this panel yet."
+        />
       ) : (
         <div className="tpmv2-list">
           {events.map((event) => (

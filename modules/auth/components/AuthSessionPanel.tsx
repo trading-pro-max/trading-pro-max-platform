@@ -3,6 +3,7 @@
 import { useEffect, useId, useState, type FormEvent, type ReactNode } from "react";
 import { getDefaultAccountTypeIdentity } from "../account-type";
 import { BrandMark } from "../../brand/components/ProductLogo";
+import { ProductStateNotice } from "../../shell/components/UiStates";
 
 export const AUTH_SESSION_CHANGED_EVENT = "tpm-auth-session-changed";
 
@@ -297,6 +298,33 @@ export default function AuthSessionPanel({
       ? "Checking session..."
       : state.message ?? "Sign in to use protected account and operational routes.";
   const errorText = state.status === "anonymous" ? state.error : undefined;
+  const checkingNotice =
+    state.status === "checking" ? (
+      <ProductStateNotice
+        compact
+        kind="loading"
+        title="Checking session"
+        text="Verifying browser session before protected account routes open."
+      />
+    ) : null;
+  const errorNotice = errorText ? (
+    <ProductStateNotice
+      compact
+      kind="error"
+      title="Sign-in did not complete"
+      text={errorText}
+      detail="Protected routes remain closed until valid credentials are accepted."
+    />
+  ) : null;
+  const messageNotice =
+    state.status === "anonymous" && state.message ? (
+      <ProductStateNotice
+        compact
+        kind="recovery"
+        title="Session updated"
+        text={state.message}
+      />
+    ) : null;
 
   if (variant === "nav" || variant === "topbar") {
     return (
@@ -312,8 +340,9 @@ export default function AuthSessionPanel({
               <p>{statusText}</p>
               <small>{accountTypeIdentity.label}: {accountTypeIdentity.note}</small>
             </div>
-            {form}
-            {errorText ? <p className="tpm-auth-error">{errorText}</p> : null}
+            {checkingNotice ?? form}
+            {errorNotice}
+            {messageNotice}
           </div>
         </details>
       </section>
@@ -331,9 +360,9 @@ export default function AuthSessionPanel({
         <p>{note ?? statusText}</p>
         <small>{accountTypeIdentity.label}: {accountTypeIdentity.note}</small>
       </div>
-      {form}
-      {errorText ? <p className="tpm-auth-error">{errorText}</p> : null}
-      {state.message ? <p className="tpm-auth-message">{state.message}</p> : null}
+      {checkingNotice ?? form}
+      {errorNotice}
+      {messageNotice}
     </section>
   );
 }

@@ -29,6 +29,7 @@ import {
   INDICATOR_TOOLS,
 } from "./PlatformShellV2";
 import { ThemeSwitcher } from "./ThemeSwitcher";
+import { ProductStateNotice } from "./UiStates";
 
 function toneFromStatus(tone: WorkstationStatusTone) {
   return `tpmv2-status-tag ${tone}`;
@@ -155,8 +156,16 @@ function useUtilityPlatformViewModel(locale: string, dict: Dictionary) {
   return { platformState, viewModel };
 }
 
+type DiagnosticsHealthLoadState =
+  | { health: null; status: "loading" }
+  | { health: DiagnosticsHealthSnapshot; status: "ready" }
+  | { health: null; status: "error" };
+
 function useDiagnosticsHealth() {
-  const [health, setHealth] = useState<DiagnosticsHealthSnapshot | null>(null);
+  const [state, setState] = useState<DiagnosticsHealthLoadState>({
+    health: null,
+    status: "loading",
+  });
 
   useEffect(() => {
     let active = true;
@@ -175,10 +184,10 @@ function useDiagnosticsHealth() {
         const payload = (await response.json()) as DiagnosticsRoutePayload;
 
         if (!active) return;
-        setHealth(payload.health);
+        setState({ health: payload.health, status: "ready" });
       } catch {
         if (!active) return;
-        setHealth(null);
+        setState({ health: null, status: "error" });
       }
     }
 
@@ -193,7 +202,7 @@ function useDiagnosticsHealth() {
     };
   }, []);
 
-  return health;
+  return state;
 }
 
 export function PlatformDiagnosticsSurface({
@@ -204,7 +213,8 @@ export function PlatformDiagnosticsSurface({
   dict: Dictionary;
 }) {
   const { platformState, viewModel } = useUtilityPlatformViewModel(locale, dict);
-  const diagnosticsHealth = useDiagnosticsHealth();
+  const diagnosticsLoadState = useDiagnosticsHealth();
+  const diagnosticsHealth = diagnosticsLoadState.health;
   const localePrefix = locale ? `/${locale}` : "";
   const localeEntry = getLocaleEntry(locale);
 
@@ -318,6 +328,48 @@ export function PlatformDiagnosticsSurface({
         note: "Waiting for connector safety state.",
       },
     ];
+
+  const feedbackItems =
+    diagnosticsHealth?.launchOperations
+      ? [
+          {
+            label: "Feedback loop",
+            value: diagnosticsHealth.launchOperations.feedbackLoop ?? "operational_guarded",
+            tone:
+              diagnosticsHealth.launchOperations.feedbackLoop === "triage_backlog_guarded"
+                ? ("restricted" as const)
+                : ("approved" as const),
+            note: "Closed-beta feedback remains account-scoped and operator-reviewed.",
+          },
+          {
+            label: "Pending triage",
+            value: `${diagnosticsHealth.launchOperations.pendingTriage ?? 0}`,
+            tone:
+              (diagnosticsHealth.launchOperations.pendingTriage ?? 0) > 0
+                ? ("pending" as const)
+                : ("approved" as const),
+            note: `High severity open: ${diagnosticsHealth.launchOperations.highSeverityOpen ?? 0}`,
+          },
+          {
+            label: "Hardening follow-ups",
+            value: `${diagnosticsHealth.launchOperations.hardeningFollowUps ?? 0}`,
+            tone:
+              (diagnosticsHealth.launchOperations.hardeningFollowUps ?? 0) > 0
+                ? ("restricted" as const)
+                : ("approved" as const),
+            note: `Recovery linked: ${diagnosticsHealth.launchOperations.recoveryLinked ?? 0}`,
+          },
+          {
+            label: "Rollback readiness",
+            value: diagnosticsHealth.launchOperations.rollbackReadiness ?? "guarded",
+            tone:
+              diagnosticsHealth.launchOperations.rollbackReadiness === "recoverable_guarded"
+                ? ("approved" as const)
+                : ("restricted" as const),
+            note: `Escalation: ${diagnosticsHealth.launchOperations.escalationState ?? "normal"}`,
+          },
+        ]
+      : [];
 
   const readinessItems = [
     {
@@ -495,15 +547,60 @@ export function PlatformDiagnosticsSurface({
       </UtilitySection>
 
       <UtilitySection eyebrow="PROBES" title="Backend and connector probes">
-        <UtilityGrid items={probeItems} />
+        {diagnosticsLoadState.status === "error" ? (
+          <ProductStateNotice
+            compact
+            kind="error"
+            title="Probe visibility unavailable"
+            text="Diagnostics could not load the backend probe snapshot."
+            detail="Refresh this page or check /api/health; no live capability is implied."
+          />
+        ) : diagnosticsLoadState.status === "loading" ? (
+          <ProductStateNotice
+            compact
+            kind="loading"
+            title="Loading backend probes"
+            text="Waiting for diagnostics to classify ready, fallback, degraded, and blocked systems."
+          />
+        ) : (
+          <UtilityGrid items={probeItems} />
+        )}
       </UtilitySection>
 
       <UtilitySection eyebrow="CONNECTORS" title="Connector safety state">
-        <UtilityGrid items={connectorItems} />
+        {diagnosticsLoadState.status === "ready" ? (
+          <UtilityGrid items={connectorItems} />
+        ) : (
+          <ProductStateNotice
+            compact
+            kind={
+              diagnosticsLoadState.status === "error" ? "not_configured" : "loading"
+            }
+            title={
+              diagnosticsLoadState.status === "error"
+                ? "Connector state not loaded"
+                : "Loading connector state"
+            }
+            text="Broker/feed connector truth stays blocked unless diagnostics can show a configured guarded state."
+          />
+        )}
       </UtilitySection>
 
       <UtilitySection eyebrow="ROUTES" title="API route visibility">
-        <UtilityGrid items={routeItems} />
+        {diagnosticsLoadState.status === "ready" ? (
+          <UtilityGrid items={routeItems} />
+        ) : (
+          <ProductStateNotice
+            compact
+            kind={diagnosticsLoadState.status === "error" ? "recovery" : "loading"}
+            title={
+              diagnosticsLoadState.status === "error"
+                ? "Route visibility needs recovery"
+                : "Loading route visibility"
+            }
+            text="Protected routes remain guarded while route status is being checked."
+          />
+        )}
       </UtilitySection>
 
       <UtilitySection eyebrow="SESSION" title="Protected route access">
@@ -544,6 +641,30 @@ export function PlatformDiagnosticsSurface({
         <UtilityGrid items={trustLedgerItems} />
       </UtilitySection>
 
+      <UtilitySection eyebrow="FEEDBACK" title="Feedback and recovery state">
+        {diagnosticsLoadState.status === "ready" && feedbackItems.length > 0 ? (
+          <UtilityGrid items={feedbackItems} />
+        ) : diagnosticsLoadState.status === "ready" ? (
+          <ProductStateNotice
+            compact
+            kind="not_configured"
+            title="Feedback telemetry not configured"
+            text="The feedback route remains guarded; no public support or launch claim is exposed."
+          />
+        ) : (
+          <ProductStateNotice
+            compact
+            kind={diagnosticsLoadState.status === "error" ? "feedback_failed" : "loading"}
+            title={
+              diagnosticsLoadState.status === "error"
+                ? "Feedback state unavailable"
+                : "Loading feedback state"
+            }
+            text="Feedback and hardening visibility is operator-reviewed and never opens a public launch path."
+          />
+        )}
+      </UtilitySection>
+
       <UtilitySection
         eyebrow="AUDIT"
         title={viewModel.auditTitle}
@@ -554,7 +675,12 @@ export function PlatformDiagnosticsSurface({
         }
       >
         {platformState.auditTraceFoundation.recentEvents.length === 0 ? (
-          <div className="tpmv2-empty">{viewModel.auditEmptyLabel}</div>
+          <ProductStateNotice
+            compact
+            kind="empty"
+            title={viewModel.auditEmptyLabel}
+            text="Protected audit activity will appear here after settings, account, or paper workflow actions."
+          />
         ) : (
           <div className="tpm-utility-event-list">
             {platformState.auditTraceFoundation.recentEvents.map((event) => (

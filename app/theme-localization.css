@@ -2846,3 +2846,37 @@ html[data-theme="light"] .tpm-utility-link {
 [dir="rtl"] .tpmv2-chart-depth-panel {
   direction: ltr;
 }
+
+.tpmv2-real-input[aria-invalid="true"],
+.tpm-utility-input[aria-invalid="true"],
+.tpm-auth-form input[aria-invalid="true"] {
+  border-color: color-mix(in srgb, var(--tpm-state-warning) 58%, var(--tpm-border));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tpm-state-warning) 18%, transparent);
+}
+
+.tpm-ticket-amount-state {
+  margin-top: 8px;
+}
+
+.tpmv2-panel .tpm-state-notice,
+.tpm-utility-card .tpm-state-notice,
+.tpm-auth-panel .tpm-state-notice {
+  box-shadow: none;
+}
+
+.tpm-utility-card .tpm-state-notice {
+  width: 100%;
+}
+
+html[data-theme="light"] .tpm-state-notice-copy strong {
+  color: #081424;
+}
+
+html[data-theme="light"] .tpm-state-notice-copy p,
+html[data-theme="light"] .tpm-state-notice-copy small {
+  color: #344b66;
+}
+
+[dir="rtl"] .tpm-state-notice-action {
+  justify-self: end;
+}

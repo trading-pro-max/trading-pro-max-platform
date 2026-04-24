@@ -420,7 +420,7 @@ test.describe("verified platform truth", () => {
         path: "/diagnostics",
         expectedUrl: /\/diagnostics$/,
         text:
-          /Diagnostics|System readiness|Connector safety state|Commercial trust and public product state/,
+          /Diagnostics|System readiness|Connector safety state|Feedback and recovery state|Commercial trust and public product state/,
       },
     ];
 
@@ -474,6 +474,11 @@ test.describe("verified platform truth", () => {
         await expect(page.locator("body")).toContainText("Fallback-bound");
         await expect(page.locator("body")).toContainText("Interpretive only");
         await expect(page.locator("body")).toContainText("Live blocked");
+        const emptyStateNotice = page.locator(".tpm-state-notice[data-state='empty']").first();
+        if (!(await emptyStateNotice.isVisible().catch(() => false))) {
+          await page.locator(".tpmv2-blotter-toggle").first().click();
+        }
+        await expect(emptyStateNotice).toBeVisible();
 
         const chartBox = await page
           .locator(".tpmv2-chart-surface")
@@ -550,6 +555,12 @@ test.describe("verified platform truth", () => {
     await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
     await expect(page.locator(".tpmv2-execution").first()).toBeVisible();
     await expectRuntimeCssApplied(page, "workstation");
+    await page.locator(".tpmv2-execution .tpmv2-real-input").first().fill("0");
+    await expect(page.locator("body")).toContainText("Paper amount needs review");
+    await page.locator(".tpm-ticket-amount-state").first().screenshot({
+      path: path.join(THEME_ARTIFACT_DIR, "invalid-input-state.png"),
+    });
+    await page.locator(".tpmv2-execution .tpmv2-real-input").first().fill("100");
     await page.screenshot({
       fullPage: true,
       path: path.join(THEME_ARTIFACT_DIR, "light-workstation.png"),
@@ -594,6 +605,7 @@ test.describe("verified platform truth", () => {
 
     await openWithTheme(page, "/en/diagnostics", "dark");
     await expect(page.locator("body")).toContainText("Language coverage");
+    await expect(page.locator("body")).toContainText("Feedback and recovery state");
     await expectRuntimeCssApplied(page, "utility");
     await page.screenshot({
       fullPage: true,
@@ -605,6 +617,13 @@ test.describe("verified platform truth", () => {
     await expect(page.locator("main").first()).toBeVisible();
 
     await openWithTheme(page, "/en", "dark");
+    const emptyStateNotice = page.locator(".tpm-state-notice[data-state='empty']").first();
+    if (!(await emptyStateNotice.isVisible().catch(() => false))) {
+      await page.locator(".tpmv2-blotter-toggle").first().click();
+    }
+    await emptyStateNotice.screenshot({
+      path: path.join(THEME_ARTIFACT_DIR, "empty-state.png"),
+    });
     await page.locator(".tpmv2-workspace-depth-status-live").first().screenshot({
       path: path.join(THEME_ARTIFACT_DIR, "feedback-ui.png"),
     });
