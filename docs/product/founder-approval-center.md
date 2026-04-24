@@ -38,3 +38,9 @@ Current implementation status: the approval queue is represented as a read-only 
 ## Current Living Foundation
 
 The approval queue remains read-only but is now visible inside the Founder Command component alongside daily briefing and risk panels. It is useful for planning and review readiness only. No queue item can be approved, rejected, scheduled, published, billed, launched, or routed to a broker from the current UI.
+
+## Earth Hierarchy Approval Routing
+
+High-risk approvals route upward through the Earth hierarchy: requesting city/module -> ministry -> state governor -> continent governor -> Founder Presidency / Central Coordination -> Guardian/Legal/Treasury/Engineering review where required -> Founder Command Room.
+
+Founder approval remains read-only/planned in the current baseline and cannot override critical Guardian or Legal blocks without remediation.

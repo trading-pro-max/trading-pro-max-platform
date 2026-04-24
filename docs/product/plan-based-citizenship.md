@@ -87,3 +87,9 @@ Citizenship classes are product access classes only:
 - Enterprise: future team/admin/audit/compliance/runbook support
 
 No citizenship class activates billing, live execution, real money, broker/feed, public launch, or guaranteed results.
+
+## Earth Core Citizen Classes
+
+The canonical citizenship classes are Guest, Free / Demo Citizen, Pro Citizen, VIP Citizen, Enterprise House, Beta Citizen, Staff / Operator, and Founder King.
+
+Each class defines what the user can see, what remains hidden, companion level, academy access, journal/coach access, community access, trading access, blocked capabilities, upgrade path, and product truth language. Founder King sees the private owner command model; users only see their plan-appropriate product experience.

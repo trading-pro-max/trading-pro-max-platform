@@ -238,6 +238,42 @@ type PlanetOsStatusPayload = {
       truth: string;
     }>;
   };
+  hierarchySummary?: {
+    hierarchyLevels: number;
+    continents: number;
+    states: number;
+    governors: number;
+    ministries: number;
+    authorities: number;
+    cities: number;
+    professions: number;
+    citizenClasses: number;
+    publicFounderRouteExposed: boolean;
+    fakeMetricsIncluded: boolean;
+    launchActivated: boolean;
+    billingActivated: boolean;
+    liveExecutionActivated: boolean;
+    chain: string[];
+    coordinationCenter: string;
+    resourceCategories: string[];
+    truth: {
+      fakeUsers: false;
+      fakeRevenue: false;
+      fakeMetrics: false;
+      productionActivation: false;
+    };
+  };
+  coordinationSummary?: {
+    workflows: number;
+    crossMinistryMustUsePresidency: boolean;
+    realWorkflowExecutionActive: boolean;
+  };
+  resourceSummary?: {
+    total: number;
+    categories: number;
+    privateDataSaleAllowed: boolean;
+    fakeMetricsAllowed: boolean;
+  };
   snapshot: {
     status: "operating" | "ready" | "planned" | "blocked" | "degraded";
     continents: Array<{ id: string; name: string; readiness: string }>;
@@ -273,7 +309,10 @@ type PlanetOsStatusPayload = {
 type PlanetOsLoadState =
   | { snapshot: null; status: "loading" }
   | {
+      coordinationSummary: PlanetOsStatusPayload["coordinationSummary"];
       engineSummary: PlanetOsStatusPayload["engineSummary"];
+      hierarchySummary: PlanetOsStatusPayload["hierarchySummary"];
+      resourceSummary: PlanetOsStatusPayload["resourceSummary"];
       snapshot: PlanetOsStatusPayload["snapshot"];
       status: "ready";
     }
@@ -357,7 +396,10 @@ function usePlanetOsStatus() {
 
         if (!active) return;
         setState({
+          coordinationSummary: payload.coordinationSummary,
           engineSummary: payload.engineSummary,
+          hierarchySummary: payload.hierarchySummary,
+          resourceSummary: payload.resourceSummary,
           snapshot: payload.snapshot,
           status: "ready",
         });
@@ -484,6 +526,12 @@ export function PlatformDiagnosticsSurface({
   const planetOsSnapshot = planetOsLoadState.snapshot;
   const planetOsEngineSummary =
     planetOsLoadState.status === "ready" ? planetOsLoadState.engineSummary : undefined;
+  const planetHierarchySummary =
+    planetOsLoadState.status === "ready" ? planetOsLoadState.hierarchySummary : undefined;
+  const planetCoordinationSummary =
+    planetOsLoadState.status === "ready" ? planetOsLoadState.coordinationSummary : undefined;
+  const planetResourceSummary =
+    planetOsLoadState.status === "ready" ? planetOsLoadState.resourceSummary : undefined;
   const localePrefix = locale ? `/${locale}` : "";
   const localeEntry = getLocaleEntry(locale);
 
@@ -566,15 +614,43 @@ export function PlatformDiagnosticsSurface({
         },
         {
           label: "Continents",
-          value: `${planetOsSnapshot.continents.length} reporting`,
+          value: `${
+            planetHierarchySummary?.continents ?? planetOsSnapshot.continents.length
+          } reporting`,
           tone: "approved" as const,
-          note: "Planet -> continents -> states -> ministries -> modules.",
+          note: "Founder -> constitution -> councils -> presidency -> continents.",
         },
         {
           label: "Ministries",
-          value: `${planetOsSnapshot.ministries.length} deterministic reports`,
+          value: `${
+            planetHierarchySummary?.ministries ?? planetOsSnapshot.ministries.length
+          } deterministic reports`,
           tone: "approved" as const,
           note: planetOsSnapshot.founderCommand.reportDestination,
+        },
+        {
+          label: "Earth hierarchy",
+          value: planetHierarchySummary
+            ? `${planetHierarchySummary.hierarchyLevels} levels / ${planetHierarchySummary.states} states`
+            : "core model ready",
+          tone: "approved" as const,
+          note: "Founder King -> Command Room -> Constitution -> Councils -> Presidency -> planet layers.",
+        },
+        {
+          label: "Coordination",
+          value: planetCoordinationSummary
+            ? `${planetCoordinationSummary.workflows} workflows`
+            : "Presidency required",
+          tone: "pending" as const,
+          note: "Cross-ministry requests route through Founder Presidency; execution is readiness-only.",
+        },
+        {
+          label: "Resources",
+          value: planetResourceSummary
+            ? `${planetResourceSummary.total} protected resources`
+            : "resource model ready",
+          tone: "approved" as const,
+          note: "No private data sale, fake users, fake revenue, or fake metrics.",
         },
         {
           label: "Founder Command",

@@ -98,3 +98,50 @@ TPM Planet Earth OS expands the ministry model into real-life operating function
 - Rights / Brand / IP Ministry
 
 Each ministry must report status, risk, blockers, next actions, safety boundaries, legal boundaries, automation level, and what must not be faked to the private Founder Command Room.
+
+## Earth Core 40 Ministries
+
+The expanded hierarchy defines exactly 40 ministries:
+
+1. Supreme Command Ministry
+2. Founder Presidency & Coordination Ministry
+3. Constitutional Ministry
+4. Legislative Ministry
+5. Executive Implementation Ministry
+6. Interior & Citizen Affairs Ministry
+7. Onboarding & Immigration Ministry
+8. Special Accounts & Islamic Review Ministry
+9. Citizen Support Ministry
+10. Community & Culture Ministry
+11. Markets & Trading Ministry
+12. Execution & Ticket Ministry
+13. Risk & Session Ministry
+14. Market Data & Feed Ministry
+15. Records & Portfolio Ministry
+16. AI / IQ / Brain Ministry
+17. Personal Companion Ministry
+18. Coaching & Guidance Ministry
+19. Journal & Learning Ministry
+20. Academy & Education Ministry
+21. Strategic Research & Analysis Ministry
+22. Guardian & Defense Ministry
+23. Cybersecurity & Privacy Ministry
+24. Justice / Legal / Compliance Ministry
+25. Anti-Fraud & Anti-Manipulation Ministry
+26. Operational Law & Constitution Ministry
+27. Emergency & Incident Ministry
+28. Engineering & Infrastructure Ministry
+29. Product Quality & Testing Ministry
+30. Ops Health & Reliability Ministry
+31. Platforms & Devices Ministry
+32. External Integrations Ministry
+33. Automation & Self-Managed Systems Ministry
+34. Treasury & Economy Ministry
+35. Plans & Subscriptions Ministry
+36. Partnerships & Sponsorships Ministry
+37. Growth & Conversion Ministry
+38. Media & Communications Ministry
+39. AI Video Studio & Production Ministry
+40. Brand, Rights & IP Ministry
+
+Each ministry has a continent, state, leader title, responsibilities, authorities/agencies, cities/modules, professions/workers, citizen-facing value, Founder Command signals, Guardian and Legal boundaries, automation level, risk level, readiness state, blockers, next actions, and a "what must not be faked" list.

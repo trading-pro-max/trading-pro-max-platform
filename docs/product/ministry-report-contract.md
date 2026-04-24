@@ -51,6 +51,12 @@ Every ministry/state report sent to the Founder Command Room must use a consiste
 
 ## Runtime Contract
 
-`lib/server/planet-os/types.ts` defines the executable contract and `lib/server/planet-os/state.ts` emits deterministic reports for all 18 ministries. `app/api/planet/status` exposes the aggregate snapshot for diagnostics and internal readiness visibility.
+`lib/server/planet-os/types.ts` defines the executable contract and `lib/server/planet-os/state.ts` emits deterministic reports for all 40 ministries. `app/api/planet/status` exposes the aggregate snapshot for diagnostics and internal readiness visibility.
 
 The route is safe to inspect because it contains no secrets, private account data, revenue numbers, follower counts, or activation credentials.
+
+## Earth Hierarchy Report Fields
+
+Earth-like reports may include `reportDestination` and `hierarchyPath` so each report can show City -> Ministry -> State Governor -> Continent Governor -> Presidency Coordination -> Founder Command Room.
+
+Reports include status, risks, blockers, resources, requests, approvals needed, Legal flags, Guardian flags, Engineering flags, citizen impact, and next actions. They do not create real staff accounts or operational execution.

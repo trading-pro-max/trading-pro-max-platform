@@ -42,3 +42,9 @@ The Founder Command reporting model is now backed by the Planet OS snapshot:
 - `/api/planet/status`
 
 The snapshot allows diagnostics to show whether continents and ministries are reporting, what is blocked, and what the Founder must not do now. It remains read-only and does not expose a Founder action surface.
+
+## Earth Hierarchy Reporting
+
+The reporting model now also understands hierarchy summaries from `lib/server/planet-os/hierarchy.ts`, coordination summaries from `lib/server/planet-os/coordination.ts`, and resource summaries from `lib/server/planet-os/resources.ts`.
+
+Founder Command can conceptually review 12 continents, 60 states, 40 ministries, authorities, cities/modules, citizen classes, resources, and inter-ministry workflows. The current implementation remains read-only readiness reporting.

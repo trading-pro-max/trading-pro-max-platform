@@ -49,3 +49,7 @@ The Founder Command Center is not a public product surface. It must not appear i
 ## Planet Earth Command Scope
 
 The command center receives ministry reports, daily briefings, Founder approval items, Guardian alerts, Legal warnings, Engineering flags, Treasury readiness, Media queues, and citizen feedback summaries. It must not display fake users, followers, revenue, native app releases, or public launch metrics.
+
+## Earth Hierarchy Command Scope
+
+The command center is the receiving destination for the Earth-like chain: City -> Ministry -> State Governor -> Continent Governor -> Presidency Coordination -> Founder Command Room. It should eventually let Ahmad inspect hierarchy paths, resource categories, coordination messages, council flags, and 40-ministry readiness without exposing a public route or normal user feature.

@@ -31,7 +31,7 @@ This document defines the continent/state model for TPM Planet Earth OS. It is a
 
 ## Runtime Status
 
-The official runtime structure is now defined in `lib/server/planet-os/state.ts`. The current deterministic model contains 11 continents, state summaries, city/module entries, plan-based citizen classes, professions, and Founder Command reporting metadata.
+The official runtime structure is now defined across `lib/server/planet-os/state.ts` and `lib/server/planet-os/hierarchy.ts`. The operational status snapshot keeps compatibility with the original Planet OS reporting continents, while the Earth-like hierarchy core now defines 12 official continents, 60 state nodes, city/module entries, plan-based citizen classes, professions, and Founder Command reporting metadata.
 
 Every continent reports to the Founder Command Room and keeps separate lists for:
 
@@ -41,3 +41,22 @@ Every continent reports to the Founder Command Room and keeps separate lists for
 - safety/truth rules
 
 Blocked capabilities remain blocked even when the operating model is active.
+
+## 12-Continent Earth Core
+
+The official hierarchy continents are:
+
+1. Sovereignty & Command Continent
+2. Trading & Markets Continent
+3. Intelligence & Brain Continent
+4. Protection & Defense Continent
+5. Law & Rights Continent
+6. Citizens & Community Continent
+7. Academy & Development Continent
+8. Economy & Treasury Continent
+9. Media & Growth Continent
+10. Engineering & Infrastructure Continent
+11. Operations & Reliability Continent
+12. Platforms & Devices Continent
+
+Each continent has a governor, states, ministries, cities/modules, readiness state, risk level, automation level, Founder Command signals, and explicit "what must not be faked" boundaries.

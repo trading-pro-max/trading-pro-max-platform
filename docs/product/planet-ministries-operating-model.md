@@ -42,3 +42,9 @@ The internal runtime snapshot now emits one deterministic report for each minist
 - product truth
 
 The reports are readiness contracts only. They must not be interpreted as real staff accounts, real metrics, real users, revenue, production activation, or launch completion.
+
+## 40-Ministry Runtime Reporting
+
+`lib/server/planet-os/state.ts` now combines the detailed operational ministry reports with the Earth hierarchy ministry catalog from `lib/server/planet-os/hierarchy.ts`. Diagnostics and `/api/planet/status` can see the 40-ministry readiness model, while all reports remain deterministic readiness data with no fake users, no fake revenue, and no activation claims.
+
+Every ministry reports to Founder Command Room through its state governor, continent governor, and Founder Presidency / Central Coordination System.

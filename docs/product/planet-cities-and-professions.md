@@ -44,3 +44,9 @@ Cities are product modules or operating centers. Professions are human or AI wor
 | Community Moderator | community safety | moderation authority | review content | sell signals |
 | Coach | learning support | education authority | guide discipline | manipulate behavior |
 | Journal Keeper | records | record authority | summarize history | imply certainty |
+
+## Earth Core Cities / Modules
+
+The Earth-like hierarchy keeps cities and districts as product modules, not fantasy locations. Current canonical cities include Chart City, Execution Hall, Watchlist City, Market Context District, Companion Center, Brain Center, Coach Center, Journal Office, Academy Library, Guardian Tower, Legal Court, Treasury Hall, Media Studio, AI Video Studio, Community Square, VIP Private Rooms, Engineering Lab, Ops Tower, Feedback Court, Rights & Brand Office, Islamic Review Desk, Desktop/Mobile Workshop, and Founder Approval Center.
+
+Every city/module declares its continent, state, ministry owner, user visibility, plan access, readiness, safety/truth rules, and what must not be faked.

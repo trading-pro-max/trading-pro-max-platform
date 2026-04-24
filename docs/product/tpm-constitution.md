@@ -71,3 +71,13 @@ Every planetary system must declare its real state: active, planned, inactive, b
 - Founder Command remains private and owner-only.
 - Public launch is always last, never early.
 - No ministry may use design, copy, or docs to imply live execution, real money, broker/feed activation, billing, legal certification, Sharia certification, production readiness, or public launch.
+
+## Council Enforcement
+
+The Constitution is protected by three high councils:
+
+- Constitutional Council: blocks constitutional violations, fake claims, unsafe decisions, and critical truth breaches.
+- Legislative Council: drafts internal laws for plans, community, media, assistant behavior, Islamic status wording, safety, and product claims.
+- Executive Council: turns accepted laws into implementation work, coordinates ministry execution, and escalates blockers to Founder Presidency / Founder Command.
+
+No council can activate billing, broker/feed, live execution, real money, social publishing, production, public launch, fake legal status, or fake Sharia certification by documentation alone.

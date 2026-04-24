@@ -1,7 +1,10 @@
 import "server-only";
 
 import { getProductTruthSnapshot } from "@/lib/server/product/truth";
+import { getInterMinistryCoordinationSnapshot } from "./coordination";
+import { getPlanetEarthHierarchySnapshot } from "./hierarchy";
 import { getPlanetOsStatusSnapshot } from "./state";
+import { getPlanetResourceSnapshot } from "./resources";
 import type {
   PlanetAutomationLevel,
   PlanetReadinessState,
@@ -55,6 +58,9 @@ export type PlanetBlueprintSnapshot = {
   cityModules: ReturnType<typeof getPlanetOsStatusSnapshot>["cityModules"];
   citizenClasses: ReturnType<typeof getPlanetOsStatusSnapshot>["citizenClasses"];
   professions: ReturnType<typeof getPlanetOsStatusSnapshot>["professions"];
+  hierarchySummary: ReturnType<typeof getPlanetEarthHierarchySnapshot>["summary"];
+  resourceSummary: ReturnType<typeof getPlanetResourceSnapshot>["summary"];
+  coordinationSummary: ReturnType<typeof getInterMinistryCoordinationSnapshot>["summary"];
   engines: PlanetEngineStatus[];
   truth: ReturnType<typeof getProductTruthSnapshot>["summary"];
 };
@@ -187,6 +193,9 @@ export function getPlanetBlueprintSnapshot(
 ): PlanetBlueprintSnapshot {
   const planet = getPlanetOsStatusSnapshot(checkedAt);
   const truth = getProductTruthSnapshot(checkedAt);
+  const hierarchy = getPlanetEarthHierarchySnapshot(checkedAt);
+  const resources = getPlanetResourceSnapshot(checkedAt);
+  const coordination = getInterMinistryCoordinationSnapshot(checkedAt);
 
   return {
     checkedAt,
@@ -210,6 +219,9 @@ export function getPlanetBlueprintSnapshot(
     cityModules: planet.cityModules,
     citizenClasses: planet.citizenClasses,
     professions: planet.professions,
+    hierarchySummary: hierarchy.summary,
+    resourceSummary: resources.summary,
+    coordinationSummary: coordination.summary,
     engines,
     truth: truth.summary,
   };

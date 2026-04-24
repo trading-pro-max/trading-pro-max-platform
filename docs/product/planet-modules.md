@@ -27,3 +27,9 @@ Planet modules are serious product centers inside TPM Planet Earth OS. They are 
 | AI Video Studio | video planning | future education | Media/AI | architecture ready | public later | scripts/briefs | generation/upload |
 | Safety Boundaries Office | risk gates | trust | Guardian/Legal | active architecture | all plans | approval engine | hard-block bypass |
 | Founder Approval Center | high-risk decisions | safe governance | Founder King | foundation only | owner only | approval queue | overriding critical blocks |
+
+## Earth Core Module Governance
+
+Cities/modules are now placed under the Earth hierarchy as controlled districts. Each module declares its continent, state, ministry owner, public/user visibility, plan access, readiness, safety/truth rules, and blocked claims.
+
+Founder-only modules such as Founder Approval Center and Founder Command surfaces remain private and are never part of Free, Pro, VIP, or Enterprise user plans.

@@ -79,3 +79,7 @@ Still not present:
 ## Self-Governance Deepening
 
 The briefing now includes opportunity summaries, ministries needing attention, visual gaps, user-facing risks, treasury readiness, and engineering priority suggestions. This improves next-action intelligence without creating any approval execution surface.
+
+## Earth Hierarchy Briefing Inputs
+
+The daily briefing may summarize hierarchy health, council warnings, cross-ministry blockers, resource protection status, 40-ministry readiness, and workflows waiting on Presidency Coordination. It must still avoid fake users, fake revenue, fake public launch, fake billing, fake broker/feed, fake live execution, and fake production state.

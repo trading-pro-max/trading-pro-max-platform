@@ -1,8 +1,11 @@
 import { noStoreJson } from "@/lib/server/security";
 import {
+  getInterMinistryCoordinationSnapshot,
   getPlanetBlueprintSnapshot,
+  getPlanetEarthHierarchySnapshot,
   getMinistryAutonomySnapshot,
   getPlanetOsStatusSnapshot,
+  getPlanetResourceSnapshot,
 } from "@/lib/server/planet-os";
 import { getTpmBrainContextSnapshot } from "@/lib/server/brain";
 
@@ -14,6 +17,9 @@ export async function GET() {
   const blueprint = getPlanetBlueprintSnapshot(snapshot.checkedAt);
   const autonomy = getMinistryAutonomySnapshot(snapshot.checkedAt);
   const brain = getTpmBrainContextSnapshot({}, snapshot.checkedAt);
+  const hierarchy = getPlanetEarthHierarchySnapshot(snapshot.checkedAt);
+  const resources = getPlanetResourceSnapshot(snapshot.checkedAt);
+  const coordination = getInterMinistryCoordinationSnapshot(snapshot.checkedAt);
 
   return noStoreJson({
     ok: true,
@@ -43,6 +49,20 @@ export async function GET() {
         truth: engine.truth,
       })),
     },
+    hierarchySummary: {
+      ...hierarchy.summary,
+      chain: hierarchy.hierarchyChain,
+      coordinationCenter: coordination.coordinationCenter,
+      resourceCategories: resources.categories,
+      truth: {
+        fakeUsers: false,
+        fakeRevenue: false,
+        fakeMetrics: false,
+        productionActivation: false,
+      },
+    },
+    coordinationSummary: coordination.summary,
+    resourceSummary: resources.summary,
     intelligenceSummary: {
       brainContextQuality: brain.contextQuality,
       decisionSupportMode: brain.decisionSupportMode,

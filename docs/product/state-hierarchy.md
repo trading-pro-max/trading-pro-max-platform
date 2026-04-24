@@ -53,3 +53,27 @@ The current hierarchy expands into:
 11. Laws / Constitution / Safety Boundaries
 
 This hierarchy organizes responsibility. It does not create public political authority, fake staff accounts, or hidden user privileges.
+
+## Earth-Like Hierarchy Core
+
+The deeper TPM Planet hierarchy is now:
+
+1. Founder King / Sovereign Creator
+2. Founder King Command Room
+3. Planet Constitution
+4. Constitutional Council
+5. Legislative Council
+6. Executive Council
+7. Founder Presidency / Central Coordination System
+8. Continents
+9. States
+10. Governors
+11. State Governments
+12. Ministries
+13. Authorities / Agencies
+14. Cities / Districts / Product Modules
+15. Workers / Agents / Professionals
+16. Citizens / Users
+17. Resources / Economy / Daily Activity
+
+Reports move upward from City -> Ministry -> State Governor -> Continent Governor -> Presidency Coordination -> Founder Command Room. Cross-ministry work routes through the Founder Presidency / Central Coordination System.

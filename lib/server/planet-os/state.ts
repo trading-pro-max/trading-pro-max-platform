@@ -17,6 +17,7 @@ import type {
   ProductTruthSnapshot,
   SafetyBoundaryState,
 } from "./types";
+import { PLANET_40_MINISTRIES } from "./hierarchy";
 
 const PRODUCT_TRUTH: ProductTruthSnapshot = {
   liveExecution: "blocked",
@@ -775,12 +776,60 @@ const MINISTRY_DEFINITIONS: MinistryDefinition[] = [
 ];
 
 function buildMinistryReports(checkedAt: string): MinistryReport[] {
-  return MINISTRY_DEFINITIONS.map((definition) => ({
+  const detailedReports: MinistryReport[] = MINISTRY_DEFINITIONS.map((definition) => ({
     ...definition,
+    productTruth: { ...PRODUCT_TRUTH },
+    reportDestination: "Founder Command Room" as const,
+    lastUpdated: checkedAt,
+  }));
+  const detailedIds = new Set(detailedReports.map((report) => report.ministryId));
+  const hierarchyReports: MinistryReport[] = PLANET_40_MINISTRIES.filter(
+    (ministry) => !detailedIds.has(ministry.id)
+  ).map((ministry) => ({
+    ministryId: ministry.id,
+    ministryName: ministry.officialName,
+    leaderTitle: ministry.leaderTitle,
+    status:
+      ministry.readiness === "active"
+        ? "operating"
+        : ministry.readiness === "blocked"
+        ? "blocked"
+        : ministry.readiness === "planned"
+        ? "planned"
+        : "ready",
+    confidence: ministry.readiness === "active" ? "high" : "medium",
+    riskLevel: ministry.riskLevel,
+    automationLevel: ministry.automationLevel,
+    summary: ministry.purpose,
+    keyMetrics: [
+      `continent=${ministry.continent}`,
+      `state=${ministry.state}`,
+      `readiness=${ministry.readiness}`,
+    ],
+    activeWork:
+      ministry.readiness === "active"
+        ? ministry.responsibilities.slice(0, 2)
+        : ["architecture readiness", "deterministic reporting"],
+    blockers: ministry.blockers,
+    incidents: [],
+    pendingApprovals:
+      ministry.automationLevel === "founder_approval"
+        ? ["future sensitive action approval"]
+        : [],
+    guardianFlags: ministry.guardianBoundaries,
+    legalFlags: ministry.legalBoundaries,
+    engineeringFlags: ["no fake activation", "keep contract deterministic"],
+    citizenImpact: ministry.citizenFacingValue,
+    revenueImpactLater: "No revenue, billing, subscription, or performance-fee activation is active.",
+    nextActions: ministry.nextActions,
+    founderDecisionNeeded: ministry.automationLevel === "founder_approval",
     productTruth: { ...PRODUCT_TRUTH },
     reportDestination: "Founder Command Room",
     lastUpdated: checkedAt,
+    reportCadence: "weekly",
   }));
+
+  return [...detailedReports, ...hierarchyReports];
 }
 
 function buildMinistryCatalog(reports: MinistryReport[]): PlanetMinistry[] {

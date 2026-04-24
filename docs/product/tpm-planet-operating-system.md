@@ -213,3 +213,11 @@ TPM Planet OS is now active as an internal product operating model through a det
 The runtime model reports Planet -> Continents -> States -> Ministries -> Cities/Modules -> Citizens -> Founder Command Room. It exposes readiness/planned/blocked truth only. It does not expose secrets, private user data, revenue metrics, follower counts, or launch claims.
 
 The internal status API is public-safe because it returns only product governance truth. It is not a Founder Command Room, not an owner action surface, and not a public launch signal.
+
+## 11. Planet Earth Hierarchy Core
+
+The official deep operating model is now Founder King -> Founder King Command Room -> Planet Constitution -> Councils -> Founder Presidency / Central Coordination -> Continents -> States -> Governors -> State Governments -> Ministries -> Authorities / Agencies -> Cities / Modules -> Workers / Agents / Professionals -> Citizens -> Resources / Economy / Daily Activity.
+
+The deterministic hierarchy contract lives in `lib/server/planet-os/hierarchy.ts` and reports 12 continents, 60 state nodes, 12 governors, exactly 40 ministries, authorities, cities/modules, professions, citizen classes, and resource categories. This expands the internal Earth-like governance model while preserving the existing public product as a clean chart-first trading workstation.
+
+No hierarchy level may imply fake political authority, real staff accounts, fake users, fake revenue, billing activation, broker/feed activation, public launch, live execution, real-money routing, or production readiness.

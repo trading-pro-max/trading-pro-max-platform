@@ -18,6 +18,48 @@ export type PlanetRiskLevel = "low" | "medium" | "high" | "critical";
 
 export type PlanetCitizenClass = "free_demo" | "pro" | "vip" | "enterprise";
 
+export type PlanetHierarchyNodeKind =
+  | "founder_king"
+  | "command_room"
+  | "constitution"
+  | "council"
+  | "presidency"
+  | "continent"
+  | "state"
+  | "governor"
+  | "government"
+  | "ministry"
+  | "authority"
+  | "city_module"
+  | "profession"
+  | "citizen_class"
+  | "resource";
+
+export type PlanetHierarchyNode = {
+  id: string;
+  kind: PlanetHierarchyNodeKind;
+  name: string;
+  parentId: string | null;
+  level: number;
+  purpose: string;
+  reportDestination: string;
+  visibility: "founder_private" | "internal" | "plan_scoped" | "public_safe";
+  readiness: PlanetReadinessState;
+  riskLevel: PlanetRiskLevel;
+  automationLevel: PlanetAutomationLevel;
+  truthRules: string[];
+};
+
+export type PlanetGovernor = {
+  id: string;
+  title: string;
+  governs: string;
+  scope: "planet" | "continent" | "state" | "ministry";
+  permissions: string[];
+  limits: string[];
+  reportsTo: string;
+};
+
 export type MinistryStatus =
   | "ready"
   | "operating"
@@ -85,6 +127,58 @@ export type PlanetMinistry = {
   blockers: string[];
   reportDestination: "Founder Command Room";
   productTruth: string[];
+  continent?: string;
+  state?: string;
+  authorities?: string[];
+  professions?: string[];
+  nextActions?: string[];
+  whatMustNotBeFaked?: string[];
+};
+
+export type PlanetEarthMinistry = {
+  id: string;
+  officialName: string;
+  continent: string;
+  state: string;
+  leaderTitle: string;
+  purpose: string;
+  responsibilities: string[];
+  authorities: string[];
+  cityModules: string[];
+  professions: string[];
+  citizenFacingValue: string;
+  founderCommandSignals: string[];
+  legalBoundaries: string[];
+  guardianBoundaries: string[];
+  automationLevel: PlanetAutomationLevel;
+  riskLevel: PlanetRiskLevel;
+  readiness: PlanetReadinessState;
+  blockers: string[];
+  nextActions: string[];
+  whatMustNotBeFaked: string[];
+};
+
+export type PlanetAuthority = {
+  id: string;
+  name: string;
+  parentMinistry: string;
+  purpose: string;
+  powers: string[];
+  limits: string[];
+  escalationRoute: string[];
+  founderApprovalRequired: boolean;
+};
+
+export type PlanetCity = {
+  id: string;
+  name: string;
+  continent: string;
+  state: string;
+  ministryOwner: string;
+  userVisibility: "public" | "plan_scoped" | "internal" | "founder_private";
+  planAccess: Array<PlanetCitizenClass | "guest" | "beta" | "staff" | "founder">;
+  readiness: PlanetReadinessState;
+  safetyTruthRules: string[];
 };
 
 export type PlanetCityModule = {
@@ -108,6 +202,140 @@ export type PlanetProfession = {
   permissions: string[];
   boundaries: string[];
   reportsTo: string;
+  ministry?: string;
+  workerKind?: "human" | "module" | "agent" | "future";
+  automationLevel?: PlanetAutomationLevel;
+};
+
+export type PlanetCitizenClassModel = {
+  id: string;
+  label: string;
+  visibility: string[];
+  hidden: string[];
+  planAccess: string;
+  companionLevel: string;
+  communityAccess: string;
+  academyAccess: string;
+  journalCoachAccess: string;
+  tradingAccess: string;
+  blockedCapabilities: string[];
+  upgradePath: string;
+  productTruthLanguage: string;
+};
+
+export type PlanetResourceCategory =
+  | "hidden_internal"
+  | "visible"
+  | "living"
+  | "strategic";
+
+export type PlanetResource = {
+  id: string;
+  name: string;
+  category: PlanetResourceCategory;
+  purpose: string;
+  protection: string[];
+  visibility: "internal" | "public_safe" | "plan_scoped" | "founder_private";
+  mustNotDo: string[];
+};
+
+export type ConstitutionRule = {
+  id: string;
+  title: string;
+  category: "truth" | "safety" | "legal" | "security" | "launch" | "automation";
+  rule: string;
+  enforcement: "allow" | "review_required" | "founder_approval_required" | "blocked";
+  owner: string;
+};
+
+export type CouncilDecision = {
+  id: string;
+  council: "constitutional" | "legislative" | "executive";
+  purpose: string;
+  canDo: string[];
+  cannotDo: string[];
+  escalationRoute: string[];
+};
+
+export type MinistryMessageState =
+  | "draft"
+  | "sent"
+  | "in_review"
+  | "waiting_for_response"
+  | "approved"
+  | "rejected"
+  | "blocked"
+  | "escalated"
+  | "resolved"
+  | "archived";
+
+export type MinistryMessageType =
+  | "status_update"
+  | "request"
+  | "review_required"
+  | "approval_needed"
+  | "warning"
+  | "incident"
+  | "handoff"
+  | "blocker"
+  | "escalation"
+  | "resolution";
+
+export type MinistryMessage = {
+  messageId: string;
+  sourceMinistry: string;
+  targetMinistry: string;
+  coordinationCenter: "Founder Presidency / Central Coordination System";
+  type: MinistryMessageType;
+  priority: "low" | "medium" | "high" | "critical";
+  riskLevel: PlanetRiskLevel;
+  automationLevel: PlanetAutomationLevel;
+  summary: string;
+  requestedAction: string;
+  guardianReviewRequired: boolean;
+  legalReviewRequired: boolean;
+  treasuryReviewRequired: boolean;
+  engineeringReviewRequired: boolean;
+  founderApprovalRequired: boolean;
+  status: MinistryMessageState;
+  createdAt: string;
+  updatedAt: string;
+  resolvedAt: string | null;
+};
+
+export type MinistryWorkflow = {
+  id: string;
+  name: string;
+  path: string[];
+  currentTruth: "architecture_only" | "readiness_only" | "blocked_until_future_stage";
+  blockedCapabilities: string[];
+  requiredReviews: string[];
+  founderApprovalRequired: boolean;
+};
+
+export type PresidencyCoordinationDecision = {
+  id: string;
+  title: string;
+  decision: "route_to_review" | "request_revision" | "escalate_to_founder" | "block";
+  reason: string;
+  nextStep: string;
+};
+
+export type GovernanceReport = {
+  reportId: string;
+  sourceNode: string;
+  destinationNode: string;
+  hierarchyPath: string[];
+  status: MinistryStatus;
+  riskLevel: PlanetRiskLevel;
+  blockers: string[];
+  resources: string[];
+  approvalsNeeded: string[];
+  legalFlags: string[];
+  guardianFlags: string[];
+  engineeringFlags: string[];
+  citizenImpact: string;
+  nextActions: string[];
 };
 
 export type PlanetContinent = {

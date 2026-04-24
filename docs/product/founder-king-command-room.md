@@ -77,3 +77,9 @@ The Founder King Command Room may coordinate the planet, but it must not become 
 ## Planet Earth Command View
 
 The Founder Command Room eventually groups reports by continents, states, cities, ministries, professions, citizen classes, and safety boundaries. It must show readiness truth only and must not expose itself to public users.
+
+## Founder King Layer
+
+The Founder King is the highest owner authority for Trading Pro Max vision, identity, sensitive approvals, and final product direction. This role sees all continents, states, ministries, resources, risks, reports, and approvals through the private command room, but does not manually run every department.
+
+Founder authority is bounded by the Constitution, Guardian, Legal Counsel, product truth, and audit requirements. Founder approval can authorize reviewed direction; it cannot make false claims true, activate billing, activate broker/feed, enable live or real-money execution, expose secrets, or bypass critical blocks.

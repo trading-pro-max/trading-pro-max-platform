@@ -60,3 +60,9 @@ The command app may eventually show:
 - Sensitive actions require explicit confirmation.
 - Every sensitive action creates audit trail.
 - Critical blocks cannot be overridden by wording.
+
+## Earth-Like Command App Direction
+
+The future private desktop/mobile command app should organize the planet by Founder King, Constitution, Councils, Presidency Coordination, Continents, States, Governors, Ministries, Authorities, Cities/Modules, Professions, Citizens, and Resources.
+
+Current implementation remains a read-only foundation. Owner-only device authentication, step-up confirmation, audit-backed approval execution, private desktop shell, and private mobile shell remain planned.

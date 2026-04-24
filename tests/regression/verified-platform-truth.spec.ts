@@ -1157,7 +1157,34 @@ test.describe("verified platform truth", () => {
       },
     });
     expect(planetPayload.snapshot.continents).toHaveLength(11);
-    expect(planetPayload.snapshot.ministries).toHaveLength(18);
+    expect(planetPayload.snapshot.ministries).toHaveLength(40);
+    expect(planetPayload.hierarchySummary).toMatchObject({
+      hierarchyLevels: 17,
+      continents: 12,
+      ministries: 40,
+      publicFounderRouteExposed: false,
+      fakeMetricsIncluded: false,
+      launchActivated: false,
+      billingActivated: false,
+      liveExecutionActivated: false,
+      truth: {
+        fakeUsers: false,
+        fakeRevenue: false,
+        fakeMetrics: false,
+        productionActivation: false,
+      },
+    });
+    expect(planetPayload.coordinationSummary).toMatchObject({
+      workflows: 6,
+      crossMinistryMustUsePresidency: true,
+      realWorkflowExecutionActive: false,
+      socialPublishingActive: false,
+      productionActivationActive: false,
+    });
+    expect(planetPayload.resourceSummary).toMatchObject({
+      privateDataSaleAllowed: false,
+      fakeMetricsAllowed: false,
+    });
     expect(planetPayload.intelligenceSummary).toMatchObject({
       brainContextQuality: "bounded",
       decisionSupportMode: "paper_decision_support",
@@ -1189,8 +1216,15 @@ test.describe("verified platform truth", () => {
       mode: "planet_blueprint_engine",
       structure: {
         continents: 11,
-        ministries: 18,
+        ministries: 40,
         citizenClasses: 4,
+      },
+      hierarchySummary: {
+        continents: 12,
+        ministries: 40,
+        launchActivated: false,
+        billingActivated: false,
+        liveExecutionActivated: false,
       },
       truth: {
         liveExecution: "blocked",
@@ -1245,7 +1279,7 @@ test.describe("verified platform truth", () => {
         readOnly: true,
       },
       overview: {
-        ministryCount: 18,
+        ministryCount: 40,
       },
       approvalQueue: {
         readOnly: true,
@@ -1279,7 +1313,7 @@ test.describe("verified platform truth", () => {
         dangerousActionsRemainBlocked: true,
       },
     });
-    expect(founderReadinessPayload.snapshot.roomFoundation.ministries).toHaveLength(18);
+    expect(founderReadinessPayload.snapshot.roomFoundation.ministries).toHaveLength(40);
     expect(
       founderReadinessPayload.snapshot.roomFoundation.approvalQueue.states
     ).toEqual(
