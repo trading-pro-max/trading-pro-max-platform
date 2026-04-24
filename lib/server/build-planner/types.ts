@@ -7,7 +7,11 @@ export type BuildPlannerDomain =
   | "monetization"
   | "planet-os"
   | "founder-command"
-  | "launch-forbidden";
+  | "companion"
+  | "media"
+  | "launch-forbidden"
+  | "secret-forbidden"
+  | "live-forbidden";
 
 export type BuildPlannerRisk = "low" | "medium" | "high" | "critical";
 

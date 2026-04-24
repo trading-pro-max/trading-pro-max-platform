@@ -29,6 +29,12 @@ Domains:
 - monetization
 - planet-os
 - founder-command
+- companion
+- media
 - launch-forbidden
+- secret-forbidden
+- live-forbidden
 
 This is not an autonomous code executor. It does not deploy, touch secrets, activate production, publish externally, or enable live trading.
+
+The readiness snapshot recommends safe future areas such as chart/workstation polish, Companion UI, Founder command private app shell, plan entitlement UX, state explanations, journal/coach foundation, and community architecture. It blocks launch, production, secrets, live execution, billing, broker/feed, and social publishing tasks unless explicitly allowed in a future scope.

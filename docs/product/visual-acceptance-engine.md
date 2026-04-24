@@ -23,6 +23,9 @@ Rubric areas:
 - English LTR
 - brand identity
 - plan visual identity
+- Founder Command visual readiness
+- Swiss precision feel
+- Earth / Planet identity
 
 Each area scores:
 
@@ -35,3 +38,5 @@ Each area scores:
 - product truth visibility
 
 The engine returns score estimates, status, reasons, and next visual actions. It does not replace human visual acceptance, fresh screenshots, or browser verification.
+
+Operational expansion adds chart dominance, execution strength, Founder Command command-grade readiness, Swiss precision signals, and Earth/Planet identity use as explicit future-review areas.

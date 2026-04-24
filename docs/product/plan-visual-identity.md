@@ -80,3 +80,7 @@ Must not imply:
 ## Planet Earth Visual Role
 
 Plan identities are citizenship-class visual cues only. Free/Demo, Pro, VIP, and Enterprise styling must stay serious, compact, and truthful. No color treatment may imply paid activation, VIP access, live execution, billing, broker/feed activation, or public launch.
+
+## Operational Rule
+
+Plan badges and plan cards may clarify the current plan identity, but locked/planned plans must never look active. Billing remains inactive and performance-fee research remains hidden/inactive.

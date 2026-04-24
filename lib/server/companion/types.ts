@@ -19,6 +19,33 @@ export type CompanionContextSnapshot = {
     sessionState: "anonymous" | "authenticated_safe";
     planTier: "demo_free" | "pro" | "vip" | "enterprise";
     accountType: "standard" | "islamic_review_required" | "islamic_not_certified";
+    accountTypeStatus: "standard_active" | "islamic_review_required" | "islamic_not_certified";
+  };
+  assistantTier: {
+    tier: "demo_paper" | "pro" | "vip" | "enterprise";
+    label: string;
+    availability: "active" | "locked" | "planned_later";
+    currentAccess: boolean;
+    upgradeState: "none" | "not_enabled" | "future_planned";
+  };
+  planEntitlements: {
+    currentPlan: "demo_free" | "pro" | "vip" | "enterprise";
+    billing: "inactive";
+    paidAccess: "not_enabled";
+    vipActivation: "not_active";
+    enterpriseActivation: "future_planned";
+    founderCommandAccess: "owner_only_never_user_plan";
+    performanceFee: "hidden_inactive";
+  };
+  productTruth: {
+    liveExecution: "blocked";
+    realMoneyRouting: "blocked";
+    billing: "inactive";
+    publicLaunch: "inactive";
+    socialPublishing: "inactive";
+    islamicCertification: "not_certified";
+    performanceRevenue: "hidden_inactive";
+    founderCommand: "owner_only_private";
   };
   preferences: {
     language: string;

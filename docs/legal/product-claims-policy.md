@@ -37,3 +37,7 @@ Trading Pro Max claims must be truthful, narrow, and reviewable.
 ## Review Rule
 
 When uncertain, choose the weaker truthful claim and send the stronger version to Legal Counsel.
+
+## Runtime Rule Connection
+
+The Guardian + Legal Rules Engine blocks or escalates unsafe claim text before it reaches media, assistant, public entry, launch wording, VIP wording, Islamic account wording, or broker/feed wording. This is internal guidance only and is not legal certification.

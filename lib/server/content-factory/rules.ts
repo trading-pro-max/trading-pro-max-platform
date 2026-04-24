@@ -3,6 +3,7 @@ import "server-only";
 import type {
   ContentFactoryClassification,
   ContentFactoryLifecycle,
+  ContentFactoryReadinessSnapshot,
   ContentFactoryRisk,
   ContentFactoryType,
 } from "./types";
@@ -55,6 +56,15 @@ function classifyRisk(text: string, contentType: ContentFactoryType): {
     };
   }
 
+  if (contentType === "academy_post" || contentType === "trust_safety_post") {
+    return {
+      risk: "safe_auto_publish",
+      blockedReasons: [],
+      requiredReviews: ["Brand"],
+      lifecycle: "brand_review",
+    };
+  }
+
   return {
     risk: "approval_required",
     blockedReasons: [],
@@ -85,6 +95,59 @@ export function classifyContentFactoryDraft(input: {
       externalPublishing: "blocked",
       socialTokens: "not_present",
       fakeMetrics: "blocked",
+    },
+  };
+}
+
+export function getContentFactoryReadinessSnapshot(
+  checkedAt = new Date().toISOString()
+): ContentFactoryReadinessSnapshot {
+  return {
+    checkedAt,
+    mode: "content_factory_readiness",
+    lifecycle: {
+      states: [
+        "idea",
+        "draft",
+        "brand_review",
+        "guardian_review",
+        "legal_review",
+        "founder_approval",
+        "scheduled",
+        "published",
+        "blocked",
+        "archived",
+      ],
+      externalPublishing: "blocked",
+      socialTokens: "not_present",
+      fakeMetrics: "blocked",
+    },
+    samples: {
+      educationTip: classifyContentFactoryDraft({
+        contentType: "academy_post",
+        text: "Paper-mode education and platform safety explanation",
+      }),
+      vipClaim: classifyContentFactoryDraft({
+        contentType: "pro_vip_teaser",
+        text: "VIP Brain will require entitlement and review before any activation claim.",
+      }),
+      guaranteedProfitClaim: classifyContentFactoryDraft({
+        contentType: "text_post",
+        text: "Guaranteed profit for every citizen",
+      }),
+      islamicCertificationClaim: classifyContentFactoryDraft({
+        contentType: "text_post",
+        text: "Sharia certified Islamic account is active",
+      }),
+      liveTradingClaim: classifyContentFactoryDraft({
+        contentType: "product_update",
+        text: "Live trading active with broker connected",
+      }),
+    },
+    truth: {
+      externalPublishing: "blocked",
+      socialAccountsConnected: false,
+      founderApprovalRequiredForSensitiveClaims: true,
     },
   };
 }

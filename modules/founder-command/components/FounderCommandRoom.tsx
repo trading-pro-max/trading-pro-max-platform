@@ -1,4 +1,5 @@
 import { getFounderCommandRoomFoundationSnapshot } from "@/lib/server/founder-command";
+import TPMEarthMark from "@/modules/brand/components/TPMEarthMark";
 import ProductLogo from "@/modules/brand/components/ProductLogo";
 import type { FounderCommandRoomProps } from "../types";
 import FounderApprovalQueue from "./FounderApprovalQueue";
@@ -25,11 +26,14 @@ export default function FounderCommandRoom({
       aria-label="Founder Command Room foundation"
     >
       <header className="tpm-founder-hero">
-        <ProductLogo
-          className="tpm-founder-logo"
-          subtitle="Private Founder Command"
-          variant="hero"
-        />
+        <div className="tpm-founder-logo-stack">
+          <TPMEarthMark variant="command" />
+          <ProductLogo
+            className="tpm-founder-logo"
+            subtitle="Private Founder Command"
+            variant="hero"
+          />
+        </div>
         <div>
           <span>TPM Planet Command</span>
           <h1>Founder King Command Room Foundation</h1>
@@ -89,6 +93,14 @@ export default function FounderCommandRoom({
             <ul>
               {commandSnapshot.briefing.productGaps.map((gap) => (
                 <li key={gap}>{gap}</li>
+              ))}
+            </ul>
+          </article>
+          <article>
+            <h3>Founder Companion</h3>
+            <ul>
+              {commandSnapshot.founderCompanion.priorityBriefing.map((item) => (
+                <li key={item}>{item}</li>
               ))}
             </ul>
           </article>

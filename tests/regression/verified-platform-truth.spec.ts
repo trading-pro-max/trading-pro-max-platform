@@ -432,6 +432,7 @@ test.describe("verified platform truth", () => {
       await expect(page.locator(".tpm-brand-wordmark").first()).toContainText(
         "Trading Pro Max"
       );
+      await expect(page.locator(".tpm-precision-clock").first()).toBeVisible();
       await expect(page.locator("body")).toContainText(route.text);
       await expectRuntimeCssApplied(
         page,
@@ -1243,6 +1244,26 @@ test.describe("verified platform truth", () => {
     const companionContext = await request.get("/api/companion/context");
     expect(companionContext.status()).toBe(200);
     const companionContextPayload = await companionContext.json();
+    expect(companionContextPayload.snapshot).toMatchObject({
+      assistantTier: {
+        tier: "demo_paper",
+        availability: "active",
+        currentAccess: true,
+      },
+      planEntitlements: {
+        billing: "inactive",
+        paidAccess: "not_enabled",
+        vipActivation: "not_active",
+        founderCommandAccess: "owner_only_never_user_plan",
+      },
+      productTruth: {
+        liveExecution: "blocked",
+        realMoneyRouting: "blocked",
+        billing: "inactive",
+        publicLaunch: "inactive",
+        founderCommand: "owner_only_private",
+      },
+    });
     expect(companionContextPayload.snapshot.safety).toMatchObject({
       secretsIncluded: false,
       privateSensitiveDataIncluded: false,
@@ -1277,6 +1298,23 @@ test.describe("verified platform truth", () => {
     expect(planetEnginesPayload.snapshot.guardianLegalRules.blockedClaim).toMatchObject({
       outcome: "blocked",
     });
+    expect(planetEnginesPayload.snapshot.founderCompanion).toMatchObject({
+      mode: "founder_personal_companion",
+      boundaries: {
+        canApproveActionsAlone: false,
+        canPublishMedia: false,
+        canEnableLiveExecution: false,
+        canExposeSecrets: false,
+      },
+    });
+    expect(planetEnginesPayload.snapshot.platformClock).toMatchObject({
+      mode: "swiss_precision_clock",
+      auditTimeBasis: "utc",
+      truth: {
+        auditRemainsUtc: true,
+        marketOpenClaim: false,
+      },
+    });
     expect(planetEnginesPayload.snapshot.stateExplanations.explanations).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
@@ -1285,6 +1323,18 @@ test.describe("verified platform truth", () => {
         }),
         expect.objectContaining({
           key: "billing_inactive",
+          safeNextStep: expect.any(String),
+        }),
+        expect.objectContaining({
+          key: "real_money_blocked",
+          safeNextStep: expect.any(String),
+        }),
+        expect.objectContaining({
+          key: "social_publishing_inactive",
+          safeNextStep: expect.any(String),
+        }),
+        expect.objectContaining({
+          key: "founder_command_private",
           safeNextStep: expect.any(String),
         }),
       ])
@@ -1297,11 +1347,86 @@ test.describe("verified platform truth", () => {
         fakeMetrics: "blocked",
       },
     });
+    expect(planetEnginesPayload.snapshot.contentFactory.educationTip).toMatchObject({
+      risk: "safe_auto_publish",
+      lifecycle: "brand_review",
+    });
+    expect(planetEnginesPayload.snapshot.contentFactory.vipClaim).toMatchObject({
+      risk: "approval_required",
+    });
+    expect(planetEnginesPayload.snapshot.contentFactory.islamicClaim).toMatchObject({
+      risk: "blocked",
+    });
+    expect(planetEnginesPayload.snapshot.contentFactory.liveClaim).toMatchObject({
+      risk: "blocked",
+    });
     expect(planetEnginesPayload.snapshot.buildPlanner.forbiddenLaunchPlan).toMatchObject({
       domain: "launch-forbidden",
       completionStatus: "blocked",
       executorTruth: "planner_only_not_executor",
     });
+    expect(planetEnginesPayload.snapshot.buildPlanner.companionPlan).toMatchObject({
+      domain: "companion",
+      completionStatus: "partial",
+    });
+    expect(planetEnginesPayload.snapshot.buildPlanner.mediaPlan).toMatchObject({
+      domain: "media",
+      completionStatus: "partial",
+    });
+    expect(planetEnginesPayload.snapshot.buildPlanner.secretForbiddenPlan).toMatchObject({
+      domain: "secret-forbidden",
+      completionStatus: "blocked",
+    });
+    expect(planetEnginesPayload.snapshot.buildPlanner.liveForbiddenPlan).toMatchObject({
+      domain: "live-forbidden",
+      completionStatus: "blocked",
+    });
+
+    const visualAcceptance = await request.get("/api/planet/visual-acceptance");
+    expect(visualAcceptance.status()).toBe(200);
+    const visualAcceptancePayload = await visualAcceptance.json();
+    expect(visualAcceptancePayload.snapshot.areas).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ area: "founder_command" }),
+        expect.objectContaining({ area: "swiss_precision" }),
+        expect.objectContaining({ area: "earth_planet_identity" }),
+      ])
+    );
+
+    const stateExplanations = await request.get("/api/planet/state-explanations");
+    expect(stateExplanations.status()).toBe(200);
+    const stateExplanationsPayload = await stateExplanations.json();
+    expect(stateExplanationsPayload.snapshot.explanations).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ key: "real_money_blocked" }),
+        expect.objectContaining({ key: "founder_command_private" }),
+      ])
+    );
+
+    const contentFactoryReadiness = await request.get(
+      "/api/planet/content-factory/readiness"
+    );
+    expect(contentFactoryReadiness.status()).toBe(200);
+    const contentFactoryReadinessPayload = await contentFactoryReadiness.json();
+    expect(contentFactoryReadinessPayload.snapshot.samples).toMatchObject({
+      educationTip: { risk: "safe_auto_publish" },
+      vipClaim: { risk: "approval_required" },
+      guaranteedProfitClaim: { risk: "blocked" },
+      islamicCertificationClaim: { risk: "blocked" },
+      liveTradingClaim: { risk: "blocked" },
+    });
+
+    const buildPlannerReadiness = await request.get("/api/build-planner/readiness");
+    expect(buildPlannerReadiness.status()).toBe(200);
+    const buildPlannerReadinessPayload = await buildPlannerReadiness.json();
+    expect(buildPlannerReadinessPayload.snapshot.plans).toMatchObject({
+      launchForbidden: { domain: "launch-forbidden", completionStatus: "blocked" },
+      secretForbidden: { domain: "secret-forbidden", completionStatus: "blocked" },
+      liveForbidden: { domain: "live-forbidden", completionStatus: "blocked" },
+    });
+    expect(JSON.stringify(buildPlannerReadinessPayload.snapshot)).not.toMatch(
+      /activate production|enable live execution without approval/i
+    );
 
     const probes = new Map<string, { key: string; status: string }>(
       diagnosticsPayload.health.probes.map((probe: { key: string; status: string }) => [
@@ -1406,6 +1531,18 @@ test.describe("verified platform truth", () => {
       status: "ready",
     });
     expect(routes.get("/api/planet/engines")).toMatchObject({
+      status: "ready",
+    });
+    expect(routes.get("/api/planet/visual-acceptance")).toMatchObject({
+      status: "ready",
+    });
+    expect(routes.get("/api/planet/state-explanations")).toMatchObject({
+      status: "ready",
+    });
+    expect(routes.get("/api/planet/content-factory/readiness")).toMatchObject({
+      status: "ready",
+    });
+    expect(routes.get("/api/build-planner/readiness")).toMatchObject({
       status: "ready",
     });
     expect(routes.get("/api/product/truth")).toMatchObject({

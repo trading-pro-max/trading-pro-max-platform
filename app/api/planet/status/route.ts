@@ -29,6 +29,15 @@ export async function GET() {
         "public launch",
         "social publishing",
       ],
+      engines: blueprint.engines.map((engine) => ({
+        key: engine.key,
+        label: engine.label,
+        readiness: engine.readiness,
+        riskLevel: engine.riskLevel,
+        automationLevel: engine.automationLevel,
+        purpose: engine.purpose,
+        truth: engine.truth,
+      })),
     },
   });
 }

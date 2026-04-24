@@ -39,3 +39,9 @@ Assistant boundaries:
 - no real-money execution
 - no broker/feed activation
 - no auth/security bypass
+
+## Operational Expansion
+
+The context snapshot now also includes assistant tier, plan entitlement truth, Product Truth summary, account type status, diagnostics readiness, and feedback readiness. This makes the Companion explain more of the product state without creating a chat action agent.
+
+It still excludes secrets, broker credentials, raw tokens, hidden production config, private sensitive data, and execution authority.

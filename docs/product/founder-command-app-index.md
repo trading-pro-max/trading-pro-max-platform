@@ -33,6 +33,7 @@ This index groups the private Founder King Command App foundation.
 - [Founder Approval Workflows](./founder-approval-workflows.md)
 - [Founder Approval Center](./founder-approval-center.md)
 - [Founder Daily Briefing](./founder-daily-briefing.md)
+- [Founder Personal Companion](./founder-personal-companion.md)
 - [Founder Command Reporting Model](./founder-command-reporting-model.md)
 - [Founder Treasury Controls](./founder-treasury-controls.md)
 - [Founder Media Command](./founder-media-command.md)

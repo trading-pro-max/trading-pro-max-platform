@@ -35,5 +35,6 @@ Current non-negotiable truth:
 - AI prediction claims: blocked
 - performance-based revenue: hidden/inactive, future review only
 - native apps: readiness only, not shipped
+- Founder Command: owner-only/private, never a user plan feature
 
 This engine is the source of wording discipline for product surfaces, docs, diagnostics, and future command reports.

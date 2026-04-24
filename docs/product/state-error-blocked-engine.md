@@ -30,6 +30,9 @@ Covered states:
 - VIP locked
 - Islamic review required
 - launch not active
+- real money blocked
+- social publishing inactive
+- Founder Command private
 
 Each explanation includes:
 
@@ -43,3 +46,5 @@ Each explanation includes:
 - internal copy
 
 The engine blocks raw JSON-feeling errors, fake unlocks, and scary unexplained states.
+
+The explanations may be surfaced in diagnostics/settings, but the workstation should remain compact and chart-focused.

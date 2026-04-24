@@ -20,8 +20,20 @@ Safe read-only API surfaces:
 - `/api/planet/status`
 - `/api/planet/blueprint`
 - `/api/planet/engines`
+- `/api/planet/visual-acceptance`
+- `/api/planet/state-explanations`
+- `/api/planet/content-factory/readiness`
+- `/api/build-planner/readiness`
 - `/api/product/truth`
 - `/api/founder/briefing/readiness`
 - `/api/companion/context`
 
 These routes expose readiness/planned/blocked truth only. They do not expose secrets, private user data, production config, fake metrics, billing, broker/feed activation, public launch, social publishing, live execution, or real-money routing.
+
+Operational expansion:
+
+- Founder Companion summaries are now available inside Founder readiness snapshots.
+- Product Truth includes Founder Command as owner-only/private.
+- Companion Context includes assistant tier, plan entitlement, and product truth summaries.
+- Content Factory exposes sample classifications for education, VIP, Islamic, live-trading, and guaranteed-profit language.
+- AI Build Planner now separates launch-forbidden, secret-forbidden, live-forbidden, companion, and media work.

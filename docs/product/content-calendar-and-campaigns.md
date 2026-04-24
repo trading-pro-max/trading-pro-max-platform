@@ -80,3 +80,5 @@ High-risk campaign language requires Founder approval after Guardian and Legal r
 ## Planet Earth Media Workflow
 
 Media items move through idea, draft, brand review, Guardian review, Legal review, Founder approval, scheduled, published, blocked, and archived states. In the current architecture, scheduled and published remain future states only because no external posting system is connected.
+
+Runtime readiness mirrors this lifecycle through the Content Factory Engine. Safe education may become a safe_auto_publish candidate later, but sensitive claims still require Brand, Guardian, Legal, and Founder review, and blocked claims must be rewritten.

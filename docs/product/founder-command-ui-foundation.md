@@ -23,6 +23,7 @@ The foundation contains:
 - Legal Counsel Command
 - Treasury Command
 - Media and AI Video Command
+- Founder Personal Companion summary
 
 Every panel is read-only and uses readiness/planned/blocked truth only.
 
@@ -41,6 +42,8 @@ Public users must not see this as:
 ## Visual Direction
 
 The foundation uses a restrained graphite, gold, and Swiss-red command style. It must feel precise and private, not fantasy-like, game-like, or public-facing.
+
+The TPM Earth Mark may be used here as an internal Planet Command identity. It must not imply a shipped native app, public launch, Swiss legal/company status, users, revenue, billing, or live trading.
 
 ## Safety Rules
 

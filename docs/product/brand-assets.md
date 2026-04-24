@@ -98,3 +98,16 @@ The brand assets are visual sources only. They do not activate or imply:
 - public launch
 - Islamic or Sharia certification
 - Swiss legal/company status
+
+## Earth / Planet Asset Source
+
+The Planet OS asset source is `modules/brand/components/TPMEarthMark.tsx`.
+
+Use it for:
+
+- Founder Command surfaces
+- Planet OS documentation headers
+- future private command app icon exploration
+- internal ecosystem maps and readiness screens
+
+Do not use it to imply a shipped native app, public launch, Swiss incorporation, social presence, revenue, user count, live execution, broker/feed activation, or billing readiness.

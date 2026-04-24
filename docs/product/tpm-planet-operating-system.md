@@ -176,6 +176,25 @@ The next vocabulary layer is TPM Planet Earth OS: continents, states, cities, mi
 Related foundation docs:
 
 - [Planet Earth Ecosystem Model](./planet-earth-ecosystem-model.md)
+
+## 10. Operational Activation Layer
+
+The Planet OS runtime layer now connects:
+
+- Planet Blueprint
+- Product Truth
+- Founder Reporting
+- Plan Entitlements
+- Companion Context
+- Founder Personal Companion
+- Guardian + Legal
+- State Explanations
+- Visual Acceptance
+- Content Factory
+- AI Build Planner
+- Swiss Precision Clock and living platform signals
+
+This layer makes internal reporting more alive without launching anything. It does not activate production, billing, broker/feed, live execution, real money, social publishing, fake users, fake revenue, fake metrics, or Swiss legal/company status.
 - [Planet Continents And States](./planet-continents-and-states.md)
 - [Planet Cities And Professions](./planet-cities-and-professions.md)
 - [Planet Modules And Centers](./planet-modules.md)

@@ -1,11 +1,21 @@
 import "server-only";
 
+import { getAssistantTierSnapshot } from "@/lib/assistant/tiers";
+import { getPlanEntitlementSnapshot } from "@/lib/plans/entitlements";
+import { getProductTruthSnapshot } from "@/lib/server/product/truth";
 import type { CompanionContextInput, CompanionContextSnapshot } from "./types";
 
 export function getCompanionContextSnapshot(
   input: CompanionContextInput = {},
   checkedAt = new Date().toISOString()
 ): CompanionContextSnapshot {
+  const planTier = input.planTier ?? "demo_free";
+  const assistantPlan =
+    planTier === "demo_free" ? "evaluation" : planTier;
+  const assistantTier = getAssistantTierSnapshot(assistantPlan).current;
+  const planEntitlements = getPlanEntitlementSnapshot(planTier, checkedAt);
+  const productTruth = getProductTruthSnapshot(checkedAt);
+
   return {
     checkedAt,
     mode: "companion_context_engine",
@@ -23,8 +33,35 @@ export function getCompanionContextSnapshot(
     },
     account: {
       sessionState: input.sessionState ?? "anonymous",
-      planTier: input.planTier ?? "demo_free",
+      planTier,
       accountType: "standard",
+      accountTypeStatus: "standard_active",
+    },
+    assistantTier: {
+      tier: assistantTier.tier,
+      label: assistantTier.label,
+      availability: assistantTier.availability,
+      currentAccess: assistantTier.currentAccess,
+      upgradeState: assistantTier.upgradeState,
+    },
+    planEntitlements: {
+      currentPlan: planEntitlements.currentPlan,
+      billing: planEntitlements.truth.billing,
+      paidAccess: planEntitlements.truth.paidAccess,
+      vipActivation: planEntitlements.truth.vipActivation,
+      enterpriseActivation: planEntitlements.truth.enterpriseActivation,
+      founderCommandAccess: planEntitlements.truth.founderCommandAccess,
+      performanceFee: planEntitlements.truth.performanceFee,
+    },
+    productTruth: {
+      liveExecution: productTruth.summary.liveExecution,
+      realMoneyRouting: productTruth.summary.realMoneyRouting,
+      billing: productTruth.summary.billing,
+      publicLaunch: productTruth.summary.publicLaunch,
+      socialPublishing: productTruth.summary.socialPublishing,
+      islamicCertification: productTruth.summary.islamicCertification,
+      performanceRevenue: productTruth.summary.performanceRevenue,
+      founderCommand: productTruth.summary.founderCommand,
     },
     preferences: {
       language: input.language ?? "en",

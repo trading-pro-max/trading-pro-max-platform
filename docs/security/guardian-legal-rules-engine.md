@@ -43,3 +43,7 @@ Outputs:
 - blocked
 
 The engine is a rules contract. It does not claim invasive surveillance, does not inspect private data, and does not expose secrets.
+
+## Operational Expansion
+
+The engine now explicitly classifies launch, secrets, live/billing/broker wording, fake VIP guarantees, fake Islamic/Sharia certification, AI prediction overclaims, and copied competitor content. It is still a classifier and review helper only; it does not replace qualified legal counsel or claim real-world enforcement certification.

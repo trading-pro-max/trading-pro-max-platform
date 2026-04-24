@@ -51,6 +51,9 @@ const areas: VisualAcceptanceScore[] = [
   area("english_ltr", "English LTR", 9.5, "partial", ["LTR is mature but still requires visual proof for final acceptance."], ["Keep default route screenshots current."]),
   area("brand_identity", "Brand identity", 9.5, "partial", ["Logo and brand assets are coherent but final score depends on asset export review."], ["Keep SVG source and usage rules aligned."]),
   area("plan_visual_identity", "Plan visual identity", 9.0, "partial", ["Plan identities are prepared but paid tiers remain locked/planned truthfully."], ["Avoid making locked plans look active."]),
+  area("founder_command", "Founder Command visual readiness", 9.1, "partial", ["Founder Command is private, read-only, and command-grade, but native owner apps are not shipped."], ["Keep command surfaces owner-only and compact."]),
+  area("swiss_precision", "Swiss precision feel", 9.2, "partial", ["Precision signals exist as disciplined timing and status language without claiming Swiss legal status."], ["Keep Swiss inspiration subtle and operational."]),
+  area("earth_planet_identity", "Earth / Planet identity", 9.1, "partial", ["Planet identity now has SVG direction, but public trading surfaces must stay chart-first."], ["Use Earth/Planet identity mainly in Founder/internal surfaces."]),
 ];
 
 export function getVisualAcceptanceSnapshot(

@@ -222,6 +222,15 @@ type PlanetOsStatusPayload = {
     active: number;
     foundationReady: number;
     blockedCapabilities: string[];
+    engines: Array<{
+      key: string;
+      label: string;
+      readiness: string;
+      riskLevel: string;
+      automationLevel: string;
+      purpose: string;
+      truth: string;
+    }>;
   };
   snapshot: {
     status: "operating" | "ready" | "planned" | "blocked" | "degraded";
@@ -486,6 +495,40 @@ export function PlatformDiagnosticsSurface({
         },
       ]
     : [];
+
+  const planetEngineItems =
+    planetOsEngineSummary?.engines.slice(0, 10).map((engine) => ({
+      label: engine.label,
+      value: engine.readiness.replace(/_/g, " "),
+      tone:
+        engine.readiness === "active"
+          ? ("approved" as const)
+          : engine.readiness === "foundation_ready"
+          ? ("pending" as const)
+          : ("restricted" as const),
+      note: `${engine.automationLevel.replace(/_/g, " ")} / ${engine.riskLevel} risk. ${engine.truth}`,
+    })) ?? [];
+
+  const companionReadinessItems = [
+    {
+      label: "Assistant tier",
+      value: "Demo / Paper active",
+      tone: "approved" as const,
+      note: "Pro, VIP, and Enterprise assistants remain locked/planned until real entitlement exists.",
+    },
+    {
+      label: "Companion context",
+      value: "Safe readiness only",
+      tone: "pending" as const,
+      note: "Route, theme, plan, account type, diagnostics, and product truth are safe to explain without secrets.",
+    },
+    {
+      label: "Execution authority",
+      value: "None",
+      tone: "blocked" as const,
+      note: "The assistant cannot execute trades, activate live mode, configure broker/feed, or unlock billing.",
+    },
+  ];
 
   const routeItems =
     diagnosticsHealth?.routes.slice(0, 6).map((route) => ({
@@ -766,6 +809,27 @@ export function PlatformDiagnosticsSurface({
             text="Diagnostics is checking the internal Planet OS reporting model without exposing owner controls or fake launch states."
           />
         )}
+      </UtilitySection>
+
+      <UtilitySection eyebrow="ENGINES" title="Core engine readiness">
+        {planetOsLoadState.status === "ready" && planetEngineItems.length > 0 ? (
+          <UtilityGrid items={planetEngineItems} />
+        ) : (
+          <ProductStateNotice
+            compact
+            kind={planetOsLoadState.status === "error" ? "recovery" : "loading"}
+            title={
+              planetOsLoadState.status === "error"
+                ? "Engine readiness unavailable"
+                : "Loading engine readiness"
+            }
+            text="The 10 Planet OS engines report readiness only; no launch, billing, social, broker/feed, or live-money state is activated."
+          />
+        )}
+      </UtilitySection>
+
+      <UtilitySection eyebrow="COMPANION" title="Assistant readiness">
+        <UtilityGrid items={companionReadinessItems} />
       </UtilitySection>
 
       <UtilitySection eyebrow="PROBES" title="Backend and connector probes">

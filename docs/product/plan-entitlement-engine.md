@@ -39,3 +39,7 @@ Rules:
 - VIP is not active without real entitlement.
 - Performance-fee tools remain hidden/inactive.
 - No plan unlocks live execution or real-money routing.
+
+## Operational Expansion
+
+The entitlement snapshot now feeds Companion Context and diagnostics readiness. Demo / Free remains the active paper-safe plan. Pro and VIP remain planned/locked. Enterprise remains future planned. Founder Command remains owner-only and is never part of a user plan.

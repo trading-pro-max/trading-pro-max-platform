@@ -39,6 +39,16 @@
   align-self: start;
 }
 
+.tpm-founder-logo-stack {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+}
+
+.tpm-founder-logo-stack .tpm-brand-lockup-copy {
+  text-align: center;
+}
+
 .tpm-founder-hero span,
 .tpm-founder-panel-head span,
 .tpm-founder-subpanel > span,

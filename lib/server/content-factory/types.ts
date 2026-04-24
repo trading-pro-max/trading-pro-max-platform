@@ -40,3 +40,26 @@ export type ContentFactoryClassification = {
     fakeMetrics: "blocked";
   };
 };
+
+export type ContentFactoryReadinessSnapshot = {
+  checkedAt: string;
+  mode: "content_factory_readiness";
+  lifecycle: {
+    states: ContentFactoryLifecycle[];
+    externalPublishing: "blocked";
+    socialTokens: "not_present";
+    fakeMetrics: "blocked";
+  };
+  samples: {
+    educationTip: ContentFactoryClassification;
+    vipClaim: ContentFactoryClassification;
+    guaranteedProfitClaim: ContentFactoryClassification;
+    islamicCertificationClaim: ContentFactoryClassification;
+    liveTradingClaim: ContentFactoryClassification;
+  };
+  truth: {
+    externalPublishing: "blocked";
+    socialAccountsConnected: false;
+    founderApprovalRequiredForSensitiveClaims: true;
+  };
+};

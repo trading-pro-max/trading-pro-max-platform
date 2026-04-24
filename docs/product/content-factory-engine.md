@@ -47,3 +47,15 @@ Current truth:
 - fake metrics are blocked
 - sensitive posts require review
 - blocked claims must be rewritten before review
+
+## Operational Samples
+
+The readiness snapshot classifies:
+
+- education platform tip: safe_auto_publish candidate later
+- VIP claim: approval_required
+- guaranteed profit: blocked
+- Islamic/Sharia certification claim: blocked unless real certification exists
+- live trading/broker claim: blocked
+
+No sample creates an external post, social token, fake metric, or launch claim.

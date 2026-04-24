@@ -26,6 +26,7 @@ export async function GET() {
         visualStyle: roomFoundation.visualStyle,
         overview: roomFoundation.overview,
         ministries: roomFoundation.ministries,
+        founderCompanion: roomFoundation.founderCompanion,
         approvalQueue: roomFoundation.approvalQueue,
         guardianLegal: roomFoundation.guardianLegal,
         treasury: roomFoundation.treasury,

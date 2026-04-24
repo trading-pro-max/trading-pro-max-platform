@@ -25,6 +25,8 @@ The web repository now contains the first private command-room foundation:
 
 This is not a public command app. The API payload is readiness truth only and contains no secrets, private user data, fake users, fake revenue, or fake metrics.
 
+The foundation now also includes a Founder Personal Companion summary derived from deterministic ministry reports and Product Truth. It is read-only and cannot approve, publish, launch, bill, expose secrets, or activate live trading.
+
 ## Purpose
 
 The command app may eventually show:

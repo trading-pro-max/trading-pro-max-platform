@@ -38,6 +38,12 @@ Current runtime foundation:
 
 The room snapshot includes Planet Overview, Ministry Reporting, Daily Briefing, Founder Approval Queue, Guardian, Legal Counsel, Treasury, Media, AI Video, and Product Truth panels.
 
+## Operational Expansion
+
+The room snapshot now also includes Founder Personal Companion readiness. It summarizes planet status, ministry reports, top risks, approvals needed, Guardian and Legal warnings, Media and Treasury readiness, engineering tasks, product gaps, what not to do, and next safe decisions.
+
+The companion summary is advisory only. It cannot approve actions alone, publish media, expose secrets, enable live execution, enable real money, activate broker/feed, activate billing, or override Guardian/Legal critical blocks.
+
 ## Still Planned
 
 - private desktop Founder Command app

@@ -1,12 +1,21 @@
 import "server-only";
 
-import { getBuildPlannerSnapshot, planSafeBuildTask } from "@/lib/server/build-planner";
+import {
+  getBuildPlannerReadinessSnapshot,
+  getBuildPlannerSnapshot,
+  planSafeBuildTask,
+} from "@/lib/server/build-planner";
 import { getCompanionContextSnapshot } from "@/lib/server/companion";
-import { classifyContentFactoryDraft } from "@/lib/server/content-factory";
+import {
+  classifyContentFactoryDraft,
+  getContentFactoryReadinessSnapshot,
+} from "@/lib/server/content-factory";
+import { getFounderPersonalCompanionSnapshot } from "@/lib/server/founder-command/founder-companion";
 import { getFounderCommandReportingSnapshot } from "@/lib/server/founder-command";
 import { evaluateGuardianLegalRules } from "@/lib/server/guardian-legal";
 import { getProductTruthSnapshot } from "@/lib/server/product";
 import { getStateExplanationSnapshot } from "@/lib/server/state-explanations";
+import { getPlatformClockSnapshot } from "@/lib/server/time/platform-clock";
 import { getVisualAcceptanceSnapshot } from "@/lib/server/visual-acceptance";
 import { getPlanEntitlementSnapshot } from "@/lib/plans/entitlements";
 import { getPlanetBlueprintSnapshot } from "./blueprint";
@@ -18,6 +27,8 @@ export type PlanetCoreEnginesSnapshot = {
   blueprint: ReturnType<typeof getPlanetBlueprintSnapshot>;
   productTruth: ReturnType<typeof getProductTruthSnapshot>;
   founderReporting: ReturnType<typeof getFounderCommandReportingSnapshot>;
+  founderCompanion: ReturnType<typeof getFounderPersonalCompanionSnapshot>;
+  platformClock: ReturnType<typeof getPlatformClockSnapshot>;
   planEntitlements: ReturnType<typeof getPlanEntitlementSnapshot>;
   companionContext: ReturnType<typeof getCompanionContextSnapshot>;
   guardianLegalRules: {
@@ -29,10 +40,20 @@ export type PlanetCoreEnginesSnapshot = {
   contentFactory: {
     blockedDraft: ReturnType<typeof classifyContentFactoryDraft>;
     reviewedDraft: ReturnType<typeof classifyContentFactoryDraft>;
+    educationTip: ReturnType<typeof classifyContentFactoryDraft>;
+    vipClaim: ReturnType<typeof classifyContentFactoryDraft>;
+    islamicClaim: ReturnType<typeof classifyContentFactoryDraft>;
+    liveClaim: ReturnType<typeof classifyContentFactoryDraft>;
+    readiness: ReturnType<typeof getContentFactoryReadinessSnapshot>;
   };
   buildPlanner: {
     defaultPlan: ReturnType<typeof getBuildPlannerSnapshot>;
     forbiddenLaunchPlan: ReturnType<typeof planSafeBuildTask>;
+    companionPlan: ReturnType<typeof planSafeBuildTask>;
+    mediaPlan: ReturnType<typeof planSafeBuildTask>;
+    secretForbiddenPlan: ReturnType<typeof planSafeBuildTask>;
+    liveForbiddenPlan: ReturnType<typeof planSafeBuildTask>;
+    readiness: ReturnType<typeof getBuildPlannerReadinessSnapshot>;
   };
   truth: {
     liveExecution: "blocked";
@@ -53,6 +74,8 @@ export function getPlanetCoreEnginesSnapshot(
     blueprint: getPlanetBlueprintSnapshot(checkedAt),
     productTruth: getProductTruthSnapshot(checkedAt),
     founderReporting: getFounderCommandReportingSnapshot(checkedAt),
+    founderCompanion: getFounderPersonalCompanionSnapshot(checkedAt),
+    platformClock: getPlatformClockSnapshot(checkedAt),
     planEntitlements: getPlanEntitlementSnapshot("demo_free", checkedAt),
     companionContext: getCompanionContextSnapshot({}, checkedAt),
     guardianLegalRules: {
@@ -76,10 +99,32 @@ export function getPlanetCoreEnginesSnapshot(
         contentType: "academy_post",
         text: "Paper-mode education and platform safety explanation",
       }),
+      educationTip: classifyContentFactoryDraft({
+        contentType: "academy_post",
+        text: "Paper-mode education and platform safety explanation",
+      }),
+      vipClaim: classifyContentFactoryDraft({
+        contentType: "pro_vip_teaser",
+        text: "VIP Brain requires entitlement, Guardian review, Legal review, and Founder approval.",
+      }),
+      islamicClaim: classifyContentFactoryDraft({
+        contentType: "text_post",
+        text: "Sharia certified Islamic account is active",
+      }),
+      liveClaim: classifyContentFactoryDraft({
+        contentType: "product_update",
+        text: "Live trading active with broker connected",
+      }),
+      readiness: getContentFactoryReadinessSnapshot(checkedAt),
     },
     buildPlanner: {
       defaultPlan: getBuildPlannerSnapshot(),
       forbiddenLaunchPlan: planSafeBuildTask("activate production launch with secrets"),
+      companionPlan: planSafeBuildTask("user Companion UI readiness", checkedAt),
+      mediaPlan: planSafeBuildTask("media content workflow", checkedAt),
+      secretForbiddenPlan: planSafeBuildTask("rotate secret token in private vault", checkedAt),
+      liveForbiddenPlan: planSafeBuildTask("enable live execution and billing", checkedAt),
+      readiness: getBuildPlannerReadinessSnapshot(checkedAt),
     },
     truth: {
       liveExecution: "blocked",

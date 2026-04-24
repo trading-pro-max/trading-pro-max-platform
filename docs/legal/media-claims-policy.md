@@ -28,3 +28,7 @@ This architecture does not connect social accounts, add tokens, schedule real po
 ## Planet Earth Claim Boundary
 
 Media Office, AI Video Studio, Community, Treasury, and Founder Command must use this same claims policy. No continent, state, ministry, profession, or assistant may publish or approve wording that implies fake launch, live trading, billing, broker/feed activation, performance guarantees, or certification.
+
+## Runtime Rule Connection
+
+Content Factory classifications must pass through Guardian, Legal, and Founder approval when claims touch Pro/VIP, AI capability, Islamic wording, launch, broker/feed/live, billing/pricing, ads, or performance discussion. External publishing remains blocked until real account connections and approvals exist.

@@ -5,6 +5,7 @@ import type { Dictionary } from "../../../lib/i18n/get-dictionary";
 import AuthSessionPanel from "../../auth/components/AuthSessionPanel";
 import ProductLogo from "../../brand/components/ProductLogo";
 import { LanguageSwitcher } from "../../shell/components/LanguageSwitcher";
+import SwissPrecisionClock from "../../shell/components/SwissPrecisionClock";
 import { ThemeSwitcher } from "../../shell/components/ThemeSwitcher";
 
 type ProductExperienceFrameProps = {
@@ -52,6 +53,7 @@ export default function ProductExperienceFrame({
         </div>
 
         <div className="tpm-foundation-nav-actions">
+          <SwissPrecisionClock compact />
           <AuthSessionPanel
             variant="nav"
             title="Protected account access"

@@ -241,6 +241,34 @@ function buildRouteProbes(input: {
         "Planet core engines route reports all 10 internal engines as read-only architecture without activating external capabilities.",
     },
     {
+      path: "/api/planet/visual-acceptance",
+      method: "GET",
+      status: input.productBackend.status,
+      detail:
+        "Visual Acceptance Engine route reports rubric readiness only; human screenshot acceptance remains required.",
+    },
+    {
+      path: "/api/planet/state-explanations",
+      method: "GET",
+      status: input.productBackend.status,
+      detail:
+        "State Explanation Engine route reports user-safe blocked, fallback, degraded, and protected-route explanations.",
+    },
+    {
+      path: "/api/planet/content-factory/readiness",
+      method: "GET",
+      status: input.productBackend.status,
+      detail:
+        "Content Factory readiness route classifies internal drafts without publishing, social tokens, fake metrics, or launch claims.",
+    },
+    {
+      path: "/api/build-planner/readiness",
+      method: "GET",
+      status: input.productBackend.status,
+      detail:
+        "AI Build Planner readiness route classifies safe future work while blocking launch, secrets, live execution, billing, and production actions.",
+    },
+    {
       path: "/api/product/truth",
       method: "GET",
       status: input.productBackend.status,

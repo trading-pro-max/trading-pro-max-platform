@@ -55,3 +55,5 @@ AI Video Studio is architecture only. No real generation, upload, or publishing 
 ## Planet Earth Studio Boundary
 
 AI Video Studio belongs to the Media & Communications Continent. It may prepare ideas, scripts, captions, hashtags, thumbnail briefs, voiceover briefs, scene outlines, and compliance risk scores. It does not connect APIs, upload media, publish externally, or claim metrics.
+
+Content Factory rules classify AI video scripts as approval_required unless they contain blocked claims, in which case they must be rewritten before review.

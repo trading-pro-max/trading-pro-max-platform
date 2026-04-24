@@ -59,3 +59,7 @@ The current command foundation builds this briefing from:
 - `lib/server/founder-command/room.ts`
 
 The reusable UI surface `FounderCommandRoom` renders the briefing as a private command panel only. It is not mounted as a public route.
+
+## Companion Briefing Feed
+
+The Founder Personal Companion can consume the daily briefing and produce a short priority summary. The summary is advisory only and cannot approve, publish, launch, bill, expose secrets, activate broker/feed, enable live execution, or enable real money.

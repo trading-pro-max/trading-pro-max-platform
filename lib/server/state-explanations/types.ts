@@ -14,12 +14,15 @@ export type ProductStateExplanationKey =
   | "feedback_failed"
   | "execution_blocked"
   | "live_disabled"
+  | "real_money_blocked"
   | "broker_unavailable"
   | "feed_fallback"
   | "billing_inactive"
   | "vip_locked"
   | "islamic_review_required"
-  | "launch_not_active";
+  | "launch_not_active"
+  | "social_publishing_inactive"
+  | "founder_command_private";
 
 export type ProductStateSeverity = "info" | "warning" | "blocked" | "error";
 

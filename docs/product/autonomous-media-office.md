@@ -54,3 +54,7 @@ The Autonomous Media Office plans and reviews content for Trading Pro Max. It do
 ## Planet Earth Media Boundary
 
 The Media & Communications Continent includes Media Office, AI Video Studio, Content Calendar, Campaigns, and Social Account Registry. No account connection, token storage, external publishing, fake followers, fake campaign metrics, or public launch claims are introduced by this model.
+
+## Runtime Connection
+
+Content Factory readiness now provides internal sample classifications for educational tips, VIP claims, guaranteed-profit claims, Islamic certification claims, and live-trading claims. These are readiness examples only and never publish externally.

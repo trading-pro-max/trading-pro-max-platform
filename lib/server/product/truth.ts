@@ -27,7 +27,8 @@ export type ProductTruthKey =
   | "islamic_sharia_certification"
   | "ai_prediction_claims"
   | "performance_revenue_model"
-  | "native_app_readiness";
+  | "native_app_readiness"
+  | "founder_command";
 
 export type ProductTruthItem = {
   key: ProductTruthKey;
@@ -48,9 +49,11 @@ export type ProductTruthSnapshot = {
     realMoneyRouting: "blocked";
     billing: "inactive";
     publicLaunch: "inactive";
+    socialPublishing: "inactive";
     islamicCertification: "not_certified";
     performanceRevenue: "hidden_inactive";
     secrets: "not_exposed";
+    founderCommand: "owner_only_private";
   };
 };
 
@@ -199,6 +202,15 @@ const items: ProductTruthItem[] = [
     safeNextStep: "Keep native status as readiness-only.",
     mustNotClaim: ["desktop app shipped", "mobile app available"],
   },
+  {
+    key: "founder_command",
+    label: "Founder Command",
+    state: "guarded",
+    publicCopy: "Founder Command is private and not a user feature.",
+    internalCopy: "Founder Command remains owner-only, read-only by default, and hidden from Free, Pro, VIP, Enterprise, and public navigation.",
+    safeNextStep: "Keep command room surfaces component/API foundation only until owner auth, device trust, and audit gates exist.",
+    mustNotClaim: ["admin dashboard available", "Founder Command public", "plan access to Founder Command"],
+  },
 ];
 
 export function getProductTruthSnapshot(
@@ -213,9 +225,11 @@ export function getProductTruthSnapshot(
       realMoneyRouting: "blocked",
       billing: "inactive",
       publicLaunch: "inactive",
+      socialPublishing: "inactive",
       islamicCertification: "not_certified",
       performanceRevenue: "hidden_inactive",
       secrets: "not_exposed",
+      founderCommand: "owner_only_private",
     },
   };
 }

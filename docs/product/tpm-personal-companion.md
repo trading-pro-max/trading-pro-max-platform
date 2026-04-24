@@ -84,3 +84,5 @@ The Companion is allowed to be helpful, warm, and precise. It is never allowed t
 - live execution: blocked
 - real-money routing: blocked
 - broker/feed activation: blocked unless a future controlled phase genuinely configures it
+
+Runtime context now includes assistant tier, plan entitlement truth, Product Truth, account type status, diagnostics readiness, and feedback readiness. This improves explanations only; it does not unlock Pro, VIP, Enterprise, broker/feed, billing, live execution, real money, or public launch.

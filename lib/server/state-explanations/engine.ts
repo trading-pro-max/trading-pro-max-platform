@@ -44,12 +44,15 @@ const explanations: ProductStateExplanation[] = [
   explanation("feedback_failed", "Feedback not submitted", "error", "Feedback could not be saved or the route is guarded.", "Try again after sign-in or route recovery.", "user"),
   explanation("execution_blocked", "Execution blocked", "blocked", "Execution guardrails prevent live or unsafe routing.", "Use paper-only simulation.", "operator"),
   explanation("live_disabled", "Live disabled", "blocked", "Live execution is disabled by product truth.", "Do not attempt live trading in this build.", "founder"),
+  explanation("real_money_blocked", "Real money blocked", "blocked", "Real-money routing is hard-blocked and no broker/cash route is active.", "Use paper mode only; do not present funding or cash routing.", "founder"),
   explanation("broker_unavailable", "Broker unavailable", "blocked", "No broker is configured for live routing.", "Keep broker status unconfigured/blocked.", "external_configuration"),
   explanation("feed_fallback", "Feed fallback", "warning", "External live feed is not active.", "Use fallback-labeled market context.", "external_configuration"),
   explanation("billing_inactive", "Billing inactive", "blocked", "No checkout or subscription system is active.", "Do not present paid activation.", "founder"),
   explanation("vip_locked", "VIP locked", "blocked", "VIP entitlement is not active.", "Keep VIP capability planned/locked.", "founder"),
   explanation("islamic_review_required", "Islamic review required", "warning", "Islamic/Sharia status is not certified by default.", "Use not-certified/review-required wording.", "founder"),
   explanation("launch_not_active", "Launch not active", "blocked", "Public launch has not been approved or released.", "Keep launch claims blocked.", "founder"),
+  explanation("social_publishing_inactive", "Social publishing inactive", "blocked", "No social accounts, publishing tokens, or external posting workflow is connected.", "Keep content in internal draft/review state.", "founder"),
+  explanation("founder_command_private", "Founder Command private", "blocked", "Founder Command is owner-only and not a normal product route or plan feature.", "Keep it hidden from public navigation until private owner auth exists.", "founder"),
 ];
 
 export function getStateExplanation(

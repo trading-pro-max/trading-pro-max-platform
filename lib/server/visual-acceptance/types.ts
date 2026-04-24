@@ -12,7 +12,10 @@ export type VisualAcceptanceArea =
   | "arabic_rtl"
   | "english_ltr"
   | "brand_identity"
-  | "plan_visual_identity";
+  | "plan_visual_identity"
+  | "founder_command"
+  | "swiss_precision"
+  | "earth_planet_identity";
 
 export type VisualAcceptanceStatus = "pass" | "partial" | "blocker";
 

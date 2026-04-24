@@ -109,3 +109,7 @@ Limits:
 Assistant tier language must always distinguish available, planned, inactive, blocked, and not configured states.
 
 The assistant must not create manipulative engagement loops, urgency pressure, guaranteed-profit framing, or paid-access deception.
+
+## Runtime Connector
+
+The Companion Context Engine exposes the current assistant tier as Demo / Paper by default. Pro, VIP, and Enterprise remain locked/planned unless real entitlement support exists. Founder Command access is never part of user plans.

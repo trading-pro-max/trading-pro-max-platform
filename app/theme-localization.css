@@ -2280,6 +2280,126 @@ html[data-theme="light"] .tpm-brand-lockup-hero .tpm-brand-subline {
   color: var(--tpm-brand-gold);
 }
 
+.tpm-earth-mark {
+  --tpm-earth-size: 40px;
+  --tpm-earth-gold: var(--tpm-brand-gold-soft, #d8a83c);
+  --tpm-earth-red: #d12b2b;
+  --tpm-earth-line: color-mix(in srgb, var(--tpm-earth-gold) 52%, var(--tpm-border));
+  display: inline-grid;
+  width: var(--tpm-earth-size);
+  height: var(--tpm-earth-size);
+  place-items: center;
+  flex: 0 0 auto;
+  color: var(--tpm-text);
+  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.22));
+}
+
+.tpm-earth-mark svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.tpm-earth-mark-command {
+  --tpm-earth-size: 78px;
+}
+
+.tpm-earth-mark-lockup {
+  --tpm-earth-size: 48px;
+}
+
+.tpm-earth-globe {
+  fill: color-mix(in srgb, var(--tpm-surface-strong) 88%, transparent);
+  stroke: var(--tpm-earth-line);
+  stroke-width: 2;
+}
+
+.tpm-earth-line,
+.tpm-earth-orbit {
+  fill: none;
+  stroke: var(--tpm-earth-line);
+  stroke-linecap: round;
+  stroke-width: 1.7;
+}
+
+.tpm-earth-orbit {
+  stroke: var(--tpm-earth-gold);
+  stroke-width: 2.2;
+}
+
+.tpm-earth-market-bar {
+  fill: var(--tpm-earth-gold);
+}
+
+.tpm-earth-swiss-point {
+  fill: var(--tpm-earth-red);
+}
+
+.tpm-precision-clock {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  padding: 7px 10px;
+  border: 1px solid var(--tpm-border);
+  border-radius: var(--tpm-radius-sm);
+  background: color-mix(in srgb, var(--tpm-surface-alt) 88%, transparent);
+  color: var(--tpm-text);
+  font-size: 11px;
+  font-weight: 850;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.tpm-precision-clock time {
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-variant-numeric: tabular-nums;
+}
+
+.tpm-precision-clock small {
+  color: var(--tpm-text-soft);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.tpm-precision-clock strong {
+  display: block;
+  font-variant-numeric: tabular-nums;
+}
+
+.tpm-precision-clock em {
+  color: var(--tpm-text-muted);
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.tpm-precision-pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--tpm-success);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--tpm-success) 14%, transparent);
+}
+
+.tpm-precision-pulse[data-pulse="degraded"],
+.tpm-precision-pulse[data-pulse="fallback"] {
+  background: var(--tpm-warning);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--tpm-warning) 14%, transparent);
+}
+
+.tpm-precision-pulse[data-pulse="blocked"] {
+  background: var(--tpm-danger);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--tpm-danger) 14%, transparent);
+}
+
+@media (max-width: 780px) {
+  .tpm-precision-clock {
+    display: none;
+  }
+}
+
 .tpm-auth-brand-mini {
   display: inline-flex;
   align-items: center;

@@ -2,6 +2,10 @@
 
 The Founder Personal Companion is private to Ahmad. It is different from the user-facing TPM Personal Companion. It helps the Founder understand and govern TPM Planet Earth OS without approving high-risk actions alone or faking readiness.
 
+Runtime source:
+
+- `lib/server/founder-command/founder-companion.ts`
+
 ## Purpose
 
 - summarize the whole planet
@@ -42,3 +46,18 @@ The Founder Personal Companion is private to Ahmad. It is different from the use
 - Sensitive recommendations: review required.
 - High-risk decisions: Founder approval required.
 - Critical actions: blocked.
+
+## Current Runtime Foundation
+
+The current snapshot summarizes:
+
+- planet status
+- decision ministries
+- high and critical risks
+- approvals needed
+- Guardian and Legal warnings
+- Media, Treasury, Engineering, and product gaps
+- next safe decisions
+- what not to do
+
+It contains no secrets, no private user data, no fake users, no fake revenue, no fake followers, and no fake metrics.

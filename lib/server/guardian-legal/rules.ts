@@ -57,6 +57,30 @@ const blockedRules: GuardianLegalRuleMatch[] = [
     safeAlternative: "Describe plans as roadmap/locked until billing exists.",
   },
   {
+    id: "fake-broker-feed",
+    category: "product_claim",
+    outcome: "blocked",
+    pattern: "broker connected",
+    reason: "Broker/feed activation is unconfigured and guarded.",
+    safeAlternative: "State that broker/feed activation is not configured.",
+  },
+  {
+    id: "fake-public-launch",
+    category: "product_claim",
+    outcome: "blocked",
+    pattern: "public launch active",
+    reason: "Public launch is not active in current product truth.",
+    safeAlternative: "Use internal readiness or not-launched wording.",
+  },
+  {
+    id: "fake-vip-guarantee",
+    category: "product_claim",
+    outcome: "blocked",
+    pattern: "VIP guarantees",
+    reason: "VIP cannot imply guaranteed outcomes or active paid access.",
+    safeAlternative: "Mark VIP as planned/locked and avoid outcome promises.",
+  },
+  {
     id: "fake-islamic-certification",
     category: "product_claim",
     outcome: "blocked",
@@ -71,6 +95,14 @@ const blockedRules: GuardianLegalRuleMatch[] = [
     pattern: "financial advice",
     reason: "The platform must not claim to provide financial advice.",
     safeAlternative: "Use education and decision-support wording.",
+  },
+  {
+    id: "ai-prediction-overclaim",
+    category: "product_claim",
+    outcome: "blocked",
+    pattern: "AI predicts with certainty",
+    reason: "AI/IQ may assist context but cannot promise certain market prediction.",
+    safeAlternative: "Use bounded decision-support wording.",
   },
 ];
 
@@ -103,6 +135,7 @@ const categoryOutcomes: Record<GuardianLegalCategory, GuardianLegalRuleOutcome> 
   community_abuse: "review_required",
   execution_bypass: "blocked",
   data_scraping: "review_required",
+  copied_competitor_content: "blocked",
   product_claim: "allowed",
 };
 

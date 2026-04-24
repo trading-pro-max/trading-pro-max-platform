@@ -75,6 +75,17 @@ Default state is **Not certified**. Do not claim Islamic or Sharia compliance un
 - Do not imply Islamic/Sharia certification.
 - Keep paper-only, fallback, blocked, and unconfigured states compact but visible.
 
+## Earth / Planet Mark
+
+The TPM Earth Mark is an SVG-only identity extension for Planet OS and Founder Command surfaces.
+
+- globe geometry represents the digital planet operating model
+- gold orbit represents disciplined growth and command oversight
+- Swiss red point is a subtle precision accent, not a Swiss legal/company claim
+- market bars remain minimal so the mark stays readable at small sizes
+- public trading surfaces should keep the standard Trading Pro Max mark dominant
+- Founder/private command surfaces may use the stronger Earth/Planet variant
+
 ## What Not To Do
 
 - No copied competitor UI, logo, wording, or brand shapes.

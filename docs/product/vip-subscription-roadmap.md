@@ -58,3 +58,5 @@ Future VIP may include:
 ## Current State
 
 VIP is planned. Billing is inactive. Checkout is inactive. VIP Assistant access is locked/planned unless real account entitlements support it. No user is granted fake VIP status by this roadmap.
+
+Current runtime truth: VIP appears only as a locked/planned assistant and plan identity. No subscription, private-room access, advanced strategy review, premium report, or performance-based fee is active.

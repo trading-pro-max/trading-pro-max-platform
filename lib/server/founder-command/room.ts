@@ -4,6 +4,7 @@ import { getPlanEntitlementSnapshot } from "@/lib/plans/entitlements";
 import { getProductTruthSnapshot } from "@/lib/server/product/truth";
 import { getPlanetBlueprintSnapshot } from "@/lib/server/planet-os/blueprint";
 import type { MinistryReport, PlanetRiskLevel } from "@/lib/server/planet-os/types";
+import { getFounderPersonalCompanionSnapshot } from "./founder-companion";
 import { getFounderCommandReportingSnapshot } from "./reporting";
 import type {
   FounderApprovalItem,
@@ -96,6 +97,7 @@ export type FounderCommandRoomFoundationSnapshot = {
   overview: FounderCommandOverview;
   ministries: FounderMinistryCommandCard[];
   briefing: ReturnType<typeof getFounderCommandReportingSnapshot>["briefing"];
+  founderCompanion: ReturnType<typeof getFounderPersonalCompanionSnapshot>;
   approvalQueue: FounderCommandRoomApprovalQueue;
   guardianLegal: FounderCommandGuardianLegalPanel;
   treasury: FounderCommandTreasuryPanel;
@@ -170,6 +172,7 @@ export function getFounderCommandRoomFoundationSnapshot(
   const blueprint = getPlanetBlueprintSnapshot(checkedAt);
   const productTruth = getProductTruthSnapshot(checkedAt);
   const planEntitlements = getPlanEntitlementSnapshot("demo_free", checkedAt);
+  const founderCompanion = getFounderPersonalCompanionSnapshot(checkedAt);
   const readiness = reporting.commandReadiness;
 
   const activeContinents = blueprint.continents.filter(
@@ -232,6 +235,7 @@ export function getFounderCommandRoomFoundationSnapshot(
     },
     ministries: reporting.ministries.map(summarizeMinistry),
     briefing: reporting.briefing,
+    founderCompanion,
     approvalQueue: {
       readOnly: true,
       states: approvalStates,

@@ -30,6 +30,8 @@ Each blocked action should explain:
 | monitoring | unconfigured unless external provider and endpoint are set |
 | protected routes | authentication required |
 | assistant capability | limited by plan, safety, Legal, and Guardian boundaries |
+| social publishing | inactive until real accounts, tokens, review, and Founder approval exist |
+| Founder Command | private owner-only command foundation, never a public plan feature |
 
 ## Safe Next Step Examples
 

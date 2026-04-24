@@ -8,6 +8,7 @@ export type GuardianLegalCategory =
   | "community_abuse"
   | "execution_bypass"
   | "data_scraping"
+  | "copied_competitor_content"
   | "product_claim";
 
 export type GuardianLegalRuleOutcome =
