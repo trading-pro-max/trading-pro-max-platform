@@ -227,6 +227,41 @@ function buildRouteProbes(input: {
         "Planet OS status route reports internal continents, ministries, Founder Command readiness, and blocked product truth without secrets or private data.",
     },
     {
+      path: "/api/planet/blueprint",
+      method: "GET",
+      status: input.productBackend.status,
+      detail:
+        "Planet Blueprint Engine route reports deterministic Planet OS structure and core engine readiness without fake metrics.",
+    },
+    {
+      path: "/api/planet/engines",
+      method: "GET",
+      status: input.productBackend.status,
+      detail:
+        "Planet core engines route reports all 10 internal engines as read-only architecture without activating external capabilities.",
+    },
+    {
+      path: "/api/product/truth",
+      method: "GET",
+      status: input.productBackend.status,
+      detail:
+        "Product Truth Engine route reports blocked, inactive, planned, and review-required capability truth.",
+    },
+    {
+      path: "/api/founder/briefing/readiness",
+      method: "GET",
+      status: input.productBackend.status,
+      detail:
+        "Founder reporting readiness route exposes non-sensitive briefing truth only; it is not a Founder action surface.",
+    },
+    {
+      path: "/api/companion/context",
+      method: "GET",
+      status: input.intelligence.status,
+      detail:
+        "Companion Context Engine route reports safe default assistant context without secrets, private data, or execution authority.",
+    },
+    {
       path: "/api/market",
       method: "GET",
       status: input.market.status,

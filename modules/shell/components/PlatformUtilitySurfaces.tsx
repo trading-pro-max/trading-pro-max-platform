@@ -217,6 +217,12 @@ type DiagnosticsHealthLoadState =
 
 type PlanetOsStatusPayload = {
   ok: boolean;
+  engineSummary?: {
+    total: number;
+    active: number;
+    foundationReady: number;
+    blockedCapabilities: string[];
+  };
   snapshot: {
     status: "operating" | "ready" | "planned" | "blocked" | "degraded";
     continents: Array<{ id: string; name: string; readiness: string }>;
@@ -251,7 +257,11 @@ type PlanetOsStatusPayload = {
 
 type PlanetOsLoadState =
   | { snapshot: null; status: "loading" }
-  | { snapshot: PlanetOsStatusPayload["snapshot"]; status: "ready" }
+  | {
+      engineSummary: PlanetOsStatusPayload["engineSummary"];
+      snapshot: PlanetOsStatusPayload["snapshot"];
+      status: "ready";
+    }
   | { snapshot: null; status: "error" };
 
 function useDiagnosticsHealth() {
@@ -321,7 +331,11 @@ function usePlanetOsStatus() {
         const payload = (await response.json()) as PlanetOsStatusPayload;
 
         if (!active) return;
-        setState({ snapshot: payload.snapshot, status: "ready" });
+        setState({
+          engineSummary: payload.engineSummary,
+          snapshot: payload.snapshot,
+          status: "ready",
+        });
       } catch {
         if (!active) return;
         setState({ snapshot: null, status: "error" });
@@ -354,6 +368,8 @@ export function PlatformDiagnosticsSurface({
   const planetOsLoadState = usePlanetOsStatus();
   const diagnosticsHealth = diagnosticsLoadState.health;
   const planetOsSnapshot = planetOsLoadState.snapshot;
+  const planetOsEngineSummary =
+    planetOsLoadState.status === "ready" ? planetOsLoadState.engineSummary : undefined;
   const localePrefix = locale ? `/${locale}` : "";
   const localeEntry = getLocaleEntry(locale);
 
@@ -457,6 +473,16 @@ export function PlatformDiagnosticsSurface({
           value: "Blocked where critical",
           tone: "blocked" as const,
           note: `Live=${planetOsSnapshot.safetyBoundaries.liveExecution}; money=${planetOsSnapshot.safetyBoundaries.realMoneyRouting}; billing=${planetOsSnapshot.truth.billing}.`,
+        },
+        {
+          label: "Core engines",
+          value: planetOsEngineSummary
+            ? `${planetOsEngineSummary.total} established`
+            : "Truth contracts ready",
+          tone: "approved" as const,
+          note: planetOsEngineSummary
+            ? `${planetOsEngineSummary.active} active; ${planetOsEngineSummary.foundationReady} foundation-ready; no external activation.`
+            : "Blueprint, truth, reporting, entitlement, companion, Guardian/Legal, visual, state, content, and build planning.",
         },
       ]
     : [];

@@ -1,0 +1,42 @@
+export type ContentFactoryType =
+  | "text_post"
+  | "academy_post"
+  | "product_update"
+  | "trust_safety_post"
+  | "pro_vip_teaser"
+  | "ai_video_script"
+  | "short_video_script"
+  | "long_video_script"
+  | "carousel_outline"
+  | "changelog_summary"
+  | "community_announcement";
+
+export type ContentFactoryLifecycle =
+  | "idea"
+  | "draft"
+  | "brand_review"
+  | "guardian_review"
+  | "legal_review"
+  | "founder_approval"
+  | "scheduled"
+  | "published"
+  | "blocked"
+  | "archived";
+
+export type ContentFactoryRisk = "safe_auto_publish" | "approval_required" | "blocked";
+
+export type ContentFactoryClassification = {
+  checkedAt: string;
+  mode: "content_factory_engine";
+  contentType: ContentFactoryType;
+  lifecycle: ContentFactoryLifecycle;
+  risk: ContentFactoryRisk;
+  requiredReviews: string[];
+  blockedReasons: string[];
+  safeNextStep: string;
+  truth: {
+    externalPublishing: "blocked";
+    socialTokens: "not_present";
+    fakeMetrics: "blocked";
+  };
+};
