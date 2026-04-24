@@ -654,6 +654,40 @@ export type DiagnosticsHealthSnapshot = {
       | "local_verified"
       | "production_requirements_visible"
       | "deployment_ready_guarded";
+    database?: {
+      providerTruth:
+        | "missing"
+        | "local_sqlite"
+        | "persistent_sqlite"
+        | "external_managed"
+        | "unsupported";
+      migrationsDirectoryPresent: boolean;
+      productionDatabaseRequired: true;
+      migrationCommand: "prisma migrate deploy";
+      seedPolicy: "manual_demo_seed_only";
+    };
+    secrets?: {
+      demoCredentialsRotated: boolean;
+      operatorCredentialsRotated: boolean;
+      operatorKeyConfigured: boolean;
+      operatorKeyStrength: "missing" | "weak_or_default" | "configured_guarded";
+      publicSecretLeakRisk: "none_detected" | "public_secret_key_names_present";
+      secretExposurePolicy: "presence_only";
+    };
+    closedBeta?: {
+      accessModel: "allowlist_only";
+      allowlistConfigured: boolean;
+      emailEntries: number;
+      accountEntries: number;
+      minimumEntries: number;
+    };
+    monitoring?: {
+      state: "configured_guarded" | "unconfigured";
+      providerConfigured: boolean;
+      endpointConfigured: boolean;
+      keyConfigured: boolean;
+      secretExposurePolicy: "presence_only";
+    };
     blockers: string[];
     warnings: string[];
   };

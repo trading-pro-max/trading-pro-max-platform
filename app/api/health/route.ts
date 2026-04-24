@@ -10,6 +10,13 @@ export async function GET() {
   const launchReadinessGate = buildLaunchReadinessGateSnapshot(health);
   const ready = health.readiness.status === "ready";
   const opsSubsystem = health.subsystems?.find((subsystem) => subsystem.key === "ops");
+  const unconfiguredTruth = [
+    "notification_delivery_unconfigured",
+    "billing_checkout_inactive",
+    ...(health.productionDeployment?.monitoring?.state === "configured_guarded"
+      ? []
+      : ["external_monitoring_unconfigured"]),
+  ];
   const degradedSubsystems =
     health.subsystems
       ?.filter((subsystem) => subsystem.status === "degraded")
@@ -52,11 +59,7 @@ export async function GET() {
           "public_launch_access",
         ],
         fallback: ["market_data_fallback_first"],
-        unconfigured: [
-          "notification_delivery_unconfigured",
-          "billing_checkout_inactive",
-          "external_monitoring_unconfigured",
-        ],
+        unconfigured: unconfiguredTruth,
         degraded:
           degradedSubsystems.length > 0
             ? degradedSubsystems

@@ -1,11 +1,105 @@
 import { expect, test } from "@playwright/test";
+import { spawnSync } from "node:child_process";
 
 const STORAGE_KEY = "tpm-platform-state-v1";
 const DEMO_EMAIL = process.env.TPM_DEMO_EMAIL ?? "demo@tradingpromax.local";
 const DEMO_PASSWORD =
   process.env.TPM_DEMO_PASSWORD ?? "TradingProMaxDemo!2026";
+const VALIDATOR_SCRIPT = "scripts/validate-production-readiness.mjs";
+
+function validatorEnv(overrides: Record<string, string | undefined> = {}) {
+  const env: Record<string, string | undefined> = {
+    SystemRoot: process.env.SystemRoot,
+    PATH: process.env.PATH,
+    PATHEXT: process.env.PATHEXT,
+    ComSpec: process.env.ComSpec,
+    TEMP: process.env.TEMP,
+    TMP: process.env.TMP,
+    USERPROFILE: process.env.USERPROFILE,
+    DOTENV_CONFIG_PATH: ".env.production.validation-test-missing",
+  };
+
+  return {
+    ...env,
+    ...overrides,
+  };
+}
+
+function runProductionValidator(overrides: Record<string, string | undefined> = {}) {
+  return spawnSync(process.execPath, [VALIDATOR_SCRIPT, "--json"], {
+    cwd: process.cwd(),
+    env: validatorEnv(overrides) as NodeJS.ProcessEnv,
+    encoding: "utf8",
+  });
+}
 
 test.describe("verified platform truth", () => {
+  test("keeps production readiness validation strict and secret-safe", () => {
+    const monitorSecret = "DoNotLeak_MonitoringSecret_2026_Value!";
+    const blockedResult = runProductionValidator({
+      NODE_ENV: "production",
+      TPM_DEPLOYMENT_TARGET: "production",
+      DATABASE_URL: "file:./prisma/dev.db",
+      TPM_DEMO_EMAIL: "demo@tradingpromax.local",
+      TPM_DEMO_PASSWORD: "TradingProMaxDemo!2026",
+      TPM_OPERATOR_EMAIL: "operator@tradingpromax.local",
+      TPM_OPERATOR_PASSWORD: "TradingProMaxOperator!2026",
+      TPM_OPS_EXTERNAL_MONITOR_KEY: monitorSecret,
+    });
+
+    expect(blockedResult.status).toBe(1);
+    expect(blockedResult.stdout).not.toContain(monitorSecret);
+    const blockedPayload = JSON.parse(blockedResult.stdout);
+    expect(blockedPayload.summary).toMatchObject({
+      status: "blocked",
+      target: "production",
+      launchMode: "closed_beta",
+    });
+    expect(blockedPayload.checks).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ key: "database_url", ok: false }),
+        expect.objectContaining({ key: "operator_key", ok: false }),
+        expect.objectContaining({ key: "credentials_rotated", ok: false }),
+        expect.objectContaining({ key: "closed_beta_allowlist", ok: false }),
+        expect.objectContaining({ key: "external_monitoring", ok: false }),
+      ])
+    );
+
+    const simulatedOperatorKey =
+      "TpmKey_2026_SimulatedOnly_Value_ABCDEFG12345!";
+    const simulatedMonitoringKey =
+      "MonKey_2026_SimulatedOnly_Value_ABCDEFG12345!";
+    const passResult = runProductionValidator({
+      NODE_ENV: "production",
+      TPM_DEPLOYMENT_TARGET: "production",
+      TPM_LAUNCH_MODE: "closed_beta",
+      DATABASE_URL: "file:/var/lib/trading-pro-max/production.db",
+      TPM_OPERATOR_KEY: simulatedOperatorKey,
+      TPM_DEMO_EMAIL: "demo.beta@example.test",
+      TPM_DEMO_PASSWORD: "DemoPass_2026_SimulatedOnly_Value!",
+      TPM_OPERATOR_EMAIL: "operator.beta@example.test",
+      TPM_OPERATOR_PASSWORD: "OperPass_2026_SimulatedOnly_Value!",
+      TPM_CLOSED_BETA_ALLOWLIST_EMAILS:
+        "tester1@example.test,tester2@example.test,tester3@example.test,tester4@example.test,tester5@example.test",
+      TPM_OPS_EXTERNAL_MONITOR_PROVIDER: "custom",
+      TPM_OPS_EXTERNAL_MONITOR_URL: "https://monitoring.example.test/tpm",
+      TPM_OPS_EXTERNAL_MONITOR_KEY: simulatedMonitoringKey,
+    });
+
+    expect(passResult.status).toBe(0);
+    expect(passResult.stdout).not.toContain(simulatedOperatorKey);
+    expect(passResult.stdout).not.toContain(simulatedMonitoringKey);
+    const passPayload = JSON.parse(passResult.stdout);
+    expect(passPayload).toMatchObject({
+      ok: true,
+      summary: {
+        status: "pass",
+        blockers: 0,
+      },
+      secretExposurePolicy: "presence_and_shape_only",
+    });
+  });
+
   test("visibly renders the verified workstation and utility routes", async ({
     page,
   }) => {
@@ -412,6 +506,26 @@ test.describe("verified platform truth", () => {
       ),
       blockers: expect.any(Array),
       warnings: expect.any(Array),
+    });
+    expect(healthPayload.productionDeployment.database).toMatchObject({
+      providerTruth: expect.stringMatching(
+        /missing|local_sqlite|persistent_sqlite|external_managed|unsupported/
+      ),
+      productionDatabaseRequired: true,
+    });
+    expect(healthPayload.productionDeployment.secrets).toMatchObject({
+      operatorKeyStrength: expect.stringMatching(
+        /missing|weak_or_default|configured_guarded/
+      ),
+      secretExposurePolicy: "presence_only",
+    });
+    expect(healthPayload.productionDeployment.closedBeta).toMatchObject({
+      accessModel: "allowlist_only",
+      allowlistConfigured: expect.any(Boolean),
+    });
+    expect(healthPayload.productionDeployment.monitoring).toMatchObject({
+      state: expect.stringMatching(/configured_guarded|unconfigured/),
+      secretExposurePolicy: "presence_only",
     });
     expect(healthPayload.clientExpansion.desktop.foundation.targets).toEqual(
       expect.arrayContaining(["windows", "macos", "linux"])
@@ -1892,13 +2006,13 @@ test.describe("verified platform truth", () => {
       mode: "local_observability",
       logging: "structured_local",
       metrics: "runtime_process",
-      tracing: "inactive",
-      alerting: "unconfigured",
+      tracing: expect.stringMatching(/inactive|configured_guarded/),
+      alerting: expect.stringMatching(/unconfigured|configured_guarded/),
     });
     expect(opsTelemetryPayload.snapshot.opsTruth).toMatchObject({
       adminSurface: "operator_guarded_api",
       remoteControl: "not_enabled",
-      externalMonitoring: "unconfigured",
+      externalMonitoring: expect.stringMatching(/unconfigured|configured_guarded/),
       incidentAutomation: "inactive",
     });
     expect(opsTelemetryPayload.snapshot.degradation).toMatchObject({

@@ -56,12 +56,30 @@ function isConfigured(value: string | null | undefined) {
   return Boolean(value?.trim());
 }
 
+function hasMinimumSecretShape(value: string | null | undefined, minLength: number) {
+  const normalized = value?.trim() ?? "";
+  if (normalized.length < minLength) return false;
+
+  const characterClasses = [
+    /[a-z]/.test(normalized),
+    /[A-Z]/.test(normalized),
+    /[0-9]/.test(normalized),
+    /[^A-Za-z0-9]/.test(normalized),
+  ].filter(Boolean).length;
+
+  return characterClasses >= 3;
+}
+
 export async function getOpsProductionActivationSnapshot(): Promise<OpsProductionActivationSnapshot> {
   const checkedAt = new Date().toISOString();
-  const tracingConfigured = isConfigured(process.env.TPM_OPS_TRACING_ENDPOINT);
-  const externalMonitoringConfigured = isConfigured(
-    process.env.TPM_OPS_EXTERNAL_MONITOR_URL
+  const tracingConfigured = Boolean(
+    process.env.TPM_OPS_TRACING_ENDPOINT?.trim().startsWith("https://")
   );
+  const externalMonitoringConfigured = isConfigured(
+    process.env.TPM_OPS_EXTERNAL_MONITOR_PROVIDER
+  ) &&
+    Boolean(process.env.TPM_OPS_EXTERNAL_MONITOR_URL?.trim().startsWith("https://")) &&
+    hasMinimumSecretShape(process.env.TPM_OPS_EXTERNAL_MONITOR_KEY, 24);
   const [auditEvents24h, activeSessions, pendingComplianceReviews] = await Promise.all([
     prisma.auditEvent.count({
       where: {

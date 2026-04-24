@@ -9,8 +9,8 @@ export type OpsTelemetrySnapshot = {
     mode: "local_observability";
     logging: "structured_local";
     metrics: "runtime_process";
-    tracing: "inactive";
-    alerting: "unconfigured";
+    tracing: "inactive" | "configured_guarded";
+    alerting: "unconfigured" | "configured_guarded";
   };
   runtime: {
     uptimeSeconds: number;
@@ -33,7 +33,7 @@ export type OpsTelemetrySnapshot = {
   opsTruth: {
     adminSurface: "operator_guarded_api";
     remoteControl: "not_enabled";
-    externalMonitoring: "unconfigured";
+    externalMonitoring: "unconfigured" | "configured_guarded";
     incidentAutomation: "inactive";
   };
   runbookPointers: Array<
@@ -70,8 +70,38 @@ export type OpsRunbookSnapshot = {
   summary: string;
 };
 
+function isConfigured(value: string | null | undefined) {
+  return Boolean(value?.trim());
+}
+
+function hasMinimumSecretShape(value: string | null | undefined, minLength: number) {
+  const normalized = value?.trim() ?? "";
+  if (normalized.length < minLength) return false;
+
+  const characterClasses = [
+    /[a-z]/.test(normalized),
+    /[A-Z]/.test(normalized),
+    /[0-9]/.test(normalized),
+    /[^A-Za-z0-9]/.test(normalized),
+  ].filter(Boolean).length;
+
+  return characterClasses >= 3;
+}
+
+function getExternalMonitoringConfigured() {
+  return (
+    isConfigured(process.env.TPM_OPS_EXTERNAL_MONITOR_PROVIDER) &&
+    Boolean(process.env.TPM_OPS_EXTERNAL_MONITOR_URL?.trim().startsWith("https://")) &&
+    hasMinimumSecretShape(process.env.TPM_OPS_EXTERNAL_MONITOR_KEY, 24)
+  );
+}
+
 export async function getOpsTelemetrySnapshot(): Promise<OpsTelemetrySnapshot> {
   const checkedAt = new Date().toISOString();
+  const tracingConfigured = Boolean(
+    process.env.TPM_OPS_TRACING_ENDPOINT?.trim().startsWith("https://")
+  );
+  const externalMonitoringConfigured = getExternalMonitoringConfigured();
   const [auditEvents24h, activeSessions, accounts] = await Promise.all([
     prisma.auditEvent.count({
       where: {
@@ -97,7 +127,7 @@ export async function getOpsTelemetrySnapshot(): Promise<OpsTelemetrySnapshot> {
       { key: "runtime_metrics", ok: true, weight: 20 },
       { key: "audit_store", ok: true, weight: 20 },
       { key: "operator_guards", ok: true, weight: 20 },
-      { key: "external_monitoring", ok: false, weight: 20 },
+      { key: "external_monitoring", ok: externalMonitoringConfigured, weight: 20 },
     ],
     stageThresholds: [
       { stage: "baseline_ready", minScore: 0 },
@@ -120,8 +150,8 @@ export async function getOpsTelemetrySnapshot(): Promise<OpsTelemetrySnapshot> {
       mode: "local_observability",
       logging: "structured_local",
       metrics: "runtime_process",
-      tracing: "inactive",
-      alerting: "unconfigured",
+      tracing: tracingConfigured ? "configured_guarded" : "inactive",
+      alerting: externalMonitoringConfigured ? "configured_guarded" : "unconfigured",
     },
     runtime: {
       uptimeSeconds: Math.max(0, Math.round(process.uptime())),
@@ -144,7 +174,9 @@ export async function getOpsTelemetrySnapshot(): Promise<OpsTelemetrySnapshot> {
     opsTruth: {
       adminSurface: "operator_guarded_api",
       remoteControl: "not_enabled",
-      externalMonitoring: "unconfigured",
+      externalMonitoring: externalMonitoringConfigured
+        ? "configured_guarded"
+        : "unconfigured",
       incidentAutomation: "inactive",
     },
     runbookPointers: [
@@ -161,9 +193,13 @@ export async function getOpsTelemetrySnapshot(): Promise<OpsTelemetrySnapshot> {
         | "guarded_operational",
     },
     summary:
-      "Enterprise ops telemetry contracts are active with local structured observability and guarded admin semantics.",
+      externalMonitoringConfigured
+        ? "Enterprise ops telemetry contracts are active with guarded external monitoring configuration truth."
+        : "Enterprise ops telemetry contracts are active with local structured observability and guarded admin semantics.",
     limitations: [
-      "No external monitoring backend is configured.",
+      externalMonitoringConfigured
+        ? "External monitoring configuration is presence-checked only; delivery is not simulated."
+        : "No external monitoring backend is configured.",
       "No remote-control or unattended incident automation is enabled.",
       "Alert delivery remains unconfigured and operator-reviewed.",
     ],

@@ -17,26 +17,52 @@ type ChecklistItem = {
   detail: string;
 };
 
+type DeploymentTarget = "local" | "staging" | "production";
+type DatabaseProviderTruth =
+  | "missing"
+  | "local_sqlite"
+  | "persistent_sqlite"
+  | "external_managed"
+  | "unsupported";
+
 export type ProductionDeploymentReadinessSnapshot = {
   checkedAt: string;
   environment: {
     nodeEnv: string;
+    deploymentTarget: DeploymentTarget;
     databaseUrlConfigured: boolean;
     usingLocalSqlite: boolean;
     trustProxyHeaders: "disabled" | "enabled";
     bearerAuth: "disabled" | "enabled";
   };
   secrets: {
-    demoCredentialsDefaulted: boolean;
+    demoCredentialsRotated: boolean;
+    operatorCredentialsRotated: boolean;
     operatorKeyConfigured: boolean;
+    operatorKeyStrength: "missing" | "weak_or_default" | "configured_guarded";
     publicSecretLeakRisk: "none_detected" | "public_secret_key_names_present";
     secretExposurePolicy: "presence_only";
   };
   database: {
+    providerTruth: DatabaseProviderTruth;
     migrationsDirectoryPresent: boolean;
     productionDatabaseRequired: true;
     migrationCommand: "prisma migrate deploy";
     seedPolicy: "manual_demo_seed_only";
+  };
+  closedBeta: {
+    accessModel: "allowlist_only";
+    allowlistConfigured: boolean;
+    emailEntries: number;
+    accountEntries: number;
+    minimumEntries: number;
+  };
+  monitoring: {
+    state: "configured_guarded" | "unconfigured";
+    providerConfigured: boolean;
+    endpointConfigured: boolean;
+    keyConfigured: boolean;
+    secretExposurePolicy: "presence_only";
   };
   startup: {
     buildRequired: true;
@@ -69,16 +95,103 @@ function isConfigured(value: string | null | undefined) {
   return Boolean(value?.trim());
 }
 
-function usesDefaultDemoCredentials() {
-  const defaultEmail = "demo@tradingpromax.local";
-  const defaultPassword = "TradingProMaxDemo!2026";
+function normalize(value: string | null | undefined) {
+  return value?.trim() ?? "";
+}
 
-  return (
-    !process.env.TPM_DEMO_EMAIL ||
-    process.env.TPM_DEMO_EMAIL === defaultEmail ||
-    !process.env.TPM_DEMO_PASSWORD ||
-    process.env.TPM_DEMO_PASSWORD === defaultPassword
-  );
+function parseCsv(value: string | null | undefined) {
+  return normalize(value)
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function getDeploymentTarget(): DeploymentTarget {
+  const target = normalize(process.env.TPM_DEPLOYMENT_TARGET).toLowerCase();
+
+  if (target === "local" || target === "staging" || target === "production") {
+    return target;
+  }
+
+  return "production";
+}
+
+function hasMinimumSecretShape(value: string | null | undefined, minLength: number) {
+  const normalized = normalize(value);
+  if (normalized.length < minLength) return false;
+
+  const characterClasses = [
+    /[a-z]/.test(normalized),
+    /[A-Z]/.test(normalized),
+    /[0-9]/.test(normalized),
+    /[^A-Za-z0-9]/.test(normalized),
+  ].filter(Boolean).length;
+
+  return characterClasses >= 3;
+}
+
+function getCredentialRotation() {
+  const demoEmail = normalize(process.env.TPM_DEMO_EMAIL);
+  const demoPassword = normalize(process.env.TPM_DEMO_PASSWORD);
+  const operatorEmail = normalize(process.env.TPM_OPERATOR_EMAIL);
+  const operatorPassword = normalize(process.env.TPM_OPERATOR_PASSWORD);
+  const demoRotated =
+    isConfigured(demoEmail) &&
+    isConfigured(demoPassword) &&
+    demoEmail !== "demo@tradingpromax.local" &&
+    demoPassword !== "TradingProMaxDemo!2026" &&
+    !demoEmail.endsWith(".local") &&
+    hasMinimumSecretShape(demoPassword, 16);
+  const operatorRotated =
+    isConfigured(operatorEmail) &&
+    isConfigured(operatorPassword) &&
+    operatorEmail !== "operator@tradingpromax.local" &&
+    operatorPassword !== "TradingProMaxOperator!2026" &&
+    !operatorEmail.endsWith(".local") &&
+    hasMinimumSecretShape(operatorPassword, 16);
+
+  return {
+    demoRotated,
+    operatorRotated,
+    credentialsRotated: demoRotated && operatorRotated && demoEmail !== operatorEmail,
+  };
+}
+
+function getOperatorKeyStrength() {
+  const operatorKey = normalize(process.env.TPM_OPERATOR_KEY);
+
+  if (!operatorKey) return "missing" as const;
+  if (
+    operatorKey === "local-operator-review-key" ||
+    /^(?:local|dev|development|test|operator|password)/i.test(operatorKey) ||
+    !hasMinimumSecretShape(operatorKey, 32)
+  ) {
+    return "weak_or_default" as const;
+  }
+
+  return "configured_guarded" as const;
+}
+
+function databaseProviderTruth(databaseUrl: string): DatabaseProviderTruth {
+  const normalized = normalize(databaseUrl).replaceAll("\\", "/").toLowerCase();
+
+  if (!normalized) return "missing";
+  if (
+    normalized === LOCAL_SQLITE_DATABASE_URL ||
+    normalized.startsWith("file:./") ||
+    normalized.startsWith("file:../") ||
+    normalized.includes("/prisma/dev.db")
+  ) {
+    return "local_sqlite";
+  }
+  if (normalized.startsWith("file:/") && !normalized.startsWith("file://")) {
+    return "persistent_sqlite";
+  }
+  if (/^(?:postgresql|postgres|mysql|sqlserver):\/\//i.test(normalized)) {
+    return "external_managed";
+  }
+
+  return "unsupported";
 }
 
 function publicSecretKeyNamesPresent() {
@@ -90,10 +203,13 @@ function publicSecretKeyNamesPresent() {
 
 function buildChecklist(input: {
   databaseUrlConfigured: boolean;
+  databaseProvider: DatabaseProviderTruth;
   migrationsDirectoryPresent: boolean;
-  operatorKeyConfigured: boolean;
-  defaultDemoCredentials: boolean;
+  operatorKeyStrength: ReturnType<typeof getOperatorKeyStrength>;
+  credentialsRotated: boolean;
   publicSecretNamesPresent: boolean;
+  closedBetaAllowlistConfigured: boolean;
+  monitoringConfigured: boolean;
   productionRuntime: boolean;
 }): ChecklistItem[] {
   return [
@@ -102,7 +218,9 @@ function buildChecklist(input: {
       ok: input.databaseUrlConfigured,
       severity: input.databaseUrlConfigured ? "pass" : "blocker",
       detail:
-        "Production deployment must set DATABASE_URL to a managed production database, not the local sqlite fallback.",
+        input.databaseProvider === "local_sqlite"
+          ? "Production deployment must not use the local SQLite fallback."
+          : "Production deployment must set DATABASE_URL to a managed production database or a persistent database URL.",
     },
     {
       key: "migration_directory",
@@ -113,17 +231,32 @@ function buildChecklist(input: {
     },
     {
       key: "operator_key",
-      ok: input.operatorKeyConfigured,
-      severity: input.operatorKeyConfigured ? "pass" : "blocker",
+      ok: input.operatorKeyStrength === "configured_guarded",
+      severity:
+        input.operatorKeyStrength === "configured_guarded" ? "pass" : "blocker",
       detail:
-        "TPM_OPERATOR_KEY must be configured before operator approval or guarded release actions are available in production.",
+        "TPM_OPERATOR_KEY must be present, high entropy, and not a local/default operator key.",
     },
     {
-      key: "demo_credentials_rotated",
-      ok: !input.defaultDemoCredentials,
-      severity: input.defaultDemoCredentials ? "blocker" : "pass",
+      key: "credentials_rotated",
+      ok: input.credentialsRotated,
+      severity: input.credentialsRotated ? "pass" : "blocker",
       detail:
-        "Seeded demo credentials must be rotated for controlled testers before production-like use.",
+        "Seeded demo and operator credentials must be rotated for controlled testers before production-like use.",
+    },
+    {
+      key: "closed_beta_allowlist",
+      ok: input.closedBetaAllowlistConfigured,
+      severity: input.closedBetaAllowlistConfigured ? "pass" : "blocker",
+      detail:
+        "Closed beta access must be constrained by email/account allowlist before production-like use.",
+    },
+    {
+      key: "external_monitoring",
+      ok: input.monitoringConfigured,
+      severity: input.monitoringConfigured ? "pass" : "blocker",
+      detail:
+        "External monitoring provider, endpoint, and secret key must be configured before production launch readiness.",
     },
     {
       key: "public_secret_names",
@@ -146,19 +279,46 @@ export function getProductionDeploymentReadinessSnapshot(
   checkedAt = new Date().toISOString()
 ): ProductionDeploymentReadinessSnapshot {
   const databaseUrl = getPrismaDatabaseUrl();
-  const databaseUrlConfigured = isConfigured(process.env.DATABASE_URL) &&
-    databaseUrl !== LOCAL_SQLITE_DATABASE_URL;
+  const deploymentTarget = getDeploymentTarget();
+  const databaseProvider = databaseProviderTruth(databaseUrl);
+  const databaseUrlConfigured =
+    isConfigured(process.env.DATABASE_URL) &&
+    (databaseProvider === "persistent_sqlite" ||
+      databaseProvider === "external_managed");
   const migrationsDirectoryPresent = existsSync(join(process.cwd(), "prisma", "migrations"));
-  const operatorKeyConfigured = isConfigured(process.env.TPM_OPERATOR_KEY);
-  const defaultDemoCredentials = usesDefaultDemoCredentials();
+  const operatorKeyStrength = getOperatorKeyStrength();
+  const operatorKeyConfigured = operatorKeyStrength === "configured_guarded";
+  const credentials = getCredentialRotation();
   const publicSecretNamesPresent = publicSecretKeyNamesPresent();
+  const emailAllowlist = parseCsv(process.env.TPM_CLOSED_BETA_ALLOWLIST_EMAILS);
+  const accountAllowlist = parseCsv(process.env.TPM_CLOSED_BETA_ALLOWLIST_ACCOUNT_IDS);
+  const minimumEntries = deploymentTarget === "production" ? 5 : 1;
+  const closedBetaAllowlistConfigured =
+    emailAllowlist.length + accountAllowlist.length >= minimumEntries;
+  const monitoringProviderConfigured = isConfigured(
+    process.env.TPM_OPS_EXTERNAL_MONITOR_PROVIDER
+  );
+  const monitoringEndpointConfigured =
+    isConfigured(process.env.TPM_OPS_EXTERNAL_MONITOR_URL) &&
+    normalize(process.env.TPM_OPS_EXTERNAL_MONITOR_URL).startsWith("https://");
+  const monitoringKeyConfigured = hasMinimumSecretShape(
+    process.env.TPM_OPS_EXTERNAL_MONITOR_KEY,
+    24
+  );
+  const monitoringConfigured =
+    monitoringProviderConfigured &&
+    monitoringEndpointConfigured &&
+    monitoringKeyConfigured;
   const productionRuntime = process.env.NODE_ENV === "production";
   const checklist = buildChecklist({
     databaseUrlConfigured,
+    databaseProvider,
     migrationsDirectoryPresent,
-    operatorKeyConfigured,
-    defaultDemoCredentials,
+    operatorKeyStrength,
+    credentialsRotated: credentials.credentialsRotated,
     publicSecretNamesPresent,
+    closedBetaAllowlistConfigured,
+    monitoringConfigured,
     productionRuntime,
   });
   const blockers = checklist
@@ -169,12 +329,14 @@ export function getProductionDeploymentReadinessSnapshot(
     .map((item) => item.key);
   const readiness = buildReadinessSnapshot({
     components: [
-      { key: "production_database_url", ok: databaseUrlConfigured, weight: 25 },
-      { key: "migration_directory", ok: migrationsDirectoryPresent, weight: 20 },
+      { key: "production_database_url", ok: databaseUrlConfigured, weight: 20 },
+      { key: "migration_directory", ok: migrationsDirectoryPresent, weight: 10 },
       { key: "operator_key", ok: operatorKeyConfigured, weight: 15 },
-      { key: "demo_credentials_rotated", ok: !defaultDemoCredentials, weight: 15 },
+      { key: "credentials_rotated", ok: credentials.credentialsRotated, weight: 15 },
+      { key: "closed_beta_allowlist", ok: closedBetaAllowlistConfigured, weight: 10 },
+      { key: "external_monitoring", ok: monitoringConfigured, weight: 10 },
       { key: "public_secret_names", ok: !publicSecretNamesPresent, weight: 10 },
-      { key: "startup_baseline", ok: true, weight: 10 },
+      { key: "startup_baseline", ok: true, weight: 5 },
       { key: "rollback_contract", ok: true, weight: 5 },
     ],
     stageThresholds: [
@@ -188,8 +350,9 @@ export function getProductionDeploymentReadinessSnapshot(
     checkedAt,
     environment: {
       nodeEnv: process.env.NODE_ENV ?? "undefined",
+      deploymentTarget,
       databaseUrlConfigured,
-      usingLocalSqlite: databaseUrl === LOCAL_SQLITE_DATABASE_URL,
+      usingLocalSqlite: databaseProvider === "local_sqlite",
       trustProxyHeaders: envIsTrue(process.env.TPM_TRUST_PROXY_HEADERS)
         ? "enabled"
         : "disabled",
@@ -198,18 +361,35 @@ export function getProductionDeploymentReadinessSnapshot(
         : "disabled",
     },
     secrets: {
-      demoCredentialsDefaulted: defaultDemoCredentials,
+      demoCredentialsRotated: credentials.demoRotated,
+      operatorCredentialsRotated: credentials.operatorRotated,
       operatorKeyConfigured,
+      operatorKeyStrength,
       publicSecretLeakRisk: publicSecretNamesPresent
         ? "public_secret_key_names_present"
         : "none_detected",
       secretExposurePolicy: "presence_only",
     },
     database: {
+      providerTruth: databaseProvider,
       migrationsDirectoryPresent,
       productionDatabaseRequired: true,
       migrationCommand: "prisma migrate deploy",
       seedPolicy: "manual_demo_seed_only",
+    },
+    closedBeta: {
+      accessModel: "allowlist_only",
+      allowlistConfigured: closedBetaAllowlistConfigured,
+      emailEntries: emailAllowlist.length,
+      accountEntries: accountAllowlist.length,
+      minimumEntries,
+    },
+    monitoring: {
+      state: monitoringConfigured ? "configured_guarded" : "unconfigured",
+      providerConfigured: monitoringProviderConfigured,
+      endpointConfigured: monitoringEndpointConfigured,
+      keyConfigured: monitoringKeyConfigured,
+      secretExposurePolicy: "presence_only",
     },
     startup: {
       buildRequired: true,

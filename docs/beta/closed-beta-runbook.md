@@ -9,17 +9,21 @@ Run a five-tester controlled beta that proves Trading Pro Max is usable, truthfu
 - Target size: 5 testers.
 - Required setup: unique tester email, rotated demo password, account session verified.
 - Access control: set `TPM_CLOSED_BETA_ALLOWLIST_EMAILS` to the five tester emails before seeding or issuing credentials.
+- Production env contract: follow `docs/ops/production-env.md` before treating the cohort as production-like.
 - Support lane: operator review through `/api/launch/feedback`.
 
 ## Daily Operator Flow
 
 1. Run `npm run build`.
 2. Run `npm run prisma:validate`.
-3. Run `npm run smoke:routes -- --with-api` for local route confidence.
-4. Start with `npm start`.
-5. Check `/api/health`.
-6. Check `/api/diagnostics/probes`.
-7. Confirm these are still blocked or inactive:
+3. Run `npm run production:validate`.
+   - A blocked result means production blockers remain.
+   - Do not treat the cohort as production-ready until the blockers are cleared with real external values.
+4. Run `npm run smoke:routes -- --with-api` for local route confidence.
+5. Start with `npm start`.
+6. Check `/api/health`.
+7. Check `/api/diagnostics/probes`.
+8. Confirm these are still blocked or inactive:
    - live execution
    - real-money routing
    - broker live order route
@@ -46,6 +50,7 @@ Run a five-tester controlled beta that proves Trading Pro Max is usable, truthfu
 - `/api/market/feed-state` reports `policyMode: fallback_first`.
 - `/api/commercial/catalog` reports billing inactive.
 - `/api/intelligence/operator-assist` reports no predictive guarantee and no execution authority.
+- `/api/health` reports the real `productionDeployment` and monitoring state.
 
 ## Incident Rules
 

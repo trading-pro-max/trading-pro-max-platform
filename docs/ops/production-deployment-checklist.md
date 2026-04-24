@@ -7,11 +7,13 @@ The app can be prepared for controlled production-like use, but deployment is bl
 ## Required Before Deployment
 
 - Set `DATABASE_URL` to the production database.
+- Confirm `DATABASE_URL` is not `file:./prisma/dev.db` or any relative local path.
 - Create and review Prisma migrations.
 - Run `prisma migrate deploy` against the production database.
 - Set `TPM_OPERATOR_KEY`.
-- Rotate `TPM_DEMO_EMAIL` and `TPM_DEMO_PASSWORD`.
+- Rotate `TPM_DEMO_EMAIL`, `TPM_DEMO_PASSWORD`, `TPM_OPERATOR_EMAIL`, and `TPM_OPERATOR_PASSWORD`.
 - Set `TPM_CLOSED_BETA_ALLOWLIST_EMAILS` for the closed beta cohort.
+- Configure `TPM_OPS_EXTERNAL_MONITOR_PROVIDER`, `TPM_OPS_EXTERNAL_MONITOR_URL`, and `TPM_OPS_EXTERNAL_MONITOR_KEY`.
 - Confirm no `NEXT_PUBLIC_*` variable name contains secret, token, password, private, or key.
 - Run `npm run production:validate`.
 
@@ -25,6 +27,7 @@ The app can be prepared for controlled production-like use, but deployment is bl
 - `/api/health`
 - `/api/diagnostics/probes`
 - `/api/launch/readiness` with the `deployment` domain not failed
+- `node scripts/validate-production-readiness.mjs --json`
 
 ## Rollback Plan
 
@@ -41,7 +44,10 @@ The app can be prepared for controlled production-like use, but deployment is bl
 - No production database.
 - No migration plan.
 - Default demo credentials.
+- Default operator credentials.
 - Missing operator key.
+- Empty closed beta allowlist.
+- Missing external monitoring configuration.
 - Failed `production_deployment_readiness` launch-gate domain.
 - Any live-money or live-execution path.
 - Any false broker/feed/billing/notification/public-launch claim.
