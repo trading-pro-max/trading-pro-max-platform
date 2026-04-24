@@ -38,3 +38,11 @@ Domains:
 This is not an autonomous code executor. It does not deploy, touch secrets, activate production, publish externally, or enable live trading.
 
 The readiness snapshot recommends safe future areas such as chart/workstation polish, Companion UI, Founder command private app shell, plan entitlement UX, state explanations, journal/coach foundation, and community architecture. It blocks launch, production, secrets, live execution, billing, broker/feed, and social publishing tasks unless explicitly allowed in a future scope.
+
+## Internal Roadmap Planner
+
+The Build Planner now includes an internal roadmap planner contract in `lib/server/build-planner/planner.ts`.
+
+It separates next safe task, batchable tasks, blocked tasks, forbidden tasks, dependency chain, validation required, owner/ministry, user-facing vs Founder-only vs docs-only work, and whether the task should wait.
+
+Launch, production secrets, live execution, billing activation, broker/feed activation, and social publishing remain forbidden unless a future explicitly authorized phase changes scope.

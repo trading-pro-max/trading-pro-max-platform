@@ -11,11 +11,41 @@ export type JournalCoachPrompt = {
   safeReason: string;
 };
 
+export type JournalCoachPhase =
+  | "pre_session"
+  | "during_session"
+  | "post_session"
+  | "decision_replay";
+
+export type DecisionReplayFoundation = {
+  mode: "decision_replay_foundation";
+  selectedSymbol: string;
+  timeframe: string;
+  contextQuality: "bounded";
+  productTruthAtDecisionTime: {
+    paperMode: "available";
+    liveExecution: "blocked";
+    realMoneyRouting: "blocked";
+    brokerFeed: "fallback_or_unconfigured";
+  };
+  preflightState: "paper_safe_preflight";
+  assistantGuidanceState: "bounded_context_only";
+  allowedState: "paper_rehearsal_only";
+  learningPrompts: string[];
+  noAlternativeOutcomeGuarantee: true;
+};
+
 export type JournalCoachSnapshot = {
   checkedAt: string;
   mode: "journal_coach_foundation";
   currentPlan: "demo_free";
   prompts: JournalCoachPrompt[];
+  phases: Array<{
+    phase: JournalCoachPhase;
+    state: "active" | "planned" | "locked";
+    guidance: string;
+  }>;
+  decisionReplay: DecisionReplayFoundation;
   planTruth: {
     demo: "basic_prompts_active";
     pro: "journal_depth_planned";

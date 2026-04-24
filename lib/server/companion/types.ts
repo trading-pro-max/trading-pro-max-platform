@@ -1,5 +1,32 @@
 export type CompanionContextSource = "default_safe" | "route_context" | "authenticated_safe";
 
+export type CompanionIntentCategory =
+  | "explain_platform_state"
+  | "explain_blocked_state"
+  | "explain_market_context"
+  | "explain_plan_access"
+  | "explain_account_type"
+  | "guide_to_settings"
+  | "guide_to_diagnostics"
+  | "guide_to_feedback"
+  | "draft_feedback"
+  | "journal_prompt"
+  | "session_summary"
+  | "learning_help"
+  | "founder_unavailable_for_user";
+
+export type CompanionIntentAvailability = {
+  intent: CompanionIntentCategory;
+  label: string;
+  demoFree: "allowed" | "blocked";
+  pro: "allowed" | "planned" | "blocked";
+  vip: "allowed" | "planned" | "blocked";
+  enterprise: "future" | "blocked";
+  safetyBoundary: string;
+  responseStyle: string;
+  blockedLanguage: string[];
+};
+
 export type CompanionContextSnapshot = {
   checkedAt: string;
   mode: "companion_context_engine";
@@ -50,8 +77,17 @@ export type CompanionContextSnapshot = {
   preferences: {
     language: string;
     theme: "dark" | "light" | "system";
-    skillLevel: "unknown" | "beginner" | "intermediate" | "advanced";
+    skillLevel: "unknown" | "beginner" | "intermediate" | "advanced" | "professional" | "learning_only";
+    riskProfile: "learning" | "conservative" | "balanced" | "active" | "high_caution";
   };
+  brain: {
+    contextQuality: "bounded" | "limited" | "ready";
+    decisionSupportMode: string;
+    userGuidanceMode: string;
+    safeNextActions: string[];
+    blockedCapabilities: string[];
+  };
+  intents: CompanionIntentAvailability[];
   diagnostics: {
     readiness: "ready" | "guarded" | "blocked";
     feedbackState: "available_guarded" | "unavailable";
@@ -78,4 +114,6 @@ export type CompanionContextInput = Partial<{
   theme: "dark" | "light" | "system";
   planTier: CompanionContextSnapshot["account"]["planTier"];
   sessionState: CompanionContextSnapshot["account"]["sessionState"];
+  skillLevel: Exclude<CompanionContextSnapshot["preferences"]["skillLevel"], "unknown">;
+  riskProfile: CompanionContextSnapshot["preferences"]["riskProfile"];
 }>;

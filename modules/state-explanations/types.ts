@@ -15,6 +15,10 @@ export type StateExplanationView = {
   safeNextStep: string;
   severity: StateExplanationSeverity;
   resolvedBy: StateExplanationResolver;
+  blockerType?: string;
+  requiredConditionToUnblock?: string;
+  whoCanUnblock?: string;
+  state?: string;
   userCopy: string;
   internalCopy?: string;
 };

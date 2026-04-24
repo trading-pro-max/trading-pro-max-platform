@@ -21,3 +21,9 @@ Rules:
 - Founder/internal surfaces may show Planet OS reports
 - no fake monitoring, social publishing, broker/feed, billing, launch, users, revenue, or metrics
 - no Companion or Coach surface may execute, activate, approve, publish, or bypass safety
+
+## Signal Map
+
+The signal map is defined in `lib/server/living-signals/state.ts`.
+
+Signals include platform pulse, Swiss precision clock, feed heartbeat, Guardian watch state, Legal watch state, Companion availability, Founder briefing freshness, ministry report freshness, journal prompt readiness, media queue readiness, and plan upgrade readiness. Each signal records visibility, display location, update cadence, clutter risk, reduced-motion behavior, and fake-state prevention.

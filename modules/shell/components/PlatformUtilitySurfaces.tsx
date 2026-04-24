@@ -634,6 +634,44 @@ export function PlatformDiagnosticsSurface({
       note: "The assistant cannot execute trades, activate live mode, configure broker/feed, or unlock billing.",
     },
   ];
+  const intelligenceGovernanceItems = [
+    {
+      label: "TPM Brain context",
+      value: "Bounded",
+      tone: "pending" as const,
+      note: "Combines product truth, plan state, skill profile, journal readiness, Guardian/Legal boundaries, and visual acceptance without secrets.",
+    },
+    {
+      label: "Skill profile",
+      value: "Beginner-safe default",
+      tone: "approved" as const,
+      note: "Guidance adapts explanation depth without overtrading pressure or profit promises.",
+    },
+    {
+      label: "Companion intents",
+      value: "Safe categories only",
+      tone: "approved" as const,
+      note: "Explain state, blocked reasons, plans, feedback, journal prompts, and learning help; no execution authority.",
+    },
+    {
+      label: "Guardian / Legal matrix",
+      value: "Review and block ready",
+      tone: "restricted" as const,
+      note: "Risky claims, live claims, billing claims, Islamic certification claims, and VIP guarantees remain blocked or review-required.",
+    },
+    {
+      label: "Ministry autonomy",
+      value: "Assisted / review",
+      tone: "pending" as const,
+      note: "No ministry can autonomously launch, publish, bill, activate broker/feed, or execute live trades.",
+    },
+    {
+      label: "Roadmap planner",
+      value: "Planner only",
+      tone: "approved" as const,
+      note: "Classifies next safe tasks and forbidden tasks; it is not an autonomous code executor.",
+    },
+  ];
   const stateExplanationHighlights =
     stateExplanationLoadState.status === "ready"
       ? stateExplanationLoadState.explanations.filter((explanation) =>
@@ -644,6 +682,8 @@ export function PlatformDiagnosticsSurface({
             "vip_locked",
             "founder_command_private",
             "social_publishing_inactive",
+            "assistant_intent_restricted",
+            "performance_fee_hidden",
           ].includes(explanation.key)
         )
       : [];
@@ -948,6 +988,10 @@ export function PlatformDiagnosticsSurface({
 
       <UtilitySection eyebrow="COMPANION" title="Assistant readiness">
         <UtilityGrid items={companionReadinessItems} />
+      </UtilitySection>
+
+      <UtilitySection eyebrow="INTELLIGENCE" title="Self-governance readiness">
+        <UtilityGrid items={intelligenceGovernanceItems} />
       </UtilitySection>
 
       <UtilitySection eyebrow="STATE" title="Why blocked readiness">

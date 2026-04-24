@@ -10,12 +10,18 @@ export type FounderPersonalCompanionSnapshot = {
   planetStatus: FounderBriefing["planetStatus"];
   priorityBriefing: string[];
   riskSummary: string[];
+  opportunitySummary: string[];
+  ministriesNeedingAttention: string[];
   approvalsSummary: string[];
   guardianSummary: string[];
   legalSummary: string[];
   mediaSummary: string[];
   engineeringSummary: string[];
   productGapSummary: string[];
+  visualGapSummary: string[];
+  userFacingRiskSummary: string[];
+  treasurySummary: string[];
+  engineeringPrioritySuggestions: string[];
   nextSafeDecisions: string[];
   whatNotToDo: string[];
   ministrySignals: Array<{
@@ -46,6 +52,9 @@ export function getFounderPersonalCompanionSnapshot(
   const highRiskMinistries = reporting.ministries.filter(
     (report) => report.riskLevel === "high" || report.riskLevel === "critical"
   );
+  const blockedOrDegradedMinistries = reporting.ministries.filter(
+    (report) => report.status === "blocked" || report.status === "degraded"
+  );
 
   return {
     checkedAt,
@@ -59,12 +68,43 @@ export function getFounderPersonalCompanionSnapshot(
       "Live execution, real money, billing, broker/feed, public launch, and social publishing remain blocked or inactive.",
     ],
     riskSummary: reporting.briefing.topRisks,
+    opportunitySummary: [
+      "Companion, why-blocked, journal/coach, and plan truth can improve user confidence without launch work.",
+      "Founder Command can become more actionable through read-only prioritization before approval execution exists.",
+      "Plan value and VIP readiness can be clarified without billing or paid activation.",
+      "State explanations can reduce confusion while preserving hard safety boundaries.",
+      "Visual acceptance can keep public surfaces chart-first while internal Planet OS matures.",
+    ],
+    ministriesNeedingAttention: [
+      ...decisionMinistries.map((report) => report.ministryName),
+      ...blockedOrDegradedMinistries.map((report) => report.ministryName),
+    ].filter((value, index, list) => list.indexOf(value) === index),
     approvalsSummary: reporting.briefing.approvalsNeeded,
     guardianSummary: reporting.briefing.guardianAlerts,
     legalSummary: reporting.briefing.legalWarnings,
     mediaSummary: reporting.briefing.mediaQueueReadiness,
     engineeringSummary: reporting.briefing.engineeringTasks,
     productGapSummary: reporting.briefing.productGaps,
+    visualGapSummary: [
+      "Human visual acceptance by Ahmad is still required before any final 10/10 claim.",
+      "Chart-first hierarchy must be protected from Planet OS diagnostics growth.",
+      "Founder Command native desktop/mobile visual shells remain planned.",
+    ],
+    userFacingRiskSummary: [
+      "Users must not see Founder Command as a plan feature.",
+      "Companion must not produce trading signals, profit claims, or execution instructions.",
+      "Plan surfaces must not imply paid access while billing is inactive.",
+    ],
+    treasurySummary: [
+      "Demo / Free is active as paper-safe evaluation.",
+      "Pro and VIP remain planned/locked.",
+      "Billing is inactive and current performance fee remains 0%.",
+    ],
+    engineeringPrioritySuggestions: [
+      "Keep intelligence contracts deterministic and tested.",
+      "Prefer compact diagnostics over workstation clutter.",
+      "Add UI only where it clarifies product truth.",
+    ],
     nextSafeDecisions: reporting.briefing.nextSafeActions,
     whatNotToDo: reporting.briefing.whatNotToDoToday,
     ministrySignals: reporting.ministries.map((report) => ({

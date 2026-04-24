@@ -1,6 +1,6 @@
 import "server-only";
 
-import type { JournalCoachPrompt, JournalCoachSnapshot } from "./types";
+import type { DecisionReplayFoundation, JournalCoachPrompt, JournalCoachSnapshot } from "./types";
 
 const prompts: JournalCoachPrompt[] = [
   {
@@ -53,6 +53,33 @@ const prompts: JournalCoachPrompt[] = [
   },
 ];
 
+export function getDecisionReplayFoundation(input: {
+  selectedSymbol?: string;
+  timeframe?: string;
+} = {}): DecisionReplayFoundation {
+  return {
+    mode: "decision_replay_foundation",
+    selectedSymbol: input.selectedSymbol ?? "EUR/USD",
+    timeframe: input.timeframe ?? "1m",
+    contextQuality: "bounded",
+    productTruthAtDecisionTime: {
+      paperMode: "available",
+      liveExecution: "blocked",
+      realMoneyRouting: "blocked",
+      brokerFeed: "fallback_or_unconfigured",
+    },
+    preflightState: "paper_safe_preflight",
+    assistantGuidanceState: "bounded_context_only",
+    allowedState: "paper_rehearsal_only",
+    learningPrompts: [
+      "What did the preflight state allow or block?",
+      "Which market condition was rehearsed, and what evidence supported the paper decision?",
+      "What would be reviewed differently next time without assuming a better outcome?",
+    ],
+    noAlternativeOutcomeGuarantee: true,
+  };
+}
+
 export function getJournalCoachSnapshot(
   checkedAt = new Date().toISOString()
 ): JournalCoachSnapshot {
@@ -61,6 +88,29 @@ export function getJournalCoachSnapshot(
     mode: "journal_coach_foundation",
     currentPlan: "demo_free",
     prompts,
+    phases: [
+      {
+        phase: "pre_session",
+        state: "active",
+        guidance: "Check paper mode, fallback context, and personal pause conditions.",
+      },
+      {
+        phase: "during_session",
+        state: "active",
+        guidance: "Use compact caution prompts without trade signals or pressure.",
+      },
+      {
+        phase: "post_session",
+        state: "active",
+        guidance: "Reflect on timing, patience, risk adherence, and what was learned.",
+      },
+      {
+        phase: "decision_replay",
+        state: "planned",
+        guidance: "Replay will capture product truth and context quality without claiming alternate outcomes.",
+      },
+    ],
+    decisionReplay: getDecisionReplayFoundation(),
     planTruth: {
       demo: "basic_prompts_active",
       pro: "journal_depth_planned",

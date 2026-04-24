@@ -290,11 +290,25 @@ function buildRouteProbes(input: {
         "Companion Context Engine route reports safe default assistant context without secrets, private data, or execution authority.",
     },
     {
+      path: "/api/brain/context",
+      method: "GET",
+      status: input.intelligence.status,
+      detail:
+        "TPM Brain context route combines product truth, plan state, skill profile, journal/coach readiness, and safety summaries without secrets or predictive certainty.",
+    },
+    {
       path: "/api/journal-coach/readiness",
       method: "GET",
       status: input.productBackend.status,
       detail:
         "Journal/Coach readiness route reports paper-session prompts only; no financial advice, signals, live execution, or real-money routing is active.",
+    },
+    {
+      path: "/api/planet/self-governance",
+      method: "GET",
+      status: input.productBackend.status,
+      detail:
+        "Self-governance route reports Guardian/Legal matrix, ministry autonomy, plan value, living signals, and roadmap planning as readiness truth only.",
     },
     {
       path: "/api/market",

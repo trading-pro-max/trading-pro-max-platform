@@ -1,0 +1,110 @@
+import type { PlanId } from "@/lib/plans/types";
+
+export type PlanValueMapEntry = {
+  planId: PlanId;
+  userPromise: string;
+  visibleIdentity: string;
+  activeCapabilities: string[];
+  plannedCapabilities: string[];
+  lockedCapabilities: string[];
+  companionLevel: string;
+  journalCoachLevel: string;
+  contentCommunityAccess: string;
+  supportLevel: string;
+  reportingLevel: string;
+  upgradeTrigger: string;
+  mustNotClaim: string[];
+};
+
+export type PlanValueMapSnapshot = {
+  checkedAt: string;
+  mode: "plan_value_map";
+  plans: PlanValueMapEntry[];
+  truth: {
+    billing: "inactive";
+    paidActivation: "not_enabled";
+    vipActivation: "not_active";
+    enterpriseAvailability: "future_planned";
+    performanceFee: "hidden_inactive";
+  };
+};
+
+export const PLAN_VALUE_MAP: PlanValueMapEntry[] = [
+  {
+    planId: "demo_free",
+    userPromise: "Learn safely in a paper-first trading environment.",
+    visibleIdentity: "Graphite/blue safe learning identity.",
+    activeCapabilities: ["Paper-safe workstation", "Basic Companion", "Basic journal prompts", "Diagnostics and feedback"],
+    plannedCapabilities: ["Deeper Academy paths", "Decision replay foundation"],
+    lockedCapabilities: ["Pro alerts", "VIP Brain", "Paid reports"],
+    companionLevel: "Demo / Paper Assistant",
+    journalCoachLevel: "Basic paper prompts active",
+    contentCommunityAccess: "Basic community concept only; no live community claim.",
+    supportLevel: "Feedback readiness",
+    reportingLevel: "Local/session readiness",
+    upgradeTrigger: "No upgrade flow is active because billing is inactive.",
+    mustNotClaim: ["live execution", "paid access", "guaranteed outcome"],
+  },
+  {
+    planId: "pro",
+    userPromise: "Trade smarter with richer context after entitlement support exists.",
+    visibleIdentity: "Graphite/emerald/silver professional identity.",
+    activeCapabilities: [],
+    plannedCapabilities: ["Pro Assistant", "Journal depth", "Alerts/workflows", "Workspace memory", "Decision replay basic"],
+    lockedCapabilities: ["VIP Brain", "Advanced performance review", "Private rooms"],
+    companionLevel: "Pro Assistant planned",
+    journalCoachLevel: "Structured session review planned",
+    contentCommunityAccess: "Pro rooms planned only.",
+    supportLevel: "Standard support concept only.",
+    reportingLevel: "Session summaries planned.",
+    upgradeTrigger: "Entitlement and billing must exist before Pro is active.",
+    mustNotClaim: ["Pro active", "checkout active", "premium signal"],
+  },
+  {
+    planId: "vip",
+    userPromise: "Command deeper insight after VIP entitlement, safety, and support gates exist.",
+    visibleIdentity: "Black/gold/platinum elite identity without noise.",
+    activeCapabilities: [],
+    plannedCapabilities: ["VIP Brain", "Advanced coaching", "Deep journal analytics", "Premium reports", "VIP private rooms"],
+    lockedCapabilities: ["Guaranteed signals", "Win-rate claims", "Copy trading"],
+    companionLevel: "VIP Brain planned",
+    journalCoachLevel: "Advanced review planned",
+    contentCommunityAccess: "VIP rooms planned with Guardian/Legal moderation.",
+    supportLevel: "Priority support concept only.",
+    reportingLevel: "Premium reports planned.",
+    upgradeTrigger: "VIP requires entitlement, billing, safety, and Founder approval gates.",
+    mustNotClaim: ["VIP active", "guaranteed returns", "win-rate", "priority support active"],
+  },
+  {
+    planId: "enterprise",
+    userPromise: "Govern teams later with audit and compliance-ready workflows.",
+    visibleIdentity: "Navy/platinum/cyan future enterprise identity.",
+    activeCapabilities: [],
+    plannedCapabilities: ["Team/admin summaries", "Compliance assistant", "Audit overview", "Runbook support"],
+    lockedCapabilities: ["Enterprise access", "Team billing", "Compliance certification"],
+    companionLevel: "Enterprise Assistant future",
+    journalCoachLevel: "Team runbook guidance future",
+    contentCommunityAccess: "Enterprise rooms future only.",
+    supportLevel: "Custom support future only.",
+    reportingLevel: "Team/audit reports future.",
+    upgradeTrigger: "Enterprise is future-planned and not for public/user activation now.",
+    mustNotClaim: ["Enterprise available", "compliance certified", "team admin active"],
+  },
+];
+
+export function getPlanValueMapSnapshot(
+  checkedAt = new Date().toISOString()
+): PlanValueMapSnapshot {
+  return {
+    checkedAt,
+    mode: "plan_value_map",
+    plans: PLAN_VALUE_MAP,
+    truth: {
+      billing: "inactive",
+      paidActivation: "not_enabled",
+      vipActivation: "not_active",
+      enterpriseAvailability: "future_planned",
+      performanceFee: "hidden_inactive",
+    },
+  };
+}

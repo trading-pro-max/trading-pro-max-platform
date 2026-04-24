@@ -39,6 +39,28 @@ export type TPMCompanionContextView = {
     feedbackState: string;
     aiIqContextQuality: "bounded";
   };
+  brain: {
+    contextQuality: "bounded" | "limited" | "ready";
+    decisionSupportMode: string;
+    userGuidanceMode: string;
+    safeNextActions: string[];
+    blockedCapabilities: string[];
+  };
+  intents: Array<{
+    intent: string;
+    label: string;
+    demoFree: "allowed" | "blocked";
+    pro: "allowed" | "planned" | "blocked";
+    vip: "allowed" | "planned" | "blocked";
+    enterprise: "future" | "blocked";
+    safetyBoundary: string;
+    responseStyle: string;
+    blockedLanguage: string[];
+  }>;
+  preferences: {
+    skillLevel: string;
+    riskProfile: string;
+  };
   safety: {
     secretsIncluded: false;
     privateSensitiveDataIncluded: false;

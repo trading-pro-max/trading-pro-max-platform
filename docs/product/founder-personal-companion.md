@@ -61,3 +61,9 @@ The current snapshot summarizes:
 - what not to do
 
 It contains no secrets, no private user data, no fake users, no fake revenue, no fake followers, and no fake metrics.
+
+## Intelligence Deepening
+
+The Founder Personal Companion now summarizes daily planet briefing, top risks, top opportunities, ministries needing attention, product gaps, visual gaps, user-facing risks, Guardian alerts, Legal warnings, Media queue readiness, Treasury readiness, engineering priorities, what not to do today, and safe next decisions.
+
+It remains a read-only briefing assistant. It cannot approve actions, publish content, enable live trading, activate real money, override critical blocks, or pressure launch.

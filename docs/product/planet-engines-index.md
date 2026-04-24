@@ -45,3 +45,13 @@ Living experience activation:
 - Diagnostics shows compact engine, assistant, why-blocked, and journal/coach readiness.
 - Settings shows plan experience cards and paper-session coach prompts.
 - Swiss Precision Clock and Platform Pulse provide compact living signals without fake market/live claims.
+
+Intelligence and self-governance deepening:
+
+- `tpm-brain-context-layer.md`: central bounded intelligence context.
+- `user-skill-profile.md`: skill/risk profile adaptation.
+- `decision-replay.md`: paper-only decision replay foundation.
+- `plan-value-map.md`: plan value and non-billing truth.
+- `internal-roadmap-planner.md`: roadmap automation without autonomous execution.
+- `ministry-autonomy-levels.md`: ministry autonomy boundaries.
+- `planet-intelligence-index.md`: index for intelligence and self-governance docs.

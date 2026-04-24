@@ -75,3 +75,7 @@ Still not present:
 - audited approval execution
 - step-up confirmation
 - real production controls
+
+## Self-Governance Deepening
+
+The briefing now includes opportunity summaries, ministries needing attention, visual gaps, user-facing risks, treasury readiness, and engineering priority suggestions. This improves next-action intelligence without creating any approval execution surface.

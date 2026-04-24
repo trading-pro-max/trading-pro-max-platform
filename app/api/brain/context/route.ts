@@ -1,36 +1,25 @@
-import { getCompanionContextSnapshot } from "@/lib/server/companion";
+import { getTpmBrainContextSnapshot } from "@/lib/server/brain";
 import { noStoreJson } from "@/lib/server/security";
-import type { CompanionContextInput } from "@/lib/server/companion/types";
+import type { TpmBrainContextInput } from "@/lib/server/brain/types";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
-  const theme = url.searchParams.get("theme");
-  const planTier = url.searchParams.get("planTier");
-  const sessionState = url.searchParams.get("sessionState");
+  const planId = url.searchParams.get("planId");
   const skillLevel = url.searchParams.get("skillLevel");
   const riskProfile = url.searchParams.get("riskProfile");
-  const input: CompanionContextInput = {
+  const input: TpmBrainContextInput = {
     route: url.searchParams.get("route") ?? undefined,
-    language: url.searchParams.get("language") ?? undefined,
     selectedAsset: url.searchParams.get("asset") ?? undefined,
     timeframe: url.searchParams.get("timeframe") ?? undefined,
-    theme:
-      theme === "dark" || theme === "light" || theme === "system"
-        ? theme
-        : undefined,
-    planTier:
-      planTier === "demo_free" ||
-      planTier === "pro" ||
-      planTier === "vip" ||
-      planTier === "enterprise"
-        ? planTier
-        : undefined,
-    sessionState:
-      sessionState === "authenticated_safe" || sessionState === "anonymous"
-        ? sessionState
+    planId:
+      planId === "demo_free" ||
+      planId === "pro" ||
+      planId === "vip" ||
+      planId === "enterprise"
+        ? planId
         : undefined,
     skillLevel:
       skillLevel === "beginner" ||
@@ -52,6 +41,6 @@ export async function GET(request: Request) {
 
   return noStoreJson({
     ok: true,
-    snapshot: getCompanionContextSnapshot(input),
+    snapshot: getTpmBrainContextSnapshot(input),
   });
 }

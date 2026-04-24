@@ -1,0 +1,118 @@
+import "server-only";
+
+import type { LivingSignal, LivingSignalMapSnapshot } from "./types";
+
+const signals: LivingSignal[] = [
+  {
+    id: "platform_pulse",
+    label: "Platform Pulse",
+    purpose: "Show compact ready/fallback/blocked truth without becoming a dashboard.",
+    visibility: "public",
+    displayLocation: "top frame",
+    updateCadence: "request_snapshot",
+    state: "ready",
+    clutterRisk: "low",
+    reducedMotionBehavior: "Use static dot when prefers-reduced-motion is active.",
+    fakeStatePrevention: "Never maps to live trading or broker readiness.",
+  },
+  {
+    id: "swiss_precision_clock",
+    label: "Swiss Precision Clock",
+    purpose: "Give local, UTC, and Zurich time context while audit truth remains UTC.",
+    visibility: "public",
+    displayLocation: "top frame",
+    updateCadence: "client_local",
+    state: "ready",
+    clutterRisk: "low",
+    reducedMotionBehavior: "No required animation.",
+    fakeStatePrevention: "Market session label remains deterministic and not a live feed claim.",
+  },
+  {
+    id: "feed_heartbeat",
+    label: "Feed heartbeat",
+    purpose: "Disclose fallback/feed state compactly.",
+    visibility: "public",
+    displayLocation: "workstation truth strip",
+    updateCadence: "request_snapshot",
+    state: "fallback",
+    clutterRisk: "medium",
+    reducedMotionBehavior: "Use static fallback label.",
+    fakeStatePrevention: "Fallback label remains visible when external feed is absent.",
+  },
+  {
+    id: "guardian_watch",
+    label: "Guardian watch state",
+    purpose: "Show safety-boundary readiness in internal/founder surfaces.",
+    visibility: "internal_diagnostics",
+    displayLocation: "diagnostics and Founder Command readiness",
+    updateCadence: "manual_review",
+    state: "ready",
+    clutterRisk: "low",
+    reducedMotionBehavior: "No animation.",
+    fakeStatePrevention: "Does not claim invasive surveillance or private-data monitoring.",
+  },
+  {
+    id: "legal_watch",
+    label: "Legal watch state",
+    purpose: "Keep risky claims visible as review/block states.",
+    visibility: "internal_diagnostics",
+    displayLocation: "diagnostics and content readiness",
+    updateCadence: "manual_review",
+    state: "ready",
+    clutterRisk: "low",
+    reducedMotionBehavior: "No animation.",
+    fakeStatePrevention: "Does not claim legal certification.",
+  },
+  {
+    id: "founder_briefing_freshness",
+    label: "Founder briefing freshness",
+    purpose: "Confirm deterministic reporting can refresh without exposing private controls.",
+    visibility: "private_founder",
+    displayLocation: "Founder Command readiness",
+    updateCadence: "request_snapshot",
+    state: "ready",
+    clutterRisk: "low",
+    reducedMotionBehavior: "No animation.",
+    fakeStatePrevention: "Uses readiness snapshots only; no fake users, revenue, or metrics.",
+  },
+  {
+    id: "media_queue_readiness",
+    label: "Media queue readiness",
+    purpose: "Show content draft/review readiness while publishing is blocked.",
+    visibility: "private_founder",
+    displayLocation: "Founder Command and diagnostics",
+    updateCadence: "manual_review",
+    state: "blocked",
+    clutterRisk: "medium",
+    reducedMotionBehavior: "No animation.",
+    fakeStatePrevention: "No social tokens, external posting, or fake metrics.",
+  },
+  {
+    id: "plan_upgrade_readiness",
+    label: "Plan upgrade readiness",
+    purpose: "Show Pro/VIP/Enterprise value map without billing.",
+    visibility: "internal_diagnostics",
+    displayLocation: "settings plan cards",
+    updateCadence: "manual_review",
+    state: "planned",
+    clutterRisk: "medium",
+    reducedMotionBehavior: "No animation.",
+    fakeStatePrevention: "Billing inactive and paid activation not enabled.",
+  },
+];
+
+export function getLivingSignalMapSnapshot(
+  checkedAt = new Date().toISOString()
+): LivingSignalMapSnapshot {
+  return {
+    checkedAt,
+    mode: "living_planet_signal_map",
+    signals,
+    truth: {
+      overAnimation: "blocked",
+      fakeLiveMarketStatus: "blocked",
+      chartDistraction: "blocked",
+      publicClutter: "blocked",
+    },
+  };
+}

@@ -93,3 +93,9 @@ Planned states:
 - VIP coach review remains locked until real entitlement and safety gates exist.
 
 The runtime foundation is educational only. It does not produce trading signals, financial advice, guaranteed outcomes, or live execution authority.
+
+## Decision Replay Foundation
+
+Decision Replay is now represented as a paper-only learning contract in `lib/server/journal-coach/replay.ts`. It stores selected symbol/timeframe, context quality, product truth at decision time, preflight state, assistant guidance state, allowed/blocked state, and learning prompts.
+
+Decision Replay explicitly does not guarantee that any alternate decision would have produced a better outcome.

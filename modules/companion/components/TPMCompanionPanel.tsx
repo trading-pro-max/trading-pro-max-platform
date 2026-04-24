@@ -184,6 +184,16 @@ export default function TPMCompanionPanel({
         body:
           "Suggested draft: I was on the workstation, noticed a blocked or fallback state, and expected a clearer safe next step. Route, theme, language, and plan context can be reviewed without secrets.",
       },
+      learning: {
+        id: "response-learning",
+        role: "companion",
+        state: "ready",
+        title: "Skill-aware learning help",
+        body:
+          context?.brain.userGuidanceMode === "beginner_safe"
+            ? "I will keep explanations plain, paper-first, and focused on what is safe to learn next."
+            : "I can summarize context more compactly while keeping all guidance bounded and non-predictive.",
+      },
     }),
     [context]
   );
@@ -193,6 +203,7 @@ export default function TPMCompanionPanel({
     { id: "blocked", label: "Why blocked", response: promptResponses.blocked },
     { id: "plan", label: "Plan", response: promptResponses.plan },
     { id: "feedback", label: "Feedback", response: promptResponses.feedback },
+    { id: "learning", label: "Learning", response: promptResponses.learning },
   ];
   const activePrompt = prompts.find((prompt) => prompt.id === activePromptId) ?? prompts[0];
   const messages: TPMCompanionMessage[] = [
@@ -245,6 +256,11 @@ export default function TPMCompanionPanel({
           <strong>None</strong>
           <small>No execution or activation</small>
         </div>
+        <div>
+          <span>Brain</span>
+          <strong>{context?.brain.contextQuality ?? "bounded"}</strong>
+          <small>{context?.preferences.skillLevel ?? "beginner"} guidance</small>
+        </div>
       </div>
 
       <CompanionMessageList
@@ -275,6 +291,15 @@ export default function TPMCompanionPanel({
             .slice(0, 3)
             .map((feature) => (
               <small key={feature.label}>{feature.label}</small>
+            ))}
+        </div>
+        <div>
+          <span>Intent safety</span>
+          {(context?.intents ?? [])
+            .filter((intent) => intent.demoFree === "allowed")
+            .slice(0, 3)
+            .map((intent) => (
+              <small key={intent.intent}>{intent.label}</small>
             ))}
         </div>
       </div>

@@ -61,3 +61,9 @@ The first runtime surface is now available through reusable state explanation co
 - `SafeNextStepList`
 
 These components may appear in the execution ticket, diagnostics, settings, and Companion panel. They must stay compact and must not imply that a blocked state can be bypassed from the UI.
+
+## Deep Explanation Contract
+
+Each explanation now includes blocker type, required condition to unblock, who can unblock, and whether the state is hidden, planned, blocked, review-required, not configured, or not certified.
+
+Coverage includes Pro/VIP locks, broker activation, live feed, media publishing, AI video publishing, Islamic certification, social accounts, performance-fee visibility, and restricted assistant intents.

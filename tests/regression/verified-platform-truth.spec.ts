@@ -542,6 +542,9 @@ test.describe("verified platform truth", () => {
           await expect(page.locator("body")).toContainText(
             /Why blocked readiness|Session coach foundation|Journal \/ Coach/
           );
+          await expect(page.locator("body")).toContainText(
+            /Self-governance readiness|TPM Brain context|Ministry autonomy|Roadmap planner/
+          );
         }
       }
     }
@@ -1122,6 +1125,12 @@ test.describe("verified platform truth", () => {
     });
     expect(planetPayload.snapshot.continents).toHaveLength(11);
     expect(planetPayload.snapshot.ministries).toHaveLength(18);
+    expect(planetPayload.intelligenceSummary).toMatchObject({
+      brainContextQuality: "bounded",
+      decisionSupportMode: "paper_decision_support",
+      dangerousAutonomy: "blocked",
+      liveTradingAutonomy: "blocked",
+    });
     expect(planetPayload.snapshot.citizenClasses).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ key: "free_demo", state: "active_paper" }),
@@ -1284,6 +1293,22 @@ test.describe("verified platform truth", () => {
         founderCommand: "owner_only_private",
       },
     });
+    expect(companionContextPayload.snapshot.brain).toMatchObject({
+      contextQuality: "bounded",
+      decisionSupportMode: "paper_decision_support",
+    });
+    expect(companionContextPayload.snapshot.intents).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          intent: "explain_blocked_state",
+          demoFree: "allowed",
+        }),
+        expect.objectContaining({
+          intent: "founder_unavailable_for_user",
+          demoFree: "blocked",
+        }),
+      ])
+    );
     expect(companionContextPayload.snapshot.safety).toMatchObject({
       secretsIncluded: false,
       privateSensitiveDataIncluded: false,
@@ -1320,8 +1345,40 @@ test.describe("verified platform truth", () => {
         expect.objectContaining({ id: "vip-coach-review", state: "locked" }),
       ])
     );
+    expect(journalCoachReadinessPayload.snapshot.decisionReplay).toMatchObject({
+      mode: "decision_replay_foundation",
+      productTruthAtDecisionTime: {
+        liveExecution: "blocked",
+        realMoneyRouting: "blocked",
+      },
+      noAlternativeOutcomeGuarantee: true,
+    });
     expect(JSON.stringify(journalCoachReadinessPayload.snapshot)).not.toMatch(
       /guaranteed profit|financial advice|sure signal/i
+    );
+
+    const brainContext = await request.get("/api/brain/context?skillLevel=beginner");
+    expect(brainContext.status()).toBe(200);
+    const brainContextPayload = await brainContext.json();
+    expect(brainContextPayload.snapshot).toMatchObject({
+      mode: "tpm_brain_context_layer",
+      contextQuality: "bounded",
+      decisionSupportMode: "paper_decision_support",
+      marketContext: {
+        feedTruth: "fallback_first",
+        predictiveCertainty: "blocked",
+      },
+      truth: {
+        secretsIncluded: false,
+        brokerCredentialsIncluded: false,
+        fakeWinRateIncluded: false,
+        predictiveCertaintyClaimed: false,
+        autoTradingEnabled: false,
+        realMoneyEnabled: false,
+      },
+    });
+    expect(JSON.stringify(brainContextPayload.snapshot)).not.toMatch(
+      /DATABASE_URL|TPM_OPERATOR_KEY|guaranteed profit|win-rate claim active/i
     );
 
     const planetEngines = await request.get("/api/planet/engines");
@@ -1447,8 +1504,20 @@ test.describe("verified platform truth", () => {
     const stateExplanationsPayload = await stateExplanations.json();
     expect(stateExplanationsPayload.snapshot.explanations).toEqual(
       expect.arrayContaining([
-        expect.objectContaining({ key: "real_money_blocked" }),
-        expect.objectContaining({ key: "founder_command_private" }),
+        expect.objectContaining({
+          key: "real_money_blocked",
+          blockerType: "safety",
+          whoCanUnblock: "founder",
+        }),
+        expect.objectContaining({
+          key: "founder_command_private",
+          blockerType: "owner_private",
+          state: "hidden",
+        }),
+        expect.objectContaining({
+          key: "assistant_intent_restricted",
+          blockerType: "safety",
+        }),
       ])
     );
 
@@ -1472,10 +1541,50 @@ test.describe("verified platform truth", () => {
       launchForbidden: { domain: "launch-forbidden", completionStatus: "blocked" },
       secretForbidden: { domain: "secret-forbidden", completionStatus: "blocked" },
       liveForbidden: { domain: "live-forbidden", completionStatus: "blocked" },
+      billingForbidden: { domain: "billing-forbidden", completionStatus: "blocked" },
+      brokerFeedForbidden: { domain: "broker-feed-forbidden", completionStatus: "blocked" },
+      socialForbidden: { domain: "social-publishing-forbidden", completionStatus: "blocked" },
     });
     expect(JSON.stringify(buildPlannerReadinessPayload.snapshot)).not.toMatch(
       /activate production|enable live execution without approval/i
     );
+
+    const selfGovernance = await request.get("/api/planet/self-governance");
+    expect(selfGovernance.status()).toBe(200);
+    const selfGovernancePayload = await selfGovernance.json();
+    expect(selfGovernancePayload.snapshot).toMatchObject({
+      mode: "planet_self_governance_readiness",
+      guardianLegal: {
+        mode: "guardian_legal_enforcement_matrix",
+        truth: {
+          invasiveSurveillance: false,
+          fakeRuntimeEnforcementClaimed: false,
+          secretsRequired: false,
+        },
+      },
+      ministryAutonomy: {
+        truth: {
+          dangerousAutonomy: "blocked",
+          liveTradingAutonomy: "blocked",
+          billingAutonomy: "blocked",
+          founderCommandDefault: "read_only",
+        },
+      },
+      planValueMap: {
+        truth: {
+          billing: "inactive",
+          vipActivation: "not_active",
+        },
+      },
+      roadmap: {
+        truth: {
+          autonomousCodeExecution: "not_enabled",
+          liveExecutionForbidden: true,
+          billingActivationForbidden: true,
+          brokerFeedActivationForbidden: true,
+        },
+      },
+    });
 
     const probes = new Map<string, { key: string; status: string }>(
       diagnosticsPayload.health.probes.map((probe: { key: string; status: string }) => [
@@ -1603,7 +1712,13 @@ test.describe("verified platform truth", () => {
     expect(["ready", "degraded"]).toContain(
       routes.get("/api/companion/context")?.status
     );
+    expect(["ready", "degraded"]).toContain(
+      routes.get("/api/brain/context")?.status
+    );
     expect(routes.get("/api/journal-coach/readiness")).toMatchObject({
+      status: "ready",
+    });
+    expect(routes.get("/api/planet/self-governance")).toMatchObject({
       status: "ready",
     });
     expect(routes.get("/api/account/preferences")).toMatchObject({

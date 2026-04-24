@@ -104,3 +104,9 @@ The Companion is intentionally guided and bounded. It may explain the planet sta
 - broker/feed activation: blocked unless a future controlled phase genuinely configures it
 
 Runtime context now includes assistant tier, plan entitlement truth, Product Truth, account type status, diagnostics readiness, and feedback readiness. This improves explanations only; it does not unlock Pro, VIP, Enterprise, broker/feed, billing, live execution, real money, or public launch.
+
+## Intelligence Deepening
+
+The Companion now consumes the TPM Brain context and user skill profile foundation. It can classify safe intent categories such as platform-state explanation, blocked-state explanation, plan access, account type, diagnostics, feedback drafting, journal prompts, session summaries, learning help, and Founder Command unavailable-for-user.
+
+Each intent carries plan availability, response style, safety boundary, and blocked language. Founder Command remains private and unavailable as a user-plan feature.

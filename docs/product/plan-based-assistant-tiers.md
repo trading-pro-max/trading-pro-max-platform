@@ -113,3 +113,11 @@ The assistant must not create manipulative engagement loops, urgency pressure, g
 ## Runtime Connector
 
 The Companion Context Engine exposes the current assistant tier as Demo / Paper by default. Pro, VIP, and Enterprise remain locked/planned unless real entitlement support exists. Founder Command access is never part of user plans.
+
+## Intent-Aware Assistant Boundaries
+
+The Companion intent model is defined in `lib/server/companion/types.ts` and returned through `/api/companion/context`.
+
+Demo / Free may use safe explanation, blocked-state, plan, settings, diagnostics, feedback, journal, and learning intents. Pro and VIP may have richer versions later, but remain planned/locked unless real entitlements exist. Enterprise remains future planned.
+
+Blocked language includes bypass/force-enable wording, guaranteed-profit claims, win-rate claims, fake live/broker/feed/billing/launch claims, and any implication that Founder Command can be unlocked by a user plan.

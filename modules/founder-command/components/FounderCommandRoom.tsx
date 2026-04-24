@@ -122,7 +122,23 @@ export default function FounderCommandRoom({
                 .slice(0, 5)
                 .map((item) => (
                   <li key={item}>{item}</li>
-                ))}
+              ))}
+            </ul>
+          </article>
+          <article>
+            <h3>Opportunities</h3>
+            <ul>
+              {commandSnapshot.founderCompanion.opportunitySummary.slice(0, 5).map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </article>
+          <article>
+            <h3>Attention needed</h3>
+            <ul>
+              {commandSnapshot.founderCompanion.ministriesNeedingAttention.slice(0, 5).map((item) => (
+                <li key={item}>{item}</li>
+              ))}
             </ul>
           </article>
         </div>
