@@ -543,11 +543,44 @@ test.describe("verified platform truth", () => {
 
     await openWithTheme(page, "/en", "dark");
     await expect(page.locator(".tpm-foundation-frame")).toHaveAttribute("dir", "ltr");
-    await expect(page.locator(".tpmv2-chart-surface").first()).toBeVisible();
+    const darkChartSurface = page.locator(".tpmv2-chart-surface").first();
+    await expect(darkChartSurface).toBeVisible();
     await expectRuntimeCssApplied(page, "workstation");
+    const darkChartVisual = await darkChartSurface.evaluate((element) => {
+      const surfaceStyle = window.getComputedStyle(element);
+      const candle = element.querySelector(".tpmv2-candle");
+      const candleStyle = candle ? window.getComputedStyle(candle) : null;
+      const plot = element.querySelector(".tpmv2-chart-plot");
+      const priceScale = element.querySelector(".tpmv2-chart-price-scale");
+
+      return {
+        backgroundImage: surfaceStyle.backgroundImage,
+        candleHeight: candle ? candle.getBoundingClientRect().height : 0,
+        candleWidth: candleStyle ? Number.parseFloat(candleStyle.width) : 0,
+        plotDirection: plot ? window.getComputedStyle(plot).direction : "",
+        priceScaleDirection: priceScale
+          ? window.getComputedStyle(priceScale).direction
+          : "",
+      };
+    });
+    expect(darkChartVisual.backgroundImage).toContain("linear-gradient");
+    expect(darkChartVisual.candleHeight).toBeGreaterThanOrEqual(14);
+    expect(darkChartVisual.candleWidth).toBeGreaterThanOrEqual(8);
+    expect(darkChartVisual.plotDirection).toBe("ltr");
+    expect(darkChartVisual.priceScaleDirection).toBe("ltr");
     await page.screenshot({
       fullPage: true,
       path: path.join(THEME_ARTIFACT_DIR, "dark-workstation.png"),
+    });
+    await page.evaluate(() => {
+      window.dispatchEvent(new KeyboardEvent("keydown", { key: "5", shiftKey: true }));
+    });
+    await expect(page.locator(".tpmv2-desktop-master").first()).toHaveClass(/focus-chart/);
+    await darkChartSurface.screenshot({
+      path: path.join(THEME_ARTIFACT_DIR, "chart-focus-dark.png"),
+    });
+    await page.evaluate(() => {
+      window.dispatchEvent(new KeyboardEvent("keydown", { key: "4", shiftKey: true }));
     });
     await page.screenshot({
       fullPage: true,
@@ -556,14 +589,39 @@ test.describe("verified platform truth", () => {
 
     await openWithTheme(page, "/en", "light");
     await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+    const lightChartSurface = page.locator(".tpmv2-chart-surface").first();
     await expect(page.locator(".tpmv2-execution").first()).toBeVisible();
+    await expect(lightChartSurface).toBeVisible();
     await expectRuntimeCssApplied(page, "workstation");
+    const lightChartVisual = await lightChartSurface.evaluate((element) => {
+      const surfaceStyle = window.getComputedStyle(element);
+      const priceScale = element.querySelector(".tpmv2-chart-price-scale");
+
+      return {
+        backgroundImage: surfaceStyle.backgroundImage,
+        priceScaleDirection: priceScale
+          ? window.getComputedStyle(priceScale).direction
+          : "",
+      };
+    });
+    expect(lightChartVisual.backgroundImage).toContain("linear-gradient");
+    expect(lightChartVisual.priceScaleDirection).toBe("ltr");
     await page.locator(".tpmv2-execution .tpmv2-real-input").first().fill("0");
     await expect(page.locator("body")).toContainText("Paper amount needs review");
     await page.locator(".tpm-ticket-amount-state").first().screenshot({
       path: path.join(THEME_ARTIFACT_DIR, "invalid-input-state.png"),
     });
     await page.locator(".tpmv2-execution .tpmv2-real-input").first().fill("100");
+    await page.evaluate(() => {
+      window.dispatchEvent(new KeyboardEvent("keydown", { key: "5", shiftKey: true }));
+    });
+    await expect(page.locator(".tpmv2-desktop-master").first()).toHaveClass(/focus-chart/);
+    await lightChartSurface.screenshot({
+      path: path.join(THEME_ARTIFACT_DIR, "chart-focus-light.png"),
+    });
+    await page.evaluate(() => {
+      window.dispatchEvent(new KeyboardEvent("keydown", { key: "4", shiftKey: true }));
+    });
     await page.screenshot({
       fullPage: true,
       path: path.join(THEME_ARTIFACT_DIR, "light-workstation.png"),

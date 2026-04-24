@@ -1034,7 +1034,17 @@ export function ChartCard({
               ) : null}
               <polyline className="tpmv2-chart-line-stroke" points={chartPathPoints} />
             </svg>
-          ) : null}
+          ) : (
+            <svg
+              className="tpmv2-chart-path tpmv2-chart-path-context"
+              viewBox="0 0 100 100"
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
+              <polygon className="tpmv2-chart-area-fill" points={chartAreaPoints} />
+              <polyline className="tpmv2-chart-line-stroke" points={chartPathPoints} />
+            </svg>
+          )}
 
           {showEmaOverlay || showMacdOverlay ? (
             <svg
@@ -1086,6 +1096,7 @@ export function ChartCard({
                   className={`tpmv2-candle-wrap ${bar.tone}`}
                   style={
                     {
+                      height: `${Math.max(18, Math.min(100, bar.height))}%`,
                       "--tpmv2-candle-height": `${bar.bodyHeight}%`,
                       "--tpmv2-wick-height": `${bar.wickHeight}%`,
                     } as CSSProperties
