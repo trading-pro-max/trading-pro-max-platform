@@ -26,6 +26,7 @@ const styleSourcePaths = [
 ];
 const requiredCssSelectors = [
   ".tpm-app-body",
+  ".tpm-brand-mark",
   ".tpm-foundation-frame",
   ".tpm-foundation-nav",
   ".tpm-product-entry",

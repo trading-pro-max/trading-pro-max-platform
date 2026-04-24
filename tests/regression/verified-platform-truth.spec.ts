@@ -84,6 +84,7 @@ async function expectRuntimeCssApplied(page: Page, mode: "entry" | "workstation"
             status: response.status,
             length: text.length,
             hasFrameSelectors: text.includes("tpm-foundation-frame"),
+            hasBrandSelectors: text.includes("tpm-brand-mark"),
             hasProductSelectors: text.includes("tpm-product-entry"),
             hasWorkstationSelectors: text.includes("tpmv2-desktop-master"),
             hasAuthSelectors: text.includes("tpm-auth-panel"),
@@ -94,6 +95,7 @@ async function expectRuntimeCssApplied(page: Page, mode: "entry" | "workstation"
             status: 0,
             length: 0,
             hasFrameSelectors: false,
+            hasBrandSelectors: false,
             hasProductSelectors: false,
             hasWorkstationSelectors: false,
             hasAuthSelectors: false,
@@ -133,6 +135,7 @@ async function expectRuntimeCssApplied(page: Page, mode: "entry" | "workstation"
       expect.objectContaining({
         status: 200,
         hasFrameSelectors: true,
+        hasBrandSelectors: true,
         hasAuthSelectors: true,
       }),
     ])
@@ -425,6 +428,10 @@ test.describe("verified platform truth", () => {
       await page.goto(route.path);
       await expect(page).toHaveURL(route.expectedUrl);
       await expect(page.locator("main").first()).toBeVisible();
+      await expect(page.locator(".tpm-brand-mark").first()).toBeVisible();
+      await expect(page.locator(".tpm-brand-wordmark").first()).toContainText(
+        "Trading Pro Max"
+      );
       await expect(page.locator("body")).toContainText(route.text);
       await expectRuntimeCssApplied(
         page,

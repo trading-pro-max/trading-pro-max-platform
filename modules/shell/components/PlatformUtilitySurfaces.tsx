@@ -2,6 +2,10 @@
 
 import Link from "next/link";
 import { useEffect, useState, type ReactNode } from "react";
+import {
+  ACCOUNT_TYPE_IDENTITY_STATES,
+  getDefaultAccountTypeIdentity,
+} from "../../auth/account-type";
 import { getLocaleEntry } from "../../../lib/i18n/config";
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
 import AuthSessionPanel from "../../auth/components/AuthSessionPanel";
@@ -580,6 +584,7 @@ export function PlatformSettingsSurface({
   const preferences = platformState.workspacePreferences;
   const localePrefix = locale ? `/${locale}` : "";
   const localeEntry = getLocaleEntry(locale);
+  const accountTypeIdentity = getDefaultAccountTypeIdentity();
 
   const productStructureItems = [
     {
@@ -593,6 +598,12 @@ export function PlatformSettingsSurface({
       value: "Manual paper operator",
       tone: viewModel.paperAccessTone,
       note: viewModel.liveAccessValue,
+    },
+    {
+      label: "Account type",
+      value: accountTypeIdentity.label,
+      tone: accountTypeIdentity.tone,
+      note: accountTypeIdentity.note,
     },
     {
       label: "Broker readiness",
@@ -732,6 +743,20 @@ export function PlatformSettingsSurface({
             <span>{dict.settings.stateSaving}</span>
             <strong>{platformState.dataStateFoundation.storagePersistenceState}</strong>
             <small>{platformState.dataStateFoundation.syncChannel}</small>
+          </div>
+
+          <div className="tpm-utility-control">
+            <span>Islamic account status</span>
+            <strong className={`tpmv2-detail-value ${accountTypeIdentity.tone}`}>
+              {accountTypeIdentity.label}
+            </strong>
+            <small>
+              {ACCOUNT_TYPE_IDENTITY_STATES.islamic_requested.label},{" "}
+              {ACCOUNT_TYPE_IDENTITY_STATES.islamic_review_required.label},{" "}
+              {ACCOUNT_TYPE_IDENTITY_STATES.islamic_configured.label}, and{" "}
+              {ACCOUNT_TYPE_IDENTITY_STATES.unavailable.label} are supported states; no
+              certification is claimed.
+            </small>
           </div>
         </div>
       </UtilitySection>

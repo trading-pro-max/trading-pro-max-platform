@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useId, useState, type FormEvent, type ReactNode } from "react";
+import { getDefaultAccountTypeIdentity } from "../account-type";
+import { BrandMark } from "../../brand/components/ProductLogo";
 
 export const AUTH_SESSION_CHANGED_EVENT = "tpm-auth-session-changed";
 
@@ -228,6 +230,7 @@ export default function AuthSessionPanel({
   ]
     .filter(Boolean)
     .join(" ");
+  const accountTypeIdentity = getDefaultAccountTypeIdentity();
 
   const form = (
     <form className="tpm-auth-form" onSubmit={handleLogin}>
@@ -264,6 +267,9 @@ export default function AuthSessionPanel({
     return (
       <section className={classNames} aria-label="Account session">
         <div className="tpm-auth-session">
+          <div className="tpm-auth-brand-mini" aria-hidden="true">
+            <BrandMark />
+          </div>
           <div className="tpm-auth-session-main">
             <span>Signed in</span>
             <strong>{state.user.displayName}</strong>
@@ -273,7 +279,9 @@ export default function AuthSessionPanel({
             <span>{humanize(state.user.role)}</span>
             <span>{humanize(state.account.mode)}</span>
             <span>{humanize(state.account.lifecycleState)}</span>
+            <span>{accountTypeIdentity.label}</span>
           </div>
+          <small className="tpm-auth-account-type">{accountTypeIdentity.note}</small>
           <small className="tpm-auth-session-expiry">{formatExpiry(state.session.expiresAt)}</small>
           {state.message ? <p className="tpm-auth-message">{state.message}</p> : null}
           <button type="button" className="tpm-auth-logout" disabled={submitting} onClick={handleLogout}>
@@ -296,9 +304,13 @@ export default function AuthSessionPanel({
         <details className="tpm-auth-popover">
           <summary>Sign in</summary>
           <div className="tpm-auth-popover-body">
+            <div className="tpm-auth-brand-mini" aria-hidden="true">
+              <BrandMark />
+            </div>
             <div className="tpm-auth-copy">
               <span>{title}</span>
               <p>{statusText}</p>
+              <small>{accountTypeIdentity.label}: {accountTypeIdentity.note}</small>
             </div>
             {form}
             {errorText ? <p className="tpm-auth-error">{errorText}</p> : null}
@@ -310,10 +322,14 @@ export default function AuthSessionPanel({
 
   return (
     <section className={classNames} aria-label={title}>
+      <div className="tpm-auth-brand-mini" aria-hidden="true">
+        <BrandMark />
+      </div>
       <div className="tpm-auth-copy">
         <span>{title}</span>
         <strong>{variant === "required" ? "Sign in required" : "Protected account access"}</strong>
         <p>{note ?? statusText}</p>
+        <small>{accountTypeIdentity.label}: {accountTypeIdentity.note}</small>
       </div>
       {form}
       {errorText ? <p className="tpm-auth-error">{errorText}</p> : null}

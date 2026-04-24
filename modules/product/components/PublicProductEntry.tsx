@@ -1,5 +1,6 @@
 import Link from "next/link";
 import AuthSessionPanel from "../../auth/components/AuthSessionPanel";
+import ProductLogo from "../../brand/components/ProductLogo";
 
 type PublicProductEntryProps = {
   diagnosticsHref: string;
@@ -86,6 +87,11 @@ export default function PublicProductEntry({
 
           <div className="tpm-product-hero-layout">
             <div className="tpm-product-hero-copy">
+              <ProductLogo
+                className="tpm-product-hero-logo"
+                subtitle="Paper-safe trading identity"
+                variant="hero"
+              />
               <h1>
                 Trading Pro Max keeps the chart first and every action paper-safe.
               </h1>

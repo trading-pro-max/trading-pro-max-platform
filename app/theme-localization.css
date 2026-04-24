@@ -2131,3 +2131,317 @@ html[data-theme="light"] .tpm-utility-hero {
     min-height: 560px;
   }
 }
+
+/* Trading Pro Max brand identity system */
+:root {
+  --tpm-brand-gold: #d8a83c;
+  --tpm-brand-gold-soft: #f4d37a;
+  --tpm-brand-gold-dark: #9c7122;
+  --tpm-brand-graphite: #080d14;
+  --tpm-brand-graphite-raised: #0e1520;
+  --tpm-brand-ink: #f8fafc;
+  --tpm-brand-muted: #9fb0c6;
+  --tpm-brand-aqua: #2dd4bf;
+  --tpm-state-ready: #2dd4bf;
+  --tpm-state-warning: #f4d37a;
+  --tpm-state-blocked: #fb7185;
+  --tpm-state-fallback: #60a5fa;
+  --tpm-state-degraded: #c084fc;
+  --tpm-state-paper: #2dd4bf;
+  --tpm-state-live: #fb7185;
+  --tpm-state-buy: #2dd4bf;
+  --tpm-state-sell: #5b7df1;
+  --tpm-brand-focus-ring: 0 0 0 3px rgba(216, 168, 60, 0.28);
+}
+
+html[data-theme="light"] {
+  --tpm-brand-graphite: #f8fafc;
+  --tpm-brand-graphite-raised: #ffffff;
+  --tpm-brand-ink: #0d1726;
+  --tpm-brand-muted: #52657b;
+  --tpm-brand-gold: #b27a13;
+  --tpm-brand-gold-soft: #d8a83c;
+}
+
+.tpm-brand-lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.tpm-brand-mark {
+  --tpm-brand-mark-size: 38px;
+  --tpm-brand-mark-shell: var(--tpm-brand-gold);
+  --tpm-brand-mark-inner: var(--tpm-brand-graphite);
+  --tpm-brand-mark-candle: var(--tpm-brand-ink);
+  --tpm-brand-mark-arrow: var(--tpm-brand-aqua);
+  display: inline-grid;
+  width: var(--tpm-brand-mark-size);
+  height: var(--tpm-brand-mark-size);
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 12px;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.22));
+}
+
+.tpm-brand-mark svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.tpm-brand-mark-shell {
+  fill: var(--tpm-brand-mark-shell);
+}
+
+.tpm-brand-mark-inner {
+  fill: var(--tpm-brand-mark-inner);
+}
+
+.tpm-brand-mark-candle {
+  fill: var(--tpm-brand-mark-candle);
+}
+
+.tpm-brand-mark-arrow {
+  fill: var(--tpm-brand-mark-arrow);
+}
+
+.tpm-brand-wordmark {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  color: var(--tpm-brand-ink);
+  font-size: 15px;
+  font-weight: 950;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.tpm-brand-wordmark span {
+  color: var(--tpm-brand-gold-soft);
+}
+
+html[data-theme="light"] .tpm-brand-wordmark span {
+  color: var(--tpm-brand-gold);
+}
+
+.tpm-brand-subline {
+  display: block;
+  margin-top: 2px;
+  color: var(--tpm-text-muted);
+  font-size: 9px;
+  font-weight: 900;
+  line-height: 1.12;
+  text-transform: uppercase;
+}
+
+.tpm-brand-lockup-copy {
+  min-width: 0;
+}
+
+.tpm-brand-lockup-nav .tpm-brand-mark {
+  --tpm-brand-mark-size: 36px;
+}
+
+.tpm-brand-lockup-topbar .tpm-brand-mark {
+  --tpm-brand-mark-size: 38px;
+}
+
+.tpm-brand-lockup-topbar .tpm-brand-wordmark {
+  font-size: 14px;
+}
+
+.tpm-brand-lockup-hero {
+  margin-bottom: 18px;
+}
+
+.tpm-brand-lockup-hero .tpm-brand-mark {
+  --tpm-brand-mark-size: 58px;
+  border-radius: 16px;
+}
+
+.tpm-brand-lockup-hero .tpm-brand-wordmark {
+  font-size: clamp(22px, 2vw, 32px);
+}
+
+.tpm-brand-lockup-hero .tpm-brand-subline {
+  color: var(--tpm-brand-gold-soft);
+  font-size: 10px;
+}
+
+html[data-theme="light"] .tpm-brand-lockup-hero .tpm-brand-subline {
+  color: var(--tpm-brand-gold);
+}
+
+.tpm-auth-brand-mini {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.tpm-auth-brand-mini .tpm-brand-mark {
+  --tpm-brand-mark-size: 34px;
+}
+
+.tpm-auth-account-type,
+.tpm-auth-copy small {
+  display: block;
+  margin-top: 6px;
+  color: var(--tpm-text-muted);
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.tpm-foundation-nav-brand.tpm-brand-lockup {
+  min-width: 210px;
+}
+
+.tpmv2-topbar-brand.tpm-brand-lockup {
+  min-width: 190px;
+}
+
+.tpmv2-topbar-brand .tpm-brand-wordmark {
+  color: var(--tpm-brand-ink);
+}
+
+.tpm-product-hero-logo {
+  opacity: 0.96;
+}
+
+.tpm-product-hero,
+.tpmv2-topbar,
+.tpmv2-command-center,
+.tpmv2-chart-surface,
+.tpmv2-execution,
+.tpm-utility-hero,
+.tpm-auth-panel-inline,
+.tpm-auth-panel-required {
+  border-top-color: color-mix(in srgb, var(--tpm-brand-gold) 36%, var(--tpm-pro-line-strong));
+}
+
+.tpm-product-cta-primary,
+.tpm-auth-form button,
+.tpmv2-core-buy,
+.tpm-theme-segments button.active,
+.tpm-utility-toggle.active,
+.tpmv2-timeframes button.active,
+.tpmv2-ticket-presets button.active {
+  background: linear-gradient(180deg, var(--tpm-brand-aqua), #14b8a6);
+}
+
+.tpmv2-core-sell {
+  background: linear-gradient(180deg, var(--tpm-state-sell), #3155c8);
+}
+
+.tpmv2-status-tag.approved,
+.tpmv2-ticket-status-value.approved,
+.tpmv2-detail-value.approved,
+strong.approved {
+  color: var(--tpm-state-ready);
+}
+
+.tpmv2-status-tag.pending,
+.tpmv2-ticket-status-value.pending,
+.tpmv2-detail-value.pending,
+strong.pending {
+  color: var(--tpm-state-fallback);
+}
+
+.tpmv2-status-tag.restricted,
+.tpmv2-ticket-status-value.restricted,
+.tpmv2-detail-value.restricted,
+strong.restricted {
+  color: var(--tpm-state-warning);
+}
+
+.tpmv2-status-tag.blocked,
+.tpmv2-ticket-status-value.blocked,
+.tpmv2-detail-value.blocked,
+strong.blocked {
+  color: var(--tpm-state-blocked);
+}
+
+.tpm-auth-required,
+.tpmv2-empty,
+.tpmv2-ticket-preflight-card,
+.tpm-foundation-item,
+.tpm-utility-control {
+  position: relative;
+}
+
+.tpm-auth-required::before,
+.tpmv2-empty::before,
+.tpmv2-ticket-preflight-card::before,
+.tpm-foundation-item::before,
+.tpm-utility-control::before {
+  content: "";
+  position: absolute;
+  inset-block: 12px;
+  inset-inline-start: 0;
+  width: 2px;
+  border-radius: 999px;
+  background: transparent;
+}
+
+.tpm-auth-required::before {
+  background: var(--tpm-brand-gold);
+}
+
+.tpmv2-empty::before {
+  background: var(--tpm-state-fallback);
+}
+
+.tpmv2-ticket-preflight-card:has(.blocked)::before,
+.tpm-foundation-item:has(.blocked)::before,
+.tpm-utility-control:has(.blocked)::before {
+  background: var(--tpm-state-blocked);
+}
+
+.tpmv2-ticket-preflight-card:has(.restricted)::before,
+.tpm-foundation-item:has(.restricted)::before,
+.tpm-utility-control:has(.restricted)::before {
+  background: var(--tpm-state-warning);
+}
+
+.tpmv2-ticket-preflight-card:has(.approved)::before,
+.tpm-foundation-item:has(.approved)::before,
+.tpm-utility-control:has(.approved)::before {
+  background: var(--tpm-state-ready);
+}
+
+.tpm-foundation-link:focus-visible,
+.tpm-product-cta:focus-visible,
+.tpm-auth-form input:focus,
+.tpm-auth-form button:focus-visible,
+.tpm-auth-logout:focus-visible,
+.tpmv2-core-action:focus-visible,
+.tpm-utility-toggle:focus-visible,
+.tpm-language-select:focus {
+  outline: none;
+  box-shadow: var(--tpm-brand-focus-ring);
+}
+
+[dir="rtl"] .tpm-brand-lockup {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .tpm-brand-wordmark {
+  direction: ltr;
+}
+
+[dir="rtl"] .tpm-brand-lockup-copy {
+  text-align: end;
+}
+
+@media (max-width: 760px) {
+  .tpm-foundation-nav-brand.tpm-brand-lockup,
+  .tpmv2-topbar-brand.tpm-brand-lockup {
+    min-width: 0;
+  }
+
+  .tpm-brand-lockup-nav .tpm-brand-subline,
+  .tpm-brand-lockup-topbar .tpm-brand-subline {
+    display: none;
+  }
+}

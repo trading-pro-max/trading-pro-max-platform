@@ -9,6 +9,7 @@ import {
 } from "../../../lib/constants/platform";
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
 import AuthSessionPanel from "../../auth/components/AuthSessionPanel";
+import ProductLogo from "../../brand/components/ProductLogo";
 import type {
   AccountMode,
   Asset,
@@ -498,13 +499,11 @@ export function TradingTopbar({
 }) {
   return (
     <header className="tpmv2-card tpmv2-topbar">
-      <div className="tpmv2-topbar-brand">
-        <div className="tpmv2-topbar-mark">TPM</div>
-        <div className="tpmv2-topbar-brand-copy">
-          <strong>{dict.shell.title}</strong>
-          <span>{dict.shell.subtitle}</span>
-        </div>
-      </div>
+      <ProductLogo
+        className="tpmv2-topbar-brand"
+        subtitle={dict.shell.subtitle}
+        variant="topbar"
+      />
 
       <div className="tpmv2-topbar-market">
         <div className="tpmv2-topbar-market-main tpmv2-topbar-market-compact">

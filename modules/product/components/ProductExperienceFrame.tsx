@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { getDirection } from "../../../lib/i18n/config";
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
 import AuthSessionPanel from "../../auth/components/AuthSessionPanel";
+import ProductLogo from "../../brand/components/ProductLogo";
 import { LanguageSwitcher } from "../../shell/components/LanguageSwitcher";
 import { ThemeSwitcher } from "../../shell/components/ThemeSwitcher";
 
@@ -36,13 +37,11 @@ export default function ProductExperienceFrame({
   return (
     <div dir={dir} lang={locale} className="tpm-foundation-frame">
       <nav className="tpm-foundation-nav">
-        <div className="tpm-foundation-nav-brand">
-          <div className="tpm-foundation-nav-logo">TPM</div>
-          <div>
-            <strong>Trading Pro Max</strong>
-            <span>{dict.shell.foundation}</span>
-          </div>
-        </div>
+        <ProductLogo
+          className="tpm-foundation-nav-brand"
+          subtitle={dict.shell.foundation}
+          variant="nav"
+        />
 
         <div className="tpm-foundation-nav-links">
           {navItems.map((item) => (
