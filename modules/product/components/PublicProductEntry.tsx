@@ -44,7 +44,7 @@ const truthLedger = [
   {
     title: "Commercial claim boundary",
     summary: "This is not a live brokerage terminal and it does not claim live activation.",
-    chips: ["not a live brokerage terminal", "No fake activation", "Truthful semantics"],
+    chips: ["not a live brokerage terminal", "No fake activation", "Truthful limits"],
   },
 ];
 
@@ -98,8 +98,8 @@ export default function PublicProductEntry({
               <p>
                 Chart-first execution rehearsal, TPM IQ / Brain guidance, and diagnostics-ready
                 trust semantics stay in one operator flow. Paper-only operation, fallback feed
-                truth, blocked live routing, and broker unconfigured state remain explicit; this
-                is not a live brokerage terminal.
+                truth, blocked live routing, and broker state remain explicit without presenting
+                this as a live brokerage terminal.
               </p>
 
               <div className="tpm-product-cta-row">

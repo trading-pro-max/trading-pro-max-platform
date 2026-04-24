@@ -116,9 +116,9 @@ function WorkspaceDepthBar({
       </div>
 
       <div className="tpmv2-workspace-depth-status tpmv2-workspace-depth-status-live">
-        <span>Operator feedback</span>
+        <span>Feedback loop</span>
         <strong>{shortcutHint}</strong>
-        <small>No order-entry hotkeys are armed.</small>
+        <small>Beta notes stay review-bound; no order-entry hotkeys are armed.</small>
       </div>
     </section>
   );

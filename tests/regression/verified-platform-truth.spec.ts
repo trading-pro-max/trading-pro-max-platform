@@ -13,7 +13,7 @@ const STAGING_VALIDATOR_SCRIPT = "scripts/validate-staging-readiness.mjs";
 const SETUP_SCRIPT = "scripts/setup-production-env-local.mjs";
 const GENERATE_LAUNCH_SECRETS_SCRIPT = "scripts/generate-launch-secrets.mjs";
 const THEME_STORAGE_KEY = "tpm-theme-mode-v1";
-const THEME_ARTIFACT_DIR = path.join("test-results", "theme-localization");
+const THEME_ARTIFACT_DIR = path.join("test-results", "visible-product-completion");
 
 function validatorEnv(overrides: Record<string, string | undefined> = {}) {
   const env: Record<string, string | undefined> = {
@@ -304,6 +304,11 @@ test.describe("verified platform truth", () => {
         text: /Settings|Mode and persistence|Paper ticket defaults|Account and commercial readiness/,
       },
       {
+        path: "/settings",
+        expectedUrl: /\/settings$/,
+        text: /Settings|Mode and persistence|Paper ticket defaults|Account and commercial readiness/,
+      },
+      {
         path: "/diagnostics",
         expectedUrl: /\/diagnostics$/,
         text:
@@ -368,7 +373,11 @@ test.describe("verified platform truth", () => {
         expect(executionBox?.width ?? 0).toBeGreaterThan(240);
       }
 
-      if (route.path === "/en/settings" || route.path === "/diagnostics") {
+      if (
+        route.path === "/en/settings" ||
+        route.path === "/settings" ||
+        route.path === "/diagnostics"
+      ) {
         await expect(page.locator(".tpm-utility-page").first()).toBeVisible();
         await expect(page.locator(".tpm-foundation-card").first()).toBeVisible();
         await expect(page.locator("body")).toContainText(
@@ -434,12 +443,10 @@ test.describe("verified platform truth", () => {
       path: path.join(THEME_ARTIFACT_DIR, "arabic-rtl-workstation.png"),
     });
 
-    await openWithTheme(page, "/de/settings", "light");
-    await expect(page.locator(".tpm-foundation-frame")).toHaveAttribute("lang", "de");
+    await openWithTheme(page, "/en/settings", "light");
+    await expect(page.locator(".tpm-foundation-frame")).toHaveAttribute("lang", "en");
     await expect(page.locator(".tpm-foundation-frame")).toHaveAttribute("dir", "ltr");
-    await expect(page.locator("body")).toContainText(
-      "English fallback until German pack is reviewed"
-    );
+    await expect(page.locator("body")).toContainText("Settings");
     await page.screenshot({
       fullPage: true,
       path: path.join(THEME_ARTIFACT_DIR, "settings.png"),
@@ -448,12 +455,31 @@ test.describe("verified platform truth", () => {
       path: path.join(THEME_ARTIFACT_DIR, "login-session-ui.png"),
     });
 
-    await openWithTheme(page, "/diagnostics", "dark");
+    await openWithTheme(page, "/de/settings", "light");
+    await expect(page.locator(".tpm-foundation-frame")).toHaveAttribute("lang", "de");
+    await expect(page.locator(".tpm-foundation-frame")).toHaveAttribute("dir", "ltr");
+    await expect(page.locator("body")).toContainText(
+      "English fallback until German pack is reviewed"
+    );
+    await page.screenshot({
+      fullPage: true,
+      path: path.join(THEME_ARTIFACT_DIR, "language-fallback-coverage.png"),
+    });
+
+    await openWithTheme(page, "/ar/settings", "dark");
+    await expect(page.locator(".tpm-foundation-frame")).toHaveAttribute("dir", "rtl");
+    await expect(page.locator("main").first()).toBeVisible();
+
+    await openWithTheme(page, "/en/diagnostics", "dark");
     await expect(page.locator("body")).toContainText("Language coverage");
     await page.screenshot({
       fullPage: true,
       path: path.join(THEME_ARTIFACT_DIR, "diagnostics.png"),
     });
+
+    await openWithTheme(page, "/ar/diagnostics", "dark");
+    await expect(page.locator(".tpm-foundation-frame")).toHaveAttribute("dir", "rtl");
+    await expect(page.locator("main").first()).toBeVisible();
 
     await openWithTheme(page, "/en", "dark");
     await page.locator(".tpmv2-workspace-depth-status-live").first().screenshot({
@@ -494,6 +520,8 @@ test.describe("verified platform truth", () => {
   });
 
   test("provides visible login, session, and logout UI", async ({ page }) => {
+    fs.mkdirSync(THEME_ARTIFACT_DIR, { recursive: true });
+
     await page.goto("/en/settings");
     await expect(page.locator("main").first()).toBeVisible();
     await expect(page.locator("body")).toContainText(
@@ -504,18 +532,27 @@ test.describe("verified platform truth", () => {
     expect(protectedBeforeLogin.status()).toBe(401);
 
     const authPanel = page.locator(".tpm-auth-panel-inline").first();
+    await authPanel.screenshot({
+      path: path.join(THEME_ARTIFACT_DIR, "login-state.png"),
+    });
     await authPanel.locator('input[name="email"]').fill(DEMO_EMAIL);
     await authPanel.locator('input[name="password"]').fill(DEMO_PASSWORD);
     await authPanel.getByRole("button", { name: "Sign in" }).click();
 
     await expect(authPanel).toContainText("Signed in");
     await expect(authPanel).toContainText(DEMO_EMAIL);
+    await authPanel.screenshot({
+      path: path.join(THEME_ARTIFACT_DIR, "session-state.png"),
+    });
 
     const protectedAfterLogin = await page.request.get("/api/launch/operations");
     expect(protectedAfterLogin.status()).toBe(200);
 
     await authPanel.getByRole("button", { name: "Sign out" }).click();
     await expect(authPanel).toContainText("Sign in");
+    await authPanel.screenshot({
+      path: path.join(THEME_ARTIFACT_DIR, "logout-state.png"),
+    });
 
     const protectedAfterLogout = await page.request.get("/api/launch/operations");
     expect(protectedAfterLogout.status()).toBe(401);
