@@ -491,6 +491,39 @@ test.describe("verified platform truth", () => {
           await expect(page.locator(".tpm-companion-panel").first()).not.toContainText(
             /guaranteed profit|win-rate/i
           );
+          const companionLayout = await page.evaluate(() => {
+            const companion = document
+              .querySelector(".tpm-companion-panel")
+              ?.getBoundingClientRect();
+            const execution = document
+              .querySelector(".tpmv2-execution")
+              ?.getBoundingClientRect();
+            const chart = document
+              .querySelector(".tpmv2-chart-surface")
+              ?.getBoundingClientRect();
+
+            const overlaps = (
+              first: DOMRect | undefined,
+              second: DOMRect | undefined
+            ) =>
+              Boolean(
+                first &&
+                  second &&
+                  first.left < second.right &&
+                  first.right > second.left &&
+                  first.top < second.bottom &&
+                  first.bottom > second.top
+              );
+
+            return {
+              companionOverlapsExecution: overlaps(companion, execution),
+              chartWidth: chart?.width ?? 0,
+              chartHeight: chart?.height ?? 0,
+            };
+          });
+          expect(companionLayout.companionOverlapsExecution).toBe(false);
+          expect(companionLayout.chartWidth).toBeGreaterThan(620);
+          expect(companionLayout.chartHeight).toBeGreaterThan(420);
           await page.getByRole("button", { name: "Close TPM Companion" }).click();
         }
         const emptyStateNotice = page.locator(".tpm-state-notice[data-state='empty']").first();
