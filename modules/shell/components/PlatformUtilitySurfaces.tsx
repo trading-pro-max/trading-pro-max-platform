@@ -3,14 +3,12 @@
 import Link from "next/link";
 import { useEffect, useState, type ReactNode } from "react";
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
+import AuthSessionPanel from "../../auth/components/AuthSessionPanel";
 import {
   EXECUTION_DURATIONS,
   PLATFORM_LIMITS,
   TIMEFRAMES,
 } from "../../../lib/constants/platform";
-import AuthSessionPanel from "../../auth/components/AuthSessionPanel";
-import FeedbackPanel from "../../operations/components/FeedbackPanel";
-import OperationalConsole from "../../operations/components/OperationalConsole";
 import { usePlatformState } from "../hooks/use-platform-state";
 import type {
   DiagnosticsHealthSnapshot,
@@ -465,8 +463,6 @@ export function PlatformDiagnosticsSurface({
         </div>
       </section>
 
-      <OperationalConsole compact />
-
       <UtilitySection eyebrow="FOUNDATION" title="System readiness">
         <UtilityGrid items={systemItems} />
       </UtilitySection>
@@ -481,6 +477,16 @@ export function PlatformDiagnosticsSurface({
 
       <UtilitySection eyebrow="ROUTES" title="API route visibility">
         <UtilityGrid items={routeItems} />
+      </UtilitySection>
+
+      <UtilitySection eyebrow="SESSION" title="Protected route access">
+        <div className="tpm-utility-auth-wrap">
+          <AuthSessionPanel
+            variant="required"
+            title="Operational access"
+            note="Protected account and operational API routes stay closed until sign-in. This does not enable broker routing, live execution, public launch, or billing."
+          />
+        </div>
       </UtilitySection>
 
       <UtilitySection eyebrow="SAFETY" title="Execution and compliance state">
@@ -510,8 +516,6 @@ export function PlatformDiagnosticsSurface({
       <UtilitySection eyebrow="TRUTH" title="Product trust ledger">
         <UtilityGrid items={trustLedgerItems} />
       </UtilitySection>
-
-      <FeedbackPanel compact />
 
       <UtilitySection
         eyebrow="AUDIT"
@@ -644,11 +648,14 @@ export function PlatformSettingsSurface({
         </header>
       </section>
 
-      <AuthSessionPanel
-        variant="surface"
-        title="Account and session"
-        note="Sign in to synchronize protected preferences, beta operations, and feedback. Live execution remains blocked."
-      />
+      <UtilitySection eyebrow="SESSION" title="Login and account session">
+        <div className="tpm-utility-auth-wrap">
+          <AuthSessionPanel
+            title="Account session"
+            note="Sign in to synchronize protected account state and guarded operational routes. Live execution and real-money access remain blocked."
+          />
+        </div>
+      </UtilitySection>
 
       <UtilitySection eyebrow="ACCOUNT" title="Mode and persistence">
         <div className="tpm-utility-control-grid">
@@ -902,10 +909,6 @@ export function PlatformSettingsSurface({
       >
         <UtilityGrid items={onboardingItems} />
       </UtilitySection>
-
-      <OperationalConsole compact />
-
-      <FeedbackPanel compact />
 
       <UtilitySection eyebrow="COMPLIANCE" title={viewModel.policyPanelLabel}>
         <UtilityGrid

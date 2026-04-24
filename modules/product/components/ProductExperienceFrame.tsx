@@ -3,7 +3,6 @@ import type { ReactNode } from "react";
 import { getDirection } from "../../../lib/i18n/config";
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
 import AuthSessionPanel from "../../auth/components/AuthSessionPanel";
-import { FeedbackDock } from "../../operations/components/FeedbackPanel";
 import { LanguageSwitcher } from "../../shell/components/LanguageSwitcher";
 
 type ProductExperienceFrameProps = {
@@ -11,7 +10,6 @@ type ProductExperienceFrameProps = {
   locale: string;
   dict: Dictionary;
   routeMode: "root" | "localized";
-  showFeedbackDock?: boolean;
 };
 
 export default function ProductExperienceFrame({
@@ -19,21 +17,17 @@ export default function ProductExperienceFrame({
   locale,
   dict,
   routeMode,
-  showFeedbackDock = true,
 }: ProductExperienceFrameProps) {
   const dir = getDirection(locale);
   const workspaceHref = `/${locale}`;
   const diagnosticsHref =
     routeMode === "localized" ? `/${locale}/diagnostics` : "/diagnostics";
-  const operationsHref =
-    routeMode === "localized" ? `/${locale}/operations` : "/operations";
   const settingsHref =
     routeMode === "localized" ? `/${locale}/settings` : "/settings";
 
   const navItems = [
     { href: "/", label: dict.nav.product },
     { href: workspaceHref, label: dict.nav.trade },
-    { href: operationsHref, label: dict.nav.operations },
     { href: diagnosticsHref, label: dict.nav.diagnostics },
     { href: settingsHref, label: dict.nav.settings },
   ];
@@ -57,12 +51,16 @@ export default function ProductExperienceFrame({
           ))}
         </div>
 
-        <LanguageSwitcher locale={locale} label={dict.nav.language} />
-        <AuthSessionPanel variant="nav" />
+        <div className="tpm-foundation-nav-actions">
+          <AuthSessionPanel
+            variant="nav"
+            title="Protected account access"
+          />
+          <LanguageSwitcher locale={locale} label={dict.nav.language} />
+        </div>
       </nav>
 
       <div className="tpm-foundation-body">{children}</div>
-      {showFeedbackDock ? <FeedbackDock /> : null}
     </div>
   );
 }

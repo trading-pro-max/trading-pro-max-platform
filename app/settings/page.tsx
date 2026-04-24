@@ -7,12 +7,7 @@ export default function SettingsPage() {
   const dict = getDictionary(locale);
 
   return (
-    <ProductExperienceFrame
-      locale={locale}
-      dict={dict}
-      routeMode="root"
-      showFeedbackDock={false}
-    >
+    <ProductExperienceFrame locale={locale} dict={dict} routeMode="root">
       <PlatformSettingsSurface locale={locale} dict={dict} />
     </ProductExperienceFrame>
   );

@@ -2,7 +2,6 @@ const en = {
   nav: {
     product: "Product",
     trade: "Trading",
-    operations: "Operations",
     diagnostics: "Diagnostics",
     settings: "Settings",
     language: "Language",

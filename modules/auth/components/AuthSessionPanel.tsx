@@ -1,7 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useId, useMemo, useState } from "react";
-import type { FormEvent, ReactNode } from "react";
+import { useEffect, useId, useState, type FormEvent, type ReactNode } from "react";
 
 export const AUTH_SESSION_CHANGED_EVENT = "tpm-auth-session-changed";
 
@@ -9,12 +8,12 @@ type AuthUser = {
   id: string;
   email: string;
   displayName: string;
-  role: "owner" | "operator";
+  role: string;
 };
 
 type AuthAccount = {
   id: string;
-  mode: "demo";
+  mode: string;
   lifecycleState: string;
   region: string;
 };
@@ -24,230 +23,181 @@ type AuthSession = {
   expiresAt: string;
 };
 
-export type AuthSessionState =
-  | {
-      authenticated: true;
-      user: AuthUser;
-      account: AuthAccount;
-      session: AuthSession;
-    }
-  | {
-      authenticated: false;
-    };
-
-type AuthSessionPanelVariant =
-  | "nav"
-  | "hero"
-  | "surface"
-  | "topbar"
-  | "required";
-
-type AuthSessionPanelProps = {
-  variant?: AuthSessionPanelVariant;
-  title?: string;
-  note?: string;
-  onSessionChange?: (session: AuthSessionState) => void;
+type AuthPayload = {
+  ok: boolean;
+  authenticated?: boolean;
+  user?: AuthUser;
+  account?: AuthAccount;
+  session?: AuthSession;
+  error?: string;
 };
 
-type AuthMeResponse =
+type SessionState =
+  | { status: "checking"; message?: string }
+  | { status: "anonymous"; message?: string; error?: string }
   | {
-      ok: true;
-      authenticated: true;
+      status: "authenticated";
       user: AuthUser;
       account: AuthAccount;
       session: AuthSession;
-    }
-  | {
-      ok: false;
-      authenticated: false;
+      message?: string;
     };
 
-type AuthLoginResponse =
-  | {
-      ok: true;
-      user: AuthUser;
-      account: AuthAccount;
-      session: AuthSession;
-    }
-  | {
-      ok: false;
-      error?: string;
-    };
+type AuthSessionPanelVariant = "inline" | "nav" | "topbar" | "required";
 
-function formatLifecycle(value: string) {
+type AuthSessionPanelProps = {
+  className?: string;
+  note?: string;
+  title?: string;
+  variant?: AuthSessionPanelVariant;
+};
+
+type AuthRequiredStateProps = {
+  action?: ReactNode;
+  text: string;
+  title: string;
+};
+
+function humanize(value: string | undefined) {
+  if (!value) return "Unavailable";
+
   return value
     .replaceAll("_", " ")
     .replace(/^\w/, (match) => match.toUpperCase());
 }
 
-function formatExpiry(value: string) {
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return "Session active";
+function formatExpiry(value: string | undefined) {
+  if (!value) return "Session expiry unavailable";
 
-  return new Intl.DateTimeFormat("en-US", {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "Session expiry unavailable";
+
+  return `Expires ${date.toLocaleString(undefined, {
+    day: "2-digit",
     hour: "2-digit",
     minute: "2-digit",
     month: "short",
-    day: "numeric",
-  }).format(date);
+  })}`;
 }
 
-function dispatchSessionChanged() {
-  window.dispatchEvent(new Event(AUTH_SESSION_CHANGED_EVENT));
+function isAuthenticatedPayload(payload: AuthPayload): payload is AuthPayload & {
+  account: AuthAccount;
+  session: AuthSession;
+  user: AuthUser;
+} {
+  return Boolean(payload.ok && payload.authenticated !== false && payload.user && payload.account && payload.session);
 }
 
-export function AuthRequiredState({
-  title = "Sign in required",
-  text = "This operational surface is protected. Sign in with closed-beta credentials to view account-scoped launch, feedback, and readiness truth.",
-  action,
-}: {
-  title?: string;
-  text?: string;
-  action?: ReactNode;
-}) {
+export function AuthRequiredState({ action, text, title }: AuthRequiredStateProps) {
   return (
-    <section className="tpm-auth-required-state" aria-label={title}>
+    <div className="tpm-auth-required" role="status">
       <div>
-        <span>Protected surface</span>
+        <span>Authentication required</span>
         <strong>{title}</strong>
         <p>{text}</p>
       </div>
-      {action}
-    </section>
+      {action ? <div className="tpm-auth-required-action">{action}</div> : null}
+    </div>
   );
 }
 
-export function useAuthSessionStatus() {
-  const [session, setSession] = useState<AuthSessionState>({
-    authenticated: false,
-  });
-  const [loading, setLoading] = useState(true);
-
-  const loadSession = useCallback(async () => {
-    setLoading(true);
-
-    try {
-      const response = await fetch("/api/auth/me", {
-        method: "GET",
-        cache: "no-store",
-        credentials: "same-origin",
-      });
-
-      if (response.status === 401) {
-        setSession({ authenticated: false });
-        return { authenticated: false } as AuthSessionState;
-      }
-
-      if (!response.ok) {
-        throw new Error(`Session request failed with ${response.status}.`);
-      }
-
-      const payload = (await response.json()) as AuthMeResponse;
-      const nextSession: AuthSessionState = payload.authenticated
-        ? {
-            authenticated: true,
-            user: payload.user,
-            account: payload.account,
-            session: payload.session,
-          }
-        : { authenticated: false };
-
-      setSession(nextSession);
-      return nextSession;
-    } catch {
-      const nextSession = { authenticated: false } as AuthSessionState;
-      setSession(nextSession);
-      return nextSession;
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    const initialLoad = window.setTimeout(() => {
-      void loadSession();
-    }, 0);
-
-    const handleSessionChanged = () => {
-      void loadSession();
-    };
-
-    window.addEventListener(AUTH_SESSION_CHANGED_EVENT, handleSessionChanged);
-
-    return () => {
-      window.clearTimeout(initialLoad);
-      window.removeEventListener(AUTH_SESSION_CHANGED_EVENT, handleSessionChanged);
-    };
-  }, [loadSession]);
-
-  return {
-    session,
-    loading,
-    reload: loadSession,
-  };
-}
-
 export default function AuthSessionPanel({
-  variant = "surface",
-  title,
+  className,
   note,
-  onSessionChange,
+  title = "Account session",
+  variant = "inline",
 }: AuthSessionPanelProps) {
   const emailId = useId();
   const passwordId = useId();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [state, setState] = useState<SessionState>({ status: "checking" });
   const [submitting, setSubmitting] = useState(false);
-  const [message, setMessage] = useState<string | null>(null);
-  const { session, loading, reload } = useAuthSessionStatus();
-
-  const panelTitle = title ?? (variant === "required" ? "Operator sign in" : "Session");
-  const panelNote =
-    note ??
-    "Use closed-beta credentials. Public registration is not enabled, and signing in does not enable live execution.";
-
-  const sessionMeta = useMemo(() => {
-    if (!session.authenticated) return null;
-
-    return {
-      role: session.user.role.toUpperCase(),
-      mode: session.account.mode.toUpperCase(),
-      lifecycle: formatLifecycle(session.account.lifecycleState),
-      expiry: formatExpiry(session.session.expiresAt),
-    };
-  }, [session]);
 
   useEffect(() => {
-    onSessionChange?.(session);
-  }, [onSessionChange, session]);
+    let cancelled = false;
+
+    async function loadSession(message?: string) {
+      try {
+        const response = await fetch("/api/auth/me", {
+          cache: "no-store",
+          credentials: "same-origin",
+        });
+        const payload = (await response.json()) as AuthPayload;
+
+        if (cancelled) return;
+
+        if (response.ok && isAuthenticatedPayload(payload)) {
+          setState({
+            status: "authenticated",
+            user: payload.user,
+            account: payload.account,
+            session: payload.session,
+            message,
+          });
+          return;
+        }
+
+        setState({ status: "anonymous" });
+      } catch {
+        if (!cancelled) {
+          setState({
+            status: "anonymous",
+            error: "Session status is unavailable. Sign in can be retried.",
+          });
+        }
+      }
+    }
+
+    function handleSessionChange() {
+      void loadSession();
+    }
+
+    void loadSession();
+    window.addEventListener(AUTH_SESSION_CHANGED_EVENT, handleSessionChange);
+
+    return () => {
+      cancelled = true;
+      window.removeEventListener(AUTH_SESSION_CHANGED_EVENT, handleSessionChange);
+    };
+  }, []);
 
   async function handleLogin(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setSubmitting(true);
-    setMessage(null);
 
     try {
       const response = await fetch("/api/auth/login", {
-        method: "POST",
-        credentials: "same-origin",
-        headers: {
-          "Content-Type": "application/json",
-        },
         body: JSON.stringify({ email, password }),
+        cache: "no-store",
+        credentials: "same-origin",
+        headers: { "Content-Type": "application/json" },
+        method: "POST",
       });
-      const payload = (await response.json()) as AuthLoginResponse;
+      const payload = (await response.json()) as AuthPayload;
 
-      if (!response.ok || !payload.ok) {
-        setMessage(payload.ok ? "Sign in failed." : payload.error ?? "Invalid credentials.");
+      if (!response.ok || !isAuthenticatedPayload(payload)) {
+        setState({
+          status: "anonymous",
+          error: payload.error ?? "Sign in failed. Check the credentials and try again.",
+        });
         return;
       }
 
       setPassword("");
-      setMessage("Signed in.");
-      await reload();
-      dispatchSessionChanged();
+      setState({
+        status: "authenticated",
+        user: payload.user,
+        account: payload.account,
+        session: payload.session,
+        message: "Signed in.",
+      });
+      window.dispatchEvent(new Event(AUTH_SESSION_CHANGED_EVENT));
     } catch {
-      setMessage("Sign in is temporarily unavailable.");
+      setState({
+        status: "anonymous",
+        error: "Sign in failed. Check the connection and try again.",
+      });
     } finally {
       setSubmitting(false);
     }
@@ -255,144 +205,119 @@ export default function AuthSessionPanel({
 
   async function handleLogout() {
     setSubmitting(true);
-    setMessage(null);
 
     try {
       await fetch("/api/auth/logout", {
-        method: "POST",
+        cache: "no-store",
         credentials: "same-origin",
+        method: "POST",
       });
-      setMessage("Signed out.");
-      await reload();
-      dispatchSessionChanged();
-    } catch {
-      setMessage("Sign out is temporarily unavailable.");
     } finally {
+      setPassword("");
+      setState({ status: "anonymous", message: "Signed out." });
       setSubmitting(false);
+      window.dispatchEvent(new Event(AUTH_SESSION_CHANGED_EVENT));
     }
   }
 
-  const className = `tpm-auth-panel tpm-auth-panel-${variant}`;
+  const classNames = [
+    "tpm-auth-panel",
+    `tpm-auth-panel-${variant}`,
+    state.status === "authenticated" ? "is-authenticated" : "is-anonymous",
+    className,
+  ]
+    .filter(Boolean)
+    .join(" ");
 
-  if (session.authenticated && sessionMeta) {
+  const form = (
+    <form className="tpm-auth-form" onSubmit={handleLogin}>
+      <label htmlFor={emailId}>Email</label>
+      <input
+        id={emailId}
+        name="email"
+        autoComplete="email"
+        inputMode="email"
+        required
+        type="email"
+        value={email}
+        onChange={(event) => setEmail(event.target.value)}
+      />
+
+      <label htmlFor={passwordId}>Password</label>
+      <input
+        id={passwordId}
+        name="password"
+        autoComplete="current-password"
+        required
+        type="password"
+        value={password}
+        onChange={(event) => setPassword(event.target.value)}
+      />
+
+      <button type="submit" disabled={submitting}>
+        {submitting ? "Signing in..." : "Sign in"}
+      </button>
+    </form>
+  );
+
+  if (state.status === "authenticated") {
     return (
-      <section className={className} aria-label="Session status">
-        <div className="tpm-auth-session-chip">
-          <div className="tpm-auth-avatar" aria-hidden="true">
-            {session.user.displayName.slice(0, 1).toUpperCase()}
+      <section className={classNames} aria-label="Account session">
+        <div className="tpm-auth-session">
+          <div className="tpm-auth-session-main">
+            <span>Signed in</span>
+            <strong>{state.user.displayName}</strong>
+            <small>{state.user.email}</small>
           </div>
-          <div className="tpm-auth-session-copy">
-            <span>{session.user.displayName}</span>
-            <strong>
-              {sessionMeta.role} / {sessionMeta.mode}
-            </strong>
-            {variant !== "topbar" && variant !== "nav" ? (
-              <small>
-                {sessionMeta.lifecycle} / expires {sessionMeta.expiry}
-              </small>
-            ) : null}
+          <div className="tpm-auth-session-meta">
+            <span>{humanize(state.user.role)}</span>
+            <span>{humanize(state.account.mode)}</span>
+            <span>{humanize(state.account.lifecycleState)}</span>
           </div>
-          <button
-            type="button"
-            className="tpm-auth-secondary-action"
-            onClick={handleLogout}
-            disabled={submitting}
-          >
-            Sign out
+          <small className="tpm-auth-session-expiry">{formatExpiry(state.session.expiresAt)}</small>
+          {state.message ? <p className="tpm-auth-message">{state.message}</p> : null}
+          <button type="button" className="tpm-auth-logout" disabled={submitting} onClick={handleLogout}>
+            {submitting ? "Signing out..." : "Sign out"}
           </button>
         </div>
-        {message && variant !== "topbar" ? (
-          <div className="tpm-auth-message">{message}</div>
-        ) : null}
       </section>
     );
   }
 
+  const statusText =
+    state.status === "checking"
+      ? "Checking session..."
+      : state.message ?? "Sign in to use protected account and operational routes.";
+  const errorText = state.status === "anonymous" ? state.error : undefined;
+
   if (variant === "nav" || variant === "topbar") {
     return (
-      <details className={className}>
-        <summary>{loading ? "Checking" : "Sign in"}</summary>
-        <form className="tpm-auth-form" onSubmit={handleLogin}>
-          <label htmlFor={emailId}>Email</label>
-          <input
-            id={emailId}
-            name="email"
-            type="email"
-            autoComplete="email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-            placeholder="you@example.com"
-            required
-          />
-          <label htmlFor={passwordId}>Password</label>
-          <input
-            id={passwordId}
-            name="password"
-            type="password"
-            autoComplete="current-password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            required
-          />
-          <button type="submit" disabled={submitting}>
-            {submitting ? "Signing in" : "Sign in"}
-          </button>
-          <small>{panelNote}</small>
-          {message ? <div className="tpm-auth-message">{message}</div> : null}
-        </form>
-      </details>
+      <section className={classNames} aria-label="Sign in">
+        <details className="tpm-auth-popover">
+          <summary>Sign in</summary>
+          <div className="tpm-auth-popover-body">
+            <div className="tpm-auth-copy">
+              <span>{title}</span>
+              <p>{statusText}</p>
+            </div>
+            {form}
+            {errorText ? <p className="tpm-auth-error">{errorText}</p> : null}
+          </div>
+        </details>
+      </section>
     );
   }
 
   return (
-    <section className={className} aria-label={panelTitle}>
-      <div className="tpm-auth-head">
-        <span>{variant === "required" ? "Protected access" : "Account access"}</span>
-        <strong>{panelTitle}</strong>
-        <p>{panelNote}</p>
+    <section className={classNames} aria-label={title}>
+      <div className="tpm-auth-copy">
+        <span>{title}</span>
+        <strong>{variant === "required" ? "Sign in required" : "Protected account access"}</strong>
+        <p>{note ?? statusText}</p>
       </div>
-
-      <form className="tpm-auth-form" onSubmit={handleLogin}>
-        <div className="tpm-auth-field">
-          <label htmlFor={emailId}>Email</label>
-          <input
-            id={emailId}
-            name="email"
-            type="email"
-            autoComplete="email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-            placeholder="closed-beta email"
-            required
-          />
-        </div>
-
-        <div className="tpm-auth-field">
-          <label htmlFor={passwordId}>Password</label>
-          <input
-            id={passwordId}
-            name="password"
-            type="password"
-            autoComplete="current-password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            placeholder="account password"
-            required
-          />
-        </div>
-
-        <button type="submit" disabled={submitting}>
-          {submitting ? "Signing in" : "Sign in"}
-        </button>
-      </form>
-
-      <div className="tpm-auth-truth-row">
-        <span>No public registration</span>
-        <span>Paper-only evaluation</span>
-        <span>Live execution blocked</span>
-      </div>
-
-      {message ? <div className="tpm-auth-message">{message}</div> : null}
+      {form}
+      {errorText ? <p className="tpm-auth-error">{errorText}</p> : null}
+      {state.message ? <p className="tpm-auth-message">{state.message}</p> : null}
     </section>
   );
 }

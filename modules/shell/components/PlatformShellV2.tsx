@@ -474,8 +474,6 @@ export function TradingTopbar({
   paperAccessTone,
   diagnosticsHref,
   diagnosticsLabel,
-  operationsHref,
-  operationsLabel,
   settingsHref,
   settingsLabel,
 }: {
@@ -495,8 +493,6 @@ export function TradingTopbar({
   paperAccessTone: WorkstationStatusTone;
   diagnosticsHref: string;
   diagnosticsLabel: string;
-  operationsHref: string;
-  operationsLabel: string;
   settingsHref: string;
   settingsLabel: string;
 }) {
@@ -529,9 +525,6 @@ export function TradingTopbar({
 
       <div className="tpmv2-topbar-controls">
         <div className="tpmv2-topbar-links">
-          <a className="tpmv2-topbar-link" href={operationsHref}>
-            {operationsLabel}
-          </a>
           <a className="tpmv2-topbar-link" href={diagnosticsHref}>
             {diagnosticsLabel}
           </a>
@@ -539,6 +532,8 @@ export function TradingTopbar({
             {settingsLabel}
           </a>
         </div>
+
+        <AuthSessionPanel variant="topbar" title="Workspace session" />
 
         <div className="tpmv2-topbar-toggle">
           <StatusTag
@@ -567,8 +562,6 @@ export function TradingTopbar({
 
           <span className="tpmv2-badge tpmv2-topbar-balance">{balance}$</span>
         </div>
-
-        <AuthSessionPanel variant="topbar" />
       </div>
     </header>
   );

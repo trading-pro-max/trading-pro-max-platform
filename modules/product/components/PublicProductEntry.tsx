@@ -51,23 +51,23 @@ const truthLedger = [
 const firstUseSteps = [
   {
     step: "01",
-    title: "Sign in or inspect public mode",
-    note: "Closed-beta credentials unlock protected operations; public entry still shows product truth.",
+    title: "Read symbol and state",
+    note: "Confirm asset, signal, and ticket readiness before taking action.",
   },
   {
     step: "02",
-    title: "Enter workstation",
-    note: "Chart context is primary, execution is second, and the ticket stays paper-only.",
+    title: "Work from chart and execution",
+    note: "Chart context and the execution ticket are the primary surfaces.",
   },
   {
     step: "03",
-    title: "Review preflight truth",
-    note: "Fallback feed, blocked live route, broker state, and session gates stay explicit.",
+    title: "Verify trust truth",
+    note: "Fallback feed, blocked live route, and connector state stay explicit.",
   },
   {
     step: "04",
-    title: "Report beta feedback",
-    note: "Authenticated beta users can submit categorized issues with route context.",
+    title: "Route to diagnostics/settings",
+    note: "Use support routes for proof, not speculation.",
   },
 ];
 
@@ -92,13 +92,14 @@ export default function PublicProductEntry({
           <div className="tpm-product-hero-layout">
             <div className="tpm-product-hero-copy">
               <h1>
-                Trading Pro Max is an institutional paper-trading workstation.
+                Trading Pro Max is a disciplined trading workstation for
+                paper-safe market command.
               </h1>
               <p>
-                Chart-dominant market reading, guarded execution rehearsal, TPM IQ / Brain
-                context, beta operations, and diagnostics-ready trust semantics stay in one
-                operator flow. Paper-only operation, fallback feed truth, blocked live routing,
-                and broker unconfigured state remain explicit.
+                Chart-first execution rehearsal, TPM IQ / Brain guidance, and diagnostics-ready
+                trust semantics stay in one operator flow. Paper-only operation, fallback feed
+                truth, blocked live routing, and broker unconfigured state remain explicit; this
+                is not a live brokerage terminal.
               </p>
 
               <div className="tpm-product-cta-row">
@@ -113,9 +114,6 @@ export default function PublicProductEntry({
                 </Link>
                 <Link className="tpm-product-cta tpm-product-cta-secondary" href={diagnosticsHref}>
                   Review diagnostics
-                </Link>
-                <Link className="tpm-product-cta tpm-product-cta-secondary" href="/operations">
-                  Open operations
                 </Link>
               </div>
 
@@ -135,19 +133,22 @@ export default function PublicProductEntry({
               </div>
             </div>
 
-            <div className="tpm-product-signal-grid">
+            <div className="tpm-product-hero-side">
+              <div className="tpm-product-signal-grid">
+                {commandPillars.map((item) => (
+                  <article key={item.label} className="tpm-product-signal-card">
+                    <span>{item.label}</span>
+                    <strong>{item.value}</strong>
+                    <p>{item.note}</p>
+                  </article>
+                ))}
+              </div>
+
               <AuthSessionPanel
-                variant="hero"
-                title="Closed-beta sign in"
-                note="Sign in to access protected operations and feedback. No public registration or live execution is enabled."
+                className="tpm-product-auth"
+                title="Closed access"
+                note="Sign in with seeded beta credentials to unlock protected account routes. Public registration, live execution, and real-money access remain disabled."
               />
-              {commandPillars.map((item) => (
-                <article key={item.label} className="tpm-product-signal-card">
-                  <span>{item.label}</span>
-                  <strong>{item.value}</strong>
-                  <p>{item.note}</p>
-                </article>
-              ))}
             </div>
           </div>
         </section>
