@@ -48,3 +48,13 @@ Each explanation includes:
 The engine blocks raw JSON-feeling errors, fake unlocks, and scary unexplained states.
 
 The explanations may be surfaced in diagnostics/settings, but the workstation should remain compact and chart-focused.
+
+## Living Experience Surface
+
+Current UI surfaces:
+
+- the execution ticket includes a compact "Why live is blocked" disclosure
+- diagnostics shows highlighted blocked-state explanation cards and safe next steps
+- the TPM Companion panel reuses the explanations for live, real money, and broker states
+
+The surface is intentionally compact. It should clarify without turning the workstation into an admin dashboard.

@@ -67,3 +67,29 @@ VIP strategy review may be planned as advanced coaching. It must remain:
 ## Planet Earth Learning Role
 
 Academy, Journal, and Coach sit inside the Academy and Intelligence continents. They may teach, prompt reflection, summarize paper practice, and support discipline. They must not provide financial advice, manipulate behavior, create gambling-style urgency, or imply guaranteed improvement.
+
+## Current Runtime Foundation
+
+The first Journal / Coach foundation now exists as a safe readiness contract and compact settings/diagnostics surface.
+
+Runtime sources:
+
+- `lib/server/journal-coach/types.ts`
+- `lib/server/journal-coach/state.ts`
+- `app/api/journal-coach/readiness/route.ts`
+- `modules/journal-coach/components/SessionCoachPanel.tsx`
+- `modules/journal-coach/components/JournalPromptCard.tsx`
+
+Active Demo / Free prompts:
+
+- session readiness
+- paper-mode reminder
+- decision note
+- post-session learning
+
+Planned states:
+
+- Pro journal depth remains planned and locked until entitlement support exists.
+- VIP coach review remains locked until real entitlement and safety gates exist.
+
+The runtime foundation is educational only. It does not produce trading signals, financial advice, guaranteed outcomes, or live execution authority.

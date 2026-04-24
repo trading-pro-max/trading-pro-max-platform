@@ -290,6 +290,13 @@ function buildRouteProbes(input: {
         "Companion Context Engine route reports safe default assistant context without secrets, private data, or execution authority.",
     },
     {
+      path: "/api/journal-coach/readiness",
+      method: "GET",
+      status: input.productBackend.status,
+      detail:
+        "Journal/Coach readiness route reports paper-session prompts only; no financial advice, signals, live execution, or real-money routing is active.",
+    },
+    {
       path: "/api/market",
       method: "GET",
       status: input.market.status,

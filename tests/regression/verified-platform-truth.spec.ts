@@ -433,6 +433,8 @@ test.describe("verified platform truth", () => {
         "Trading Pro Max"
       );
       await expect(page.locator(".tpm-precision-clock").first()).toBeVisible();
+      await expect(page.locator(".tpm-platform-pulse").first()).toBeVisible();
+      await expect(page.locator(".tpm-companion-launcher").first()).toBeVisible();
       await expect(page.locator("body")).toContainText(route.text);
       await expectRuntimeCssApplied(
         page,
@@ -467,6 +469,7 @@ test.describe("verified platform truth", () => {
         await expect(page.locator(".tpmv2-execution").first()).toBeVisible();
         await expect(page.locator(".tpmv2-ticket-preflight").first()).toBeVisible();
         await expect(page.locator(".tpmv2-ticket-activity").first()).toBeVisible();
+        await expect(page.locator(".tpmv2-execution .tpm-why-blocked-hint").first()).toBeVisible();
         await expect(page.locator("body")).toContainText(
           /TPM IQ \/ Brain|Market context|Operator guidance|Truth layer/
         );
@@ -479,6 +482,17 @@ test.describe("verified platform truth", () => {
         await expect(page.locator("body")).toContainText("Fallback-bound");
         await expect(page.locator("body")).toContainText("Interpretive only");
         await expect(page.locator("body")).toContainText("Live blocked");
+        if (route.path === "/en") {
+          await page.locator(".tpm-companion-launcher").first().click();
+          await expect(page.locator(".tpm-companion-panel").first()).toBeVisible();
+          await expect(page.locator(".tpm-companion-panel").first()).toContainText(
+            /Demo \/ Paper Assistant|paper-safe guidance|Real money blocked/
+          );
+          await expect(page.locator(".tpm-companion-panel").first()).not.toContainText(
+            /guaranteed profit|win-rate/i
+          );
+          await page.getByRole("button", { name: "Close TPM Companion" }).click();
+        }
         const emptyStateNotice = page.locator(".tpm-state-notice[data-state='empty']").first();
         if (!(await emptyStateNotice.isVisible().catch(() => false))) {
           await page.locator(".tpmv2-blotter-toggle").first().click();
@@ -518,9 +532,15 @@ test.describe("verified platform truth", () => {
         await expect(page.locator("body")).toContainText(
           /Personal companion|Demo \/ Paper Assistant|Pro, VIP, and Enterprise assistants remain locked/
         );
+        await expect(page.locator("body")).toContainText(
+          /Plan capability truth|Paper-session guidance|No financial advice/
+        );
         if (route.path === "/diagnostics") {
           await expect(page.locator("body")).toContainText(
             /Planet OS|Internal operating system|Core engines/
+          );
+          await expect(page.locator("body")).toContainText(
+            /Why blocked readiness|Session coach foundation|Journal \/ Coach/
           );
         }
       }
@@ -1275,6 +1295,35 @@ test.describe("verified platform truth", () => {
       winRateClaimsAllowed: false,
     });
 
+    const journalCoachReadiness = await request.get("/api/journal-coach/readiness");
+    expect(journalCoachReadiness.status()).toBe(200);
+    const journalCoachReadinessPayload = await journalCoachReadiness.json();
+    expect(journalCoachReadinessPayload.snapshot).toMatchObject({
+      mode: "journal_coach_foundation",
+      currentPlan: "demo_free",
+      planTruth: {
+        demo: "basic_prompts_active",
+        pro: "journal_depth_planned",
+        vip: "advanced_coaching_planned",
+      },
+      safety: {
+        profitGuarantee: "blocked",
+        financialAdvice: "blocked",
+        tradingSignals: "blocked",
+        liveExecution: "blocked",
+        realMoneyRouting: "blocked",
+      },
+    });
+    expect(journalCoachReadinessPayload.snapshot.prompts).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ id: "session-readiness", state: "active" }),
+        expect.objectContaining({ id: "vip-coach-review", state: "locked" }),
+      ])
+    );
+    expect(JSON.stringify(journalCoachReadinessPayload.snapshot)).not.toMatch(
+      /guaranteed profit|financial advice|sure signal/i
+    );
+
     const planetEngines = await request.get("/api/planet/engines");
     expect(planetEngines.status()).toBe(200);
     const planetEnginesPayload = await planetEngines.json();
@@ -1554,6 +1603,9 @@ test.describe("verified platform truth", () => {
     expect(["ready", "degraded"]).toContain(
       routes.get("/api/companion/context")?.status
     );
+    expect(routes.get("/api/journal-coach/readiness")).toMatchObject({
+      status: "ready",
+    });
     expect(routes.get("/api/account/preferences")).toMatchObject({
       status: "auth_required",
     });

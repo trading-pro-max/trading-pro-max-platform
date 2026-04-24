@@ -4,7 +4,9 @@ import { getDirection } from "../../../lib/i18n/config";
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
 import AuthSessionPanel from "../../auth/components/AuthSessionPanel";
 import ProductLogo from "../../brand/components/ProductLogo";
+import { CompanionLauncher } from "../../companion/components";
 import { LanguageSwitcher } from "../../shell/components/LanguageSwitcher";
+import PlatformPulse from "../../shell/components/PlatformPulse";
 import SwissPrecisionClock from "../../shell/components/SwissPrecisionClock";
 import { ThemeSwitcher } from "../../shell/components/ThemeSwitcher";
 
@@ -27,6 +29,7 @@ export default function ProductExperienceFrame({
     routeMode === "localized" ? `/${locale}/diagnostics` : "/diagnostics";
   const settingsHref =
     routeMode === "localized" ? `/${locale}/settings` : "/settings";
+  const feedbackHref = `${diagnosticsHref}#feedback`;
 
   const navItems = [
     { href: "/", label: dict.nav.product },
@@ -54,6 +57,7 @@ export default function ProductExperienceFrame({
 
         <div className="tpm-foundation-nav-actions">
           <SwissPrecisionClock compact />
+          <PlatformPulse />
           <AuthSessionPanel
             variant="nav"
             title="Protected account access"
@@ -64,6 +68,12 @@ export default function ProductExperienceFrame({
       </nav>
 
       <div className="tpm-foundation-body">{children}</div>
+      <CompanionLauncher
+        diagnosticsHref={diagnosticsHref}
+        feedbackHref={feedbackHref}
+        locale={locale}
+        settingsHref={settingsHref}
+      />
     </div>
   );
 }

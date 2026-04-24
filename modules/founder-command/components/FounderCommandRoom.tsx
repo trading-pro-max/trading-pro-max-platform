@@ -104,6 +104,27 @@ export default function FounderCommandRoom({
               ))}
             </ul>
           </article>
+          <article>
+            <h3>Next safe decisions</h3>
+            <ul>
+              {commandSnapshot.founderCompanion.nextSafeDecisions.slice(0, 5).map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </article>
+          <article>
+            <h3>Guardian / Legal warnings</h3>
+            <ul>
+              {[
+                ...commandSnapshot.founderCompanion.guardianSummary,
+                ...commandSnapshot.founderCompanion.legalSummary,
+              ]
+                .slice(0, 5)
+                .map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+            </ul>
+          </article>
         </div>
       </section>
 

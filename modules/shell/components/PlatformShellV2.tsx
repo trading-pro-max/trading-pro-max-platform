@@ -10,6 +10,8 @@ import {
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
 import AuthSessionPanel from "../../auth/components/AuthSessionPanel";
 import ProductLogo from "../../brand/components/ProductLogo";
+import { WhyBlockedHint } from "../../state-explanations/components";
+import type { StateExplanationView } from "../../state-explanations/types";
 import type {
   AccountMode,
   Asset,
@@ -149,6 +151,19 @@ export const CHART_TYPES: { id: PlatformChartType; label: string }[] = [
 
 export const INDICATOR_TOOLS = ["EMA 20", "RSI", "MACD", "VOL"] as const;
 export const DRAWING_TOOLS = ["Cursor", "Trend", "Level", "Range", "Note"] as const;
+
+const EXECUTION_BLOCKED_EXPLANATION: StateExplanationView = {
+  key: "execution_blocked",
+  title: "Execution remains guarded",
+  shortMessage: "Execution blocked",
+  reason:
+    "Live execution and real-money routing are blocked by product truth; this ticket is paper-only.",
+  safeNextStep:
+    "Use paper rehearsal or review settings/diagnostics for the current safety state.",
+  severity: "blocked",
+  resolvedBy: "founder",
+  userCopy: "Execution remains guarded. Use paper rehearsal only.",
+};
 
 type ChartBar = {
   height: number;
@@ -1357,6 +1372,11 @@ export function ExecutionCard({
           </div>
         ))}
       </div>
+
+      <WhyBlockedHint
+        explanation={EXECUTION_BLOCKED_EXPLANATION}
+        label="Why live is blocked"
+      />
 
       <div className="tpmv2-ticket-grid">
         <div className="tpmv2-field">

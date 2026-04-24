@@ -7,11 +7,17 @@ import {
   getDefaultAccountTypeIdentity,
 } from "../../auth/account-type";
 import { getAssistantTierSnapshot } from "../../../lib/assistant/tiers";
+import { getPlanEntitlementSnapshot } from "../../../lib/plans/entitlements";
 import { getLocaleEntry } from "../../../lib/i18n/config";
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
 import type { PlanVisualIdentity, PlanVisualKey } from "../../../lib/plans/visual-identity";
 import { getPlanVisualIdentities } from "../../../lib/plans/visual-identity";
+import type { JournalCoachSnapshot } from "../../../lib/server/journal-coach/types";
 import AuthSessionPanel from "../../auth/components/AuthSessionPanel";
+import { SessionCoachPanel } from "../../journal-coach/components";
+import { PlanExperienceCard } from "../../plans/components";
+import { SafeNextStepList, StateExplanationCard } from "../../state-explanations/components";
+import type { StateExplanationView } from "../../state-explanations/types";
 import {
   EXECUTION_DURATIONS,
   PLATFORM_LIMITS,
@@ -273,6 +279,16 @@ type PlanetOsLoadState =
     }
   | { snapshot: null; status: "error" };
 
+type StateExplanationLoadState =
+  | { explanations: null; status: "loading" }
+  | { explanations: StateExplanationView[]; status: "ready" }
+  | { explanations: null; status: "error" };
+
+type JournalCoachLoadState =
+  | { snapshot: null; status: "loading" }
+  | { snapshot: JournalCoachSnapshot; status: "ready" }
+  | { snapshot: null; status: "error" };
+
 function useDiagnosticsHealth() {
   const [state, setState] = useState<DiagnosticsHealthLoadState>({
     health: null,
@@ -365,6 +381,93 @@ function usePlanetOsStatus() {
   return state;
 }
 
+function useStateExplanations() {
+  const [state, setState] = useState<StateExplanationLoadState>({
+    explanations: null,
+    status: "loading",
+  });
+
+  useEffect(() => {
+    let active = true;
+
+    async function loadStateExplanations() {
+      try {
+        const response = await fetch("/api/planet/state-explanations", {
+          method: "GET",
+          cache: "no-store",
+        });
+
+        if (!response.ok) {
+          throw new Error(`State explanations failed with ${response.status}.`);
+        }
+
+        const payload = (await response.json()) as {
+          snapshot?: { explanations?: StateExplanationView[] };
+        };
+
+        if (!active) return;
+        setState({
+          explanations: payload.snapshot?.explanations ?? [],
+          status: "ready",
+        });
+      } catch {
+        if (!active) return;
+        setState({ explanations: null, status: "error" });
+      }
+    }
+
+    void loadStateExplanations();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  return state;
+}
+
+function useJournalCoachReadiness() {
+  const [state, setState] = useState<JournalCoachLoadState>({
+    snapshot: null,
+    status: "loading",
+  });
+
+  useEffect(() => {
+    let active = true;
+
+    async function loadJournalCoachReadiness() {
+      try {
+        const response = await fetch("/api/journal-coach/readiness", {
+          method: "GET",
+          cache: "no-store",
+        });
+
+        if (!response.ok) {
+          throw new Error(`Journal coach readiness failed with ${response.status}.`);
+        }
+
+        const payload = (await response.json()) as {
+          snapshot?: JournalCoachSnapshot;
+        };
+
+        if (!active || !payload.snapshot) return;
+        setState({ snapshot: payload.snapshot, status: "ready" });
+      } catch {
+        if (!active) return;
+        setState({ snapshot: null, status: "error" });
+      }
+    }
+
+    void loadJournalCoachReadiness();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  return state;
+}
+
 export function PlatformDiagnosticsSurface({
   locale,
   dict,
@@ -375,6 +478,8 @@ export function PlatformDiagnosticsSurface({
   const { platformState, viewModel } = useUtilityPlatformViewModel(locale, dict);
   const diagnosticsLoadState = useDiagnosticsHealth();
   const planetOsLoadState = usePlanetOsStatus();
+  const stateExplanationLoadState = useStateExplanations();
+  const journalCoachLoadState = useJournalCoachReadiness();
   const diagnosticsHealth = diagnosticsLoadState.health;
   const planetOsSnapshot = planetOsLoadState.snapshot;
   const planetOsEngineSummary =
@@ -529,6 +634,19 @@ export function PlatformDiagnosticsSurface({
       note: "The assistant cannot execute trades, activate live mode, configure broker/feed, or unlock billing.",
     },
   ];
+  const stateExplanationHighlights =
+    stateExplanationLoadState.status === "ready"
+      ? stateExplanationLoadState.explanations.filter((explanation) =>
+          [
+            "live_disabled",
+            "real_money_blocked",
+            "billing_inactive",
+            "vip_locked",
+            "founder_command_private",
+            "social_publishing_inactive",
+          ].includes(explanation.key)
+        )
+      : [];
 
   const routeItems =
     diagnosticsHealth?.routes.slice(0, 6).map((route) => ({
@@ -832,6 +950,51 @@ export function PlatformDiagnosticsSurface({
         <UtilityGrid items={companionReadinessItems} />
       </UtilitySection>
 
+      <UtilitySection eyebrow="STATE" title="Why blocked readiness">
+        {stateExplanationLoadState.status === "ready" && stateExplanationHighlights.length > 0 ? (
+          <>
+            <div className="tpm-state-explanation-grid">
+              {stateExplanationHighlights.slice(0, 3).map((explanation) => (
+                <StateExplanationCard
+                  key={explanation.key}
+                  compact
+                  explanation={explanation}
+                />
+              ))}
+            </div>
+            <SafeNextStepList explanations={stateExplanationHighlights.slice(0, 4)} />
+          </>
+        ) : (
+          <ProductStateNotice
+            compact
+            kind={stateExplanationLoadState.status === "error" ? "recovery" : "loading"}
+            title={
+              stateExplanationLoadState.status === "error"
+                ? "State explanations unavailable"
+                : "Loading state explanations"
+            }
+            text="The state explanation engine provides user-safe reasons and next steps for blocked, fallback, degraded, and protected states."
+          />
+        )}
+      </UtilitySection>
+
+      <UtilitySection eyebrow="JOURNAL / COACH" title="Session coach foundation">
+        {journalCoachLoadState.status === "ready" && journalCoachLoadState.snapshot ? (
+          <SessionCoachPanel snapshot={journalCoachLoadState.snapshot} />
+        ) : (
+          <ProductStateNotice
+            compact
+            kind={journalCoachLoadState.status === "error" ? "recovery" : "loading"}
+            title={
+              journalCoachLoadState.status === "error"
+                ? "Coach readiness unavailable"
+                : "Loading coach readiness"
+            }
+            text="Basic paper-session prompts remain educational only; no financial advice, trading signal, or profit guarantee is allowed."
+          />
+        )}
+      </UtilitySection>
+
       <UtilitySection eyebrow="PROBES" title="Backend and connector probes">
         {diagnosticsLoadState.status === "error" ? (
           <ProductStateNotice
@@ -927,7 +1090,8 @@ export function PlatformDiagnosticsSurface({
         <UtilityGrid items={trustLedgerItems} />
       </UtilitySection>
 
-      <UtilitySection eyebrow="FEEDBACK" title="Feedback and recovery state">
+      <div id="feedback" className="tpm-anchor-target">
+        <UtilitySection eyebrow="FEEDBACK" title="Feedback and recovery state">
         {diagnosticsLoadState.status === "ready" && feedbackItems.length > 0 ? (
           <UtilityGrid items={feedbackItems} />
         ) : diagnosticsLoadState.status === "ready" ? (
@@ -949,7 +1113,8 @@ export function PlatformDiagnosticsSurface({
             text="Feedback and hardening visibility is operator-reviewed and never opens a public launch path."
           />
         )}
-      </UtilitySection>
+        </UtilitySection>
+      </div>
 
       <UtilitySection
         eyebrow="AUDIT"
@@ -999,6 +1164,8 @@ export function PlatformSettingsSurface({
   const accountTypeIdentity = getDefaultAccountTypeIdentity();
   const assistantTier = getAssistantTierSnapshot("evaluation").current;
   const planVisualIdentities = getPlanVisualIdentities();
+  const planEntitlementSnapshot = getPlanEntitlementSnapshot("demo_free");
+  const journalCoachLoadState = useJournalCoachReadiness();
 
   const productStructureItems = [
     {
@@ -1399,6 +1566,19 @@ export function PlatformSettingsSurface({
         <PlanIdentityGrid currentPlanKey="demo_free" identities={planVisualIdentities} />
       </UtilitySection>
 
+      <UtilitySection eyebrow="PLAN EXPERIENCE" title="Plan capability truth">
+        <div className="tpm-plan-experience-grid">
+          {planEntitlementSnapshot.plans.map((plan) => (
+            <PlanExperienceCard
+              key={plan.planId}
+              currentPlan={planEntitlementSnapshot.currentPlan}
+              plan={plan}
+              truth={planEntitlementSnapshot.truth}
+            />
+          ))}
+        </div>
+      </UtilitySection>
+
       <UtilitySection
         eyebrow="ONBOARDING"
         title="First-use platform guidance"
@@ -1409,6 +1589,23 @@ export function PlatformSettingsSurface({
         }
       >
         <UtilityGrid items={onboardingItems} />
+      </UtilitySection>
+
+      <UtilitySection eyebrow="JOURNAL / COACH" title="Paper-session guidance">
+        {journalCoachLoadState.status === "ready" && journalCoachLoadState.snapshot ? (
+          <SessionCoachPanel snapshot={journalCoachLoadState.snapshot} />
+        ) : (
+          <ProductStateNotice
+            compact
+            kind={journalCoachLoadState.status === "error" ? "recovery" : "loading"}
+            title={
+              journalCoachLoadState.status === "error"
+                ? "Coach readiness unavailable"
+                : "Loading coach readiness"
+            }
+            text="Journal and coach prompts stay paper-safe and educational. No financial advice or trading signal is active."
+          />
+        )}
       </UtilitySection>
 
       <UtilitySection eyebrow="COMPLIANCE" title={viewModel.policyPanelLabel}>

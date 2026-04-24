@@ -1,25 +1,12 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { formatPlatformTime, getReferenceSessionLabel } from "../../../lib/time/platform-time";
 
 type SwissPrecisionClockProps = {
   compact?: boolean;
   pulse?: "ready" | "degraded" | "blocked" | "fallback";
 };
-
-function formatTime(date: Date, timeZone?: string) {
-  return new Intl.DateTimeFormat(undefined, {
-    hour: "2-digit",
-    minute: "2-digit",
-    timeZone,
-  }).format(date);
-}
-
-function sessionLabel(date: Date) {
-  const day = date.getUTCDay();
-  if (day === 0 || day === 6) return "Weekend reference";
-  return "Weekday reference";
-}
 
 export default function SwissPrecisionClock({
   compact = true,
@@ -49,10 +36,10 @@ export default function SwissPrecisionClock({
     }
 
     return {
-      local: formatTime(now),
-      zurich: formatTime(now, "Europe/Zurich"),
-      utc: formatTime(now, "UTC"),
-      session: sessionLabel(now),
+      local: formatPlatformTime(now),
+      zurich: formatPlatformTime(now, "Europe/Zurich"),
+      utc: formatPlatformTime(now, "UTC"),
+      session: getReferenceSessionLabel(now),
     };
   }, [now]);
 
@@ -64,7 +51,9 @@ export default function SwissPrecisionClock({
     >
       <span className="tpm-precision-pulse" data-pulse={pulse} aria-hidden="true" />
       <div>
-        <strong>{values.local}</strong>
+        <strong>
+          <time>{values.local}</time>
+        </strong>
         <small>
           Zurich {values.zurich} / UTC {values.utc}
         </small>

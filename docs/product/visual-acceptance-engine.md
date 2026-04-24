@@ -40,3 +40,13 @@ Each area scores:
 The engine returns score estimates, status, reasons, and next visual actions. It does not replace human visual acceptance, fresh screenshots, or browser verification.
 
 Operational expansion adds chart dominance, execution strength, Founder Command command-grade readiness, Swiss precision signals, and Earth/Planet identity use as explicit future-review areas.
+
+Living experience activation adds future-review areas for:
+
+- TPM Companion panel
+- Platform Pulse and Swiss Precision Clock
+- Plan Experience cards
+- Journal / Coach foundation
+- Why Blocked explanations
+
+Human acceptance by Ahmad and screenshot review remain required before any 10/10 or launch-readiness claim.

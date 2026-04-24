@@ -27,6 +27,7 @@ Safe read-only API surfaces:
 - `/api/product/truth`
 - `/api/founder/briefing/readiness`
 - `/api/companion/context`
+- `/api/journal-coach/readiness`
 
 These routes expose readiness/planned/blocked truth only. They do not expose secrets, private user data, production config, fake metrics, billing, broker/feed activation, public launch, social publishing, live execution, or real-money routing.
 
@@ -37,3 +38,10 @@ Operational expansion:
 - Companion Context includes assistant tier, plan entitlement, and product truth summaries.
 - Content Factory exposes sample classifications for education, VIP, Islamic, live-trading, and guaranteed-profit language.
 - AI Build Planner now separates launch-forbidden, secret-forbidden, live-forbidden, companion, and media work.
+
+Living experience activation:
+
+- TPM Companion launcher/panel now consumes safe context and state explanations.
+- Diagnostics shows compact engine, assistant, why-blocked, and journal/coach readiness.
+- Settings shows plan experience cards and paper-session coach prompts.
+- Swiss Precision Clock and Platform Pulse provide compact living signals without fake market/live claims.

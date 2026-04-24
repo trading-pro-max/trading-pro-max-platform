@@ -63,3 +63,15 @@ The reusable UI surface `FounderCommandRoom` renders the briefing as a private c
 ## Companion Briefing Feed
 
 The Founder Personal Companion can consume the daily briefing and produce a short priority summary. The summary is advisory only and cannot approve, publish, launch, bill, expose secrets, activate broker/feed, enable live execution, or enable real money.
+
+## Living Experience Activation
+
+The Founder Command component now renders priority briefing, next safe decisions, and Guardian/Legal warnings together. This makes the internal command foundation more actionable while preserving the read-only contract.
+
+Still not present:
+
+- owner device authentication
+- private desktop/mobile command app shell
+- audited approval execution
+- step-up confirmation
+- real production controls

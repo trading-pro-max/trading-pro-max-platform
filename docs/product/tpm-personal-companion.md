@@ -78,6 +78,24 @@ The Companion is allowed to be helpful, warm, and precise. It is never allowed t
 
 - current assistant level: Demo / Paper Assistant
 - billing: inactive
+- first surface: compact floating launcher and collapsible panel in the shared product frame
+- response model: guided prompt cards and deterministic response templates, not a free execution agent
+- context source: `/api/companion/context` plus state explanations from `/api/planet/state-explanations`
+- available actions: explain state, explain blocked truth, guide to settings/diagnostics/feedback, and draft local feedback wording
+- unavailable actions: trade execution, live activation, real-money routing, broker/feed activation, billing activation, secret changes, launch claims, social publishing, profit claims, and guaranteed signals
+
+## Living Experience Surface
+
+The current UI exposes the Companion as a compact launcher so the chart and execution ticket remain primary. The panel shows:
+
+- current plan and assistant tier truth
+- paper-safe execution authority: none
+- available Demo / Free capabilities
+- locked or coming-later Pro/VIP/Enterprise capabilities
+- why blocked hints for live execution, real money, and broker routing
+- links to settings, diagnostics, and feedback
+
+The Companion is intentionally guided and bounded. It may explain the planet state, but it is not a private Founder Command surface and it does not reveal secrets, private user data, or hidden production configuration.
 - paid access: not enabled
 - VIP activation: not active
 - Enterprise assistant: future planned only

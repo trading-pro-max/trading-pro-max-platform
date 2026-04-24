@@ -44,6 +44,19 @@ The room snapshot now also includes Founder Personal Companion readiness. It sum
 
 The companion summary is advisory only. It cannot approve actions alone, publish media, expose secrets, enable live execution, enable real money, activate broker/feed, activate billing, or override Guardian/Legal critical blocks.
 
+## Living Experience Activation
+
+The read-only command shell now renders more actionable briefing slices:
+
+- priority briefing
+- next safe decisions
+- Guardian and Legal warning summary
+- product gaps
+- blocked/degraded ministries
+- approval queue truth
+
+This is still a component/contracts foundation, not a public page or native Founder app. No approval execution, public route, private data, secrets, fake users, fake revenue, fake metrics, launch action, billing action, broker/feed activation, social publishing, live execution, or real-money routing is exposed.
+
 ## Still Planned
 
 - private desktop Founder Command app

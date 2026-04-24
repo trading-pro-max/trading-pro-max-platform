@@ -3536,3 +3536,536 @@ html[data-theme="light"] .tpmv2-chart-depth-panel {
     inset-inline: 14px;
   }
 }
+
+/* Living Planet experience activation */
+.tpm-platform-pulse {
+  align-items: center;
+  border: 1px solid var(--tpm-border);
+  border-radius: var(--tpm-radius-sm);
+  background: color-mix(in srgb, var(--tpm-surface-alt) 86%, transparent);
+  color: var(--tpm-text);
+  display: inline-flex;
+  gap: 8px;
+  min-height: 34px;
+  padding: 7px 10px;
+  white-space: nowrap;
+}
+
+.tpm-platform-pulse > span {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--tpm-warning);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--tpm-warning) 13%, transparent);
+}
+
+.tpm-platform-pulse[data-pulse="ready"] > span {
+  background: var(--tpm-success);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--tpm-success) 13%, transparent);
+}
+
+.tpm-platform-pulse[data-pulse="blocked"] > span {
+  background: var(--tpm-danger);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--tpm-danger) 13%, transparent);
+}
+
+.tpm-platform-pulse strong,
+.tpm-platform-pulse small,
+.tpm-platform-pulse em {
+  display: block;
+  line-height: 1.1;
+}
+
+.tpm-platform-pulse strong {
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.tpm-platform-pulse small,
+.tpm-platform-pulse em {
+  color: var(--tpm-text-soft);
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.tpm-companion-shell {
+  inset-block-end: 18px;
+  inset-inline-end: 18px;
+  position: fixed;
+  z-index: 80;
+}
+
+.tpm-companion-launcher {
+  align-items: center;
+  border: 1px solid color-mix(in srgb, var(--tpm-brand-gold-soft, #d8a83c) 36%, var(--tpm-border));
+  border-radius: 999px;
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--tpm-brand-gold-soft, #d8a83c) 16%, transparent), var(--tpm-surface-strong));
+  box-shadow: var(--tpm-shadow-menu);
+  color: var(--tpm-text);
+  cursor: pointer;
+  display: inline-grid;
+  gap: 2px 8px;
+  grid-template-columns: 10px minmax(0, 1fr);
+  min-height: 46px;
+  min-width: 172px;
+  padding: 8px 14px;
+  text-align: start;
+}
+
+.tpm-companion-launcher > span {
+  align-self: center;
+  background: var(--tpm-success);
+  border-radius: 999px;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--tpm-success) 14%, transparent);
+  grid-row: span 2;
+  height: 8px;
+  width: 8px;
+}
+
+.tpm-companion-launcher strong,
+.tpm-companion-launcher small {
+  display: block;
+  line-height: 1.1;
+}
+
+.tpm-companion-launcher strong {
+  font-size: 12px;
+  font-weight: 950;
+}
+
+.tpm-companion-launcher small {
+  color: var(--tpm-text-soft);
+  font-size: 10px;
+  font-weight: 850;
+}
+
+.tpm-companion-panel {
+  width: min(390px, calc(100vw - 28px));
+  max-height: min(720px, calc(100vh - 92px));
+  overflow: auto;
+  margin-bottom: 10px;
+  border: 1px solid color-mix(in srgb, var(--tpm-brand-gold-soft, #d8a83c) 24%, var(--tpm-border));
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 26%),
+    color-mix(in srgb, var(--tpm-surface-strong) 96%, transparent);
+  box-shadow: var(--tpm-shadow-menu);
+  color: var(--tpm-text);
+  padding: 14px;
+}
+
+.tpm-companion-head,
+.tpm-plan-experience-card header,
+.tpm-session-coach-panel header {
+  align-items: start;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.tpm-companion-head span,
+.tpm-session-coach-panel header span,
+.tpm-plan-capability-list > span,
+.tpm-state-explanation-card span,
+.tpm-journal-prompt-card span {
+  color: var(--tpm-brand-gold-soft, #d8a83c);
+  font-size: 10px;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.tpm-companion-head h2,
+.tpm-session-coach-panel h2,
+.tpm-plan-experience-card h3,
+.tpm-state-explanation-card h3,
+.tpm-journal-prompt-card h3 {
+  color: var(--tpm-text);
+  font-size: 15px;
+  line-height: 1.2;
+  margin: 2px 0 0;
+}
+
+.tpm-companion-head button {
+  border: 1px solid var(--tpm-border);
+  border-radius: var(--tpm-radius-pill);
+  background: var(--tpm-control-bg);
+  color: var(--tpm-text-soft);
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 900;
+  min-height: 30px;
+  padding: 0 10px;
+}
+
+.tpm-companion-status-grid,
+.tpm-companion-capability-grid,
+.tpm-plan-experience-columns,
+.tpm-session-coach-grid,
+.tpm-state-explanation-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.tpm-companion-status-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 12px 0;
+}
+
+.tpm-companion-status-grid > div,
+.tpm-companion-capability-grid > div,
+.tpm-state-explanation-card,
+.tpm-journal-prompt-card,
+.tpm-plan-capability-list article {
+  border: 1px solid var(--tpm-border-soft);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--tpm-surface-alt) 76%, transparent);
+  padding: 10px;
+}
+
+.tpm-companion-status-grid span,
+.tpm-companion-capability-grid span,
+.tpm-plan-experience-truth span {
+  color: var(--tpm-text-soft);
+  display: block;
+  font-size: 10px;
+  font-weight: 850;
+}
+
+.tpm-companion-status-grid strong,
+.tpm-companion-status-grid small,
+.tpm-companion-capability-grid small {
+  display: block;
+  line-height: 1.25;
+}
+
+.tpm-companion-status-grid strong {
+  color: var(--tpm-text);
+  font-size: 12px;
+  font-weight: 950;
+}
+
+.tpm-companion-status-grid small,
+.tpm-companion-capability-grid small {
+  color: var(--tpm-text-muted);
+  font-size: 10px;
+}
+
+.tpm-companion-prompt-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tpm-companion-prompt-row button,
+.tpm-companion-actions a {
+  border: 1px solid var(--tpm-border);
+  border-radius: var(--tpm-radius-pill);
+  background: var(--tpm-control-bg);
+  color: var(--tpm-text-soft);
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 900;
+  min-height: 28px;
+  padding: 0 10px;
+  text-decoration: none;
+}
+
+.tpm-companion-prompt-row button.active {
+  background: color-mix(in srgb, var(--tpm-accent) 14%, transparent);
+  color: var(--tpm-text);
+}
+
+.tpm-companion-message-list {
+  display: grid;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.tpm-companion-message {
+  border: 1px solid var(--tpm-border-soft);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--tpm-surface-alt) 82%, transparent);
+  padding: 11px;
+}
+
+.tpm-companion-message[data-tone="blocked"],
+.tpm-state-explanation-card[data-severity="blocked"] {
+  border-color: color-mix(in srgb, var(--tpm-danger) 24%, var(--tpm-border));
+}
+
+.tpm-companion-message[data-tone="planned"] {
+  border-color: color-mix(in srgb, var(--tpm-warning) 24%, var(--tpm-border));
+}
+
+.tpm-companion-message span,
+.tpm-companion-message strong,
+.tpm-companion-message p {
+  display: block;
+}
+
+.tpm-companion-message span {
+  color: var(--tpm-text-soft);
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.tpm-companion-message strong {
+  color: var(--tpm-text);
+  font-size: 13px;
+  line-height: 1.25;
+  margin-top: 3px;
+}
+
+.tpm-companion-message p,
+.tpm-state-explanation-card p,
+.tpm-state-explanation-card small,
+.tpm-journal-prompt-card p,
+.tpm-journal-prompt-card small,
+.tpm-plan-capability-list small,
+.tpm-plan-experience-card p,
+.tpm-plan-experience-card small {
+  color: var(--tpm-text-soft);
+  font-size: 12px;
+  line-height: 1.45;
+  margin: 6px 0 0;
+}
+
+.tpm-companion-state-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.tpm-why-blocked-hint {
+  border: 1px solid color-mix(in srgb, var(--tpm-danger) 18%, var(--tpm-border));
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--tpm-danger) 6%, transparent);
+  color: var(--tpm-text);
+  font-size: 11px;
+  padding: 8px 10px;
+}
+
+.tpm-why-blocked-hint summary {
+  cursor: pointer;
+  font-weight: 950;
+}
+
+.tpm-why-blocked-hint p,
+.tpm-why-blocked-hint small {
+  color: var(--tpm-text-soft);
+  display: block;
+  font-size: 11px;
+  line-height: 1.35;
+  margin: 5px 0 0;
+}
+
+.tpmv2-execution > .tpm-why-blocked-hint {
+  margin-top: -2px;
+}
+
+.tpm-companion-capability-grid,
+.tpm-plan-experience-columns,
+.tpm-state-explanation-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.tpm-companion-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.tpm-state-safe-next-list {
+  display: grid;
+  gap: 8px;
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+}
+
+.tpm-state-safe-next-list li {
+  align-items: start;
+  border: 1px solid var(--tpm-border-soft);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--tpm-surface-alt) 68%, transparent);
+  display: grid;
+  gap: 4px;
+  padding: 9px;
+}
+
+.tpm-state-safe-next-list strong,
+.tpm-state-safe-next-list span {
+  display: block;
+}
+
+.tpm-state-safe-next-list strong {
+  color: var(--tpm-text);
+  font-size: 12px;
+}
+
+.tpm-state-safe-next-list span {
+  color: var(--tpm-text-soft);
+  font-size: 11px;
+}
+
+.tpm-session-coach-panel {
+  display: grid;
+  gap: 12px;
+}
+
+.tpm-session-coach-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.tpm-session-coach-panel footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tpm-session-coach-panel footer span,
+.tpm-plan-capability-list article em {
+  border: 1px solid var(--tpm-border);
+  border-radius: var(--tpm-radius-pill);
+  color: var(--tpm-text-soft);
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 900;
+  padding: 6px 9px;
+}
+
+.tpm-plan-experience-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.tpm-plan-experience-card {
+  border: 1px solid color-mix(in srgb, var(--tpm-plan-primary) 28%, var(--tpm-border));
+  border-radius: 14px;
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--tpm-plan-primary) 10%, transparent), transparent),
+    color-mix(in srgb, var(--tpm-surface-strong) 96%, transparent);
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+}
+
+.tpm-plan-experience-card[data-current="true"] {
+  border-color: color-mix(in srgb, var(--tpm-plan-primary) 52%, var(--tpm-border));
+}
+
+.tpm-plan-experience-card header > strong {
+  color: color-mix(in srgb, var(--tpm-plan-primary) 78%, var(--tpm-text));
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.tpm-plan-experience-truth {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tpm-plan-experience-truth span {
+  border: 1px solid var(--tpm-border);
+  border-radius: var(--tpm-radius-pill);
+  padding: 6px 9px;
+}
+
+.tpm-plan-capability-list {
+  display: grid;
+  gap: 8px;
+}
+
+.tpm-anchor-target {
+  scroll-margin-top: 88px;
+}
+
+html[data-theme="light"] .tpm-platform-pulse,
+html[data-theme="light"] .tpm-companion-panel,
+html[data-theme="light"] .tpm-companion-launcher,
+html[data-theme="light"] .tpm-companion-status-grid > div,
+html[data-theme="light"] .tpm-companion-capability-grid > div,
+html[data-theme="light"] .tpm-companion-message,
+html[data-theme="light"] .tpm-state-explanation-card,
+html[data-theme="light"] .tpm-journal-prompt-card,
+html[data-theme="light"] .tpm-plan-experience-card,
+html[data-theme="light"] .tpm-plan-capability-list article {
+  background-color: rgba(255, 255, 255, 0.86);
+}
+
+[dir="rtl"] .tpm-companion-shell {
+  inset-inline-end: auto;
+  inset-inline-start: 18px;
+}
+
+[dir="rtl"] .tpm-companion-launcher,
+[dir="rtl"] .tpm-companion-panel,
+[dir="rtl"] .tpm-state-explanation-card,
+[dir="rtl"] .tpm-journal-prompt-card,
+[dir="rtl"] .tpm-plan-experience-card {
+  text-align: start;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .tpm-platform-pulse > span,
+  .tpm-companion-launcher > span {
+    animation: tpm-living-pulse 2.8s ease-in-out infinite;
+  }
+}
+
+@keyframes tpm-living-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.22);
+  }
+}
+
+@media (max-width: 1180px) {
+  .tpm-session-coach-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .tpm-platform-pulse {
+    display: none;
+  }
+
+  .tpm-companion-shell {
+    inset-block-end: 12px;
+    inset-inline: 12px;
+  }
+
+  .tpm-companion-panel {
+    width: 100%;
+  }
+
+  .tpm-companion-launcher {
+    margin-inline-start: auto;
+    min-width: 156px;
+  }
+
+  .tpm-plan-experience-grid,
+  .tpm-companion-capability-grid,
+  .tpm-state-explanation-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .tpm-companion-status-grid,
+  .tpm-session-coach-grid,
+  .tpm-plan-experience-columns {
+    grid-template-columns: 1fr;
+  }
+}

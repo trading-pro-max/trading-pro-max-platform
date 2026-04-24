@@ -43,3 +43,16 @@ Rules:
 ## Operational Expansion
 
 The entitlement snapshot now feeds Companion Context and diagnostics readiness. Demo / Free remains the active paper-safe plan. Pro and VIP remain planned/locked. Enterprise remains future planned. Founder Command remains owner-only and is never part of a user plan.
+
+## Living Experience Surface
+
+The settings surface now includes compact Plan Experience cards for Demo / Free, Pro, VIP, and Enterprise. These cards show:
+
+- current plan truth
+- assistant identity
+- active Demo capabilities
+- locked or coming-later capabilities
+- inactive billing and paid access truth
+- Founder Command owner-only truth
+
+The cards are visual and explanatory only. They do not create checkout, paid activation, VIP entitlement, Enterprise sales, performance fees, live execution, broker/feed activation, or real-money routing.

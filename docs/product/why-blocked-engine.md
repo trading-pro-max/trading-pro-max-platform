@@ -51,3 +51,13 @@ The user should never have to inspect an API response to understand why a produc
 ## Planet Earth Coverage
 
 The Why Blocked engine must cover assistant capabilities, Founder Command access, ministry actions, media publishing, Pro/VIP features, Islamic status, public launch, monitoring, protected routes, billing, broker/feed, live execution, and real money.
+
+## Runtime Surface
+
+The first runtime surface is now available through reusable state explanation components:
+
+- `WhyBlockedHint`
+- `StateExplanationCard`
+- `SafeNextStepList`
+
+These components may appear in the execution ticket, diagnostics, settings, and Companion panel. They must stay compact and must not imply that a blocked state can be bypassed from the UI.

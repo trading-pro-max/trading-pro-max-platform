@@ -34,3 +34,7 @@ Current implementation status: the approval queue is represented as a read-only 
 - Approved wording must still reflect real configured capability.
 - Blocked content must be revised before returning to review.
 - No approval can enable live execution, real money, broker/feed, billing, or public launch without future explicit gates.
+
+## Current Living Foundation
+
+The approval queue remains read-only but is now visible inside the Founder Command component alongside daily briefing and risk panels. It is useful for planning and review readiness only. No queue item can be approved, rejected, scheduled, published, billed, launched, or routed to a broker from the current UI.
