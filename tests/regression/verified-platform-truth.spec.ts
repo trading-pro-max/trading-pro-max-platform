@@ -652,6 +652,7 @@ test.describe("verified platform truth", () => {
           "platform",
           "integrations",
           "ops",
+          "deployment",
           "trust",
           "commercial",
           "intelligence",
@@ -670,7 +671,24 @@ test.describe("verified platform truth", () => {
         liveExecution: "blocked",
       },
     });
-    expect(launchReadinessPayload.gate.domains).toHaveLength(9);
+    expect(launchReadinessPayload.gate.domains).toHaveLength(10);
+    expect(launchReadinessPayload.gate.domains).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          key: "deployment",
+          required: true,
+          statuses: expect.arrayContaining([
+            expect.stringMatching(/ready|blocked|unavailable/),
+          ]),
+        }),
+      ])
+    );
+    const deploymentDomain = launchReadinessPayload.gate.domains.find(
+      (domain: { key: string }) => domain.key === "deployment"
+    );
+    if (healthPayload.productionDeployment.status === "blocked") {
+      expect(deploymentDomain).toMatchObject({ state: "fail" });
+    }
     expect(launchReadinessPayload.gate.checklist.items.length).toBeGreaterThan(4);
     expect(Array.isArray(launchReadinessPayload.gate.decision.blockers)).toBe(true);
 
@@ -1310,55 +1328,80 @@ test.describe("verified platform truth", () => {
       ])
     );
 
+    const launchGateStage = launchOperationsPayload.snapshot.stages.find(
+      (stage: { key: string }) => stage.key === "launch_readiness_verification_gate"
+    );
+    const launchGateBlocked = launchGateStage?.state === "blocked";
+
     const closedBetaActivation = await request.post("/api/launch/operations", {
       data: {
         action: "activate_closed_beta",
         note: "Activate guarded closed beta operations mode.",
       },
     });
-    expect(closedBetaActivation.status()).toBe(200);
-    const closedBetaActivationPayload = await closedBetaActivation.json();
-    expect(closedBetaActivationPayload).toMatchObject({
-      ok: true,
-      authenticated: true,
-      action: "activate_closed_beta",
-      reason: "closed_beta_activated",
-    });
-    expect(closedBetaActivationPayload.lifecycle).toMatchObject({
-      mode: "closed_beta_activation",
-      stage: "closed_beta_active",
-    });
-    expect(closedBetaActivationPayload.snapshot.mode).toMatch(
-      /closed_beta_activation|soft_launch_activation|public_launch_activation_gate/
-    );
     const softLaunchActivation = await request.post("/api/launch/operations", {
       data: {
         action: "activate_soft_launch",
         note: "Activate guarded soft launch limited rollout mode.",
       },
     });
-    expect(softLaunchActivation.status()).toBe(200);
-    const softLaunchActivationPayload = await softLaunchActivation.json();
-    expect(softLaunchActivationPayload).toMatchObject({
-      ok: true,
-      authenticated: true,
-      action: "activate_soft_launch",
-      reason: "soft_launch_activated",
-    });
-    expect(softLaunchActivationPayload.lifecycle).toMatchObject({
-      mode: "soft_launch_activation",
-      stage: "soft_launch_active",
-    });
-    expect(softLaunchActivationPayload.snapshot.mode).toMatch(
-      /soft_launch_activation|public_launch_activation_gate/
-    );
-    expect(softLaunchActivationPayload.snapshot.softLaunch.activation).toMatchObject({
-      state: "active_guarded",
-      activationRoute: "/api/launch/operations",
-    });
-    expect(typeof softLaunchActivationPayload.snapshot.softLaunch.activation.activatedAt).toBe(
-      "string"
-    );
+
+    if (launchGateBlocked) {
+      expect(closedBetaActivation.status()).toBe(409);
+      const closedBetaActivationPayload = await closedBetaActivation.json();
+      expect(closedBetaActivationPayload).toMatchObject({
+        ok: false,
+        authenticated: true,
+        action: "activate_closed_beta",
+        reason: "launch_readiness_gate_blocked",
+      });
+      expect(softLaunchActivation.status()).toBe(409);
+      const softLaunchActivationPayload = await softLaunchActivation.json();
+      expect(softLaunchActivationPayload).toMatchObject({
+        ok: false,
+        authenticated: true,
+        action: "activate_soft_launch",
+        reason: "launch_readiness_gate_blocked",
+      });
+    } else {
+      expect(closedBetaActivation.status()).toBe(200);
+      const closedBetaActivationPayload = await closedBetaActivation.json();
+      expect(closedBetaActivationPayload).toMatchObject({
+        ok: true,
+        authenticated: true,
+        action: "activate_closed_beta",
+        reason: "closed_beta_activated",
+      });
+      expect(closedBetaActivationPayload.lifecycle).toMatchObject({
+        mode: "closed_beta_activation",
+        stage: "closed_beta_active",
+      });
+      expect(closedBetaActivationPayload.snapshot.mode).toMatch(
+        /closed_beta_activation|soft_launch_activation|public_launch_activation_gate/
+      );
+      expect(softLaunchActivation.status()).toBe(200);
+      const softLaunchActivationPayload = await softLaunchActivation.json();
+      expect(softLaunchActivationPayload).toMatchObject({
+        ok: true,
+        authenticated: true,
+        action: "activate_soft_launch",
+        reason: "soft_launch_activated",
+      });
+      expect(softLaunchActivationPayload.lifecycle).toMatchObject({
+        mode: "soft_launch_activation",
+        stage: "soft_launch_active",
+      });
+      expect(softLaunchActivationPayload.snapshot.mode).toMatch(
+        /soft_launch_activation|public_launch_activation_gate/
+      );
+      expect(softLaunchActivationPayload.snapshot.softLaunch.activation).toMatchObject({
+        state: "active_guarded",
+        activationRoute: "/api/launch/operations",
+      });
+      expect(
+        typeof softLaunchActivationPayload.snapshot.softLaunch.activation.activatedAt
+      ).toBe("string");
+    }
     expect(launchOperationsPayload.snapshot.closedBeta).toMatchObject({
       mode: "controlled_closed_beta",
       programMode: expect.stringMatching(
@@ -1667,21 +1710,34 @@ test.describe("verified platform truth", () => {
         },
       }
     );
-    expect(publicLaunchGateActivation.status()).toBe(200);
-    const publicLaunchGateActivationPayload = await publicLaunchGateActivation.json();
-    expect(publicLaunchGateActivationPayload).toMatchObject({
-      ok: true,
-      authenticated: true,
-      action: "activate_public_launch_gate",
-      reason: "public_launch_gate_activated",
-    });
-    expect(publicLaunchGateActivationPayload.lifecycle).toMatchObject({
-      mode: "public_launch_activation_gate",
-      stage: "public_launch_gate_active",
-    });
-    expect(publicLaunchGateActivationPayload.launchOperations.mode).toBe(
-      "public_launch_activation_gate"
-    );
+    if (launchGateBlocked) {
+      expect(publicLaunchGateActivation.status()).toBe(409);
+      const publicLaunchGateActivationPayload =
+        await publicLaunchGateActivation.json();
+      expect(publicLaunchGateActivationPayload).toMatchObject({
+        ok: false,
+        authenticated: true,
+        action: "activate_public_launch_gate",
+        reason: "launch_readiness_gate_blocked",
+      });
+    } else {
+      expect(publicLaunchGateActivation.status()).toBe(200);
+      const publicLaunchGateActivationPayload =
+        await publicLaunchGateActivation.json();
+      expect(publicLaunchGateActivationPayload).toMatchObject({
+        ok: true,
+        authenticated: true,
+        action: "activate_public_launch_gate",
+        reason: "public_launch_gate_activated",
+      });
+      expect(publicLaunchGateActivationPayload.lifecycle).toMatchObject({
+        mode: "public_launch_activation_gate",
+        stage: "public_launch_gate_active",
+      });
+      expect(publicLaunchGateActivationPayload.launchOperations.mode).toBe(
+        "public_launch_activation_gate"
+      );
+    }
 
     const publicGoLive = await request.get("/api/launch/public-go-live");
     expect(publicGoLive.status()).toBe(200);

@@ -10,6 +10,7 @@ export type LaunchReadinessDomainKey =
   | "platform"
   | "integrations"
   | "ops"
+  | "deployment"
   | "trust"
   | "commercial"
   | "desktop"
@@ -82,9 +83,10 @@ export type LaunchReadinessGateSnapshot = {
 };
 
 function gateStateFromStatuses(
-  statuses: DiagnosticsProbeStatus[]
+  statuses: DiagnosticsProbeStatus[],
+  failureStatuses: DiagnosticsProbeStatus[] = ["unavailable"]
 ): LaunchReadinessDomainState {
-  if (statuses.some((status) => status === "unavailable")) return "fail";
+  if (statuses.some((status) => failureStatuses.includes(status))) return "fail";
   if (
     statuses.some(
       (status) =>
@@ -125,6 +127,7 @@ function buildDomain(
     required: boolean;
     probeKeys: string[];
     evidence: string;
+    failureStatuses?: DiagnosticsProbeStatus[];
   }
 ): LaunchReadinessDomain {
   const statuses = input.probeKeys.map((probeKey) =>
@@ -135,7 +138,7 @@ function buildDomain(
     key: input.key,
     label: input.label,
     required: input.required,
-    state: gateStateFromStatuses(statuses),
+    state: gateStateFromStatuses(statuses, input.failureStatuses),
     evidence: input.evidence,
     statuses,
   };
@@ -368,6 +371,15 @@ export function buildLaunchReadinessGateSnapshot(
         "Ops telemetry, runbook, and guarded activation semantics are available.",
     }),
     buildDomain(health, {
+      key: "deployment",
+      label: "Production deployment readiness",
+      required: true,
+      probeKeys: ["production_deployment_readiness"],
+      evidence:
+        "Production database, secret, startup, migration, and rollback requirements are explicit before deployment.",
+      failureStatuses: ["unavailable", "blocked"],
+    }),
+    buildDomain(health, {
       key: "trust",
       label: "Trust and safety semantics",
       required: true,
@@ -438,6 +450,7 @@ export function buildLaunchReadinessGateSnapshot(
       "platform",
       "integrations",
       "ops",
+      "deployment",
       "trust",
       "commercial",
       "intelligence",

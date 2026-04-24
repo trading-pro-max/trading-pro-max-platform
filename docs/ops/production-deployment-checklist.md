@@ -24,6 +24,7 @@ The app can be prepared for controlled production-like use, but deployment is bl
 - `npm run smoke:routes -- --with-api`
 - `/api/health`
 - `/api/diagnostics/probes`
+- `/api/launch/readiness` with the `deployment` domain not failed
 
 ## Rollback Plan
 
@@ -41,6 +42,7 @@ The app can be prepared for controlled production-like use, but deployment is bl
 - No migration plan.
 - Default demo credentials.
 - Missing operator key.
+- Failed `production_deployment_readiness` launch-gate domain.
 - Any live-money or live-execution path.
 - Any false broker/feed/billing/notification/public-launch claim.
 
