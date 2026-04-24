@@ -1,0 +1,60 @@
+# Founder Command Mobile App
+
+The Founder Command Mobile App is the future urgent review and action surface for Ahmad on Android and iOS.
+
+This document defines readiness only. No App Store release, Play Store release, push notification integration, or native mobile app is shipped by this foundation.
+
+## Mobile Purpose
+
+Mobile should be fast, quiet, and focused on what requires Founder attention away from the desktop command room.
+
+It should eventually include:
+
+- critical Guardian alerts
+- Legal blocked claims
+- Media approvals
+- AI video approvals
+- critical feedback items
+- Ops incident alerts
+- daily command summary
+- approve, reject, and review-later actions
+- safety boundary state
+
+## Device Targets
+
+- Android
+- iOS
+
+## Mobile Design Rules
+
+- no full workstation complexity
+- no trading execution controls
+- no secret display
+- no public user navigation
+- no fake push notification claim
+- no fake app-store readiness
+- approval cards must show risk, review status, and safe next step
+
+## Mobile Action Rules
+
+Allowed later:
+
+- acknowledge alerts
+- reject reviewed items
+- mark review later
+- approve reviewed non-critical items when all gates pass
+
+Blocked:
+
+- enabling live execution
+- enabling real-money routing
+- activating broker/feed
+- changing secrets
+- publishing externally without configured channels and reviews
+- activating billing
+- claiming public launch
+
+## Current Truth
+
+Mobile command architecture is defined. A real native mobile app is not shipped.
+
