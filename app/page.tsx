@@ -17,7 +17,7 @@ export default function HomePage() {
       />
 
       <section id="workspace-experience" className="tpm-product-workstation-shell">
-        <TradingWorkstation locale={locale} dict={dict} />
+        <TradingWorkstation locale={locale} dict={dict} showFeedbackDock={false} />
       </section>
     </ProductExperienceFrame>
   );

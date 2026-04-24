@@ -4,6 +4,7 @@ import { useEffect, useEffectEvent, useMemo, useState } from "react";
 import { PLATFORM_LIMITS } from "../../../lib/constants/platform";
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
 import OperatorIntelligenceDeck from "../../intelligence/components/OperatorIntelligenceDeck";
+import { FeedbackDock } from "../../operations/components/FeedbackPanel";
 import type {
   WorkspaceFocusMode,
   WatchlistDensityMode,
@@ -127,9 +128,11 @@ function WorkspaceDepthBar({
 export default function TradingWorkstation({
   locale,
   dict,
+  showFeedbackDock = true,
 }: {
   locale: string;
   dict: Dictionary;
+  showFeedbackDock?: boolean;
 }) {
   const platformState = usePlatformState(locale, dict.decision.reasons);
   const {
@@ -166,6 +169,7 @@ export default function TradingWorkstation({
   });
   const localePrefix = locale ? `/${locale}` : "";
   const diagnosticsHref = `${localePrefix}/diagnostics`;
+  const operationsHref = `${localePrefix}/operations`;
   const settingsHref = `${localePrefix}/settings`;
   const marketDepthItems = useMemo(
     () => [
@@ -514,6 +518,8 @@ export default function TradingWorkstation({
             paperAccessTone={viewModel.paperAccessTone}
             diagnosticsHref={diagnosticsHref}
             diagnosticsLabel={dict.nav.diagnostics}
+            operationsHref={operationsHref}
+            operationsLabel={dict.nav.operations}
             settingsHref={settingsHref}
             settingsLabel={dict.nav.settings}
           />
@@ -721,6 +727,8 @@ export default function TradingWorkstation({
           paperAccessTone={viewModel.paperAccessTone}
           diagnosticsHref={diagnosticsHref}
           diagnosticsLabel={dict.nav.diagnostics}
+          operationsHref={operationsHref}
+          operationsLabel={dict.nav.operations}
           settingsHref={settingsHref}
           settingsLabel={dict.nav.settings}
         />
@@ -859,6 +867,8 @@ export default function TradingWorkstation({
 
         <OperatorIntelligenceDeck intelligence={viewModel.intelligence} />
       </section>
+
+      {showFeedbackDock ? <FeedbackDock /> : null}
     </main>
   );
 }

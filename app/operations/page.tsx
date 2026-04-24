@@ -1,8 +1,9 @@
 import { getDictionary } from "../../lib/i18n/get-dictionary";
 import ProductExperienceFrame from "../../modules/product/components/ProductExperienceFrame";
-import { PlatformSettingsSurface } from "../../modules/shell/components/PlatformUtilitySurfaces";
+import FeedbackPanel from "../../modules/operations/components/FeedbackPanel";
+import OperationalConsole from "../../modules/operations/components/OperationalConsole";
 
-export default function SettingsPage() {
+export default function OperationsPage() {
   const locale = "en";
   const dict = getDictionary(locale);
 
@@ -13,7 +14,10 @@ export default function SettingsPage() {
       routeMode="root"
       showFeedbackDock={false}
     >
-      <PlatformSettingsSurface locale={locale} dict={dict} />
+      <main className="tpm-foundation-page tpm-utility-page">
+        <OperationalConsole />
+        <FeedbackPanel />
+      </main>
     </ProductExperienceFrame>
   );
 }

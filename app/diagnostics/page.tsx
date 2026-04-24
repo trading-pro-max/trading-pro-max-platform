@@ -7,7 +7,12 @@ export default function DiagnosticsPage() {
   const dict = getDictionary(locale);
 
   return (
-    <ProductExperienceFrame locale={locale} dict={dict} routeMode="root">
+    <ProductExperienceFrame
+      locale={locale}
+      dict={dict}
+      routeMode="root"
+      showFeedbackDock={false}
+    >
       <PlatformDiagnosticsSurface locale={locale} dict={dict} />
     </ProductExperienceFrame>
   );

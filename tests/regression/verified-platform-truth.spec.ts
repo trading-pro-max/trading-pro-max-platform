@@ -23,13 +23,18 @@ test.describe("verified platform truth", () => {
       {
         path: "/en/settings",
         expectedUrl: /\/en\/settings$/,
-        text: /Settings|Mode and persistence|Paper ticket defaults|Account and commercial readiness/,
+        text: /Settings|Mode and persistence|Paper ticket defaults|Account and commercial readiness|Account and session/,
+      },
+      {
+        path: "/operations",
+        expectedUrl: /\/operations$/,
+        text: /Beta operations console|Launch readiness|Send Feedback \/ Report Issue|Sign in/,
       },
       {
         path: "/diagnostics",
         expectedUrl: /\/diagnostics$/,
         text:
-          /Diagnostics|System readiness|Connector safety state|Commercial trust and public product state/,
+          /Diagnostics|System readiness|Connector safety state|Commercial trust and public product state|Beta operations console/,
       },
     ];
 
@@ -51,6 +56,9 @@ test.describe("verified platform truth", () => {
         );
         await expect(page.locator("body")).toContainText(
           /Broker unconfigured|no fake activation|not a live brokerage terminal/
+        );
+        await expect(page.locator("body")).toContainText(
+          /Closed-beta sign in|No public registration|Open operations/
         );
       }
 
@@ -90,20 +98,69 @@ test.describe("verified platform truth", () => {
         expect(executionBox?.width ?? 0).toBeGreaterThan(240);
       }
 
-      if (route.path === "/en/settings" || route.path === "/diagnostics") {
+      if (
+        route.path === "/en/settings" ||
+        route.path === "/diagnostics" ||
+        route.path === "/operations"
+      ) {
         await expect(page.locator(".tpm-utility-page").first()).toBeVisible();
-        await expect(page.locator(".tpm-foundation-card").first()).toBeVisible();
+        if (route.path === "/operations") {
+          await expect(page.locator(".tpm-ops-console").first()).toBeVisible();
+        } else {
+          await expect(page.locator(".tpm-foundation-card").first()).toBeVisible();
+        }
         await expect(page.locator("body")).toContainText(
-          /Workspace depth and interaction layer|Workstation depth and shortcut truth/
+          /Workspace depth and interaction layer|Workstation depth and shortcut truth|Beta operations console/
         );
         await expect(page.locator("body")).toContainText(
-          /Commercial trust and public product state|Account and commercial readiness|First-use platform guidance/
+          /Commercial trust and public product state|Account and commercial readiness|First-use platform guidance|Protected surface/
         );
         await expect(page.locator("body")).toContainText(
-          /Product trust ledger|Commercial packaging readiness|No billing system active|Broker integration/
+          /Product trust ledger|Commercial packaging readiness|No billing system active|Broker integration|Live execution blocked/
         );
       }
     }
+  });
+
+  test("provides visible login, protected operations, and feedback submission UX", async ({
+    page,
+  }) => {
+    await page.goto("/operations");
+
+    await expect(page.locator(".tpm-ops-console").first()).toBeVisible();
+    await expect(page.locator("body")).toContainText(
+      /Sign in to view protected operations|Feedback is account-scoped/
+    );
+
+    const operationsAuth = page.locator(".tpm-ops-console .tpm-auth-form").first();
+    await operationsAuth.locator('input[name="email"]').fill(DEMO_EMAIL);
+    await operationsAuth.locator('input[name="password"]').fill(DEMO_PASSWORD);
+    await operationsAuth.getByRole("button", { name: "Sign in" }).click();
+
+    await expect(page.locator(".tpm-auth-session-chip").first()).toContainText(
+      /Trading Pro Demo|OWNER/
+    );
+    await expect(page.locator(".tpm-ops-grid").first()).toBeVisible();
+    await expect(page.locator("body")).toContainText(
+      /Closed beta|Feedback loop|Public launch|Guarded activation only/
+    );
+
+    const feedbackPanel = page.locator(".tpm-feedback-panel").first();
+    await expect(feedbackPanel).toContainText("Send Feedback / Report Issue");
+    await feedbackPanel.getByLabel("Category").selectOption("usability");
+    await feedbackPanel.getByLabel("Severity").selectOption("medium");
+    await feedbackPanel
+      .locator('input[placeholder="What should the operator know?"]')
+      .fill(`UX completion feedback ${Date.now()}`);
+    await feedbackPanel
+      .locator("textarea")
+      .fill("Regression proof that authenticated beta testers can report issues from the UI.");
+    await feedbackPanel.getByRole("button", { name: "Submit feedback" }).click();
+
+    await expect(feedbackPanel).toContainText(
+      /Feedback submitted to the closed-beta queue|Submitted 30d/
+    );
+    await expect(feedbackPanel).toContainText(/Lifecycle truth|live blocked/);
   });
 
   test("keeps unauthenticated preferences on local fallback storage", async ({

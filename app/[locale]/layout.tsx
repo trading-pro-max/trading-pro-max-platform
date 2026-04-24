@@ -19,6 +19,7 @@ export default async function LocaleLayout({
       locale={resolvedLocale}
       dict={dict}
       routeMode="localized"
+      showFeedbackDock={false}
     >
       {children}
     </ProductExperienceFrame>

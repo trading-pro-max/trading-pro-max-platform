@@ -1,4 +1,5 @@
 import Link from "next/link";
+import AuthSessionPanel from "../../auth/components/AuthSessionPanel";
 
 type PublicProductEntryProps = {
   diagnosticsHref: string;
@@ -50,23 +51,23 @@ const truthLedger = [
 const firstUseSteps = [
   {
     step: "01",
-    title: "Read symbol and state",
-    note: "Confirm asset, signal, and ticket readiness before taking action.",
+    title: "Sign in or inspect public mode",
+    note: "Closed-beta credentials unlock protected operations; public entry still shows product truth.",
   },
   {
     step: "02",
-    title: "Work from chart and execution",
-    note: "Chart context and the execution ticket are the primary surfaces.",
+    title: "Enter workstation",
+    note: "Chart context is primary, execution is second, and the ticket stays paper-only.",
   },
   {
     step: "03",
-    title: "Verify trust truth",
-    note: "Fallback feed, blocked live route, and connector state stay explicit.",
+    title: "Review preflight truth",
+    note: "Fallback feed, blocked live route, broker state, and session gates stay explicit.",
   },
   {
     step: "04",
-    title: "Route to diagnostics/settings",
-    note: "Use support routes for proof, not speculation.",
+    title: "Report beta feedback",
+    note: "Authenticated beta users can submit categorized issues with route context.",
   },
 ];
 
@@ -91,14 +92,13 @@ export default function PublicProductEntry({
           <div className="tpm-product-hero-layout">
             <div className="tpm-product-hero-copy">
               <h1>
-                Trading Pro Max is a disciplined trading workstation for
-                paper-safe market command.
+                Trading Pro Max is an institutional paper-trading workstation.
               </h1>
               <p>
-                Chart-first execution rehearsal, TPM IQ / Brain guidance, and diagnostics-ready
-                trust semantics stay in one operator flow. Paper-only operation, fallback feed
-                truth, blocked live routing, and broker unconfigured state remain explicit; this
-                is not a live brokerage terminal.
+                Chart-dominant market reading, guarded execution rehearsal, TPM IQ / Brain
+                context, beta operations, and diagnostics-ready trust semantics stay in one
+                operator flow. Paper-only operation, fallback feed truth, blocked live routing,
+                and broker unconfigured state remain explicit.
               </p>
 
               <div className="tpm-product-cta-row">
@@ -113,6 +113,9 @@ export default function PublicProductEntry({
                 </Link>
                 <Link className="tpm-product-cta tpm-product-cta-secondary" href={diagnosticsHref}>
                   Review diagnostics
+                </Link>
+                <Link className="tpm-product-cta tpm-product-cta-secondary" href="/operations">
+                  Open operations
                 </Link>
               </div>
 
@@ -133,6 +136,11 @@ export default function PublicProductEntry({
             </div>
 
             <div className="tpm-product-signal-grid">
+              <AuthSessionPanel
+                variant="hero"
+                title="Closed-beta sign in"
+                note="Sign in to access protected operations and feedback. No public registration or live execution is enabled."
+              />
               {commandPillars.map((item) => (
                 <article key={item.label} className="tpm-product-signal-card">
                   <span>{item.label}</span>
