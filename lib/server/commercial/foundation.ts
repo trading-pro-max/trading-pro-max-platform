@@ -2,6 +2,11 @@ import "server-only";
 import type { AuthenticatedSession } from "@/lib/auth/service";
 import type { AssistantTierContract, AssistantTierSnapshot } from "@/lib/assistant/tiers";
 import { getAssistantTierForPlan, getAssistantTierSnapshot } from "@/lib/assistant/tiers";
+import type { PlanVisualIdentity } from "@/lib/plans/visual-identity";
+import {
+  getPlanVisualIdentities,
+  getPlanVisualIdentity,
+} from "@/lib/plans/visual-identity";
 import { prisma } from "@/lib/db/client";
 import { getAccountComplianceSnapshotForAuthenticatedSession } from "@/lib/server/compliance";
 import { buildReadinessSnapshot } from "@/lib/server/diagnostics/readiness-score";
@@ -32,7 +37,9 @@ export type CommercialPlanCatalogSnapshot = {
       notificationDelivery: "unconfigured";
     };
     assistantTier: AssistantTierContract;
+    visualIdentity: PlanVisualIdentity;
   }>;
+  planVisualIdentities: PlanVisualIdentity[];
   assistant: AssistantTierSnapshot;
   truth: {
     billingEngine: "inactive";
@@ -71,6 +78,7 @@ export type CommercialScalingFoundationSnapshot = {
     state: "active_evaluation";
     upgradePath: Array<"team_review" | "enterprise_guarded">;
     activationLane: "operator_review_queue";
+    visualIdentity: PlanVisualIdentity;
   };
   assistant: AssistantTierSnapshot;
   capabilities: {
@@ -148,6 +156,7 @@ export function getCommercialPlanCatalogSnapshot(
           notificationDelivery: "unconfigured",
         },
         assistantTier: getAssistantTierForPlan("evaluation"),
+        visualIdentity: getPlanVisualIdentity("demo_free"),
       },
       {
         key: "team_review",
@@ -164,6 +173,7 @@ export function getCommercialPlanCatalogSnapshot(
           notificationDelivery: "unconfigured",
         },
         assistantTier: getAssistantTierForPlan("team_review"),
+        visualIdentity: getPlanVisualIdentity("pro"),
       },
       {
         key: "enterprise_guarded",
@@ -180,8 +190,10 @@ export function getCommercialPlanCatalogSnapshot(
           notificationDelivery: "unconfigured",
         },
         assistantTier: getAssistantTierForPlan("enterprise_guarded"),
+        visualIdentity: getPlanVisualIdentity("enterprise"),
       },
     ],
+    planVisualIdentities: getPlanVisualIdentities(),
     assistant: getAssistantTierSnapshot("evaluation"),
     truth: {
       billingEngine: "inactive",
@@ -279,6 +291,7 @@ export async function getCommercialScalingFoundationForAuthenticatedSession(
       state: "active_evaluation",
       upgradePath: ["team_review", "enterprise_guarded"],
       activationLane: "operator_review_queue",
+      visualIdentity: getPlanVisualIdentity("demo_free"),
     },
     assistant: getAssistantTierSnapshot("evaluation"),
     capabilities: {

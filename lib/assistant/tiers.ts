@@ -1,3 +1,6 @@
+import type { PlanVisualIdentity } from "@/lib/plans/visual-identity";
+import { getPlanVisualIdentityForAssistantTier } from "@/lib/plans/visual-identity";
+
 export type AssistantTierKey = "demo_paper" | "pro" | "vip" | "enterprise";
 
 export type AssistantTierAvailability =
@@ -30,6 +33,7 @@ export type AssistantTierContract = {
   planLabel: string;
   availability: AssistantTierAvailability;
   currentAccess: boolean;
+  visualIdentity: PlanVisualIdentity;
   summary: string;
   capabilities: AssistantCapability[];
   restrictions: string[];
@@ -79,6 +83,7 @@ export const ASSISTANT_TIER_CONTRACTS: AssistantTierContract[] = [
     planLabel: "Demo / Paper",
     availability: "active",
     currentAccess: true,
+    visualIdentity: getPlanVisualIdentityForAssistantTier("demo_paper"),
     summary:
       "Active for the current evaluation account. Guides onboarding, paper/live/blocked/fallback truth, feedback, settings, and diagnostics.",
     capabilities: [
@@ -107,6 +112,7 @@ export const ASSISTANT_TIER_CONTRACTS: AssistantTierContract[] = [
     planLabel: "Pro",
     availability: "locked",
     currentAccess: false,
+    visualIdentity: getPlanVisualIdentityForAssistantTier("pro"),
     summary:
       "Planned Pro tier. Adds richer market context, multi-timeframe summaries, session guidance, workflows, journal suggestions, preflight explanations, and performance context.",
     capabilities: [
@@ -136,6 +142,7 @@ export const ASSISTANT_TIER_CONTRACTS: AssistantTierContract[] = [
     planLabel: "VIP",
     availability: "locked",
     currentAccess: false,
+    visualIdentity: getPlanVisualIdentityForAssistantTier("vip"),
     summary:
       "Planned VIP tier. Adds advanced AI/IQ Brain guidance, deeper performance review, strategy review, advanced journaling, memory, premium reports, and VIP diagnostics summaries only when explicitly configured.",
     capabilities: [
@@ -167,6 +174,7 @@ export const ASSISTANT_TIER_CONTRACTS: AssistantTierContract[] = [
     planLabel: "Enterprise later",
     availability: "planned_later",
     currentAccess: false,
+    visualIdentity: getPlanVisualIdentityForAssistantTier("enterprise"),
     summary:
       "Future enterprise-only concept for team/admin summaries, compliance and audit assistance, risk overview, team workspace support, and runbook guidance.",
     capabilities: [

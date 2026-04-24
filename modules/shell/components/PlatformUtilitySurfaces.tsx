@@ -9,6 +9,8 @@ import {
 import { getAssistantTierSnapshot } from "../../../lib/assistant/tiers";
 import { getLocaleEntry } from "../../../lib/i18n/config";
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
+import type { PlanVisualIdentity, PlanVisualKey } from "../../../lib/plans/visual-identity";
+import { getPlanVisualIdentities } from "../../../lib/plans/visual-identity";
 import AuthSessionPanel from "../../auth/components/AuthSessionPanel";
 import {
   EXECUTION_DURATIONS,
@@ -99,6 +101,57 @@ function UtilityGrid({
           {item.note ? <small>{item.note}</small> : null}
         </div>
       ))}
+    </div>
+  );
+}
+
+function planAvailabilityLabel(
+  identity: PlanVisualIdentity,
+  currentPlanKey: PlanVisualKey
+) {
+  if (identity.key === currentPlanKey) return "Active evaluation";
+  if (identity.availability === "coming_later") return "Coming later";
+  return "Locked";
+}
+
+function PlanIdentityGrid({
+  currentPlanKey,
+  identities,
+}: {
+  currentPlanKey: PlanVisualKey;
+  identities: PlanVisualIdentity[];
+}) {
+  return (
+    <div className="tpm-plan-grid" aria-label="Plan visual identity comparison">
+      {identities.map((identity) => {
+        const active = identity.key === currentPlanKey;
+        const state = active ? "active" : identity.availability;
+
+        return (
+          <article
+            key={identity.key}
+            className={identity.comparisonClassName}
+            data-plan={identity.key}
+            data-state={state}
+          >
+            <div className="tpm-plan-card-head">
+              <span className={identity.badgeClassName}>{identity.shortLabel}</span>
+              <span className={`tpm-plan-state tpm-plan-state-${state}`}>
+                {planAvailabilityLabel(identity, currentPlanKey)}
+              </span>
+            </div>
+            <strong>{identity.label}</strong>
+            <p>{identity.tone}</p>
+            <small>{identity.surfaceLanguage}</small>
+            <div className="tpm-plan-card-footer">
+              <span className={identity.assistantClassName}>
+                {identity.assistantIdentity}
+              </span>
+              <em>{active ? "Paper-safe active" : identity.lockedState}</em>
+            </div>
+          </article>
+        );
+      })}
     </div>
   );
 }
@@ -713,6 +766,7 @@ export function PlatformSettingsSurface({
   const localeEntry = getLocaleEntry(locale);
   const accountTypeIdentity = getDefaultAccountTypeIdentity();
   const assistantTier = getAssistantTierSnapshot("evaluation").current;
+  const planVisualIdentities = getPlanVisualIdentities();
 
   const productStructureItems = [
     {
@@ -1107,6 +1161,10 @@ export function PlatformSettingsSurface({
 
       <UtilitySection eyebrow="PRODUCT ACCESS" title="Commercial packaging readiness">
         <UtilityGrid items={productPackagingItems} />
+      </UtilitySection>
+
+      <UtilitySection eyebrow="PLAN IDENTITY" title="Plan visual identity readiness">
+        <PlanIdentityGrid currentPlanKey="demo_free" identities={planVisualIdentities} />
       </UtilitySection>
 
       <UtilitySection

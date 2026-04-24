@@ -234,6 +234,7 @@ export default function AuthSessionPanel({
     .join(" ");
   const accountTypeIdentity = getDefaultAccountTypeIdentity();
   const assistantTier = getAssistantTierSnapshot("evaluation").current;
+  const assistantVisualIdentity = assistantTier.visualIdentity;
 
   const form = (
     <form className="tpm-auth-form" onSubmit={handleLogin}>
@@ -283,7 +284,7 @@ export default function AuthSessionPanel({
             <span>{humanize(state.account.mode)}</span>
             <span>{humanize(state.account.lifecycleState)}</span>
             <span>{accountTypeIdentity.label}</span>
-            <span>{assistantTier.label}</span>
+            <span className={assistantVisualIdentity.chipClassName}>{assistantTier.label}</span>
           </div>
           <small className="tpm-auth-account-type">{accountTypeIdentity.note}</small>
           <small className="tpm-auth-account-type">
@@ -346,7 +347,12 @@ export default function AuthSessionPanel({
               <span>{title}</span>
               <p>{statusText}</p>
               <small>{accountTypeIdentity.label}: {accountTypeIdentity.note}</small>
-              <small>{assistantTier.label}: paper-safe guidance only.</small>
+              <small>
+                <span className={assistantVisualIdentity.chipClassName}>
+                  {assistantTier.label}
+                </span>{" "}
+                paper-safe guidance only.
+              </small>
             </div>
             {checkingNotice ?? form}
             {errorNotice}
@@ -367,7 +373,12 @@ export default function AuthSessionPanel({
         <strong>{variant === "required" ? "Sign in required" : "Protected account access"}</strong>
         <p>{note ?? statusText}</p>
         <small>{accountTypeIdentity.label}: {accountTypeIdentity.note}</small>
-        <small>{assistantTier.label}: paper-safe guidance only.</small>
+        <small>
+          <span className={assistantVisualIdentity.chipClassName}>
+            {assistantTier.label}
+          </span>{" "}
+          paper-safe guidance only.
+        </small>
       </div>
       {checkingNotice ?? form}
       {errorNotice}

@@ -2,6 +2,8 @@ import "server-only";
 import type { AuthenticatedSession } from "@/lib/auth/service";
 import type { AssistantTierSnapshot } from "@/lib/assistant/tiers";
 import { getAssistantTierSnapshot } from "@/lib/assistant/tiers";
+import type { PlanVisualIdentity } from "@/lib/plans/visual-identity";
+import { getPlanVisualIdentity } from "@/lib/plans/visual-identity";
 import {
   getAccountComplianceSnapshotForAuthenticatedSession,
 } from "@/lib/server/compliance";
@@ -49,6 +51,7 @@ export type ProductBackendStateSnapshot = {
     subscriptions: "unconfigured";
     supportWorkflow: "operator_review_guarded";
     plan: "evaluation";
+    visualIdentity: PlanVisualIdentity;
     customerLifecycle: "linked";
     productOps: "manual_controlled";
   };
@@ -168,6 +171,7 @@ export async function getProductBackendStateForAuthenticatedSession(
       subscriptions: "unconfigured",
       supportWorkflow: "operator_review_guarded",
       plan: "evaluation",
+      visualIdentity: getPlanVisualIdentity("demo_free"),
       customerLifecycle: "linked",
       productOps: "manual_controlled",
     },
