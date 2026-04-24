@@ -64,6 +64,7 @@ export async function GET() {
       },
       architecture: health.architecture,
       clientExpansion: health.clientExpansion,
+      productionDeployment: health.productionDeployment ?? null,
     },
     {
       status: ready ? 200 : 503,

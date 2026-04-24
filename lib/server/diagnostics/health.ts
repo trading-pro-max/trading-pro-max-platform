@@ -44,6 +44,10 @@ import {
   getProductionHardeningDiagnosticsProbe,
 } from "@/lib/server/ops";
 import {
+  getProductionDeploymentDiagnosticsProbe,
+  getProductionDeploymentReadinessSnapshot,
+} from "@/lib/server/production";
+import {
   buildLaunchReadinessGateSnapshot,
   getClosedBetaPreparationDiagnosticsProbe,
   getLaunchFeedbackStoreDiagnostics,
@@ -188,6 +192,7 @@ function buildRouteProbes(input: {
   publicLaunchPreparation: DiagnosticsProbe;
   opsFoundation: DiagnosticsProbe;
   opsActivation: DiagnosticsProbe;
+  productionDeployment: DiagnosticsProbe;
   productionHardening: DiagnosticsProbe;
   opsRecovery: DiagnosticsProbe;
   workspace: DiagnosticsProbe;
@@ -304,7 +309,7 @@ function buildRouteProbes(input: {
       path: "/api/ops/hardening",
       method: "GET",
       status: "auth_required",
-      detail: `${input.productionHardening.summary}. Route is operator-guarded and requires authentication.`,
+      detail: `${input.productionHardening.summary}. Route is operator-guarded and requires authentication. ${input.productionDeployment.summary}`,
     },
     {
       path: "/api/ops/recovery",
@@ -473,6 +478,7 @@ function buildSubsystems(input: {
   publicLaunchPreparation: DiagnosticsProbe;
   opsFoundation: DiagnosticsProbe;
   opsActivation: DiagnosticsProbe;
+  productionDeployment: DiagnosticsProbe;
   productionHardening: DiagnosticsProbe;
   opsRecovery: DiagnosticsProbe;
   preferences: DiagnosticsProbe;
@@ -609,6 +615,13 @@ function buildSubsystems(input: {
       detail: input.opsActivation.detail,
     },
     {
+      key: "production_deployment",
+      label: input.productionDeployment.label,
+      status: input.productionDeployment.status,
+      summary: input.productionDeployment.summary,
+      detail: input.productionDeployment.detail,
+    },
+    {
       key: "ops_hardening",
       label: input.productionHardening.label,
       status: input.productionHardening.status,
@@ -723,6 +736,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     publicLaunchPreparation,
     opsFoundation,
     opsActivation,
+    productionDeployment,
     productionHardening,
     opsRecovery,
     alerts,
@@ -752,6 +766,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     getPublicLaunchPreparationDiagnosticsProbe(),
     getEnterpriseOpsDiagnosticsProbe(),
     getOpsProductionActivationDiagnosticsProbe(),
+    Promise.resolve(getProductionDeploymentDiagnosticsProbe(checkedAt)),
     getProductionHardeningDiagnosticsProbe(),
     getOpsRecoveryDiagnosticsProbe(),
     getAlertWorkflowDiagnosticsProbe(),
@@ -772,6 +787,8 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
   const activationPilotSnapshot = getRealActivationPilotSnapshot(checkedAt);
   const security = getSecurityDiagnosticsProbe();
   const clientExpansion = getClientExpansionSnapshot(checkedAt);
+  const productionDeploymentSnapshot =
+    getProductionDeploymentReadinessSnapshot(checkedAt);
 
   const readiness = buildAggregateReadiness({
     checkedAt,
@@ -803,6 +820,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       softLaunchPreparation,
       publicLaunchPreparation,
       opsActivation,
+      productionDeployment,
       productionHardening,
       opsRecovery,
       intelligence,
@@ -829,6 +847,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     publicLaunchPreparation,
     opsFoundation,
     opsActivation,
+    productionDeployment,
     productionHardening,
     opsRecovery,
     preferences,
@@ -859,6 +878,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     publicLaunchPreparation,
     opsFoundation,
     opsActivation,
+    productionDeployment,
     productionHardening,
     opsRecovery,
     workspace,
@@ -891,6 +911,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     publicLaunchPreparation,
     opsFoundation,
     opsActivation,
+    productionDeployment,
     productionHardening,
     opsRecovery,
     preferences,
@@ -945,6 +966,17 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       },
     },
     clientExpansion,
+    productionDeployment: {
+      checkedAt: productionDeploymentSnapshot.checkedAt,
+      status:
+        productionDeploymentSnapshot.blockers.length === 0
+          ? "ready"
+          : "blocked",
+      score: productionDeploymentSnapshot.readiness.score,
+      stage: productionDeploymentSnapshot.readiness.stage,
+      blockers: productionDeploymentSnapshot.blockers,
+      warnings: productionDeploymentSnapshot.warnings,
+    },
   };
   const launchGate = buildLaunchReadinessGateSnapshot(baseHealth, checkedAt);
   const launchProbe: DiagnosticsProbe = {

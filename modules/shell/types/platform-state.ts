@@ -646,6 +646,17 @@ export type DiagnosticsHealthSnapshot = {
     };
     summary: string;
   };
+  productionDeployment?: {
+    checkedAt: string;
+    status: "ready" | "blocked";
+    score: number;
+    stage:
+      | "local_verified"
+      | "production_requirements_visible"
+      | "deployment_ready_guarded";
+    blockers: string[];
+    warnings: string[];
+  };
   launchReadiness?: {
     checkedAt: string;
     mode: "verification_gate";

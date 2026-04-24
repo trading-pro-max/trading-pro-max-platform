@@ -1,4 +1,8 @@
 export {
+  recordControlledActivationAttempt,
+  type ControlledActivationAttemptInput,
+} from "./activation-audit";
+export {
   getRealActivationPilotDiagnosticsProbe,
   getRealActivationPilotSnapshot,
   type RealActivationPilotSnapshot,

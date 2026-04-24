@@ -118,6 +118,29 @@ export type AccountComplianceSnapshot = {
   disclosures: AccountDisclosureAnchor[];
   review: ComplianceReviewRecord;
   activation: ActivationGateRecord;
+  realMoneySafety: {
+    state: "blocked";
+    disclosureState: "complete_for_paper" | "incomplete";
+    consentState: "paper_only_consented" | "pending";
+    operatorApprovalState:
+      | "approved_for_paper_only"
+      | "operator_review_required"
+      | "restricted"
+      | "rejected";
+    jurisdiction: {
+      region: string;
+      warning: "placeholder_required_before_live_money";
+    };
+    activationChecklist: Array<
+      | "required_disclosures"
+      | "operator_approval"
+      | "jurisdiction_warning"
+      | "live_money_policy_release"
+      | "broker_live_configuration"
+    >;
+    hardBlockReasons: string[];
+    auditTrail: "activation_gate_and_compliance_events";
+  };
 };
 
 export type CreateAccountInput = {
@@ -408,6 +431,53 @@ function activationChanged(
     gate.nextStep !== activation.nextStep ||
     gate.executionEnabled !== activation.executionEnabled
   );
+}
+
+function buildRealMoneySafetyGate(input: {
+  account: AccountRecord;
+  disclosures: AccountDisclosureAnchor[];
+  review: ComplianceReviewRecord;
+  activation: ActivationGateRecord;
+}): AccountComplianceSnapshot["realMoneySafety"] {
+  const disclosuresComplete = allRequiredDisclosuresAccepted(input.disclosures);
+  const hardBlockReasons = [
+    ...(!disclosuresComplete ? (["required_disclosures_incomplete"] as const) : []),
+    ...(input.review.state !== "approved_for_paper"
+      ? (["operator_approval_required"] as const)
+      : []),
+    "jurisdiction_warning_placeholder_required",
+    "live_money_policy_release_required",
+    "broker_live_configuration_required",
+    "real_money_routing_hard_blocked",
+  ];
+  const operatorApprovalState =
+    input.review.state === "approved_for_paper"
+      ? ("approved_for_paper_only" as const)
+      : input.review.state === "restricted"
+      ? ("restricted" as const)
+      : input.review.state === "rejected"
+      ? ("rejected" as const)
+      : ("operator_review_required" as const);
+
+  return {
+    state: "blocked",
+    disclosureState: disclosuresComplete ? "complete_for_paper" : "incomplete",
+    consentState: disclosuresComplete ? "paper_only_consented" : "pending",
+    operatorApprovalState,
+    jurisdiction: {
+      region: input.account.region,
+      warning: "placeholder_required_before_live_money",
+    },
+    activationChecklist: [
+      "required_disclosures",
+      "operator_approval",
+      "jurisdiction_warning",
+      "live_money_policy_release",
+      "broker_live_configuration",
+    ],
+    hardBlockReasons,
+    auditTrail: "activation_gate_and_compliance_events",
+  };
 }
 
 export async function recordComplianceAuditEvent(input: {
@@ -861,11 +931,20 @@ export async function getAccountComplianceSnapshot(
       executionEnabled: false,
     }));
 
+  const accountRecord = toAccountRecord(account);
+  const disclosures = await getDisclosureAnchors(accountId);
+
   return {
-    account: toAccountRecord(account),
-    disclosures: await getDisclosureAnchors(accountId),
+    account: accountRecord,
+    disclosures,
     review,
     activation: latestGate,
+    realMoneySafety: buildRealMoneySafetyGate({
+      account: accountRecord,
+      disclosures,
+      review,
+      activation: latestGate,
+    }),
   };
 }
 

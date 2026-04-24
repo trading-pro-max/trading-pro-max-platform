@@ -12,6 +12,7 @@ const BROKER_PROVIDER_UNCONFIGURED = "unconfigured";
 const BROKER_PROVIDER_HTTP = "http_connector";
 const BROKER_PROVIDER_DEFAULT_LABEL = "Reserved broker connector";
 const BROKER_POLICY_MODE = "paper_safe_blocked_live";
+const BROKER_PILOT_POLICY_RELEASE_FLAG = "true";
 
 type BrokerProviderKey =
   | typeof BROKER_PROVIDER_UNCONFIGURED
@@ -27,6 +28,11 @@ type BrokerCredentialState =
   | "unconfigured"
   | "partially_configured"
   | "configured";
+type BrokerPilotLifecycleState =
+  | "unconfigured"
+  | "sandbox_configured_guarded"
+  | "sandbox_release_ready"
+  | "live_configured_blocked";
 
 export type BrokerIntegrationContracts = {
   orders: {
@@ -77,6 +83,30 @@ export type BrokerIntegrationSnapshot = {
     operatorReviewRequired: true;
     blockedReasons: string[];
   };
+  pilotReadiness: {
+    lifecycleState: BrokerPilotLifecycleState;
+    environmentSeparation: {
+      sandboxEndpointConfigured: boolean;
+      sandboxCredentialsState: BrokerCredentialState;
+      liveEndpointConfigured: boolean;
+      liveCredentialsState: BrokerCredentialState;
+      liveOrderRoute: "blocked";
+    };
+    releaseRequirements: Array<
+      | "sandbox_endpoint"
+      | "sandbox_credentials"
+      | "operator_review"
+      | "pilot_policy_release"
+      | "paper_only_guard"
+    >;
+    explicitPolicyRelease: boolean;
+    canEnterSandboxPilot: boolean;
+    audit: {
+      activationAttempts: "recorded_to_audit_events";
+      secretExposure: "presence_only";
+      safeFailureState: "no_order_route_enabled";
+    };
+  };
   contracts: BrokerIntegrationContracts;
   operatorReview: {
     state: ConnectorOperatorReviewState;
@@ -98,8 +128,14 @@ function normalizeBrokerProviderKey(value: string | null | undefined): BrokerPro
 }
 
 function getBrokerEndpoint() {
-  const endpoint = process.env.TPM_BROKER_CONNECTOR_URL?.trim();
+  const endpoint =
+    process.env.TPM_BROKER_SANDBOX_URL?.trim() ||
+    process.env.TPM_BROKER_CONNECTOR_URL?.trim();
   return endpoint ? endpoint.slice(0, 1024) : null;
+}
+
+function getBrokerLiveEndpointConfigured() {
+  return Boolean(process.env.TPM_BROKER_LIVE_URL?.trim());
 }
 
 function resolveBrokerProviderState() {
@@ -129,8 +165,14 @@ function resolveBrokerProviderState() {
 }
 
 function getBrokerCredentialState() {
-  const apiKeyConfigured = Boolean(process.env.TPM_BROKER_API_KEY?.trim());
-  const apiSecretConfigured = Boolean(process.env.TPM_BROKER_API_SECRET?.trim());
+  const apiKeyConfigured = Boolean(
+    process.env.TPM_BROKER_SANDBOX_API_KEY?.trim() ||
+      process.env.TPM_BROKER_API_KEY?.trim()
+  );
+  const apiSecretConfigured = Boolean(
+    process.env.TPM_BROKER_SANDBOX_API_SECRET?.trim() ||
+      process.env.TPM_BROKER_API_SECRET?.trim()
+  );
   const state: BrokerCredentialState =
     apiKeyConfigured && apiSecretConfigured
       ? "configured"
@@ -143,6 +185,27 @@ function getBrokerCredentialState() {
     apiSecretConfigured,
     state,
   };
+}
+
+function getBrokerLiveCredentialState() {
+  const apiKeyConfigured = Boolean(process.env.TPM_BROKER_LIVE_API_KEY?.trim());
+  const apiSecretConfigured = Boolean(process.env.TPM_BROKER_LIVE_API_SECRET?.trim());
+  const state: BrokerCredentialState =
+    apiKeyConfigured && apiSecretConfigured
+      ? "configured"
+      : apiKeyConfigured || apiSecretConfigured
+      ? "partially_configured"
+      : "unconfigured";
+
+  return {
+    apiKeyConfigured,
+    apiSecretConfigured,
+    state,
+  };
+}
+
+function brokerPilotPolicyReleased() {
+  return process.env.TPM_BROKER_PILOT_POLICY_RELEASE === BROKER_PILOT_POLICY_RELEASE_FLAG;
 }
 
 function getBlockedReasons(input: {
@@ -162,6 +225,10 @@ function getBlockedReasons(input: {
 
   if (input.operatorReviewState === "unconfigured") {
     blockedReasons.push("operator_review_secret_required");
+  }
+
+  if (!brokerPilotPolicyReleased()) {
+    blockedReasons.push("broker_pilot_policy_release_required");
   }
 
   blockedReasons.push("live_policy_blocked");
@@ -216,12 +283,36 @@ function getOperatorReviewDetail(state: ConnectorOperatorReviewState) {
   return "No operator review secret is configured, so operator review is unavailable.";
 }
 
+function getBrokerPilotLifecycleState(input: {
+  sandboxConfigured: boolean;
+  sandboxCredentialsState: BrokerCredentialState;
+  liveConfigured: boolean;
+  operatorReviewState: ConnectorOperatorReviewState;
+  explicitPolicyRelease: boolean;
+}): BrokerPilotLifecycleState {
+  if (input.liveConfigured) return "live_configured_blocked";
+  if (
+    input.sandboxConfigured &&
+    input.sandboxCredentialsState === "configured" &&
+    input.operatorReviewState !== "unconfigured" &&
+    input.explicitPolicyRelease
+  ) {
+    return "sandbox_release_ready";
+  }
+  if (input.sandboxConfigured) return "sandbox_configured_guarded";
+
+  return "unconfigured";
+}
+
 export function getBrokerIntegrationSnapshot(
   checkedAt = new Date().toISOString()
 ): BrokerIntegrationSnapshot {
   const provider = resolveBrokerProviderState();
   const credentials = getBrokerCredentialState();
+  const liveCredentials = getBrokerLiveCredentialState();
   const operatorReviewState = getOperatorReviewState();
+  const explicitPolicyRelease = brokerPilotPolicyReleased();
+  const liveEndpointConfigured = getBrokerLiveEndpointConfigured();
   const blockedReasons = getBlockedReasons({
     providerConfigured: provider.configured,
     credentialsState: credentials.state,
@@ -276,6 +367,40 @@ export function getBrokerIntegrationSnapshot(
       canActivate: false,
       operatorReviewRequired: true,
       blockedReasons,
+    },
+    pilotReadiness: {
+      lifecycleState: getBrokerPilotLifecycleState({
+        sandboxConfigured: provider.configured,
+        sandboxCredentialsState: credentials.state,
+        liveConfigured: liveEndpointConfigured || liveCredentials.state !== "unconfigured",
+        operatorReviewState,
+        explicitPolicyRelease,
+      }),
+      environmentSeparation: {
+        sandboxEndpointConfigured: provider.configured,
+        sandboxCredentialsState: credentials.state,
+        liveEndpointConfigured,
+        liveCredentialsState: liveCredentials.state,
+        liveOrderRoute: "blocked",
+      },
+      releaseRequirements: [
+        "sandbox_endpoint",
+        "sandbox_credentials",
+        "operator_review",
+        "pilot_policy_release",
+        "paper_only_guard",
+      ],
+      explicitPolicyRelease,
+      canEnterSandboxPilot:
+        provider.configured &&
+        credentials.state === "configured" &&
+        operatorReviewState !== "unconfigured" &&
+        explicitPolicyRelease,
+      audit: {
+        activationAttempts: "recorded_to_audit_events",
+        secretExposure: "presence_only",
+        safeFailureState: "no_order_route_enabled",
+      },
     },
     contracts: getBrokerIntegrationContracts(),
     operatorReview: {

@@ -32,7 +32,8 @@ const DEFAULT_CANDLE_COUNT = 36;
 const MARKET_PROVIDER = "Trading Pro Max Fallback Feed";
 const FALLBACK_SOURCE_LABEL = "Fallback market adapter";
 const CONFIGURED_EXTERNAL_FEED = Boolean(
-  process.env.TPM_MARKET_FEED_URL?.trim()
+  process.env.TPM_MARKET_FEED_SANDBOX_URL?.trim() ||
+    process.env.TPM_MARKET_FEED_URL?.trim()
 );
 const EXTERNAL_FEED_POLICY_FLAG = "true";
 const EXTERNAL_FEED_POLICY_MODE = "fallback_first";
@@ -45,6 +46,11 @@ type ExternalFeedCredentialState =
   | "unconfigured"
   | "partially_configured"
   | "configured";
+type ExternalFeedPilotLifecycleState =
+  | "unconfigured"
+  | "sandbox_configured_inactive"
+  | "external_activation_requested_blocked"
+  | "live_configured_blocked";
 
 export type MarketFeedArchitectureSnapshot = {
   checkedAt: string;
@@ -79,6 +85,33 @@ export type MarketFeedArchitectureSnapshot = {
     liveExecution: "blocked";
     blockedReasons: string[];
   };
+  pilotReadiness: {
+    lifecycleState: ExternalFeedPilotLifecycleState;
+    environmentSeparation: {
+      sandboxEndpointConfigured: boolean;
+      sandboxCredentialsState: ExternalFeedCredentialState;
+      liveEndpointConfigured: boolean;
+      liveCredentialsState: ExternalFeedCredentialState;
+      servingAdapter: "fallback_simulated";
+    };
+    transitionContract: {
+      fallbackToExternal: "manual_policy_release_required";
+      externalToFallback: "automatic_safe_fallback";
+      servingTruthLabel: "source_label_required";
+      falseLiveClaimGuard: "blocked";
+    };
+    failureHandling: {
+      timeoutMs: number;
+      retryPolicy: "single_retry_then_fallback";
+      rateLimitPolicy: "bounded_local_rate_limit";
+      degradedClassification: Array<"Fresh" | "Warm" | "Delayed" | "Stale" | "Pending">;
+    };
+    audit: {
+      activationAttempts: "recorded_to_audit_events";
+      secretExposure: "presence_only";
+      safeFailureState: "fallback_remains_authoritative";
+    };
+  };
   contract: {
     requestNormalization: "strict";
     responseShape: "stable";
@@ -90,8 +123,14 @@ export type MarketFeedArchitectureSnapshot = {
 };
 
 function getExternalFeedEndpoint() {
-  const endpoint = process.env.TPM_MARKET_FEED_URL?.trim();
+  const endpoint =
+    process.env.TPM_MARKET_FEED_SANDBOX_URL?.trim() ||
+    process.env.TPM_MARKET_FEED_URL?.trim();
   return endpoint ? endpoint.slice(0, 1024) : null;
+}
+
+function getExternalLiveFeedConfigured() {
+  return Boolean(process.env.TPM_MARKET_FEED_LIVE_URL?.trim());
 }
 
 function externalFeedActivationRequested() {
@@ -123,9 +162,13 @@ function resolveExternalFeedState() {
 }
 
 function resolveExternalFeedCredentials() {
-  const apiKeyConfigured = Boolean(process.env.TPM_MARKET_FEED_API_KEY?.trim());
+  const apiKeyConfigured = Boolean(
+    process.env.TPM_MARKET_FEED_SANDBOX_API_KEY?.trim() ||
+      process.env.TPM_MARKET_FEED_API_KEY?.trim()
+  );
   const apiSecretConfigured = Boolean(
-    process.env.TPM_MARKET_FEED_API_SECRET?.trim()
+    process.env.TPM_MARKET_FEED_SANDBOX_API_SECRET?.trim() ||
+      process.env.TPM_MARKET_FEED_API_SECRET?.trim()
   );
   const state: ExternalFeedCredentialState =
     apiKeyConfigured && apiSecretConfigured
@@ -139,6 +182,40 @@ function resolveExternalFeedCredentials() {
     apiSecretConfigured,
     state,
   };
+}
+
+function resolveExternalLiveFeedCredentials() {
+  const apiKeyConfigured = Boolean(process.env.TPM_MARKET_FEED_LIVE_API_KEY?.trim());
+  const apiSecretConfigured = Boolean(
+    process.env.TPM_MARKET_FEED_LIVE_API_SECRET?.trim()
+  );
+  const state: ExternalFeedCredentialState =
+    apiKeyConfigured && apiSecretConfigured
+      ? "configured"
+      : apiKeyConfigured || apiSecretConfigured
+      ? "partially_configured"
+      : "unconfigured";
+
+  return {
+    apiKeyConfigured,
+    apiSecretConfigured,
+    state,
+  };
+}
+
+function getExternalFeedPilotLifecycleState(input: {
+  sandboxConfigured: boolean;
+  activationRequested: boolean;
+  liveConfigured: boolean;
+  liveCredentialsState: ExternalFeedCredentialState;
+}): ExternalFeedPilotLifecycleState {
+  if (input.liveConfigured || input.liveCredentialsState !== "unconfigured") {
+    return "live_configured_blocked";
+  }
+  if (input.activationRequested) return "external_activation_requested_blocked";
+  if (input.sandboxConfigured) return "sandbox_configured_inactive";
+
+  return "unconfigured";
 }
 
 function getExternalFeedBlockedReasons(input: {
@@ -170,6 +247,8 @@ export function getMarketFeedArchitectureSnapshot(
 ): MarketFeedArchitectureSnapshot {
   const externalDriver = resolveExternalFeedState();
   const credentials = resolveExternalFeedCredentials();
+  const liveCredentials = resolveExternalLiveFeedCredentials();
+  const liveEndpointConfigured = getExternalLiveFeedConfigured();
   const blockedReasons = getExternalFeedBlockedReasons({
     endpointConfigured: externalDriver.endpointConfigured,
     credentialsState: credentials.state,
@@ -229,6 +308,38 @@ export function getMarketFeedArchitectureSnapshot(
       canActivate: false,
       liveExecution: "blocked",
       blockedReasons,
+    },
+    pilotReadiness: {
+      lifecycleState: getExternalFeedPilotLifecycleState({
+        sandboxConfigured: externalDriver.endpointConfigured,
+        activationRequested: externalDriver.activationRequested,
+        liveConfigured: liveEndpointConfigured,
+        liveCredentialsState: liveCredentials.state,
+      }),
+      environmentSeparation: {
+        sandboxEndpointConfigured: externalDriver.endpointConfigured,
+        sandboxCredentialsState: credentials.state,
+        liveEndpointConfigured,
+        liveCredentialsState: liveCredentials.state,
+        servingAdapter: "fallback_simulated",
+      },
+      transitionContract: {
+        fallbackToExternal: "manual_policy_release_required",
+        externalToFallback: "automatic_safe_fallback",
+        servingTruthLabel: "source_label_required",
+        falseLiveClaimGuard: "blocked",
+      },
+      failureHandling: {
+        timeoutMs: 2500,
+        retryPolicy: "single_retry_then_fallback",
+        rateLimitPolicy: "bounded_local_rate_limit",
+        degradedClassification: ["Fresh", "Warm", "Delayed", "Stale", "Pending"],
+      },
+      audit: {
+        activationAttempts: "recorded_to_audit_events",
+        secretExposure: "presence_only",
+        safeFailureState: "fallback_remains_authoritative",
+      },
     },
     contract: {
       requestNormalization: "strict",

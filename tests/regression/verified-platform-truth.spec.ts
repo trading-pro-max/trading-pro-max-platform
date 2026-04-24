@@ -404,6 +404,15 @@ test.describe("verified platform truth", () => {
       sessionBridge: "guarded_cross_client",
       notificationSemantics: "shared_guarded_readiness",
     });
+    expect(healthPayload.productionDeployment).toMatchObject({
+      status: expect.stringMatching(/ready|blocked/),
+      score: expect.any(Number),
+      stage: expect.stringMatching(
+        /local_verified|production_requirements_visible|deployment_ready_guarded/
+      ),
+      blockers: expect.any(Array),
+      warnings: expect.any(Array),
+    });
     expect(healthPayload.clientExpansion.desktop.foundation.targets).toEqual(
       expect.arrayContaining(["windows", "macos", "linux"])
     );
@@ -459,6 +468,9 @@ test.describe("verified platform truth", () => {
     });
     expect(["ready", "degraded"]).toContain(
       probes.get("production_ops_activation")?.status
+    );
+    expect(["ready", "blocked"]).toContain(
+      probes.get("production_deployment_readiness")?.status
     );
     expect(probes.get("commercial_scaling_foundation")).toMatchObject({
       status: "ready",
@@ -739,10 +751,34 @@ test.describe("verified platform truth", () => {
       paperRouting: "local_paper_only",
       realRouting: "blocked",
     });
+    expect(brokerPayload.integration.pilotReadiness).toMatchObject({
+      releaseRequirements: expect.arrayContaining([
+        "sandbox_endpoint",
+        "sandbox_credentials",
+        "operator_review",
+        "pilot_policy_release",
+        "paper_only_guard",
+      ]),
+      audit: {
+        activationAttempts: "recorded_to_audit_events",
+        secretExposure: "presence_only",
+        safeFailureState: "no_order_route_enabled",
+      },
+    });
+    expect(brokerPayload.integration.pilotReadiness.environmentSeparation).toMatchObject({
+      liveOrderRoute: "blocked",
+    });
     expect(brokerPayload.safety.liveExecution).toBe("blocked");
     expect(["unconfigured", "configured_blocked"]).toContain(
       brokerPayload.safety.state
     );
+    const brokerAttemptUnauth = await request.post("/api/broker/state", {
+      data: {
+        action: "request_pilot_activation",
+        environment: "sandbox",
+      },
+    });
+    expect(brokerAttemptUnauth.status()).toBe(401);
 
     const feedState = await request.get("/api/market/feed-state");
     expect(feedState.status()).toBe(200);
@@ -757,6 +793,26 @@ test.describe("verified platform truth", () => {
       "configured_inactive",
       "configured_blocked",
     ]).toContain(feedStatePayload.snapshot.externalDriver.state);
+    expect(feedStatePayload.snapshot.pilotReadiness).toMatchObject({
+      transitionContract: {
+        fallbackToExternal: "manual_policy_release_required",
+        externalToFallback: "automatic_safe_fallback",
+        servingTruthLabel: "source_label_required",
+        falseLiveClaimGuard: "blocked",
+      },
+      audit: {
+        activationAttempts: "recorded_to_audit_events",
+        secretExposure: "presence_only",
+        safeFailureState: "fallback_remains_authoritative",
+      },
+    });
+    const feedAttemptUnauth = await request.post("/api/market/feed-state", {
+      data: {
+        action: "request_external_activation",
+        mode: "external_live",
+      },
+    });
+    expect(feedAttemptUnauth.status()).toBe(401);
 
     const desktopState = await request.get("/api/platform/desktop/state");
     expect(desktopState.status()).toBe(200);
@@ -1094,6 +1150,75 @@ test.describe("verified platform truth", () => {
       },
     });
     expect(login.status()).toBe(200);
+
+    const complianceState = await request.get("/api/account/compliance");
+    expect(complianceState.status()).toBe(200);
+    const complianceStatePayload = await complianceState.json();
+    expect(complianceStatePayload.compliance.realMoneySafety).toMatchObject({
+      state: "blocked",
+      jurisdiction: {
+        warning: "placeholder_required_before_live_money",
+      },
+      auditTrail: "activation_gate_and_compliance_events",
+    });
+    expect(complianceStatePayload.compliance.realMoneySafety.activationChecklist).toEqual(
+      expect.arrayContaining([
+        "required_disclosures",
+        "operator_approval",
+        "jurisdiction_warning",
+        "live_money_policy_release",
+        "broker_live_configuration",
+      ])
+    );
+    expect(
+      complianceStatePayload.compliance.realMoneySafety.hardBlockReasons
+    ).toEqual(expect.arrayContaining(["real_money_routing_hard_blocked"]));
+
+    const brokerAttempt = await request.post("/api/broker/state", {
+      data: {
+        action: "request_pilot_activation",
+        environment: "sandbox",
+        note: "Closed beta operator check of broker pilot readiness.",
+      },
+    });
+    expect(brokerAttempt.status()).toBe(200);
+    const brokerAttemptPayload = await brokerAttempt.json();
+    expect(brokerAttemptPayload).toMatchObject({
+      ok: true,
+      authenticated: true,
+      reason: "broker_activation_attempt_recorded",
+      activation: {
+        liveExecution: "blocked",
+        realMoneyRouting: "blocked",
+        safeFailureState: "no_order_route_enabled",
+      },
+    });
+    expect(["recorded_guarded", "recorded_blocked"]).toContain(
+      brokerAttemptPayload.audit.result
+    );
+    expect(Array.isArray(brokerAttemptPayload.activation.blockedReasons)).toBe(true);
+
+    const feedAttempt = await request.post("/api/market/feed-state", {
+      data: {
+        action: "request_external_activation",
+        mode: "external_live",
+        note: "Closed beta operator check of feed transition readiness.",
+      },
+    });
+    expect(feedAttempt.status()).toBe(200);
+    const feedAttemptPayload = await feedAttempt.json();
+    expect(feedAttemptPayload).toMatchObject({
+      ok: true,
+      authenticated: true,
+      reason: "market_feed_activation_attempt_recorded",
+      activation: {
+        externalFeedActive: false,
+        liveExecution: "blocked",
+        safeFailureState: "fallback_remains_authoritative",
+      },
+    });
+    expect(feedAttemptPayload.audit.result).toBe("recorded_blocked");
+    expect(Array.isArray(feedAttemptPayload.activation.blockedReasons)).toBe(true);
 
     const product = await request.get("/api/account/product-state");
     expect(product.status()).toBe(200);
