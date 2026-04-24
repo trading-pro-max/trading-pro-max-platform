@@ -5,6 +5,8 @@
 - `npm run build` passes.
 - `npm run prisma:validate` passes.
 - `npm run smoke:routes -- --with-api` passes.
+- `npm run production:validate` passes with real production-like values or remains explicitly blocked for local-only rehearsal.
+- `npm run staging:validate` passes before testers use a hosted staging environment.
 - `/api/health` returns ready with truthful blocked/fallback/unconfigured states.
 - Five tester emails are allowlisted.
 - Demo credentials are rotated away from local defaults.
@@ -31,9 +33,11 @@
 ## Beta Operations Acceptance
 
 - Feedback can be submitted and triaged.
+- Each of the five testers completes first entry, login/logout, workstation, paper-only truth, blocked live execution truth, feedback, settings, diagnostics, and readiness/health checks.
 - Runbook actions are documented.
 - Recovery route explains manual rollback/recovery.
 - Production deployment blockers are machine-readable.
+- No tester participation is claimed until the operator records real tester completion evidence.
 
 ## Not Accepted
 

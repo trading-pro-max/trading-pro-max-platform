@@ -105,9 +105,11 @@ Run:
 
 ```bash
 npm run production:validate
+npm run staging:validate
 node scripts/validate-production-readiness.mjs --json
 node scripts/validate-production-readiness.mjs --env-file .env.production.local
 node scripts/validate-production-readiness.mjs --simulate-safe
+node scripts/validate-staging-readiness.mjs --simulate-safe
 ```
 
 A blocked result means at least one production blocker remains. It is not a
@@ -115,3 +117,8 @@ runtime bug; it is a deployment truth signal.
 
 `--simulate-safe` is only a validator logic check. It proves the pass path
 without using real secrets and must not be cited as real production readiness.
+
+Staging validation additionally requires `TPM_STAGING_BASE_URL`,
+`TPM_STAGING_DEPLOYMENT_ID`, and `TPM_STAGING_ROLLBACK_REF`. Those values are
+deployment evidence, not secrets, but they still must reflect a real staging
+host and rollback point before staging can be treated as ready.

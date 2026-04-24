@@ -9,6 +9,7 @@ const DEMO_EMAIL = process.env.TPM_DEMO_EMAIL ?? "demo@tradingpromax.local";
 const DEMO_PASSWORD =
   process.env.TPM_DEMO_PASSWORD ?? "TradingProMaxDemo!2026";
 const VALIDATOR_SCRIPT = "scripts/validate-production-readiness.mjs";
+const STAGING_VALIDATOR_SCRIPT = "scripts/validate-staging-readiness.mjs";
 const SETUP_SCRIPT = "scripts/setup-production-env-local.mjs";
 
 function validatorEnv(overrides: Record<string, string | undefined> = {}) {
@@ -34,6 +35,17 @@ function runProductionValidator(
   extraArgs: string[] = []
 ) {
   return spawnSync(process.execPath, [VALIDATOR_SCRIPT, "--json", ...extraArgs], {
+    cwd: process.cwd(),
+    env: validatorEnv(overrides) as NodeJS.ProcessEnv,
+    encoding: "utf8",
+  });
+}
+
+function runStagingValidator(
+  overrides: Record<string, string | undefined> = {},
+  extraArgs: string[] = []
+) {
+  return spawnSync(process.execPath, [STAGING_VALIDATOR_SCRIPT, "--json", ...extraArgs], {
     cwd: process.cwd(),
     env: validatorEnv(overrides) as NodeJS.ProcessEnv,
     encoding: "utf8",
@@ -90,6 +102,63 @@ test.describe("verified platform truth", () => {
         blockers: 0,
       },
       secretExposurePolicy: "presence_and_shape_only",
+    });
+  });
+
+  test("keeps staging readiness validation strict and simulation labeled", () => {
+    const monitorSecret = "DoNotLeak_StagingMonitoringSecret_2026_Value!";
+    const blockedResult = runStagingValidator({
+      NODE_ENV: "production",
+      TPM_DEPLOYMENT_TARGET: "staging",
+      TPM_LAUNCH_MODE: "staging",
+      TPM_STAGING_BASE_URL: "https://example.test",
+      TPM_STAGING_DEPLOYMENT_ID: "placeholder",
+      TPM_STAGING_ROLLBACK_REF: "placeholder",
+      DATABASE_URL: "file:./prisma/dev.db",
+      TPM_OPS_EXTERNAL_MONITOR_KEY: monitorSecret,
+    });
+
+    expect(blockedResult.status).toBe(1);
+    expect(blockedResult.stdout).not.toContain(monitorSecret);
+    const blockedPayload = JSON.parse(blockedResult.stdout);
+    expect(blockedPayload.summary).toMatchObject({
+      status: "blocked",
+      target: "staging",
+      launchMode: "staging",
+    });
+    expect(blockedPayload.checks).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ key: "staging_hosting", ok: false }),
+        expect.objectContaining({ key: "database_url", ok: false }),
+        expect.objectContaining({ key: "operator_key", ok: false }),
+        expect.objectContaining({ key: "credentials_rotated", ok: false }),
+        expect.objectContaining({ key: "closed_beta_allowlist", ok: false }),
+        expect.objectContaining({ key: "external_monitoring", ok: false }),
+      ])
+    );
+
+    const passResult = runStagingValidator({}, ["--simulate-safe"]);
+
+    expect(passResult.status).toBe(0);
+    expect(passResult.stdout).not.toContain(
+      "TpmKey_2026_StagingSimulatedOnly_Value_ABCDEFG12345!"
+    );
+    expect(passResult.stdout).not.toContain(
+      "MonKey_2026_StagingSimulatedOnly_Value_ABCDEFG12345!"
+    );
+    const passPayload = JSON.parse(passResult.stdout);
+    expect(passPayload).toMatchObject({
+      ok: true,
+      summary: {
+        status: "pass",
+        target: "staging",
+        launchMode: "staging",
+        simulated: true,
+        blockers: 0,
+      },
+      secretExposurePolicy: "presence_and_shape_only",
+      simulationNotice:
+        "Simulated staging mode proves validator logic only; it is not real staging deployment evidence.",
     });
   });
 

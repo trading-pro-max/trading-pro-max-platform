@@ -42,6 +42,10 @@ Send:
 - screenshot if available
 - severity guess
 
+Use the in-app feedback path when available. If the operator asks for manual
+intake, use the same fields so the report can be triaged without a follow-up
+interview.
+
 ## Stop Testing If
 
 - You see any live-money, broker-live, billing, or public-launch claim.

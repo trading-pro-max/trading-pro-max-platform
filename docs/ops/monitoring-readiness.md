@@ -40,7 +40,12 @@ reporting monitoring as unconfigured until the env contract is satisfied.
 1. Configure the provider, HTTPS endpoint, and key in the deployment secret
    manager.
 2. Run `npm run production:validate`.
-3. Capture `/api/health`.
-4. Sign in as an operator and capture `/api/ops/telemetry`.
-5. Confirm monitoring reports `configured_guarded` before production launch
+3. Run `npm run staging:validate` for staging rehearsal.
+4. Capture `/api/health`.
+5. Sign in as an operator and capture `/api/ops/telemetry`.
+6. Confirm monitoring reports `configured_guarded` before production launch
    readiness is considered closed.
+
+For staging, missing monitoring is a blocker because closed beta and soft
+launch decisions need real degradation and incident visibility. Simulated
+validation does not count as monitoring evidence.

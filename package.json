@@ -13,6 +13,7 @@
     "smoke:routes": "node scripts/tpm-canonical-routes-smoke.mjs --summary-only",
     "production:setup-local": "node scripts/setup-production-env-local.mjs",
     "production:validate": "node scripts/validate-production-readiness.mjs",
+    "staging:validate": "node scripts/validate-staging-readiness.mjs",
     "prisma:generate": "node scripts/clean-prisma-client.mjs && prisma generate",
     "prisma:seed": "prisma db seed",
     "prisma:validate": "prisma validate"

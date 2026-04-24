@@ -17,6 +17,7 @@ The app can be prepared for controlled production-like use, but deployment is bl
 - Local rehearsal only: use `npm run production:setup-local` to create `.env.production.local`, then replace placeholders with real deployment values.
 - Confirm no `NEXT_PUBLIC_*` variable name contains secret, token, password, private, or key.
 - Run `npm run production:validate`.
+- Run `npm run staging:validate` against a real staging deployment before any closed beta or launch expansion.
 
 ## Required Validation
 
@@ -30,6 +31,7 @@ The app can be prepared for controlled production-like use, but deployment is bl
 - `/api/launch/readiness` with the `deployment` domain not failed
 - `node scripts/validate-production-readiness.mjs --json`
 - `node scripts/validate-production-readiness.mjs --env-file .env.production.local` for local rehearsal only
+- `node scripts/validate-staging-readiness.mjs --json` after staging env and host evidence exist
 
 ## Rollback Plan
 
@@ -51,6 +53,8 @@ The app can be prepared for controlled production-like use, but deployment is bl
 - Empty closed beta allowlist.
 - Missing external monitoring configuration.
 - Failed `production_deployment_readiness` launch-gate domain.
+- Failed staging deployment validation.
+- Failed closed beta, soft launch, or public launch readiness criteria.
 - Any live-money or live-execution path.
 - Any false broker/feed/billing/notification/public-launch claim.
 
