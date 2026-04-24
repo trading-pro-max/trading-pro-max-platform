@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import os from "node:os";
@@ -12,6 +12,8 @@ const VALIDATOR_SCRIPT = "scripts/validate-production-readiness.mjs";
 const STAGING_VALIDATOR_SCRIPT = "scripts/validate-staging-readiness.mjs";
 const SETUP_SCRIPT = "scripts/setup-production-env-local.mjs";
 const GENERATE_LAUNCH_SECRETS_SCRIPT = "scripts/generate-launch-secrets.mjs";
+const THEME_STORAGE_KEY = "tpm-theme-mode-v1";
+const THEME_ARTIFACT_DIR = path.join("test-results", "theme-localization");
 
 function validatorEnv(overrides: Record<string, string | undefined> = {}) {
   const env: Record<string, string | undefined> = {
@@ -51,6 +53,19 @@ function runStagingValidator(
     env: validatorEnv(overrides) as NodeJS.ProcessEnv,
     encoding: "utf8",
   });
+}
+
+async function openWithTheme(
+  page: Page,
+  pathName: string,
+  themeMode: "dark" | "light" | "system"
+) {
+  await page.goto(pathName);
+  await page.evaluate(
+    ({ key, mode }) => window.localStorage.setItem(key, mode),
+    { key: THEME_STORAGE_KEY, mode: themeMode }
+  );
+  await page.reload({ waitUntil: "domcontentloaded" });
 }
 
 test.describe("verified platform truth", () => {
@@ -367,6 +382,89 @@ test.describe("verified platform truth", () => {
         );
       }
     }
+  });
+
+  test("renders global theme modes, language fallback, and RTL/LTR surfaces", async ({
+    page,
+  }) => {
+    fs.mkdirSync(THEME_ARTIFACT_DIR, { recursive: true });
+
+    await openWithTheme(page, "/", "dark");
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+    await expect(page.locator(".tpm-theme-switcher").first()).toBeVisible();
+    await expect(page.locator(".tpm-locale-select").first()).toBeVisible();
+    await expect(page.locator("body")).toContainText("Public Commercial Entry");
+    await page.screenshot({
+      fullPage: true,
+      path: path.join(THEME_ARTIFACT_DIR, "dark-public-entry.png"),
+    });
+
+    await openWithTheme(page, "/", "light");
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+    await page.screenshot({
+      fullPage: true,
+      path: path.join(THEME_ARTIFACT_DIR, "light-public-entry.png"),
+    });
+
+    await openWithTheme(page, "/en", "dark");
+    await expect(page.locator(".tpm-foundation-frame")).toHaveAttribute("dir", "ltr");
+    await expect(page.locator(".tpmv2-chart-surface").first()).toBeVisible();
+    await page.screenshot({
+      fullPage: true,
+      path: path.join(THEME_ARTIFACT_DIR, "dark-workstation.png"),
+    });
+    await page.screenshot({
+      fullPage: true,
+      path: path.join(THEME_ARTIFACT_DIR, "english-ltr-workstation.png"),
+    });
+
+    await openWithTheme(page, "/en", "light");
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+    await expect(page.locator(".tpmv2-execution").first()).toBeVisible();
+    await page.screenshot({
+      fullPage: true,
+      path: path.join(THEME_ARTIFACT_DIR, "light-workstation.png"),
+    });
+
+    await openWithTheme(page, "/ar", "dark");
+    await expect(page.locator(".tpm-foundation-frame")).toHaveAttribute("dir", "rtl");
+    await expect(page.locator(".tpmv2-chart-surface").first()).toBeVisible();
+    await page.screenshot({
+      fullPage: true,
+      path: path.join(THEME_ARTIFACT_DIR, "arabic-rtl-workstation.png"),
+    });
+
+    await openWithTheme(page, "/de/settings", "light");
+    await expect(page.locator(".tpm-foundation-frame")).toHaveAttribute("lang", "de");
+    await expect(page.locator(".tpm-foundation-frame")).toHaveAttribute("dir", "ltr");
+    await expect(page.locator("body")).toContainText(
+      "English fallback until German pack is reviewed"
+    );
+    await page.screenshot({
+      fullPage: true,
+      path: path.join(THEME_ARTIFACT_DIR, "settings.png"),
+    });
+    await page.locator(".tpm-auth-panel-inline").first().screenshot({
+      path: path.join(THEME_ARTIFACT_DIR, "login-session-ui.png"),
+    });
+
+    await openWithTheme(page, "/diagnostics", "dark");
+    await expect(page.locator("body")).toContainText("Language coverage");
+    await page.screenshot({
+      fullPage: true,
+      path: path.join(THEME_ARTIFACT_DIR, "diagnostics.png"),
+    });
+
+    await openWithTheme(page, "/en", "dark");
+    await page.locator(".tpmv2-workspace-depth-status-live").first().screenshot({
+      path: path.join(THEME_ARTIFACT_DIR, "feedback-ui.png"),
+    });
+
+    await page.emulateMedia({ colorScheme: "light" });
+    await openWithTheme(page, "/en", "system");
+    await expect(page.locator("html")).toHaveAttribute("data-theme-mode", "system");
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+    await page.emulateMedia({ colorScheme: "dark" });
   });
 
   test("keeps unauthenticated preferences on local fallback storage", async ({

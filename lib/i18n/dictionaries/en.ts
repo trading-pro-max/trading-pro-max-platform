@@ -5,6 +5,7 @@ const en = {
     diagnostics: "Diagnostics",
     settings: "Settings",
     language: "Language",
+    theme: "Theme",
   },
   common: {
     paper: "Paper",
@@ -106,6 +107,10 @@ const en = {
     sessionLossLimit: "Session loss limit",
     design: "Design",
     responsiveFirst: "Responsive-First",
+    theme: "Theme",
+    currentTheme: "Dark / light / system foundation",
+    languageCoverage: "Language coverage",
+    fallbackLanguage: "English fallback",
   },
   states: {
     title: "UI States Foundation",

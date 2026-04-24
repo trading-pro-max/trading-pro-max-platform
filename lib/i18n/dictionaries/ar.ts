@@ -5,6 +5,7 @@ const ar = {
     diagnostics: "التشخيص",
     settings: "الإعدادات",
     language: "اللغة",
+    theme: "المظهر",
   },
   common: {
     paper: "ورقي",
@@ -106,6 +107,10 @@ const ar = {
     sessionLossLimit: "حد خسارة الجلسة",
     design: "التصميم",
     responsiveFirst: "Responsive-First",
+    theme: "المظهر",
+    currentTheme: "أساس داكن / فاتح / النظام",
+    languageCoverage: "تغطية اللغة",
+    fallbackLanguage: "احتياط إنجليزي",
   },
   states: {
     title: "أساس حالات الواجهة",

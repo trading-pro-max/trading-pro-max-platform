@@ -4,6 +4,7 @@ import { getDirection } from "../../../lib/i18n/config";
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
 import AuthSessionPanel from "../../auth/components/AuthSessionPanel";
 import { LanguageSwitcher } from "../../shell/components/LanguageSwitcher";
+import { ThemeSwitcher } from "../../shell/components/ThemeSwitcher";
 
 type ProductExperienceFrameProps = {
   children: ReactNode;
@@ -56,6 +57,7 @@ export default function ProductExperienceFrame({
             variant="nav"
             title="Protected account access"
           />
+          <ThemeSwitcher label={dict.nav.theme} />
           <LanguageSwitcher locale={locale} label={dict.nav.language} />
         </div>
       </nav>

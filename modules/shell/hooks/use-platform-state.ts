@@ -21,6 +21,7 @@ import {
   DEFAULT_PLATFORM_PREFERENCES,
   sanitizePlatformPreferenceSnapshot,
 } from "../../../lib/platform/preferences";
+import { getDirection, getLocaleEntry } from "../../../lib/i18n/config";
 import { readLocalJson, writeLocalJson } from "../../../lib/storage/local";
 import { MARKET_ASSETS } from "../../market/data/assets";
 import {
@@ -534,11 +535,12 @@ function buildPermissionAnchors(
 }
 
 function buildAccountPreferences(locale: string): AccountPolicySurface["preferences"] {
-  const isArabic = locale === "ar";
+  const localeEntry = getLocaleEntry(locale);
+  const direction = getDirection(locale).toUpperCase();
 
   return [
-    { key: "language", value: isArabic ? "Arabic" : "English", source: "system" },
-    { key: "direction", value: isArabic ? "RTL" : "LTR", source: "system" },
+    { key: "language", value: localeEntry.nativeName, source: "system" },
+    { key: "direction", value: direction, source: "system" },
     { key: "density", value: "Adaptive", source: "account" },
     { key: "chart_layout", value: "Primary workspace", source: "account" },
     { key: "risk_confirmation", value: "Enabled", source: "account" },
@@ -1376,7 +1378,7 @@ export function usePlatformState(
     syncChannel: hydrated ? syncChannelState : "local_storage",
     stateScope: accountMode,
     locale,
-    direction: locale === "ar" ? "rtl" : "ltr",
+    direction: getDirection(locale),
     lastUpdatedAt: hydrated ? lastUpdatedAt : "—",
   };
 

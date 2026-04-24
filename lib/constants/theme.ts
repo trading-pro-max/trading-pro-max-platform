@@ -30,3 +30,20 @@ export const THEME_FOUNDATION = {
     mobile: "10px",
   },
 } as const;
+
+export const THEME_MODES = ["system", "dark", "light"] as const;
+
+export type ThemeMode = (typeof THEME_MODES)[number];
+export type ResolvedTheme = Exclude<ThemeMode, "system">;
+
+export const DEFAULT_THEME_MODE: ThemeMode = "system";
+
+export const THEME_MODE_LABELS: Record<ThemeMode, string> = {
+  system: "System",
+  dark: "Dark",
+  light: "Light",
+};
+
+export function isThemeMode(value: string | null | undefined): value is ThemeMode {
+  return THEME_MODES.includes(value as ThemeMode);
+}

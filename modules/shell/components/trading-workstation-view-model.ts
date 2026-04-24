@@ -1,4 +1,5 @@
 import { PLATFORM_LIMITS } from "../../../lib/constants/platform";
+import { getLocaleEntry } from "../../../lib/i18n/config";
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
 import {
   formatSessionPnl,
@@ -180,10 +181,10 @@ function getAccountStatusValue(
   const arabic = isArabic(locale);
 
   if (accountStatus === "active") {
-    return arabic ? "ظ†ط´ط·" : "Active";
+    return arabic ? "نشط" : "Active";
   }
 
-  return arabic ? "ظ‚ط±ط§ط،ط© ظپظ‚ط·" : "Read-only";
+  return arabic ? "قراءة فقط" : "Read-only";
 }
 
 function formatTimestamp(locale: string, value: string, fallback: string) {
@@ -234,65 +235,65 @@ function getLifecycleCopy(
   switch (state) {
     case "visitor":
       return {
-        label: arabic ? "ط²ط§ط¦ط±" : "Visitor",
+        label: arabic ? "زائر" : "Visitor",
         description: arabic
-          ? "ظ„ظ… ظٹط¨ط¯ط£ ظ…ظ„ظپ ط§ظ„ط­ط³ط§ط¨ ط¨ط¹ط¯."
+          ? "لم يبدأ ملف الحساب بعد."
           : "The account profile has not started yet.",
         tone: lifecycleTone(state),
       };
     case "onboarding":
       return {
-        label: arabic ? "طھظ‡ظٹط¦ط© ط£ظˆظ„ظٹط©" : "Onboarding",
+        label: arabic ? "تهيئة أولية" : "Onboarding",
         description: arabic
-          ? "ظٹطھظ… ط¥ط¹ط¯ط§ط¯ ظ…ظ„ظپ ط§ظ„ط­ط³ط§ط¨ ظˆظ…ط§ ط²ط§ظ„طھ ط®ط·ظˆط§طھ ط§ظ„ط§ظ…طھط«ط§ظ„ ط§ظ„ط£ط³ط§ط³ظٹط© ظ…ط·ظ„ظˆط¨ط©."
+          ? "يتم إعداد ملف الحساب وما زالت خطوات الامتثال الأساسية مطلوبة."
           : "The account is being set up and still needs core compliance steps.",
         tone: lifecycleTone(state),
       };
     case "disclosures_pending":
       return {
-        label: arabic ? "ط¥ظپطµط§ط­ط§طھ ظ…ط¹ظ„ظ‘ظ‚ط©" : "Disclosures pending",
+        label: arabic ? "إفصاحات معلّقة" : "Disclosures pending",
         description: arabic
-          ? "ظٹط¬ط¨ ط§ط¹طھظ…ط§ط¯ ط§ظ„ط¥ظپطµط§ط­ط§طھ ط§ظ„ظ…ط·ظ„ظˆط¨ط© ظ‚ط¨ظ„ طھظپط¹ظٹظ„ ط§ظ„طھظ†ظپظٹط° ط§ظ„ظˆط±ظ‚ظٹ."
+          ? "يجب اعتماد الإفصاحات المطلوبة قبل تفعيل التنفيذ الورقي."
           : "Required disclosures must be accepted before paper execution can be activated.",
         tone: lifecycleTone(state),
       };
     case "kyc_pending":
       return {
-        label: arabic ? "طھط­ظ‚ظ‚ ط§ظ„ط­ط³ط§ط¨ ط¬ط§ط±ظچ" : "Verification in progress",
+        label: arabic ? "تحقق الحساب جارٍ" : "Verification in progress",
         description: arabic
-          ? "ظٹط¬ط±ظٹ ط§ط³طھظƒظ…ط§ظ„ ط§ظ„طھط­ظ‚ظ‚ ط§ظ„ظ…ط­ظ„ظٹ ظˆط¬ط§ظ‡ط²ظٹط© ط§ظ„ط­ط³ط§ط¨ ظ„ظ„ظˆط±ظ‚ظٹ."
+          ? "يجري استكمال التحقق المحلي وجاهزية الحساب للورقي."
           : "Local verification and paper-readiness checks are still in progress.",
         tone: lifecycleTone(state),
       };
     case "review_pending":
       return {
-        label: arabic ? "ط¨ط§ظ†طھط¸ط§ط± ط§ظ„ظ…ط±ط§ط¬ط¹ط©" : "Pending review",
+        label: arabic ? "بانتظار المراجعة" : "Pending review",
         description: arabic
-          ? "طھظ… ط¥ط±ط³ط§ظ„ ط§ظ„ط¬ط§ظ‡ط²ظٹط© ظ„ظ„ظ…ط±ط§ط¬ط¹ط©طŒ ظˆط§ظ„طھظ†ظپظٹط° ط§ظ„ظˆط±ظ‚ظٹ ظ…ط§ ط²ط§ظ„ ظ…ظ‚ظٹظ‘ط¯ط§ظ‹."
+          ? "تم إرسال الجاهزية للمراجعة، والتنفيذ الورقي ما زال مقيّداً."
           : "Readiness has been submitted for review, and paper execution stays gated.",
         tone: lifecycleTone(state),
       };
     case "paper_active":
       return {
-        label: arabic ? "ظˆط±ظ‚ظٹ ظ†ط´ط·" : "Paper active",
+        label: arabic ? "ورقي نشط" : "Paper active",
         description: arabic
-          ? "ط§ظ„ط­ط³ط§ط¨ ظ…ط¹طھظ…ط¯ ظ…ط­ظ„ظٹط§ظ‹ ظ„ظ„طھط¯ط§ظˆظ„ ط§ظ„ظˆط±ظ‚ظٹ ظپظ‚ط·طŒ ظ…ط¹ ط¨ظ‚ط§ط، ط§ظ„ظ…ط³ط§ط± ط§ظ„ط­ظٹ ظ…ط­ط¬ظˆط¨ط§ظ‹."
+          ? "الحساب معتمد محلياً للتداول الورقي فقط، مع بقاء المسار الحي محجوباً."
           : "The account is locally approved for paper trading only, while live routing remains blocked.",
         tone: lifecycleTone(state),
       };
     case "restricted":
       return {
-        label: arabic ? "ظ…ظ‚ظٹظ‘ط¯" : "Restricted",
+        label: arabic ? "مقيّد" : "Restricted",
         description: arabic
-          ? "طھظ… طھظ‚ظٹظٹط¯ ط§ظ„ط­ط³ط§ط¨ ط¨ط§ظ†طھط¸ط§ط± طھط¯ط®ظ„ ط§ظ„ط§ظ…طھط«ط§ظ„."
+          ? "تم تقييد الحساب بانتظار تدخل الامتثال."
           : "The account is restricted pending compliance intervention.",
         tone: lifecycleTone(state),
       };
     case "blocked":
       return {
-        label: arabic ? "ظ…ط­ط¬ظˆط¨" : "Blocked",
+        label: arabic ? "محجوب" : "Blocked",
         description: arabic
-          ? "طھظ… ط­ط¬ط¨ ط§ظ„ط­ط³ط§ط¨ ط¹ظ† ظپطھط­ ظ…ط±ط§ظƒط² ط¬ط¯ظٹط¯ط©."
+          ? "تم حجب الحساب عن فتح مراكز جديدة."
           : "The account is blocked from opening new positions.",
         tone: lifecycleTone(state),
       };
@@ -308,49 +309,49 @@ function getReviewCopy(
   switch (state) {
     case "not_started":
       return {
-        label: arabic ? "ظ„ظ… ظٹط¨ط¯ط£" : "Not started",
+        label: arabic ? "لم يبدأ" : "Not started",
         description: arabic
-          ? "ظ„ظ… طھط¨ط¯ط£ ظ…ط±ط§ط¬ط¹ط© ط§ظ„ط¬ط§ظ‡ط²ظٹط© ط¨ط¹ط¯."
+          ? "لم تبدأ مراجعة الجاهزية بعد."
           : "The readiness review has not started yet.",
         tone: reviewTone(state),
       };
     case "in_progress":
       return {
-        label: arabic ? "ظ‚ظٹط¯ ط§ظ„طھظ†ظپظٹط°" : "In progress",
+        label: arabic ? "قيد التنفيذ" : "In progress",
         description: arabic
-          ? "ظٹطھظ… طھط¬ظ‡ظٹط² ظ…ظ„ظپ ط§ظ„ظ…ط±ط§ط¬ط¹ط© ط§ظ„ظˆط±ظ‚ظٹط© ظ…ط­ظ„ظٹط§ظ‹."
+          ? "يتم تجهيز ملف المراجعة الورقية محلياً."
           : "The local paper-readiness review file is being prepared.",
         tone: reviewTone(state),
       };
     case "pending_review":
       return {
-        label: arabic ? "ظ‚ظٹط¯ ط§ظ„ظ…ط±ط§ط¬ط¹ط©" : "Pending review",
+        label: arabic ? "قيد المراجعة" : "Pending review",
         description: arabic
-          ? "طھظ… ط¥ط±ط³ط§ظ„ ط§ظ„ظ…ظ„ظپ ظ„ظ„ظ…ط±ط§ط¬ط¹ط© ط§ظ„ظ…ط­ظ„ظٹط© ظˆظٹط¬ط±ظٹ ط§ظ„ط§ظ†طھط¸ط§ط±."
+          ? "تم إرسال الملف للمراجعة المحلية ويجري الانتظار."
           : "The file has been submitted for local review and is waiting in queue.",
         tone: reviewTone(state),
       };
     case "approved_for_paper":
       return {
-        label: arabic ? "ظ…ط¹طھظ…ط¯ ظ„ظ„طھط¬ط±ظٹط¨ظٹ" : "Approved for paper",
+        label: arabic ? "معتمد للتجريبي" : "Approved for paper",
         description: arabic
-          ? "ط§ظ„ظ…ط±ط§ط¬ط¹ط© طھط³ظ…ط­ ط¨ط§ظ„طھظ†ظپظٹط° ط§ظ„ظˆط±ظ‚ظٹ ظپظ‚ط·."
+          ? "المراجعة تسمح بالتنفيذ الورقي فقط."
           : "The review permits paper execution only.",
         tone: reviewTone(state),
       };
     case "restricted":
       return {
-        label: arabic ? "ظ…ظ‚ظٹظ‘ط¯" : "Restricted",
+        label: arabic ? "مقيّد" : "Restricted",
         description: arabic
-          ? "طھظ… طھظ‚ظٹظٹط¯ ط§ظ„ظ…ط±ط§ط¬ط¹ط© ظˆظ„ط§ ظٹظ…ظƒظ† ط§ظ„طھظ‚ط¯ظ… ط­ط§ظ„ظٹط§ظ‹."
+          ? "تم تقييد المراجعة ولا يمكن التقدم حالياً."
           : "The review is restricted and cannot progress right now.",
         tone: reviewTone(state),
       };
     case "rejected":
       return {
-        label: arabic ? "ظ…ط­ط¬ظˆط¨" : "Blocked",
+        label: arabic ? "محجوب" : "Blocked",
         description: arabic
-          ? "طھظ… ط±ظپط¶ ط§ظ„ط¬ط§ظ‡ط²ظٹط© ط§ظ„ظ…ط­ظ„ظٹط© ظ„ظ„ط­ط³ط§ط¨."
+          ? "تم رفض الجاهزية المحلية للحساب."
           : "Local account readiness was rejected.",
         tone: reviewTone(state),
       };
@@ -366,22 +367,22 @@ function getPaperAccessCopy(
   switch (state) {
     case "enabled":
       return {
-        label: arabic ? "ظ…ظپط¹ظ‘ظ„" : "Enabled",
+        label: arabic ? "مفعّل" : "Enabled",
         tone: activationTone(state),
       };
     case "gated":
       return {
-        label: arabic ? "ظ…ظ‚ظٹظ‘ط¯" : "Gated",
+        label: arabic ? "مقيّد" : "Gated",
         tone: activationTone(state),
       };
     case "restricted":
       return {
-        label: arabic ? "ظ…ظ‚ظٹظ‘ط¯" : "Restricted",
+        label: arabic ? "مقيّد" : "Restricted",
         tone: activationTone(state),
       };
     case "blocked":
       return {
-        label: arabic ? "ظ…ط­ط¬ظˆط¨" : "Blocked",
+        label: arabic ? "محجوب" : "Blocked",
         tone: activationTone(state),
       };
   }
@@ -396,57 +397,57 @@ function getActivationReasonCopy(
   switch (reason) {
     case "paper_ready":
       return {
-        label: arabic ? "ط¬ط§ظ‡ط² ظ„ظ„ظˆط±ظ‚ظٹ" : "Paper-ready",
+        label: arabic ? "جاهز للورقي" : "Paper-ready",
         description: arabic
-          ? "ط§ظ„طھظ†ظپظٹط° ط§ظ„ظˆط±ظ‚ظٹ ظ…طھط§ط­ ط¯ط§ط®ظ„ ط§ظ„ظ…ط³ط§ط± ط§ظ„ظ…ط­ظ„ظٹ ط§ظ„ط¢ظ…ظ†."
+          ? "التنفيذ الورقي متاح داخل المسار المحلي الآمن."
           : "Paper execution is available inside the local-safe route.",
         tone: "approved" as const,
       };
     case "disclosures_required":
       return {
-        label: arabic ? "ط§ظ„ط¥ظپطµط§ط­ط§طھ ظ…ط·ظ„ظˆط¨ط©" : "Disclosures required",
+        label: arabic ? "الإفصاحات مطلوبة" : "Disclosures required",
         description: arabic
-          ? "ظٹط¨ظ‚ظ‰ ط¥ط¯ط®ط§ظ„ ط§ظ„ط£ظˆط§ظ…ط± ظ…ط±ط¦ظٹط§ظ‹ ظ„ظƒظ† ط§ظ„طھظ†ظپظٹط° ظ…ط¹ط·ظ‘ظ„ ط­طھظ‰ ط§ط¹طھظ…ط§ط¯ ط§ظ„ط¥ظپطµط§ط­ط§طھ."
+          ? "يبقى إدخال الأوامر مرئياً لكن التنفيذ معطّل حتى اعتماد الإفصاحات."
           : "Order entry stays visible, but execution remains disabled until disclosures are accepted.",
         tone: "pending" as const,
       };
     case "kyc_required":
       return {
-        label: arabic ? "ط§ظ„طھط­ظ‚ظ‚ ظ…ط·ظ„ظˆط¨" : "Verification required",
+        label: arabic ? "التحقق مطلوب" : "Verification required",
         description: arabic
-          ? "ظ„ط§ ظٹط²ط§ظ„ ظ…ظ„ظپ ط§ظ„ط¬ط§ظ‡ط²ظٹط© ط¨ط­ط§ط¬ط© ط¥ظ„ظ‰ ط§ط³طھظƒظ…ط§ظ„ ظ‚ط¨ظ„ ط§ظ„ط³ظ…ط§ط­ ط¨ط§ظ„ظˆط±ظ‚ظٹ."
+          ? "لا يزال ملف الجاهزية بحاجة إلى استكمال قبل السماح بالورقي."
           : "The readiness file still needs verification before paper access can be granted.",
         tone: "pending" as const,
       };
     case "review_pending":
       return {
-        label: arabic ? "ط§ظ„ظ…ط±ط§ط¬ط¹ط© ظ…ط¹ظ„ظ‘ظ‚ط©" : "Review pending",
+        label: arabic ? "المراجعة معلّقة" : "Review pending",
         description: arabic
-          ? "طھظ… ط¥ط±ط³ط§ظ„ ط§ظ„ظ…ظ„ظپ ظ„ظ„ظ…ط±ط§ط¬ط¹ط© ظˆظٹط¸ظ„ ط§ظ„طھظ†ظپظٹط° ط§ظ„ظˆط±ظ‚ظٹ ظ‚ظٹط¯ ط§ظ„ط§ظ†طھط¸ط§ط±."
+          ? "تم إرسال الملف للمراجعة ويظل التنفيذ الورقي قيد الانتظار."
           : "The file has been submitted for review, and paper execution remains pending.",
         tone: "pending" as const,
       };
     case "paper_only_mode":
       return {
-        label: arabic ? "ط­ظ…ط§ظٹط© ظˆط±ظ‚ظٹط© ظپظ‚ط·" : "Paper-only protection",
+        label: arabic ? "حماية ورقية فقط" : "Paper-only protection",
         description: arabic
-          ? "ظ‡ط°ط§ ط§ظ„ظ…ط³ط§ط± ط§ظ„ظ…ط­ظ„ظٹ ظٹظ…ظ†ط¹ ط£ظٹ طھظ†ظپظٹط° ط­ظٹ ط£ظˆ ط£ظ…ظˆط§ظ„ ط­ظ‚ظٹظ‚ظٹط©."
+          ? "هذا المسار المحلي يمنع أي تنفيذ حي أو أموال حقيقية."
           : "This local-safe environment blocks any live or real-money execution path.",
         tone: "pending" as const,
       };
     case "restricted_account":
       return {
-        label: arabic ? "ط§ظ„ط­ط³ط§ط¨ ظ…ظ‚ظٹظ‘ط¯" : "Restricted account",
+        label: arabic ? "الحساب مقيّد" : "Restricted account",
         description: arabic
-          ? "ط§ظ„طھظ†ظپظٹط° ظ…ظ‚ظٹظ‘ط¯ ط¨ظ‚ط±ط§ط± ط§ظ…طھط«ط§ظ„ ظ…ط­ظ„ظٹ."
+          ? "التنفيذ مقيّد بقرار امتثال محلي."
           : "Execution is restricted by a local compliance decision.",
         tone: "restricted" as const,
       };
     case "blocked_account":
       return {
-        label: arabic ? "ط§ظ„ط­ط³ط§ط¨ ظ…ط­ط¬ظˆط¨" : "Blocked account",
+        label: arabic ? "الحساب محجوب" : "Blocked account",
         description: arabic
-          ? "ط§ظ„طھظ†ظپظٹط° ظ…ط­ط¬ظˆط¨ ط¨ط§ظ„ظƒط§ظ…ظ„ ظ„ظ‡ط°ط§ ط§ظ„ط­ط³ط§ط¨."
+          ? "التنفيذ محجوب بالكامل لهذا الحساب."
           : "Execution is fully blocked for this account.",
         tone: "blocked" as const,
       };
@@ -461,13 +462,13 @@ function getDisclosureLabel(
 
   switch (key) {
     case "risk":
-      return arabic ? "ط¥ظپطµط§ط­ ط§ظ„ظ…ط®ط§ط·ط±" : "Risk disclosure";
+      return arabic ? "إفصاح المخاطر" : "Risk disclosure";
     case "paper_trading":
-      return arabic ? "ط¥ط´ط¹ط§ط± ط§ظ„طھط¯ط§ظˆظ„ ط§ظ„ظˆط±ظ‚ظٹ" : "Paper-trading notice";
+      return arabic ? "إشعار التداول الورقي" : "Paper-trading notice";
     case "jurisdiction":
-      return arabic ? "ط¥ط´ط¹ط§ط± ط§ظ„ظˆظ„ط§ظٹط© ظˆط§ظ„ظˆطµظˆظ„" : "Jurisdiction notice";
+      return arabic ? "إشعار الولاية والوصول" : "Jurisdiction notice";
     case "terms":
-      return arabic ? "ط¥ظ‚ط±ط§ط± ط§ظ„ط´ط±ظˆط·" : "Terms acknowledgment";
+      return arabic ? "إقرار الشروط" : "Terms acknowledgment";
   }
 }
 
@@ -479,15 +480,15 @@ function getNextStepValue(
 
   switch (nextStep) {
     case "accept_disclosures":
-      return arabic ? "ط§ط¹طھظ…ط§ط¯ ط§ظ„ط¥ظپطµط§ط­ط§طھ ط§ظ„ظ…ط·ظ„ظˆط¨ط©" : "Accept required disclosures";
+      return arabic ? "اعتماد الإفصاحات المطلوبة" : "Accept required disclosures";
     case "complete_verification":
-      return arabic ? "ط§ط³طھظƒظ…ط§ظ„ ظ…ط±ط§ط¬ط¹ط© ط§ظ„ط¬ط§ظ‡ط²ظٹط©" : "Complete readiness review";
+      return arabic ? "استكمال مراجعة الجاهزية" : "Complete readiness review";
     case "await_review":
-      return arabic ? "ط§ظ†طھط¸ط§ط± ظ‚ط±ط§ط± ط§ظ„ظ…ط±ط§ط¬ط¹ط©" : "Await review decision";
+      return arabic ? "انتظار قرار المراجعة" : "Await review decision";
     case "paper_ready":
-      return arabic ? "ط§ظ„ظ…ط³ط§ط± ط§ظ„ظˆط±ظ‚ظٹ ط¬ط§ظ‡ط²" : "Paper route available";
+      return arabic ? "المسار الورقي جاهز" : "Paper route available";
     case "contact_support":
-      return arabic ? "ط§ظ„طھظˆط§طµظ„ ظ…ط¹ ط§ظ„ط§ظ…طھط«ط§ظ„" : "Contact compliance support";
+      return arabic ? "التواصل مع الامتثال" : "Contact compliance support";
   }
 }
 
@@ -509,7 +510,7 @@ function getOperationalExecutionCopy(
   if (riskFoundation.sessionState === "locked") {
     return {
       value: arabic
-        ? "طھظ… ظ‚ظپظ„ ط§ظ„ط¬ظ„ط³ط© ط¨ط³ط¨ط¨ ط­ط¯ظˆط¯ ط§ظ„ط®ط³ط§ط±ط©ط› ظ„ط§ ظٹظ…ظƒظ† ظپطھط­ ظ…ط±ط§ظƒط² ط¬ط¯ظٹط¯ط©."
+        ? "تم قفل الجلسة بسبب حدود الخسارة؛ لا يمكن فتح مراكز جديدة."
         : "The session is locked by loss limits, so no new positions can open.",
       tone: "blocked" as const,
     };
@@ -518,7 +519,7 @@ function getOperationalExecutionCopy(
   if (riskFoundation.remainingTradeSlots === 0) {
     return {
       value: arabic
-        ? "طھظ… ط¨ظ„ظˆط؛ ط§ظ„ط­ط¯ ط§ظ„ط£ظ‚طµظ‰ ظ„ظ„طµظپظ‚ط§طھ ط§ظ„ظ…ظپطھظˆط­ط©."
+        ? "تم بلوغ الحد الأقصى للصفقات المفتوحة."
         : "The maximum open-trade limit has been reached.",
       tone: "restricted" as const,
     };
@@ -527,7 +528,7 @@ function getOperationalExecutionCopy(
   if (decision.signal === "wait") {
     return {
       value: arabic
-        ? "ط§ظ„طھظ†ظپظٹط° ط¨ط§ظ„ط¥ط´ط§ط±ط© ظپظٹ ظˆط¶ط¹ ط§ظ†طھط¸ط§ط±طŒ ط¨ظٹظ†ظ…ط§ ظٹط¸ظ„ ط§ظ„طھظ†ظپظٹط° ط§ظ„ظˆط±ظ‚ظٹ ط§ظ„ظٹط¯ظˆظٹ ظ…طھط§ط­ط§ظ‹."
+        ? "التنفيذ بالإشارة في وضع انتظار، بينما يظل التنفيذ الورقي اليدوي متاحاً."
         : "Signal execution is on standby while manual paper entry remains available.",
       tone: "pending" as const,
     };
@@ -535,7 +536,7 @@ function getOperationalExecutionCopy(
 
   return {
     value: arabic
-      ? "ط§ظ„طھظ†ظپظٹط° ط§ظ„ظˆط±ظ‚ظٹ ط§ظ„ظ…ط­ظ„ظٹ ظ…طھط§ط­ ط¶ظ…ظ† ط§ظ„ط­ظˆط§ط¬ط² ط§ظ„ط­ط§ظ„ظٹط©."
+      ? "التنفيذ الورقي المحلي متاح ضمن الحواجز الحالية."
       : "Local paper execution is available inside the current guardrails.",
     tone: "approved" as const,
   };
@@ -563,13 +564,13 @@ function getComplianceViewModel(
     (item) => item.state === "accepted"
   ).length;
   const disclosurePendingFallback = arabic
-    ? "ظ…ط·ظ„ظˆط¨ ظ‚ط¨ظ„ ط§ظ„طھظپط¹ظٹظ„ ط§ظ„ظˆط±ظ‚ظٹ"
+    ? "مطلوب قبل التفعيل الورقي"
     : "Required before paper activation";
   const disclosureAcceptedFallback = arabic
-    ? "ظ…ط¹طھظ…ط¯ ظپظٹ ط§ظ„ظ…ظ„ظپ ط§ظ„ظ…ط­ظ„ظٹ"
+    ? "معتمد في الملف المحلي"
     : "Accepted in the local paper profile";
-  const reviewUpdatedFallback = arabic ? "ظ„ظ… ظٹظڈط­ط¯ظ‘ط« ط¨ط¹ط¯" : "No review update yet";
-  const liveAccessValue = arabic ? "ظ…ط­ط¬ظˆط¨ ظ…ط­ظ„ظٹط§ظ‹" : "Blocked locally";
+  const reviewUpdatedFallback = arabic ? "لم يُحدّث بعد" : "No review update yet";
+  const liveAccessValue = arabic ? "محجوب محلياً" : "Blocked locally";
   const operational = getOperationalExecutionCopy(
     locale,
     accountPolicy,
@@ -578,34 +579,34 @@ function getComplianceViewModel(
   );
 
   return {
-    policyPanelLabel: arabic ? "ط§ظ„ط§ظ…طھط«ط§ظ„ + ط§ظ„طھظپط¹ظٹظ„" : "Compliance + Activation",
+    policyPanelLabel: arabic ? "الامتثال + التفعيل" : "Compliance + Activation",
     accountLifecycleLabel: lifecycle.label,
     accountLifecycleDescription: lifecycle.description,
     accountLifecycleTone: lifecycle.tone,
     reviewStatusLabel: review.label,
     reviewStatusDescription: review.description,
     reviewStatusTone: review.tone,
-    disclosureSummaryLabel: arabic ? "ط§ظ„ط¥ظپطµط§ط­ط§طھ" : "Disclosures",
+    disclosureSummaryLabel: arabic ? "الإفصاحات" : "Disclosures",
     disclosureSummaryValue: arabic
-      ? `${acceptedDisclosures} / ${accountPolicy.disclosures.length} ظ…ط¹طھظ…ط¯ط©`
+      ? `${acceptedDisclosures} / ${accountPolicy.disclosures.length} معتمدة`
       : `${acceptedDisclosures} / ${accountPolicy.disclosures.length} accepted`,
-    paperAccessLabel: arabic ? "ط§ظ„ظˆطµظˆظ„ ط§ظ„ظˆط±ظ‚ظٹ" : "Paper access",
+    paperAccessLabel: arabic ? "الوصول الورقي" : "Paper access",
     paperAccessValue: paperAccess.label,
     paperAccessTone: paperAccess.tone,
-    liveAccessLabel: arabic ? "ط§ظ„طھظ†ظپظٹط° ط§ظ„ط­ظٹ" : "Live execution",
+    liveAccessLabel: arabic ? "التنفيذ الحي" : "Live execution",
     liveAccessValue,
-    ticketReadinessLabel: arabic ? "ط§ظ„ط¬ط§ظ‡ط²ظٹط© ط§ظ„ط­ط§ظ„ظٹط©" : "Current readiness",
+    ticketReadinessLabel: arabic ? "الجاهزية الحالية" : "Current readiness",
     ticketReadinessValue: activationReason.label,
     ticketReadinessTone: activationReason.tone,
-    ticketGateLabel: arabic ? "ط­ط§ظ„ط© ط§ظ„طھظ†ظپظٹط°" : "Execution gate",
+    ticketGateLabel: arabic ? "حالة التنفيذ" : "Execution gate",
     ticketGateValue: activationReason.label,
     ticketGateTone: activationReason.tone,
-    ticketNextStepLabel: arabic ? "ط§ظ„ط®ط·ظˆط© ط§ظ„طھط§ظ„ظٹط©" : "Next step",
+    ticketNextStepLabel: arabic ? "الخطوة التالية" : "Next step",
     ticketNextStepValue: getNextStepValue(
       locale,
       accountPolicy.activation.nextStep
     ),
-    ticketOperationalLabel: arabic ? "ط§ظ„ظˆط¶ط¹ ط§ظ„طھط´ط؛ظٹظ„ظٹ" : "Operational state",
+    ticketOperationalLabel: arabic ? "الوضع التشغيلي" : "Operational state",
     ticketOperationalValue: operational.value,
     ticketOperationalTone: operational.tone,
     ticketSupportNote: !accountPolicy.activation.executionEnabled
@@ -618,7 +619,7 @@ function getComplianceViewModel(
     compliancePanelBadge: paperAccess.label,
     disclosureRows: accountPolicy.disclosures.map((item) => ({
       label: getDisclosureLabel(locale, item.key),
-      status: item.state === "accepted" ? (arabic ? "ظ…ط¹طھظ…ط¯" : "Accepted") : arabic ? "ظ…ط¹ظ„ظ‘ظ‚" : "Pending",
+      status: item.state === "accepted" ? (arabic ? "معتمد" : "Accepted") : arabic ? "معلّق" : "Pending",
       meta:
         item.state === "accepted"
           ? formatTimestamp(locale, item.acceptedAt || "", disclosureAcceptedFallback)
@@ -627,11 +628,11 @@ function getComplianceViewModel(
     })),
     activationRows: [
       {
-        label: arabic ? "ظ…ط±ط¬ط¹ ط§ظ„ظ…ط±ط§ط¬ط¹ط©" : "Review reference",
+        label: arabic ? "مرجع المراجعة" : "Review reference",
         value: accountPolicy.review.reference,
       },
       {
-        label: arabic ? "ط¢ط®ط± طھط­ط¯ظٹط« ظ…ط±ط§ط¬ط¹ط©" : "Review updated",
+        label: arabic ? "آخر تحديث مراجعة" : "Review updated",
         value: formatTimestamp(
           locale,
           accountPolicy.review.updatedAt,
@@ -639,27 +640,27 @@ function getComplianceViewModel(
         ),
       },
       {
-        label: arabic ? "ط§ظ„ظˆطµظˆظ„ ط§ظ„ظˆط±ظ‚ظٹ" : "Paper access",
+        label: arabic ? "الوصول الورقي" : "Paper access",
         value: paperAccess.label,
         tone: paperAccess.tone,
       },
       {
-        label: arabic ? "ط§ظ„طھظ†ظپظٹط° ط§ظ„ط­ظٹ" : "Live execution",
+        label: arabic ? "التنفيذ الحي" : "Live execution",
         value: liveAccessValue,
         tone: "blocked" as const,
       },
       {
-        label: arabic ? "ط³ط¨ط¨ ط§ظ„ط¨ظˆط§ط¨ط©" : "Gate reason",
+        label: arabic ? "سبب البوابة" : "Gate reason",
         value: activationReason.label,
         tone: activationReason.tone,
       },
       {
-        label: arabic ? "ط§ظ„ط®ط·ظˆط© ط§ظ„طھط§ظ„ظٹط©" : "Next step",
+        label: arabic ? "الخطوة التالية" : "Next step",
         value: getNextStepValue(locale, accountPolicy.activation.nextStep),
       },
     ],
-    acceptDisclosuresLabel: arabic ? "ط§ط¹طھظ…ط§ط¯ ط§ظ„ط¥ظپطµط§ط­ط§طھ" : "Accept disclosures",
-    submitReviewLabel: arabic ? "ط¥ط±ط³ط§ظ„ ظ„ظ„ظ…ط±ط§ط¬ط¹ط©" : "Submit for review",
+    acceptDisclosuresLabel: arabic ? "اعتماد الإفصاحات" : "Accept disclosures",
+    submitReviewLabel: arabic ? "إرسال للمراجعة" : "Submit for review",
   };
 }
 
@@ -672,42 +673,42 @@ function getExecutionViewModel(
   const executionRouteValue =
     executionFoundation.route === "demo_router"
       ? arabic
-        ? "ظ…ظˆط¬ظ‡ ط§ظ„ط¯ظٹظ…ظˆ"
+        ? "موجه الديمو"
         : "Demo router"
       : arabic
-      ? "ط§ظ„ظ…ط³ط§ط± ط§ظ„ط­ظ‚ظٹظ‚ظٹ ظ…ط­ط¬ظˆط¨"
+      ? "المسار الحقيقي محجوب"
       : "Live route blocked";
 
   const executionIntentValue =
     executionFoundation.intentState === "ready"
       ? arabic
-        ? "ط¬ط§ظ‡ط²"
+        ? "جاهز"
         : "Ready"
       : executionFoundation.intentState === "standby"
       ? arabic
-        ? "ط§ظ†طھط¸ط§ط±"
+        ? "انتظار"
         : "Standby"
       : executionFoundation.intentState === "guarded"
       ? arabic
-        ? "ظ…ط­ظƒظˆظ… ط¨ط§ظ„ط­ظˆط§ط¬ط²"
+        ? "محكوم بالحواجز"
         : "Guarded"
       : arabic
-      ? "ظ…ط­ط¬ظˆط¨"
+      ? "محجوب"
       : "Blocked";
 
   return {
-    executionFoundationLabel: arabic ? "ط£ط³ط§ط³ ط§ظ„طھظ†ظپظٹط°" : "Execution foundation",
-    executionRouteLabel: arabic ? "ظ…ط³ط§ط± ط§ظ„طھظ†ظپظٹط°" : "Execution route",
+    executionFoundationLabel: arabic ? "أساس التنفيذ" : "Execution foundation",
+    executionRouteLabel: arabic ? "مسار التنفيذ" : "Execution route",
     executionRouteValue,
-    executionIntentLabel: arabic ? "ط­ط§ظ„ط© ظ†ظٹط© ط§ظ„طھظ†ظپظٹط°" : "Execution intent",
+    executionIntentLabel: arabic ? "حالة نية التنفيذ" : "Execution intent",
     executionIntentValue,
-    executionGuardrailsLabel: arabic ? "ط­ظˆط§ط¬ط² ط§ظ„طھظ†ظپظٹط°" : "Execution guardrails",
+    executionGuardrailsLabel: arabic ? "حواجز التنفيذ" : "Execution guardrails",
     executionGuardrailChips:
       executionFoundation.guardrails.length > 0
         ? executionFoundation.guardrails.map((item) =>
             executionGuardrailLabel(locale, item)
           )
-        : [arabic ? "ظ„ط§ ظٹظˆط¬ط¯ ط­ط¸ط± ظ†ط´ط·" : "No active block"],
+        : [arabic ? "لا يوجد حظر نشط" : "No active block"],
   };
 }
 
@@ -721,87 +722,87 @@ function getRiskViewModel(
   const riskStateText =
     riskFoundation.sessionState === "active"
       ? arabic
-        ? "ظ†ط´ط·ط©"
+        ? "نشطة"
         : "Active"
       : riskFoundation.sessionState === "guarded"
       ? arabic
-        ? "ظ…ط­ظƒظˆظ…ط©"
+        ? "محكومة"
         : "Guarded"
       : arabic
-      ? "ظ…ظ‚ظپظ„ط©"
+      ? "مقفلة"
       : "Locked";
 
   const riskModeText =
     riskFoundation.riskMode === "normal"
       ? arabic
-        ? "ط·ط¨ظٹط¹ظٹ"
+        ? "طبيعي"
         : "Normal"
       : riskFoundation.riskMode === "guarded"
       ? arabic
-        ? "ط­ط°ط±"
+        ? "حذر"
         : "Guarded"
       : arabic
-      ? "ظ…ظ‚ظپظ„"
+      ? "مقفل"
       : "Locked";
 
   const safeDegradationText =
     riskFoundation.safeDegradation === "none"
       ? arabic
-        ? "ظ„ط§ ظٹظˆط¬ط¯"
+        ? "لا يوجد"
         : "None"
       : riskFoundation.safeDegradation === "new_entries_restricted"
       ? arabic
-        ? "طھظ‚ظٹظٹط¯ ط¯ط®ظˆظ„ ط¬ط¯ظٹط¯"
+        ? "تقييد دخول جديد"
         : "New entries restricted"
       : arabic
-      ? "ط­ط¸ط± ط¯ط®ظˆظ„ ط¬ط¯ظٹط¯"
+      ? "حظر دخول جديد"
       : "New entries blocked";
 
   const lockReasonText =
     riskFoundation.lockReason === "loss_limit"
       ? arabic
-        ? "ط¨ظ„ظˆط؛ ط­ط¯ ط§ظ„ط®ط³ط§ط±ط©"
+        ? "بلوغ حد الخسارة"
         : "Loss limit reached"
       : riskFoundation.lockReason === "capacity_limit"
       ? arabic
-        ? "ط¨ظ„ظˆط؛ ط³ط¹ط© ط§ظ„طµظپظ‚ط§طھ"
+        ? "بلوغ سعة الصفقات"
         : "Trade capacity reached"
       : arabic
-      ? "ظ„ط§ ظٹظˆط¬ط¯"
+      ? "لا يوجد"
       : "None";
 
   return {
     riskFoundationLabel: arabic
-      ? "ط£ط³ط§ط³ ط§ظ„ظ…ط®ط§ط·ط± ظˆط§ظ„ط¬ظ„ط³ط©"
+      ? "أساس المخاطر والجلسة"
       : "Risk + Session foundation",
     riskFoundationChips: [
-      `${arabic ? "ط­ط§ظ„ط© ط§ظ„ط¬ظ„ط³ط©" : "Session state"}: ${riskStateText}`,
-      `${arabic ? "ظˆط¶ط¹ ط§ظ„ظ…ط®ط§ط·ط±" : "Risk mode"}: ${riskModeText}`,
-      `${arabic ? "ط­ط¯ ط®ط³ط§ط±ط© ط§ظ„ط¬ظ„ط³ط©" : "Session loss limit"}: -$${riskFoundation.sessionLossLimit.toFixed(2)}`,
-      `${arabic ? "ظ†طھظٹط¬ط© ط§ظ„ط¬ظ„ط³ط© ط§ظ„ط­ط§ظ„ظٹط©" : "Current session PnL"}: ${sessionPnLText}`,
-      `${arabic ? "ط§ظ„ط³ط¹ط§طھ ط§ظ„ظ…طھط¨ظ‚ظٹط©" : "Remaining slots"}: ${riskFoundation.remainingTradeSlots}`,
-      `${arabic ? "ط§ظ„ط­ط¯ ط§ظ„ط£ظ‚طµظ‰ ظ„ظ„طµظپظ‚ط§طھ ط§ظ„ظ…ظپطھظˆط­ط©" : "Max open trades"}: ${riskFoundation.maxOpenTrades}`,
-      `${arabic ? "ط§ظ„طµظپظ‚ط§طھ ط§ظ„ط®ط§ط³ط±ط©" : "Losing trades"}: ${riskFoundation.losingTradesCount}`,
-      `${arabic ? "ط§ظ„ط­ظ…ط§ظٹط© ط§ظ„ظ…طھط¯ط±ط¬ط©" : "Safe degradation"}: ${safeDegradationText}`,
+      `${arabic ? "حالة الجلسة" : "Session state"}: ${riskStateText}`,
+      `${arabic ? "وضع المخاطر" : "Risk mode"}: ${riskModeText}`,
+      `${arabic ? "حد خسارة الجلسة" : "Session loss limit"}: -$${riskFoundation.sessionLossLimit.toFixed(2)}`,
+      `${arabic ? "نتيجة الجلسة الحالية" : "Current session PnL"}: ${sessionPnLText}`,
+      `${arabic ? "السعات المتبقية" : "Remaining slots"}: ${riskFoundation.remainingTradeSlots}`,
+      `${arabic ? "الحد الأقصى للصفقات المفتوحة" : "Max open trades"}: ${riskFoundation.maxOpenTrades}`,
+      `${arabic ? "الصفقات الخاسرة" : "Losing trades"}: ${riskFoundation.losingTradesCount}`,
+      `${arabic ? "الحماية المتدرجة" : "Safe degradation"}: ${safeDegradationText}`,
       ...(riskFoundation.lockReason !== "none"
-        ? [`${arabic ? "ط³ط¨ط¨ ط§ظ„ظ‚ظپظ„" : "Lock reason"}: ${lockReasonText}`]
+        ? [`${arabic ? "سبب القفل" : "Lock reason"}: ${lockReasonText}`]
         : []),
     ],
     riskOperatorNote:
       riskFoundation.operatorMessage === "loss_limit_locked"
         ? arabic
-          ? "طھظ… ط¨ظ„ظˆط؛ ط­ط¯ ط®ط³ط§ط±ط© ط§ظ„ط¬ظ„ط³ط©ط› طھظ… ط­ط¸ط± ط§ظ„ط¯ط®ظˆظ„ط§طھ ط§ظ„ط¬ط¯ظٹط¯ط© ط­طھظ‰ طھطھظ… ظ…ط±ط§ط¬ط¹ط© ط§ظ„ط¬ظ„ط³ط©."
+          ? "تم بلوغ حد خسارة الجلسة؛ تم حظر الدخولات الجديدة حتى تتم مراجعة الجلسة."
           : "The session loss limit was reached; new entries are blocked until the session is reviewed."
         : riskFoundation.operatorMessage === "capacity_reached"
         ? arabic
-          ? "طھظ… ط¨ظ„ظˆط؛ ط³ط¹ط© ط§ظ„طµظپظ‚ط§طھ ط§ظ„ظ…ظپطھظˆط­ط©ط› ظ„ط§ ظٹظ…ظƒظ† ظپطھط­ ط¯ط®ظˆظ„ ط¬ط¯ظٹط¯ ط­طھظ‰ ظٹطھظ… ط¥ط؛ظ„ط§ظ‚ طµظپظ‚ط©."
+          ? "تم بلوغ سعة الصفقات المفتوحة؛ لا يمكن فتح دخول جديد حتى يتم إغلاق صفقة."
           : "Open-trade capacity was reached; no new entry can open until a trade is closed."
         : riskFoundation.operatorMessage === "session_guarded"
         ? arabic
-          ? "ط§ظ„ط¬ظ„ط³ط© ط§ظ‚طھط±ط¨طھ ظ…ظ† ط­ط¯ظˆط¯ ط§ظ„ظ…ط®ط§ط·ط± ط§ظ„ظ…ط­ط¯ط¯ط©ط› ط§ظ„ط¯ط®ظˆظ„ط§طھ ط§ظ„ط¬ط¯ظٹط¯ط© طھط¨ظ‚ظ‰ ظ…ظ‚ظٹط¯ط© ظˆظ…ط­ظƒظˆظ…ط©."
+          ? "الجلسة اقتربت من حدود المخاطر المحددة؛ الدخولات الجديدة تبقى مقيدة ومحكومة."
           : "The session is approaching configured risk boundaries; new entries remain controlled."
         : arabic
-        ? "ط§ظ„ط¬ظ„ط³ط© طھط¹ظ…ظ„ ط¯ط§ط®ظ„ ط­ط¯ظˆط¯ ط§ظ„ظ…ط®ط§ط·ط± ط§ظ„ظ…ط­ط¯ط¯ط©."
+        ? "الجلسة تعمل داخل حدود المخاطر المحددة."
         : "The session is operating inside configured risk boundaries.",
   };
 }
@@ -919,8 +920,11 @@ function getDataStateViewModel(
 
   const scopeText =
     dataStateFoundation.stateScope === "demo" ? demoLabel : realLabel;
+  const localeEntry = getLocaleEntry(dataStateFoundation.locale);
   const localeText =
-    dataStateFoundation.locale === "ar" ? "Arabic / العربية" : "English";
+    localeEntry.coverage === "complete"
+      ? `${localeEntry.name} / ${localeEntry.nativeName}`
+      : `${localeEntry.name} / English fallback`;
   const directionText = dataStateFoundation.direction === "rtl" ? "RTL" : "LTR";
   const dataStateOperatorNote =
     dataStateFoundation.syncChannel === "hybrid" ||

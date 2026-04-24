@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState, type ReactNode } from "react";
+import { getLocaleEntry } from "../../../lib/i18n/config";
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
 import AuthSessionPanel from "../../auth/components/AuthSessionPanel";
 import {
@@ -17,11 +18,13 @@ import type {
 } from "../types/platform-state";
 import type { WorkstationStatusTone } from "./trading-workstation-view-model";
 import { createTradingWorkstationViewModel } from "./trading-workstation-view-model";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 import {
   CHART_TYPES,
   DRAWING_TOOLS,
   INDICATOR_TOOLS,
 } from "./PlatformShellV2";
+import { ThemeSwitcher } from "./ThemeSwitcher";
 
 function toneFromStatus(tone: WorkstationStatusTone) {
   return `tpmv2-status-tag ${tone}`;
@@ -115,6 +118,16 @@ function ToggleButton({
   );
 }
 
+function localeCoverageText(locale: string) {
+  const localeEntry = getLocaleEntry(locale);
+
+  if (localeEntry.coverage === "complete") {
+    return localeEntry.coverageLabel;
+  }
+
+  return `${localeEntry.coverageLabel}. Missing strings use ${localeEntry.dictionaryLocale.toUpperCase()} fallback.`;
+}
+
 function useUtilityPlatformViewModel(locale: string, dict: Dictionary) {
   const platformState = usePlatformState(locale, dict.decision.reasons);
   const viewModel = createTradingWorkstationViewModel({
@@ -189,8 +202,18 @@ export function PlatformDiagnosticsSurface({
   const { platformState, viewModel } = useUtilityPlatformViewModel(locale, dict);
   const diagnosticsHealth = useDiagnosticsHealth();
   const localePrefix = locale ? `/${locale}` : "";
+  const localeEntry = getLocaleEntry(locale);
 
   const systemItems = [
+    {
+      label: dict.settings.languageCoverage,
+      value:
+        localeEntry.coverage === "complete"
+          ? localeEntry.name
+          : `${localeEntry.name} fallback`,
+      tone: localeEntry.coverage === "complete" ? ("approved" as const) : ("pending" as const),
+      note: localeCoverageText(locale),
+    },
     {
       label: dict.diagnostics.runtime,
       value: diagnosticsHealth?.readiness.summary ?? platformState.dataStateFoundation.hydrationState,
@@ -556,6 +579,7 @@ export function PlatformSettingsSurface({
   const { platformState, viewModel } = useUtilityPlatformViewModel(locale, dict);
   const preferences = platformState.workspacePreferences;
   const localePrefix = locale ? `/${locale}` : "";
+  const localeEntry = getLocaleEntry(locale);
 
   const productStructureItems = [
     {
@@ -654,6 +678,34 @@ export function PlatformSettingsSurface({
             title="Account session"
             note="Sign in to synchronize protected account state and guarded operational routes. Live execution and real-money access remain blocked."
           />
+        </div>
+      </UtilitySection>
+
+      <UtilitySection eyebrow="GLOBAL" title="Theme and language">
+        <div className="tpm-utility-control-grid">
+          <div className="tpm-utility-control">
+            <span>{dict.settings.theme}</span>
+            <ThemeSwitcher label={dict.nav.theme} />
+            <small>{dict.settings.currentTheme}</small>
+          </div>
+
+          <div className="tpm-utility-control">
+            <span>{dict.settings.language}</span>
+            <LanguageSwitcher locale={locale} label={dict.nav.language} />
+            <small>{localeCoverageText(locale)}</small>
+          </div>
+
+          <div className="tpm-utility-control">
+            <span>{dict.settings.languageCoverage}</span>
+            <strong>
+              {localeEntry.coverage === "complete"
+                ? localeEntry.name
+                : dict.settings.fallbackLanguage}
+            </strong>
+            <small>
+              {localeEntry.nativeName} / {localeEntry.direction.toUpperCase()}
+            </small>
+          </div>
         </div>
       </UtilitySection>
 

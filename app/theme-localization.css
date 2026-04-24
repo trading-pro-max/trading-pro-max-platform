@@ -1,0 +1,345 @@
+:root,
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --tpm-bg: #05070c;
+  --tpm-bg-radial-a: rgba(20, 184, 166, 0.08);
+  --tpm-bg-radial-b: rgba(96, 165, 250, 0.06);
+  --tpm-surface: rgba(7, 11, 18, 0.94);
+  --tpm-surface-alt: rgba(11, 17, 27, 0.88);
+  --tpm-surface-soft: rgba(13, 20, 31, 0.78);
+  --tpm-surface-strong: rgba(4, 9, 16, 0.98);
+  --tpm-border: rgba(191, 219, 254, 0.14);
+  --tpm-border-soft: rgba(148, 163, 184, 0.1);
+  --tpm-text: #f4f7fb;
+  --tpm-text-soft: #9aa8ba;
+  --tpm-text-muted: #bdc8d8;
+  --tpm-accent: #3ddcc8;
+  --tpm-accent-strong: #0f9f8e;
+  --tpm-accent-contrast: #031412;
+  --tpm-success: #3ddcc8;
+  --tpm-danger: #fb7185;
+  --tpm-warning: #e6b95a;
+  --tpm-focus-ring: 0 0 0 3px rgba(94, 234, 212, 0.18);
+  --tpm-shadow-panel: 0 16px 38px rgba(0, 0, 0, 0.34);
+  --tpm-shadow-menu: 0 16px 40px rgba(0, 0, 0, 0.34);
+  --tpm-nav-bg: rgba(5, 12, 22, 0.92);
+  --tpm-card-bg: linear-gradient(180deg, rgba(8, 15, 27, 0.97), rgba(4, 9, 16, 0.98));
+  --tpm-card-bg-raised: linear-gradient(180deg, rgba(10, 16, 25, 0.98), rgba(5, 9, 15, 0.98));
+  --tpm-control-bg: rgba(255, 255, 255, 0.035);
+  --tpm-control-bg-active: rgba(61, 220, 200, 0.14);
+  --tpm-chart-bg: linear-gradient(180deg, rgba(3, 8, 14, 0.86), rgba(3, 7, 12, 0.98));
+  --tpm-chart-grid: rgba(148, 163, 184, 0.04);
+  --tpm-chip-bg: rgba(191, 219, 254, 0.08);
+  --tpm-input-bg: rgba(2, 6, 23, 0.72);
+  --tpm-status-approved-bg: rgba(45, 212, 191, 0.12);
+  --tpm-status-approved-text: #5eead4;
+  --tpm-status-pending-bg: rgba(59, 130, 246, 0.12);
+  --tpm-status-pending-text: #dbeafe;
+  --tpm-status-restricted-bg: rgba(245, 158, 11, 0.12);
+  --tpm-status-restricted-text: #fde68a;
+  --tpm-status-blocked-bg: rgba(248, 113, 113, 0.12);
+  --tpm-status-blocked-text: #fecaca;
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
+  --tpm-bg: #edf2f7;
+  --tpm-bg-radial-a: rgba(13, 148, 136, 0.10);
+  --tpm-bg-radial-b: rgba(37, 99, 235, 0.08);
+  --tpm-surface: rgba(255, 255, 255, 0.94);
+  --tpm-surface-alt: rgba(244, 248, 252, 0.94);
+  --tpm-surface-soft: rgba(232, 239, 247, 0.82);
+  --tpm-surface-strong: rgba(255, 255, 255, 0.98);
+  --tpm-border: rgba(15, 23, 42, 0.13);
+  --tpm-border-soft: rgba(15, 23, 42, 0.09);
+  --tpm-text: #0d1726;
+  --tpm-text-soft: #516176;
+  --tpm-text-muted: #334155;
+  --tpm-accent: #0f766e;
+  --tpm-accent-strong: #115e59;
+  --tpm-accent-contrast: #f7fffd;
+  --tpm-success: #047857;
+  --tpm-danger: #be123c;
+  --tpm-warning: #a16207;
+  --tpm-focus-ring: 0 0 0 3px rgba(15, 118, 110, 0.18);
+  --tpm-shadow-panel: 0 16px 34px rgba(15, 23, 42, 0.12);
+  --tpm-shadow-menu: 0 18px 44px rgba(15, 23, 42, 0.18);
+  --tpm-nav-bg: rgba(248, 251, 255, 0.92);
+  --tpm-card-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(240, 246, 252, 0.96));
+  --tpm-card-bg-raised: linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(235, 243, 250, 0.97));
+  --tpm-control-bg: rgba(15, 23, 42, 0.035);
+  --tpm-control-bg-active: rgba(15, 118, 110, 0.10);
+  --tpm-chart-bg: linear-gradient(180deg, rgba(248, 251, 255, 0.94), rgba(225, 233, 243, 0.98));
+  --tpm-chart-grid: rgba(15, 23, 42, 0.06);
+  --tpm-chip-bg: rgba(15, 23, 42, 0.045);
+  --tpm-input-bg: rgba(255, 255, 255, 0.92);
+  --tpm-status-approved-bg: rgba(5, 150, 105, 0.10);
+  --tpm-status-approved-text: #047857;
+  --tpm-status-pending-bg: rgba(37, 99, 235, 0.10);
+  --tpm-status-pending-text: #2563eb;
+  --tpm-status-restricted-bg: rgba(161, 98, 7, 0.11);
+  --tpm-status-restricted-text: #a16207;
+  --tpm-status-blocked-bg: rgba(190, 18, 60, 0.10);
+  --tpm-status-blocked-text: #be123c;
+}
+
+.tpm-theme-switcher {
+  align-items: center;
+  display: inline-flex;
+  gap: 6px;
+  min-width: 0;
+}
+
+.tpm-theme-switcher-label {
+  color: var(--tpm-text-soft);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.tpm-theme-segments {
+  border: 1px solid var(--tpm-border);
+  border-radius: var(--tpm-radius-pill);
+  background: var(--tpm-control-bg);
+  display: inline-flex;
+  padding: 2px;
+}
+
+.tpm-theme-segments button {
+  min-height: 30px;
+  border: 0;
+  border-radius: var(--tpm-radius-pill);
+  background: transparent;
+  color: var(--tpm-text-soft);
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 0 9px;
+  white-space: nowrap;
+}
+
+.tpm-theme-segments button.active {
+  background: linear-gradient(180deg, var(--tpm-accent), var(--tpm-accent-strong));
+  color: var(--tpm-accent-contrast);
+}
+
+.tpm-foundation-nav {
+  background: var(--tpm-nav-bg);
+}
+
+.tpm-foundation-link,
+.tpm-locale-select,
+.tpm-auth-session-meta span,
+.tpm-product-chip,
+.tpmv2-badge,
+.tpmv2-status-tag,
+.tpmv2-topbar-link,
+.tpm-utility-toggle {
+  background: var(--tpm-control-bg);
+  color: var(--tpm-text);
+}
+
+.tpm-auth-panel-inline,
+.tpm-auth-panel-required,
+.tpm-auth-popover-body,
+.tpm-auth-required,
+.tpm-auth-form input,
+.tpmv2-card,
+.tpm-foundation-card,
+.tpm-foundation-item,
+.tpm-product-hero,
+.tpm-product-card,
+.tpm-product-step-card,
+.tpm-product-cta-panel,
+.tpm-product-signal-card,
+.tpm-product-proof-row > div,
+.tpm-utility-control,
+.tpmv2-list-card,
+.tpmv2-brain-card,
+.tpmv2-brain-metric,
+.tpmv2-ticket-preflight-card,
+.tpmv2-ticket-activity,
+.tpmv2-chart-depth-card,
+.tpmv2-chart-depth-panel,
+.tpmv2-workspace-depth-block,
+.tpmv2-workspace-depth-status {
+  background: var(--tpm-card-bg);
+  border-color: var(--tpm-border);
+  box-shadow: var(--tpm-shadow-panel);
+  color: var(--tpm-text);
+}
+
+.tpm-auth-form input,
+.tpmv2-real-input,
+.tpmv2-input,
+.tpmv2-search,
+.tpm-input,
+.tpm-real-input,
+.tpm-market-search,
+.tpm-empty {
+  background: var(--tpm-input-bg);
+  border-color: var(--tpm-border);
+  color: var(--tpm-text);
+}
+
+.tpmv2-topbar,
+.tpmv2-command-center,
+.tpmv2-brain-deck,
+.tpmv2-rail,
+.tpmv2-execution,
+.tpmv2-blotter,
+.tpmv2-strip,
+.tpmv2-watchitem,
+.tpmv2-strip-item,
+.tpm-product-cta,
+.tpmv2-commercial-bridge-link {
+  background: var(--tpm-card-bg-raised);
+  border-color: var(--tpm-border);
+  box-shadow: var(--tpm-shadow-panel);
+}
+
+.tpmv2-chart-surface {
+  background:
+    var(--tpm-chart-bg),
+    linear-gradient(var(--tpm-chart-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--tpm-chart-grid) 1px, transparent 1px);
+  border-color: var(--tpm-border);
+  box-shadow: var(--tpm-shadow-panel);
+}
+
+.tpmv2-watchitem.active,
+.tpmv2-strip-item.active,
+.tpmv2-workspace-depth-buttons button.active,
+.tpmv2-ticket-presets button.active,
+.tpm-utility-toggle.active {
+  background: var(--tpm-control-bg-active);
+  border-color: color-mix(in srgb, var(--tpm-accent) 42%, var(--tpm-border));
+  color: var(--tpm-text);
+}
+
+.tpmv2-status-tag.approved {
+  background: var(--tpm-status-approved-bg);
+  color: var(--tpm-status-approved-text);
+}
+
+.tpmv2-status-tag.pending {
+  background: var(--tpm-status-pending-bg);
+  color: var(--tpm-status-pending-text);
+}
+
+.tpmv2-status-tag.restricted {
+  background: var(--tpm-status-restricted-bg);
+  color: var(--tpm-status-restricted-text);
+}
+
+.tpmv2-status-tag.blocked {
+  background: var(--tpm-status-blocked-bg);
+  color: var(--tpm-status-blocked-text);
+}
+
+html[data-theme="light"] .tpm-foundation-nav-logo,
+html[data-theme="light"] .tpm-logo,
+html[data-theme="light"] .tpmv2-topbar-mark,
+html[data-theme="light"] .tpm-theme-segments button.active,
+html[data-theme="light"] .tpm-timeframes button.active,
+html[data-theme="light"] .tpm-buy,
+html[data-theme="light"] .tpm-product-cta-primary {
+  color: var(--tpm-accent-contrast);
+}
+
+html[data-theme="light"] .tpmv2-command-primary,
+html[data-theme="light"] .tpmv2-command-cell,
+html[data-theme="light"] .tpmv2-chart-ai-panel,
+html[data-theme="light"] .tpmv2-chart-toolbar,
+html[data-theme="light"] .tpmv2-chart-tool-rail,
+html[data-theme="light"] .tpmv2-chart-indicator-dock,
+html[data-theme="light"] .tpmv2-chart-zoom-controls {
+  background: rgba(255, 255, 255, 0.82);
+  border-color: var(--tpm-border);
+}
+
+html[data-theme="light"] .tpmv2-chart-market-price,
+html[data-theme="light"] .tpmv2-chart-market-change,
+html[data-theme="light"] .tpmv2-chart-price-scale,
+html[data-theme="light"] .tpmv2-chart-time-scale,
+html[data-theme="light"] .tpmv2-symbol,
+html[data-theme="light"] .tpmv2-summary-price,
+html[data-theme="light"] .tpmv2-brain-card-headline,
+html[data-theme="light"] .tpmv2-commercial-bridge-copy strong {
+  color: var(--tpm-text);
+}
+
+html[data-theme="light"] .tpmv2-watch-change.negative,
+html[data-theme="light"] .tpmv2-topbar-market-change.negative,
+html[data-theme="light"] .tpmv2-chart-market-change.negative,
+html[data-theme="light"] .tpmv2-detail-value.blocked,
+html[data-theme="light"] .tpmv2-ticket-preflight-card strong.blocked {
+  color: var(--tpm-danger);
+}
+
+html[data-theme="light"] .tpmv2-watch-change.positive,
+html[data-theme="light"] .tpmv2-topbar-market-change.positive,
+html[data-theme="light"] .tpmv2-chart-market-change.positive,
+html[data-theme="light"] .tpmv2-detail-value.approved,
+html[data-theme="light"] .tpmv2-ticket-preflight-card strong.approved {
+  color: var(--tpm-success);
+}
+
+[dir="rtl"] .tpm-foundation-nav-actions {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .tpm-auth-popover-body {
+  left: 0;
+  right: auto;
+}
+
+[dir="rtl"] .tpmv2-topbar-market-strip,
+[dir="rtl"] .tpmv2-chart-surface,
+[dir="rtl"] .tpmv2-chart-market-bar,
+[dir="rtl"] .tpmv2-chart-stage,
+[dir="rtl"] .tpmv2-chart-price-scale,
+[dir="rtl"] .tpmv2-chart-time-scale,
+[dir="rtl"] .tpmv2-candle-layer,
+[dir="rtl"] .tpmv2-chart-svg,
+[dir="rtl"] .tpmv2-ticket-amount,
+[dir="rtl"] .tpmv2-real-input,
+[dir="rtl"] input[type="email"],
+[dir="rtl"] input[type="password"] {
+  direction: ltr;
+}
+
+[dir="rtl"] .tpmv2-topbar-market-strip {
+  justify-content: flex-end;
+}
+
+[dir="rtl"] .tpmv2-watch-main,
+[dir="rtl"] .tpmv2-ticket-reason,
+[dir="rtl"] .tpm-auth-copy,
+[dir="rtl"] .tpm-auth-session-main {
+  text-align: start;
+}
+
+[dir="rtl"] .tpmv2-watch-price,
+[dir="rtl"] .tpmv2-watch-change {
+  text-align: start;
+}
+
+@media (max-width: 899px) {
+  .tpm-theme-switcher {
+    width: 100%;
+  }
+
+  .tpm-theme-switcher-label {
+    display: none;
+  }
+
+  .tpm-theme-segments {
+    width: 100%;
+  }
+
+  .tpm-theme-segments button {
+    flex: 1 1 0;
+  }
+}
