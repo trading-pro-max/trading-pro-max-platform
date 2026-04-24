@@ -12,6 +12,7 @@
     "test:regression": "npm run build && npm run prisma:seed && playwright test",
     "smoke:routes": "node scripts/tpm-canonical-routes-smoke.mjs --summary-only",
     "production:setup-local": "node scripts/setup-production-env-local.mjs",
+    "secrets:generate-launch": "node scripts/generate-launch-secrets.mjs",
     "production:validate": "node scripts/validate-production-readiness.mjs",
     "staging:validate": "node scripts/validate-staging-readiness.mjs",
     "prisma:generate": "node scripts/clean-prisma-client.mjs && prisma generate",

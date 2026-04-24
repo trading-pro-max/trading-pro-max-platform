@@ -78,6 +78,9 @@ const values = {
   NODE_ENV: "production",
   TPM_DEPLOYMENT_TARGET: "production",
   TPM_LAUNCH_MODE: "closed_beta",
+  TPM_PRE_LAUNCH_SECRET_ROTATION_CONFIRMED: "false",
+  TPM_SECRET_ROTATION_BATCH_ID: "",
+  TPM_SECRET_ROTATION_COMPLETED_AT: "",
   DATABASE_URL:
     databaseUrl || "file:./prisma/dev.db",
   TPM_OPERATOR_KEY: choose(
@@ -132,6 +135,12 @@ const body = [
   line("NODE_ENV", values.NODE_ENV),
   line("TPM_DEPLOYMENT_TARGET", values.TPM_DEPLOYMENT_TARGET),
   line("TPM_LAUNCH_MODE", values.TPM_LAUNCH_MODE),
+  line(
+    "TPM_PRE_LAUNCH_SECRET_ROTATION_CONFIRMED",
+    values.TPM_PRE_LAUNCH_SECRET_ROTATION_CONFIRMED
+  ),
+  line("TPM_SECRET_ROTATION_BATCH_ID", values.TPM_SECRET_ROTATION_BATCH_ID),
+  line("TPM_SECRET_ROTATION_COMPLETED_AT", values.TPM_SECRET_ROTATION_COMPLETED_AT),
   "",
   "# Database. Local sqlite keeps production readiness blocked until replaced.",
   line("DATABASE_URL", values.DATABASE_URL),

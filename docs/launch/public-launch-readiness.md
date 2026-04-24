@@ -9,6 +9,8 @@ real, verified, and documented.
 ## Final Go-Live Prerequisites
 
 - Production env validation passes with real secrets and deployment values.
+- Pre-launch secret rotation is completed and attested per
+  `docs/ops/secret-rotation.md`.
 - Staging deployment validation passes against a real staging host.
 - Closed beta with five testers is accepted.
 - Soft launch readiness is accepted and all blockers are closed.
@@ -49,6 +51,8 @@ public launch approval.
 - Missing monitoring or support escalation coverage.
 - Unresolved critical or high safety feedback.
 - Any secret exposure.
+- Any missing secret rotation attestation or known old/local/demo/simulated
+  secret pattern.
 - Any live-money or live-execution pathway.
 - Any fake billing, notification, broker, feed, or public launch claim.
 

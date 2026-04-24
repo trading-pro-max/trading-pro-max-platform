@@ -58,6 +58,19 @@ For a real deployment, generate the key outside the repo with your secret
 manager or operating-system password tool. Do not paste it into docs, issues,
 logs, or command output.
 
+## Pre-Launch Secret Rotation
+
+Required:
+
+- `TPM_PRE_LAUNCH_SECRET_ROTATION_CONFIRMED=true`
+- `TPM_SECRET_ROTATION_BATCH_ID`
+- `TPM_SECRET_ROTATION_COMPLETED_AT`
+
+Follow `docs/ops/secret-rotation.md` before setting the confirmation flag. The
+validator blocks known local/default/demo/simulated patterns across configured
+database, operator, monitoring, broker, feed, pilot, notification, signing, and
+delivery secret names.
+
 ## Rotated Seed Credentials
 
 Required:
@@ -110,6 +123,7 @@ node scripts/validate-production-readiness.mjs --json
 node scripts/validate-production-readiness.mjs --env-file .env.production.local
 node scripts/validate-production-readiness.mjs --simulate-safe
 node scripts/validate-staging-readiness.mjs --simulate-safe
+npm run secrets:generate-launch
 ```
 
 A blocked result means at least one production blocker remains. It is not a

@@ -29,8 +29,42 @@ const SUPPORTED_MONITORING_PROVIDERS = new Set([
   "azure-monitor",
 ]);
 
+const SECRET_ROTATION_REQUIRED_FLAG = "true";
+const SENSITIVE_ROTATION_ENV_NAMES = [
+  "DATABASE_URL",
+  "TPM_OPERATOR_KEY",
+  "TPM_DEMO_PASSWORD",
+  "TPM_OPERATOR_PASSWORD",
+  "TPM_MONITORING_KEY",
+  "TPM_OPS_EXTERNAL_MONITOR_KEY",
+  "TPM_BROKER_API_KEY",
+  "TPM_BROKER_API_SECRET",
+  "TPM_BROKER_SANDBOX_API_KEY",
+  "TPM_BROKER_SANDBOX_API_SECRET",
+  "TPM_BROKER_LIVE_API_KEY",
+  "TPM_BROKER_LIVE_API_SECRET",
+  "TPM_MARKET_FEED_API_KEY",
+  "TPM_MARKET_FEED_API_SECRET",
+  "TPM_MARKET_FEED_SANDBOX_API_KEY",
+  "TPM_MARKET_FEED_SANDBOX_API_SECRET",
+  "TPM_MARKET_FEED_LIVE_API_KEY",
+  "TPM_MARKET_FEED_LIVE_API_SECRET",
+  "TPM_PILOT_BROKER_API_KEY",
+  "TPM_PILOT_BROKER_API_SECRET",
+  "TPM_PILOT_FEED_API_KEY",
+  "TPM_PILOT_FEED_API_SECRET",
+  "TPM_ALERTS_QUEUE_BACKEND_URL",
+  "TPM_ALERTS_WEBHOOK_URL",
+  "TPM_DESKTOP_SIGNING_PROFILE",
+  "TPM_MOBILE_ANDROID_SIGNING_PROFILE",
+  "TPM_MOBILE_IOS_SIGNING_PROFILE",
+  "TPM_MOBILE_DISTRIBUTION_PROFILE",
+];
+
 const PLACEHOLDER_PATTERN =
   /^(?:change-?me|todo|unset|replace-?me|example|placeholder|__.*__|<.*>|\[.*\])$/i;
+const STALE_SECRET_PATTERN =
+  /(?:local-operator-review-key|TradingProMaxDemo!2026|TradingProMaxOperator!2026|LocalOnly|SimulatedOnly|change[_-]?me|replace[_-]?me|placeholder|dummy|sample|default|password123|secret123|example\.|\.test\b|\.invalid\b|localhost|127\.0\.0\.1)/i;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function argValue(name) {
@@ -58,10 +92,14 @@ function loadEnvFile(filePath, { override = false } = {}) {
 }
 
 function applySimulatedSafeEnv() {
+  const completedAt = new Date().toISOString();
   Object.assign(process.env, {
     NODE_ENV: "production",
     TPM_DEPLOYMENT_TARGET: "production",
     TPM_LAUNCH_MODE: "closed_beta",
+    TPM_PRE_LAUNCH_SECRET_ROTATION_CONFIRMED: "true",
+    TPM_SECRET_ROTATION_BATCH_ID: "rotation-simulated-validation-only",
+    TPM_SECRET_ROTATION_COMPLETED_AT: completedAt,
     DATABASE_URL: "file:/var/lib/trading-pro-max/production.db",
     TPM_OPERATOR_KEY: "TpmKey_2026_SimulatedOnly_Value_ABCDEFG12345!",
     TPM_DEMO_EMAIL: "demo.beta@example.test",
@@ -116,6 +154,10 @@ function isPlaceholder(value) {
   return !normalized || PLACEHOLDER_PATTERN.test(normalized);
 }
 
+function isTruthy(value) {
+  return normalize(value).toLowerCase() === "true";
+}
+
 function hasMinimumSecretShape(value, minLength = 32) {
   const normalized = normalize(value);
   if (normalized.length < minLength) return false;
@@ -129,6 +171,12 @@ function hasMinimumSecretShape(value, minLength = 32) {
   ].filter(Boolean).length;
 
   return classes >= 3;
+}
+
+function hasKnownStaleSecretPattern(value) {
+  if (!configured(value)) return false;
+  if (SIMULATE_SAFE) return false;
+  return STALE_SECRET_PATTERN.test(normalize(value));
 }
 
 function publicSecretNamesPresent() {
@@ -255,6 +303,7 @@ function credentialRotationReadiness() {
     demoEmail !== DEFAULTS.demoEmail &&
     demoPassword !== DEFAULTS.demoPassword &&
     !demoEmail.endsWith(".local") &&
+    (SIMULATE_SAFE || !demoEmail.endsWith(".test")) &&
     EMAIL_PATTERN.test(demoEmail) &&
     hasMinimumSecretShape(demoPassword, 16);
   const operatorRotated =
@@ -263,6 +312,7 @@ function credentialRotationReadiness() {
     operatorEmail !== DEFAULTS.operatorEmail &&
     operatorPassword !== DEFAULTS.operatorPassword &&
     !operatorEmail.endsWith(".local") &&
+    (SIMULATE_SAFE || !operatorEmail.endsWith(".test")) &&
     EMAIL_PATTERN.test(operatorEmail) &&
     hasMinimumSecretShape(operatorPassword, 16);
 
@@ -276,6 +326,51 @@ function credentialRotationReadiness() {
         : "Demo/operator credentials are missing, defaulted, weak, invalid, or shared.",
     remediation:
       "Set TPM_DEMO_EMAIL, TPM_DEMO_PASSWORD, TPM_OPERATOR_EMAIL, and TPM_OPERATOR_PASSWORD to rotated values before seeding production-like accounts.",
+  };
+}
+
+function secretRotationAttestationReadiness() {
+  const confirmed = isTruthy(process.env.TPM_PRE_LAUNCH_SECRET_ROTATION_CONFIRMED);
+  const batchId = normalize(process.env.TPM_SECRET_ROTATION_BATCH_ID);
+  const completedAt = normalize(process.env.TPM_SECRET_ROTATION_COMPLETED_AT);
+  const batchConfigured = configured(batchId) && !isPlaceholder(batchId);
+  const completedDate = Date.parse(completedAt);
+  const completedAtValid =
+    configured(completedAt) &&
+    Number.isFinite(completedDate) &&
+    completedDate <= Date.now() + 60_000;
+  const ok = confirmed && batchConfigured && completedAtValid;
+
+  return {
+    ok,
+    confirmed,
+    batchConfigured,
+    completedAtValid,
+    detail: ok
+      ? "Pre-launch secret rotation attestation is present."
+      : "Pre-launch secret rotation attestation is missing, placeholder, or invalid.",
+    remediation:
+      "Rotate every launch secret in the deployment secret manager, then set TPM_PRE_LAUNCH_SECRET_ROTATION_CONFIRMED=true, TPM_SECRET_ROTATION_BATCH_ID, and TPM_SECRET_ROTATION_COMPLETED_AT.",
+  };
+}
+
+function rotatedSecretPatternReadiness() {
+  const flaggedNames = SENSITIVE_ROTATION_ENV_NAMES.filter((name) =>
+    hasKnownStaleSecretPattern(process.env[name])
+  );
+
+  return {
+    ok: flaggedNames.length === 0,
+    flaggedNames,
+    scannedConfigured: SENSITIVE_ROTATION_ENV_NAMES.filter((name) =>
+      configured(process.env[name])
+    ).length,
+    detail:
+      flaggedNames.length === 0
+        ? "No configured launch secret has a known local/default/placeholder pattern."
+        : "One or more configured launch secrets still match a known local/default/placeholder pattern.",
+    remediation:
+      "Replace flagged secret names in the deployment secret manager with newly rotated values; do not reuse local, demo, default, placeholder, example, or simulated values.",
   };
 }
 
@@ -376,6 +471,8 @@ const mode = launchMode();
 const database = databaseReadiness(target);
 const operatorKey = operatorKeyReadiness();
 const credentials = credentialRotationReadiness();
+const secretRotation = secretRotationAttestationReadiness();
+const rotatedSecretPatterns = rotatedSecretPatternReadiness();
 const allowlist = allowlistReadiness(target);
 const monitoring = monitoringReadiness(target, mode);
 const publicSecretNames = publicSecretNamesPresent();
@@ -428,6 +525,29 @@ const checks = [
     {
       demoRotated: credentials.demoRotated,
       operatorRotated: credentials.operatorRotated,
+    }
+  ),
+  check(
+    "secret_rotation_attestation",
+    secretRotation.ok,
+    "blocker",
+    secretRotation.detail,
+    secretRotation.remediation,
+    {
+      confirmed: secretRotation.confirmed,
+      batchConfigured: secretRotation.batchConfigured,
+      completedAtValid: secretRotation.completedAtValid,
+    }
+  ),
+  check(
+    "rotated_secret_patterns",
+    rotatedSecretPatterns.ok,
+    "blocker",
+    rotatedSecretPatterns.detail,
+    rotatedSecretPatterns.remediation,
+    {
+      scannedConfigured: rotatedSecretPatterns.scannedConfigured,
+      flaggedNames: rotatedSecretPatterns.flaggedNames,
     }
   ),
   check(

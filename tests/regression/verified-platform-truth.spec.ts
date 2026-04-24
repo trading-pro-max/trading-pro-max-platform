@@ -11,6 +11,7 @@ const DEMO_PASSWORD =
 const VALIDATOR_SCRIPT = "scripts/validate-production-readiness.mjs";
 const STAGING_VALIDATOR_SCRIPT = "scripts/validate-staging-readiness.mjs";
 const SETUP_SCRIPT = "scripts/setup-production-env-local.mjs";
+const GENERATE_LAUNCH_SECRETS_SCRIPT = "scripts/generate-launch-secrets.mjs";
 
 function validatorEnv(overrides: Record<string, string | undefined> = {}) {
   const env: Record<string, string | undefined> = {
@@ -55,6 +56,7 @@ function runStagingValidator(
 test.describe("verified platform truth", () => {
   test("keeps production readiness validation strict and secret-safe", () => {
     const monitorSecret = "DoNotLeak_MonitoringSecret_2026_Value!";
+    const oldBrokerSecret = "LocalOnly_BrokerSecret_DoNotLeak_2026_Value!";
     const blockedResult = runProductionValidator({
       NODE_ENV: "production",
       TPM_DEPLOYMENT_TARGET: "production",
@@ -64,10 +66,12 @@ test.describe("verified platform truth", () => {
       TPM_OPERATOR_EMAIL: "operator@tradingpromax.local",
       TPM_OPERATOR_PASSWORD: "TradingProMaxOperator!2026",
       TPM_OPS_EXTERNAL_MONITOR_KEY: monitorSecret,
+      TPM_BROKER_API_SECRET: oldBrokerSecret,
     });
 
     expect(blockedResult.status).toBe(1);
     expect(blockedResult.stdout).not.toContain(monitorSecret);
+    expect(blockedResult.stdout).not.toContain(oldBrokerSecret);
     const blockedPayload = JSON.parse(blockedResult.stdout);
     expect(blockedPayload.summary).toMatchObject({
       status: "blocked",
@@ -79,6 +83,8 @@ test.describe("verified platform truth", () => {
         expect.objectContaining({ key: "database_url", ok: false }),
         expect.objectContaining({ key: "operator_key", ok: false }),
         expect.objectContaining({ key: "credentials_rotated", ok: false }),
+        expect.objectContaining({ key: "secret_rotation_attestation", ok: false }),
+        expect.objectContaining({ key: "rotated_secret_patterns", ok: false }),
         expect.objectContaining({ key: "closed_beta_allowlist", ok: false }),
         expect.objectContaining({ key: "external_monitoring", ok: false }),
       ])
@@ -162,7 +168,7 @@ test.describe("verified platform truth", () => {
     });
   });
 
-  test("creates ignored local production env safely without printing secrets", () => {
+  test("creates ignored local production env safely without printing secrets and keeps launch blocked", () => {
     const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "tpm-prod-env-"));
     const envPath = path.join(tempDir, ".env.production.local");
     const setupResult = spawnSync(
@@ -199,19 +205,68 @@ test.describe("verified platform truth", () => {
     expect(setupResult.stdout).not.toContain(monitoringKey);
     expect(setupResult.stdout).toContain("secret_output=redacted");
 
-    const validation = runProductionValidator(
-      {},
-      ["--env-file", envPath]
-    );
-    expect(validation.status).toBe(0);
+    const validation = runProductionValidator({}, ["--env-file", envPath]);
+    expect(validation.status).toBe(1);
     const validationPayload = JSON.parse(validation.stdout);
     expect(validationPayload.summary).toMatchObject({
-      status: "pass",
+      status: "blocked",
       envFileLoaded: true,
-      blockers: 0,
     });
+    expect(validationPayload.checks).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ key: "secret_rotation_attestation", ok: false }),
+        expect.objectContaining({ key: "rotated_secret_patterns", ok: false }),
+      ])
+    );
     expect(validation.stdout).not.toContain(operatorKey);
     expect(validation.stdout).not.toContain(monitoringKey);
+  });
+
+  test("generates ignored launch secrets without leaking values or faking rotation", () => {
+    const outputPath = path.join("test-results", ".env.launch-secrets.local");
+    fs.mkdirSync("test-results", { recursive: true });
+    if (fs.existsSync(outputPath)) fs.rmSync(outputPath);
+
+    const generateResult = spawnSync(
+      process.execPath,
+      [GENERATE_LAUNCH_SECRETS_SCRIPT, "--path", outputPath],
+      {
+        cwd: process.cwd(),
+        env: validatorEnv() as NodeJS.ProcessEnv,
+        encoding: "utf8",
+      }
+    );
+
+    expect(generateResult.status).toBe(0);
+    expect(generateResult.stdout).toContain("secret_output=redacted");
+    expect(generateResult.stdout).toContain("rotation_confirmation=false");
+    expect(fs.existsSync(outputPath)).toBe(true);
+
+    const envFile = fs.readFileSync(outputPath, "utf8");
+    const generatedOperatorKey =
+      envFile.match(/^TPM_OPERATOR_KEY=(.+)$/m)?.[1] ?? "";
+    const generatedDemoPassword =
+      envFile.match(/^TPM_DEMO_PASSWORD=(.+)$/m)?.[1] ?? "";
+    const generatedMonitoringKey =
+      envFile.match(/^TPM_MONITORING_KEY=(.+)$/m)?.[1] ?? "";
+    expect(generatedOperatorKey.length).toBeGreaterThan(32);
+    expect(generatedDemoPassword.length).toBeGreaterThan(16);
+    expect(generatedMonitoringKey.length).toBeGreaterThan(24);
+    expect(generateResult.stdout).not.toContain(generatedOperatorKey);
+    expect(generateResult.stdout).not.toContain(generatedDemoPassword);
+    expect(generateResult.stdout).not.toContain(generatedMonitoringKey);
+    expect(envFile).toContain("TPM_PRE_LAUNCH_SECRET_ROTATION_CONFIRMED=false");
+
+    const validation = runProductionValidator({}, ["--env-file", outputPath]);
+    expect(validation.status).toBe(1);
+    expect(validation.stdout).not.toContain(generatedOperatorKey);
+    expect(JSON.parse(validation.stdout).checks).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ key: "secret_rotation_attestation", ok: false }),
+      ])
+    );
+
+    fs.rmSync(outputPath, { force: true });
   });
 
   test("visibly renders the verified workstation and utility routes", async ({

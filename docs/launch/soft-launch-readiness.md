@@ -9,6 +9,7 @@ must be cleared after closed beta hardening.
 ## Entry Criteria
 
 - `npm run production:validate` passes with real production values.
+- Pre-launch secret rotation is completed and attested.
 - `npm run staging:validate` passes with real staging deployment evidence.
 - Five-tester closed beta acceptance criteria are met.
 - No critical or high feedback items remain open.
@@ -37,6 +38,7 @@ must be cleared after closed beta hardening.
 ## Launch Blockers
 
 - Production env validation blocked.
+- Secret rotation attestation missing or any known stale secret pattern present.
 - Staging validation blocked.
 - Closed beta acceptance incomplete.
 - Any critical or high unresolved feedback.

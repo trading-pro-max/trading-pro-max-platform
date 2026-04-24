@@ -12,6 +12,8 @@ The app can be prepared for controlled production-like use, but deployment is bl
 - Run `prisma migrate deploy` against the production database.
 - Set `TPM_OPERATOR_KEY`.
 - Rotate `TPM_DEMO_EMAIL`, `TPM_DEMO_PASSWORD`, `TPM_OPERATOR_EMAIL`, and `TPM_OPERATOR_PASSWORD`.
+- Complete `docs/ops/secret-rotation.md`.
+- Set `TPM_PRE_LAUNCH_SECRET_ROTATION_CONFIRMED=true`, `TPM_SECRET_ROTATION_BATCH_ID`, and `TPM_SECRET_ROTATION_COMPLETED_AT` only after every launch secret is rotated in deployment secret storage.
 - Set `TPM_CLOSED_BETA_ALLOWLIST_EMAILS` for the closed beta cohort.
 - Configure `TPM_OPS_EXTERNAL_MONITOR_PROVIDER`, `TPM_OPS_EXTERNAL_MONITOR_URL`, and `TPM_OPS_EXTERNAL_MONITOR_KEY`.
 - Local rehearsal only: use `npm run production:setup-local` to create `.env.production.local`, then replace placeholders with real deployment values.
@@ -49,6 +51,8 @@ The app can be prepared for controlled production-like use, but deployment is bl
 - No migration plan.
 - Default demo credentials.
 - Default operator credentials.
+- Missing pre-launch secret rotation attestation.
+- Any known old/local/demo/simulated/placeholder secret pattern.
 - Missing operator key.
 - Empty closed beta allowlist.
 - Missing external monitoring configuration.
