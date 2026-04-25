@@ -241,8 +241,8 @@ export default function TPMCompanionPanel({
         title: "Citizen layer truth",
         body:
           context?.planetAccess
-            ? `${context.planetAccess.activeLayer}. ${context.planetAccess.companionLevel}. Pro, VIP, and Enterprise layers remain planned or future unless real entitlement support exists.`
-            : "Demo / Paper Assistant is active for basic guidance. Pro, VIP, and Enterprise assistants remain locked or future-planned until real entitlement support exists.",
+            ? `${context.planetAccess.activeLayer}. Free / Demo is the familiar paper trading layer with basic Companion support. Pro is planned as the intelligent professional workspace, VIP as the elite living planet layer, and Enterprise as future team governance.`
+            : "Basic Companion is active for Free / Demo guidance. Pro, VIP, and Enterprise assistants remain locked or future-planned until real entitlement support exists.",
       },
       feedback: {
         id: "response-feedback",
@@ -370,7 +370,9 @@ export default function TPMCompanionPanel({
         <div>
           <span>Plan</span>
           <strong>{currentPlan.planName}</strong>
-          <small>{context?.planetAccess.activeLayer ?? currentPlan.truthState.replaceAll("_", " ")}</small>
+          <small>
+            {context?.planetAccess.activeLayer ?? currentPlan.truthState.replaceAll("_", " ")}
+          </small>
         </div>
         <div>
           <span>Context</span>

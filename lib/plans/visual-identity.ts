@@ -96,12 +96,12 @@ export const PLAN_VISUAL_IDENTITIES: Record<PlanVisualKey, PlanVisualIdentity> =
       secondary: token("Learning cyan", "--tpm-plan-demo-secondary", "#2dd4bf", "#0f766e"),
       metallic: token("Cool graphite", "--tpm-plan-demo-metallic", "#94a3b8", "#475569"),
     },
-    tone: "Safe learning identity",
+    tone: "Familiar premium trading identity",
     surfaceLanguage:
-      "Simplified paper-first surfaces with blue guidance cues and compact blocked truth.",
+      "Chart-first paper terminal with basic Companion, Why Blocked, Academy, and subtle Swiss precision cues.",
     assistantIdentity: "Basic Companion",
     comparisonSummary:
-      "Onboarding, paper/live/blocked/fallback explanations, feedback help, and settings or diagnostics guidance.",
+      "Familiar workstation, paper ticket, watchlist, blocked/fallback explanations, feedback help, and settings or diagnostics guidance.",
     lockedState:
       "Advanced coaching, premium insights, strategy review, and performance deep-dives stay locked.",
     upgradeState: "No upgrade action is active because billing remains inactive.",
@@ -125,7 +125,7 @@ export const PLAN_VISUAL_IDENTITIES: Record<PlanVisualKey, PlanVisualIdentity> =
     },
     tone: "Professional daily trader identity",
     surfaceLanguage:
-      "Sharper workstation preparation for alerts, journal, workspace memory, and preflight context.",
+      "Professional workspace direction for stronger Companion, journal depth, decision replay, workspace memory, alerts, and workflows.",
     assistantIdentity: "Pro Assistant",
     comparisonSummary:
       "Richer market context, multi-timeframe summaries, session guidance, journal suggestions, and workflow guidance.",
@@ -152,7 +152,7 @@ export const PLAN_VISUAL_IDENTITIES: Record<PlanVisualKey, PlanVisualIdentity> =
     },
     tone: "Elite premium identity",
     surfaceLanguage:
-      "Black, gold, and platinum cues for VIP Brain, advanced coaching, and premium reports without visual noise.",
+      "Black, gold, and platinum cues for the elite living planet layer, VIP Brain, advanced coaching, and premium reports without visual noise.",
     assistantIdentity: "VIP Brain",
     comparisonSummary:
       "Advanced AI/IQ guidance, deeper performance review, strategy review assistant, journal insights, and VIP diagnostics summaries.",

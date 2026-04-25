@@ -6,18 +6,18 @@ Runtime:
 - `lib/plans/value-map.ts`
 
 Demo / Free:
-- promise: learn safely in paper-first mode
-- active: paper workstation, basic Companion, basic journal prompts, diagnostics, feedback
+- promise: familiar premium paper trading with moderate TPM advantage
+- active: chart-first paper workstation, basic Companion, basic Why Blocked, basic Academy, basic journal prompts, diagnostics, feedback
 - must not claim: live execution, paid access, guaranteed outcomes
 
 Pro:
-- promise: richer daily-trader context after entitlement support exists
-- planned: Pro Assistant, journal depth, alerts/workflows, workspace memory, decision replay
+- promise: intelligent professional workspace after entitlement support exists
+- planned: Pro Companion, journal/coach depth, alerts/workflows, workspace memory, decision replay, Pro community
 - must not claim: Pro active, checkout active, premium signal
 
 VIP:
-- promise: deeper command and VIP Brain after entitlement, safety, and support gates exist
-- planned: advanced coaching, deep journal analytics, reports, private rooms
+- promise: elite living planet layer after entitlement, safety, and support gates exist
+- planned: VIP Brain, advanced Companion, advanced coaching, deep journal analytics, strategy review, premium reports, private rooms
 - must not claim: VIP active, guaranteed returns, win-rate, priority support active
 
 Enterprise:
@@ -37,9 +37,9 @@ Guest receives public orientation only. Founder King receives private full-plane
 The plan value map now feeds the TPM Planet economy model:
 
 - Guest: public trust only.
-- Free / Demo: active paper-safe learning, basic Companion, basic Academy, Why Blocked, feedback readiness.
-- Pro: planned daily trader workspace with deeper Companion, Journal/Coach, alerts/workflows, decision replay, workspace memory, and Pro community.
-- VIP: planned elite layer with VIP Brain, advanced Companion, advanced Journal/Coach, strategy review, premium reports, private rooms, and priority support concepts.
+- Free / Demo: active familiar premium paper terminal, basic Companion, basic Academy, Why Blocked, feedback readiness.
+- Pro: planned intelligent professional workspace with deeper Companion, Journal/Coach, alerts/workflows, decision replay, workspace memory, and Pro community.
+- VIP: planned elite living planet layer with VIP Brain, advanced Companion, advanced Journal/Coach, strategy review, premium reports, private rooms, and priority support concepts.
 - Enterprise: future team/admin/audit/compliance layer.
 
 Billing, paid entitlement activation, performance fees, public launch, and VIP/Pro activation remain inactive. Founder Command is not a user-plan feature.

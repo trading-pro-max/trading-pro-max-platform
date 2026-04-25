@@ -101,13 +101,21 @@ The runtime access layer is defined in `lib/plans/entitlements.ts` as `PLANET_AC
 Each class now declares visible continents, states, cities/modules, companion level, journal/coach level, academy level, community access, media/content access, visual identity, locked features, planned features, hidden features, upgrade explanation, safety boundaries, and what must not be shown.
 
 The settings surface can show the current citizen layer and a compact access map. This is explanatory only. It does not activate Pro, VIP, Enterprise, billing, live execution, broker/feed, public launch, social publishing, performance fees, or Founder Command.
+## Interface Architecture Update
+
+Free / Demo now carries the active familiar premium trading layer: chart-first, paper ticket, watchlist, basic Companion, basic Why Blocked, basic Academy, and subtle Swiss precision signals.
+
+Pro is the planned intelligent professional workspace layer. VIP is the planned elite living planet layer. Enterprise remains future team/admin/audit/compliance scope. Founder King remains a separate private owner command layer and is not a user plan.
+
+User-facing screens should keep Free / Demo simple and familiar. Deeper Planet OS identity belongs in Pro/VIP planned explanations, diagnostics, and Founder-only command surfaces, not in the Free workstation.
+
 ## Economy And Growth Truth
 
 Citizen classes participate in different planet layers, but this does not activate billing or paid access.
 
-- Free / Demo Citizen: active paper-safe planet layer.
-- Pro Citizen: planned professional layer.
-- VIP Citizen: planned elite layer.
+- Free / Demo Citizen: active familiar paper trading layer.
+- Pro Citizen: planned professional intelligent workspace layer.
+- VIP Citizen: planned elite living planet layer.
 - Enterprise House: future layer.
 - Founder King: owner-only full planet command, never purchasable and never visible to normal users.
 

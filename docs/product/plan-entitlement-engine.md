@@ -9,10 +9,10 @@ Runtime source:
 
 Plans:
 
-- Demo / Free: active paper-safe plan
-- Pro: planned and locked
-- VIP: planned and locked
-- Enterprise: future planned
+- Demo / Free: active familiar premium paper-safe plan
+- Pro: planned and locked professional workspace
+- VIP: planned and locked elite living planet layer
+- Enterprise: future planned team/admin layer
 
 Feature groups:
 
@@ -44,6 +44,18 @@ Rules:
 
 The entitlement snapshot now feeds Companion Context and diagnostics readiness. Demo / Free remains the active paper-safe plan. Pro and VIP remain planned/locked. Enterprise remains future planned. Founder Command remains owner-only and is never part of a user plan.
 
+## Plan-Based Interface Architecture
+
+The entitlement engine now works with `lib/plans/interface-architecture.ts`.
+
+Interface rules:
+
+- Demo / Free must feel like a familiar premium trading platform with moderate TPM advantages.
+- Pro is the first deeper differentiation layer and remains planned/locked unless entitlement exists.
+- VIP is the elite living planet layer and remains planned/locked unless entitlement exists.
+- Enterprise remains future.
+- Founder Command is owner-only and not shown as a user-plan capability.
+
 ## Living Experience Surface
 
 The settings surface now includes compact Plan Experience cards for Demo / Free, Pro, VIP, and Enterprise. These cards show:
@@ -53,7 +65,7 @@ The settings surface now includes compact Plan Experience cards for Demo / Free,
 - active Demo capabilities
 - locked or coming-later capabilities
 - inactive billing and paid access truth
-- Founder Command owner-only truth
+- plan interface identity and user-safe layer truth
 
 The cards are visual and explanatory only. They do not create checkout, paid activation, VIP entitlement, Enterprise sales, performance fees, live execution, broker/feed activation, or real-money routing.
 

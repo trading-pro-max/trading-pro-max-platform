@@ -3,6 +3,7 @@ import type {
   PlanEntitlementSnapshot,
   PlanPlanetAccessLayer,
 } from "@/lib/plans/types";
+import { getPlanInterfaceLayerForPlan } from "@/lib/plans/interface-architecture";
 import { getPlanVisualIdentity } from "@/lib/plans/visual-identity";
 import PlanCapabilityList from "./PlanCapabilityList";
 
@@ -26,6 +27,7 @@ export default function PlanExperienceCard({
   truth,
 }: PlanExperienceCardProps) {
   const identity = getPlanVisualIdentity(plan.visualIdentity);
+  const interfaceLayer = getPlanInterfaceLayerForPlan(plan.planId);
   const active = currentPlan === plan.planId;
 
   return (
@@ -45,11 +47,13 @@ export default function PlanExperienceCard({
 
       <div className="tpm-plan-experience-truth">
         <span>Assistant: {identity.assistantIdentity}</span>
+        <span>Interface: {interfaceLayer.headline}</span>
         <span>Layer: {layer?.activeLayer ?? "Plan layer readiness"}</span>
         <span>Billing: {truth.billing}</span>
         <span>Paid access: {truth.paidAccess}</span>
-        <span>Founder Command: owner-only</span>
       </div>
+
+      <p className="tpm-plan-interface-note">{interfaceLayer.surfaceDepth}</p>
 
       <div className="tpm-plan-experience-columns">
         <PlanCapabilityList title="Active now" features={plan.allowedFeatures.slice(0, 4)} />

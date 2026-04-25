@@ -1045,6 +1045,12 @@ html[data-theme="light"] .tpm-product-cta-primary {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.tpm-product-plan-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
 .tpm-product-card,
 .tpm-product-step-card {
   padding: 16px;
@@ -1459,6 +1465,7 @@ html[data-theme="light"] .tpm-auth-panel-required {
   .tpm-product-hero-layout,
   .tpm-product-section-head,
   .tpm-product-card-grid,
+  .tpm-product-plan-grid,
   .tpm-product-step-grid,
   .tpm-product-proof-row,
   .tpm-utility-grid,
@@ -4026,6 +4033,104 @@ html[data-theme="light"] .tpmv2-chart-depth-panel {
   padding: 6px 9px;
 }
 
+.tpm-plan-interface-note {
+  color: var(--tpm-text-soft);
+  font-size: 12px;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.tpm-plan-interface-summary {
+  display: grid;
+  gap: 12px;
+}
+
+.tpm-plan-interface-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.tpm-plan-interface-card {
+  border: 1px solid color-mix(in srgb, var(--tpm-plan-primary) 26%, var(--tpm-border));
+  border-radius: 14px;
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--tpm-plan-primary) 9%, transparent), transparent),
+    color-mix(in srgb, var(--tpm-surface-strong) 95%, transparent);
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+}
+
+.tpm-plan-interface-card[data-current="true"] {
+  border-color: color-mix(in srgb, var(--tpm-plan-primary) 52%, var(--tpm-border));
+}
+
+.tpm-plan-interface-card header {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: space-between;
+}
+
+.tpm-plan-interface-card header em {
+  color: var(--tpm-text-soft);
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.tpm-plan-interface-card h3 {
+  color: var(--tpm-text);
+  font-size: 16px;
+  margin: 0;
+}
+
+.tpm-plan-interface-card p,
+.tpm-plan-interface-card footer {
+  color: var(--tpm-text-soft);
+  font-size: 12px;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.tpm-plan-interface-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tpm-plan-interface-list small {
+  border: 1px solid var(--tpm-border);
+  border-radius: var(--tpm-radius-pill);
+  color: var(--tpm-text-soft);
+  font-size: 10px;
+  font-weight: 850;
+  padding: 5px 8px;
+}
+
+.tpm-plan-interface-founder-boundary {
+  border: 1px solid color-mix(in srgb, var(--tpm-danger) 24%, var(--tpm-border));
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--tpm-danger) 7%, var(--tpm-surface-strong));
+  display: grid;
+  gap: 4px;
+  padding: 12px 14px;
+}
+
+.tpm-plan-interface-founder-boundary strong {
+  color: var(--tpm-text);
+}
+
+.tpm-plan-interface-founder-boundary p {
+  color: var(--tpm-text-soft);
+  font-size: 12px;
+  line-height: 1.55;
+  margin: 0;
+}
+
 .tpm-plan-capability-list {
   display: grid;
   gap: 8px;
@@ -4149,6 +4254,8 @@ html[data-theme="light"] .tpm-companion-message,
 html[data-theme="light"] .tpm-state-explanation-card,
 html[data-theme="light"] .tpm-journal-prompt-card,
 html[data-theme="light"] .tpm-plan-experience-card,
+html[data-theme="light"] .tpm-plan-interface-card,
+html[data-theme="light"] .tpm-plan-interface-founder-boundary,
 html[data-theme="light"] .tpm-plan-planet-layer,
 html[data-theme="light"] .tpm-founder-access-boundary,
 html[data-theme="light"] .tpm-plan-capability-list article {
@@ -4230,6 +4337,7 @@ html[data-theme="light"] .tpm-plan-capability-list article {
   }
 
   .tpm-plan-experience-grid,
+  .tpm-plan-interface-grid,
   .tpm-citizen-access-grid,
   .tpm-companion-capability-grid,
   .tpm-state-explanation-grid {

@@ -67,6 +67,33 @@ const firstUseSteps = [
   },
 ];
 
+const planInterfaceLadder = [
+  {
+    title: "Free / Demo",
+    badge: "Active",
+    summary:
+      "Familiar premium paper trading: chart, watchlist, paper ticket, basic Companion, Why Blocked, Academy, clock, and pulse.",
+  },
+  {
+    title: "Pro",
+    badge: "Planned",
+    summary:
+      "Professional intelligent workspace: richer Companion, Journal/Coach depth, decision replay, memory, alerts, and workflows.",
+  },
+  {
+    title: "VIP",
+    badge: "Planned",
+    summary:
+      "Elite living planet layer: VIP Brain, advanced coaching, strategy review, premium reports, and private rooms when entitled.",
+  },
+  {
+    title: "Enterprise",
+    badge: "Future",
+    summary:
+      "Future team, admin, audit, compliance, runbook, and organization-grade support layer.",
+  },
+];
+
 export default function PublicProductEntry({
   diagnosticsHref,
   settingsHref,
@@ -96,10 +123,10 @@ export default function PublicProductEntry({
                 Trading Pro Max keeps the chart first and every action paper-safe.
               </h1>
               <p>
-                A focused trading workspace for paper execution rehearsal, TPM IQ / Brain
-                guidance, and runtime trust. Paper-only operation, fallback market data, blocked
-                live routing, and broker state remain explicit without presenting this as a live
-                brokerage terminal.
+                Free / Demo stays familiar and premium: chart, watchlist, paper ticket, and
+                compact TPM guidance. Pro and VIP carry the deeper intelligent workspace and
+                living-planet layers later, while live routing, broker/feed, billing, public
+                launch, and real-money access remain inactive.
               </p>
 
               <div className="tpm-product-cta-row">
@@ -150,6 +177,32 @@ export default function PublicProductEntry({
                 note="Sign in with seeded beta credentials to unlock protected account routes. Public registration, live execution, and real-money access remain disabled."
               />
             </div>
+          </div>
+        </section>
+
+        <section className="tpm-product-section">
+          <div className="tpm-product-section-head">
+            <div>
+              <span className="tpm-product-kicker">Plan interface</span>
+              <h2>Simple at entry, deeper by plan, private at Founder level.</h2>
+            </div>
+            <p>
+              The public product starts like a serious trading platform. Pro and VIP explain
+              future differentiation without pretending paid access, billing, or premium
+              entitlement is active.
+            </p>
+          </div>
+
+          <div className="tpm-product-plan-grid">
+            {planInterfaceLadder.map((plan) => (
+              <article key={plan.title} className="tpm-foundation-card tpm-product-card">
+                <div className="tpm-product-card-head">
+                  <strong>{plan.title}</strong>
+                  <span className="tpm-product-chip">{plan.badge}</span>
+                </div>
+                <p>{plan.summary}</p>
+              </article>
+            ))}
           </div>
         </section>
 

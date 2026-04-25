@@ -453,6 +453,9 @@ test.describe("verified platform truth", () => {
           /Paper-only evaluation|Fallback-first market data|Live execution blocked/
         );
         await expect(page.locator("body")).toContainText(
+          /Plan interface|Free \/ Demo|Pro|VIP|Enterprise|Familiar premium paper trading/
+        );
+        await expect(page.locator("body")).toContainText(
           /TPM IQ \/ Brain|Interpretive, bounded guidance|Chart \+ execution stay primary/
         );
         await expect(page.locator("body")).toContainText(
@@ -577,11 +580,21 @@ test.describe("verified platform truth", () => {
           /Plan capability truth|Paper-session guidance|No financial advice/
         );
         await expect(page.locator("body")).toContainText(
-          /Citizen planet|Your planet layer|Paper-safe planet layer|Founder Command is owner-only/
+          /Plan-based interface architecture|Experience layers|Familiar paper trading layer|Founder Command is owner-only/
         );
         await expect(page.locator("body")).toContainText(
           /Academy|Community|VIP Rooms|Rooms planned|Learning paths foundation/
         );
+        if (route.path === "/en/settings" || route.path === "/settings") {
+          await expect(page.locator(".tpm-plan-experience-card")).toHaveCount(4);
+          await expect(page.locator(".tpm-plan-experience-card").first()).toContainText(
+            /Familiar premium paper platform|Billing: inactive|Paid access: not_enabled/
+          );
+          const planCardText = (
+            await page.locator(".tpm-plan-experience-card").allTextContents()
+          ).join(" ");
+          expect(planCardText).not.toMatch(/Founder Command/);
+        }
         if (route.path === "/diagnostics") {
           await expect(page.locator("body")).toContainText(
             /Planet OS|Internal operating system|Core engines/
@@ -1837,7 +1850,7 @@ test.describe("verified platform truth", () => {
       },
       planetAccess: {
         citizenClass: "demo_free",
-        activeLayer: "Paper-safe planet layer",
+        activeLayer: "Familiar paper trading layer",
         companionLevel: "Basic Companion active",
         founderCommandUserVisible: false,
         performanceFeeUserVisible: false,

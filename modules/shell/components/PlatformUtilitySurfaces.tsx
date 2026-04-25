@@ -19,7 +19,12 @@ import { CommunityReadinessPanel, VIPRoomsPreview } from "../../community/compon
 import { SessionCoachPanel } from "../../journal-coach/components";
 import { MediaOfficeReadinessPanel } from "../../media-office/components";
 import { PlanetMapPreview } from "../../planet-map/components";
-import { CitizenAccessMap, PlanExperienceCard, PlanPlanetLayerCard } from "../../plans/components";
+import {
+  CitizenAccessMap,
+  PlanExperienceCard,
+  PlanInterfaceSummary,
+  PlanPlanetLayerCard,
+} from "../../plans/components";
 import { SafeNextStepList, StateExplanationCard } from "../../state-explanations/components";
 import type { StateExplanationView } from "../../state-explanations/types";
 import {
@@ -1148,6 +1153,10 @@ export function PlatformDiagnosticsSurface({
         <UtilityGrid items={systemItems} />
       </UtilitySection>
 
+      <UtilitySection eyebrow="PLAN INTERFACE" title="Plan-based interface architecture">
+        <PlanInterfaceSummary compact currentLayer="demo_free" />
+      </UtilitySection>
+
       <UtilitySection eyebrow="PLANET OS" title="Internal operating system">
         {planetOsLoadState.status === "ready" ? (
           <UtilityGrid items={planetOsItems} />
@@ -1817,6 +1826,10 @@ export function PlatformSettingsSurface({
 
       <UtilitySection eyebrow="PRODUCT ACCESS" title="Commercial packaging readiness">
         <UtilityGrid items={productPackagingItems} />
+      </UtilitySection>
+
+      <UtilitySection eyebrow="PLAN INTERFACE" title="Experience layers">
+        <PlanInterfaceSummary currentLayer="demo_free" />
       </UtilitySection>
 
       <UtilitySection eyebrow="PLAN IDENTITY" title="Plan visual identity readiness">

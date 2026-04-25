@@ -4,21 +4,23 @@ Plan identity helps users understand access level and product tone. It must stay
 
 ## Free / Demo
 
-Tone: safe learning.
+Tone: familiar premium trading.
 
 Visual direction:
 
 - graphite and blue accent
-- simple surfaces
+- chart-first terminal surfaces
 - paper-only truth clear
 - basic Companion identity
-- education-forward messages
+- basic Academy and Why Blocked messages
+- subtle Swiss Precision Clock / Pulse
 
 Must not imply:
 
 - paid access
 - live execution
 - real-money trading
+- deep Planet OS administration
 
 ## Pro
 
@@ -27,9 +29,9 @@ Tone: professional daily trader.
 Visual direction:
 
 - graphite, emerald, and silver accent
-- stronger workstation tools
-- Pro assistant identity
-- alert, journal, and workspace memory surfaces prepared
+- intelligent professional workspace
+- Pro Companion identity
+- alert, journal, decision replay, and workspace memory surfaces prepared
 
 Must not imply:
 
@@ -44,6 +46,7 @@ Tone: elite premium, disciplined, quiet.
 Visual direction:
 
 - black, gold, and platinum accent
+- elite living planet layer
 - VIP Brain identity
 - advanced coaching and reporting prepared
 - premium but not noisy
@@ -92,3 +95,7 @@ Guest uses a clean minimal public trust identity. It should orient without press
 ## Citizen Access Map
 
 The Plan-Based Living Planet UI may show a compact citizen access map in settings/diagnostics. It must stay professional, avoid game/fantasy visuals, and keep Founder Command private.
+
+## Interface Architecture Rule
+
+Free / Demo surfaces should feel familiar and simple. Pro and VIP carry the deeper TPM differentiation, but only as planned/locked truth unless entitlement exists. Founder Command remains outside the plan visual system and cannot appear as an upgrade.

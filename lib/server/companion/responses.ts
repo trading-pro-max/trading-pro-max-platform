@@ -42,8 +42,8 @@ export function buildCompanionResponseTemplates(
     {
       intent: "explain_plan_access",
       title: "Plan access",
-      body: `${context.planetAccess.activeLayer}. ${context.planetAccess.companionLevel}. Pro and VIP remain planned unless real entitlement support exists; Enterprise remains future.`,
-      safeNextStep: "Use Demo / Free paper-safe features and read planned capabilities as roadmap only.",
+      body: `${context.planetAccess.activeLayer}. Free / Demo stays familiar, chart-first, paper-safe, and compact. Pro is the planned intelligent professional workspace, VIP is the planned elite living planet layer, and Enterprise remains future.`,
+      safeNextStep: "Use Demo / Free paper-safe features and treat Pro/VIP/Enterprise capabilities as roadmap truth until entitlement and billing gates exist.",
       state: "planned",
     },
     {
@@ -114,7 +114,7 @@ export function buildCompanionResponseTemplates(
       intent: "explain_plan_upgrade_without_billing",
       title: "Plan ladder",
       body:
-        "Free / Demo is active. Pro, VIP, and Enterprise describe future value layers, but billing, checkout, paid entitlements, and VIP activation are inactive.",
+        "Free / Demo is active as the familiar paper trading layer. Pro describes an intelligent professional workspace, VIP describes an elite living planet layer, and Enterprise describes future team governance. Billing, checkout, paid entitlements, and VIP activation are inactive.",
       safeNextStep: "Read plan value as roadmap truth, not an upgrade prompt.",
       state: "planned",
     },
