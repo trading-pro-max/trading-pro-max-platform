@@ -4,10 +4,15 @@ import { getPlanEntitlementSnapshot } from "@/lib/plans/entitlements";
 import { getConstructionQueueSnapshot } from "@/lib/server/codex-construction";
 import {
   getLocalDayOneReadinessSnapshot,
+  getLocalDailyOperationsLoopSnapshot,
+  getLocalDailyOperationsReportSnapshot,
   getLocalOperationsFinalReportSnapshot,
   getLocalOperationsReadinessSnapshot,
 } from "@/lib/server/local-ops";
-import { getProductMemorySummarySnapshot } from "@/lib/server/product-memory";
+import {
+  getProductMemoryDailySummarySnapshot,
+  getProductMemorySummarySnapshot,
+} from "@/lib/server/product-memory";
 import { getProductRealityFinalScoreSnapshot } from "@/lib/server/product-reality";
 import { getFounderBuildRoomSnapshot } from "./build-room";
 import type { FounderBriefing, MinistryReport } from "@/lib/server/planet-os/types";
@@ -66,10 +71,14 @@ export function getFounderPersonalCompanionSnapshot(
   const planEntitlements = getPlanEntitlementSnapshot("demo_free", checkedAt);
   const constructionQueue = getConstructionQueueSnapshot(checkedAt);
   const localOps = getLocalOperationsReadinessSnapshot(checkedAt);
+  const localDailyLoop = getLocalDailyOperationsLoopSnapshot(checkedAt);
+  const localDailyReport = getLocalDailyOperationsReportSnapshot(checkedAt);
   const localDayOne = getLocalDayOneReadinessSnapshot(checkedAt);
   const localFinalReport = getLocalOperationsFinalReportSnapshot(checkedAt);
   const productRealityFinalScore = getProductRealityFinalScoreSnapshot(checkedAt);
   const productMemory = getProductMemorySummarySnapshot(checkedAt);
+  const productMemoryDailySummary =
+    getProductMemoryDailySummarySnapshot(checkedAt);
   const buildRoom = getFounderBuildRoomSnapshot(checkedAt);
   const decisionMinistries = reporting.ministries.filter(
     (report) => report.founderDecisionNeeded
@@ -142,6 +151,8 @@ export function getFounderPersonalCompanionSnapshot(
     localOperationsSummary: [
       `Local operations state is ${localOps.report.readinessState}.`,
       `${localOps.dayCycle.totalStages} local day cycle stages are defined.`,
+      `${localDailyLoop.summary.totalStages} daily operating loop stages connect acceptance, gaps, Codex drafts, validation, and memory.`,
+      `Latest daily report is day ${localDailyReport.dayNumber} with validation ${localDailyReport.validation.status} and Git ${localDailyReport.gitClean}.`,
       `${localOps.digitalTwin.profileCount} local test personas are readiness-only and do not represent real users.`,
       "Founder Local Command shell is read-only and owner-only until owner auth, device trust, and step-up gates exist.",
       localOps.report.launchForbiddenReminder,
@@ -156,6 +167,7 @@ export function getFounderPersonalCompanionSnapshot(
     productMemorySummary: [
       `${productMemory.domainSummary.length} memory domains are modeled for safe local/internal readiness.`,
       `${productMemory.founderSummary.openProductGaps.length} open product gaps are visible for review.`,
+      `Daily memory summary tracks ${productMemoryDailySummary.productGaps.open} open gaps, ${productMemoryDailySummary.validation.commands} validation commands, and the suggested next task: ${productMemoryDailySummary.suggestedNextTask.title}.`,
       productMemory.founderSummary.journalCoachReadiness,
       "Memory forbids secrets, raw private sensitive data, fake users, fake revenue, and fake metrics.",
     ],

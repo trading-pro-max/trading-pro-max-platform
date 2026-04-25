@@ -31,10 +31,15 @@ import {
 } from "@/lib/server/intelligence";
 import {
   getLocalDayOneReadinessSnapshot,
+  getLocalDailyOperationsLoopSnapshot,
+  getLocalDailyOperationsReportSnapshot,
   getLocalOperationsFinalReportSnapshot,
   getLocalOperationsReadinessSnapshot,
 } from "@/lib/server/local-ops";
-import { getProductMemorySummarySnapshot } from "@/lib/server/product-memory";
+import {
+  getProductMemoryDailySummarySnapshot,
+  getProductMemorySummarySnapshot,
+} from "@/lib/server/product-memory";
 import { getProductRealityFinalScoreSnapshot } from "@/lib/server/product-reality";
 import { getSecuritySovereigntySnapshot } from "@/lib/server/security-sovereignty";
 import { getSecretsAuthoritySnapshot } from "@/lib/server/secrets-authority";
@@ -1268,6 +1273,20 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       `${productMemorySnapshot.domainSummary.length} memory domains modeled; secrets, private sensitive data, fake users, fake revenue, and fake metrics remain unstored.`,
     checkedAt,
   };
+  const localDailyLoopSnapshot = getLocalDailyOperationsLoopSnapshot(checkedAt);
+  const localDailyReportSnapshot =
+    getLocalDailyOperationsReportSnapshot(checkedAt);
+  const productMemoryDailySummary =
+    getProductMemoryDailySummarySnapshot(checkedAt);
+  const dailyOperationsProbe: DiagnosticsProbe = {
+    key: "daily_operations_loop",
+    label: "Daily operations loop",
+    status: "ready",
+    summary: "Local daily review loop ready",
+    detail:
+      `${localDailyLoopSnapshot.summary.totalStages} daily stages connect review, founder acceptance, product gaps, Codex task drafting, validation, and memory. Latest local day ${localDailyReportSnapshot.dayNumber} remains ${localDailyReportSnapshot.readiness.state}; ${productMemoryDailySummary.productGaps.open} open gaps and ${productMemoryDailySummary.validation.commands} validation commands are summarized. Launch automation, secret storage, private sensitive data storage, and surveillance are disabled.`,
+    checkedAt,
+  };
   const founderLocalCommandSnapshot =
     getFounderLocalCommandReadinessSnapshot(checkedAt);
   const founderLocalCommandProbe: DiagnosticsProbe = {
@@ -1351,6 +1370,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       launchProbe,
       marketParityProbe,
       productMemoryProbe,
+      dailyOperationsProbe,
       founderLocalCommandProbe,
       localDayOneProbe,
       founderBuildRoomProbe,
@@ -1409,6 +1429,27 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         status: productMemoryProbe.status,
         detail:
           "Validation memory route reports summary-only command status and does not persist raw logs.",
+      },
+      {
+        path: "/api/local-ops/daily-loop",
+        method: "GET",
+        status: dailyOperationsProbe.status,
+        detail:
+          "Daily operations loop route reports the local review, acceptance, gap, task-draft, validation, and summary cycle without automation or launch authority.",
+      },
+      {
+        path: "/api/local-ops/daily-report",
+        method: "GET",
+        status: dailyOperationsProbe.status,
+        detail:
+          "Daily report route reports local day readiness, scores, gaps, suggested task, validation status, Git state, and launch-forbidden reminder without secrets or fake metrics.",
+      },
+      {
+        path: "/api/product-memory/daily-summary",
+        method: "GET",
+        status: dailyOperationsProbe.status,
+        detail:
+          "Product memory daily summary route reports safe local memory summaries for acceptance, gaps, validation, and build decisions without raw sensitive data.",
       },
       {
         path: "/api/founder/local-command/snapshot",
@@ -1552,6 +1593,13 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         status: productMemoryProbe.status,
         summary: productMemoryProbe.summary,
         detail: productMemoryProbe.detail,
+      },
+      {
+        key: "daily_operations_loop",
+        label: dailyOperationsProbe.label,
+        status: dailyOperationsProbe.status,
+        summary: dailyOperationsProbe.summary,
+        detail: dailyOperationsProbe.detail,
       },
       {
         key: "founder_local_command",

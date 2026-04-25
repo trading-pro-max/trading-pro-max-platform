@@ -5176,6 +5176,267 @@ test.describe("verified platform truth", () => {
     await expect(page.locator("body")).not.toContainText(/Enterprise|TPM Companion/);
   });
 
+  test("reports daily local operations memory loop without launch automation", async ({
+    page,
+    request,
+  }) => {
+    const requiredDailyLoopDocs = [
+      "docs/product/local-daily-operations-loop.md",
+      "docs/product/local-day-report-template.md",
+      "docs/product/founder-acceptance-loop.md",
+      "docs/product/product-memory-daily-use.md",
+    ];
+
+    for (const docPath of requiredDailyLoopDocs) {
+      expect(fs.existsSync(path.join(process.cwd(), docPath)), docPath).toBe(true);
+    }
+
+    const endpoints = [
+      "/api/local-ops/daily-loop",
+      "/api/local-ops/daily-report",
+      "/api/product-memory/daily-summary",
+    ];
+
+    for (const endpoint of endpoints) {
+      const response = await request.get(endpoint);
+      expect(response.status()).toBe(200);
+      const text = await response.text();
+      expect(text).not.toMatch(
+        /(?:api[_-]?key|password|secret_value)\s*[:=]\s*["'][^"']{8,}/i
+      );
+      expect(text).not.toMatch(/AKIA[0-9A-Z]{16}|ghp_[A-Za-z0-9]{20,}|sk-[A-Za-z0-9]{20,}/);
+      expect(text).not.toMatch(/"autoLaunch"\s*:\s*true/);
+      expect(text).not.toMatch(/"launchAutomation"\s*:\s*true/);
+      expect(text).not.toMatch(/"storesSecrets"\s*:\s*true/);
+      expect(text).not.toMatch(/"storesPrivateSensitiveData"\s*:\s*true/);
+      expect(text).not.toMatch(/"surveillanceActive"\s*:\s*true/);
+    }
+
+    const dailyLoop = await (
+      await request.get("/api/local-ops/daily-loop")
+    ).json();
+    expect(dailyLoop.snapshot).toMatchObject({
+      mode: "local_daily_operations_loop",
+      status: "ready",
+      summary: {
+        totalStages: 14,
+        launchCriteriaIncluded: false,
+        automaticLaunch: false,
+        productionActionIncluded: false,
+        billingActionIncluded: false,
+        brokerFeedActionIncluded: false,
+        realMoneyActionIncluded: false,
+        secretStorageIncluded: false,
+        surveillanceIncluded: false,
+      },
+      truth: {
+        localOnly: true,
+        readinessOnly: true,
+        paperSafe: true,
+        storesSecrets: false,
+        storesPrivateSensitiveData: false,
+        createsSurveillance: false,
+        autoLaunch: false,
+      },
+    });
+    expect(dailyLoop.snapshot.stages.map((stage: { id: string }) => stage.id)).toEqual([
+      "start",
+      "inspect_build",
+      "inspect_routes",
+      "review_public_entry",
+      "review_workstation",
+      "review_assistant",
+      "review_journal_coach",
+      "review_settings_diagnostics",
+      "record_founder_acceptance",
+      "record_product_gaps",
+      "draft_codex_task",
+      "validate",
+      "store_summary",
+      "close_day",
+    ]);
+    expect(dailyLoop.snapshot.founderAcceptanceStates).toEqual([
+      "accepted",
+      "needs_polish",
+      "confusing",
+      "too_much",
+      "missing",
+      "blocked_by_design",
+      "future",
+    ]);
+
+    const dailyReport = await (
+      await request.get("/api/local-ops/daily-report")
+    ).json();
+    expect(dailyReport.snapshot).toMatchObject({
+      mode: "local_daily_operations_report",
+      dayNumber: 1,
+      readiness: {
+        state: "day_one_candidate",
+        readyToStartLocalDayOne: true,
+        ahmadReviewRequired: true,
+        globalLaunchEvaluated: false,
+      },
+      scores: {
+        scoreScale: "0_to_10",
+        noPerfectScoreClaim: true,
+        ahmadHumanAcceptanceRequired: true,
+      },
+      validation: {
+        status: "not_run_for_today",
+        rawLogsStored: false,
+        falsePassAllowed: false,
+      },
+      gitClean: "not_evaluated_by_snapshot",
+      truth: {
+        localOnly: true,
+        paperSafe: true,
+        productionActive: false,
+        launchActive: false,
+        billingActive: false,
+        brokerFeedActive: false,
+        liveExecutionActive: false,
+        realMoneyActive: false,
+        socialPublishingActive: false,
+        secretsStored: false,
+        privateSensitiveDataStored: false,
+        surveillanceActive: false,
+        fakeUsersRevenueMetrics: false,
+      },
+    });
+    expect(dailyReport.snapshot.launchForbiddenReminder).toContain(
+      "does not authorize launch"
+    );
+    expect(dailyReport.snapshot.gaps).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          id: "gap-boxed-small-ui",
+          summary: expect.any(String),
+        }),
+        expect.objectContaining({
+          id: "gap-chart-dominance",
+          summary: expect.any(String),
+        }),
+      ])
+    );
+    for (const gap of dailyReport.snapshot.gaps) {
+      expect(JSON.stringify(gap)).not.toMatch(/password|api key|secret value/i);
+    }
+
+    const dailySummary = await (
+      await request.get("/api/product-memory/daily-summary")
+    ).json();
+    expect(dailySummary.snapshot).toMatchObject({
+      mode: "product_memory_daily_summary",
+      status: "ready",
+      dailyLoop: {
+        totalStages: 14,
+        automaticLaunch: false,
+      },
+      productGaps: {
+        safeSummaryOnly: true,
+      },
+      validation: {
+        storagePolicy: "summary_only_no_raw_logs",
+        rawLogsStored: false,
+        secretsStored: false,
+        falsePassAllowed: false,
+      },
+      buildDecisions: {
+        externalCodexCalls: false,
+        codeExecutionTriggered: false,
+      },
+      localDayReports: {
+        launchAutomation: false,
+      },
+      truth: {
+        secretsStored: false,
+        privateSensitiveDataStored: false,
+        rawUserTrackingEnabled: false,
+        surveillanceActive: false,
+        fakeUsersStored: false,
+        fakeRevenueStored: false,
+        fakeMetricsStored: false,
+        productionStorageActive: false,
+        automaticExternalSync: false,
+        launchAutomation: false,
+      },
+    });
+
+    const founderCommand = await (
+      await request.get("/api/founder/command/snapshot")
+    ).json();
+    expect(founderCommand.snapshot.dailyOperationsMemoryLoop).toMatchObject({
+      readiness: "ready",
+      latestLocalDay: {
+        dayNumber: 1,
+        readinessState: "day_one_candidate",
+        validationStatus: "not_run_for_today",
+        gitClean: "not_evaluated_by_snapshot",
+      },
+      suggestedTask: {
+        externalExecutionActive: false,
+      },
+      truth: {
+        secretsStored: false,
+        privateSensitiveDataStored: false,
+        rawUserTrackingEnabled: false,
+        surveillanceActive: false,
+        launchAutomation: false,
+      },
+    });
+    expect(founderCommand.snapshot.localUniverseOperations.dailyLoop).toMatchObject({
+      totalStages: 14,
+      automaticLaunch: false,
+      secretStorageIncluded: false,
+      surveillanceIncluded: false,
+    });
+    expect(founderCommand.snapshot.persistentProductMemory.dailySummary).toMatchObject({
+      loopStages: 14,
+      latestLocalDay: 1,
+      automaticLaunch: false,
+    });
+
+    const founderCommandRoute = await request.get("/founder-command");
+    expect([200, 404]).toContain(founderCommandRoute.status());
+    expect(await founderCommandRoute.text()).not.toMatch(
+      /Daily operations loop|Product memory daily summary|Secret storage/i
+    );
+
+    const diagnostics = await (await request.get("/api/diagnostics/probes")).json();
+    expect(diagnostics.health.routes).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ path: "/api/local-ops/daily-loop" }),
+        expect.objectContaining({ path: "/api/local-ops/daily-report" }),
+        expect.objectContaining({ path: "/api/product-memory/daily-summary" }),
+      ])
+    );
+    expect(diagnostics.health.subsystems).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          key: "daily_operations_loop",
+          label: "Daily operations loop",
+          status: "ready",
+        }),
+      ])
+    );
+
+    await page.goto("/");
+    await expect(page.locator("main").first()).toBeVisible();
+    await expect(page.locator("body")).toContainText("Free");
+    await expect(page.locator("body")).toContainText("Pro");
+    await expect(page.locator("body")).toContainText("VIP");
+    await expect(page.locator("body")).toContainText("Institutional");
+    await expect(page.locator("body")).not.toContainText(
+      /Founder Command|daily operations loop|construction memory/i
+    );
+
+    await page.goto("/en");
+    await expect(page.locator("main").first()).toBeVisible();
+    await expect(page.locator("body")).toContainText("Trading Workstation Core");
+    await expect(page.locator("body")).toContainText(/EUR\/USD|BTC\/USD|AAPL/i);
+  });
+
   test("reports founder local command shell without public exposure or approval execution", async ({
     request,
   }) => {

@@ -15,6 +15,8 @@ import { getGrowthIntelligenceReadinessSnapshot } from "@/lib/server/growth-inte
 import { getJournalCoachSnapshot } from "@/lib/server/journal-coach";
 import {
   getLocalDayOneReadinessSnapshot,
+  getLocalDailyOperationsLoopSnapshot,
+  getLocalDailyOperationsReportSnapshot,
   getLocalOperationsFinalReportSnapshot,
   getLocalOperationsReadinessSnapshot,
 } from "@/lib/server/local-ops";
@@ -26,7 +28,10 @@ import {
   getPlanetGovernanceSnapshot,
 } from "@/lib/server/planet-os";
 import { getProductTruthSnapshot } from "@/lib/server/product";
-import { getProductMemorySummarySnapshot } from "@/lib/server/product-memory";
+import {
+  getProductMemoryDailySummarySnapshot,
+  getProductMemorySummarySnapshot,
+} from "@/lib/server/product-memory";
 import {
   getProductRealityFinalScoreSnapshot,
   getProductRealityScoreSnapshot,
@@ -109,8 +114,12 @@ export function getFounderCommandAppSnapshot(
   const trustGovernor = getTrustGovernorSnapshot(checkedAt);
   const localOps = getLocalOperationsReadinessSnapshot(checkedAt);
   const localDayOne = getLocalDayOneReadinessSnapshot(checkedAt);
+  const localDailyLoop = getLocalDailyOperationsLoopSnapshot(checkedAt);
+  const localDailyReport = getLocalDailyOperationsReportSnapshot(checkedAt);
   const localFinalReport = getLocalOperationsFinalReportSnapshot(checkedAt);
   const productMemory = getProductMemorySummarySnapshot(checkedAt);
+  const productMemoryDailySummary =
+    getProductMemoryDailySummarySnapshot(checkedAt);
   const localCommandAccess = getFounderLocalCommandAccessSnapshot(checkedAt);
   const buildRoom = getFounderBuildRoomSnapshot(checkedAt);
   const designMinistry = getDesignMinistrySnapshot(checkedAt);
@@ -404,9 +413,28 @@ export function getFounderCommandAppSnapshot(
       readiness: "readiness_only" as const,
       doctrine: localOps.doctrine,
       dayCycle: localOps.dayCycle,
+      dailyLoop: {
+        status: localDailyLoop.status,
+        totalStages: localDailyLoop.summary.totalStages,
+        memoryTouchpoints: localDailyLoop.summary.memoryTouchpoints,
+        codexTouchpoints: localDailyLoop.summary.codexTouchpoints,
+        automaticLaunch: localDailyLoop.summary.automaticLaunch,
+        secretStorageIncluded: localDailyLoop.summary.secretStorageIncluded,
+        surveillanceIncluded: localDailyLoop.summary.surveillanceIncluded,
+      },
       readinessLaw: localOps.readinessLaw,
       digitalTwin: localOps.digitalTwin,
       founderAcceptance: localOps.founderAcceptance,
+      dailyReport: {
+        dayNumber: localDailyReport.dayNumber,
+        readiness: localDailyReport.readiness.state,
+        productRealityOverall: localDailyReport.scores.productRealityOverall,
+        openGaps: localDailyReport.gaps.length,
+        suggestedTask: localDailyReport.nextTask.title,
+        validationStatus: localDailyReport.validation.status,
+        gitClean: localDailyReport.gitClean,
+        launchForbiddenReminder: localDailyReport.launchForbiddenReminder,
+      },
       localReport: {
         localDayNumber: localOps.report.localDayNumber,
         readinessState: localOps.report.readinessState,
@@ -421,6 +449,24 @@ export function getFounderCommandAppSnapshot(
       nextSafeLocalActions: localOps.report.nextActions,
       launchForbiddenReminder: localOps.report.launchForbiddenReminder,
       launchAutomationActive: false,
+    },
+    dailyOperationsMemoryLoop: {
+      readiness: "ready" as const,
+      latestLocalDay: {
+        dayNumber: productMemoryDailySummary.latestLocalDay.dayNumber,
+        readinessState:
+          productMemoryDailySummary.latestLocalDay.readinessState,
+        validationStatus:
+          productMemoryDailySummary.latestLocalDay.validationStatus,
+        gitClean: productMemoryDailySummary.latestLocalDay.gitClean,
+      },
+      openGaps: productMemoryDailySummary.productGaps.open,
+      suggestedTask: productMemoryDailySummary.suggestedNextTask,
+      memoryStatus: productMemoryDailySummary.memoryStatus,
+      validationStatus: productMemoryDailySummary.validation,
+      launchForbiddenReminder:
+        productMemoryDailySummary.latestLocalDay.launchForbiddenReminder,
+      truth: productMemoryDailySummary.truth,
     },
     localDayOneAcceptance: {
       readiness: "local_day_one_gate" as const,
@@ -455,6 +501,17 @@ export function getFounderCommandAppSnapshot(
       readiness: "safe_local_internal_foundation" as const,
       storage: productMemory.storage,
       domainSummary: productMemory.domainSummary,
+      dailySummary: {
+        loopStages: productMemoryDailySummary.dailyLoop.totalStages,
+        latestLocalDay:
+          productMemoryDailySummary.latestLocalDay.dayNumber,
+        openProductGaps: productMemoryDailySummary.productGaps.open,
+        validationCommands: productMemoryDailySummary.validation.commands,
+        suggestedNextTask:
+          productMemoryDailySummary.suggestedNextTask.title,
+        automaticLaunch:
+          productMemoryDailySummary.dailyLoop.automaticLaunch,
+      },
       recentFounderAcceptance:
         productMemory.founderSummary.recentAcceptanceDecisions.length,
       openProductGaps: productMemory.founderSummary.openProductGaps.length,
@@ -643,6 +700,8 @@ export function getFounderCommandAppSnapshot(
       "/api/founder/construction/readiness",
       "/api/local-ops/day-cycle",
       "/api/local-ops/day-one",
+      "/api/local-ops/daily-loop",
+      "/api/local-ops/daily-report",
       "/api/local-ops/readiness-law",
       "/api/local-ops/report",
       "/api/local-ops/final-report",
@@ -653,6 +712,7 @@ export function getFounderCommandAppSnapshot(
       "/api/product-memory/founder-acceptance",
       "/api/product-memory/product-gaps",
       "/api/product-memory/local-day",
+      "/api/product-memory/daily-summary",
       "/api/product-memory/validation-summary",
       "/api/brand-intelligence/summary",
       "/api/brand-intelligence/simulation",
