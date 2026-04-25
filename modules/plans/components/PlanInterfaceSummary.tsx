@@ -1,7 +1,4 @@
-import {
-  getPlanInterfaceLayer,
-  getUserFacingPlanInterfaceLayers,
-} from "@/lib/plans/interface-architecture";
+import { getUserFacingPlanInterfaceLayers } from "@/lib/plans/interface-architecture";
 import { getPlanVisualIdentity } from "@/lib/plans/visual-identity";
 
 type PlanInterfaceSummaryProps = {
@@ -13,7 +10,6 @@ export default function PlanInterfaceSummary({
   compact = false,
   currentLayer = "demo_free",
 }: PlanInterfaceSummaryProps) {
-  const founderLayer = getPlanInterfaceLayer("founder_king");
   const layers = getUserFacingPlanInterfaceLayers();
 
   return (
@@ -50,13 +46,6 @@ export default function PlanInterfaceSummary({
         })}
       </div>
 
-      <aside className="tpm-plan-interface-founder-boundary">
-        <strong>{founderLayer.headline}</strong>
-        <p>
-          Restricted controls stay separate from user plans. They are not a Pro, VIP,
-          Institutional, or upgrade surface, and they stay hidden from public navigation.
-        </p>
-      </aside>
     </div>
   );
 }

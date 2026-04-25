@@ -6436,6 +6436,76 @@ html[data-theme="light"] {
   border-color: color-mix(in srgb, #5da7ff 26%, var(--tpm-celestial-border));
 }
 
+.tpm-public-world-nav-grid,
+.tpm-public-readiness-grid,
+.tpm-public-pill-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.tpm-public-world-nav-grid {
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+}
+
+.tpm-public-readiness-grid {
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+}
+
+.tpm-public-world-nav-card {
+  min-height: 112px;
+  border: 1px solid color-mix(in srgb, var(--tpm-celestial-border) 88%, transparent);
+  border-radius: 14px;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--tpm-celestial-panel) 78%, transparent), color-mix(in srgb, var(--tpm-celestial-panel-soft) 72%, transparent));
+  color: var(--tpm-text);
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+  text-decoration: none;
+}
+
+.tpm-public-world-nav-card strong {
+  color: var(--tpm-celestial-gold);
+  font-size: 15px;
+}
+
+.tpm-public-world-nav-card span {
+  color: var(--tpm-text-soft);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.tpm-public-pill-grid {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.tpm-public-pill-grid span {
+  min-height: 44px;
+  border: 1px solid color-mix(in srgb, var(--tpm-celestial-border) 86%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--tpm-celestial-panel-soft) 76%, transparent);
+  color: var(--tpm-text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 14px;
+  text-align: center;
+}
+
+.tpm-foundation-nav-links {
+  max-width: min(64vw, 920px);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.tpm-foundation-nav-links::-webkit-scrollbar {
+  display: none;
+}
+
+.tpm-foundation-link {
+  flex: 0 0 auto;
+}
+
 .tpmv2-shell-desktop,
 .tpmv2-main {
   background:

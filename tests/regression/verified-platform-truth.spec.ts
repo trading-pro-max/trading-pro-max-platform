@@ -453,10 +453,14 @@ test.describe("verified platform truth", () => {
       expect(publicNavText).not.toMatch(/Founder Command|Command Room/);
       const publicBodyText = await page.locator("body").innerText();
       expect(publicBodyText).not.toMatch(
-        /Founder Command|Founder King|Kingdom|\bministries\b|\bcouncils\b|Presidency|government model|Planet OS|Planet governance|\bPlanet\b|\bEnterprise\b|Owner command|Owner-only|owner-only|private command|internal governance|ruler|TPM Companion|Demo \/ Paper/i
+        /Founder Command|Founder King|Kingdom|\bministries\b|\bcouncils\b|Presidency|government model|Planet OS|Planet governance|\bPlanet\b|\bEnterprise\b|Owner command|Owner-only|owner-only|private command|internal governance|ruler|construction queue|Codex task|secrets authority|treasury controls|security sovereignty|product memory internals|local operations|local universe|TPM Companion|Demo \/ Paper/i
       );
 
       if (route.path === "/") {
+        const publicNavText = await page.locator(".tpm-foundation-nav-links").innerText();
+        expect(publicNavText).toMatch(
+          /Home|Trading Workspace|Markets|Plans|Apps \/ Platforms|Academy|Community|Support|Settings|Diagnostics/
+        );
         await expect(page.locator(".tpm-product-entry").first()).toBeVisible();
         await expect(page.locator(".tpm-product-hero").first()).toBeVisible();
         await expect(page.locator(".tpm-product-workstation-shell").first()).toBeVisible();
@@ -506,6 +510,18 @@ test.describe("verified platform truth", () => {
         );
         await expect(page.locator("body")).toContainText(
           /Plans at a glance|Free|Pro|VIP|Institutional|Familiar paper trading/
+        );
+        await expect(page.locator("body")).toContainText(
+          /Product navigation|Markets|Apps \/ Platforms|Academy|Community|Support/
+        );
+        await expect(page.locator("#apps-platforms")).toContainText(
+          /Web App|Available \/ Current|Desktop App|Planned|Mobile App|Tablet|Future/
+        );
+        await expect(page.locator("#support")).toContainText(
+          /Help Center readiness|Contact Support readiness|Report a Problem|Security Contact|Partnership Contact/
+        );
+        await expect(page.locator("#community")).toContainText(
+          /Planned learning spaces|no fake members|no active signal rooms/
         );
         await expect(page.locator("body")).toContainText(
           /TPM Assistant|Basic guidance|Chart first|Paper-safe/
@@ -644,7 +660,7 @@ test.describe("verified platform truth", () => {
           /Plan capability truth|Paper-session guidance|No financial advice/
         );
         await expect(page.locator("body")).toContainText(
-          /Current plan|Plan capability truth|Familiar paper trading layer|Restricted controls stay separate/
+          /Current plan|Plan capability truth|Familiar paper trading layer|Free|Pro|VIP|Institutional/
         );
         if (route.path === "/en/settings" || route.path === "/settings") {
           await expect(page.locator(".tpm-plan-experience-card")).toHaveCount(4);
@@ -666,9 +682,104 @@ test.describe("verified platform truth", () => {
           await expect(page.locator("body")).toContainText(
             /Safety integration readiness|Assistant context|Automation boundary/
           );
+          await expect(page.locator("body")).toContainText(
+            /Service readiness chain|Public\/private surface readiness|Safe note readiness/
+          );
         }
       }
     }
+  });
+
+  test("enforces dual-world public, private, and invisible layer boundaries", async ({
+    page,
+    request,
+  }) => {
+    const requiredDocs = [
+      "docs/product/tpm-dual-world-operating-civilization.md",
+      "docs/product/public-user-world.md",
+      "docs/product/private-founder-command-world.md",
+      "docs/product/invisible-operating-layer.md",
+      "docs/product/public-private-surface-boundaries.md",
+      "docs/product/invisible-layer-output-mapping.md",
+      "docs/product/public-product-navigation.md",
+      "docs/product/tpm-assistant-boundaries.md",
+    ];
+
+    for (const docPath of requiredDocs) {
+      expect(fs.existsSync(path.join(process.cwd(), docPath))).toBe(true);
+    }
+
+    const boundaryTypes = fs.readFileSync(
+      path.join(process.cwd(), "lib/server/surface-boundaries/types.ts"),
+      "utf8"
+    );
+    const boundaryState = fs.readFileSync(
+      path.join(process.cwd(), "lib/server/surface-boundaries/state.ts"),
+      "utf8"
+    );
+    const outputMapper = fs.readFileSync(
+      path.join(process.cwd(), "lib/server/surface-boundaries/output-mapper.ts"),
+      "utf8"
+    );
+
+    expect(boundaryTypes).toContain("public_user");
+    expect(boundaryTypes).toContain("private_founder");
+    expect(boundaryTypes).toContain("invisible_operating_layer");
+    expect(boundaryState).toContain("public_entry");
+    expect(boundaryState).toContain("founder_command");
+    expect(boundaryState).toContain("construction_queue");
+    expect(outputMapper).toContain("Live execution is not active.");
+    expect(outputMapper).toContain("Billing is not active.");
+    expect(outputMapper).toContain("VIP is planned.");
+
+    await page.goto("/");
+    const navText = await page.locator(".tpm-foundation-nav-links").innerText();
+    for (const label of [
+      "Home",
+      "Trading Workspace",
+      "Markets",
+      "Plans",
+      "Apps / Platforms",
+      "Academy",
+      "Community",
+      "Support",
+      "Settings",
+      "Diagnostics",
+    ]) {
+      expect(navText).toContain(label);
+    }
+
+    await expect(page.locator("#markets")).toContainText(/Forex|Crypto|Commodities|Indices|Stocks/);
+    await expect(page.locator("#apps-platforms")).toContainText(/Web App|Desktop App|Mobile App|Tablet/);
+    await expect(page.locator("#academy")).toContainText(/Getting started|Paper trading basics|Why Blocked|TPM Assistant guide/);
+    await expect(page.locator("#community")).toContainText(/Learning community|Feedback room|Pro community|VIP rooms/);
+    await expect(page.locator("#support")).toContainText(/Help Center readiness|Security Contact|Partnership Contact/);
+
+    const forbiddenPublicTerms =
+      /Founder Command|Founder King|Kingdom|\bministries\b|\bcouncils\b|Presidency|government model|Planet OS|Planet governance|\bPlanet\b|\bEnterprise\b|Owner command|Owner-only|owner-only|private command|internal governance|ruler|construction queue|Codex task|secrets authority|treasury controls|security sovereignty|product memory internals|local operations|local universe/i;
+
+    expect(await page.locator("body").innerText()).not.toMatch(forbiddenPublicTerms);
+
+    await page.goto("/settings");
+    expect(await page.locator("body").innerText()).not.toMatch(forbiddenPublicTerms);
+    await expect(page.locator("body")).toContainText(/Account session|Theme and language|Plan capability truth|Paper-session guidance/);
+
+    await page.goto("/diagnostics");
+    expect(await page.locator("body").innerText()).not.toMatch(forbiddenPublicTerms);
+    await expect(page.locator("body")).toContainText(/System readiness|Assistant readiness|Service readiness chain|Product trust ledger/);
+
+    const companionContext = await (await request.get("/api/companion/context")).json();
+    expect(JSON.stringify(companionContext.samples)).not.toMatch(forbiddenPublicTerms);
+
+    const diagnostics = await (await request.get("/api/diagnostics/probes")).json();
+    expect(diagnostics.health.subsystems).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          key: "surface_boundaries",
+          status: "ready",
+        }),
+      ])
+    );
   });
 
   test("protects the living identity OS contracts", () => {
@@ -1338,6 +1449,14 @@ test.describe("verified platform truth", () => {
     expect(diagnostics.status()).toBe(200);
     const diagnosticsPayload = await diagnostics.json();
     expect(diagnosticsPayload.ok).toBe(true);
+    expect(diagnosticsPayload.health.subsystems).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          key: "surface_boundaries",
+          summary: expect.stringContaining("Public and private surfaces"),
+        }),
+      ])
+    );
 
     const planetStatus = await request.get("/api/planet/status");
     expect(planetStatus.status()).toBe(200);
@@ -2259,10 +2378,10 @@ test.describe("verified platform truth", () => {
           state: "planned",
         }),
         expect.objectContaining({
-          input: "why Founder Command private",
-          intent: "founder_unavailable_for_user",
-          state: "blocked",
-        }),
+            input: "why is that area separate",
+            intent: "founder_unavailable_for_user",
+            state: "blocked",
+          }),
         expect.objectContaining({
           input: "help me journal",
           intent: "journal_prompt",
@@ -2282,6 +2401,9 @@ test.describe("verified platform truth", () => {
     );
     expect(JSON.stringify(companionContextPayload.samples)).not.toMatch(
       /guaranteed signal|win-rate claim|financial advice|legal advice/i
+    );
+    expect(JSON.stringify(companionContextPayload.samples)).not.toMatch(
+      /Founder Command|Founder King|Kingdom|\bministries\b|\bcouncils\b|presidency|construction queue|Codex task|secrets authority|treasury controls/i
     );
     expect(JSON.stringify(companionContextPayload)).not.toMatch(
       /execute trade now|activate live now|DATABASE_URL/i
@@ -5215,7 +5337,7 @@ test.describe("verified platform truth", () => {
 
     await page.goto("/diagnostics");
     await expect(page.locator("main").first()).toBeVisible();
-    await expect(page.locator("body")).toContainText("Product memory readiness");
+    await expect(page.locator("body")).toContainText("Safe note readiness");
     await expect(page.locator("body")).toContainText("Secret storage");
     await expect(page.locator("body")).not.toContainText(/Enterprise|TPM Companion/);
   });
@@ -6190,8 +6312,8 @@ test.describe("verified platform truth", () => {
 
     await page.goto("/diagnostics");
     await expect(page.locator("main").first()).toBeVisible();
-    await expect(page.locator("body")).toContainText("Local acceptance gate");
-    await expect(page.locator("body")).toContainText("Local Day One Operation");
+    await expect(page.locator("body")).toContainText("Local-only review readiness");
+    await expect(page.locator("body")).toContainText("Local-only review");
     await expect(page.locator("body")).toContainText("Ready for local review");
     await expect(page.locator("body")).toContainText("Product reality score");
     await expect(page.locator("body")).not.toContainText(/Enterprise|TPM Companion/);
@@ -7580,8 +7702,8 @@ test.describe("verified platform truth", () => {
 
     await page.goto("/diagnostics");
     await expect(page.locator("main").first()).toBeVisible();
-    await expect(page.locator("body")).toContainText("Media Office");
-    await expect(page.locator("body")).toContainText("AI Video Studio");
+    await expect(page.locator("body")).toContainText("Updates");
+    await expect(page.locator("body")).toContainText("Video scripts");
     await expect(page.locator("body")).toContainText("scheduled later");
     await expect(page.locator("body")).not.toContainText(
       /publish now|published|views active|secret token value|guaranteed profit|win-rate|Founder Command/i

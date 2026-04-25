@@ -15,14 +15,14 @@ const channels = [
 
 export default function MediaOfficeReadinessPanel() {
   return (
-    <section className="tpm-media-office-panel" aria-label="Media Office readiness">
+    <section className="tpm-media-office-panel" aria-label="Updates readiness">
       <header>
-        <span>Media Office</span>
-        <h2>Draft, review, approval readiness</h2>
+        <span>Updates</span>
+        <h2>Draft and review readiness</h2>
         <p>
-          Media and AI video are readiness surfaces only. Drafts, campaign
-          planning, and scripts require review. No social accounts, tokens,
-          uploads, publishing, followers, views, or ads exist.
+          Education posts, product updates, and video scripts are readiness
+          surfaces only. Drafts, campaign planning, and scripts require review.
+          No social accounts, tokens, uploads, publishing, followers, views, or ads exist.
         </p>
       </header>
 

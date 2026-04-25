@@ -13,8 +13,6 @@ export default function CitizenAccessMap({
   const userFacingLayers = layers.filter(
     (layer) => layer.citizenClass !== "staff_operator" && layer.citizenClass !== "founder_king"
   );
-  const founderLayer = layers.find((layer) => layer.citizenClass === "founder_king");
-
   return (
     <div className="tpm-citizen-access-map" aria-label="Plan access map">
       <div className="tpm-citizen-access-grid">
@@ -27,16 +25,6 @@ export default function CitizenAccessMap({
           />
         ))}
       </div>
-
-      {founderLayer ? (
-        <aside className="tpm-founder-access-boundary">
-          <strong>Restricted controls boundary</strong>
-          <p>
-            Restricted controls are separate from public plans, read-only by
-            default, and never part of Free, Pro, VIP, or Institutional.
-          </p>
-        </aside>
-      ) : null}
     </div>
   );
 }

@@ -12,12 +12,24 @@ const states: ContentLifecycleState[] = [
   "archived",
 ];
 
+const publicStateLabels: Record<ContentLifecycleState, string> = {
+  idea: "idea",
+  draft: "draft",
+  brand_review: "brand review",
+  guardian_review: "safety review",
+  legal_review: "claim review",
+  founder_approval: "final approval",
+  scheduled_later: "scheduled later",
+  blocked: "blocked",
+  archived: "archived",
+};
+
 export default function ContentLifecyclePreview() {
   return (
     <div className="tpm-content-lifecycle" aria-label="Content lifecycle readiness">
       {states.map((state) => (
         <span key={state} data-state={state}>
-          {state.replaceAll("_", " ")}
+          {publicStateLabels[state]}
         </span>
       ))}
     </div>

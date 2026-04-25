@@ -7,6 +7,7 @@ import type {
 } from "./types";
 import { getJournalCoachSnapshot } from "@/lib/server/journal-coach";
 import { getStateExplanation } from "@/lib/server/state-explanations";
+import { mapInvisibleLayerOutput } from "@/lib/server/surface-boundaries";
 import { classifyCompanionIntent, getCompanionBlockedIntent } from "./intents";
 
 export type CompanionResponseTemplate = {
@@ -40,7 +41,6 @@ export function buildCompanionResponseTemplates(
   const islamic = getStateExplanation("islamic_certification_not_certified");
   const launch = getStateExplanation("launch_not_active");
   const social = getStateExplanation("social_publishing_inactive");
-  const ownerCommand = getStateExplanation("founder_command_private");
   const journalCoach = getJournalCoachSnapshot(context.checkedAt);
 
   return [
@@ -126,7 +126,7 @@ export function buildCompanionResponseTemplates(
       intent: "guide_to_diagnostics",
       title: "Go to diagnostics",
       body:
-        "Diagnostics shows readiness, blocked conditions, engines, economy/media readiness, and connector truth without raw secrets or restricted controls.",
+        "Diagnostics shows public-safe readiness, blocked conditions, service availability, plan truth, Assistant readiness, Journal/Coach readiness, and Product Truth without raw secrets or private command details.",
       safeNextStep: "Open Diagnostics to verify readiness and fallback state.",
       state: "ready",
     },
@@ -196,9 +196,9 @@ export function buildCompanionResponseTemplates(
     },
     {
       intent: "founder_unavailable_for_user",
-      title: "Restricted controls are separate",
-      body: ownerCommand.userCopy,
-      safeNextStep: "Use user-facing settings, diagnostics, feedback, and plan access instead.",
+      title: "Separate access",
+      body: mapInvisibleLayerOutput("founder_command_private"),
+      safeNextStep: "Use Settings, Diagnostics, feedback, and plan access instead.",
       state: "blocked",
     },
   ];
@@ -256,7 +256,7 @@ export function buildCompanionDailyUseSamples(
     "what is VIP",
     "why billing inactive",
     "why Institutional future",
-    "why Founder Command private",
+    "why is that area separate",
     "help me journal",
     "explain paper mode",
     "draft feedback",

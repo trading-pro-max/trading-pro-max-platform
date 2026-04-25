@@ -73,13 +73,26 @@ function publicEngineLabel(key: string, fallback: string): string {
 function publicDisplayText(value: string): string {
   return value
     .replace(/\bEnterprise\b/g, "Institutional")
-    .replace(/Founder Command/gi, "Restricted controls")
-    .replace(/Founder King/gi, "Restricted controls")
-    .replace(/Owner command/gi, "Restricted controls")
-    .replace(/Owner-only/gi, "Restricted")
+    .replace(/Founder Command/gi, "Advanced controls")
+    .replace(/Founder King/gi, "Advanced controls")
+    .replace(/Owner command/gi, "Advanced controls")
+    .replace(/Owner-only/gi, "Private")
     .replace(/owner-only/gi, "restricted")
-    .replace(/Private command/gi, "Restricted controls")
-    .replace(/private command/gi, "restricted controls")
+    .replace(/Private command/gi, "Advanced controls")
+    .replace(/private command/gi, "advanced controls")
+    .replace(/restricted controls?/gi, "advanced controls")
+    .replace(/restricted-control/gi, "advanced-control")
+    .replace(/construction queue/gi, "build readiness")
+    .replace(/Codex task/gi, "build task")
+    .replace(/Codex-ready/gi, "build-ready")
+    .replace(/Codex/gi, "build assistant")
+    .replace(/secrets authority/gi, "secret safety")
+    .replace(/treasury controls/gi, "billing controls")
+    .replace(/security sovereignty/gi, "safety readiness")
+    .replace(/Product memory/gi, "Safe notes")
+    .replace(/product memory/gi, "safe notes")
+    .replace(/local operations/gi, "local review")
+    .replace(/local universe/gi, "local review")
     .replace(/Planet OS/gi, "product readiness system")
     .replace(/Planet governance/gi, "product readiness")
     .replace(/\bgovernance\b/gi, "readiness")
@@ -88,7 +101,13 @@ function publicDisplayText(value: string): string {
     .replace(/\bministries\b/gi, "readiness reports")
     .replace(/\bcouncils\b/gi, "review gates")
     .replace(/Presidency/gi, "review coordination")
-    .replace(/\bstates\b/gi, "statuses");
+    .replace(/\bstates\b/gi, "statuses")
+    .replace(/Founder approval/gi, "final approval")
+    .replace(/founder approval/gi, "final approval")
+    .replace(/Guardian review/gi, "safety review")
+    .replace(/guardian review/gi, "safety review")
+    .replace(/Legal review/gi, "claim review")
+    .replace(/legal review/gi, "claim review");
 }
 
 function utilitySectionKey(eyebrow: string): string {
@@ -1199,23 +1218,50 @@ export function PlatformDiagnosticsSurface({
       note: "No cultural, religious, political, partnership, or full-UI theme applies automatically.",
     },
   ];
+  const surfaceBoundaryProbe =
+    diagnosticsHealth?.subsystems?.find((subsystem) => subsystem.key === "surface_boundaries") ??
+    diagnosticsHealth?.probes.find((probe) => probe.key === "surface_boundaries");
+  const surfaceBoundaryItems = [
+    {
+      label: "Public/private surface readiness",
+      value: surfaceBoundaryProbe?.summary ?? "Public and private surfaces are separated",
+      tone: surfaceBoundaryProbe
+        ? toneFromProbeStatus(surfaceBoundaryProbe.status)
+        : ("approved" as const),
+      note:
+        surfaceBoundaryProbe?.detail ??
+        "Navigation, settings, diagnostics, Assistant, and plan surfaces show user-safe outputs while internal build and approval systems stay hidden.",
+    },
+    {
+      label: "Public navigation",
+      value: "Complete",
+      tone: "approved" as const,
+      note: "Home, Trading Workspace, Markets, Plans, Apps / Platforms, Academy, Community, Support, Settings, and Diagnostics remain user-facing.",
+    },
+    {
+      label: "Private surface isolation",
+      value: "Hidden",
+      tone: "restricted" as const,
+      note: "Advanced build, note, secret-safety, security, and billing-control systems are not public navigation or plan features.",
+    },
+  ];
   const productMemoryItems =
     productMemoryLoadState.status === "ready"
       ? [
           {
-            label: "Memory mode",
+            label: "Journal memory mode",
             value: productMemoryLoadState.snapshot.storage.persistence.replace(/_/g, " "),
             tone: "pending" as const,
-            note: "Deterministic local/internal readiness only; durable account-safe persistence is planned.",
+            note: "Safe local/session readiness only; durable account-safe persistence is planned.",
           },
           {
-            label: "Memory domains",
+            label: "Safe note types",
             value: `${productMemoryLoadState.snapshot.domainSummary.length} modeled`,
             tone: "approved" as const,
-            note: "Founder acceptance, visual feedback, journal/coach, validation, build decisions, product gaps, and local day reports.",
+            note: "Journal, Coach, validation, visual feedback, and safe product notes are modeled without private sensitive data.",
           },
           {
-            label: "Open product gaps",
+            label: "Open product notes",
             value: `${productMemoryLoadState.snapshot.founderSummary.openProductGaps.length}`,
             tone:
               productMemoryLoadState.snapshot.founderSummary.openProductGaps.length > 0
@@ -1240,18 +1286,18 @@ export function PlatformDiagnosticsSurface({
         ]
       : [
           {
-            label: "Product memory",
+            label: "Journal memory",
             value: productMemoryLoadState.status === "error" ? "Unavailable" : "Loading",
             tone: productMemoryLoadState.status === "error" ? ("restricted" as const) : ("pending" as const),
-            note: "Diagnostics is checking safe local/internal memory readiness.",
+            note: "Diagnostics is checking safe local/session note readiness.",
           },
         ];
 
   const localDayOneItems =
     localDayOneLoadState.status === "ready" && productRealityFinalScoreLoadState.status === "ready"
-      ? [
+        ? [
           {
-            label: "Local Day One Operation",
+            label: "Local-only review",
             value:
               diagnosticsHealth?.subsystems?.find(
                 (subsystem) => subsystem.key === "local_day_one_operation"
@@ -1260,7 +1306,7 @@ export function PlatformDiagnosticsSurface({
             note: "Closed local work-start only: local, paper-safe, non-production, and non-launch.",
           },
           {
-            label: "Local Day One",
+            label: "Local-only status",
             value: localDayOneLoadState.snapshot.readyToStartLocalDayOne
               ? "Ready for local review"
               : "Blocked",
@@ -1276,7 +1322,7 @@ export function PlatformDiagnosticsSurface({
             note: `${productRealityFinalScoreLoadState.snapshot.status}; no 10/10 claim without Ahmad review.`,
           },
           {
-            label: "Ahmad review",
+            label: "Human review",
             value: localDayOneLoadState.snapshot.ahmadHumanReviewRequired
               ? "Required"
               : "Not required",
@@ -1294,7 +1340,7 @@ export function PlatformDiagnosticsSurface({
         ]
       : [
           {
-            label: "Local Day One",
+            label: "Local-only status",
             value:
               localDayOneLoadState.status === "error" ||
               productRealityFinalScoreLoadState.status === "error"
@@ -1370,7 +1416,7 @@ export function PlatformDiagnosticsSurface({
       label: "Community / VIP rooms",
       value: "Planned",
       tone: "pending" as const,
-      note: "Rooms require moderation, entitlement support, safety review, legal review, and private approval review.",
+      note: "Rooms require moderation, entitlement support, safety review, claim review, and final approval review.",
     },
     {
       label: "Partnerships",
@@ -1382,7 +1428,7 @@ export function PlatformDiagnosticsSurface({
       label: "Final acceptance",
       value: "Review only",
       tone: "restricted" as const,
-      note: "Not launch-ready; human visual acceptance, beta testing, legal review, and real environment gates remain.",
+      note: "Not launch-ready; human visual acceptance, beta testing, claim review, and real environment gates remain.",
     },
   ];
   const stateExplanationHighlights =
@@ -1393,20 +1439,18 @@ export function PlatformDiagnosticsSurface({
             "real_money_blocked",
             "billing_inactive",
             "vip_locked",
-            "founder_command_private",
             "social_publishing_inactive",
             "assistant_intent_restricted",
-            "performance_fee_hidden",
           ].includes(explanation.key)
         )
       : [];
 
   const routeItems =
     diagnosticsHealth?.routes.slice(0, 6).map((route) => ({
-      label: `${route.method} ${route.path}`,
+      label: publicDisplayText(`${route.method} ${route.path}`),
       value: route.status,
       tone: toneFromProbeStatus(route.status),
-      note: route.detail,
+      note: publicDisplayText(route.detail),
     })) ?? [
       {
         label: "Routes",
@@ -1681,7 +1725,7 @@ export function PlatformDiagnosticsSurface({
                 ? "Readiness snapshot unavailable"
                 : "Loading readiness snapshot"
             }
-            text="Diagnostics is checking the product readiness model without exposing restricted controls or fake launch claims."
+            text="Diagnostics is checking the product readiness model without exposing advanced controls or fake launch claims."
           />
         )}
       </UtilitySection>
@@ -1719,22 +1763,26 @@ export function PlatformDiagnosticsSurface({
         <UtilityGrid items={brandIntelligenceItems} />
       </UtilitySection>
 
-      <UtilitySection eyebrow="MEMORY" title="Product memory readiness">
+      <UtilitySection eyebrow="BOUNDARIES" title="Public/private surface readiness">
+        <UtilityGrid items={surfaceBoundaryItems} />
+      </UtilitySection>
+
+      <UtilitySection eyebrow="JOURNAL MEMORY" title="Safe note readiness">
         <UtilityGrid items={productMemoryItems} />
       </UtilitySection>
 
-      <UtilitySection eyebrow="LOCAL DAY ONE" title="Local acceptance gate">
+      <UtilitySection eyebrow="LOCAL ONLY" title="Local-only review readiness">
         <UtilityGrid items={localDayOneItems} />
       </UtilitySection>
 
-      <UtilitySection eyebrow="MESH" title="Integration mesh">
+      <UtilitySection eyebrow="SERVICE MAP" title="Service readiness chain">
         {integrationMeshItems.length > 0 ? (
           <UtilityGrid items={integrationMeshItems} />
         ) : (
           <ProductStateNotice
             compact
             kind="loading"
-            title="Integration mesh loading"
+            title="Service readiness loading"
             text="Diagnostics is aligning product truth, plans, Assistant, blocked conditions, safety, content, reporting, and visual readiness."
           />
         )}
@@ -1744,11 +1792,11 @@ export function PlatformDiagnosticsSurface({
         <UtilityGrid items={intelligenceGovernanceItems} />
       </UtilitySection>
 
-      <UtilitySection eyebrow="ECONOMY / MEDIA" title="Growth readiness">
+      <UtilitySection eyebrow="LEARNING / UPDATES" title="Learning and update readiness">
         <UtilityGrid items={economyMediaGrowthItems} />
       </UtilitySection>
 
-      <UtilitySection eyebrow="PRODUCT REALITY" title="Workspace and growth readiness">
+      <UtilitySection eyebrow="PRODUCT READINESS" title="Workspace, Academy, and Community readiness">
         <div className="tpm-product-reality-grid">
           <PlanetMapPreview audience="citizen" />
           <CommunityReadinessPanel />
@@ -1801,7 +1849,7 @@ export function PlatformDiagnosticsSurface({
         )}
       </UtilitySection>
 
-      <UtilitySection eyebrow="PROBES" title="Backend and connector probes">
+      <UtilitySection eyebrow="PROBES" title="Service probes">
         {diagnosticsLoadState.status === "error" ? (
           <ProductStateNotice
             compact
@@ -1841,7 +1889,7 @@ export function PlatformDiagnosticsSurface({
         )}
       </UtilitySection>
 
-      <UtilitySection eyebrow="ROUTES" title="API route visibility">
+      <UtilitySection eyebrow="SERVICE VISIBILITY" title="Protected service visibility">
         {diagnosticsLoadState.status === "ready" ? (
           <UtilityGrid items={routeItems} />
         ) : (

@@ -135,7 +135,7 @@ export const companionAllowedIntents: CompanionIntentAvailability[] = [
   allowedIntent(
     "guide_to_diagnostics",
     "Guide to diagnostics",
-    "Diagnostics guidance only; no restricted controls or private data.",
+    "Diagnostics guidance only; no advanced controls or private data.",
     "compact route and readiness guidance",
     ["secret values", "production keys"]
   ),
@@ -202,9 +202,9 @@ export const companionAllowedIntents: CompanionIntentAvailability[] = [
   ),
   allowedIntent(
     "founder_unavailable_for_user",
-    "Restricted controls unavailable",
-    "Restricted controls are separate and never a user-plan feature.",
-    "clear restricted-access explanation",
+    "Separate access unavailable",
+    "That area is separate and never a user-plan feature.",
+    "clear access-boundary explanation",
     ["admin access", "private route", "plan unlock"],
     { demoFree: "blocked", pro: "blocked", vip: "blocked", enterprise: "blocked" }
   ),
@@ -336,7 +336,7 @@ const intentMatches: IntentMatch[] = [
   { phrases: ["vip"], intent: "explain_plan_access", blocked: false },
   { phrases: ["billing inactive", "why billing"], intent: "explain_billing_inactive", blocked: false },
   { phrases: ["institutional"], intent: "explain_plan_access", blocked: false },
-  { phrases: ["founder command", "restricted controls"], intent: "founder_unavailable_for_user", blocked: false },
+  { phrases: ["founder command", "restricted controls", "private controls", "private control", "that area separate", "area separate"], intent: "founder_unavailable_for_user", blocked: false },
   { phrases: ["journal", "reflection"], intent: "journal_prompt", blocked: false },
   { phrases: ["coach"], intent: "coach_prompt", blocked: false },
   { phrases: ["paper mode", "paper"], intent: "explain_paper_mode", blocked: false },

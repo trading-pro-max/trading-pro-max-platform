@@ -12,9 +12,9 @@ const studioReadiness = [
 
 export default function AIVideoStudioPanel() {
   return (
-    <section className="tpm-ai-video-studio-panel" aria-label="AI Video Studio readiness">
+    <section className="tpm-ai-video-studio-panel" aria-label="Video script readiness">
       <header>
-        <span>AI Video Studio</span>
+        <span>Video scripts</span>
         <h2>Script readiness only</h2>
         <p>
           The studio can model future scripts and review statuses. No generation
@@ -25,7 +25,7 @@ export default function AIVideoStudioPanel() {
         {studioReadiness.map((item) => (
           <article key={item}>
             <strong>{item}</strong>
-            <small>Safety + legal + private approval review required</small>
+            <small>Safety + claim + final approval review required</small>
           </article>
         ))}
       </div>

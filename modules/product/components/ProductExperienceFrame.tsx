@@ -30,12 +30,19 @@ export default function ProductExperienceFrame({
   const settingsHref =
     routeMode === "localized" ? `/${locale}/settings` : "/settings";
   const feedbackHref = `${diagnosticsHref}#feedback`;
+  const rootAnchor = (hash: string) => (routeMode === "localized" ? `/${hash}` : `/${hash}`);
 
   const navItems = [
-    { href: "/", label: dict.nav.product },
-    { href: workspaceHref, label: dict.nav.trade },
-    { href: diagnosticsHref, label: dict.nav.diagnostics },
+    { href: "/", label: "Home" },
+    { href: workspaceHref, label: "Trading Workspace" },
+    { href: rootAnchor("#markets"), label: "Markets" },
+    { href: rootAnchor("#plans"), label: "Plans" },
+    { href: rootAnchor("#apps-platforms"), label: "Apps / Platforms" },
+    { href: rootAnchor("#academy"), label: "Academy" },
+    { href: rootAnchor("#community"), label: "Community" },
+    { href: rootAnchor("#support"), label: "Support" },
     { href: settingsHref, label: dict.nav.settings },
+    { href: diagnosticsHref, label: dict.nav.diagnostics },
   ];
 
   return (

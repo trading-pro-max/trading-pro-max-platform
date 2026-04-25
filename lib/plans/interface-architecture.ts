@@ -64,7 +64,7 @@ export const PLAN_INTERFACE_LAYERS: PlanInterfaceLayer[] = [
       "settings and diagnostics truth",
     ],
     hiddenFromThisLayer: [
-      "restricted controls",
+      "private controls",
       "internal governance detail",
       "advanced Assistant",
       "advanced reports",
@@ -98,7 +98,7 @@ export const PLAN_INTERFACE_LAYERS: PlanInterfaceLayer[] = [
       "alerts and workflows planned",
       "Pro community planned",
     ],
-    hiddenFromThisLayer: ["restricted controls", "advanced Assistant", "billing controls", "revenue research"],
+    hiddenFromThisLayer: ["private controls", "advanced Assistant", "billing controls", "revenue research"],
     safeCopy:
       "Pro is planned and locked. It can be described as roadmap value, not as active paid access.",
     mustNotClaim: ["Pro active", "checkout active", "premium signal", "better outcome"],
@@ -111,7 +111,7 @@ export const PLAN_INTERFACE_LAYERS: PlanInterfaceLayer[] = [
     headline: "Elite premium workspace layer",
     experience:
       "A planned premium layer for advanced Assistant, advanced coaching, advanced journal analytics, strategy review, premium reports, and private rooms.",
-    surfaceDepth: "Highest user-facing product depth, still separated from restricted controls.",
+    surfaceDepth: "Highest user-facing product depth, still separated from private controls.",
     primarySurfaces: [
       "Advanced Assistant planned",
       "advanced Coach planned",
@@ -120,7 +120,7 @@ export const PLAN_INTERFACE_LAYERS: PlanInterfaceLayer[] = [
       "premium reports planned",
       "VIP rooms planned",
     ],
-    hiddenFromThisLayer: ["restricted controls", "critical control gates", "revenue controls"],
+    hiddenFromThisLayer: ["private controls", "critical control gates", "revenue controls"],
     safeCopy:
       "VIP is a planned elite layer. It never implies guaranteed signals, win rates, or active premium access.",
     mustNotClaim: ["VIP active", "guaranteed signals", "win-rate", "priority support active"],
@@ -141,7 +141,7 @@ export const PLAN_INTERFACE_LAYERS: PlanInterfaceLayer[] = [
       "runbook support future",
       "Institutional Assistant future",
     ],
-    hiddenFromThisLayer: ["restricted controls", "approval controls", "restricted control data"],
+    hiddenFromThisLayer: ["private controls", "approval controls", "restricted control data"],
     safeCopy:
       "Institutional remains future planned and unavailable for activation in this build.",
     mustNotClaim: ["Institutional available", "compliance certified", "team admin active"],
@@ -153,8 +153,8 @@ export const PLAN_INTERFACE_LAYERS: PlanInterfaceLayer[] = [
     visualIdentity: "vip",
     headline: "Restricted controls",
     experience:
-      "The restricted controls layer for restricted readiness, risks, revenue controls, media review, approvals, and next safe actions.",
-    surfaceDepth: "Restricted controls architecture, read-only by default, never a user-plan feature.",
+      "The private controls layer for readiness, risks, revenue controls, media review, approvals, and next safe actions.",
+    surfaceDepth: "Private controls architecture, read-only by default, never a user-plan feature.",
     primarySurfaces: [
       "protected command room",
       "protected app shell",
@@ -165,7 +165,7 @@ export const PLAN_INTERFACE_LAYERS: PlanInterfaceLayer[] = [
     ],
     hiddenFromThisLayer: ["public route", "public navigation", "normal user entitlement"],
     safeCopy:
-      "Restricted controls remain separate from Free, Pro, VIP, and Institutional user plans.",
+      "Private controls remain separate from Free, Pro, VIP, and Institutional user plans.",
     mustNotClaim: ["public access", "plan unlock", "critical block override"],
   },
 ];

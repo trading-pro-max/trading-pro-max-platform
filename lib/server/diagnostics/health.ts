@@ -54,6 +54,7 @@ import {
 import { getCommunityReadinessSnapshot } from "@/lib/server/community";
 import { getSecuritySovereigntySnapshot } from "@/lib/server/security-sovereignty";
 import { getSecretsAuthoritySnapshot } from "@/lib/server/secrets-authority";
+import { getSurfaceBoundarySnapshot } from "@/lib/server/surface-boundaries";
 import { getVipRoomsReadinessSnapshot } from "@/lib/server/vip-rooms";
 import { getWorldInterfaceSnapshot } from "@/lib/server/world-interface";
 import { getClientExpansionSnapshot } from "@/lib/server/platform/client-contracts";
@@ -1361,6 +1362,16 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       `Genome, plan DNA, state language, motion safety, occasion governance, and surface simulation are ${brandIntelligenceSummary.status}. Public plans remain ${brandIntelligenceSummary.publicPlanNames.join(" / ")} and no raster assets, external logo assets, fake launch, billing, broker/feed, or live-money state is used.`,
     checkedAt,
   };
+  const surfaceBoundarySnapshot = getSurfaceBoundarySnapshot(checkedAt);
+  const surfaceBoundaryProbe: DiagnosticsProbe = {
+    key: "surface_boundaries",
+    label: "Public/private surface readiness",
+    status: "ready",
+    summary: "Public and private surfaces are separated",
+    detail:
+      `${surfaceBoundarySnapshot.summary.publicSurfaces} user-safe surfaces, ${surfaceBoundarySnapshot.summary.privateFounderSurfaces} private surfaces, and ${surfaceBoundarySnapshot.summary.invisibleLayerSurfaces} internal readiness surfaces are classified. Public navigation is complete and advanced systems remain unlinked.`,
+    checkedAt,
+  };
   const securitySovereigntySnapshot = getSecuritySovereigntySnapshot(checkedAt);
   const securitySovereigntyProbe: DiagnosticsProbe = {
     key: "security_sovereignty",
@@ -1428,6 +1439,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       localDayOneProbe,
       founderBuildRoomProbe,
       brandIntelligenceProbe,
+      surfaceBoundaryProbe,
       securitySovereigntyProbe,
       secretsAuthorityProbe,
       worldInterfaceProbe,
@@ -1753,6 +1765,13 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         status: brandIntelligenceProbe.status,
         summary: brandIntelligenceProbe.summary,
         detail: brandIntelligenceProbe.detail,
+      },
+      {
+        key: "surface_boundaries",
+        label: surfaceBoundaryProbe.label,
+        status: surfaceBoundaryProbe.status,
+        summary: surfaceBoundaryProbe.summary,
+        detail: surfaceBoundaryProbe.detail,
       },
       {
         key: "security_sovereignty",
