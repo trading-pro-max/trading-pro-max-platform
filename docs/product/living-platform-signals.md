@@ -26,3 +26,9 @@ Living Platform Signals are compact visual cues that express safe readiness with
 ## Public UI Rule
 
 Normal users see professional public language only. Internal operating-system terms stay in Founder/internal surfaces and product docs.
+
+# Living Brand Intelligence Alignment
+
+Living platform signals are now interpreted by the Brand Intelligence engine before they become visual expression. The engine considers surface, plan, state, audience, motion preference, legal safety, Guardian safety, chart priority, and Founder preferences.
+
+Signals may influence the Earth Mark, clock, pulse, state label, and Assistant tone. They may not activate live execution, billing, broker/feed, real money, public launch, production, social publishing, or paid-plan access.

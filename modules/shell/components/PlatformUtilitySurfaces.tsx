@@ -1166,6 +1166,39 @@ export function PlatformDiagnosticsSurface({
       note: "State visuals stay tied to paper-safe, blocked, fallback, planned, inactive, and review-required truth.",
     },
   ];
+  const brandIntelligenceProbe = diagnosticsHealth?.probes.find(
+    (probe) => probe.key === "living_brand_intelligence"
+  );
+  const brandIntelligenceItems = [
+    {
+      label: "Identity decisions",
+      value: brandIntelligenceProbe?.summary ?? "State-aware identity ready",
+      tone: brandIntelligenceProbe
+        ? toneFromProbeStatus(brandIntelligenceProbe.status)
+        : ("approved" as const),
+      note:
+        brandIntelligenceProbe?.detail ??
+        "Surface, plan, state, theme, motion preference, and public wording are resolved without images or activation claims.",
+    },
+    {
+      label: "Plan DNA",
+      value: "Free / Pro / VIP / Institutional",
+      tone: "approved" as const,
+      note: "Free stays familiar and paper-safe; Pro, VIP, and Institutional remain truthfully planned or entitlement-based.",
+    },
+    {
+      label: "State language",
+      value: "Truthful",
+      tone: "approved" as const,
+      note: "Paper-safe, blocked, fallback, inactive, planned, future, and review states keep calm public wording.",
+    },
+    {
+      label: "Occasion themes",
+      value: "Opt-in only",
+      tone: "pending" as const,
+      note: "No cultural, religious, political, partnership, or full-UI theme applies automatically.",
+    },
+  ];
   const productMemoryItems =
     productMemoryLoadState.status === "ready"
       ? [
@@ -1671,6 +1704,10 @@ export function PlatformDiagnosticsSurface({
 
       <UtilitySection eyebrow="VISUAL DESIGN" title="Plan identity and platform design">
         <UtilityGrid items={designMinistryItems} />
+      </UtilitySection>
+
+      <UtilitySection eyebrow="IDENTITY" title="Living brand intelligence">
+        <UtilityGrid items={brandIntelligenceItems} />
       </UtilitySection>
 
       <UtilitySection eyebrow="MEMORY" title="Product memory readiness">

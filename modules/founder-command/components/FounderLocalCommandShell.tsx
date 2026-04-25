@@ -30,8 +30,10 @@ export default function FounderLocalCommandShell({
         <TPMEarthMark
           animated
           className="tpm-founder-local-mark"
+          motionIntensity="medium"
           size={72}
           state="local_only"
+          surface="local_command"
           title="Trading Pro Max local command mark"
           variant="command"
         />

@@ -1,4 +1,9 @@
 import type { CSSProperties } from "react";
+import type {
+  BrandMotionIntensity,
+  BrandOccasionThemeKey,
+  BrandSurface,
+} from "@/lib/brand/types";
 
 export type TPMEarthMarkVariant = "public" | "compact" | "command";
 
@@ -16,8 +21,11 @@ export type TPMEarthMarkState =
 type TPMEarthMarkProps = {
   animated?: boolean;
   className?: string;
+  motionIntensity?: BrandMotionIntensity;
+  occasionTheme?: BrandOccasionThemeKey;
   size?: number | string;
   state?: TPMEarthMarkState;
+  surface?: BrandSurface;
   title?: string;
   variant?: TPMEarthMarkVariant;
 };
@@ -33,12 +41,17 @@ function sizeStyle(size?: number | string): CSSProperties | undefined {
 export default function TPMEarthMark({
   animated = false,
   className,
+  motionIntensity = animated ? "low" : "none",
+  occasionTheme = "default",
   size,
   state = "ready",
+  surface,
   title = "Trading Pro Max Earth Mark",
   variant = "compact",
 }: TPMEarthMarkProps) {
   const stateClassName = state.replaceAll("_", "-");
+  const occasionClassName = occasionTheme.replaceAll("_", "-");
+  const surfaceClassName = surface?.replaceAll("_", "-");
 
   return (
     <span
@@ -48,6 +61,9 @@ export default function TPMEarthMark({
         `tpm-earth-mark-${variant}`,
         `tpm-earth-mark--${stateClassName}`,
         `tpm-earth-mark-${stateClassName}`,
+        `tpm-earth-mark--motion-${motionIntensity}`,
+        `tpm-earth-mark--occasion-${occasionClassName}`,
+        surfaceClassName ? `tpm-earth-mark--surface-${surfaceClassName}` : null,
         animated ? "tpm-earth-mark--animated" : null,
         animated ? "tpm-earth-mark-animated" : null,
         className,
@@ -55,7 +71,10 @@ export default function TPMEarthMark({
         .filter(Boolean)
         .join(" ")}
       data-animated={animated ? "true" : "false"}
+      data-motion-intensity={motionIntensity}
+      data-occasion-theme={occasionTheme}
       data-state={state}
+      data-surface={surface}
       data-variant={variant}
       style={sizeStyle(size)}
     >

@@ -1,6 +1,7 @@
 import "server-only";
 
 import { getPlanEntitlementSnapshot } from "@/lib/plans/entitlements";
+import { getBrandIntelligenceInternalReadiness } from "@/lib/server/brand-intelligence";
 import {
   getConstructionQueueSnapshot,
   getCodexTaskDraftReadinessSnapshot,
@@ -107,6 +108,7 @@ export function getFounderCommandAppSnapshot(
   const localCommandAccess = getFounderLocalCommandAccessSnapshot(checkedAt);
   const buildRoom = getFounderBuildRoomSnapshot(checkedAt);
   const designMinistry = getDesignMinistrySnapshot(checkedAt);
+  const brandIntelligence = getBrandIntelligenceInternalReadiness(checkedAt);
 
   const desktopApp: FounderCommandDeviceBlueprint = {
     platform: "desktop",
@@ -492,6 +494,21 @@ export function getFounderCommandAppSnapshot(
         publicLanguageGuarded:
           designMinistry.diagnostics.publicLanguageGuarded,
       },
+      livingBrandIntelligence: {
+        status: brandIntelligence.snapshot.status,
+        genomeConstants: brandIntelligence.genome.constants.length,
+        planDNALayers: brandIntelligence.planDNA.length,
+        stateLanguageRules: brandIntelligence.stateLanguage.length,
+        guardianStatus: brandIntelligence.guardian.status,
+        occasionThemes: brandIntelligence.occasionThemes.length,
+        surfaceSimulations: brandIntelligence.simulation.simulations.length,
+        identityMemoryPreferences:
+          brandIntelligence.memory.preferences.length,
+        rasterAssetsUsed: brandIntelligence.snapshot.truth.rasterAssetsUsed,
+        externalImagesUsed: brandIntelligence.snapshot.truth.externalImagesUsed,
+        publicInternalTerminologyLeakAllowed:
+          brandIntelligence.snapshot.truth.publicInternalTerminologyLeakAllowed,
+      },
       visualAcceptance: {
         status: visualAcceptance.status,
         averageScoreEstimate: visualAcceptance.averageScoreEstimate,
@@ -536,6 +553,10 @@ export function getFounderCommandAppSnapshot(
       "/api/product-memory/product-gaps",
       "/api/product-memory/local-day",
       "/api/product-memory/validation-summary",
+      "/api/brand-intelligence/summary",
+      "/api/brand-intelligence/simulation",
+      "/api/brand-intelligence/guardian",
+      "/api/brand-intelligence/occasion-themes",
     ],
     safety: safetySummary,
     blockers: [

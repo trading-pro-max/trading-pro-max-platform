@@ -1,6 +1,7 @@
 import type { AssistantTierKey } from "@/lib/assistant/tiers";
 
 export type PlanVisualKey = "guest" | "demo_free" | "pro" | "vip" | "enterprise";
+export type PublicPlanVisualLabel = "Free" | "Pro" | "VIP" | "Institutional";
 
 export type PlanVisualAvailability =
   | "active"
@@ -202,6 +203,21 @@ export const PLAN_VISUAL_IDENTITY_ORDER: PlanVisualKey[] = [
   "vip",
   "enterprise",
 ];
+
+export const PUBLIC_PLAN_VISUAL_LABELS: PublicPlanVisualLabel[] = [
+  "Free",
+  "Pro",
+  "VIP",
+  "Institutional",
+];
+
+export const PLAN_VISUAL_DNA_SUMMARY = {
+  Free: "familiar, paper-safe, clean, and premium",
+  Pro: "professional, intelligent, focused, graphite, emerald, and silver",
+  VIP: "elite, deep, premium, black, gold, and platinum",
+  Institutional: "formal, controlled, team-ready, navy, platinum, and cyan",
+  Founder: "internal command identity only, never a public plan",
+} as const;
 
 export function getPlanVisualIdentity(key: PlanVisualKey): PlanVisualIdentity {
   return PLAN_VISUAL_IDENTITIES[key];

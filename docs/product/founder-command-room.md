@@ -154,3 +154,20 @@ Founder Command now includes a private Build Room readiness layer for local plat
 The Build Room follows this loop: observe, detect gaps, classify risk, suggest the next build task, draft a Codex command, wait for Ahmad approval, let Codex execute separately, review validation, and update product memory.
 
 No `/founder/build-room` page is exposed in public navigation. The current implementation is component/API only because owner authentication, device trust, step-up confirmation, and audit-backed approval execution are not shipped. No task is sent to Codex automatically.
+
+# Living Brand Intelligence Readiness
+
+Founder Command receives the internal Brand Intelligence readiness summary:
+
+- brand genome constants
+- plan DNA layers
+- state language rules
+- Identity Guardian status
+- identity memory preferences
+- identity evolution rules
+- surface simulation results
+- occasion theme governance
+- no raster/external logo asset truth
+- public/internal vocabulary separation
+
+This readiness is owner-only, read-only, and does not execute approvals or product activation.

@@ -2340,6 +2340,61 @@ html[data-theme="light"] .tpm-brand-lockup-hero .tpm-brand-subline {
   --tpm-earth-market-opacity: 0.74;
 }
 
+.tpm-earth-mark--motion-none {
+  --tpm-earth-orbit-duration: 0s;
+  --tpm-earth-pulse-duration: 0s;
+}
+
+.tpm-earth-mark--motion-low {
+  --tpm-earth-orbit-duration: 18s;
+  --tpm-earth-pulse-duration: 6.4s;
+}
+
+.tpm-earth-mark--motion-medium {
+  --tpm-earth-orbit-duration: 14s;
+  --tpm-earth-pulse-duration: 5.2s;
+}
+
+.tpm-earth-mark--motion-high {
+  --tpm-earth-orbit-duration: 12s;
+  --tpm-earth-pulse-duration: 4.6s;
+}
+
+.tpm-earth-mark--surface-workstation {
+  --tpm-earth-orbit-opacity: 0.66;
+  --tpm-earth-soft-orbit-opacity: 0.28;
+  --tpm-earth-market-opacity: 0.62;
+  filter: none;
+}
+
+.tpm-earth-mark--surface-public-entry {
+  --tpm-earth-orbit-opacity: 0.86;
+  --tpm-earth-soft-orbit-opacity: 0.48;
+}
+
+.tpm-earth-mark--surface-settings,
+.tpm-earth-mark--surface-diagnostics,
+.tpm-earth-mark--surface-assistant,
+.tpm-earth-mark--surface-journal-coach {
+  --tpm-earth-orbit-opacity: 0.76;
+  --tpm-earth-soft-orbit-opacity: 0.34;
+}
+
+.tpm-earth-mark--occasion-local-day-one,
+.tpm-earth-mark--occasion-product-milestone {
+  --tpm-earth-state-accent: var(--tpm-state-ready, #2dd4bf);
+}
+
+.tpm-earth-mark--occasion-maintenance,
+.tpm-earth-mark--occasion-security-review {
+  --tpm-earth-state-accent: var(--tpm-state-warning, #f4d37a);
+}
+
+.tpm-earth-mark--occasion-founder-review,
+.tpm-earth-mark--occasion-custom-founder-theme {
+  --tpm-earth-state-accent: var(--tpm-brand-gold-soft, #f4d37a);
+}
+
 .tpm-earth-mark-ready,
 .tpm-earth-mark--ready {
   --tpm-earth-state-accent: var(--tpm-state-ready, #2dd4bf);
@@ -2494,6 +2549,12 @@ html[data-theme="light"] .tpm-brand-lockup-hero .tpm-brand-subline {
 .tpm-earth-mark--inactive .tpm-earth-orbit,
 .tpm-earth-mark-planned .tpm-earth-orbit,
 .tpm-earth-mark--planned .tpm-earth-orbit {
+  animation: none;
+}
+
+.tpm-earth-mark--motion-none .tpm-earth-orbit,
+.tpm-earth-mark--motion-none .tpm-earth-pulse,
+.tpm-earth-mark--motion-none .tpm-earth-swiss-point {
   animation: none;
 }
 

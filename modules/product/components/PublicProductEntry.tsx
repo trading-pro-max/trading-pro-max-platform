@@ -90,6 +90,9 @@ export default function PublicProductEntry({
             <div className="tpm-product-hero-copy">
               <ProductLogo
                 className="tpm-product-hero-logo"
+                motionIntensity="low"
+                state="paper_safe"
+                surface="public_entry"
                 subtitle="Swiss-inspired intelligent trading workspace"
                 variant="hero"
               />

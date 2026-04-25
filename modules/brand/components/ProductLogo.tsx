@@ -2,14 +2,22 @@ import TPMEarthMark, {
   type TPMEarthMarkState,
   type TPMEarthMarkVariant,
 } from "./TPMEarthMark";
+import type {
+  BrandMotionIntensity,
+  BrandOccasionThemeKey,
+  BrandSurface,
+} from "@/lib/brand/types";
 
 type ProductLogoProps = {
   animated?: boolean;
   className?: string;
   markTitle?: string;
   mode?: "lockup" | "mark-only" | "wordmark-only";
+  motionIntensity?: BrandMotionIntensity;
+  occasionTheme?: BrandOccasionThemeKey;
   showSubtitle?: boolean;
   state?: TPMEarthMarkState;
+  surface?: BrandSurface;
   subtitle?: string;
   variant?: "nav" | "topbar" | "hero" | "auth" | "compact" | "command";
 };
@@ -17,7 +25,10 @@ type ProductLogoProps = {
 type BrandMarkProps = {
   animated?: boolean;
   className?: string;
+  motionIntensity?: BrandMotionIntensity;
+  occasionTheme?: BrandOccasionThemeKey;
   state?: TPMEarthMarkState;
+  surface?: BrandSurface;
   title?: string;
   variant?: TPMEarthMarkVariant;
 };
@@ -37,7 +48,10 @@ function markVariantForLogo(
 export function BrandMark({
   animated = false,
   className,
+  motionIntensity,
+  occasionTheme,
   state = "paper_safe",
+  surface,
   title = "Trading Pro Max Earth Mark",
   variant = "compact",
 }: BrandMarkProps) {
@@ -45,7 +59,10 @@ export function BrandMark({
     <TPMEarthMark
       animated={animated}
       className={["tpm-brand-mark", className].filter(Boolean).join(" ")}
+      motionIntensity={motionIntensity}
+      occasionTheme={occasionTheme}
       state={state}
+      surface={surface}
       title={title}
       variant={variant}
     />
@@ -65,8 +82,11 @@ export default function ProductLogo({
   className,
   markTitle = "Trading Pro Max Earth Mark",
   mode = "lockup",
+  motionIntensity,
+  occasionTheme,
   showSubtitle = true,
   state,
+  surface,
   subtitle = "Global trading foundation",
   variant = "nav",
 }: ProductLogoProps) {
@@ -91,7 +111,10 @@ export default function ProductLogo({
         <BrandMark
           animated={markAnimated}
           className="tpm-brand-lockup-mark"
+          motionIntensity={motionIntensity ?? (markAnimated ? "low" : "none")}
+          occasionTheme={occasionTheme}
           state={markState}
+          surface={surface}
           title={markTitle}
           variant={markVariant}
         />

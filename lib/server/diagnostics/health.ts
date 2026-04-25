@@ -22,6 +22,7 @@ import {
   getFounderBuildRoomReadinessSnapshot,
   getFounderLocalCommandReadinessSnapshot,
 } from "@/lib/server/founder-command";
+import { getPublicBrandIntelligenceSummary } from "@/lib/server/brand-intelligence";
 import { getDesignMinistrySnapshot } from "@/lib/server/design-ministry";
 import {
   getAiIqBrainDeepeningDiagnosticsProbe,
@@ -1299,6 +1300,16 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       `${founderBuildRoomSnapshot.summaries.codexTaskDrafts} Codex task drafts, ${founderBuildRoomSnapshot.summaries.productGaps} product gaps, and ${founderBuildRoomSnapshot.summaries.visualGaps} visual gaps are visible with automatic Codex sending disabled.`,
     checkedAt,
   };
+  const brandIntelligenceSummary = getPublicBrandIntelligenceSummary(checkedAt);
+  const brandIntelligenceProbe: DiagnosticsProbe = {
+    key: "living_brand_intelligence",
+    label: "Living brand intelligence",
+    status: "ready",
+    summary: "Identity decisions are public-safe and state-aware",
+    detail:
+      `Genome, plan DNA, state language, motion safety, occasion governance, and surface simulation are ${brandIntelligenceSummary.status}. Public plans remain ${brandIntelligenceSummary.publicPlanNames.join(" / ")} and no raster assets, external logo assets, fake launch, billing, broker/feed, or live-money state is used.`,
+    checkedAt,
+  };
 
   return {
     ...baseHealth,
@@ -1310,6 +1321,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       founderLocalCommandProbe,
       localDayOneProbe,
       founderBuildRoomProbe,
+      brandIntelligenceProbe,
     ],
     routes: [
       ...baseHealth.routes,
@@ -1411,6 +1423,34 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         detail:
           "Founder Local Day One readiness route summarizes owner-only local gate status without secrets, private data, or approval execution.",
       },
+      {
+        path: "/api/brand-intelligence/summary",
+        method: "GET",
+        status: brandIntelligenceProbe.status,
+        detail:
+          "Living Brand Intelligence summary route reports public-safe identity readiness, plan truth, and motion safety without images, secrets, fake claims, or activation.",
+      },
+      {
+        path: "/api/brand-intelligence/simulation",
+        method: "GET",
+        status: brandIntelligenceProbe.status,
+        detail:
+          "Identity surface simulation route reports redacted surface decisions for public-safe review without restricted vocabulary or private data.",
+      },
+      {
+        path: "/api/brand-intelligence/guardian",
+        method: "GET",
+        status: brandIntelligenceProbe.status,
+        detail:
+          "Identity Guardian route reports public-safe blocked category readiness for motion, claims, plan language, and visual clutter.",
+      },
+      {
+        path: "/api/brand-intelligence/occasion-themes",
+        method: "GET",
+        status: brandIntelligenceProbe.status,
+        detail:
+          "Occasion identity route reports opt-in theme governance without automatic cultural, religious, political, copyrighted, or partnership themes.",
+      },
     ],
     subsystems: [
       ...(baseHealth.subsystems ?? []),
@@ -1455,6 +1495,13 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         status: founderBuildRoomProbe.status,
         summary: founderBuildRoomProbe.summary,
         detail: founderBuildRoomProbe.detail,
+      },
+      {
+        key: "living_brand_intelligence",
+        label: brandIntelligenceProbe.label,
+        status: brandIntelligenceProbe.status,
+        summary: brandIntelligenceProbe.summary,
+        detail: brandIntelligenceProbe.detail,
       },
     ],
     launchReadiness: {

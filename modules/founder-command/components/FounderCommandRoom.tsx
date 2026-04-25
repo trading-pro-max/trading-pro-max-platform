@@ -34,9 +34,18 @@ export default function FounderCommandRoom({
     >
       <header className="tpm-founder-hero">
         <div className="tpm-founder-logo-stack">
-          <TPMEarthMark animated state="local_only" variant="command" />
+          <TPMEarthMark
+            animated
+            motionIntensity="medium"
+            state="local_only"
+            surface="founder_command"
+            variant="command"
+          />
           <ProductLogo
             className="tpm-founder-logo"
+            motionIntensity="medium"
+            state="local_only"
+            surface="founder_command"
             subtitle="Private Founder Command"
             variant="command"
           />

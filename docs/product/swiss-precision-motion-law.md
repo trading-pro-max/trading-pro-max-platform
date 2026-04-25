@@ -36,3 +36,15 @@ Every identity animation must respect `prefers-reduced-motion: reduce`. Reduced-
 ## Product Truth
 
 Motion cannot imply live execution, real money, billing, broker/feed activation, launch, paid plan activation, Swiss legal/company status, Islamic/Sharia certification, partnership, user count, revenue, or performance results.
+
+# Brand Intelligence Motion Enforcement
+
+Motion intensity is resolved by the Brand Intelligence engine:
+
+- workstation: low or none
+- reduced motion: none
+- public entry: low
+- planned/inactive/blocked: static or near-static
+- owner-only command surfaces: medium at most and still calm
+
+High motion is blocked on chart-priority surfaces. Occasion skins cannot increase motion enough to distract from the chart or execution controls.

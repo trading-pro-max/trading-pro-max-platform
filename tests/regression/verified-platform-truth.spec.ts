@@ -657,6 +657,8 @@ test.describe("verified platform truth", () => {
     expect(css).toContain(".tpm-earth-mark--public");
     expect(css).toContain(".tpm-earth-mark--paper-safe");
     expect(css).toContain(".tpm-earth-mark--command");
+    expect(css).toContain(".tpm-earth-mark--motion-none");
+    expect(css).toContain(".tpm-earth-mark--surface-workstation");
     expect(css).toContain("tpm-earth-orbit-breathe");
     expect(css).toContain("tpm-earth-point-pulse");
     expect(css).toContain("prefers-reduced-motion: reduce");
@@ -675,6 +677,13 @@ test.describe("verified platform truth", () => {
       "docs/product/ministry-visual-identity-platform-design.md",
       "docs/product/platform-design-system.md",
       "docs/product/swiss-precision-motion-law.md",
+      "docs/product/tpm-living-brand-intelligence.md",
+      "docs/product/brand-genome.md",
+      "docs/product/identity-guardian.md",
+      "docs/product/identity-memory.md",
+      "docs/product/identity-evolution-system.md",
+      "docs/product/identity-surface-simulation.md",
+      "docs/product/occasion-identity-system.md",
     ];
 
     for (const docPath of identityDocs) {
@@ -712,6 +721,19 @@ test.describe("verified platform truth", () => {
     expect(visualMinistryDoc).toContain("VIP");
     expect(visualMinistryDoc).toContain("Institutional");
     expect(visualMinistryDoc).toContain("Founder Command is not a user plan");
+
+    const brandIntelligenceDoc = fs.readFileSync(
+      "docs/product/tpm-living-brand-intelligence.md",
+      "utf8"
+    );
+    expect(brandIntelligenceDoc).toContain("surface");
+    expect(brandIntelligenceDoc).toContain("motion preference");
+    expect(brandIntelligenceDoc).toContain("SVG/code identity only");
+    expect(brandIntelligenceDoc).toContain("No raster image dependency");
+    expect(brandIntelligenceDoc).toContain("Free");
+    expect(brandIntelligenceDoc).toContain("Pro");
+    expect(brandIntelligenceDoc).toContain("VIP");
+    expect(brandIntelligenceDoc).toContain("Institutional");
   });
 
   test("renders global theme modes, language fallback, and RTL/LTR surfaces", async ({
@@ -5718,6 +5740,193 @@ test.describe("verified platform truth", () => {
     await expect(page.locator("body")).toContainText("Local acceptance gate");
     await expect(page.locator("body")).toContainText("Ready for local review");
     await expect(page.locator("body")).toContainText("Product reality score");
+    await expect(page.locator("body")).not.toContainText(/Enterprise|TPM Companion/);
+  });
+
+  test("reports living brand intelligence without images or unsafe identity claims", async ({
+    page,
+    request,
+  }) => {
+    const endpoints = [
+      "/api/brand-intelligence/summary",
+      "/api/brand-intelligence/simulation",
+      "/api/brand-intelligence/guardian",
+      "/api/brand-intelligence/occasion-themes",
+    ];
+
+    for (const endpoint of endpoints) {
+      const response = await request.get(endpoint);
+      expect(response.status()).toBe(200);
+      const text = await response.text();
+      expect(text).not.toMatch(/api[_-]?key\s*[:=]|password\s*[:=]|secret_value/i);
+      expect(text).not.toMatch(/fake users active|fake revenue active|metrics active/i);
+      expect(text).not.toMatch(/Founder Command|Kingdom|\bministries\b|\bcouncils\b|Planet OS/i);
+      expect(text).not.toMatch(/rasterAssetsUsed":true|externalImagesUsed":true/);
+      expect(text).not.toMatch(/liveExecutionActivated":true|billingActivated":true/);
+    }
+
+    const summary = await (
+      await request.get("/api/brand-intelligence/summary")
+    ).json();
+    expect(summary).toMatchObject({
+      ok: true,
+      status: "ready",
+      publicPlanNames: ["Free", "Pro", "VIP", "Institutional"],
+      publicAssistantName: "TPM Assistant",
+      truth: {
+        rasterAssetsUsed: false,
+        externalImagesUsed: false,
+        liveExecutionActivated: false,
+        realMoneyActivated: false,
+        brokerFeedActivated: false,
+        billingActivated: false,
+        publicLaunchActivated: false,
+        fakeSwissClaim: false,
+        publicInternalTerminologyLeakAllowed: false,
+      },
+    });
+    expect(summary.defaultDecision).toMatchObject({
+      earthMarkVariant: "public",
+      earthMarkState: "paper_safe",
+      motionIntensity: "low",
+      occasionSkin: "default",
+      publicSafe: true,
+    });
+    expect(summary.defaultDecision.allowedTerminology).toEqual(
+      expect.arrayContaining([
+        "Trading Pro Max",
+        "TPM Assistant",
+        "Free",
+        "Pro",
+        "VIP",
+        "Institutional",
+      ])
+    );
+    expect(summary.defaultDecision.blockedTerminology.join(" ")).not.toContain(
+      "Founder Command"
+    );
+
+    const simulation = await (
+      await request.get("/api/brand-intelligence/simulation")
+    ).json();
+    expect(simulation.snapshot).toMatchObject({
+      mode: "identity_surface_simulation",
+      status: "ready",
+      truth: {
+        publicTerminologyChecked: true,
+        chartMotionChecked: true,
+        reducedMotionChecked: true,
+        noFakeActivation: true,
+        publicSafeOutput: true,
+        restrictedVocabularyRedacted: true,
+      },
+    });
+    expect(simulation.snapshot.simulations).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          surface: "workstation",
+          earthMarkVariant: "compact",
+          motionIntensity: "low",
+          chartPriority: "high",
+        }),
+        expect.objectContaining({
+          surface: "restricted_surface",
+          plan: "restricted_internal",
+          audience: "internal",
+        }),
+      ])
+    );
+
+    const guardian = await (
+      await request.get("/api/brand-intelligence/guardian")
+    ).json();
+    expect(guardian.snapshot).toMatchObject({
+      mode: "identity_guardian",
+      status: "ready",
+      truth: {
+        publicInternalTerminologyAllowed: false,
+        fakeClaimsAllowed: false,
+        chartDistractionAllowed: false,
+        publicSafeOutput: true,
+        restrictedVocabularyRedacted: true,
+      },
+    });
+    expect(guardian.snapshot.samples.publicInternalTermLeak.outcome).toBe(
+      "blocked"
+    );
+    expect(guardian.snapshot.samples.fakeSwissClaim.outcome).toBe("blocked");
+    expect(guardian.snapshot.samples.chartHighMotion.outcome).toBe("blocked");
+    expect(guardian.snapshot.blockedCategories).toEqual(
+      expect.arrayContaining([
+        "restricted command as user plan",
+        "legacy non-public plan label",
+        "fake Swiss legal/company claim",
+      ])
+    );
+
+    const occasions = await (
+      await request.get("/api/brand-intelligence/occasion-themes")
+    ).json();
+    expect(occasions.truth).toMatchObject({
+      defaultOnlyAutoApplies: true,
+      religiousCulturalThemesOptInOnly: true,
+      founderApprovalRequiredForPublicOccasions: true,
+      fakePartnershipAllowed: false,
+    });
+    expect(occasions.themes).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ key: "default", autoApplies: true }),
+        expect.objectContaining({
+          key: "ramadan_or_eid_optional",
+          autoApplies: false,
+          founderApprovalRequired: true,
+        }),
+        expect.objectContaining({
+          key: "christmas_optional",
+          autoApplies: false,
+          founderApprovalRequired: true,
+        }),
+      ])
+    );
+
+    const founderCommand = await (
+      await request.get("/api/founder/command/snapshot")
+    ).json();
+    expect(
+      founderCommand.snapshot.engineeringOpsQuality.livingBrandIntelligence
+    ).toMatchObject({
+      status: "ready",
+      guardianStatus: "ready",
+      rasterAssetsUsed: false,
+      externalImagesUsed: false,
+      publicInternalTerminologyLeakAllowed: false,
+    });
+
+    const diagnostics = await (await request.get("/api/diagnostics/probes")).json();
+    expect(diagnostics.health.routes).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ path: "/api/brand-intelligence/summary" }),
+        expect.objectContaining({ path: "/api/brand-intelligence/simulation" }),
+        expect.objectContaining({ path: "/api/brand-intelligence/guardian" }),
+        expect.objectContaining({
+          path: "/api/brand-intelligence/occasion-themes",
+        }),
+      ])
+    );
+    expect(diagnostics.health.subsystems).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          key: "living_brand_intelligence",
+          status: "ready",
+        }),
+      ])
+    );
+
+    await page.goto("/diagnostics");
+    await expect(page.locator("main").first()).toBeVisible();
+    await expect(page.locator("body")).toContainText("Living brand intelligence");
+    await expect(page.locator("body")).toContainText("Identity decisions");
+    await expect(page.locator("body")).toContainText("Occasion themes");
     await expect(page.locator("body")).not.toContainText(/Enterprise|TPM Companion/);
   });
 

@@ -83,3 +83,15 @@ The internal ministry keeps:
 - VIP black / gold / platinum.
 - Institutional navy / platinum / cyan.
 - Founder Command graphite / gold / subtle Swiss red and internal only.
+
+## Living Brand Intelligence Addendum
+
+Plan visual DNA now feeds the Brand Intelligence engine:
+
+- Free: familiar, clean, paper-safe, simple, and moderately differentiated.
+- Pro: professional, intelligent, focused, graphite / emerald / silver, and planned unless entitled.
+- VIP: elite, deep, premium, black / gold / platinum, and never a profit promise.
+- Institutional: formal, controlled, team-ready, navy / platinum / cyan, and future unless entitlement exists.
+- Founder: internal command identity only and never a public plan.
+
+The engine can use plan DNA to choose Earth Mark behavior, accent palette, motion intensity, and safe voice. Styling never overrides Product Truth, Plan Entitlements, Legal, Guardian, or Ahmad review.

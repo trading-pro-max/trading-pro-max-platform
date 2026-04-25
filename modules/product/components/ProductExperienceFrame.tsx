@@ -43,6 +43,8 @@ export default function ProductExperienceFrame({
       <nav className="tpm-foundation-nav">
         <ProductLogo
           className="tpm-foundation-nav-brand"
+          motionIntensity="low"
+          state="paper_safe"
           subtitle={dict.shell.foundation}
           variant="nav"
         />

@@ -26,8 +26,10 @@ export default function FounderBuildRoom({ checkedAt }: FounderBuildRoomProps) {
         <TPMEarthMark
           animated
           className="tpm-founder-local-mark"
+          motionIntensity="medium"
           size={72}
           state="review_required"
+          surface="founder_command"
           title="Trading Pro Max build room mark"
           variant="command"
         />

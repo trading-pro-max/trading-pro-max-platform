@@ -16,7 +16,12 @@ export default function PlanetMapPreview({ audience = "citizen" }: PlanetMapPrev
       aria-label={founder ? "Restricted controls map preview" : "Workspace access map preview"}
     >
       <header>
-        <TPMEarthMark variant={founder ? "command" : "compact"} />
+        <TPMEarthMark
+          motionIntensity={founder ? "medium" : "none"}
+          state={founder ? "local_only" : "paper_safe"}
+          surface={founder ? "founder_command" : "settings"}
+          variant={founder ? "command" : "compact"}
+        />
         <div>
           <span>{founder ? "Restricted controls map" : "Workspace access layer"}</span>
           <h2>{founder ? "Restricted readiness visualization" : "Paper-safe workspace view"}</h2>

@@ -40,3 +40,16 @@ The `TPMEarthMark` component maps safe states to subtle orbit, pulse, and accent
 The internal Motion & State Authority owns state color semantics, reduced-motion behavior, and state-specific identity signals. Normal users should see only public-safe state words such as paper-safe, blocked, planned, inactive, fallback, review required, not certified, local only, future, and readiness.
 
 State visuals must stay compact in the Trading Workspace. They may clarify why something is blocked, planned, or inactive, but they must not compete with chart, execution, TPM Assistant, Journal, or Coach surfaces.
+
+## Living Brand Intelligence Addendum
+
+The Brand Intelligence engine maps state visual language into deterministic identity decisions:
+
+- `paper_safe` is stable, calm, and trustworthy.
+- `blocked` is deliberate and clear, not broken.
+- `inactive` is muted and factual, not failed.
+- `planned` and `future` cannot look active.
+- `not_certified` stays calm and explicit.
+- `local_only` never implies public launch.
+
+TPM Assistant wording must mirror these rules and avoid signals, financial advice, legal advice, profit promises, or activation instructions.

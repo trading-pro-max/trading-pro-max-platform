@@ -527,6 +527,9 @@ export function TradingTopbar({
     <header className="tpmv2-card tpmv2-topbar">
       <ProductLogo
         className="tpmv2-topbar-brand"
+        motionIntensity="none"
+        state="paper_safe"
+        surface="workstation"
         subtitle={dict.shell.subtitle}
         variant="topbar"
       />

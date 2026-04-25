@@ -2,6 +2,12 @@
 
 TPM Living Identity OS is the identity system behind Trading Pro Max. It keeps the visible product simple, premium, and trading-first while preserving deeper internal command identity for owner-only surfaces.
 
+## Living Brand Intelligence Extension
+
+The Living Identity OS is now interpreted by TPM Living Brand Intelligence. The engine resolves Earth Mark behavior, plan DNA, state visual language, motion intensity, occasion skins, safe copy rules, and public/private identity separation from deterministic inputs.
+
+The Identity OS remains SVG/code-first, reduced-motion safe, chart-first, and truthful. It does not use generated images, raster logos, external image assets, competitor branding, fake Swiss legal status, fake Sharia certification, fake partnership claims, fake plan activation, billing activation, broker/feed activation, live execution, real-money routing, social publishing, production secrets, or public launch claims.
+
 ## 1. Identity Core
 
 - Trading Pro Max is a Swiss-inspired intelligent trading workspace.
