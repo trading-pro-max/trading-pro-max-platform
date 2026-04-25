@@ -9,6 +9,7 @@ export function getFounderPreferenceSnapshot(checkedAt = new Date().toISOString(
       "no public internal governance terminology",
       "Free should feel familiar and premium",
       "Pro/VIP should carry differentiation",
+      "Institutional replaces Enterprise in public language",
       "Founder Command remains private",
       "Swiss-inspired precision",
       "Earth Mark identity",

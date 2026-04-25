@@ -77,6 +77,7 @@ export function getPlanetConsciousnessSnapshot(
       "Presidency Coordination",
       "Diagnostics",
       "Validation Results",
+      "Integration Mesh",
     ],
     outputs: [
       "consciousness snapshot",

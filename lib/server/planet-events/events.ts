@@ -13,7 +13,7 @@ export const planetConstructionEventTypes: PlanetConstructionEventType[] = [
   "visual_gap_detected",
   "ux_confusion_detected",
   "chart_quality_low",
-  "companion_context_missing",
+  "assistant_context_missing",
   "assistant_response_risk",
   "plan_copy_conflict",
   "product_truth_conflict",

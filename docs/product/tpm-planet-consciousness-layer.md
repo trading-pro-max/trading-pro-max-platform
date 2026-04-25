@@ -17,6 +17,7 @@ Inputs:
 - AI Build Planner
 - Planet hierarchy and Presidency coordination
 - Diagnostics and validation results
+- Integration Mesh
 
 Outputs:
 - readiness snapshot
@@ -33,4 +34,3 @@ Rules:
 - no production action
 - no uncontrolled autonomous execution
 - no fake users, revenue, metrics, launch, billing, live execution, broker/feed, social publishing, or secrets
-

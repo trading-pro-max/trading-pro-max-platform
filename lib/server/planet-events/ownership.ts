@@ -36,7 +36,7 @@ const ownershipByType: Record<
     founderVisible: true,
     userVisible: false,
   },
-  companion_context_missing: {
+  assistant_context_missing: {
     ownerMinistry: "Personal Companion Ministry",
     supportingMinistries: ["AI / IQ / Brain Ministry"],
     requiredReviews: ["quality"],

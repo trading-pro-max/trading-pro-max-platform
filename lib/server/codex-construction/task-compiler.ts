@@ -34,7 +34,7 @@ function taskTypeForEvent(event: PlanetConstructionEvent): CodexConstructionTask
   if (event.type === "ux_confusion_detected" || event.type === "public_language_leak_detected") {
     return "interface_cleanup";
   }
-  if (event.type === "assistant_response_risk" || event.type === "companion_context_missing") {
+  if (event.type === "assistant_response_risk" || event.type === "assistant_context_missing") {
     return "assistant_behavior";
   }
   if (event.type === "plan_copy_conflict" || event.type === "vip_claim_requested") {

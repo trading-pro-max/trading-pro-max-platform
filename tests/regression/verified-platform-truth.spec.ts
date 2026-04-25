@@ -4429,6 +4429,10 @@ test.describe("verified platform truth", () => {
     );
 
     const events = await (await request.get("/api/planet/events/readiness")).json();
+    expect(events.snapshot.eventTypes).toEqual(
+      expect.arrayContaining(["assistant_context_missing"])
+    );
+    expect(events.snapshot.eventTypes).not.toContain("companion_context_missing");
     expect(events.snapshot.sampleEvents).toEqual(
       expect.arrayContaining([
         expect.objectContaining({

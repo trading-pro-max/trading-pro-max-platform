@@ -5,6 +5,7 @@ Founder preferences guide future construction tasks:
 - no public internal governance terminology
 - Free should feel familiar and premium
 - Pro/VIP carry differentiation
+- Institutional replaces Enterprise in public language
 - Founder Command remains private
 - Swiss-inspired precision
 - Earth Mark identity
@@ -18,4 +19,3 @@ Founder preferences guide future construction tasks:
 - Codex commands must be deep, strict, scoped, and validation-heavy
 
 The model informs AI Build Planner, Codex Task Compiler, Visual Acceptance, Founder Companion, and Product Reality scoring.
-
