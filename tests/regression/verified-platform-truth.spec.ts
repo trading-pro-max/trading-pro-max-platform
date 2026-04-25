@@ -15,7 +15,7 @@ const GENERATE_LAUNCH_SECRETS_SCRIPT = "scripts/generate-launch-secrets.mjs";
 const THEME_STORAGE_KEY = "tpm-theme-mode-v1";
 const THEME_ARTIFACT_DIR = path.join(
   "test-results",
-  "global-trading-platform-ui-redesign"
+  "visual-simplification-global-standard"
 );
 
 function validatorEnv(overrides: Record<string, string | undefined> = {}) {
@@ -644,7 +644,7 @@ test.describe("verified platform truth", () => {
     await expectRuntimeCssApplied(page, "entry");
     await page.screenshot({
       fullPage: true,
-      path: path.join(THEME_ARTIFACT_DIR, "dark-public-entry.png"),
+      path: path.join(THEME_ARTIFACT_DIR, "public-entry-dark.png"),
     });
 
     await openWithTheme(page, "/", "light");
@@ -652,7 +652,7 @@ test.describe("verified platform truth", () => {
     await expectRuntimeCssApplied(page, "entry");
     await page.screenshot({
       fullPage: true,
-      path: path.join(THEME_ARTIFACT_DIR, "light-public-entry.png"),
+      path: path.join(THEME_ARTIFACT_DIR, "public-entry-light.png"),
     });
 
     await openWithTheme(page, "/en", "dark");
@@ -684,14 +684,24 @@ test.describe("verified platform truth", () => {
     expect(darkChartVisual.priceScaleDirection).toBe("ltr");
     await page.screenshot({
       fullPage: true,
-      path: path.join(THEME_ARTIFACT_DIR, "dark-workstation.png"),
+      path: path.join(THEME_ARTIFACT_DIR, "workstation-dark.png"),
     });
+    await page.locator(".tpmv2-execution").first().screenshot({
+      path: path.join(THEME_ARTIFACT_DIR, "execution-panel.png"),
+    });
+    await page.locator(".tpm-companion-launcher").first().click();
+    await expect(page.locator(".tpm-companion-panel").first()).toBeVisible();
+    await page.screenshot({
+      fullPage: true,
+      path: path.join(THEME_ARTIFACT_DIR, "assistant-open.png"),
+    });
+    await page.getByRole("button", { name: "Close TPM Assistant" }).click();
     await page.evaluate(() => {
       window.dispatchEvent(new KeyboardEvent("keydown", { key: "5", shiftKey: true }));
     });
     await expect(page.locator(".tpmv2-desktop-master").first()).toHaveClass(/focus-chart/);
     await darkChartSurface.screenshot({
-      path: path.join(THEME_ARTIFACT_DIR, "chart-focus-dark.png"),
+      path: path.join(THEME_ARTIFACT_DIR, "chart-focus.png"),
     });
     await page.evaluate(() => {
       window.dispatchEvent(new KeyboardEvent("keydown", { key: "4", shiftKey: true }));
@@ -700,6 +710,14 @@ test.describe("verified platform truth", () => {
       fullPage: true,
       path: path.join(THEME_ARTIFACT_DIR, "english-ltr-workstation.png"),
     });
+    await page.setViewportSize({ width: 1920, height: 1080 });
+    await openWithTheme(page, "/en", "dark");
+    await expect(page.locator(".tpmv2-chart-surface").first()).toBeVisible();
+    await page.screenshot({
+      fullPage: true,
+      path: path.join(THEME_ARTIFACT_DIR, "workstation-ultrawide.png"),
+    });
+    await page.setViewportSize({ width: 1280, height: 720 });
 
     await openWithTheme(page, "/en", "light");
     await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
@@ -738,7 +756,7 @@ test.describe("verified platform truth", () => {
     });
     await page.screenshot({
       fullPage: true,
-      path: path.join(THEME_ARTIFACT_DIR, "light-workstation.png"),
+      path: path.join(THEME_ARTIFACT_DIR, "workstation-light.png"),
     });
 
     await openWithTheme(page, "/ar", "dark");
@@ -758,6 +776,9 @@ test.describe("verified platform truth", () => {
     await page.screenshot({
       fullPage: true,
       path: path.join(THEME_ARTIFACT_DIR, "settings.png"),
+    });
+    await page.locator(".tpm-plan-experience-grid").first().screenshot({
+      path: path.join(THEME_ARTIFACT_DIR, "plan-surfaces.png"),
     });
     await page.locator(".tpm-auth-panel-inline").first().screenshot({
       path: path.join(THEME_ARTIFACT_DIR, "login-session-ui.png"),

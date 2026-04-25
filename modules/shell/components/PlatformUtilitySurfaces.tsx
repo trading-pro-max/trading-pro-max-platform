@@ -75,16 +75,27 @@ function publicDisplayText(value: string): string {
     .replace(/\bEnterprise\b/g, "Institutional")
     .replace(/Founder Command/gi, "Restricted controls")
     .replace(/Founder King/gi, "Restricted controls")
+    .replace(/Owner command/gi, "Restricted controls")
+    .replace(/Owner-only/gi, "Restricted")
+    .replace(/owner-only/gi, "restricted")
     .replace(/Private command/gi, "Restricted controls")
     .replace(/private command/gi, "restricted controls")
     .replace(/Planet OS/gi, "product readiness system")
-    .replace(/Planet governance/gi, "product governance")
+    .replace(/Planet governance/gi, "product readiness")
+    .replace(/\bgovernance\b/gi, "readiness")
     .replace(/\bPlanet\b/g, "Product")
     .replace(/\bplanet\b/g, "product")
     .replace(/\bministries\b/gi, "readiness reports")
     .replace(/\bcouncils\b/gi, "review gates")
     .replace(/Presidency/gi, "review coordination")
     .replace(/\bstates\b/gi, "statuses");
+}
+
+function utilitySectionKey(eyebrow: string): string {
+  return eyebrow
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
 }
 
 function UtilityStatus({
@@ -109,7 +120,10 @@ function UtilitySection({
   action?: ReactNode;
 }) {
   return (
-    <section className="tpm-foundation-card tpm-utility-card">
+    <section
+      className="tpm-foundation-card tpm-utility-card"
+      data-utility-section={utilitySectionKey(eyebrow)}
+    >
       <header className="tpm-foundation-head tpm-utility-head">
         <div>
           <span>{eyebrow}</span>

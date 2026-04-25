@@ -155,7 +155,7 @@ export default function PublicProductEntry({
             </div>
             <p>
               Public plans stay easy to scan and truthful: no fake paid activation, no billing
-              claim, no real-money access, and no hidden command features.
+              claim, no real-money access, and no restricted controls.
             </p>
           </div>
 

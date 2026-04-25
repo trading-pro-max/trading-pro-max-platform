@@ -48,7 +48,7 @@ export default function PlanExperienceCard({
       <div className="tpm-plan-experience-truth">
         <span>Assistant: {identity.assistantIdentity}</span>
         <span>Interface: {interfaceLayer.headline}</span>
-        <span>Layer: {layer?.activeLayer ?? "Plan layer readiness"}</span>
+        <span>Workspace: {layer?.activeLayer ?? "Plan readiness"}</span>
         <span>Billing: {truth.billing}</span>
         <span>Paid access: {truth.paidAccess}</span>
       </div>

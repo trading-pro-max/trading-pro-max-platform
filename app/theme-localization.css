@@ -5485,3 +5485,304 @@ html[data-theme="light"] .tpmv2-chart-surface {
     grid-column: 1;
   }
 }
+
+/* Command 3: Visual Simplification + Global Trading Standard */
+.tpm-product-entry {
+  gap: clamp(10px, 1.1vw, 16px);
+  max-width: min(100%, 1680px);
+  padding: clamp(10px, 1.1vw, 18px);
+}
+
+.tpm-product-hero {
+  border-radius: 16px;
+  min-height: min(560px, calc(100svh - 94px));
+  padding: clamp(26px, 3vw, 42px);
+}
+
+.tpm-product-hero-layout {
+  gap: clamp(18px, 2.2vw, 30px);
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 340px);
+}
+
+.tpm-product-hero-logo .tpm-brand-mark {
+  width: clamp(62px, 6.4vw, 92px);
+}
+
+.tpm-product-hero-copy h1 {
+  max-width: 820px;
+}
+
+.tpm-product-hero-copy > p {
+  max-width: 740px;
+}
+
+.tpm-product-hero-side {
+  gap: 10px;
+}
+
+.tpm-product-signal-grid {
+  gap: 8px;
+}
+
+.tpm-product-signal-card,
+.tpm-product-proof-row > div,
+.tpm-product-card {
+  border-color: color-mix(in srgb, var(--tpm-border) 30%, transparent);
+  box-shadow: none;
+}
+
+.tpm-product-signal-card {
+  padding: 11px 12px;
+}
+
+.tpm-product-signal-card p,
+.tpm-product-card p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.tpm-product-section {
+  margin-top: 0;
+}
+
+.tpm-product-section-compact .tpm-product-plan-grid {
+  gap: 10px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.tpm-product-card {
+  min-height: auto;
+  padding: 13px;
+}
+
+.tpm-product-truth-strip {
+  padding-block: 12px 6px;
+}
+
+.tpmv2-page {
+  min-height: calc(100svh - 56px);
+  padding: 4px;
+}
+
+.tpmv2-shell-desktop {
+  gap: 6px;
+  grid-template-columns: clamp(176px, 9.5vw, 214px) minmax(0, 1fr);
+}
+
+.tpmv2-main {
+  gap: 6px;
+}
+
+.tpmv2-topbar {
+  min-height: 54px;
+  padding: 8px 10px;
+}
+
+.tpmv2-command-center {
+  gap: 5px;
+  grid-template-columns: minmax(220px, 1.16fr) repeat(3, minmax(104px, 0.56fr));
+}
+
+.tpmv2-command-cell-metrics {
+  display: none;
+}
+
+.tpmv2-command-cell,
+.tpmv2-command-primary {
+  min-height: 50px;
+  padding: 8px 9px;
+}
+
+.tpmv2-desktop-master,
+.tpmv2-desktop-master.tpmv2-desktop-master-focus-chart:not(.tpmv2-desktop-master-ticket-hidden) {
+  gap: 6px;
+  grid-template-columns: minmax(0, 1fr) clamp(300px, 16.5vw, 354px);
+}
+
+.tpmv2-chart-surface {
+  border-radius: 12px;
+  min-height: clamp(740px, calc(100svh - 122px), 1220px);
+}
+
+.tpmv2-chart-market-bar,
+.tpmv2-chart-toolbar,
+.tpmv2-chart-indicator-dock,
+.tpmv2-chart-zoom-controls,
+.tpmv2-chart-tool-rail,
+.tpmv2-chart-ai-panel {
+  border-color: color-mix(in srgb, var(--tpm-border) 32%, transparent);
+}
+
+.tpmv2-chart-toolbar,
+.tpmv2-chart-indicator-dock,
+.tpmv2-chart-zoom-controls,
+.tpmv2-chart-tool-rail {
+  opacity: 0.28;
+  transition: opacity 160ms ease;
+}
+
+.tpmv2-chart-surface:hover .tpmv2-chart-toolbar,
+.tpmv2-chart-surface:hover .tpmv2-chart-indicator-dock,
+.tpmv2-chart-surface:hover .tpmv2-chart-zoom-controls,
+.tpmv2-chart-surface:hover .tpmv2-chart-tool-rail,
+.tpmv2-chart-surface:focus-within .tpmv2-chart-toolbar,
+.tpmv2-chart-surface:focus-within .tpmv2-chart-indicator-dock,
+.tpmv2-chart-surface:focus-within .tpmv2-chart-zoom-controls,
+.tpmv2-chart-surface:focus-within .tpmv2-chart-tool-rail {
+  opacity: 0.88;
+}
+
+.tpmv2-chart-ai-panel {
+  max-width: 248px;
+  opacity: 0.72;
+}
+
+.tpmv2-execution {
+  border-radius: 12px;
+  gap: 7px;
+  padding: 9px;
+}
+
+.tpmv2-ticket-signal,
+.tpmv2-ticket-preflight-card,
+.tpmv2-ticket-amount-panel,
+.tpmv2-ticket-duration-panel {
+  border-color: color-mix(in srgb, var(--tpm-border) 34%, transparent);
+}
+
+.tpmv2-ticket-reason {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.tpmv2-workspace-depth-bar-compact {
+  border-color: color-mix(in srgb, var(--tpm-border) 28%, transparent);
+  gap: 8px;
+  padding: 8px;
+}
+
+.tpm-companion-shell {
+  inset-block-end: 14px;
+}
+
+.tpm-companion-launcher {
+  min-width: auto;
+  padding: 9px 12px;
+}
+
+.tpm-companion-launcher small {
+  display: none;
+}
+
+.tpm-companion-panel {
+  max-height: min(520px, calc(100svh - 96px));
+  padding: 10px;
+  width: min(312px, calc(100vw - 24px));
+}
+
+.tpm-companion-blocked-intents span:nth-child(n + 4) {
+  display: none;
+}
+
+.tpm-companion-message p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+.tpm-utility-page {
+  gap: 10px;
+  max-width: min(100%, 1320px);
+}
+
+.tpm-utility-card {
+  border-radius: 12px;
+  min-height: auto;
+  padding: clamp(14px, 1.35vw, 18px);
+}
+
+.tpm-utility-head {
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.tpm-utility-head h2 {
+  font-size: clamp(1rem, 1.1vw, 1.22rem);
+}
+
+.tpm-utility-grid,
+.tpm-utility-control-grid {
+  gap: 8px;
+}
+
+.tpm-foundation-item,
+.tpm-utility-control {
+  padding: 11px;
+}
+
+.tpm-utility-page-settings [data-utility-section="chart"],
+.tpm-utility-page-settings [data-utility-section="layout"],
+.tpm-utility-page-settings [data-utility-section="depth"],
+.tpm-utility-page-settings [data-utility-section="plan-identity"],
+.tpm-utility-page-settings [data-utility-section="current-plan"],
+.tpm-utility-page-settings [data-utility-section="access-map"],
+.tpm-utility-page-settings [data-utility-section="academy"],
+.tpm-utility-page-settings [data-utility-section="compliance"],
+.tpm-utility-page-diagnostics [data-utility-section="engines"],
+.tpm-utility-page-diagnostics [data-utility-section="mesh"],
+.tpm-utility-page-diagnostics [data-utility-section="intelligence"],
+.tpm-utility-page-diagnostics [data-utility-section="economy-media"],
+.tpm-utility-page-diagnostics [data-utility-section="product-reality"],
+.tpm-utility-page-diagnostics [data-utility-section="probes"],
+.tpm-utility-page-diagnostics [data-utility-section="connectors"],
+.tpm-utility-page-diagnostics [data-utility-section="routes"],
+.tpm-utility-page-diagnostics [data-utility-section="session"],
+.tpm-utility-page-diagnostics [data-utility-section="workspace"],
+.tpm-utility-page-diagnostics [data-utility-section="depth"],
+.tpm-utility-page-diagnostics [data-utility-section="feedback"],
+.tpm-utility-page-diagnostics [data-utility-section="audit"] {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tpmv2-chart-toolbar,
+  .tpmv2-chart-indicator-dock,
+  .tpmv2-chart-zoom-controls,
+  .tpmv2-chart-tool-rail,
+  .tpmv2-chart-depth-panel {
+    transition: none;
+  }
+}
+
+@media (min-width: 1900px) {
+  .tpm-product-hero-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 360px);
+  }
+
+  .tpmv2-shell-desktop {
+    grid-template-columns: 226px minmax(0, 1fr);
+  }
+
+  .tpmv2-desktop-master,
+  .tpmv2-desktop-master.tpmv2-desktop-master-focus-chart:not(.tpmv2-desktop-master-ticket-hidden) {
+    grid-template-columns: minmax(0, 1fr) 372px;
+  }
+}
+
+@media (max-width: 1260px) {
+  .tpm-product-section-compact .tpm-product-plan-grid,
+  .tpm-product-hero-layout,
+  .tpmv2-desktop-master,
+  .tpmv2-desktop-master.tpmv2-desktop-master-focus-chart:not(.tpmv2-desktop-master-ticket-hidden) {
+    grid-template-columns: 1fr;
+  }
+
+  .tpmv2-chart-surface {
+    min-height: clamp(520px, 70svh, 780px);
+  }
+}
