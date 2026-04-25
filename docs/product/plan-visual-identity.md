@@ -10,6 +10,7 @@ Visual direction:
 - safe learning identity
 - paper-safe truth
 - basic Assistant identity
+- Living Earth Mark state: `paper_safe` or calm `ready`
 
 Free must avoid:
 - heavy internal operating-system language
@@ -24,6 +25,7 @@ Visual direction:
 - professional daily trader identity
 - stronger workspace feel
 - Pro Assistant planned truth
+- Living Earth Mark state: `planned` unless entitlement is real
 
 Pro must avoid:
 - fake active entitlement
@@ -37,6 +39,7 @@ Visual direction:
 - elite premium workspace layer
 - advanced Assistant planned truth
 - premium but calm
+- Living Earth Mark state: `planned` or `review_required` until entitlement is real
 
 VIP must avoid:
 - noisy glow
@@ -50,6 +53,7 @@ Visual direction:
 - navy / platinum / cyan
 - team/admin/audit future truth
 - institutional support concept
+- Living Earth Mark state: `planned` or `inactive` until future support exists
 
 Institutional remains future planned. Do not expose legacy internal compatibility names in normal user-facing UI.
 

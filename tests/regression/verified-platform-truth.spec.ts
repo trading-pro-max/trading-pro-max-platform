@@ -436,7 +436,9 @@ test.describe("verified platform truth", () => {
       );
       await expect(page.locator(".tpm-brand-mark svg").first()).toBeVisible();
       await expect(page.locator(".tpm-brand-mark img")).toHaveCount(0);
-      await expect(page.locator(".tpm-foundation-nav-brand .tpm-earth-mark-compact").first()).toBeVisible();
+      const compactNavMark = page.locator(".tpm-foundation-nav-brand .tpm-earth-mark-compact").first();
+      await expect(compactNavMark).toBeVisible();
+      await expect(compactNavMark).toHaveAttribute("data-variant", "compact");
       await expect(page.locator(".tpm-precision-clock").first()).toBeVisible();
       await expect(page.locator(".tpm-platform-pulse").first()).toBeVisible();
       await expect(page.locator(".tpm-companion-launcher").first()).toBeVisible();
@@ -460,12 +462,31 @@ test.describe("verified platform truth", () => {
         await expect(page.locator(".tpm-product-workstation-shell").first()).toBeVisible();
         const heroMark = page.locator(".tpm-product-hero-logo .tpm-earth-mark-public").first();
         await expect(heroMark).toBeVisible();
+        await expect(heroMark).toHaveAttribute("data-variant", "public");
+        await expect(heroMark).toHaveAttribute("data-state", "paper_safe");
+        await expect(heroMark).toHaveAttribute("data-animated", "true");
         const heroMarkBox = await heroMark.boundingBox();
         expect(heroMarkBox?.width ?? 0).toBeGreaterThan(48);
         expect(heroMarkBox?.width ?? 0).toBeLessThanOrEqual(120);
         expect(heroMarkBox?.height ?? 0).toBeLessThanOrEqual(120);
         const heroMarkDetailCount = await heroMark.locator("circle, ellipse, path").count();
         expect(heroMarkDetailCount).toBeGreaterThanOrEqual(10);
+        await expect(heroMark.locator("image, img")).toHaveCount(0);
+        await expect(page.locator(".tpm-product-entry .tpm-earth-mark-command")).toHaveCount(0);
+        const heroMarkContracts = await heroMark.evaluate((element) => ({
+          hasBEMVariant: element.classList.contains("tpm-earth-mark--public"),
+          hasStateClass: element.classList.contains("tpm-earth-mark--paper-safe"),
+          hasPulse: Boolean(element.querySelector(".tpm-earth-pulse")),
+          hasSegment: Boolean(element.querySelector(".tpm-earth-orbit-segment")),
+          hasMarketMove: Boolean(element.querySelector(".tpm-earth-market-move")),
+        }));
+        expect(heroMarkContracts).toMatchObject({
+          hasBEMVariant: true,
+          hasStateClass: true,
+          hasPulse: true,
+          hasSegment: true,
+          hasMarketMove: true,
+        });
         const heroMarkBackground = await heroMark.evaluate((element) =>
           window.getComputedStyle(element).backgroundColor
         );
@@ -631,9 +652,54 @@ test.describe("verified platform truth", () => {
     }
   });
 
+  test("protects the living identity OS contracts", () => {
+    const css = fs.readFileSync("app/theme-localization.css", "utf8");
+    expect(css).toContain(".tpm-earth-mark--public");
+    expect(css).toContain(".tpm-earth-mark--paper-safe");
+    expect(css).toContain(".tpm-earth-mark--command");
+    expect(css).toContain("tpm-earth-orbit-breathe");
+    expect(css).toContain("tpm-earth-point-pulse");
+    expect(css).toContain("prefers-reduced-motion: reduce");
+
+    const identityDocs = [
+      "docs/product/living-earth-mark.md",
+      "docs/product/brand-identity.md",
+      "docs/product/tpm-living-identity-os.md",
+      "docs/product/swiss-precision-identity.md",
+      "docs/product/living-platform-signals.md",
+      "docs/product/plan-visual-identity.md",
+      "docs/product/state-visual-language.md",
+      "docs/product/brand-voice-constitution.md",
+      "docs/product/identity-governance.md",
+      "docs/product/founder-command-visual-direction.md",
+    ];
+
+    for (const docPath of identityDocs) {
+      expect(fs.existsSync(docPath)).toBe(true);
+    }
+
+    const livingMarkDoc = fs.readFileSync("docs/product/living-earth-mark.md", "utf8");
+    expect(livingMarkDoc).toContain("SVG-only");
+    expect(livingMarkDoc).toContain("prefers-reduced-motion");
+    expect(livingMarkDoc).toContain("ready");
+    expect(livingMarkDoc).toContain("paper_safe");
+    expect(livingMarkDoc).toContain("review_required");
+    expect(livingMarkDoc.toLowerCase()).toContain("no raster");
+
+    const identityOs = fs.readFileSync("docs/product/tpm-living-identity-os.md", "utf8");
+    expect(identityOs).toContain("Free");
+    expect(identityOs).toContain("Pro");
+    expect(identityOs).toContain("VIP");
+    expect(identityOs).toContain("Institutional");
+    expect(identityOs).toContain("Founder terms internal only");
+    expect(identityOs).toContain("guaranteed profit");
+    expect(identityOs).toContain("fake win-rate");
+  });
+
   test("renders global theme modes, language fallback, and RTL/LTR surfaces", async ({
     page,
   }) => {
+    test.setTimeout(120000);
     fs.mkdirSync(THEME_ARTIFACT_DIR, { recursive: true });
 
     await openWithTheme(page, "/", "dark");

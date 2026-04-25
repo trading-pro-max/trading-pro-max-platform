@@ -35,6 +35,8 @@ Trading Pro Max may use Swiss-inspired precision as a design and trust principle
 - avoid heavy flag usage, stereotypes, or nationalistic claims
 - do not rely on Swiss cliches as decoration
 - keep premium graphite, gold, aqua, and disciplined light-theme surfaces
+- use Swiss red only as a small precision accent, never as a legal/company status signal
+- keep Living Earth Mark motion slow, reduced-motion safe, and non-distracting
 
 ## Product Relevance
 
@@ -57,7 +59,8 @@ The Product Reality pass keeps Swiss precision subtle and useful:
 
 - the clock remains compact and local-time first
 - Zurich and UTC are reference signals, not legal/company claims
-- the Earth mark is SVG-only and used most strongly on Founder/Planet surfaces
+- the Living Earth Mark is SVG-only, state-aware, and calm on public surfaces
+- stronger command identity remains private/internal only
 - public workstation identity remains trading-first and chart-first
 - no luxury brand, sponsored clock, or partnership identity is shown without a signed contract
 

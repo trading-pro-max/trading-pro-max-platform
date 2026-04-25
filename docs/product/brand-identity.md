@@ -4,11 +4,11 @@ Trading Pro Max is a premium, paper-safe trading workstation. The brand should f
 
 ## Logo System
 
-- **Brand mark:** a graphite hexagon/shield with three market candles and a rising signal arrow.
+- **Brand mark:** the TPM Living Earth Mark, an SVG-only digital globe with visible latitude/longitude geometry, a disciplined gold orbit, a subtle Swiss red precision point, and minimal market movement.
 - **Wordmark:** `Trading Pro Max`, with `Max` carrying the gold emphasis.
 - **Primary use:** mark plus wordmark in navigation, workstation topbar, public entry, auth/session, and docs.
 - **Small use:** the mark alone can be used for favicon/app icon, compact nav, future desktop icon, and future mobile icon.
-- **Do not:** distort the hexagon, add extra candles, add ornamental glow, recolor with random hues, or use competitor-like marks.
+- **Do not:** distort the globe, turn it into a filled block, add ornamental glow, recolor with random hues, use raster/external logo assets, or use competitor-like marks.
 
 ## App Icon Source
 
@@ -75,16 +75,17 @@ Default state is **Not certified**. Do not claim Islamic or Sharia compliance un
 - Do not imply Islamic/Sharia certification.
 - Keep paper-only, fallback, blocked, and unconfigured states compact but visible.
 
-## Earth / Planet Mark
+## Living Earth Mark
 
-The TPM Earth Mark is an SVG-only identity extension for Planet OS and Founder Command surfaces.
+The TPM Living Earth Mark is the canonical Trading Pro Max identity signal. It is SVG-only, lightweight, dark/light safe, and state-aware without reading secrets or private data.
 
-- globe geometry represents the digital planet operating model
-- gold orbit represents disciplined growth and command oversight
+- globe geometry represents global market context and the product operating surface
+- gold orbit represents premium discipline and steady readiness
 - Swiss red point is a subtle precision accent, not a Swiss legal/company claim
 - market bars remain minimal so the mark stays readable at small sizes
-- public trading surfaces should keep the standard Trading Pro Max mark dominant
-- Founder/private command surfaces may use the stronger Earth/Planet variant
+- public trading surfaces keep the mark calm and secondary to chart/execution
+- private Founder Command surfaces may use the stronger command variant
+- state visuals may show ready, local-only, paper-safe, fallback, blocked, review-required, degraded, inactive, or planned readiness
 
 ## What Not To Do
 
@@ -97,6 +98,6 @@ The TPM Earth Mark is an SVG-only identity extension for Planet OS and Founder C
 - No decorative status colors disconnected from runtime truth.
 ## Product Reality Identity Rule
 
-The Product Reality pass uses the TPM Earth Mark most strongly on Founder, Planet Map, and internal command surfaces. Public trading surfaces keep identity subtle so the chart and execution ticket remain dominant.
+The Product Reality pass keeps the TPM Living Earth Mark subtle on public trading surfaces and stronger on private command surfaces. Public chart and execution remain visually dominant.
 
 No Swiss legal status, brand partnership, luxury timepiece partnership, Islamic/Sharia certification, live trading, broker/feed, billing, public launch, user count, revenue, or metric claim may be implied by brand treatment.

@@ -47,9 +47,9 @@ Mobile is not a compressed desktop dashboard. It should show:
 
 Use the Trading Pro Max mark as a simple SVG source:
 
-- hexagon or shield-style trading mark
-- three market bars or candles
-- controlled growth signal
+- TPM Living Earth Mark command variant
+- digital globe geometry
+- gold orbit and controlled market movement
 - gold on graphite for dark app surfaces
 - graphite on light background for light surfaces
 
@@ -70,7 +70,7 @@ The deep foundation visual direction is private command-grade:
 
 - black / graphite / gold
 - subtle Swiss red accent
-- TPM Earth Mark
+- TPM Living Earth Mark command variant
 - Swiss Precision Clock / command time
 - high-density but controlled panels
 - planet overview first
@@ -78,3 +78,7 @@ The deep foundation visual direction is private command-grade:
 - mobile surfaces show urgent cards only
 
 It must not become fantasy, game-like, public-dashboard-like, or cluttered. The public trading workstation remains chart-first and separate.
+
+## Living Earth Mark Command Rule
+
+Founder Command may use the `command` Earth Mark variant with stronger graphite/gold treatment and safe readiness states such as `local_only` or `review_required`. It remains internal/private, cannot appear as a Free / Pro / VIP / Institutional feature, and must never leak into normal public navigation.

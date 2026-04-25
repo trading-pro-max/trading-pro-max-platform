@@ -2263,6 +2263,18 @@ html[data-theme="light"] .tpm-brand-wordmark span {
   --tpm-brand-mark-size: 64px;
 }
 
+.tpm-brand-lockup-command .tpm-brand-mark {
+  --tpm-brand-mark-size: 72px;
+}
+
+.tpm-brand-lockup-command .tpm-brand-wordmark {
+  font-size: clamp(20px, 1.8vw, 28px);
+}
+
+.tpm-brand-lockup-command .tpm-brand-subline {
+  color: color-mix(in srgb, var(--tpm-brand-gold-soft) 82%, var(--tpm-brand-muted));
+}
+
 .tpm-brand-lockup-hero .tpm-brand-wordmark {
   font-size: clamp(22px, 2vw, 32px);
 }
@@ -2281,6 +2293,15 @@ html[data-theme="light"] .tpm-brand-lockup-hero .tpm-brand-subline {
   --tpm-earth-gold: var(--tpm-earth-orbit, var(--tpm-brand-gold-soft, #d8a83c));
   --tpm-earth-red: var(--tpm-swiss-red, #d72638);
   --tpm-earth-stroke: var(--tpm-earth-line, rgba(226, 236, 248, 0.82));
+  --tpm-earth-state-accent: var(--tpm-state-ready, #2dd4bf);
+  --tpm-earth-state-soft: color-mix(in srgb, var(--tpm-earth-state-accent) 18%, transparent);
+  --tpm-earth-orbit-opacity: 0.88;
+  --tpm-earth-soft-orbit-opacity: 0.54;
+  --tpm-earth-line-opacity: 0.9;
+  --tpm-earth-market-opacity: 0.86;
+  --tpm-earth-pulse-opacity: 0.32;
+  --tpm-earth-orbit-duration: 14s;
+  --tpm-earth-pulse-duration: 4.8s;
   display: inline-grid;
   width: var(--tpm-earth-size);
   height: var(--tpm-earth-size);
@@ -2296,20 +2317,87 @@ html[data-theme="light"] .tpm-brand-lockup-hero .tpm-brand-subline {
   display: block;
 }
 
-.tpm-earth-mark-command {
+.tpm-earth-mark-command,
+.tpm-earth-mark--command {
   --tpm-earth-size: 78px;
+  --tpm-earth-orbit-duration: 11s;
+  --tpm-earth-pulse-duration: 3.8s;
+  --tpm-earth-orbit-opacity: 0.96;
 }
 
-.tpm-earth-mark-public {
-  --tpm-earth-size: 64px;
+.tpm-earth-mark-public,
+.tpm-earth-mark--public {
+  --tpm-earth-size: clamp(64px, 7vw, 92px);
+  --tpm-earth-orbit-duration: 16s;
+  --tpm-earth-pulse-duration: 6s;
 }
 
-.tpm-earth-mark-compact {
+.tpm-earth-mark-compact,
+.tpm-earth-mark--compact {
   --tpm-earth-size: 38px;
+  --tpm-earth-orbit-opacity: 0.78;
+  --tpm-earth-soft-orbit-opacity: 0.38;
+  --tpm-earth-market-opacity: 0.74;
+}
+
+.tpm-earth-mark-ready,
+.tpm-earth-mark--ready {
+  --tpm-earth-state-accent: var(--tpm-state-ready, #2dd4bf);
+}
+
+.tpm-earth-mark-local-only,
+.tpm-earth-mark--local-only {
+  --tpm-earth-state-accent: var(--tpm-brand-gold-soft, #f4d37a);
+  --tpm-earth-pulse-opacity: 0.26;
+}
+
+.tpm-earth-mark-paper-safe,
+.tpm-earth-mark--paper-safe {
+  --tpm-earth-state-accent: var(--tpm-state-paper, #2dd4bf);
+  --tpm-earth-orbit-opacity: 0.92;
+}
+
+.tpm-earth-mark-fallback,
+.tpm-earth-mark--fallback {
+  --tpm-earth-state-accent: var(--tpm-state-fallback, #60a5fa);
+  --tpm-earth-orbit-duration: 22s;
+  --tpm-earth-soft-orbit-opacity: 0.42;
+}
+
+.tpm-earth-mark-blocked,
+.tpm-earth-mark--blocked {
+  --tpm-earth-state-accent: var(--tpm-state-blocked, #fb7185);
+  --tpm-earth-orbit-opacity: 0.48;
+  --tpm-earth-pulse-opacity: 0.18;
+}
+
+.tpm-earth-mark-review-required,
+.tpm-earth-mark--review-required {
+  --tpm-earth-state-accent: var(--tpm-state-warning, #f4d37a);
+  --tpm-earth-orbit-opacity: 0.78;
+}
+
+.tpm-earth-mark-degraded,
+.tpm-earth-mark--degraded {
+  --tpm-earth-state-accent: var(--tpm-state-degraded, #c084fc);
+  --tpm-earth-line-opacity: 0.66;
+  --tpm-earth-market-opacity: 0.58;
+}
+
+.tpm-earth-mark-inactive,
+.tpm-earth-mark--inactive,
+.tpm-earth-mark-planned,
+.tpm-earth-mark--planned {
+  --tpm-earth-state-accent: var(--tpm-text-muted);
+  --tpm-earth-orbit-opacity: 0.34;
+  --tpm-earth-soft-orbit-opacity: 0.2;
+  --tpm-earth-pulse-opacity: 0;
+  --tpm-earth-line-opacity: 0.56;
+  --tpm-earth-market-opacity: 0.4;
 }
 
 .tpm-earth-halo {
-  fill: color-mix(in srgb, var(--tpm-earth-gold) 12%, transparent);
+  fill: color-mix(in srgb, var(--tpm-earth-state-accent) 10%, transparent);
   stroke: color-mix(in srgb, var(--tpm-earth-gold) 42%, transparent);
   stroke-width: 1;
 }
@@ -2321,13 +2409,18 @@ html[data-theme="light"] .tpm-brand-lockup-hero .tpm-brand-subline {
 .tpm-earth-outline,
 .tpm-earth-line,
 .tpm-earth-orbit,
-.tpm-earth-orbit-soft {
+.tpm-earth-orbit-soft,
+.tpm-earth-market-move {
   fill: none;
   stroke: var(--tpm-earth-stroke);
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 1.55;
   vector-effect: non-scaling-stroke;
+}
+
+.tpm-earth-line {
+  opacity: var(--tpm-earth-line-opacity);
 }
 
 .tpm-earth-outline {
@@ -2337,16 +2430,40 @@ html[data-theme="light"] .tpm-brand-lockup-hero .tpm-brand-subline {
 .tpm-earth-orbit {
   stroke: var(--tpm-earth-gold);
   stroke-width: 2.2;
+  opacity: var(--tpm-earth-orbit-opacity);
+  transform-box: fill-box;
+  transform-origin: 32px 32px;
+}
+
+.tpm-earth-orbit-segment {
+  stroke: var(--tpm-earth-state-accent);
+  stroke-dasharray: 7 8;
+  stroke-width: 1.25;
+  opacity: 0.72;
 }
 
 .tpm-earth-orbit-soft {
   stroke: color-mix(in srgb, var(--tpm-earth-gold) 34%, var(--tpm-earth-stroke));
   stroke-width: 1.1;
+  opacity: var(--tpm-earth-soft-orbit-opacity);
 }
 
 .tpm-earth-market-bar {
   fill: var(--tpm-earth-gold);
-  opacity: 0.92;
+  opacity: var(--tpm-earth-market-opacity);
+}
+
+.tpm-earth-market-move {
+  stroke: var(--tpm-earth-state-accent);
+  stroke-width: 1.35;
+  opacity: 0.74;
+}
+
+.tpm-earth-pulse {
+  fill: var(--tpm-earth-state-accent);
+  opacity: var(--tpm-earth-pulse-opacity);
+  transform-box: fill-box;
+  transform-origin: center;
 }
 
 .tpm-earth-swiss-point {
@@ -2355,25 +2472,72 @@ html[data-theme="light"] .tpm-brand-lockup-hero .tpm-brand-subline {
   stroke-width: 0.8;
 }
 
-.tpm-earth-mark-animated .tpm-earth-orbit {
+.tpm-earth-mark-animated .tpm-earth-orbit,
+.tpm-earth-mark--animated .tpm-earth-orbit {
   transform-origin: 32px 32px;
-  animation: tpm-earth-orbit-breathe 8s ease-in-out infinite;
+  animation: tpm-earth-orbit-breathe var(--tpm-earth-orbit-duration) ease-in-out infinite;
+}
+
+.tpm-earth-mark-animated .tpm-earth-pulse,
+.tpm-earth-mark--animated .tpm-earth-pulse {
+  animation: tpm-earth-point-pulse var(--tpm-earth-pulse-duration) ease-in-out infinite;
+}
+
+.tpm-earth-mark-animated .tpm-earth-swiss-point,
+.tpm-earth-mark--animated .tpm-earth-swiss-point {
+  animation: tpm-earth-point-steady var(--tpm-earth-pulse-duration) ease-in-out infinite;
+}
+
+.tpm-earth-mark-blocked .tpm-earth-orbit,
+.tpm-earth-mark--blocked .tpm-earth-orbit,
+.tpm-earth-mark-inactive .tpm-earth-orbit,
+.tpm-earth-mark--inactive .tpm-earth-orbit,
+.tpm-earth-mark-planned .tpm-earth-orbit,
+.tpm-earth-mark--planned .tpm-earth-orbit {
+  animation: none;
 }
 
 @keyframes tpm-earth-orbit-breathe {
   0%,
   100% {
-    opacity: 0.78;
+    opacity: 0.64;
     transform: rotate(0deg);
   }
   50% {
+    opacity: var(--tpm-earth-orbit-opacity);
+    transform: rotate(3deg);
+  }
+}
+
+@keyframes tpm-earth-point-pulse {
+  0%,
+  100% {
+    opacity: 0.14;
+    transform: scale(0.86);
+  }
+  50% {
+    opacity: var(--tpm-earth-pulse-opacity);
+    transform: scale(1);
+  }
+}
+
+@keyframes tpm-earth-point-steady {
+  0%,
+  100% {
+    opacity: 0.88;
+  }
+  50% {
     opacity: 1;
-    transform: rotate(2.5deg);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tpm-earth-mark-animated .tpm-earth-orbit {
+  .tpm-earth-mark-animated .tpm-earth-orbit,
+  .tpm-earth-mark--animated .tpm-earth-orbit,
+  .tpm-earth-mark-animated .tpm-earth-pulse,
+  .tpm-earth-mark--animated .tpm-earth-pulse,
+  .tpm-earth-mark-animated .tpm-earth-swiss-point,
+  .tpm-earth-mark--animated .tpm-earth-swiss-point {
     animation: none;
   }
 }
@@ -2667,6 +2831,14 @@ html[data-theme="light"] {
 
 .tpm-brand-lockup-hero .tpm-brand-mark {
   --tpm-brand-mark-size: 72px;
+}
+
+.tpm-brand-lockup-command .tpm-brand-mark {
+  --tpm-brand-mark-size: 72px;
+}
+
+.tpm-brand-lockup-command .tpm-brand-wordmark {
+  font-size: clamp(20px, 1.8vw, 28px);
 }
 
 .tpm-brand-lockup-hero .tpm-brand-wordmark {

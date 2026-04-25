@@ -1,18 +1,25 @@
-import TPMEarthMark from "./TPMEarthMark";
+import TPMEarthMark, {
+  type TPMEarthMarkState,
+  type TPMEarthMarkVariant,
+} from "./TPMEarthMark";
 
 type ProductLogoProps = {
+  animated?: boolean;
   className?: string;
   markTitle?: string;
   mode?: "lockup" | "mark-only" | "wordmark-only";
   showSubtitle?: boolean;
+  state?: TPMEarthMarkState;
   subtitle?: string;
   variant?: "nav" | "topbar" | "hero" | "auth" | "compact" | "command";
 };
 
 type BrandMarkProps = {
+  animated?: boolean;
   className?: string;
+  state?: TPMEarthMarkState;
   title?: string;
-  variant?: "public" | "compact" | "command";
+  variant?: TPMEarthMarkVariant;
 };
 
 type BrandWordmarkProps = {
@@ -28,13 +35,17 @@ function markVariantForLogo(
 }
 
 export function BrandMark({
+  animated = false,
   className,
+  state = "paper_safe",
   title = "Trading Pro Max Earth Mark",
   variant = "compact",
 }: BrandMarkProps) {
   return (
     <TPMEarthMark
+      animated={animated}
       className={["tpm-brand-mark", className].filter(Boolean).join(" ")}
+      state={state}
       title={title}
       variant={variant}
     />
@@ -50,15 +61,20 @@ export function BrandWordmark({ className }: BrandWordmarkProps) {
 }
 
 export default function ProductLogo({
+  animated,
   className,
   markTitle = "Trading Pro Max Earth Mark",
   mode = "lockup",
   showSubtitle = true,
+  state,
   subtitle = "Global trading foundation",
   variant = "nav",
 }: ProductLogoProps) {
   const showMark = mode !== "wordmark-only";
   const showWordmark = mode !== "mark-only";
+  const markVariant = markVariantForLogo(variant);
+  const markState = state ?? (variant === "command" ? "local_only" : "paper_safe");
+  const markAnimated = animated ?? (variant === "hero" || variant === "command");
 
   return (
     <div
@@ -73,9 +89,11 @@ export default function ProductLogo({
     >
       {showMark ? (
         <BrandMark
+          animated={markAnimated}
           className="tpm-brand-lockup-mark"
+          state={markState}
           title={markTitle}
-          variant={markVariantForLogo(variant)}
+          variant={markVariant}
         />
       ) : null}
       {showWordmark ? (

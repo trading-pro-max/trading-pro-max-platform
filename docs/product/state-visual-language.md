@@ -1,0 +1,36 @@
+# State Visual Language
+
+Trading Pro Max uses state visuals to explain product truth quickly without overwhelming the trading workspace.
+
+## Public-Safe State Terms
+
+| State | Meaning | Visual treatment |
+| --- | --- | --- |
+| paper-safe | Paper-only, no live or real-money routing | Stable cyan/neutral readiness accent |
+| blocked | Deliberately unavailable | Swiss red or rose accent, concise explanation |
+| planned | Future or entitlement-planned | Muted static treatment |
+| inactive | Not active today | Muted static treatment |
+| fallback | Fallback or simulated data path | Blue accent and slower motion |
+| review required | Human/legal/quality review needed | Gold segmented treatment |
+| not certified | No verified certification claim | Neutral warning treatment |
+| local only | Closed local operation | Contained gold pulse |
+| future | Future capability | Muted planned treatment |
+| readiness | Public-safe preparation status | Compact label, no fake pass |
+
+## Forbidden State Implications
+
+State visuals must not imply:
+
+- live execution is enabled
+- real money is routed
+- broker/feed is active
+- billing is active
+- public launch is active
+- Swiss legal/company status exists
+- Islamic/Sharia certification exists
+- paid plans are active without entitlement
+- users, revenue, metrics, win-rate, or profit are real
+
+## Living Earth Mark Mapping
+
+The `TPMEarthMark` component maps safe states to subtle orbit, pulse, and accent changes. It does not read private data, credentials, production configuration, or raw logs.

@@ -19,13 +19,13 @@ This document defines export-ready brand asset sources for Trading Pro Max. Thes
 
 ## Logo System
 
-- Brand mark: graphite and gold hexagon/shield with three market candles and a rising signal.
+- Brand mark: TPM Living Earth Mark, an SVG-only digital globe with gold orbit, Swiss red precision point, and minimal market movement.
 - Wordmark: `Trading Pro Max`, with `Max` emphasized in gold.
 - Lockup: mark plus wordmark, optionally with the descriptor `Global trading foundation`.
 - Small use: use the compact mark alone.
 - Large use: use the lockup.
 
-The mark must remain simple and scalable. Do not add extra candles, complex chart lines, ornamental effects, gradients, copied competitor shapes, or launch badges.
+The mark must remain simple and scalable. Do not add extra market bars, complex chart lines, ornamental effects, copied competitor shapes, launch badges, or raster/external dependencies.
 
 ## Theme Variants
 
@@ -101,12 +101,12 @@ The brand assets are visual sources only. They do not activate or imply:
 
 ## Earth / Planet Asset Source
 
-The Planet OS asset source is `modules/brand/components/TPMEarthMark.tsx`.
+The Living Earth Mark source is `modules/brand/components/TPMEarthMark.tsx`.
 
 Use it for:
 
+- public entry, auth, settings, diagnostics, and compact topbar identity
 - Founder Command surfaces
-- Planet OS documentation headers
 - future private command app icon exploration
 - internal ecosystem maps and readiness screens
 

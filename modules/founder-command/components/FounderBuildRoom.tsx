@@ -24,8 +24,10 @@ export default function FounderBuildRoom({ checkedAt }: FounderBuildRoomProps) {
     >
       <header className="tpm-founder-local-hero">
         <TPMEarthMark
+          animated
           className="tpm-founder-local-mark"
           size={72}
+          state="review_required"
           title="Trading Pro Max build room mark"
           variant="command"
         />

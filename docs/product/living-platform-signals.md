@@ -1,34 +1,28 @@
 # Living Platform Signals
 
-Living platform signals make Trading Pro Max feel operational without faking live infrastructure.
+Living Platform Signals are compact visual cues that express safe readiness without exposing internal systems or distracting from the trading workspace.
 
-Current signals:
+## Signal Set
 
-- Platform Pulse: ready, degraded, blocked, or fallback
-- Swiss Precision Clock: local, Zurich, and UTC time references
-- TPM Companion launcher: paper-safe, plan-aware, and collapsible
-- Why Blocked hints: concise reasons and safe next steps
-- Journal / Coach prompts: educational paper-session guidance
-- Plan Experience cards: active, locked, and future states without billing
-- feed state: fallback-first unless real external feed is configured later
-- execution mode: paper-only with live blocked
-- diagnostics readiness: compact engine and route truth
+| Signal | Public meaning | Source |
+| --- | --- | --- |
+| Living Earth Mark | Product identity and safe readiness tone | Product truth, local mode, readiness state |
+| Swiss Precision Clock | Local time discipline and session rhythm | Local clock only |
+| Platform Pulse | Compact system activity/readiness | Public-safe readiness state |
+| TPM Assistant status | Assistant availability and plan-aware help | Assistant context safety |
+| Paper-safe state | Non-live, no real-money mode | Product truth |
+| Blocked state | Capability intentionally unavailable | Why Blocked / Product Truth |
+| Fallback state | Simulated or fallback data path | Product Truth |
+| Local-only state | Closed local operation | Local operations protocol |
+| Review-required state | Human/review gate needed | Guardian / Legal / Quality |
 
-Rules:
+## Safety Rules
 
-- signals must be useful and compact
-- public trading surfaces stay chart-first
-- Founder/internal surfaces may show Planet OS reports
-- no fake monitoring, social publishing, broker/feed, billing, launch, users, revenue, or metrics
-- no Companion or Coach surface may execute, activate, approve, publish, or bypass safety
+- Signals may not expose secrets, private user data, raw logs, payment data, broker credentials, or social tokens.
+- Signals may not imply live execution, billing, broker/feed activation, public launch, real-money routing, or external publishing.
+- Signals must remain compact and readable in dark, light, LTR, and RTL contexts.
+- Signals must respect reduced-motion preferences.
 
-## Signal Map
+## Public UI Rule
 
-The signal map is defined in `lib/server/living-signals/state.ts`.
-
-Signals include platform pulse, Swiss precision clock, feed heartbeat, Guardian watch state, Legal watch state, Companion availability, Founder briefing freshness, ministry report freshness, journal prompt readiness, media queue readiness, and plan upgrade readiness. Each signal records visibility, display location, update cadence, clutter risk, reduced-motion behavior, and fake-state prevention.
-## Product Reality Signal Rule
-
-Living signals should make the product feel awake without cluttering the trading terminal.
-
-Allowed signals include compact clock, platform pulse, feed fallback state, execution mode, Companion availability, journal prompt readiness, Media readiness, and Founder briefing freshness. They must not show fake live market status, fake user activity, fake revenue, fake social metrics, or fake launch state.
+Normal users see professional public language only. Internal operating-system terms stay in Founder/internal surfaces and product docs.

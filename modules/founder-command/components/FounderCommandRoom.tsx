@@ -34,11 +34,11 @@ export default function FounderCommandRoom({
     >
       <header className="tpm-founder-hero">
         <div className="tpm-founder-logo-stack">
-          <TPMEarthMark variant="command" />
+          <TPMEarthMark animated state="local_only" variant="command" />
           <ProductLogo
             className="tpm-founder-logo"
             subtitle="Private Founder Command"
-            variant="hero"
+            variant="command"
           />
         </div>
         <div>
