@@ -826,6 +826,44 @@ export function PlatformDiagnosticsSurface({
       note: "Classifies next safe tasks and forbidden tasks; it is not an autonomous code executor.",
     },
   ];
+  const economyMediaGrowthItems = [
+    {
+      label: "Planet economy",
+      value: "Readiness only",
+      tone: "pending" as const,
+      note: "Free / Demo is active for paper-safe trust; Pro, VIP, and Enterprise remain planned/future.",
+    },
+    {
+      label: "Billing and fees",
+      value: "Inactive / 0%",
+      tone: "blocked" as const,
+      note: "No checkout, subscriptions, performance fee, or paid entitlement activation is user-visible.",
+    },
+    {
+      label: "Media office",
+      value: "Draft review only",
+      tone: "restricted" as const,
+      note: "No social accounts, tokens, external publishing, followers, views, or ads are active.",
+    },
+    {
+      label: "Community / VIP rooms",
+      value: "Planned",
+      tone: "pending" as const,
+      note: "Rooms require moderation, entitlement support, Guardian, Legal, and Founder review.",
+    },
+    {
+      label: "Partnerships",
+      value: "Inactive",
+      tone: "restricted" as const,
+      note: "Sponsored clock and brand partnerships require signed contracts and review before any public use.",
+    },
+    {
+      label: "Final acceptance",
+      value: "Internal only",
+      tone: "restricted" as const,
+      note: "Not launch-ready; human visual acceptance, beta testing, legal review, and real environment gates remain.",
+    },
+  ];
   const stateExplanationHighlights =
     stateExplanationLoadState.status === "ready"
       ? stateExplanationLoadState.explanations.filter((explanation) =>
@@ -1150,6 +1188,10 @@ export function PlatformDiagnosticsSurface({
 
       <UtilitySection eyebrow="INTELLIGENCE" title="Self-governance readiness">
         <UtilityGrid items={intelligenceGovernanceItems} />
+      </UtilitySection>
+
+      <UtilitySection eyebrow="ECONOMY / MEDIA" title="Growth readiness">
+        <UtilityGrid items={economyMediaGrowthItems} />
       </UtilitySection>
 
       <UtilitySection eyebrow="STATE" title="Why blocked readiness">

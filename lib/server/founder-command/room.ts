@@ -1,6 +1,7 @@
 import "server-only";
 
 import { getPlanEntitlementSnapshot } from "@/lib/plans/entitlements";
+import { getPlanetEconomyGrowthReadinessSnapshot } from "@/lib/server/economy-growth";
 import { getProductTruthSnapshot } from "@/lib/server/product/truth";
 import { getPlanetBlueprintSnapshot } from "@/lib/server/planet-os/blueprint";
 import type { MinistryReport, PlanetRiskLevel } from "@/lib/server/planet-os/types";
@@ -72,6 +73,7 @@ export type FounderCommandGuardianLegalPanel = {
 
 export type FounderCommandTreasuryPanel = {
   controls: FounderTreasuryControl[];
+  economyReadiness: ReturnType<typeof getPlanetEconomyGrowthReadinessSnapshot>["economy"];
   planTruth: ReturnType<typeof getPlanEntitlementSnapshot>["truth"];
   plans: ReturnType<typeof getPlanEntitlementSnapshot>["plans"];
   currentPerformanceFee: "0%";
@@ -82,6 +84,9 @@ export type FounderCommandTreasuryPanel = {
 
 export type FounderCommandMediaVideoPanel = {
   media: FounderMediaApproval[];
+  mediaOffice: ReturnType<typeof getPlanetEconomyGrowthReadinessSnapshot>["mediaOffice"];
+  aiVideoStudio: ReturnType<typeof getPlanetEconomyGrowthReadinessSnapshot>["aiVideoStudio"];
+  partnerships: ReturnType<typeof getPlanetEconomyGrowthReadinessSnapshot>["partnerships"];
   socialAccountsConnected: false;
   externalPublishingActive: false;
   aiVideoPublishingActive: false;
@@ -136,6 +141,12 @@ export type FounderCommandRoomFoundationSnapshot = {
   planVisibility: FounderCommandPlanVisibility;
   mediaVideo: FounderCommandMediaVideoPanel;
   coordination: FounderCommandCoordinationPanel;
+  finalInternalAcceptance: ReturnType<
+    typeof getPlanetEconomyGrowthReadinessSnapshot
+  >["finalAcceptance"];
+  finalGapChecklist: ReturnType<
+    typeof getPlanetEconomyGrowthReadinessSnapshot
+  >["finalGapChecklist"];
   productTruth: ReturnType<typeof getProductTruthSnapshot>;
   security: {
     secretsExposed: false;
@@ -213,6 +224,7 @@ export function getFounderCommandRoomFoundationSnapshot(
   const productTruth = getProductTruthSnapshot(checkedAt);
   const planEntitlements = getPlanEntitlementSnapshot("demo_free", checkedAt);
   const founderCompanion = getFounderPersonalCompanionSnapshot(checkedAt);
+  const economyGrowth = getPlanetEconomyGrowthReadinessSnapshot(checkedAt);
   const readiness = reporting.commandReadiness;
   const coordination = reporting.coordination;
 
@@ -310,6 +322,7 @@ export function getFounderCommandRoomFoundationSnapshot(
     },
     treasury: {
       controls: readiness.treasury,
+      economyReadiness: economyGrowth.economy,
       planTruth: planEntitlements.truth,
       plans: planEntitlements.plans,
       currentPerformanceFee: "0%",
@@ -358,6 +371,9 @@ export function getFounderCommandRoomFoundationSnapshot(
     },
     mediaVideo: {
       media: readiness.media,
+      mediaOffice: economyGrowth.mediaOffice,
+      aiVideoStudio: economyGrowth.aiVideoStudio,
+      partnerships: economyGrowth.partnerships,
       socialAccountsConnected: false,
       externalPublishingActive: false,
       aiVideoPublishingActive: false,
@@ -386,6 +402,8 @@ export function getFounderCommandRoomFoundationSnapshot(
       ],
       realWorkflowExecutionActive: false,
     },
+    finalInternalAcceptance: economyGrowth.finalAcceptance,
+    finalGapChecklist: economyGrowth.finalGapChecklist,
     productTruth,
     security: {
       secretsExposed: false,

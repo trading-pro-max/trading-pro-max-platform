@@ -82,3 +82,24 @@ High-risk campaign language requires Founder approval after Guardian and Legal r
 Media items move through idea, draft, brand review, Guardian review, Legal review, Founder approval, scheduled, published, blocked, and archived states. In the current architecture, scheduled and published remain future states only because no external posting system is connected.
 
 Runtime readiness mirrors this lifecycle through the Content Factory Engine. Safe education may become a safe_auto_publish candidate later, but sensitive claims still require Brand, Guardian, Legal, and Founder review, and blocked claims must be rewritten.
+## Campaign Readiness Truth
+
+Content calendar and campaign systems remain internal draft/readiness concepts.
+
+Allowed now:
+
+- educational ideas
+- product update drafts
+- trust/safety copy drafts
+- AI video script outlines
+- campaign planning notes
+
+Blocked now:
+
+- external publishing
+- social scheduling
+- connected social accounts
+- follower/view/ads metrics
+- unreviewed Pro/VIP claims
+- guaranteed profit claims
+- fake partnership claims

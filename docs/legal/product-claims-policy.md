@@ -49,3 +49,21 @@ The Guardian + Legal Rules Engine blocks or escalates unsafe claim text before i
 ## Presidency Coordination
 
 Cross-ministry product claims route through Founder Presidency Coordination. Sensitive claims identify Legal, Guardian, Treasury, Engineering, Rights/Brand, Council, and Founder review requirements before any future public use.
+## Economy, VIP, Community, And Partnership Claims
+
+Public and product copy must not claim:
+
+- billing active
+- subscriptions active
+- Pro active
+- VIP active
+- Enterprise available
+- performance fee active
+- active community rooms
+- active VIP private rooms
+- active social publishing
+- followers, views, or ads metrics
+- active partnerships or sponsorships
+- partner endorsement without contract
+
+Every future partnership, sponsored clock, VIP, billing, or community claim requires Product Truth review, Guardian review, Legal review, Rights/IP review where relevant, and Founder approval.

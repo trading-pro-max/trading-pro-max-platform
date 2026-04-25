@@ -29,7 +29,10 @@ export type ProductTruthKey =
   | "performance_revenue_model"
   | "native_app_readiness"
   | "founder_command"
-  | "plan_based_planet_layers";
+  | "plan_based_planet_layers"
+  | "community_vip_rooms"
+  | "brand_partnerships"
+  | "final_internal_acceptance";
 
 export type ProductTruthItem = {
   key: ProductTruthKey;
@@ -220,6 +223,39 @@ const items: ProductTruthItem[] = [
     internalCopy: "Guest, Demo, Pro, VIP, Enterprise, Staff, and Founder classes are access models, not fake paid activation.",
     safeNextStep: "Keep Demo active, Pro/VIP planned, Enterprise future, and Founder Command owner-only.",
     mustNotClaim: ["VIP active", "Pro paid active", "Enterprise available", "Founder Command as user plan"],
+  },
+  {
+    key: "community_vip_rooms",
+    label: "Community and VIP rooms",
+    state: "planned",
+    publicCopy: "Community and VIP rooms are planned and not active.",
+    internalCopy:
+      "General, Pro, VIP, feedback, support, and learning rooms require Guardian moderation, Legal claim review, entitlement support, and Founder approval before activation.",
+    safeNextStep:
+      "Keep rooms as architecture/readiness only until moderation, privacy, support, and entitlement gates exist.",
+    mustNotClaim: ["active rooms", "members", "VIP private room access", "copy-trading community"],
+  },
+  {
+    key: "brand_partnerships",
+    label: "Brand partnerships",
+    state: "inactive",
+    publicCopy: "No brand partnership or sponsored clock is active.",
+    internalCopy:
+      "Swiss Precision Clock sponsorship and other partnerships are future-only and require signed contracts, Rights/IP, Legal, Guardian, and Founder review.",
+    safeNextStep:
+      "Do not name companies, imply endorsement, or use partner assets without an executed contract and review chain.",
+    mustNotClaim: ["sponsored by", "official partner", "endorsed by", "partner clock active"],
+  },
+  {
+    key: "final_internal_acceptance",
+    label: "Final internal acceptance",
+    state: "review_required",
+    publicCopy: "Internal acceptance is not public launch readiness.",
+    internalCopy:
+      "The product can continue internal review, but human visual acceptance, real-world beta testing, legal/regulatory review, staging, monitoring, and production gates remain unresolved.",
+    safeNextStep:
+      "Continue internal refinement and keep launch, production, billing, broker/feed, and publishing activation out of scope.",
+    mustNotClaim: ["launch ready", "production approved", "publicly launched", "final external acceptance"],
   },
 ];
 

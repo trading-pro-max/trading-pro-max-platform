@@ -385,6 +385,28 @@ const approvalQueue: FounderApprovalItem[] = [
     safeNextStep: "Keep billing inactive and avoid checkout or paid-access language.",
   },
   {
+    id: "founder-command-sponsored-clock-review",
+    title: "Sponsored Swiss Precision Clock partnership wording",
+    module: "rights_brand_command",
+    lifecycle: "pending_legal_review",
+    riskLevel: "high",
+    actionState: "founder_approval_required",
+    requiredReviews: ["Rights/IP", "Legal", "Guardian", "Founder"],
+    safeNextStep:
+      "Keep sponsored clock and brand partnership language inactive until a signed contract and review chain exist.",
+  },
+  {
+    id: "founder-command-vip-community-review",
+    title: "Community and VIP room readiness",
+    module: "community_vip_rooms_command",
+    lifecycle: "pending_guardian_review",
+    riskLevel: "high",
+    actionState: "founder_approval_required",
+    requiredReviews: ["Guardian", "Legal", "Founder"],
+    safeNextStep:
+      "Keep all community and VIP rooms planned-only until moderation, entitlement, and claim-review gates exist.",
+  },
+  {
     id: "founder-command-production-secret-action",
     title: "Production or secret action",
     module: "ops_tower_command",
@@ -415,6 +437,22 @@ const treasury: FounderTreasuryControl[] = [
     currentTruth: "Current fee is 0%; any 5%-10% future concept is hidden, inactive, and requires legal/regulatory review.",
     activationRequirements: ["legal review", "regulatory review", "billing infrastructure", "public disclosure", "user consent"],
   },
+  {
+    id: "planet-economy-growth-readiness",
+    label: "Planet economy and growth readiness",
+    readiness: "planned",
+    riskLevel: "medium",
+    actionState: "review_required",
+    currentTruth:
+      "Free / Demo is active for paper-safe trust; Pro, VIP, and Enterprise remain planned/future with no fake paid activation.",
+    activationRequirements: [
+      "entitlement implementation",
+      "support readiness",
+      "Legal review",
+      "Guardian review",
+      "Founder approval",
+    ],
+  },
 ];
 
 const media: FounderMediaApproval[] = [
@@ -425,6 +463,15 @@ const media: FounderMediaApproval[] = [
     lifecycle: "draft",
     riskLevel: "high",
     currentTruth: "No social accounts are connected and no external publishing is active.",
+  },
+  {
+    id: "ai-video-studio-script-queue",
+    channel: "planned AI Video Studio",
+    contentType: "ai_video_script",
+    lifecycle: "draft",
+    riskLevel: "high",
+    currentTruth:
+      "Video scripts may be drafted for review only; no upload, publishing, tokens, views, or channel metrics exist.",
   },
 ];
 
@@ -477,10 +524,12 @@ const ops: FounderOpsSignal[] = [
   {
     id: "founder-command-readiness-api",
     label: "Owner-only readiness API",
-    readiness: "blocked",
+    readiness: "active_contract",
     riskLevel: "high",
-    currentTruth: "No API route is exposed because owner-only route guard is intentionally not expanded in this pass.",
-    safeNextStep: "Add a guarded internal API only after private app authentication and audit requirements are finalized.",
+    currentTruth:
+      "Sanitized read-only Founder readiness APIs exist; they do not execute approvals, expose secrets, publish, bill, launch, or route money.",
+    safeNextStep:
+      "Keep APIs readiness-only until private owner app authentication, step-up confirmation, and audit requirements are finalized.",
   },
 ];
 

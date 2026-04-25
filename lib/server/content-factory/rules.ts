@@ -18,6 +18,15 @@ const blockedPatterns = [
   "billing active",
   "public launch",
   "sharia certified",
+  "vip active",
+  "official partner",
+  "sponsored by",
+  "partner clock active",
+  "social accounts connected",
+  "auto-publish",
+  "external publishing active",
+  "million views",
+  "followers",
   "financial advice",
   "legal advice",
 ];
@@ -46,7 +55,11 @@ function classifyRisk(text: string, contentType: ContentFactoryType): {
     contentType === "pro_vip_teaser" ||
     contentType === "ai_video_script" ||
     contentType === "short_video_script" ||
-    contentType === "long_video_script"
+    contentType === "long_video_script" ||
+    contentType === "ai_video_caption" ||
+    contentType === "thumbnail_brief" ||
+    contentType === "partnership_brief" ||
+    contentType === "sponsored_clock_brief"
   ) {
     return {
       risk: "approval_required",
@@ -143,10 +156,44 @@ export function getContentFactoryReadinessSnapshot(
         contentType: "product_update",
         text: "Live trading active with broker connected",
       }),
+      sponsoredClockClaim: classifyContentFactoryDraft({
+        contentType: "sponsored_clock_brief",
+        text: "Sponsored clock partnership concept requires contract review before any public wording.",
+      }),
+      aiVideoScript: classifyContentFactoryDraft({
+        contentType: "ai_video_script",
+        text: "Educational script explaining paper-safe platform truth and blocked live execution.",
+      }),
+    },
+    mediaOffice: {
+      channels: [
+        "X / Twitter",
+        "Instagram",
+        "TikTok",
+        "YouTube",
+        "Facebook",
+        "LinkedIn",
+        "Telegram",
+        "Discord",
+        "Reddit",
+        "Blog / Newsroom",
+      ],
+      accountsConnected: false,
+      tokensPresent: false,
+      externalPublishing: "blocked",
+      metrics: "not_present",
+    },
+    aiVideoStudio: {
+      upload: "blocked",
+      publishing: "blocked",
+      fakeViews: "blocked",
+      requiredReviews: ["Brand", "Guardian", "Legal", "Founder"],
     },
     truth: {
       externalPublishing: "blocked",
       socialAccountsConnected: false,
+      socialTokens: "not_present",
+      fakeFollowersOrViews: "blocked",
       founderApprovalRequiredForSensitiveClaims: true,
     },
   };

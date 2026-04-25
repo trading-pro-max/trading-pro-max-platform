@@ -60,3 +60,17 @@ Future VIP may include:
 VIP is planned. Billing is inactive. Checkout is inactive. VIP Assistant access is locked/planned unless real account entitlements support it. No user is granted fake VIP status by this roadmap.
 
 Current runtime truth: VIP appears only as a locked/planned assistant and plan identity. No subscription, private-room access, advanced strategy review, premium report, or performance-based fee is active.
+## Subscription Readiness Truth
+
+VIP subscriptions are not active. No billing provider, checkout, paid entitlement, invoice, subscription lifecycle, or priority support operation is active in this phase.
+
+VIP remains a value strategy and roadmap layer. Any future activation requires:
+
+- entitlement implementation
+- billing provider configuration
+- cancellation/refund/support process
+- Guardian review
+- Legal review
+- Founder approval
+- visual/product acceptance
+- no guaranteed profit or win-rate language

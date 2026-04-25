@@ -127,3 +127,14 @@ Blocked language includes bypass/force-enable wording, guaranteed-profit claims,
 The Companion Context now includes the current citizen layer. Guest receives minimal orientation. Demo / Free receives basic paper-safe guidance. Pro and VIP receive planned richer guidance only when entitlement support exists. Enterprise remains future.
 
 The Companion may explain visible cities/modules for the current layer, but it must not reveal private Founder Command, private ministry data, performance-fee research, secrets, or paid activation paths.
+## Economy Layer Assistant Truth
+
+Assistant tiers support the plan economy only through truthful guidance:
+
+- Guest: orientation only.
+- Free / Demo: basic paper-safe Companion.
+- Pro: richer guidance planned.
+- VIP: VIP Brain planned.
+- Enterprise: future team/admin guidance.
+
+The assistant must not execute trades, activate live mode, activate broker/feed, unlock billing, claim paid access, guarantee signals, imply VIP is active, or pressure the user into upgrade behavior.

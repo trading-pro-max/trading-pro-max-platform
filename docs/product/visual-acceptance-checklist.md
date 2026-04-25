@@ -87,3 +87,17 @@ Remaining visual evidence required before public launch:
 - offline/reconnect scenario capture if offline behavior becomes product-facing
 
 No visual checklist item may override product truth, safety gates, or launch blockers.
+## Economy / Media / Growth Visual Acceptance
+
+Future UI for economy, media, community, VIP, partnership, and final acceptance must remain compact and internal unless explicitly user-facing by plan.
+
+Check:
+
+- no billing UI unless inactive/planned truth is clear
+- no checkout or pricing pressure
+- no fake VIP active state
+- no social metrics
+- no partnership logos or company names without contract
+- no clutter on the workstation
+- diagnostics/settings stay compact and non-raw
+- Founder Command economy/media readiness remains owner-only

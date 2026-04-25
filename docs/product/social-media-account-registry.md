@@ -40,3 +40,8 @@ No social credential, token, cookie, session, recovery code, or API key may be c
 ## Truth Rule
 
 A channel is not active until the account exists, access is secured, publishing policy is approved, and the Founder authorizes use.
+## Registry Truth
+
+The social media account registry is readiness-only. No account is connected, no API token is stored, no posting is active, and no followers, views, ads, or campaign metrics are claimed.
+
+Future channels may include major social, video, messaging, community, and newsroom destinations, but each channel requires Legal, Guardian, brand, and Founder review before connection or publication.

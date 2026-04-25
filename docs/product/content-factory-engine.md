@@ -59,3 +59,16 @@ The readiness snapshot classifies:
 - live trading/broker claim: blocked
 
 No sample creates an external post, social token, fake metric, or launch claim.
+## Economy / Media / Growth Samples
+
+The Content Factory now classifies:
+
+- educational platform tips as safe draft candidates that still stay internal until publishing exists
+- VIP claims as approval-required
+- guaranteed-profit claims as blocked
+- Islamic/Sharia certification claims as blocked unless real certification exists
+- live trading claims as blocked
+- sponsored clock/partnership briefs as approval-required unless they imply an active partnership, which is blocked
+- AI video scripts as draft/review-only
+
+No social tokens, connected accounts, publishing, fake followers, fake views, ads metrics, or launch claims are active.

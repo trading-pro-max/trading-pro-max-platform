@@ -1,4 +1,5 @@
 import { noStoreJson } from "@/lib/server/security";
+import { getPlanetEconomyGrowthReadinessSnapshot } from "@/lib/server/economy-growth";
 import {
   getInterMinistryCoordinationSnapshot,
   getPlanetBlueprintSnapshot,
@@ -20,6 +21,7 @@ export async function GET() {
   const hierarchy = getPlanetEarthHierarchySnapshot(snapshot.checkedAt);
   const resources = getPlanetResourceSnapshot(snapshot.checkedAt);
   const coordination = getInterMinistryCoordinationSnapshot(snapshot.checkedAt);
+  const economyGrowth = getPlanetEconomyGrowthReadinessSnapshot(snapshot.checkedAt);
 
   return noStoreJson({
     ok: true,
@@ -63,6 +65,20 @@ export async function GET() {
     },
     coordinationSummary: coordination.summary,
     resourceSummary: resources.summary,
+    economyGrowthSummary: {
+      treasuryState: economyGrowth.economy.treasuryState,
+      billing: economyGrowth.economy.monetizationReadiness.billing,
+      paidEntitlements: economyGrowth.economy.monetizationReadiness.paidEntitlements,
+      performanceBasedRevenue:
+        economyGrowth.economy.monetizationReadiness.performanceBasedRevenue,
+      community: economyGrowth.community.status,
+      mediaOffice: economyGrowth.mediaOffice.status,
+      aiVideoStudio: economyGrowth.aiVideoStudio.status,
+      partnerships: economyGrowth.partnerships.status,
+      finalAcceptance: economyGrowth.finalAcceptance.status,
+      launchReady: economyGrowth.finalAcceptance.launchReady,
+      truth: economyGrowth.truth,
+    },
     intelligenceSummary: {
       brainContextQuality: brain.contextQuality,
       decisionSupportMode: brain.decisionSupportMode,

@@ -78,3 +78,19 @@ Current truth:
 - not visible to public users
 
 `/api/founder/treasury/readiness` reports this readiness truth only. It does not implement billing, checkout, subscriptions, paid entitlements, or public performance-fee UI.
+## Economy / Growth Readiness Layer
+
+Founder Treasury now sees the planet economy as readiness only:
+
+- Free / Demo active for paper-safe learning and trust.
+- Pro planned.
+- VIP planned.
+- Enterprise future.
+- billing inactive.
+- checkout inactive.
+- subscriptions inactive.
+- current performance fee 0%.
+- 5%-10% performance-based revenue remains hidden/inactive future research only.
+- legal review, regulatory review, user consent, secure billing, audit trail, and Founder approval are required before any future monetization activation.
+
+Treasury must not claim revenue, paying users, subscriptions, active VIP, active Pro, active Enterprise, partnerships, billing, checkout, or performance fees.

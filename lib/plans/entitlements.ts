@@ -47,7 +47,12 @@ export const PLAN_ENTITLEMENTS: PlanEntitlementContract[] = [
     ],
     hiddenFeatures: [founderCommandHidden],
     upgradeExplanation: "No upgrade flow is active because billing and checkout are inactive.",
-    safetyRules: ["paper-only truth visible", "no paid activation claim", "no live execution by plan"],
+    safetyRules: [
+      "paper-only truth visible",
+      "no paid activation claim",
+      "no live execution by plan",
+      "community rooms planned only",
+    ],
   },
   {
     planId: "pro",
@@ -68,7 +73,12 @@ export const PLAN_ENTITLEMENTS: PlanEntitlementContract[] = [
     ],
     hiddenFeatures: [founderCommandHidden],
     upgradeExplanation: "Pro is a planned tier; checkout, billing, and entitlement activation are inactive.",
-    safetyRules: ["no Pro active claim", "no better-outcome promise", "no live execution by plan"],
+    safetyRules: [
+      "no Pro active claim",
+      "no better-outcome promise",
+      "no live execution by plan",
+      "no Pro community active claim",
+    ],
   },
   {
     planId: "vip",
@@ -89,7 +99,12 @@ export const PLAN_ENTITLEMENTS: PlanEntitlementContract[] = [
     ],
     hiddenFeatures: [founderCommandHidden],
     upgradeExplanation: "VIP is planned only; no paid access, premium activation, or VIP results claim exists.",
-    safetyRules: ["no guaranteed signals", "no win-rate claims", "no fake premium capability"],
+    safetyRules: [
+      "no guaranteed signals",
+      "no win-rate claims",
+      "no fake premium capability",
+      "no VIP private room active claim",
+    ],
   },
   {
     planId: "enterprise",

@@ -1205,6 +1205,24 @@ test.describe("verified platform truth", () => {
       privateDataSaleAllowed: false,
       fakeMetricsAllowed: false,
     });
+    expect(planetPayload.economyGrowthSummary).toMatchObject({
+      treasuryState: "readiness_only",
+      billing: "inactive",
+      paidEntitlements: "not_enabled",
+      performanceBasedRevenue: "hidden_inactive_research_only",
+      community: "planned_only",
+      mediaOffice: "draft_review_only",
+      aiVideoStudio: "script_readiness_only",
+      partnerships: "inactive_planned",
+      finalAcceptance: "internal_review_only",
+      launchReady: false,
+      truth: {
+        fakeUsersIncluded: false,
+        fakeRevenueIncluded: false,
+        fakeMetricsIncluded: false,
+        fakePartnershipsIncluded: false,
+      },
+    });
     expect(planetPayload.intelligenceSummary).toMatchObject({
       brainContextQuality: "bounded",
       decisionSupportMode: "paper_decision_support",
@@ -1358,6 +1376,18 @@ test.describe("verified platform truth", () => {
           state: "guarded",
           safeNextStep:
             "Keep Demo active, Pro/VIP planned, Enterprise future, and Founder Command owner-only.",
+        }),
+        expect.objectContaining({
+          key: "brand_partnerships",
+          state: "inactive",
+        }),
+        expect.objectContaining({
+          key: "community_vip_rooms",
+          state: "planned",
+        }),
+        expect.objectContaining({
+          key: "final_internal_acceptance",
+          state: "review_required",
         }),
       ])
     );
@@ -1560,6 +1590,7 @@ test.describe("verified platform truth", () => {
         subscriptionsInactive: true,
         currentPerformanceFee: "0%",
         futurePerformanceFeeResearchRange: "5%-10%",
+        performanceBasedRevenueResearch: "hidden_inactive_research_only",
         visibleToPublicUsers: false,
       },
       mediaCommand: {
@@ -1568,6 +1599,24 @@ test.describe("verified platform truth", () => {
         externalPublishingActive: false,
         fakeFollowersIncluded: false,
         fakeMetricsIncluded: false,
+      },
+      communityVipGrowth: {
+        readiness: "planned_only",
+        noFakeRooms: true,
+        noFakeVipActivation: true,
+      },
+      partnershipsCommand: {
+        readiness: "inactive_planned",
+        fakePartnershipClaims: false,
+        impliedEndorsementAllowed: false,
+      },
+      finalInternalAcceptance: {
+        readiness: "internal_review_only",
+        launchReady: false,
+        publicLaunchApproved: false,
+        productionApproved: false,
+        humanVisualAcceptanceRequired: true,
+        realWorldBetaTestingRequired: true,
       },
       safety: {
         approvalExecutionActive: false,
@@ -1613,14 +1662,27 @@ test.describe("verified platform truth", () => {
     const founderApproval = await request.get("/api/founder/approval/readiness");
     const founderTreasury = await request.get("/api/founder/treasury/readiness");
     const founderMedia = await request.get("/api/founder/media/readiness");
+    const founderEconomy = await request.get("/api/founder/economy/readiness");
+    const founderPartnerships = await request.get(
+      "/api/founder/partnerships/readiness"
+    );
+    const founderFinalAcceptance = await request.get(
+      "/api/founder/final-acceptance/readiness"
+    );
     expect(founderModules.status()).toBe(200);
     expect(founderApproval.status()).toBe(200);
     expect(founderTreasury.status()).toBe(200);
     expect(founderMedia.status()).toBe(200);
+    expect(founderEconomy.status()).toBe(200);
+    expect(founderPartnerships.status()).toBe(200);
+    expect(founderFinalAcceptance.status()).toBe(200);
     const founderModulesPayload = await founderModules.json();
     const founderApprovalPayload = await founderApproval.json();
     const founderTreasuryPayload = await founderTreasury.json();
     const founderMediaPayload = await founderMedia.json();
+    const founderEconomyPayload = await founderEconomy.json();
+    const founderPartnershipsPayload = await founderPartnerships.json();
+    const founderFinalAcceptancePayload = await founderFinalAcceptance.json();
     expect(founderModulesPayload.snapshot).toMatchObject({
       mode: "founder_command_modules_readiness",
       moduleSummary: { total: 20 },
@@ -1649,6 +1711,69 @@ test.describe("verified platform truth", () => {
         socialAccountsConnected: false,
         socialTokensPresent: false,
         externalPublishingActive: false,
+        mediaOffice: {
+          noAccountsConnected: true,
+          noApiTokens: true,
+          externalPublishingActive: false,
+          fakeMetricsIncluded: false,
+        },
+        aiVideoStudio: {
+          uploadActive: false,
+          publishingActive: false,
+          fakeViewsIncluded: false,
+        },
+      },
+    });
+    expect(founderEconomyPayload.snapshot).toMatchObject({
+      mode: "founder_economy_readiness",
+      economy: {
+        monetizationReadiness: {
+          billing: "inactive",
+          checkout: "inactive",
+          subscriptions: "inactive",
+          paidEntitlements: "not_enabled",
+          currentPerformanceFee: "0%",
+          performanceBasedRevenue: "hidden_inactive_research_only",
+          userVisible: false,
+        },
+      },
+      community: {
+        status: "planned_only",
+        fakeActiveRooms: false,
+      },
+      finalAcceptance: {
+        launchReady: false,
+        publicLaunchApproved: false,
+      },
+      truth: {
+        fakeUsersIncluded: false,
+        fakeRevenueIncluded: false,
+        fakeMetricsIncluded: false,
+      },
+    });
+    expect(founderPartnershipsPayload.snapshot).toMatchObject({
+      mode: "founder_partnerships_readiness",
+      partnerships: {
+        status: "inactive_planned",
+        fakePartnershipClaims: false,
+        impliedEndorsementAllowed: false,
+      },
+      sponsoredClock: {
+        state: "inactive",
+        publicVisibility: "off",
+        companyNamesInUserUi: false,
+        contractRequired: true,
+      },
+    });
+    expect(founderFinalAcceptancePayload.snapshot).toMatchObject({
+      mode: "founder_final_internal_acceptance_readiness",
+      finalAcceptance: {
+        status: "internal_review_only",
+        launchReady: false,
+        productionApproved: false,
+        humanVisualAcceptanceRequired: true,
+        realWorldBetaTestingRequired: true,
+        recommendation: "continue_internal_refinement",
       },
     });
     const founderApiText = JSON.stringify([
@@ -1657,12 +1782,16 @@ test.describe("verified platform truth", () => {
       founderApprovalPayload,
       founderTreasuryPayload,
       founderMediaPayload,
+      founderEconomyPayload,
+      founderPartnershipsPayload,
+      founderFinalAcceptancePayload,
     ]);
     expect(founderApiText).not.toMatch(/DATABASE_URL|TPM_OPERATOR_KEY/i);
     expect(founderApiText).not.toMatch(
       /DoNotLeak|TradingProMaxOperator|TradingProMaxDemo|Bearer\s+[A-Za-z0-9]/i
     );
     expect(founderApiText).not.toMatch(/fakeUsersIncluded":true|fakeRevenueIncluded":true|fakeMetricsIncluded":true/);
+    expect(founderApiText).not.toMatch(/fakePartnershipsIncluded":true/);
 
     const founderCommandPath = await request.get("/founder-command");
     expect([200, 404]).toContain(founderCommandPath.status());
@@ -1957,6 +2086,77 @@ test.describe("verified platform truth", () => {
       guaranteedProfitClaim: { risk: "blocked" },
       islamicCertificationClaim: { risk: "blocked" },
       liveTradingClaim: { risk: "blocked" },
+      sponsoredClockClaim: { risk: "approval_required" },
+      aiVideoScript: { risk: "approval_required" },
+    });
+    expect(contentFactoryReadinessPayload.snapshot.mediaOffice).toMatchObject({
+      accountsConnected: false,
+      tokensPresent: false,
+      externalPublishing: "blocked",
+      metrics: "not_present",
+    });
+    expect(contentFactoryReadinessPayload.snapshot.aiVideoStudio).toMatchObject({
+      upload: "blocked",
+      publishing: "blocked",
+      fakeViews: "blocked",
+      requiredReviews: expect.arrayContaining(["Guardian", "Legal", "Founder"]),
+    });
+    expect(contentFactoryReadinessPayload.snapshot.truth).toMatchObject({
+      socialTokens: "not_present",
+      fakeFollowersOrViews: "blocked",
+    });
+
+    const planetEconomy = await request.get("/api/planet/economy/readiness");
+    const planetMedia = await request.get("/api/planet/media/readiness");
+    expect(planetEconomy.status()).toBe(200);
+    expect(planetMedia.status()).toBe(200);
+    const planetEconomyPayload = await planetEconomy.json();
+    const planetMediaPayload = await planetMedia.json();
+    expect(planetEconomyPayload.snapshot).toMatchObject({
+      mode: "planet_economy_readiness",
+      economy: {
+        treasuryState: "readiness_only",
+        revenueReadiness: "planned_not_active",
+        monetizationReadiness: {
+          billing: "inactive",
+          checkout: "inactive",
+          subscriptions: "inactive",
+          currentPerformanceFee: "0%",
+          userVisible: false,
+        },
+      },
+      truth: {
+        liveExecution: "blocked",
+        realMoneyRouting: "blocked",
+        billing: "inactive",
+        publicLaunch: "inactive",
+        fakeUsersIncluded: false,
+        fakeRevenueIncluded: false,
+        fakeMetricsIncluded: false,
+        fakePartnershipsIncluded: false,
+      },
+    });
+    expect(planetEconomyPayload.snapshot.resourcesToEconomy.rules).toEqual(
+      expect.arrayContaining(["do not sell private user data"])
+    );
+    expect(planetMediaPayload.snapshot).toMatchObject({
+      mode: "planet_media_readiness",
+      mediaOffice: {
+        status: "draft_review_only",
+        noAccountsConnected: true,
+        noApiTokens: true,
+        externalPublishingActive: false,
+      },
+      aiVideoStudio: {
+        status: "script_readiness_only",
+        uploadActive: false,
+        publishingActive: false,
+        fakeViewsIncluded: false,
+      },
+      partnerships: {
+        status: "inactive_planned",
+        fakePartnershipClaims: false,
+      },
     });
 
     const buildPlannerReadiness = await request.get("/api/build-planner/readiness");
@@ -2125,6 +2325,12 @@ test.describe("verified platform truth", () => {
     expect(routes.get("/api/planet/content-factory/readiness")).toMatchObject({
       status: "ready",
     });
+    expect(routes.get("/api/planet/economy/readiness")).toMatchObject({
+      status: "ready",
+    });
+    expect(routes.get("/api/planet/media/readiness")).toMatchObject({
+      status: "ready",
+    });
     expect(routes.get("/api/build-planner/readiness")).toMatchObject({
       status: "ready",
     });
@@ -2147,6 +2353,15 @@ test.describe("verified platform truth", () => {
       status: "ready",
     });
     expect(routes.get("/api/founder/media/readiness")).toMatchObject({
+      status: "ready",
+    });
+    expect(routes.get("/api/founder/economy/readiness")).toMatchObject({
+      status: "ready",
+    });
+    expect(routes.get("/api/founder/partnerships/readiness")).toMatchObject({
+      status: "ready",
+    });
+    expect(routes.get("/api/founder/final-acceptance/readiness")).toMatchObject({
       status: "ready",
     });
     expect(["ready", "degraded"]).toContain(

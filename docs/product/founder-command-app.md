@@ -84,3 +84,15 @@ The snapshot is available as sanitized readiness data through `/api/founder/comm
 - approval execution: planned later
 - audit-backed actions: planned later
 - sensitive actions: blocked until owner auth, step-up confirmation, required reviews, and audit gates exist
+## Economy / Media / Growth Command Readiness
+
+Founder Command now summarizes economy, plan growth, media, AI Video, community, VIP, partnership, sponsored clock, performance-fee research, final acceptance, and gap status.
+
+This remains owner-only and read-only:
+
+- no billing activation
+- no publishing
+- no partnership activation
+- no approval execution
+- no revenue/user/metric claims
+- no public route or public navigation entry

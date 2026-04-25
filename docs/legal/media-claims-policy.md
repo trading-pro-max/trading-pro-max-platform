@@ -32,3 +32,10 @@ Media Office, AI Video Studio, Community, Treasury, and Founder Command must use
 ## Runtime Rule Connection
 
 Content Factory classifications must pass through Guardian, Legal, and Founder approval when claims touch Pro/VIP, AI capability, Islamic wording, launch, broker/feed/live, billing/pricing, ads, or performance discussion. External publishing remains blocked until real account connections and approvals exist.
+## Economy / Partnership Media Rules
+
+Media must not claim active partnerships, sponsorships, followers, views, ads, social account connections, Pro/VIP activation, billing, public launch, live execution, broker/feed activation, or Islamic/Sharia certification.
+
+Sponsored clock or brand partnership content requires signed contract, Rights/IP review, Legal review, Guardian review, and Founder approval before any public wording.
+
+AI video content remains script/draft only until a future reviewed publishing phase. No uploads or external posting are active.

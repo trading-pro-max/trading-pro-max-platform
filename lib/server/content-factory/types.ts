@@ -7,6 +7,10 @@ export type ContentFactoryType =
   | "ai_video_script"
   | "short_video_script"
   | "long_video_script"
+  | "ai_video_caption"
+  | "thumbnail_brief"
+  | "partnership_brief"
+  | "sponsored_clock_brief"
   | "carousel_outline"
   | "changelog_summary"
   | "community_announcement";
@@ -56,10 +60,27 @@ export type ContentFactoryReadinessSnapshot = {
     guaranteedProfitClaim: ContentFactoryClassification;
     islamicCertificationClaim: ContentFactoryClassification;
     liveTradingClaim: ContentFactoryClassification;
+    sponsoredClockClaim: ContentFactoryClassification;
+    aiVideoScript: ContentFactoryClassification;
+  };
+  mediaOffice: {
+    channels: string[];
+    accountsConnected: false;
+    tokensPresent: false;
+    externalPublishing: "blocked";
+    metrics: "not_present";
+  };
+  aiVideoStudio: {
+    upload: "blocked";
+    publishing: "blocked";
+    fakeViews: "blocked";
+    requiredReviews: string[];
   };
   truth: {
     externalPublishing: "blocked";
     socialAccountsConnected: false;
+    socialTokens: "not_present";
+    fakeFollowersOrViews: "blocked";
     founderApprovalRequiredForSensitiveClaims: true;
   };
 };

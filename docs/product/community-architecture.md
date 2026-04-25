@@ -61,3 +61,19 @@ Community belongs to the People & Community Continent. It may later include gene
 - Enterprise: team/admin rooms future.
 
 No community room is active by plan styling alone, and no room may imply guaranteed signals, paid activation, fake users, or fake activity.
+## Economy / Growth Readiness
+
+Community is a future growth and retention resource, not an active social product.
+
+Planned community layers:
+
+- general public community
+- Free / Demo learning spaces
+- Pro rooms
+- VIP private rooms
+- education rooms
+- feedback rooms
+- support rooms
+- strategy discussion rooms
+
+All layers require Guardian moderation, Legal claim review, anti-scam controls, anti-spam controls, privacy rules, and Founder approval before any activation.

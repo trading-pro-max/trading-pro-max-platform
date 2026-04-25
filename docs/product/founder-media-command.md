@@ -85,3 +85,18 @@ Current truth:
 - Founder approval required
 
 `/api/founder/media/readiness` reports this readiness truth only and cannot publish, connect accounts, upload media, schedule posts, or claim public reach.
+## Economy / Growth Media Command Update
+
+Founder Media Command sees Autonomous Media Office and AI Video Studio readiness as draft/review-only.
+
+It must show:
+
+- content draft readiness
+- AI video script readiness
+- campaign readiness
+- social account registry readiness
+- no connected accounts
+- no social tokens
+- no publishing
+- no followers/views/ads metrics
+- Legal, Guardian, and Founder review requirements

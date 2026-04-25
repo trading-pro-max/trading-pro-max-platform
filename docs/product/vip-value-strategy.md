@@ -19,3 +19,19 @@ Current truth:
 - no guaranteed signal, win-rate, or profit claim is allowed
 
 Before any VIP activation, TPM needs entitlement logic, billing gates, support readiness, Guardian/Legal review, user consent where needed, and Founder approval.
+## Final VIP Readiness Truth
+
+VIP is a planned elite planet layer, not an active paid product. VIP may later include VIP Brain, advanced Companion, advanced Journal, advanced Coach, strategy review, premium reports, private rooms, priority support, Guardian summaries, Legal clarity, and early access when configured.
+
+VIP must not claim:
+
+- guaranteed profit
+- win-rate
+- trading signal certainty
+- active VIP private rooms
+- active priority support
+- active premium reports
+- paid entitlement access
+- billing or checkout availability
+
+Every VIP claim requires entitlement support, billing readiness, Legal review, Guardian review, Founder approval, and truthful product copy before activation.

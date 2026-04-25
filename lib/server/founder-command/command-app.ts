@@ -1,6 +1,7 @@
 import "server-only";
 
 import { getPlanEntitlementSnapshot } from "@/lib/plans/entitlements";
+import { getPlanetEconomyGrowthReadinessSnapshot } from "@/lib/server/economy-growth";
 import { getTpmBrainContextSnapshot } from "@/lib/server/brain";
 import { getJournalCoachSnapshot } from "@/lib/server/journal-coach";
 import {
@@ -61,6 +62,7 @@ export function getFounderCommandAppSnapshot(
   const journalCoach = getJournalCoachSnapshot(checkedAt);
   const planEntitlements = getPlanEntitlementSnapshot("demo_free", checkedAt);
   const founderCompanion = getFounderPersonalCompanionSnapshot(checkedAt);
+  const economyGrowth = getPlanetEconomyGrowthReadinessSnapshot(checkedAt);
 
   const desktopApp: FounderCommandDeviceBlueprint = {
     platform: "desktop",
@@ -179,12 +181,16 @@ export function getFounderCommandAppSnapshot(
     treasuryCommand: {
       readiness: "readiness_only" as const,
       controls: command.treasury,
+      economyReadiness: economyGrowth.economy,
+      growthPath: economyGrowth.growth,
       planTruth: planEntitlements.truth,
       planReadiness: room.planVisibility.planReadiness,
       billingInactive: true,
       subscriptionsInactive: true,
       currentPerformanceFee: "0%",
       futurePerformanceFeeResearchRange: "5%-10%",
+      performanceBasedRevenueResearch:
+        economyGrowth.economy.monetizationReadiness.performanceBasedRevenue,
       ownerOnlyFutureActivation: true,
       visibleToPublicUsers: false,
       requiredBeforeActivation: [
@@ -199,6 +205,9 @@ export function getFounderCommandAppSnapshot(
     mediaCommand: {
       readiness: "readiness_only" as const,
       media: command.media,
+      mediaOffice: economyGrowth.mediaOffice,
+      aiVideoStudio: economyGrowth.aiVideoStudio,
+      partnershipReadiness: economyGrowth.partnerships,
       contentDraftReadiness: "draft_review_only",
       aiVideoScriptReadiness: "draft_review_only",
       campaignReadiness: "planned_review_only",
@@ -211,6 +220,35 @@ export function getFounderCommandAppSnapshot(
       externalPublishingActive: false,
       fakeFollowersIncluded: false,
       fakeMetricsIncluded: false,
+    },
+    communityVipGrowth: {
+      readiness: "planned_only" as const,
+      community: economyGrowth.community,
+      vip: economyGrowth.vip,
+      noFakeRooms: !economyGrowth.community.fakeActiveRooms,
+      noFakeVipActivation: economyGrowth.vip.status === "planned_not_active",
+    },
+    partnershipsCommand: {
+      readiness: "inactive_planned" as const,
+      sponsoredClock: economyGrowth.partnerships.sponsoredClock,
+      partnershipTypes: economyGrowth.partnerships.partnershipTypes,
+      requiredReviews: economyGrowth.partnerships.requiredReviews,
+      fakePartnershipClaims: economyGrowth.partnerships.fakePartnershipClaims,
+      impliedEndorsementAllowed: economyGrowth.partnerships.impliedEndorsementAllowed,
+    },
+    resourcesEconomyMap: economyGrowth.resourcesToEconomy,
+    finalInternalAcceptance: {
+      readiness: economyGrowth.finalAcceptance.status,
+      launchReady: economyGrowth.finalAcceptance.launchReady,
+      publicLaunchApproved: economyGrowth.finalAcceptance.publicLaunchApproved,
+      productionApproved: economyGrowth.finalAcceptance.productionApproved,
+      humanVisualAcceptanceRequired:
+        economyGrowth.finalAcceptance.humanVisualAcceptanceRequired,
+      realWorldBetaTestingRequired:
+        economyGrowth.finalAcceptance.realWorldBetaTestingRequired,
+      recommendation: economyGrowth.finalAcceptance.recommendation,
+      gapChecklist: economyGrowth.finalGapChecklist,
+      nonLaunchRoadmap: economyGrowth.nonLaunchRoadmap,
     },
     companionBrain: {
       founderCompanion,
@@ -240,6 +278,11 @@ export function getFounderCommandAppSnapshot(
       "/api/founder/approval/readiness",
       "/api/founder/treasury/readiness",
       "/api/founder/media/readiness",
+      "/api/founder/economy/readiness",
+      "/api/founder/partnerships/readiness",
+      "/api/founder/final-acceptance/readiness",
+      "/api/planet/economy/readiness",
+      "/api/planet/media/readiness",
     ],
     safety: safetySummary,
     blockers: [

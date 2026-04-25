@@ -32,3 +32,14 @@ Billing remains inactive. Paid activation is not enabled. Performance-fee resear
 The value map now includes Guest and Founder King entries alongside Demo / Free, Pro, VIP, and Enterprise.
 
 Guest receives public orientation only. Founder King receives private full-planet command readiness only and is not purchasable, visible in public navigation, or available through user plans.
+## Economy Growth Layer
+
+The plan value map now feeds the TPM Planet economy model:
+
+- Guest: public trust only.
+- Free / Demo: active paper-safe learning, basic Companion, basic Academy, Why Blocked, feedback readiness.
+- Pro: planned daily trader workspace with deeper Companion, Journal/Coach, alerts/workflows, decision replay, workspace memory, and Pro community.
+- VIP: planned elite layer with VIP Brain, advanced Companion, advanced Journal/Coach, strategy review, premium reports, private rooms, and priority support concepts.
+- Enterprise: future team/admin/audit/compliance layer.
+
+Billing, paid entitlement activation, performance fees, public launch, and VIP/Pro activation remain inactive. Founder Command is not a user-plan feature.

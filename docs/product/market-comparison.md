@@ -72,3 +72,25 @@ The product should continue to use market expectations as a quality bar:
 - beginner-friendly but serious product language
 
 It must not copy competitor identity, brand, claims, layout, or marketing pressure tactics.
+## Economy / Media / Growth Comparison Boundary
+
+Trading Pro Max may compare its internal readiness only against product categories, not by claiming market success, users, revenue, followers, partnerships, billing, public launch, or live brokerage capability.
+
+Allowed comparison frame:
+
+- chart-first trading experience
+- paper-safe learning
+- explainable blocked states
+- plan-based readiness
+- Founder/private governance architecture
+- media/community readiness as future internal systems
+
+Blocked comparison frame:
+
+- active broker status
+- live-money capability
+- active paid subscriptions
+- active VIP rooms
+- active social publishing
+- active sponsorships
+- fake public metrics

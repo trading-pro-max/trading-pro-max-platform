@@ -26,6 +26,8 @@ export type PlanValueMapSnapshot = {
     vipActivation: "not_active";
     enterpriseAvailability: "future_planned";
     performanceFee: "hidden_inactive";
+    communityRooms: "planned_not_active";
+    partnerships: "inactive_planned";
   };
 };
 
@@ -135,6 +137,8 @@ export function getPlanValueMapSnapshot(
       vipActivation: "not_active",
       enterpriseAvailability: "future_planned",
       performanceFee: "hidden_inactive",
+      communityRooms: "planned_not_active",
+      partnerships: "inactive_planned",
     },
   };
 }

@@ -50,3 +50,19 @@ VIP Rooms belong to the People & Community and Economy continents. They remain p
 ## Plan-Based Boundary
 
 VIP Private Rooms appear only as planned/locked capability in the plan layer map. They are not active for Demo / Free, Pro, VIP, or Enterprise unless real entitlement, moderation, safety, and legal gates exist.
+## Final Readiness Truth
+
+VIP Private Rooms are planned only. They are not active, not sold, not staffed, not moderated in production, and not available to users.
+
+Before future activation, VIP rooms require:
+
+- VIP entitlement support
+- Guardian moderation
+- Legal claim review
+- anti-scam policy
+- no fake profit screenshots
+- no guaranteed signals
+- support escalation path
+- Founder approval
+
+Do not claim active rooms, members, VIP access, or private strategy channels.

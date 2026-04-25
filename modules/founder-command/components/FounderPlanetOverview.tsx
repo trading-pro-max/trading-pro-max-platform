@@ -62,6 +62,21 @@ export default function FounderPlanetOverview({
           value={snapshot.coordination.workflowCount}
           detail="Presidency workflows"
         />
+        <OverviewMetric
+          label="Economy"
+          value={snapshot.treasury.economyReadiness.treasuryState}
+          detail={`billing ${snapshot.treasury.economyReadiness.monetizationReadiness.billing}`}
+        />
+        <OverviewMetric
+          label="Media"
+          value={snapshot.mediaVideo.mediaOffice.status}
+          detail="No accounts, tokens, publishing, or metrics"
+        />
+        <OverviewMetric
+          label="Final acceptance"
+          value={snapshot.finalInternalAcceptance.status}
+          detail="Not launch-ready"
+        />
       </div>
 
       <div className="tpm-founder-command-lists">
@@ -106,6 +121,15 @@ export default function FounderPlanetOverview({
           <ul>
             {snapshot.planVisibility.planReadiness.slice(0, 5).map((item) => (
               <li key={item.plan}>{`${item.plan}: ${item.state}`}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <h3>Economy / Media Gaps</h3>
+          <ul>
+            {snapshot.finalGapChecklist.slice(0, 5).map((item) => (
+              <li key={item.area}>{`${item.area}: ${item.status}`}</li>
             ))}
           </ul>
         </div>

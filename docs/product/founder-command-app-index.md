@@ -53,3 +53,18 @@ The deep foundation exposes sanitized readiness-only APIs for future private cli
 - `/api/founder/media/readiness`
 
 These routes are not action surfaces. They contain no secrets, private user data, users, revenue, follower metrics, approval execution, billing activation, live execution, broker/feed activation, social publishing, or public launch activation.
+## Economy / Media / Growth References
+
+- [Founder Treasury Controls](./founder-treasury-controls.md)
+- [Founder Media Command](./founder-media-command.md)
+- [TPM Economy Roadmap](./tpm-economy-roadmap.md)
+- [Planet Economy Model](./planet-economy-model.md)
+- [Growth And Conversion Roadmap](./growth-and-conversion-roadmap.md)
+- [VIP Value Strategy](./vip-value-strategy.md)
+- [Autonomous Media Office](./autonomous-media-office.md)
+- [AI Video Studio](./ai-video-studio.md)
+- [Swiss Precision Clock Partnerships](./swiss-precision-clock-partnerships.md)
+- [Brand Partnerships Roadmap](./brand-partnerships-roadmap.md)
+- [Final Internal Acceptance Report](./final-internal-acceptance-report.md)
+- [Final Gap Checklist](./final-gap-checklist.md)
+- [Final Product Completion Roadmap](./final-product-completion-roadmap.md)

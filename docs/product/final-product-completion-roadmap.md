@@ -238,3 +238,19 @@ This roadmap ends at personal product completion acceptance. It must not be used
 - guaranteed results
 
 Any future launch discussion must start from the final internal acceptance report, final gap checklist, production validators, closed-beta evidence, and explicit Founder approval.
+
+## 13. Economy / Media / Growth Internal Roadmap
+
+Next internal priorities:
+
+1. human visual acceptance
+2. Companion full chat later with safe intent routing
+3. persistent journal after privacy/storage review
+4. Founder Command desktop/mobile shell after owner auth and audit gates
+5. community and VIP room prototype with moderation rules
+6. internal media/video draft UI
+7. desktop/mobile productization
+8. monetization and billing later after legal/support/provider readiness
+9. real activation last
+
+This roadmap must not be used to activate billing, broker/feed, social publishing, live execution, production, or public launch.

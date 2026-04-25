@@ -38,3 +38,17 @@ Media assets should have documented rights before public use. AI-generated conte
 The Rights & Brand Office protects logo usage, app icon sources, documentation headers, social preview sources, naming, brand tone, copyright readiness, privacy/terms readiness, trademark readiness, anti-copying rules, competitor non-copying rules, and generated asset review.
 
 No trademark registration, legal protection completion, or public launch asset approval is claimed unless it becomes real and documented.
+## Brand Partnership Protection
+
+Future brand partnerships require contract, asset approval, Rights/IP review, Legal review, Guardian review, and Founder approval.
+
+Blocked:
+
+- fake partnership claims
+- implied endorsement
+- uncontracted brand asset use
+- competitor copying
+- public UI placement of partner names without approval
+- sponsored clock activation without signed contract
+
+Swiss-inspired identity may be used as design direction. It must not claim Swiss legal/company status unless real legal status exists.

@@ -262,6 +262,20 @@ function buildRouteProbes(input: {
         "Content Factory readiness route classifies internal drafts without publishing, social tokens, fake metrics, or launch claims.",
     },
     {
+      path: "/api/planet/economy/readiness",
+      method: "GET",
+      status: input.productBackend.status,
+      detail:
+        "Planet Economy readiness route reports Free/Demo, Pro, VIP, Enterprise, resources, and monetization truth without billing, revenue, or fake metrics.",
+    },
+    {
+      path: "/api/planet/media/readiness",
+      method: "GET",
+      status: input.productBackend.status,
+      detail:
+        "Planet Media readiness route reports Autonomous Media Office and AI Video Studio draft readiness without accounts, tokens, uploads, publishing, or fake metrics.",
+    },
+    {
       path: "/api/build-planner/readiness",
       method: "GET",
       status: input.productBackend.status,
@@ -316,6 +330,27 @@ function buildRouteProbes(input: {
       status: input.productBackend.status,
       detail:
         "Founder Media readiness route reports draft and AI video review readiness only; no social tokens, accounts, publishing, or media metrics exist.",
+    },
+    {
+      path: "/api/founder/economy/readiness",
+      method: "GET",
+      status: input.productBackend.status,
+      detail:
+        "Founder Economy readiness route reports treasury, growth, VIP, community, performance-fee research, and final acceptance truth without revenue or billing activation.",
+    },
+    {
+      path: "/api/founder/partnerships/readiness",
+      method: "GET",
+      status: input.productBackend.status,
+      detail:
+        "Founder Partnerships readiness route reports sponsored clock and brand partnership rules as inactive/planned without company names, contracts, or fake endorsements.",
+    },
+    {
+      path: "/api/founder/final-acceptance/readiness",
+      method: "GET",
+      status: input.productBackend.status,
+      detail:
+        "Founder Final Acceptance readiness route reports internal review, gap checklist, and non-launch roadmap truth; public launch and production remain unapproved.",
     },
     {
       path: "/api/companion/context",
