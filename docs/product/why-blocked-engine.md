@@ -67,3 +67,9 @@ These components may appear in the execution ticket, diagnostics, settings, and 
 Each explanation now includes blocker type, required condition to unblock, who can unblock, and whether the state is hidden, planned, blocked, review-required, not configured, or not certified.
 
 Coverage includes Pro/VIP locks, broker activation, live feed, media publishing, AI video publishing, Islamic certification, social accounts, performance-fee visibility, and restricted assistant intents.
+
+## Plan-Based Blocking
+
+Plan-based blocked states should explain whether the cause is entitlement, billing, safety, Legal, Guardian, broker/feed, launch, production, or Founder privacy.
+
+Founder Command blocked/private copy must always say owner-only and never a user plan. Pro/VIP copy must say planned or locked without implying checkout or paid activation.

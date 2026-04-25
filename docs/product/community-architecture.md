@@ -51,3 +51,13 @@ Community is planned. No rooms are active unless built, configured, and moderate
 ## Planet Earth Community Role
 
 Community belongs to the People & Community Continent. It may later include general rooms, Pro rooms, VIP rooms, education rooms, feedback rooms, strategy discussion rooms, announcements, Islamic account discussion, beta tester rooms, and support rooms. All rooms require Guardian and Legal boundaries before activation.
+
+## Plan-Based Community Readiness
+
+- Guest: no community access.
+- Free / Demo: basic community planned.
+- Pro: Pro community planned.
+- VIP: VIP rooms planned with moderation and review.
+- Enterprise: team/admin rooms future.
+
+No community room is active by plan styling alone, and no room may imply guaranteed signals, paid activation, fake users, or fake activity.

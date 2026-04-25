@@ -1,9 +1,14 @@
-import type { PlanEntitlementContract, PlanEntitlementSnapshot } from "@/lib/plans/types";
+import type {
+  PlanEntitlementContract,
+  PlanEntitlementSnapshot,
+  PlanPlanetAccessLayer,
+} from "@/lib/plans/types";
 import { getPlanVisualIdentity } from "@/lib/plans/visual-identity";
 import PlanCapabilityList from "./PlanCapabilityList";
 
 type PlanExperienceCardProps = {
   currentPlan: PlanEntitlementSnapshot["currentPlan"];
+  layer?: PlanPlanetAccessLayer;
   plan: PlanEntitlementContract;
   truth: PlanEntitlementSnapshot["truth"];
 };
@@ -16,6 +21,7 @@ function planStateLabel(plan: PlanEntitlementContract) {
 
 export default function PlanExperienceCard({
   currentPlan,
+  layer,
   plan,
   truth,
 }: PlanExperienceCardProps) {
@@ -39,6 +45,7 @@ export default function PlanExperienceCard({
 
       <div className="tpm-plan-experience-truth">
         <span>Assistant: {identity.assistantIdentity}</span>
+        <span>Layer: {layer?.activeLayer ?? "Plan layer readiness"}</span>
         <span>Billing: {truth.billing}</span>
         <span>Paid access: {truth.paidAccess}</span>
         <span>Founder Command: owner-only</span>
@@ -54,6 +61,7 @@ export default function PlanExperienceCard({
 
       <footer>
         <p>{plan.upgradeExplanation}</p>
+        {layer ? <p>{layer.upgradeExplanation}</p> : null}
         <small>
           VIP activation: {truth.vipActivation}; no billing, checkout, or premium unlock exists.
         </small>

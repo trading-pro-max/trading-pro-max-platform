@@ -46,3 +46,7 @@ VIP Private Rooms are roadmap architecture only.
 ## Planet Earth VIP Boundary
 
 VIP Rooms belong to the People & Community and Economy continents. They remain planned unless VIP entitlement, moderation, Guardian review, Legal review, and Founder approval exist. VIP status must never imply guaranteed signals, live-money access, copy trading, Sharia certification, or financial advice.
+
+## Plan-Based Boundary
+
+VIP Private Rooms appear only as planned/locked capability in the plan layer map. They are not active for Demo / Free, Pro, VIP, or Enterprise unless real entitlement, moderation, safety, and legal gates exist.

@@ -1,9 +1,11 @@
 import type {
+  CitizenClassId,
   PlanEntitlementContract,
   PlanEntitlementSnapshot,
   PlanFeatureGroup,
   PlanFeatureState,
   PlanId,
+  PlanPlanetAccessLayer,
 } from "@/lib/plans/types";
 
 function feature(
@@ -113,6 +115,192 @@ export const PLAN_ENTITLEMENTS: PlanEntitlementContract[] = [
   },
 ];
 
+export const PLANET_ACCESS_LAYERS: PlanPlanetAccessLayer[] = [
+  {
+    citizenClass: "guest",
+    label: "Guest",
+    state: "active",
+    planId: "none",
+    visibleContinents: ["Public Entry", "Brand Trust", "Academy Preview"],
+    visibleStates: ["Public Entry State", "Trust State", "Learning Preview State"],
+    visibleCities: ["Public Entry", "Academy Preview", "Product Truth Notice"],
+    companionLevel: "Minimal orientation only",
+    journalCoachLevel: "Not available",
+    academyLevel: "Limited preview",
+    communityAccess: "Not active",
+    mediaContentAccess: "Public-safe content only when published later",
+    visualIdentity: "guest",
+    activeLayer: "Public orientation layer",
+    lockedFeatures: ["Workstation depth", "Companion panel", "Journal/Coach", "Plan diagnostics"],
+    plannedFeatures: ["Basic Academy preview expansion"],
+    hiddenFeatures: ["Founder Command", "private treasury research", "private ministry reports"],
+    upgradeExplanation: "Guest can review public trust and product orientation; no checkout or billing is active.",
+    safetyBoundaries: ["no live execution", "no broker/feed activation", "no billing claim"],
+    mustNotShow: ["Founder Command", "private command data", "fake user metrics", "private treasury fee model"],
+  },
+  {
+    citizenClass: "demo_free",
+    label: "Free / Demo Citizen",
+    state: "active",
+    planId: "demo_free",
+    visibleContinents: [
+      "Trading & Markets",
+      "Intelligence & Brain",
+      "Academy & Development",
+      "Operations & Reliability",
+    ],
+    visibleStates: [
+      "Paper-safe Market State",
+      "Companion State",
+      "Basic Academy State",
+      "Journal/Coach Foundation State",
+      "Why Blocked State",
+    ],
+    visibleCities: [
+      "Chart City",
+      "Execution Hall",
+      "Companion Center",
+      "Academy Library",
+      "Journal Office",
+      "Feedback Court",
+    ],
+    companionLevel: "Basic Companion active",
+    journalCoachLevel: "Basic paper prompts active",
+    academyLevel: "Basic Academy active",
+    communityAccess: "Basic community planned",
+    mediaContentAccess: "Academy/product content only; no social publishing",
+    visualIdentity: "demo_free",
+    activeLayer: "Paper-safe planet layer",
+    lockedFeatures: ["Pro alerts", "workspace memory depth", "VIP Brain", "premium reports"],
+    plannedFeatures: ["community basic", "decision replay foundation", "academy paths"],
+    hiddenFeatures: ["Founder Command", "Treasury controls", "private treasury research"],
+    upgradeExplanation: "Demo / Free is active for paper-safe learning. Pro and VIP remain planned until entitlement and billing gates exist.",
+    safetyBoundaries: ["paper only", "live blocked", "real money blocked", "billing inactive"],
+    mustNotShow: ["Founder Command", "private treasury fee model", "paid checkout", "VIP active state"],
+  },
+  {
+    citizenClass: "pro",
+    label: "Pro Citizen",
+    state: "planned",
+    planId: "pro",
+    visibleContinents: ["Demo layer", "Professional Workspace Layer"],
+    visibleStates: ["Pro Companion State planned", "Alerts/Workflow State planned", "Workspace Memory State planned"],
+    visibleCities: ["Pro Companion Center planned", "Alerts Desk planned", "Decision Replay Office planned"],
+    companionLevel: "Pro Companion planned",
+    journalCoachLevel: "Deeper session review planned",
+    academyLevel: "Pro learning paths planned",
+    communityAccess: "Pro community planned",
+    mediaContentAccess: "Pro education content planned",
+    visualIdentity: "pro",
+    activeLayer: "Planned professional layer",
+    lockedFeatures: ["Pro entitlement", "alerts", "decision replay", "workspace memory depth"],
+    plannedFeatures: ["Pro community", "journal depth", "session guidance"],
+    hiddenFeatures: ["Founder Command", "billing controls", "private treasury research"],
+    upgradeExplanation: "Pro remains planned; no paid activation or checkout is active.",
+    safetyBoundaries: ["no Pro active claim", "no billing activation", "no live execution by plan"],
+    mustNotShow: ["Pro active without entitlement", "checkout", "paid access", "Founder Command"],
+  },
+  {
+    citizenClass: "vip",
+    label: "VIP Citizen",
+    state: "planned",
+    planId: "vip",
+    visibleContinents: ["Pro layer", "VIP Brain Layer"],
+    visibleStates: ["VIP Brain State planned", "Advanced Coach State planned", "Strategy Review State planned"],
+    visibleCities: ["VIP Private Rooms planned", "Premium Reports Office planned", "Strategy Review Desk planned"],
+    companionLevel: "VIP Brain planned",
+    journalCoachLevel: "Advanced coaching planned",
+    academyLevel: "VIP strategy review planned",
+    communityAccess: "VIP private rooms planned",
+    mediaContentAccess: "Premium content planned",
+    visualIdentity: "vip",
+    activeLayer: "Planned elite layer",
+    lockedFeatures: ["VIP Brain", "advanced coaching", "premium reports", "private rooms"],
+    plannedFeatures: ["advanced journal analytics", "strategy review", "priority support"],
+    hiddenFeatures: ["Founder Command", "private treasury research", "treasury controls"],
+    upgradeExplanation: "VIP remains planned; no premium access or VIP activation exists.",
+    safetyBoundaries: ["no guaranteed signals", "no win-rate claims", "no fake VIP active state"],
+    mustNotShow: ["VIP active", "guaranteed results", "private treasury fee model", "Founder Command"],
+  },
+  {
+    citizenClass: "enterprise",
+    label: "Enterprise House",
+    state: "future",
+    planId: "enterprise",
+    visibleContinents: ["Future Team Planet"],
+    visibleStates: ["Team/Admin State future", "Audit State future", "Compliance Overview State future"],
+    visibleCities: ["Enterprise Admin future", "Audit Office future", "Runbook Center future"],
+    companionLevel: "Enterprise Assistant future",
+    journalCoachLevel: "Team/runbook guidance future",
+    academyLevel: "Team learning future",
+    communityAccess: "Enterprise rooms future",
+    mediaContentAccess: "Enterprise announcements future",
+    visualIdentity: "enterprise",
+    activeLayer: "Future enterprise layer",
+    lockedFeatures: ["team admin", "audit reports", "compliance overview", "custom support"],
+    plannedFeatures: ["team workspaces", "admin controls", "enterprise runbooks"],
+    hiddenFeatures: ["Founder Command", "private treasury research"],
+    upgradeExplanation: "Enterprise is future planned and not available for activation.",
+    safetyBoundaries: ["no enterprise active claim", "no compliance certification", "no team admin claim"],
+    mustNotShow: ["enterprise available", "compliance certified", "team admin active", "Founder Command"],
+  },
+  {
+    citizenClass: "staff_operator",
+    label: "Staff / Operator",
+    state: "planned",
+    planId: "none",
+    visibleContinents: ["Operational surfaces by role"],
+    visibleStates: ["Support State", "Quality State", "Ops State"],
+    visibleCities: ["Support Desk", "Quality Inspection", "Ops Readiness"],
+    companionLevel: "Operator assistance planned",
+    journalCoachLevel: "Not user coaching",
+    academyLevel: "Internal training planned",
+    communityAccess: "Moderation tools planned",
+    mediaContentAccess: "Draft/review only",
+    visualIdentity: "enterprise",
+    activeLayer: "Future operator layer",
+    lockedFeatures: ["operator consoles", "role permissions", "audit execution"],
+    plannedFeatures: ["review queues", "support triage", "quality inspection"],
+    hiddenFeatures: ["Founder-only approvals", "secrets", "private user data"],
+    upgradeExplanation: "Operator access is role-based future scope, not a user plan.",
+    safetyBoundaries: ["least privilege", "audit required", "no secret exposure"],
+    mustNotShow: ["secrets", "private user data", "Founder Command authority"],
+  },
+  {
+    citizenClass: "founder_king",
+    label: "Founder King",
+    state: "owner_only",
+    planId: "owner_only",
+    visibleContinents: ["Full planet"],
+    visibleStates: ["All states"],
+    visibleCities: ["Founder Command Room", "Founder Approval Center", "All reports"],
+    companionLevel: "Founder Personal Companion readiness",
+    journalCoachLevel: "Planet management summaries",
+    academyLevel: "All educational readiness",
+    communityAccess: "All community summaries when built",
+    mediaContentAccess: "All media queues and approvals",
+    visualIdentity: "vip",
+    activeLayer: "Private full-planet command layer",
+    lockedFeatures: ["approval execution until audit gates exist", "native command apps"],
+    plannedFeatures: ["desktop command app", "mobile command app", "step-up confirmation"],
+    hiddenFeatures: [],
+    upgradeExplanation: "Founder access is owner-only and never part of user plans.",
+    safetyBoundaries: ["read-only by default", "critical blocks cannot be overridden", "audit required later"],
+    mustNotShow: ["public route", "normal user nav", "user-plan entitlement"],
+  },
+];
+
+export function getPlanetAccessLayer(citizenClass: CitizenClassId | string) {
+  return (
+    PLANET_ACCESS_LAYERS.find((layer) => layer.citizenClass === citizenClass) ??
+    PLANET_ACCESS_LAYERS[1]
+  );
+}
+
+function citizenClassForPlan(planId: PlanId): CitizenClassId {
+  return planId;
+}
+
 export function getPlanEntitlementContract(planId: PlanId | string) {
   return (
     PLAN_ENTITLEMENTS.find((plan) => plan.planId === planId) ??
@@ -125,12 +313,21 @@ export function getPlanEntitlementSnapshot(
   checkedAt = new Date().toISOString()
 ): PlanEntitlementSnapshot {
   const current = getPlanEntitlementContract(currentPlan);
+  const currentClass = citizenClassForPlan(current.planId);
+  const currentLayer = getPlanetAccessLayer(currentClass);
 
   return {
     checkedAt,
     mode: "plan_entitlement_engine",
     currentPlan: current.planId,
     plans: PLAN_ENTITLEMENTS,
+    citizenAccess: {
+      currentClass,
+      layers: PLANET_ACCESS_LAYERS,
+      currentLayer,
+      founderCommandUserVisible: false,
+      performanceFeeUserVisible: false,
+    },
     truth: {
       billing: "inactive",
       paidAccess: "not_enabled",

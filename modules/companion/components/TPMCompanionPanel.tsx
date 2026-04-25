@@ -172,9 +172,11 @@ export default function TPMCompanionPanel({
         id: "response-plan",
         role: "companion",
         state: "planned",
-        title: "Assistant tier truth",
+        title: "Citizen layer truth",
         body:
-          "Demo / Paper Assistant is active for basic guidance. Pro, VIP, and Enterprise assistants remain locked or future-planned until real entitlement support exists.",
+          context?.planetAccess
+            ? `${context.planetAccess.activeLayer}. ${context.planetAccess.companionLevel}. Pro, VIP, and Enterprise layers remain planned or future unless real entitlement support exists.`
+            : "Demo / Paper Assistant is active for basic guidance. Pro, VIP, and Enterprise assistants remain locked or future-planned until real entitlement support exists.",
       },
       feedback: {
         id: "response-feedback",
@@ -244,7 +246,7 @@ export default function TPMCompanionPanel({
         <div>
           <span>Plan</span>
           <strong>{currentPlan.planName}</strong>
-          <small>{currentPlan.truthState.replaceAll("_", " ")}</small>
+          <small>{context?.planetAccess.activeLayer ?? currentPlan.truthState.replaceAll("_", " ")}</small>
         </div>
         <div>
           <span>Context</span>
@@ -279,6 +281,12 @@ export default function TPMCompanionPanel({
       <StateExplanationCard compact explanation={liveExplanation} />
 
       <div className="tpm-companion-capability-grid">
+        <div>
+          <span>Planet layer</span>
+          {(context?.planetAccess.visibleCities ?? []).slice(0, 3).map((city) => (
+            <small key={city}>{city}</small>
+          ))}
+        </div>
         <div>
           <span>Available</span>
           {currentPlan.allowedFeatures.slice(0, 3).map((feature) => (

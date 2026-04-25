@@ -84,3 +84,11 @@ Plan identities are citizenship-class visual cues only. Free/Demo, Pro, VIP, and
 ## Operational Rule
 
 Plan badges and plan cards may clarify the current plan identity, but locked/planned plans must never look active. Billing remains inactive and performance-fee research remains hidden/inactive.
+
+## Guest Identity
+
+Guest uses a clean minimal public trust identity. It should orient without pressure, pricing, urgency, or plan confusion.
+
+## Citizen Access Map
+
+The Plan-Based Living Planet UI may show a compact citizen access map in settings/diagnostics. It must stay professional, avoid game/fantasy visuals, and keep Founder Command private.

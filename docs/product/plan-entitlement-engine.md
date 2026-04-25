@@ -56,3 +56,15 @@ The settings surface now includes compact Plan Experience cards for Demo / Free,
 - Founder Command owner-only truth
 
 The cards are visual and explanatory only. They do not create checkout, paid activation, VIP entitlement, Enterprise sales, performance fees, live execution, broker/feed activation, or real-money routing.
+
+## Planet Layer Access
+
+The entitlement snapshot now includes `citizenAccess` with:
+
+- currentClass
+- currentLayer
+- all plan/citizen layers
+- Founder Command user-visible truth: false
+- performance-fee user-visible truth: false
+
+This allows Companion, settings, diagnostics, and Founder summaries to explain what layer of the TPM Planet the current user can access without faking paid activation.

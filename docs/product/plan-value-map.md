@@ -26,3 +26,9 @@ Enterprise:
 - must not claim: Enterprise available, compliance certified, team admin active
 
 Billing remains inactive. Paid activation is not enabled. Performance-fee research remains hidden/inactive.
+
+## Expanded Citizen Value
+
+The value map now includes Guest and Founder King entries alongside Demo / Free, Pro, VIP, and Enterprise.
+
+Guest receives public orientation only. Founder King receives private full-planet command readiness only and is not purchasable, visible in public navigation, or available through user plans.

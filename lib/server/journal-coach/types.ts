@@ -1,4 +1,4 @@
-export type JournalCoachPlanLevel = "demo_free" | "pro" | "vip";
+export type JournalCoachPlanLevel = "demo_free" | "pro" | "vip" | "enterprise";
 
 export type JournalCoachPromptState = "active" | "planned" | "locked";
 
@@ -39,6 +39,12 @@ export type JournalCoachSnapshot = {
   checkedAt: string;
   mode: "journal_coach_foundation";
   currentPlan: "demo_free";
+  planAccess: {
+    demo: "basic_safe_prompts_active";
+    pro: "deeper_session_review_planned";
+    vip: "advanced_coaching_planned";
+    enterprise: "team_reports_future";
+  };
   prompts: JournalCoachPrompt[];
   phases: Array<{
     phase: JournalCoachPhase;

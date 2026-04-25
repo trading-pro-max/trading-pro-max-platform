@@ -99,3 +99,9 @@ The runtime foundation is educational only. It does not produce trading signals,
 Decision Replay is now represented as a paper-only learning contract in `lib/server/journal-coach/replay.ts`. It stores selected symbol/timeframe, context quality, product truth at decision time, preflight state, assistant guidance state, allowed/blocked state, and learning prompts.
 
 Decision Replay explicitly does not guarantee that any alternate decision would have produced a better outcome.
+
+## Plan-Based Learning Depth
+
+Demo / Free has basic safe prompts active. Pro deeper session review is planned. VIP advanced coaching and strategy review are planned. Enterprise team reports are future planned.
+
+Journal and Coach surfaces must keep plan labels truthful and must not pressure trades, imply better outcomes, or sell premium results.

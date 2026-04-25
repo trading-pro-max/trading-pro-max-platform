@@ -31,6 +31,7 @@ export async function GET() {
         approvalQueue: roomFoundation.approvalQueue,
         guardianLegal: roomFoundation.guardianLegal,
         treasury: roomFoundation.treasury,
+        planVisibility: roomFoundation.planVisibility,
         mediaVideo: roomFoundation.mediaVideo,
         coordination: roomFoundation.coordination,
         security: roomFoundation.security,

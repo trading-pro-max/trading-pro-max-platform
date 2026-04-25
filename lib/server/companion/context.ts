@@ -67,6 +67,39 @@ const companionIntents: CompanionIntentAvailability[] = [
     blockedLanguage: ["configure broker", "activate billing"],
   },
   {
+    intent: "guide_to_diagnostics",
+    label: "Guide to diagnostics",
+    demoFree: "allowed",
+    pro: "allowed",
+    vip: "allowed",
+    enterprise: "future",
+    safetyBoundary: "Diagnostics guidance only; no owner controls or private data.",
+    responseStyle: "compact route and readiness guidance",
+    blockedLanguage: ["Founder Command", "secret values", "production keys"],
+  },
+  {
+    intent: "guide_to_feedback",
+    label: "Guide to feedback",
+    demoFree: "allowed",
+    pro: "allowed",
+    vip: "allowed",
+    enterprise: "future",
+    safetyBoundary: "Feedback drafting only; no private sensitive data.",
+    responseStyle: "short draft with route/context summary",
+    blockedLanguage: ["password", "token", "broker credentials"],
+  },
+  {
+    intent: "draft_feedback",
+    label: "Draft feedback",
+    demoFree: "allowed",
+    pro: "allowed",
+    vip: "allowed",
+    enterprise: "future",
+    safetyBoundary: "Draft locally and avoid secrets or private data.",
+    responseStyle: "structured issue summary",
+    blockedLanguage: ["secret", "token", "password"],
+  },
+  {
     intent: "journal_prompt",
     label: "Journal prompt",
     demoFree: "allowed",
@@ -76,6 +109,28 @@ const companionIntents: CompanionIntentAvailability[] = [
     safetyBoundary: "Reflection only; no financial advice or performance guarantee.",
     responseStyle: "paper-session coaching",
     blockedLanguage: ["you should trade", "guaranteed improvement"],
+  },
+  {
+    intent: "session_summary",
+    label: "Session summary",
+    demoFree: "allowed",
+    pro: "planned",
+    vip: "planned",
+    enterprise: "future",
+    safetyBoundary: "Paper-session summary only; no performance guarantee.",
+    responseStyle: "reflective and non-predictive",
+    blockedLanguage: ["you would have won", "guaranteed better result"],
+  },
+  {
+    intent: "learning_help",
+    label: "Learning help",
+    demoFree: "allowed",
+    pro: "allowed",
+    vip: "allowed",
+    enterprise: "future",
+    safetyBoundary: "Education only; no financial advice.",
+    responseStyle: "skill-level adaptive",
+    blockedLanguage: ["financial advice", "buy now", "sure trade"],
   },
   {
     intent: "founder_unavailable_for_user",
@@ -99,6 +154,7 @@ export function getCompanionContextSnapshot(
     planTier === "demo_free" ? "evaluation" : planTier;
   const assistantTier = getAssistantTierSnapshot(assistantPlan).current;
   const planEntitlements = getPlanEntitlementSnapshot(planTier, checkedAt);
+  const planetAccess = planEntitlements.citizenAccess.currentLayer;
   const productTruth = getProductTruthSnapshot(checkedAt);
   const brain = getTpmBrainContextSnapshot(
     {
@@ -148,6 +204,17 @@ export function getCompanionContextSnapshot(
       enterpriseActivation: planEntitlements.truth.enterpriseActivation,
       founderCommandAccess: planEntitlements.truth.founderCommandAccess,
       performanceFee: planEntitlements.truth.performanceFee,
+    },
+    planetAccess: {
+      citizenClass: planetAccess.citizenClass,
+      activeLayer: planetAccess.activeLayer,
+      companionLevel: planetAccess.companionLevel,
+      visibleCities: planetAccess.visibleCities,
+      lockedFeatures: planetAccess.lockedFeatures,
+      plannedFeatures: planetAccess.plannedFeatures,
+      hiddenFeatures: planetAccess.hiddenFeatures,
+      founderCommandUserVisible: planEntitlements.citizenAccess.founderCommandUserVisible,
+      performanceFeeUserVisible: planEntitlements.citizenAccess.performanceFeeUserVisible,
     },
     productTruth: {
       liveExecution: productTruth.summary.liveExecution,

@@ -67,3 +67,9 @@ This is still a component/contracts foundation, not a public page or native Foun
 - audit-backed approval execution
 
 Until those are real, the command room remains read-only and hidden from public product navigation.
+
+## Plan Visibility
+
+Founder Command readiness now includes a plan visibility concept: available citizen classes, plan readiness, Pro/VIP blockers, billing inactive state, performance-fee hidden/inactive state, next safe plan actions, and what not to activate now.
+
+This is not user-count, revenue, or conversion reporting. It is readiness-only plan governance.

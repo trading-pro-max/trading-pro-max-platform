@@ -1,6 +1,6 @@
 import type { AssistantTierKey } from "@/lib/assistant/tiers";
 
-export type PlanVisualKey = "demo_free" | "pro" | "vip" | "enterprise";
+export type PlanVisualKey = "guest" | "demo_free" | "pro" | "vip" | "enterprise";
 
 export type PlanVisualAvailability =
   | "active"
@@ -59,6 +59,32 @@ function classes(key: PlanVisualKey) {
 }
 
 export const PLAN_VISUAL_IDENTITIES: Record<PlanVisualKey, PlanVisualIdentity> = {
+  guest: {
+    key: "guest",
+    label: "Guest",
+    shortLabel: "Guest",
+    availability: "active",
+    ...classes("guest"),
+    accent: {
+      primary: token("Public trust", "--tpm-plan-guest-primary", "#94a3b8", "#334155"),
+      secondary: token("Quiet blue", "--tpm-plan-guest-secondary", "#7dd3fc", "#0369a1"),
+      metallic: token("Clean graphite", "--tpm-plan-guest-metallic", "#cbd5e1", "#64748b"),
+    },
+    tone: "Clean public trust identity",
+    surfaceLanguage:
+      "Minimal brand, safety, and Academy preview cues without plan pressure.",
+    assistantIdentity: "Orientation only",
+    comparisonSummary:
+      "Public entry, brand trust, limited Academy preview, and product truth orientation.",
+    lockedState: "Workstation depth, Companion depth, journal, and plan layers require access.",
+    upgradeState: "No checkout or billing path is active.",
+    comingLaterState: "Guest remains an orientation layer only.",
+    truthRules: [
+      "No plan pressure.",
+      "No paid activation claim.",
+      "No Founder Command visibility.",
+    ],
+  },
   demo_free: {
     key: "demo_free",
     label: "Demo / Free",
@@ -170,6 +196,7 @@ export const PLAN_VISUAL_IDENTITIES: Record<PlanVisualKey, PlanVisualIdentity> =
 };
 
 export const PLAN_VISUAL_IDENTITY_ORDER: PlanVisualKey[] = [
+  "guest",
   "demo_free",
   "pro",
   "vip",

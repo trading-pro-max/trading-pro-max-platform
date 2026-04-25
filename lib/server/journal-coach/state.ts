@@ -51,6 +51,14 @@ const prompts: JournalCoachPrompt[] = [
     planLevel: "vip",
     safeReason: "VIP is locked and cannot claim advanced coaching now.",
   },
+  {
+    id: "enterprise-team-report",
+    title: "Enterprise team report",
+    prompt: "Future Enterprise reports may summarize team behavior after team/admin support exists.",
+    state: "planned",
+    planLevel: "enterprise",
+    safeReason: "Enterprise is future planned and not available now.",
+  },
 ];
 
 export function getDecisionReplayFoundation(input: {
@@ -87,6 +95,12 @@ export function getJournalCoachSnapshot(
     checkedAt,
     mode: "journal_coach_foundation",
     currentPlan: "demo_free",
+    planAccess: {
+      demo: "basic_safe_prompts_active",
+      pro: "deeper_session_review_planned",
+      vip: "advanced_coaching_planned",
+      enterprise: "team_reports_future",
+    },
     prompts,
     phases: [
       {

@@ -3,6 +3,15 @@ import type { PlanVisualKey } from "@/lib/plans/visual-identity";
 
 export type PlanId = "demo_free" | "pro" | "vip" | "enterprise";
 
+export type CitizenClassId =
+  | "guest"
+  | "demo_free"
+  | "pro"
+  | "vip"
+  | "enterprise"
+  | "staff_operator"
+  | "founder_king";
+
 export type EntitlementTruthState =
   | "active"
   | "locked"
@@ -47,11 +56,43 @@ export type PlanEntitlementContract = {
   safetyRules: string[];
 };
 
+export type PlanPlanetLayerState = "active" | "planned" | "future" | "owner_only";
+
+export type PlanPlanetAccessLayer = {
+  citizenClass: CitizenClassId;
+  label: string;
+  state: PlanPlanetLayerState;
+  planId: PlanId | "none" | "owner_only";
+  visibleContinents: string[];
+  visibleStates: string[];
+  visibleCities: string[];
+  companionLevel: string;
+  journalCoachLevel: string;
+  academyLevel: string;
+  communityAccess: string;
+  mediaContentAccess: string;
+  visualIdentity: PlanVisualKey | "guest";
+  activeLayer: string;
+  lockedFeatures: string[];
+  plannedFeatures: string[];
+  hiddenFeatures: string[];
+  upgradeExplanation: string;
+  safetyBoundaries: string[];
+  mustNotShow: string[];
+};
+
 export type PlanEntitlementSnapshot = {
   checkedAt: string;
   mode: "plan_entitlement_engine";
   currentPlan: PlanId;
   plans: PlanEntitlementContract[];
+  citizenAccess: {
+    currentClass: CitizenClassId;
+    layers: PlanPlanetAccessLayer[];
+    currentLayer: PlanPlanetAccessLayer;
+    founderCommandUserVisible: false;
+    performanceFeeUserVisible: false;
+  };
   truth: {
     billing: "inactive";
     paidAccess: "not_enabled";

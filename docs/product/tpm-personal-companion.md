@@ -110,3 +110,9 @@ Runtime context now includes assistant tier, plan entitlement truth, Product Tru
 The Companion now consumes the TPM Brain context and user skill profile foundation. It can classify safe intent categories such as platform-state explanation, blocked-state explanation, plan access, account type, diagnostics, feedback drafting, journal prompts, session summaries, learning help, and Founder Command unavailable-for-user.
 
 Each intent carries plan availability, response style, safety boundary, and blocked language. Founder Command remains private and unavailable as a user-plan feature.
+
+## Plan-Based Living Planet Layer
+
+The user Companion now describes the current Demo / Free citizen layer as a paper-safe planet layer. It can explain visible cities such as Chart City, Execution Hall, Companion Center, Academy Library, Journal Office, and Feedback Court.
+
+Pro, VIP, and Enterprise language remains planned/future unless entitlement support exists. Founder Command remains owner-only and invisible as a user plan feature.

@@ -64,6 +64,17 @@ export type CompanionContextSnapshot = {
     founderCommandAccess: "owner_only_never_user_plan";
     performanceFee: "hidden_inactive";
   };
+  planetAccess: {
+    citizenClass: "guest" | "demo_free" | "pro" | "vip" | "enterprise" | "staff_operator" | "founder_king";
+    activeLayer: string;
+    companionLevel: string;
+    visibleCities: string[];
+    lockedFeatures: string[];
+    plannedFeatures: string[];
+    hiddenFeatures: string[];
+    founderCommandUserVisible: false;
+    performanceFeeUserVisible: false;
+  };
   productTruth: {
     liveExecution: "blocked";
     realMoneyRouting: "blocked";

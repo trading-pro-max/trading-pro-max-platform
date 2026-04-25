@@ -1,7 +1,7 @@
 import type { PlanId } from "@/lib/plans/types";
 
 export type PlanValueMapEntry = {
-  planId: PlanId;
+  planId: PlanId | "guest" | "founder_king";
   userPromise: string;
   visibleIdentity: string;
   activeCapabilities: string[];
@@ -30,6 +30,21 @@ export type PlanValueMapSnapshot = {
 };
 
 export const PLAN_VALUE_MAP: PlanValueMapEntry[] = [
+  {
+    planId: "guest",
+    userPromise: "Understand the public product trust layer without plan pressure.",
+    visibleIdentity: "Clean minimal public trust identity.",
+    activeCapabilities: ["Public entry", "Brand trust", "Limited Academy preview"],
+    plannedCapabilities: ["More public-safe education"],
+    lockedCapabilities: ["Workstation depth", "Companion depth", "Journal/Coach"],
+    companionLevel: "Orientation only",
+    journalCoachLevel: "Not available",
+    contentCommunityAccess: "Public-safe content only.",
+    supportLevel: "No support claim.",
+    reportingLevel: "No user reporting.",
+    upgradeTrigger: "No billing or checkout is active.",
+    mustNotClaim: ["paid access", "Founder Command", "live execution"],
+  },
   {
     planId: "demo_free",
     userPromise: "Learn safely in a paper-first trading environment.",
@@ -89,6 +104,21 @@ export const PLAN_VALUE_MAP: PlanValueMapEntry[] = [
     reportingLevel: "Team/audit reports future.",
     upgradeTrigger: "Enterprise is future-planned and not for public/user activation now.",
     mustNotClaim: ["Enterprise available", "compliance certified", "team admin active"],
+  },
+  {
+    planId: "founder_king",
+    userPromise: "Private owner command of the whole TPM Planet.",
+    visibleIdentity: "Private command identity, not a user plan.",
+    activeCapabilities: ["Read-only Founder Command readiness", "Planet reports", "Ministry summaries"],
+    plannedCapabilities: ["Owner device auth", "Desktop/mobile command app", "Audited approvals"],
+    lockedCapabilities: ["Approval execution", "production controls"],
+    companionLevel: "Founder Personal Companion readiness",
+    journalCoachLevel: "Planet management briefing",
+    contentCommunityAccess: "All queues summarized privately when built.",
+    supportLevel: "Owner-only operational control.",
+    reportingLevel: "Full planet readiness reports.",
+    upgradeTrigger: "Not purchasable and never part of user plans.",
+    mustNotClaim: ["public access", "plan unlock", "critical block override"],
   },
 ];
 

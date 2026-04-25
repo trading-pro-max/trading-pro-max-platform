@@ -26,6 +26,8 @@ export default function SessionCoachPanel({ snapshot }: SessionCoachPanelProps) 
         <span>No financial advice</span>
         <span>No trading signals</span>
         <span>No profit guarantee</span>
+        <span>Pro: {snapshot.planAccess.pro}</span>
+        <span>VIP: {snapshot.planAccess.vip}</span>
       </footer>
     </section>
   );

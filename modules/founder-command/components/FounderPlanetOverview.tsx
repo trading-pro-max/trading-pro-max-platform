@@ -100,6 +100,15 @@ export default function FounderPlanetOverview({
             ))}
           </ul>
         </div>
+
+        <div>
+          <h3>Plan Layers</h3>
+          <ul>
+            {snapshot.planVisibility.planReadiness.slice(0, 5).map((item) => (
+              <li key={item.plan}>{`${item.plan}: ${item.state}`}</li>
+            ))}
+          </ul>
+        </div>
       </div>
     </section>
   );

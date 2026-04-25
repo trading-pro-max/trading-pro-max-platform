@@ -93,3 +93,11 @@ No citizenship class activates billing, live execution, real money, broker/feed,
 The canonical citizenship classes are Guest, Free / Demo Citizen, Pro Citizen, VIP Citizen, Enterprise House, Beta Citizen, Staff / Operator, and Founder King.
 
 Each class defines what the user can see, what remains hidden, companion level, academy access, journal/coach access, community access, trading access, blocked capabilities, upgrade path, and product truth language. Founder King sees the private owner command model; users only see their plan-appropriate product experience.
+
+## Living Planet Access Contract
+
+The runtime access layer is defined in `lib/plans/entitlements.ts` as `PLANET_ACCESS_LAYERS`.
+
+Each class now declares visible continents, states, cities/modules, companion level, journal/coach level, academy level, community access, media/content access, visual identity, locked features, planned features, hidden features, upgrade explanation, safety boundaries, and what must not be shown.
+
+The settings surface can show the current citizen layer and a compact access map. This is explanatory only. It does not activate Pro, VIP, Enterprise, billing, live execution, broker/feed, public launch, social publishing, performance fees, or Founder Command.

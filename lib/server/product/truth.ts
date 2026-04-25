@@ -28,7 +28,8 @@ export type ProductTruthKey =
   | "ai_prediction_claims"
   | "performance_revenue_model"
   | "native_app_readiness"
-  | "founder_command";
+  | "founder_command"
+  | "plan_based_planet_layers";
 
 export type ProductTruthItem = {
   key: ProductTruthKey;
@@ -210,6 +211,15 @@ const items: ProductTruthItem[] = [
     internalCopy: "Founder Command remains owner-only, read-only by default, and hidden from Free, Pro, VIP, Enterprise, and public navigation.",
     safeNextStep: "Keep command room surfaces component/API foundation only until owner auth, device trust, and audit gates exist.",
     mustNotClaim: ["admin dashboard available", "Founder Command public", "plan access to Founder Command"],
+  },
+  {
+    key: "plan_based_planet_layers",
+    label: "Plan-based planet layers",
+    state: "guarded",
+    publicCopy: "Each plan sees only its appropriate planet layer.",
+    internalCopy: "Guest, Demo, Pro, VIP, Enterprise, Staff, and Founder classes are access models, not fake paid activation.",
+    safeNextStep: "Keep Demo active, Pro/VIP planned, Enterprise future, and Founder Command owner-only.",
+    mustNotClaim: ["VIP active", "Pro paid active", "Enterprise available", "Founder Command as user plan"],
   },
 ];
 

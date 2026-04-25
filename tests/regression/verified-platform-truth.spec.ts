@@ -568,6 +568,9 @@ test.describe("verified platform truth", () => {
         await expect(page.locator("body")).toContainText(
           /Plan capability truth|Paper-session guidance|No financial advice/
         );
+        await expect(page.locator("body")).toContainText(
+          /Citizen planet|Your planet layer|Paper-safe planet layer|Founder Command is owner-only/
+        );
         if (route.path === "/diagnostics") {
           await expect(page.locator("body")).toContainText(
             /Planet OS|Internal operating system|Core engines/
@@ -1348,6 +1351,16 @@ test.describe("verified platform truth", () => {
         secrets: "not_exposed",
       },
     });
+    expect(productTruthPayload.snapshot.items).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          key: "plan_based_planet_layers",
+          state: "guarded",
+          safeNextStep:
+            "Keep Demo active, Pro/VIP planned, Enterprise future, and Founder Command owner-only.",
+        }),
+      ])
+    );
 
     const founderReadiness = await request.get("/api/founder/briefing/readiness");
     expect(founderReadiness.status()).toBe(200);
@@ -1417,6 +1430,38 @@ test.describe("verified platform truth", () => {
         dangerousActionsRemainBlocked: true,
       },
     });
+    expect(founderReadinessPayload.snapshot.roomFoundation.planVisibility).toMatchObject({
+      citizenClasses: expect.arrayContaining([
+        "Guest",
+        "Free / Demo Citizen",
+        "Pro Citizen",
+        "VIP Citizen",
+        "Enterprise House",
+        "Founder King",
+      ]),
+      billingInactive: true,
+      performanceFeeHiddenInactive: true,
+      nextSafePlanActions: expect.arrayContaining([
+        "Keep Demo / Free paper-safe layer active and understandable.",
+        "Prepare Pro/VIP entitlement UX without billing or activation claims.",
+      ]),
+      whatNotToActivateNow: expect.arrayContaining([
+        "billing",
+        "VIP access",
+        "performance-fee UI",
+        "Founder Command user-plan access",
+      ]),
+    });
+    expect(
+      founderReadinessPayload.snapshot.roomFoundation.planVisibility.planReadiness
+    ).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ plan: "Demo / Free", state: "paper_active" }),
+        expect.objectContaining({ plan: "Pro", state: "planned_locked" }),
+        expect.objectContaining({ plan: "VIP", state: "planned_locked" }),
+        expect.objectContaining({ plan: "Enterprise later", state: "future_planned" }),
+      ])
+    );
     expect(founderReadinessPayload.snapshot.roomFoundation.ministries).toHaveLength(40);
     expect(
       founderReadinessPayload.snapshot.roomFoundation.ministries[0].coordinationLoad
@@ -1485,7 +1530,26 @@ test.describe("verified platform truth", () => {
         publicLaunch: "inactive",
         founderCommand: "owner_only_private",
       },
+      planetAccess: {
+        citizenClass: "demo_free",
+        activeLayer: "Paper-safe planet layer",
+        companionLevel: "Basic Companion active",
+        founderCommandUserVisible: false,
+        performanceFeeUserVisible: false,
+      },
     });
+    expect(companionContextPayload.snapshot.planetAccess.visibleCities).toEqual(
+      expect.arrayContaining(["Chart City", "Execution Hall", "Companion Center"])
+    );
+    expect(companionContextPayload.snapshot.planetAccess.lockedFeatures).toEqual(
+      expect.arrayContaining(["VIP Brain"])
+    );
+    expect(companionContextPayload.snapshot.planetAccess.hiddenFeatures).toEqual(
+      expect.arrayContaining(["Founder Command", "private treasury research"])
+    );
+    expect(JSON.stringify(companionContextPayload.snapshot.planetAccess)).not.toMatch(
+      /performance fee|performance-fee/i
+    );
     expect(companionContextPayload.snapshot.brain).toMatchObject({
       contextQuality: "bounded",
       decisionSupportMode: "paper_decision_support",
@@ -1519,6 +1583,12 @@ test.describe("verified platform truth", () => {
     expect(journalCoachReadinessPayload.snapshot).toMatchObject({
       mode: "journal_coach_foundation",
       currentPlan: "demo_free",
+      planAccess: {
+        demo: "basic_safe_prompts_active",
+        pro: "deeper_session_review_planned",
+        vip: "advanced_coaching_planned",
+        enterprise: "team_reports_future",
+      },
       planTruth: {
         demo: "basic_prompts_active",
         pro: "journal_depth_planned",

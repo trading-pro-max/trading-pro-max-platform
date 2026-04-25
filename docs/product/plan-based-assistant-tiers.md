@@ -121,3 +121,9 @@ The Companion intent model is defined in `lib/server/companion/types.ts` and ret
 Demo / Free may use safe explanation, blocked-state, plan, settings, diagnostics, feedback, journal, and learning intents. Pro and VIP may have richer versions later, but remain planned/locked unless real entitlements exist. Enterprise remains future planned.
 
 Blocked language includes bypass/force-enable wording, guaranteed-profit claims, win-rate claims, fake live/broker/feed/billing/launch claims, and any implication that Founder Command can be unlocked by a user plan.
+
+## Planet Layer Awareness
+
+The Companion Context now includes the current citizen layer. Guest receives minimal orientation. Demo / Free receives basic paper-safe guidance. Pro and VIP receive planned richer guidance only when entitlement support exists. Enterprise remains future.
+
+The Companion may explain visible cities/modules for the current layer, but it must not reveal private Founder Command, private ministry data, performance-fee research, secrets, or paid activation paths.

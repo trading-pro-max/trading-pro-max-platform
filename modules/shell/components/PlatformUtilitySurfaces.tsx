@@ -15,7 +15,7 @@ import { getPlanVisualIdentities } from "../../../lib/plans/visual-identity";
 import type { JournalCoachSnapshot } from "../../../lib/server/journal-coach/types";
 import AuthSessionPanel from "../../auth/components/AuthSessionPanel";
 import { SessionCoachPanel } from "../../journal-coach/components";
-import { PlanExperienceCard } from "../../plans/components";
+import { CitizenAccessMap, PlanExperienceCard, PlanPlanetLayerCard } from "../../plans/components";
 import { SafeNextStepList, StateExplanationCard } from "../../state-explanations/components";
 import type { StateExplanationView } from "../../state-explanations/types";
 import {
@@ -115,7 +115,9 @@ function planAvailabilityLabel(
   identity: PlanVisualIdentity,
   currentPlanKey: PlanVisualKey
 ) {
+  if (identity.key === "guest") return "Public orientation";
   if (identity.key === currentPlanKey) return "Active evaluation";
+  if (identity.availability === "active") return "Available";
   if (identity.availability === "coming_later") return "Coming later";
   return "Locked";
 }
@@ -543,6 +545,8 @@ export function PlatformDiagnosticsSurface({
     planetOsLoadState.status === "ready" ? planetOsLoadState.coordinationSummary : undefined;
   const planetResourceSummary =
     planetOsLoadState.status === "ready" ? planetOsLoadState.resourceSummary : undefined;
+  const planEntitlementSnapshot = getPlanEntitlementSnapshot("demo_free");
+  const currentPlanetLayer = planEntitlementSnapshot.citizenAccess.currentLayer;
   const localePrefix = locale ? `/${locale}` : "";
   const localeEntry = getLocaleEntry(locale);
 
@@ -730,6 +734,39 @@ export function PlatformDiagnosticsSurface({
           : ("restricted" as const),
       note: `${engine.automationLevel.replace(/_/g, " ")} / ${engine.riskLevel} risk. ${engine.truth}`,
     })) ?? [];
+
+  const planLayerItems = [
+    {
+      label: "Citizen class",
+      value: currentPlanetLayer.label,
+      tone: "approved" as const,
+      note: currentPlanetLayer.activeLayer,
+    },
+    {
+      label: "Companion layer",
+      value: currentPlanetLayer.companionLevel,
+      tone: "approved" as const,
+      note: "Plan-aware, paper-safe, and non-executing.",
+    },
+    {
+      label: "Pro / VIP truth",
+      value: "Planned",
+      tone: "pending" as const,
+      note: "Pro and VIP layers remain planned or locked until real entitlement support exists.",
+    },
+    {
+      label: "Founder Command",
+      value: "Owner-only",
+      tone: "blocked" as const,
+      note: "Never exposed as a normal user plan or public route.",
+    },
+    {
+      label: "Billing",
+      value: planEntitlementSnapshot.truth.billing,
+      tone: "pending" as const,
+      note: "No checkout, paid access, or private treasury fee UI is user-visible.",
+    },
+  ];
 
   const companionReadinessItems = [
     {
@@ -1103,6 +1140,10 @@ export function PlatformDiagnosticsSurface({
         )}
       </UtilitySection>
 
+      <UtilitySection eyebrow="CITIZEN LAYER" title="Plan-based planet access">
+        <UtilityGrid items={planLayerItems} />
+      </UtilitySection>
+
       <UtilitySection eyebrow="COMPANION" title="Assistant readiness">
         <UtilityGrid items={companionReadinessItems} />
       </UtilitySection>
@@ -1326,6 +1367,7 @@ export function PlatformSettingsSurface({
   const assistantTier = getAssistantTierSnapshot("evaluation").current;
   const planVisualIdentities = getPlanVisualIdentities();
   const planEntitlementSnapshot = getPlanEntitlementSnapshot("demo_free");
+  const currentPlanetLayer = planEntitlementSnapshot.citizenAccess.currentLayer;
   const journalCoachLoadState = useJournalCoachReadiness();
 
   const productStructureItems = [
@@ -1727,12 +1769,28 @@ export function PlatformSettingsSurface({
         <PlanIdentityGrid currentPlanKey="demo_free" identities={planVisualIdentities} />
       </UtilitySection>
 
+      <UtilitySection eyebrow="CITIZEN PLANET" title="Your planet layer">
+        <div className="tpm-plan-layer-current">
+          <PlanPlanetLayerCard current layer={currentPlanetLayer} />
+        </div>
+      </UtilitySection>
+
+      <UtilitySection eyebrow="ACCESS MAP" title="Plan-based planet layers">
+        <CitizenAccessMap
+          currentClass={planEntitlementSnapshot.citizenAccess.currentClass}
+          layers={planEntitlementSnapshot.citizenAccess.layers}
+        />
+      </UtilitySection>
+
       <UtilitySection eyebrow="PLAN EXPERIENCE" title="Plan capability truth">
         <div className="tpm-plan-experience-grid">
           {planEntitlementSnapshot.plans.map((plan) => (
             <PlanExperienceCard
               key={plan.planId}
               currentPlan={planEntitlementSnapshot.currentPlan}
+              layer={planEntitlementSnapshot.citizenAccess.layers.find(
+                (layer) => layer.planId === plan.planId
+              )}
               plan={plan}
               truth={planEntitlementSnapshot.truth}
             />

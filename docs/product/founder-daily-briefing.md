@@ -83,3 +83,9 @@ The briefing now includes opportunity summaries, ministries needing attention, v
 ## Earth Hierarchy Briefing Inputs
 
 The daily briefing may summarize hierarchy health, council warnings, cross-ministry blockers, resource protection status, 40-ministry readiness, and workflows waiting on Presidency Coordination. It must still avoid fake users, fake revenue, fake public launch, fake billing, fake broker/feed, fake live execution, and fake production state.
+
+## Plan Layer Briefing
+
+The daily briefing may include plan readiness: Demo / Free active paper layer, Pro planned, VIP planned, Enterprise future, Founder Command owner-only, billing inactive, and performance-fee hidden/inactive.
+
+The briefing must not invent plan distribution counts, conversion metrics, revenue, paid users, or VIP activation.

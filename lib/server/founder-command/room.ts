@@ -102,6 +102,21 @@ export type FounderCommandCoordinationPanel = {
   realWorkflowExecutionActive: false;
 };
 
+export type FounderCommandPlanVisibility = {
+  citizenClasses: string[];
+  citizenClassesAvailable: string[];
+  planReadiness: Array<{
+    plan: string;
+    state: string;
+    layer: string;
+  }>;
+  proVipBlockers: string[];
+  billingInactive: true;
+  performanceFeeHiddenInactive: true;
+  nextSafePlanActions: string[];
+  whatNotToActivateNow: string[];
+};
+
 export type FounderCommandRoomFoundationSnapshot = {
   checkedAt: string;
   mode: "founder_command_room_foundation";
@@ -118,6 +133,7 @@ export type FounderCommandRoomFoundationSnapshot = {
   approvalQueue: FounderCommandRoomApprovalQueue;
   guardianLegal: FounderCommandGuardianLegalPanel;
   treasury: FounderCommandTreasuryPanel;
+  planVisibility: FounderCommandPlanVisibility;
   mediaVideo: FounderCommandMediaVideoPanel;
   coordination: FounderCommandCoordinationPanel;
   productTruth: ReturnType<typeof getProductTruthSnapshot>;
@@ -297,6 +313,45 @@ export function getFounderCommandRoomFoundationSnapshot(
       futurePerformanceFeeResearchRange: "5%-10%",
       ownerOnlyActivationLater: true,
       visibleToPublicUsers: false,
+    },
+    planVisibility: {
+      citizenClasses: planEntitlements.citizenAccess.layers.map(
+        (layer) => layer.label
+      ),
+      citizenClassesAvailable: planEntitlements.citizenAccess.layers.map(
+        (layer) => layer.label
+      ),
+      planReadiness: planEntitlements.plans.map((plan) => {
+        const layer = planEntitlements.citizenAccess.layers.find(
+          (item) => item.planId === plan.planId
+        );
+
+        return {
+          plan: plan.planName,
+          state: plan.truthState,
+          layer: layer?.activeLayer ?? "Plan layer readiness",
+        };
+      }),
+      proVipBlockers: [
+        "billing inactive",
+        "paid entitlement logic not active",
+        "VIP activation not active",
+        "Guardian/Legal review required for premium claims",
+      ],
+      billingInactive: true,
+      performanceFeeHiddenInactive: true,
+      nextSafePlanActions: [
+        "Keep Demo / Free paper-safe layer active and understandable.",
+        "Prepare Pro/VIP entitlement UX without billing or activation claims.",
+        "Keep Enterprise future-only.",
+      ],
+      whatNotToActivateNow: [
+        "billing",
+        "VIP access",
+        "Pro paid access",
+        "performance-fee UI",
+        "Founder Command user-plan access",
+      ],
     },
     mediaVideo: {
       media: readiness.media,
