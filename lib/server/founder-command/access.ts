@@ -4,6 +4,7 @@ import type {
   FounderLocalCommandAccessSnapshot,
   FounderLocalCommandAccessState,
 } from "./types";
+import { getFounderCommandProtectionSnapshot } from "@/lib/server/secrets-authority";
 
 const accessStates: FounderLocalCommandAccessState[] = [
   "not_configured",
@@ -35,5 +36,6 @@ export function getFounderLocalCommandAccessSnapshot(
     stepUpConfirmation: "planned",
     approvalExecution: "disabled",
     secretsVisible: false,
+    protection: getFounderCommandProtectionSnapshot(checkedAt),
   };
 }

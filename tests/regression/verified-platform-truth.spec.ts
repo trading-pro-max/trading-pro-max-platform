@@ -6044,6 +6044,237 @@ test.describe("verified platform truth", () => {
     );
   });
 
+  test("reports secrets authority and Founder Command protection without exposing values", async ({
+    page,
+    request,
+  }) => {
+    const requiredSecretDocs = [
+      "docs/security/secrets-authority.md",
+      "docs/security/founder-command-protection.md",
+      "docs/security/owner-auth-readiness.md",
+      "docs/security/secret-rotation-readiness.md",
+      "docs/security/no-secret-exposure-policy.md",
+    ];
+
+    for (const docPath of requiredSecretDocs) {
+      expect(fs.existsSync(path.join(process.cwd(), docPath)), docPath).toBe(true);
+    }
+
+    const committedEnvFiles = spawnSync("git", ["ls-files", ".env*"], {
+      cwd: process.cwd(),
+      encoding: "utf8",
+    }).stdout
+      .split(/\r?\n/)
+      .filter(Boolean);
+    expect(committedEnvFiles).toEqual([
+      ".env.production.example",
+      ".env.staging.example",
+    ]);
+
+    const endpoints = [
+      "/api/founder/secrets/readiness",
+      "/api/founder/security/readiness",
+    ];
+
+    for (const endpoint of endpoints) {
+      const response = await request.get(endpoint);
+      expect(response.status()).toBe(200);
+      const text = await response.text();
+      expect(text).not.toMatch(
+        /(?:api[_-]?key|token|password|secret_value)\s*[:=]\s*["'][^"']{8,}/i
+      );
+      expect(text).not.toMatch(/AKIA[0-9A-Z]{16}|ghp_[A-Za-z0-9]{20,}|sk-[A-Za-z0-9]{20,}/);
+      expect(text).not.toMatch(/"value"\s*:/i);
+      expect(text).not.toMatch(/"rawSecret"\s*:/i);
+    }
+
+    const secrets = await (
+      await request.get("/api/founder/secrets/readiness")
+    ).json();
+    expect(secrets.snapshot).toMatchObject({
+      mode: "secrets_authority_readiness",
+      status: "ready",
+      supportedStates: [
+        "not_configured",
+        "configured",
+        "missing",
+        "invalid_format",
+        "expired",
+        "rotation_required",
+        "blocked",
+        "production_forbidden",
+      ],
+      environments: ["local", "staging_future", "production_future", "blocked"],
+      categories: [
+        "email",
+        "social",
+        "market_data",
+        "broker_future",
+        "billing_future",
+        "monitoring_future",
+        "founder_command",
+        "github_vercel_domain_readiness",
+      ],
+      summary: {
+        totalCategories: 8,
+        rawValuesVisible: false,
+        envFilesCommitted: false,
+      },
+      exposurePolicy: {
+        rawValuesDisplayed: false,
+        valuesLogged: false,
+        valuesSentToAssistant: false,
+        valuesSentToCodex: false,
+        valuesStoredInProductMemory: false,
+        valuesAllowedInScreenshots: false,
+        envFilesAllowedInGit: false,
+        presenceOnlyReporting: true,
+      },
+      truth: {
+        rawSecretsExposed: false,
+        apiKeysExposed: false,
+        tokensExposed: false,
+        passwordsExposed: false,
+        secretsStoredInMemorySystems: false,
+        secretsSentToAssistant: false,
+        secretsSentToCodex: false,
+        secretsLogged: false,
+        envFilesCommitted: false,
+        productionActivated: false,
+        billingActivated: false,
+        brokerFeedActivated: false,
+        liveExecutionActivated: false,
+        realMoneyRoutingActivated: false,
+        socialPublishingActive: false,
+        authWeakened: false,
+      },
+    });
+    expect(secrets.snapshot.items).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          category: "broker_future",
+          state: "production_forbidden",
+          valueVisible: false,
+        }),
+        expect.objectContaining({
+          category: "billing_future",
+          state: "production_forbidden",
+          valueVisible: false,
+        }),
+        expect.objectContaining({
+          category: "founder_command",
+          state: "rotation_required",
+          valueVisible: false,
+        }),
+      ])
+    );
+    for (const item of secrets.snapshot.items) {
+      expect(item).toMatchObject({
+        valueVisible: false,
+        valueHashVisible: false,
+        valueSourceVisible: false,
+        founderCommandVisible: true,
+      });
+    }
+
+    const founderSecurity = await (
+      await request.get("/api/founder/security/readiness")
+    ).json();
+    expect(founderSecurity.snapshot).toMatchObject({
+      mode: "founder_security_readiness",
+      status: "ready",
+      commandProtection: {
+        ownerOnly: true,
+        localOnly: true,
+        passkeyWebAuthn: "planned",
+        biometricDevice: "planned",
+        pin: "planned",
+        trustedDevice: "planned",
+        stepUpConfirmation: "planned",
+        auditReadiness: "readiness_only",
+        noPublicRoute: true,
+        publicNavigationVisible: false,
+        userPlanAccess: false,
+        rawSecretsVisible: false,
+        approvalExecutionActive: false,
+      },
+      truth: {
+        rawSecretsExposed: false,
+        secretsSentToAssistant: false,
+        secretsSentToCodex: false,
+        productionActivated: false,
+        billingActivated: false,
+        brokerFeedActivated: false,
+        liveExecutionActivated: false,
+        realMoneyRoutingActivated: false,
+        socialPublishingActive: false,
+        founderCommandPublic: false,
+        ownerOnly: true,
+      },
+    });
+
+    const founderCommand = await (
+      await request.get("/api/founder/command/snapshot")
+    ).json();
+    expect(
+      founderCommand.snapshot.engineeringOpsQuality.secretsAuthority
+    ).toMatchObject({
+      status: "ready",
+      categories: 8,
+      rawValuesVisible: false,
+      envFilesCommitted: false,
+      founderProtection: {
+        ownerOnly: true,
+        rawSecretsVisible: false,
+        approvalExecutionActive: false,
+      },
+      truth: {
+        rawSecretsExposed: false,
+        secretsSentToAssistant: false,
+        secretsSentToCodex: false,
+        productionActivated: false,
+        billingActivated: false,
+      },
+    });
+
+    const companion = await (await request.get("/api/companion/context")).json();
+    expect(companion.snapshot.safety).toMatchObject({
+      secretsIncluded: false,
+      brokerCredentialsIncluded: false,
+      paymentDataIncluded: false,
+      socialTokensIncluded: false,
+      rawTokensIncluded: false,
+    });
+    expect(JSON.stringify(companion)).not.toMatch(/secrets_authority|"value"\s*:/i);
+
+    const diagnostics = await (await request.get("/api/diagnostics/probes")).json();
+    expect(diagnostics.health.routes).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ path: "/api/founder/secrets/readiness" }),
+        expect.objectContaining({ path: "/api/founder/security/readiness" }),
+      ])
+    );
+    expect(diagnostics.health.subsystems).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          key: "secrets_authority",
+          label: "Secrets readiness",
+          status: "ready",
+        }),
+      ])
+    );
+
+    await page.goto("/");
+    await expect(page.locator("main").first()).toBeVisible();
+    await expect(page.locator("body")).toContainText("Free");
+    await expect(page.locator("body")).toContainText("Pro");
+    await expect(page.locator("body")).toContainText("VIP");
+    await expect(page.locator("body")).toContainText("Institutional");
+    await expect(page.locator("body")).not.toContainText(
+      /Founder Command|Secrets Authority|raw secrets|passkey|WebAuthn/i
+    );
+  });
+
   test("keeps real-money execution blocked when real mode is selected", async ({
     page,
   }) => {

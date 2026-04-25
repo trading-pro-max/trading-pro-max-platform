@@ -37,6 +37,7 @@ import {
 import { getProductMemorySummarySnapshot } from "@/lib/server/product-memory";
 import { getProductRealityFinalScoreSnapshot } from "@/lib/server/product-reality";
 import { getSecuritySovereigntySnapshot } from "@/lib/server/security-sovereignty";
+import { getSecretsAuthoritySnapshot } from "@/lib/server/secrets-authority";
 import { getClientExpansionSnapshot } from "@/lib/server/platform/client-contracts";
 import { getDesktopAppsDiagnosticsProbe } from "@/lib/server/platform/desktop-foundation";
 import { getDesktopProductizationDiagnosticsProbe } from "@/lib/server/platform/desktop-productization";
@@ -1321,6 +1322,16 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       `${securitySovereigntySnapshot.authorities.length} security authorities, red/blue/purple readiness, incident response, evidence ledger, and hardening are modeled with no secrets exposed and no activation authority.`,
     checkedAt,
   };
+  const secretsAuthoritySnapshot = getSecretsAuthoritySnapshot(checkedAt);
+  const secretsAuthorityProbe: DiagnosticsProbe = {
+    key: "secrets_authority",
+    label: "Secrets readiness",
+    status: "ready",
+    summary: "Presence-only secret readiness is defined",
+    detail:
+      `${secretsAuthoritySnapshot.categories.length} secret categories report status only. Raw values, logs, Assistant/Codex transfer, screenshots, product memory storage, env commits, and activation remain blocked.`,
+    checkedAt,
+  };
 
   return {
     ...baseHealth,
@@ -1334,6 +1345,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       founderBuildRoomProbe,
       brandIntelligenceProbe,
       securitySovereigntyProbe,
+      secretsAuthorityProbe,
     ],
     routes: [
       ...baseHealth.routes,
@@ -1463,6 +1475,20 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         detail:
           "Occasion identity route reports opt-in theme governance without automatic cultural, religious, political, copyrighted, or partnership themes.",
       },
+      {
+        path: "/api/founder/secrets/readiness",
+        method: "GET",
+        status: secretsAuthorityProbe.status,
+        detail:
+          "Founder secrets readiness route reports status-only secret categories, rotation policy, and exposure guards without raw values.",
+      },
+      {
+        path: "/api/founder/security/readiness",
+        method: "GET",
+        status: secretsAuthorityProbe.status,
+        detail:
+          "Founder security readiness route reports owner-only command protection and secret exposure policy without private data or action execution.",
+      },
     ],
     subsystems: [
       ...(baseHealth.subsystems ?? []),
@@ -1521,6 +1547,13 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         status: securitySovereigntyProbe.status,
         summary: securitySovereigntyProbe.summary,
         detail: securitySovereigntyProbe.detail,
+      },
+      {
+        key: "secrets_authority",
+        label: secretsAuthorityProbe.label,
+        status: secretsAuthorityProbe.status,
+        summary: secretsAuthorityProbe.summary,
+        detail: secretsAuthorityProbe.detail,
       },
     ],
     launchReadiness: {

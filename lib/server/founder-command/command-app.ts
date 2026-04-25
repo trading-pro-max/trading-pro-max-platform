@@ -33,6 +33,10 @@ import {
   getProductSurfaceDigitalTwinSnapshot,
 } from "@/lib/server/product-reality";
 import { getSecuritySovereigntySnapshot } from "@/lib/server/security-sovereignty";
+import {
+  getFounderSecurityReadinessSnapshot,
+  getSecretsAuthoritySnapshot,
+} from "@/lib/server/secrets-authority";
 import { getTrustGovernorSnapshot } from "@/lib/server/trust-governor";
 import { getVisualAcceptanceSnapshot } from "@/lib/server/visual-acceptance";
 import { getFounderLocalCommandAccessSnapshot } from "./access";
@@ -111,6 +115,8 @@ export function getFounderCommandAppSnapshot(
   const designMinistry = getDesignMinistrySnapshot(checkedAt);
   const brandIntelligence = getBrandIntelligenceInternalReadiness(checkedAt);
   const securitySovereignty = getSecuritySovereigntySnapshot(checkedAt);
+  const secretsAuthority = getSecretsAuthoritySnapshot(checkedAt);
+  const founderSecurity = getFounderSecurityReadinessSnapshot(checkedAt);
 
   const desktopApp: FounderCommandDeviceBlueprint = {
     platform: "desktop",
@@ -550,6 +556,24 @@ export function getFounderCommandAppSnapshot(
         productTruth: securitySovereignty.productTruth,
         truth: securitySovereignty.truth,
       },
+      secretsAuthority: {
+        status: secretsAuthority.status,
+        coreRule: secretsAuthority.coreRule,
+        categories: secretsAuthority.categories.length,
+        supportedStates: secretsAuthority.supportedStates,
+        environments: secretsAuthority.environments,
+        configuredCount: secretsAuthority.summary.configuredCount,
+        blockedCount: secretsAuthority.summary.blockedCount,
+        productionForbiddenCount:
+          secretsAuthority.summary.productionForbiddenCount,
+        rotationRequiredCount: secretsAuthority.summary.rotationRequiredCount,
+        rawValuesVisible: secretsAuthority.summary.rawValuesVisible,
+        envFilesCommitted: secretsAuthority.summary.envFilesCommitted,
+        exposurePolicy: secretsAuthority.exposurePolicy,
+        rotationReadiness: secretsAuthority.rotationReadiness,
+        founderProtection: founderSecurity.commandProtection,
+        truth: founderSecurity.truth,
+      },
       visualAcceptance: {
         status: visualAcceptance.status,
         averageScoreEstimate: visualAcceptance.averageScoreEstimate,
@@ -598,6 +622,8 @@ export function getFounderCommandAppSnapshot(
       "/api/brand-intelligence/simulation",
       "/api/brand-intelligence/guardian",
       "/api/brand-intelligence/occasion-themes",
+      "/api/founder/secrets/readiness",
+      "/api/founder/security/readiness",
     ],
     safety: safetySummary,
     blockers: [

@@ -9,6 +9,7 @@ import type {
   ValidationMemoryCommandStatus,
 } from "@/lib/server/product-memory";
 import type { ProductRealityFinalScoreSnapshot } from "@/lib/server/product-reality";
+import type { FounderCommandProtectionReadiness } from "@/lib/server/secrets-authority";
 
 export type FounderRiskLevel = "low" | "medium" | "high" | "critical";
 
@@ -320,4 +321,5 @@ export interface FounderLocalCommandAccessSnapshot {
   stepUpConfirmation: "planned";
   approvalExecution: "disabled";
   secretsVisible: false;
+  protection: FounderCommandProtectionReadiness;
 }
