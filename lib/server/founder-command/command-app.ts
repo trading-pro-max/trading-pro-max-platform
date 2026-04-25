@@ -11,6 +11,7 @@ import { getPlanetEconomyGrowthReadinessSnapshot } from "@/lib/server/economy-gr
 import { getTpmBrainContextSnapshot } from "@/lib/server/brain";
 import { getGrowthIntelligenceReadinessSnapshot } from "@/lib/server/growth-intelligence";
 import { getJournalCoachSnapshot } from "@/lib/server/journal-coach";
+import { getLocalOperationsReadinessSnapshot } from "@/lib/server/local-ops";
 import { getPlanetConsciousnessSnapshot } from "@/lib/server/planet-consciousness";
 import { getPlanetMemoryGraphSnapshot } from "@/lib/server/planet-memory";
 import {
@@ -89,6 +90,7 @@ export function getFounderCommandAppSnapshot(
   const founderPreferences = getFounderPreferenceSnapshot(checkedAt);
   const growthIntelligence = getGrowthIntelligenceReadinessSnapshot(checkedAt);
   const trustGovernor = getTrustGovernorSnapshot(checkedAt);
+  const localOps = getLocalOperationsReadinessSnapshot(checkedAt);
 
   const desktopApp: FounderCommandDeviceBlueprint = {
     platform: "desktop",
@@ -336,6 +338,28 @@ export function getFounderCommandAppSnapshot(
       ],
       externalExecutionActive: false,
     },
+    localUniverseOperations: {
+      readiness: "readiness_only" as const,
+      doctrine: localOps.doctrine,
+      dayCycle: localOps.dayCycle,
+      readinessLaw: localOps.readinessLaw,
+      digitalTwin: localOps.digitalTwin,
+      founderAcceptance: localOps.founderAcceptance,
+      localReport: {
+        localDayNumber: localOps.report.localDayNumber,
+        readinessState: localOps.report.readinessState,
+        completedStages: localOps.report.completedStages,
+        failedStages: localOps.report.failedStages,
+        validationStatus: localOps.report.validationStatus,
+        gitStatus: localOps.report.gitStatus,
+        blockers: localOps.report.blockers,
+        nextActions: localOps.report.nextActions,
+        launchForbiddenReminder: localOps.report.launchForbiddenReminder,
+      },
+      nextSafeLocalActions: localOps.report.nextActions,
+      launchForbiddenReminder: localOps.report.launchForbiddenReminder,
+      launchAutomationActive: false,
+    },
     companionBrain: {
       founderCompanion,
       brainContextQuality: brain.contextQuality,
@@ -377,6 +401,10 @@ export function getFounderCommandAppSnapshot(
       "/api/planet/product-reality/score",
       "/api/planet/trust-governor",
       "/api/founder/construction/readiness",
+      "/api/local-ops/day-cycle",
+      "/api/local-ops/readiness-law",
+      "/api/local-ops/report",
+      "/api/local-ops/digital-twin",
     ],
     safety: safetySummary,
     blockers: [

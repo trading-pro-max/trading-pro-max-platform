@@ -14,6 +14,7 @@ export async function GET() {
       mode: "founder_construction_readiness",
       access: snapshot.access,
       construction: snapshot.autonomousConstructionIntelligence,
+      localUniverseOperations: snapshot.localUniverseOperations,
       safety: snapshot.safety,
     },
   });

@@ -4546,6 +4546,154 @@ test.describe("verified platform truth", () => {
     });
   });
 
+  test("reports local universe operations without launch automation", async ({
+    request,
+  }) => {
+    const endpoints = [
+      "/api/local-ops/day-cycle",
+      "/api/local-ops/readiness-law",
+      "/api/local-ops/report",
+      "/api/local-ops/digital-twin",
+    ];
+
+    for (const endpoint of endpoints) {
+      const response = await request.get(endpoint);
+      expect(response.status()).toBe(200);
+      const text = await response.text();
+      expect(text).not.toMatch(/api[_-]?key\s*[:=]|password\s*[:=]|secret_value/i);
+      expect(text).not.toMatch(/fake users active|fake revenue active|metrics active/i);
+    }
+
+    const dayCycle = await (await request.get("/api/local-ops/day-cycle")).json();
+    expect(dayCycle.snapshot).toMatchObject({
+      mode: "local_day_cycle",
+      operationMode: "local_closed_universe",
+      summary: {
+        totalStages: 21,
+        launchCriteriaIncluded: false,
+        productionCriteriaIncluded: false,
+        billingCriteriaIncluded: false,
+        realMoneyCriteriaIncluded: false,
+        brokerFeedActivationIncluded: false,
+        socialPublishingIncluded: false,
+      },
+      truth: {
+        localOnly: true,
+        paperSafe: true,
+        readinessOnly: true,
+        automaticLaunch: false,
+      },
+    });
+    expect(dayCycle.snapshot.stages).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ id: "wake_start", order: 1 }),
+        expect.objectContaining({ id: "sleep_archive", order: 21 }),
+      ])
+    );
+
+    const readinessLaw = await (
+      await request.get("/api/local-ops/readiness-law")
+    ).json();
+    expect(readinessLaw.snapshot).toMatchObject({
+      mode: "local_readiness_law",
+      successfulLocalDays: 0,
+      readinessState: "not_started",
+      truth: {
+        automaticLaunch: false,
+        founderApprovalAlwaysRequired: true,
+        legalGuardianProductTruthGatesRequired: true,
+        launchActionIncluded: false,
+        productionActionIncluded: false,
+      },
+    });
+    expect(readinessLaw.snapshot.thresholds).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          successfulLocalDays: 14,
+          state: "launch_readiness_discussion_candidate",
+          automaticLaunch: false,
+          founderApprovalRequired: true,
+        }),
+      ])
+    );
+
+    const digitalTwin = await (
+      await request.get("/api/local-ops/digital-twin")
+    ).json();
+    expect(digitalTwin.snapshot.summary).toMatchObject({
+      profileCount: 9,
+      testPersonaOnly: true,
+      fakeUsersIncluded: false,
+      privateUserDataIncluded: false,
+      secretsIncluded: false,
+    });
+    expect(digitalTwin.snapshot.profiles).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          id: "institutional_future_evaluator",
+          testPersonaOnly: true,
+        }),
+      ])
+    );
+
+    const report = await (await request.get("/api/local-ops/report")).json();
+    expect(report.snapshot).toMatchObject({
+      mode: "local_operations_report",
+      localDayNumber: 0,
+      readinessState: "not_started",
+      validationStatus: "not_run_for_today",
+      gitStatus: "not_evaluated_by_snapshot",
+      founderDecisionNeeded: true,
+      truth: {
+        localOnly: true,
+        paperSafe: true,
+        productionAction: "blocked",
+        launchAction: "blocked",
+        billingAction: "blocked",
+        brokerFeedAction: "blocked",
+        realMoneyAction: "blocked",
+        socialPublishingAction: "blocked",
+        fakeUsersMetricsRevenue: "not_allowed",
+      },
+    });
+    expect(report.snapshot.launchForbiddenReminder).toContain(
+      "Local maturity does not authorize public launch"
+    );
+
+    const diagnostics = await (await request.get("/api/diagnostics/probes")).json();
+    expect(diagnostics.health.routes).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ path: "/api/local-ops/day-cycle" }),
+        expect.objectContaining({ path: "/api/local-ops/readiness-law" }),
+        expect.objectContaining({ path: "/api/local-ops/report" }),
+        expect.objectContaining({ path: "/api/local-ops/digital-twin" }),
+      ])
+    );
+    expect(diagnostics.health.subsystems).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          key: "local_operations",
+          status: "ready",
+        }),
+      ])
+    );
+
+    const founderConstruction = await (
+      await request.get("/api/founder/construction/readiness")
+    ).json();
+    expect(founderConstruction.snapshot.localUniverseOperations).toMatchObject({
+      readiness: "readiness_only",
+      launchAutomationActive: false,
+      readinessLaw: {
+        state: "not_started",
+        automaticLaunch: false,
+      },
+      digitalTwin: {
+        fakeUsersIncluded: false,
+      },
+    });
+  });
+
   test("keeps real-money execution blocked when real mode is selected", async ({
     page,
   }) => {

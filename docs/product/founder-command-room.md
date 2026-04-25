@@ -84,3 +84,17 @@ The room now feeds a deeper Founder King Command App architecture:
 - sanitized read-only Founder APIs for command snapshot, modules, approval readiness, treasury readiness, and media readiness
 
 The deep foundation remains read-only, hidden from public navigation, unavailable to user plans, and unable to execute approvals or activate launch, production, billing, broker/feed, live execution, real money, or social publishing.
+
+## Local Operations Readiness
+
+Founder Command now receives Local Universe readiness as a read-only signal:
+
+- local day cycle
+- local readiness law
+- digital twin test personas
+- Founder acceptance memory
+- local operations report
+- next safe local actions
+- launch forbidden reminder
+
+Local operations do not execute approvals, launch production, activate billing, connect broker/feed, enable live execution, route real money, or publish externally.

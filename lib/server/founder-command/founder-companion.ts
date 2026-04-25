@@ -2,6 +2,7 @@ import "server-only";
 
 import { getPlanEntitlementSnapshot } from "@/lib/plans/entitlements";
 import { getConstructionQueueSnapshot } from "@/lib/server/codex-construction";
+import { getLocalOperationsReadinessSnapshot } from "@/lib/server/local-ops";
 import type { FounderBriefing, MinistryReport } from "@/lib/server/planet-os/types";
 import { getFounderCommandReportingSnapshot } from "./reporting";
 
@@ -26,6 +27,7 @@ export type FounderPersonalCompanionSnapshot = {
   treasurySummary: string[];
   engineeringPrioritySuggestions: string[];
   constructionIntelligenceSummary: string[];
+  localOperationsSummary: string[];
   whatNotToApprove: string[];
   nextSafeDecisions: string[];
   whatNotToDo: string[];
@@ -53,6 +55,7 @@ export function getFounderPersonalCompanionSnapshot(
   const reporting = getFounderCommandReportingSnapshot(checkedAt);
   const planEntitlements = getPlanEntitlementSnapshot("demo_free", checkedAt);
   const constructionQueue = getConstructionQueueSnapshot(checkedAt);
+  const localOps = getLocalOperationsReadinessSnapshot(checkedAt);
   const decisionMinistries = reporting.ministries.filter(
     (report) => report.founderDecisionNeeded
   );
@@ -120,6 +123,12 @@ export function getFounderPersonalCompanionSnapshot(
       `${constructionQueue.summary.blocked} blocked construction items remain blocked.`,
       "Codex task drafts must not be sent or executed automatically.",
       "Validation interpretation is required before Founder acceptance.",
+    ],
+    localOperationsSummary: [
+      `Local operations state is ${localOps.report.readinessState}.`,
+      `${localOps.dayCycle.totalStages} local day cycle stages are defined.`,
+      `${localOps.digitalTwin.profileCount} local test personas are readiness-only and do not represent real users.`,
+      localOps.report.launchForbiddenReminder,
     ],
     whatNotToApprove: [
       "live execution activation",

@@ -23,6 +23,7 @@ import {
   getAiIqBrainDiagnosticsProbe,
   getIntelligenceBackendDiagnosticsProbe,
 } from "@/lib/server/intelligence";
+import { getLocalOperationsReadinessSnapshot } from "@/lib/server/local-ops";
 import { getClientExpansionSnapshot } from "@/lib/server/platform/client-contracts";
 import { getDesktopAppsDiagnosticsProbe } from "@/lib/server/platform/desktop-foundation";
 import { getDesktopProductizationDiagnosticsProbe } from "@/lib/server/platform/desktop-productization";
@@ -202,6 +203,7 @@ function buildRouteProbes(input: {
   intelligence: DiagnosticsProbe;
   aiFoundation: DiagnosticsProbe;
   aiDeepening: DiagnosticsProbe;
+  localOperations: DiagnosticsProbe;
   security: DiagnosticsProbe;
   productBackend: DiagnosticsProbe;
   operatorReviewConfigured: boolean;
@@ -281,6 +283,34 @@ function buildRouteProbes(input: {
       status: input.productBackend.status,
       detail:
         "AI Build Planner readiness route classifies safe future work while blocking launch, secrets, live execution, billing, and production actions.",
+    },
+    {
+      path: "/api/local-ops/day-cycle",
+      method: "GET",
+      status: input.localOperations.status,
+      detail:
+        "Local operations day-cycle route reports closed local review stages only; no launch, production, billing, broker/feed, real-money, or social action exists.",
+    },
+    {
+      path: "/api/local-ops/readiness-law",
+      method: "GET",
+      status: input.localOperations.status,
+      detail:
+        "Local readiness law route reports local maturity thresholds without automatic launch authority.",
+    },
+    {
+      path: "/api/local-ops/report",
+      method: "GET",
+      status: input.localOperations.status,
+      detail:
+        "Local operations report route reports local review readiness only without fake users, metrics, revenue, or launch automation.",
+    },
+    {
+      path: "/api/local-ops/digital-twin",
+      method: "GET",
+      status: input.localOperations.status,
+      detail:
+        "Local digital twin route reports test personas only; no real users, private data, or fake activity are included.",
     },
     {
       path: "/api/product/truth",
@@ -653,6 +683,7 @@ function buildSubsystems(input: {
   intelligence: DiagnosticsProbe;
   aiFoundation: DiagnosticsProbe;
   aiDeepening: DiagnosticsProbe;
+  localOperations: DiagnosticsProbe;
   readiness: DiagnosticsProbe;
 }) {
   return [
@@ -873,6 +904,13 @@ function buildSubsystems(input: {
       summary: input.aiDeepening.summary,
       detail: input.aiDeepening.detail,
     },
+    {
+      key: "local_operations",
+      label: input.localOperations.label,
+      status: input.localOperations.status,
+      summary: input.localOperations.summary,
+      detail: input.localOperations.detail,
+    },
   ];
 }
 
@@ -950,6 +988,16 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
   const clientExpansion = getClientExpansionSnapshot(checkedAt);
   const productionDeploymentSnapshot =
     getProductionDeploymentReadinessSnapshot(checkedAt);
+  const localOperationsSnapshot = getLocalOperationsReadinessSnapshot(checkedAt);
+  const localOperations: DiagnosticsProbe = {
+    key: "local_operations_mode",
+    label: "Local operations mode",
+    status: "ready",
+    summary: "Closed local operation protocol ready",
+    detail:
+      `${localOperationsSnapshot.dayCycle.totalStages} local review stages are defined. ${localOperationsSnapshot.report.launchForbiddenReminder}`,
+    checkedAt,
+  };
 
   const readiness = buildAggregateReadiness({
     checkedAt,
@@ -987,6 +1035,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       intelligence,
       aiFoundation,
       aiDeepening,
+      localOperations,
     ],
   });
 
@@ -1022,6 +1071,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     intelligence,
     aiFoundation,
     aiDeepening,
+    localOperations,
   ];
   const routes = buildRouteProbes({
     readiness,
@@ -1049,6 +1099,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     intelligence,
     aiFoundation,
     aiDeepening,
+    localOperations,
     security,
     productBackend,
     closedBetaPreparation,
@@ -1086,6 +1137,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     intelligence,
     aiFoundation,
     aiDeepening,
+    localOperations,
     readiness,
   });
   const baseHealth: DiagnosticsHealthSnapshot = {
