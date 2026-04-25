@@ -7,6 +7,10 @@ Founder approval workflows keep sensitive actions disciplined inside TPM Planet 
 | State | Meaning |
 | --- | --- |
 | draft | item exists but has not been reviewed |
+| pending_guardian_review | Guardian review is required before Founder review |
+| pending_legal_review | Legal review is required before Founder review |
+| pending_treasury_review | Treasury review is required for money, billing, Pro/VIP, or partnership claims |
+| pending_engineering_review | Engineering review is required for product, production, broker/feed, or system claims |
 | reviewed_by_guardian | Guardian review completed |
 | reviewed_by_legal | Legal Counsel review completed where required |
 | ready_for_founder | item passed required review and is ready for Founder decision |
@@ -55,3 +59,7 @@ Founder approval workflows keep sensitive actions disciplined inside TPM Planet 
 ## Planet Earth Approval Center Alignment
 
 The Founder Approval Center uses these workflows for media, AI video, Pro/VIP, Islamic wording, launch wording, billing/pricing wording, broker/feed wording, assistant capability changes, ministry policy changes, and command app sensitive actions. Critical blocks remain blocked until remediated.
+
+## Deep Foundation Rule
+
+Founder approval cannot override a Critical block without remediation. Guardian and Legal hard blocks remain hard blocks, even inside the private command app.

@@ -41,3 +41,15 @@ This index groups the private Founder King Command App foundation.
 ## Current Boundary
 
 The Founder Command App is architecture and contracts only. No public route, native app release, social account connection, billing activation, broker/feed activation, live execution, real-money routing, or public launch is created by this foundation.
+
+## Deep Foundation API Readiness
+
+The deep foundation exposes sanitized readiness-only APIs for future private clients:
+
+- `/api/founder/command/snapshot`
+- `/api/founder/command/modules`
+- `/api/founder/approval/readiness`
+- `/api/founder/treasury/readiness`
+- `/api/founder/media/readiness`
+
+These routes are not action surfaces. They contain no secrets, private user data, users, revenue, follower metrics, approval execution, billing activation, live execution, broker/feed activation, social publishing, or public launch activation.

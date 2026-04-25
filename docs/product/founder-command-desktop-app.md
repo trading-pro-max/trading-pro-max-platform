@@ -57,4 +57,33 @@ It should eventually include:
 ## Current Truth
 
 Desktop command architecture is defined. A real native desktop application is not shipped.
+## Deep Foundation Desktop Blueprint
 
+The desktop command app is the future high-density Founder King command surface. Current state is foundation-only; no native desktop app is shipped.
+
+Desktop zones:
+
+- top command status
+- planet overview
+- continents/states map
+- ministry grid
+- Presidency coordination queue
+- Founder approval queue
+- risk panel
+- Guardian panel
+- Legal panel
+- Treasury panel
+- Media/AI Video panel
+- Engineering/Ops panel
+- Founder Daily Briefing
+- Next Safe Actions
+
+Rules:
+
+- owner-only
+- read-only default
+- no public route
+- no public navigation
+- no approval execution
+- no billing, broker/feed, live, real money, social publishing, production, or launch activation
+- visual direction remains black/graphite/gold with subtle Swiss red, TPM Earth Mark, Swiss Precision Clock, and serious command-app density

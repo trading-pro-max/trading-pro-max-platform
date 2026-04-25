@@ -57,4 +57,27 @@ Blocked:
 ## Current Truth
 
 Mobile command architecture is defined. A real native mobile app is not shipped.
+## Deep Foundation Mobile Blueprint
 
+The mobile command app is the future urgent Founder King review surface. Current state is foundation-only; no native mobile app is shipped.
+
+Mobile screens:
+
+1. Today Briefing
+2. Critical Alerts
+3. Approval Queue
+4. Guardian Alerts
+5. Legal Warnings
+6. Media Review
+7. Ops Incidents
+8. Treasury Readiness
+9. Review Later
+
+Mobile rules:
+
+- urgent and compact only
+- no full workstation
+- no chart clutter
+- no secrets or private user data
+- no approve/reject execution until audited approval system exists
+- approval cards remain conceptual/read-only until owner auth, device trust, step-up confirmation, Guardian/Legal/Treasury/Engineering review, and audit gates exist

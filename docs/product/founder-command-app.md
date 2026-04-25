@@ -66,3 +66,21 @@ The command app may eventually show:
 The future private desktop/mobile command app should organize the planet by Founder King, Constitution, Councils, Presidency Coordination, Continents, States, Governors, Ministries, Authorities, Cities/Modules, Professions, Citizens, and Resources.
 
 Current implementation remains a read-only foundation. Owner-only device authentication, step-up confirmation, audit-backed approval execution, private desktop shell, and private mobile shell remain planned.
+
+## Deep Foundation Snapshot
+
+The command app now has a deterministic owner-only readiness snapshot. It aggregates Planet Blueprint, Earth hierarchy, 40-ministry reporting, Presidency Coordination, Councils, Product Truth, Plan readiness, Guardian/Legal, Treasury, Media/AI Video, Companion/Brain, Journal/Coach, Visual Acceptance, Engineering/Ops, and Founder Approval Center readiness.
+
+The snapshot is available as sanitized readiness data through `/api/founder/command/snapshot`. It is read-only and contains no private user data, secrets, users, revenue, metrics, execution authority, social tokens, broker credentials, billing activation, or launch activation.
+
+## Command App Contract
+
+- desktop: full private planet command overview
+- mobile: urgent private review and alert surface
+- access: Founder King only
+- public route: not exposed
+- public navigation: not visible
+- user plans: no access
+- approval execution: planned later
+- audit-backed actions: planned later
+- sensitive actions: blocked until owner auth, step-up confirmation, required reviews, and audit gates exist

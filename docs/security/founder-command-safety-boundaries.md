@@ -43,3 +43,19 @@ Founder Command safety boundaries define what the private command app may automa
 - No secrets are shown in the command UI.
 - No live execution or real money is available from the command app unless future legal, production, broker, and safety gates exist.
 
+## Deep Foundation Hard Blocks
+
+The deep command app foundation may display blocked categories, but it cannot activate or approve:
+
+- live execution
+- real-money routing
+- broker/feed activation
+- billing/subscriptions
+- social publishing
+- public launch
+- fake Pro/VIP claims
+- fake Islamic/Sharia certification
+- performance-fee activation
+- production/secret actions
+
+Founder approval cannot override Critical blocks without remediation, and Guardian/Legal hard blocks remain hard blocks.

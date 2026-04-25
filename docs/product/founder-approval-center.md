@@ -8,6 +8,8 @@ Current implementation status: the approval queue is represented as a read-only 
 
 - pending_guardian_review
 - pending_legal_review
+- pending_treasury_review
+- pending_engineering_review
 - ready_for_founder
 - approved
 - rejected
@@ -26,6 +28,9 @@ Current implementation status: the approval queue is represented as a read-only 
 - broker/feed wording
 - sensitive assistant capabilities
 - command app high-risk actions
+- sponsored clock partnership
+- emergency actions
+- production/secret actions
 
 ## Rules
 
@@ -44,3 +49,7 @@ The approval queue remains read-only but is now visible inside the Founder Comma
 High-risk approvals route upward through the Earth hierarchy: requesting city/module -> ministry -> state governor -> continent governor -> Founder Presidency / Central Coordination -> Guardian/Legal/Treasury/Engineering review where required -> Founder Command Room.
 
 Founder approval remains read-only/planned in the current baseline and cannot override critical Guardian or Legal blocks without remediation.
+
+## Deep Foundation API
+
+`/api/founder/approval/readiness` reports the approval lifecycle, categories, read-only items, and hard block rules. It does not approve, reject, schedule, publish, bill, launch, activate broker/feed, enable live execution, or route real money.

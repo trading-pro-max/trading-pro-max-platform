@@ -73,3 +73,14 @@ Until those are real, the command room remains read-only and hidden from public 
 Founder Command readiness now includes a plan visibility concept: available citizen classes, plan readiness, Pro/VIP blockers, billing inactive state, performance-fee hidden/inactive state, next safe plan actions, and what not to activate now.
 
 This is not user-count, revenue, or conversion reporting. It is readiness-only plan governance.
+
+## Command App Deep Foundation
+
+The room now feeds a deeper Founder King Command App architecture:
+
+- desktop command app blueprint for full planet overview, ministries, coordination, approvals, treasury, media, engineering, ops, Guardian, Legal, and Product Truth
+- mobile command app blueprint for urgent briefing, critical alerts, approval cards, Guardian/Legal warnings, media review, and ops incidents
+- 20 command modules with readiness, risk, allowed read-only actions, planned future actions, blocked actions, and must-not-fake rules
+- sanitized read-only Founder APIs for command snapshot, modules, approval readiness, treasury readiness, and media readiness
+
+The deep foundation remains read-only, hidden from public navigation, unavailable to user plans, and unable to execute approvals or activate launch, production, billing, broker/feed, live execution, real money, or social publishing.

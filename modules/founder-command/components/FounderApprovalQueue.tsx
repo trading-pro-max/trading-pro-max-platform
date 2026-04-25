@@ -59,6 +59,8 @@ export default function FounderApprovalQueue({
 
       <p className="tpm-founder-boundary">
         Blocked actions: {approvalQueue.blockedActions.join(", ")}.
+        Founder approval cannot override Guardian, Legal, or constitutional
+        Critical blocks without remediation.
       </p>
     </section>
   );

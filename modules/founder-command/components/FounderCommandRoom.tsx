@@ -1,4 +1,7 @@
-import { getFounderCommandRoomFoundationSnapshot } from "@/lib/server/founder-command";
+import {
+  getFounderCommandAppSnapshot,
+  getFounderCommandRoomFoundationSnapshot,
+} from "@/lib/server/founder-command";
 import TPMEarthMark from "@/modules/brand/components/TPMEarthMark";
 import ProductLogo from "@/modules/brand/components/ProductLogo";
 import type { FounderCommandRoomProps } from "../types";
@@ -16,6 +19,7 @@ export default function FounderCommandRoom({
   className,
 }: FounderCommandRoomProps) {
   const commandSnapshot = snapshot ?? getFounderCommandRoomFoundationSnapshot();
+  const appSnapshot = getFounderCommandAppSnapshot(commandSnapshot.checkedAt);
 
   return (
     <main
@@ -49,6 +53,39 @@ export default function FounderCommandRoom({
           <small>{commandSnapshot.access.exposureDecision}</small>
         </div>
       </header>
+
+      <section className="tpm-founder-panel">
+        <div className="tpm-founder-panel-head">
+          <span>Command App Architecture</span>
+          <h2>Desktop and mobile foundation</h2>
+          <p>
+            Owner-only command app readiness. No native app is shipped, no public
+            route is exposed, and approval execution remains inactive.
+          </p>
+        </div>
+        <div className="tpm-founder-metrics">
+          <div className="tpm-founder-metric">
+            <span>Modules</span>
+            <strong>{appSnapshot.moduleSummary.total}</strong>
+            <small>{appSnapshot.moduleSummary.mobileFriendlyModules} mobile-friendly</small>
+          </div>
+          <div className="tpm-founder-metric">
+            <span>Desktop app</span>
+            <strong>{appSnapshot.desktopApp.currentState}</strong>
+            <small>{appSnapshot.desktopApp.primaryScreens.slice(0, 3).join(" / ")}</small>
+          </div>
+          <div className="tpm-founder-metric">
+            <span>Mobile app</span>
+            <strong>{appSnapshot.mobileApp.currentState}</strong>
+            <small>{appSnapshot.mobileApp.primaryScreens.slice(0, 3).join(" / ")}</small>
+          </div>
+          <div className="tpm-founder-metric">
+            <span>Execution</span>
+            <strong>{String(appSnapshot.approvalCenter.executionActive)}</strong>
+            <small>Read-only until owner auth and audit gates exist</small>
+          </div>
+        </div>
+      </section>
 
       <FounderPlanetOverview snapshot={commandSnapshot} />
       <FounderMinistryGrid ministries={commandSnapshot.ministries} />

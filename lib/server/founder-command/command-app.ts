@@ -1,0 +1,310 @@
+import "server-only";
+
+import { getPlanEntitlementSnapshot } from "@/lib/plans/entitlements";
+import { getTpmBrainContextSnapshot } from "@/lib/server/brain";
+import { getJournalCoachSnapshot } from "@/lib/server/journal-coach";
+import {
+  getInterMinistryCoordinationSnapshot,
+  getPlanetBlueprintSnapshot,
+  getPlanetGovernanceSnapshot,
+} from "@/lib/server/planet-os";
+import { getProductTruthSnapshot } from "@/lib/server/product";
+import { getVisualAcceptanceSnapshot } from "@/lib/server/visual-acceptance";
+import { getFounderPersonalCompanionSnapshot } from "./founder-companion";
+import { getFounderCommandRoomFoundationSnapshot } from "./room";
+import { getFounderCommandSnapshot } from "./state";
+import type {
+  FounderCommandDeviceBlueprint,
+  FounderCommandSafetySummary,
+  FounderOwnerAccessPolicy,
+} from "./types";
+
+const ownerAccessPolicy: FounderOwnerAccessPolicy = {
+  audience: "founder_king_only",
+  ownerOnly: true,
+  publicRouteExposed: false,
+  publicNavigationVisible: false,
+  userPlanAccess: false,
+  readOnlyDefault: true,
+  ownerDeviceTrust: "planned",
+  stepUpConfirmation: "planned",
+  auditBackedActions: "planned",
+  secretsVisible: false,
+};
+
+const safetySummary: FounderCommandSafetySummary = {
+  approvalExecutionActive: false,
+  billingActivationActive: false,
+  brokerFeedActivationActive: false,
+  liveExecutionActive: false,
+  realMoneyRoutingActive: false,
+  socialPublishingActive: false,
+  publicLaunchActive: false,
+  fakeUsersIncluded: false,
+  fakeRevenueIncluded: false,
+  fakeMetricsIncluded: false,
+  secretsExposed: false,
+  privateUserDataExposed: false,
+};
+
+export function getFounderCommandAppSnapshot(
+  checkedAt = new Date().toISOString()
+) {
+  const command = getFounderCommandSnapshot(checkedAt);
+  const room = getFounderCommandRoomFoundationSnapshot(checkedAt);
+  const blueprint = getPlanetBlueprintSnapshot(checkedAt);
+  const governance = getPlanetGovernanceSnapshot(checkedAt);
+  const coordination = getInterMinistryCoordinationSnapshot(checkedAt);
+  const productTruth = getProductTruthSnapshot(checkedAt);
+  const visualAcceptance = getVisualAcceptanceSnapshot(checkedAt);
+  const brain = getTpmBrainContextSnapshot({}, checkedAt);
+  const journalCoach = getJournalCoachSnapshot(checkedAt);
+  const planEntitlements = getPlanEntitlementSnapshot("demo_free", checkedAt);
+  const founderCompanion = getFounderPersonalCompanionSnapshot(checkedAt);
+
+  const desktopApp: FounderCommandDeviceBlueprint = {
+    platform: "desktop",
+    purpose:
+      "Full private command view for planet overview, ministries, coordination, approvals, treasury, media, engineering, ops, Guardian, Legal, and product truth.",
+    targetDevices: command.deviceTargets.filter((device) =>
+      ["windows", "macos", "linux"].includes(device)
+    ),
+    primaryScreens: [
+      "Top command status",
+      "Planet overview",
+      "Ministry grid",
+      "Presidency coordination queue",
+      "Founder approval queue",
+      "Guardian and Legal panels",
+      "Treasury and Media command",
+      "Engineering and Ops tower",
+      "Daily briefing",
+      "Next safe actions",
+    ],
+    currentState: "foundation_only",
+    routeExposed: false,
+    nativeAppShipped: false,
+    actionExecutionActive: false,
+  };
+
+  const mobileApp: FounderCommandDeviceBlueprint = {
+    platform: "mobile",
+    purpose:
+      "Urgent private review surface for daily briefing, critical alerts, approval cards, Guardian/Legal warnings, media review, ops incidents, and review-later concepts.",
+    targetDevices: command.deviceTargets.filter((device) =>
+      ["android", "ios"].includes(device)
+    ),
+    primaryScreens: [
+      "Today Briefing",
+      "Critical Alerts",
+      "Approval Queue",
+      "Guardian Alerts",
+      "Legal Warnings",
+      "Media Review",
+      "Ops Incidents",
+      "Treasury Readiness",
+      "Review Later",
+    ],
+    currentState: "foundation_only",
+    routeExposed: false,
+    nativeAppShipped: false,
+    actionExecutionActive: false,
+  };
+
+  const moduleSummary = {
+    total: command.modules.length,
+    desktopModules: command.modules.filter((module) =>
+      module.platforms.includes("desktop")
+    ).length,
+    mobileFriendlyModules: command.modules.filter((module) => module.mobileFriendly)
+      .length,
+    founderApprovalRequired: command.modules.filter(
+      (module) => module.actionState === "founder_approval_required"
+    ).length,
+    blockedModules: command.modules.filter((module) => module.actionState === "blocked")
+      .length,
+  };
+
+  return {
+    checkedAt,
+    mode: "founder_king_command_app_deep_foundation",
+    access: ownerAccessPolicy,
+    desktopApp,
+    mobileApp,
+    planetOverview: {
+      status: room.overview.planetStatus,
+      continents: blueprint.structure.continents,
+      states: blueprint.structure.states,
+      ministries: blueprint.structure.ministries,
+      cityModules: blueprint.structure.cityModules,
+      blockedOrPlannedSystems: room.overview.blockedOrPlannedSystems,
+      topRisks: room.overview.highestRisks,
+    },
+    modules: command.modules,
+    moduleSummary,
+    approvalCenter: {
+      readOnly: true,
+      executionActive: false,
+      criticalOverrideWithoutRemediationAllowed: false,
+      states: room.approvalQueue.states,
+      categories: room.approvalQueue.categories,
+      items: command.approvalQueue,
+      rules: [
+        "Founder approval cannot override Critical blocks without remediation.",
+        "Guardian and Legal hard blocks remain hard blocks.",
+        "Approval execution is not implemented.",
+        "No publishing, billing, broker/feed activation, live execution, real-money routing, or launch activation exists.",
+      ],
+      blockedActions: room.approvalQueue.blockedActions,
+    },
+    presidencyCoordination: {
+      readiness: "readiness_only" as const,
+      coordinationCenter: coordination.coordinationCenter,
+      workflowCount: coordination.summary.workflows,
+      messageTypeCount: coordination.summary.messageTypes,
+      councilIntegration: coordination.councilIntegration,
+      criticalBlockedCategories: coordination.summary.criticalBlockedCategories,
+      realWorkflowExecutionActive: coordination.summary.realWorkflowExecutionActive,
+    },
+    councils: {
+      readiness: "active_contract" as const,
+      councilCount: governance.summary.councils,
+      constitutionRuleCount: governance.summary.constitutionRules,
+      criticalOverrideAllowedWithoutRemediation:
+        governance.summary.criticalOverrideAllowedWithoutRemediation,
+      publicLaunchAllowed: governance.summary.publicLaunchAllowed,
+      councils: governance.councils,
+    },
+    guardianLegal: room.guardianLegal,
+    treasuryCommand: {
+      readiness: "readiness_only" as const,
+      controls: command.treasury,
+      planTruth: planEntitlements.truth,
+      planReadiness: room.planVisibility.planReadiness,
+      billingInactive: true,
+      subscriptionsInactive: true,
+      currentPerformanceFee: "0%",
+      futurePerformanceFeeResearchRange: "5%-10%",
+      ownerOnlyFutureActivation: true,
+      visibleToPublicUsers: false,
+      requiredBeforeActivation: [
+        "billing provider",
+        "legal review",
+        "regulatory review",
+        "user consent",
+        "Founder approval",
+        "audit trail",
+      ],
+    },
+    mediaCommand: {
+      readiness: "readiness_only" as const,
+      media: command.media,
+      contentDraftReadiness: "draft_review_only",
+      aiVideoScriptReadiness: "draft_review_only",
+      campaignReadiness: "planned_review_only",
+      socialAccountRegistryReadiness: "not_connected",
+      legalReviewRequired: true,
+      guardianReviewRequired: true,
+      founderApprovalRequired: true,
+      socialAccountsConnected: false,
+      socialTokensPresent: false,
+      externalPublishingActive: false,
+      fakeFollowersIncluded: false,
+      fakeMetricsIncluded: false,
+    },
+    companionBrain: {
+      founderCompanion,
+      brainContextQuality: brain.contextQuality,
+      founderGuidanceMode: brain.founderGuidanceMode,
+      blockedCapabilities: brain.blockedCapabilities,
+      safeNextActions: brain.safeNextActions,
+      journalCoachReadiness: journalCoach.planAccess,
+      canApproveAlone: false,
+      canOverrideBlocks: false,
+    },
+    engineeringOpsQuality: {
+      engineeringTasks: room.briefing.engineeringTasks,
+      opsHealth: command.ops,
+      visualAcceptance: {
+        status: visualAcceptance.status,
+        averageScoreEstimate: visualAcceptance.averageScoreEstimate,
+        humanAcceptanceRequired: visualAcceptance.truth.humanAcceptanceRequired,
+      },
+    },
+    productTruth: productTruth.summary,
+    whatNotToDoToday: room.overview.whatNotToDoNow,
+    nextSafeActions: room.overview.nextSafeActions,
+    apiReadiness: [
+      "/api/founder/command/snapshot",
+      "/api/founder/command/modules",
+      "/api/founder/approval/readiness",
+      "/api/founder/treasury/readiness",
+      "/api/founder/media/readiness",
+    ],
+    safety: safetySummary,
+    blockers: [
+      "owner-only desktop/mobile app authentication is not shipped",
+      "device trust and step-up confirmation are planned",
+      "audit-backed approval execution is planned",
+      "native desktop and mobile app shells are planned",
+      "Founder Command remains hidden from public navigation and user plans",
+    ],
+  };
+}
+
+export function getFounderCommandModulesReadinessSnapshot(
+  checkedAt = new Date().toISOString()
+) {
+  const snapshot = getFounderCommandAppSnapshot(checkedAt);
+
+  return {
+    checkedAt,
+    mode: "founder_command_modules_readiness",
+    access: snapshot.access,
+    moduleSummary: snapshot.moduleSummary,
+    modules: snapshot.modules,
+    safety: snapshot.safety,
+  };
+}
+
+export function getFounderApprovalReadinessSnapshot(
+  checkedAt = new Date().toISOString()
+) {
+  const snapshot = getFounderCommandAppSnapshot(checkedAt);
+
+  return {
+    checkedAt,
+    mode: "founder_approval_center_readiness",
+    access: snapshot.access,
+    approvalCenter: snapshot.approvalCenter,
+    safety: snapshot.safety,
+  };
+}
+
+export function getFounderTreasuryReadinessSnapshot(
+  checkedAt = new Date().toISOString()
+) {
+  const snapshot = getFounderCommandAppSnapshot(checkedAt);
+
+  return {
+    checkedAt,
+    mode: "founder_treasury_command_readiness",
+    access: snapshot.access,
+    treasuryCommand: snapshot.treasuryCommand,
+    safety: snapshot.safety,
+  };
+}
+
+export function getFounderMediaReadinessSnapshot(
+  checkedAt = new Date().toISOString()
+) {
+  const snapshot = getFounderCommandAppSnapshot(checkedAt);
+
+  return {
+    checkedAt,
+    mode: "founder_media_command_readiness",
+    access: snapshot.access,
+    mediaCommand: snapshot.mediaCommand,
+    safety: snapshot.safety,
+  };
+}

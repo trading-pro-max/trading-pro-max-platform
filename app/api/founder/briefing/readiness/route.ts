@@ -1,4 +1,5 @@
 import {
+  getFounderCommandAppSnapshot,
   getFounderCommandReportingSnapshot,
   getFounderCommandRoomFoundationSnapshot,
 } from "@/lib/server/founder-command";
@@ -10,6 +11,7 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   const snapshot = getFounderCommandReportingSnapshot();
   const roomFoundation = getFounderCommandRoomFoundationSnapshot(snapshot.checkedAt);
+  const commandApp = getFounderCommandAppSnapshot(snapshot.checkedAt);
 
   return noStoreJson({
     ok: true,
@@ -35,6 +37,16 @@ export async function GET() {
         mediaVideo: roomFoundation.mediaVideo,
         coordination: roomFoundation.coordination,
         security: roomFoundation.security,
+      },
+      commandApp: {
+        mode: commandApp.mode,
+        access: commandApp.access,
+        desktopApp: commandApp.desktopApp,
+        mobileApp: commandApp.mobileApp,
+        moduleSummary: commandApp.moduleSummary,
+        approvalExecutionActive: commandApp.approvalCenter.executionActive,
+        safety: commandApp.safety,
+        apiReadiness: commandApp.apiReadiness,
       },
     },
   });

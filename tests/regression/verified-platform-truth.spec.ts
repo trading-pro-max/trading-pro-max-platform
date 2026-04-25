@@ -1477,6 +1477,24 @@ test.describe("verified platform truth", () => {
         "blocked",
       ])
     );
+    expect(founderReadinessPayload.snapshot.commandApp).toMatchObject({
+      mode: "founder_king_command_app_deep_foundation",
+      access: {
+        ownerOnly: true,
+        publicRouteExposed: false,
+        userPlanAccess: false,
+      },
+      moduleSummary: {
+        total: 20,
+      },
+      approvalExecutionActive: false,
+      safety: {
+        approvalExecutionActive: false,
+        liveExecutionActive: false,
+        realMoneyRoutingActive: false,
+        socialPublishingActive: false,
+      },
+    });
     const founderReadinessText = JSON.stringify(founderReadinessPayload);
     expect(founderReadinessText).not.toMatch(/DATABASE_URL|TPM_OPERATOR_KEY/i);
     expect(founderReadinessText).not.toMatch(
@@ -1501,6 +1519,150 @@ test.describe("verified platform truth", () => {
         },
       },
     });
+
+    const founderCommandSnapshot = await request.get("/api/founder/command/snapshot");
+    expect(founderCommandSnapshot.status()).toBe(200);
+    const founderCommandSnapshotPayload = await founderCommandSnapshot.json();
+    expect(founderCommandSnapshotPayload.snapshot).toMatchObject({
+      mode: "founder_king_command_app_deep_foundation",
+      access: {
+        audience: "founder_king_only",
+        ownerOnly: true,
+        publicRouteExposed: false,
+        publicNavigationVisible: false,
+        userPlanAccess: false,
+        readOnlyDefault: true,
+      },
+      desktopApp: {
+        platform: "desktop",
+        currentState: "foundation_only",
+        routeExposed: false,
+        nativeAppShipped: false,
+        actionExecutionActive: false,
+      },
+      mobileApp: {
+        platform: "mobile",
+        currentState: "foundation_only",
+        routeExposed: false,
+        nativeAppShipped: false,
+        actionExecutionActive: false,
+      },
+      moduleSummary: {
+        total: 20,
+      },
+      approvalCenter: {
+        readOnly: true,
+        executionActive: false,
+        criticalOverrideWithoutRemediationAllowed: false,
+      },
+      treasuryCommand: {
+        billingInactive: true,
+        subscriptionsInactive: true,
+        currentPerformanceFee: "0%",
+        futurePerformanceFeeResearchRange: "5%-10%",
+        visibleToPublicUsers: false,
+      },
+      mediaCommand: {
+        socialAccountsConnected: false,
+        socialTokensPresent: false,
+        externalPublishingActive: false,
+        fakeFollowersIncluded: false,
+        fakeMetricsIncluded: false,
+      },
+      safety: {
+        approvalExecutionActive: false,
+        billingActivationActive: false,
+        brokerFeedActivationActive: false,
+        liveExecutionActive: false,
+        realMoneyRoutingActive: false,
+        socialPublishingActive: false,
+        publicLaunchActive: false,
+        fakeUsersIncluded: false,
+        fakeRevenueIncluded: false,
+        fakeMetricsIncluded: false,
+        secretsExposed: false,
+        privateUserDataExposed: false,
+      },
+    });
+    expect(founderCommandSnapshotPayload.snapshot.modules).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ key: "planet_overview" }),
+        expect.objectContaining({ key: "continents_states_map" }),
+        expect.objectContaining({ key: "ministry_reports" }),
+        expect.objectContaining({ key: "presidency_coordination" }),
+        expect.objectContaining({ key: "councils_constitution" }),
+        expect.objectContaining({ key: "ai_video_studio_command" }),
+        expect.objectContaining({ key: "companion_brain_command" }),
+        expect.objectContaining({ key: "quality_visual_acceptance_command" }),
+        expect.objectContaining({ key: "rights_brand_command" }),
+        expect.objectContaining({ key: "islamic_review_command" }),
+      ])
+    );
+    expect(
+      founderCommandSnapshotPayload.snapshot.approvalCenter.states
+    ).toEqual(
+      expect.arrayContaining([
+        "pending_treasury_review",
+        "pending_engineering_review",
+        "ready_for_founder",
+        "blocked",
+      ])
+    );
+
+    const founderModules = await request.get("/api/founder/command/modules");
+    const founderApproval = await request.get("/api/founder/approval/readiness");
+    const founderTreasury = await request.get("/api/founder/treasury/readiness");
+    const founderMedia = await request.get("/api/founder/media/readiness");
+    expect(founderModules.status()).toBe(200);
+    expect(founderApproval.status()).toBe(200);
+    expect(founderTreasury.status()).toBe(200);
+    expect(founderMedia.status()).toBe(200);
+    const founderModulesPayload = await founderModules.json();
+    const founderApprovalPayload = await founderApproval.json();
+    const founderTreasuryPayload = await founderTreasury.json();
+    const founderMediaPayload = await founderMedia.json();
+    expect(founderModulesPayload.snapshot).toMatchObject({
+      mode: "founder_command_modules_readiness",
+      moduleSummary: { total: 20 },
+      safety: { approvalExecutionActive: false, secretsExposed: false },
+    });
+    expect(founderApprovalPayload.snapshot).toMatchObject({
+      mode: "founder_approval_center_readiness",
+      approvalCenter: {
+        readOnly: true,
+        executionActive: false,
+        criticalOverrideWithoutRemediationAllowed: false,
+      },
+    });
+    expect(founderTreasuryPayload.snapshot).toMatchObject({
+      mode: "founder_treasury_command_readiness",
+      treasuryCommand: {
+        billingInactive: true,
+        subscriptionsInactive: true,
+        currentPerformanceFee: "0%",
+        visibleToPublicUsers: false,
+      },
+    });
+    expect(founderMediaPayload.snapshot).toMatchObject({
+      mode: "founder_media_command_readiness",
+      mediaCommand: {
+        socialAccountsConnected: false,
+        socialTokensPresent: false,
+        externalPublishingActive: false,
+      },
+    });
+    const founderApiText = JSON.stringify([
+      founderCommandSnapshotPayload,
+      founderModulesPayload,
+      founderApprovalPayload,
+      founderTreasuryPayload,
+      founderMediaPayload,
+    ]);
+    expect(founderApiText).not.toMatch(/DATABASE_URL|TPM_OPERATOR_KEY/i);
+    expect(founderApiText).not.toMatch(
+      /DoNotLeak|TradingProMaxOperator|TradingProMaxDemo|Bearer\s+[A-Za-z0-9]/i
+    );
+    expect(founderApiText).not.toMatch(/fakeUsersIncluded":true|fakeRevenueIncluded":true|fakeMetricsIncluded":true/);
 
     const founderCommandPath = await request.get("/founder-command");
     expect([200, 404]).toContain(founderCommandPath.status());
@@ -1970,6 +2132,21 @@ test.describe("verified platform truth", () => {
       status: "ready",
     });
     expect(routes.get("/api/founder/briefing/readiness")).toMatchObject({
+      status: "ready",
+    });
+    expect(routes.get("/api/founder/command/snapshot")).toMatchObject({
+      status: "ready",
+    });
+    expect(routes.get("/api/founder/command/modules")).toMatchObject({
+      status: "ready",
+    });
+    expect(routes.get("/api/founder/approval/readiness")).toMatchObject({
+      status: "ready",
+    });
+    expect(routes.get("/api/founder/treasury/readiness")).toMatchObject({
+      status: "ready",
+    });
+    expect(routes.get("/api/founder/media/readiness")).toMatchObject({
       status: "ready",
     });
     expect(["ready", "degraded"]).toContain(

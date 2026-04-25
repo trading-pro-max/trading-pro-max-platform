@@ -16,6 +16,33 @@ Founder Command modules organize the private owner-only command app. They are no
 | Ops Tower Command | operational readiness | health, incidents, monitoring readiness, blockers, recovery actions | reviewed recovery actions | fake monitoring or production readiness |
 | Founder Approval Queue | high-risk review pipeline | items ready for Founder decision | approve, reject, block, archive | bypass Guardian/Legal hard blocks |
 
+## Deep Foundation Module Set
+
+The private command app module contract now covers 20 owner-only modules:
+
+1. Planet Overview
+2. Continents & States Map
+3. Ministry Reports
+4. Presidency Coordination
+5. Councils & Constitution
+6. Guardian Command
+7. Legal Counsel Command
+8. Treasury Command
+9. Plan / Citizen Classes Command
+10. Media Command
+11. AI Video Studio Command
+12. Companion & Brain Command
+13. Academy / Journal / Coach Command
+14. Community / VIP Rooms Command
+15. Engineering Command
+16. Ops Tower Command
+17. Quality / Visual Acceptance Command
+18. Rights & Brand Command
+19. Islamic Review Command
+20. Founder Approval Center
+
+Each module declares its data source, desktop/mobile suitability, readiness, risk, allowed read-only actions, planned future actions, blocked actions, and what must not be faked.
+
 ## Module State Vocabulary
 
 - active_contract: code or docs define a usable readiness contract
@@ -32,4 +59,3 @@ Founder Command modules organize the private owner-only command app. They are no
 - keep private owner controls out of public surfaces
 - never show secrets
 - never claim launch, billing, broker, feed, or native app readiness without real configuration
-

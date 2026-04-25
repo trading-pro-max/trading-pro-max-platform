@@ -283,6 +283,41 @@ function buildRouteProbes(input: {
         "Founder reporting readiness route exposes non-sensitive briefing truth only; it is not a Founder action surface.",
     },
     {
+      path: "/api/founder/command/snapshot",
+      method: "GET",
+      status: input.productBackend.status,
+      detail:
+        "Founder Command App snapshot route exposes owner-only architecture readiness only; no action execution, secrets, private data, fake metrics, or public route is enabled.",
+    },
+    {
+      path: "/api/founder/command/modules",
+      method: "GET",
+      status: input.productBackend.status,
+      detail:
+        "Founder Command modules route reports read-only desktop/mobile command module readiness without exposing Founder controls to user plans.",
+    },
+    {
+      path: "/api/founder/approval/readiness",
+      method: "GET",
+      status: input.productBackend.status,
+      detail:
+        "Founder Approval Center readiness route reports lifecycle and review gates only; approval execution remains inactive.",
+    },
+    {
+      path: "/api/founder/treasury/readiness",
+      method: "GET",
+      status: input.productBackend.status,
+      detail:
+        "Founder Treasury readiness route reports billing inactive, subscriptions inactive, and owner-only future monetization review truth.",
+    },
+    {
+      path: "/api/founder/media/readiness",
+      method: "GET",
+      status: input.productBackend.status,
+      detail:
+        "Founder Media readiness route reports draft and AI video review readiness only; no social tokens, accounts, publishing, or media metrics exist.",
+    },
+    {
       path: "/api/companion/context",
       method: "GET",
       status: input.intelligence.status,

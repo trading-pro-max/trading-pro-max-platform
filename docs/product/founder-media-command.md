@@ -64,4 +64,24 @@ Founder Media Command defines how the private Founder Command App will review Me
 - financial advice
 - legal advice
 - copied competitor content
+## Deep Foundation Media / AI Video Command
 
+Media Command and AI Video Studio Command are owner-only readiness surfaces.
+
+Current truth:
+
+- content draft readiness only
+- AI video script readiness only
+- campaign readiness planned/review-only
+- social account registry not connected
+- no social tokens
+- no external publishing
+- no media upload automation
+- no fake followers
+- no fake views
+- no fake campaign metrics
+- Legal review required
+- Guardian review required
+- Founder approval required
+
+`/api/founder/media/readiness` reports this readiness truth only and cannot publish, connect accounts, upload media, schedule posts, or claim public reach.

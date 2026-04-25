@@ -67,3 +67,21 @@ It contains no secrets, no private user data, no fake users, no fake revenue, no
 The Founder Personal Companion now summarizes daily planet briefing, top risks, top opportunities, ministries needing attention, product gaps, visual gaps, user-facing risks, Guardian alerts, Legal warnings, Media queue readiness, Treasury readiness, engineering priorities, what not to do today, and safe next decisions.
 
 It remains a read-only briefing assistant. It cannot approve actions, publish content, enable live trading, activate real money, override critical blocks, or pressure launch.
+## Command App Deep Foundation Role
+
+Inside the future Founder Command App, the Founder Personal Companion summarizes:
+
+- planet status
+- top risks
+- ministries needing attention
+- approvals needing review
+- what not to approve
+- what not to do today
+- safe next actions
+- engineering priorities
+- media/legal/guardian summaries
+- treasury readiness
+- plan readiness
+- visual acceptance gaps
+
+It cannot approve alone, override Guardian/Legal/constitutional hard blocks, publish media, enable launch/live/billing, expose secrets, pressure launch, or fake users/revenue/metrics.

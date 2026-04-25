@@ -56,4 +56,25 @@ The Founder may later approve Treasury changes only after:
 - public performance-fee UI
 - billing activation without provider and legal gates
 - VIP claims that imply guaranteed results
+## Deep Foundation Treasury Command
 
+Treasury Command is owner-only and readiness-only.
+
+Current truth:
+
+- Demo / Free active as paper-safe evaluation
+- Pro planned
+- VIP planned
+- Enterprise future
+- billing inactive
+- subscriptions inactive
+- current performance-based fee: 0%
+- future possible research range: 5%-10%
+- performance-based revenue remains hidden/inactive and owner-only
+- legal review required
+- regulatory review required
+- user consent required
+- Founder approval required later
+- not visible to public users
+
+`/api/founder/treasury/readiness` reports this readiness truth only. It does not implement billing, checkout, subscriptions, paid entitlements, or public performance-fee UI.

@@ -1,5 +1,6 @@
 import "server-only";
 
+import { getPlanEntitlementSnapshot } from "@/lib/plans/entitlements";
 import type { FounderBriefing, MinistryReport } from "@/lib/server/planet-os/types";
 import { getFounderCommandReportingSnapshot } from "./reporting";
 
@@ -19,9 +20,11 @@ export type FounderPersonalCompanionSnapshot = {
   engineeringSummary: string[];
   productGapSummary: string[];
   visualGapSummary: string[];
+  planReadinessSummary: string[];
   userFacingRiskSummary: string[];
   treasurySummary: string[];
   engineeringPrioritySuggestions: string[];
+  whatNotToApprove: string[];
   nextSafeDecisions: string[];
   whatNotToDo: string[];
   ministrySignals: Array<{
@@ -46,6 +49,7 @@ export function getFounderPersonalCompanionSnapshot(
   checkedAt = new Date().toISOString()
 ): FounderPersonalCompanionSnapshot {
   const reporting = getFounderCommandReportingSnapshot(checkedAt);
+  const planEntitlements = getPlanEntitlementSnapshot("demo_free", checkedAt);
   const decisionMinistries = reporting.ministries.filter(
     (report) => report.founderDecisionNeeded
   );
@@ -90,6 +94,9 @@ export function getFounderPersonalCompanionSnapshot(
       "Chart-first hierarchy must be protected from Planet OS diagnostics growth.",
       "Founder Command native desktop/mobile visual shells remain planned.",
     ],
+    planReadinessSummary: planEntitlements.plans.map(
+      (plan) => `${plan.planName}: ${plan.truthState}`
+    ),
     userFacingRiskSummary: [
       "Users must not see Founder Command as a plan feature.",
       "Companion must not produce trading signals, profit claims, or execution instructions.",
@@ -104,6 +111,16 @@ export function getFounderPersonalCompanionSnapshot(
       "Keep intelligence contracts deterministic and tested.",
       "Prefer compact diagnostics over workstation clutter.",
       "Add UI only where it clarifies product truth.",
+    ],
+    whatNotToApprove: [
+      "live execution activation",
+      "real-money routing",
+      "billing activation",
+      "broker/feed activation",
+      "social publishing",
+      "public launch claims",
+      "fake Pro/VIP claims",
+      "fake Islamic/Sharia certification",
     ],
     nextSafeDecisions: reporting.briefing.nextSafeActions,
     whatNotToDo: reporting.briefing.whatNotToDoToday,

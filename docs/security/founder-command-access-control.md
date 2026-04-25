@@ -67,3 +67,14 @@ Every sensitive action attempt should record:
 
 Secrets must never be recorded in audit payloads.
 
+## Deep Foundation API Boundary
+
+The sanitized Founder readiness APIs are allowed only because they expose readiness/truth data and no action authority:
+
+- `/api/founder/command/snapshot`
+- `/api/founder/command/modules`
+- `/api/founder/approval/readiness`
+- `/api/founder/treasury/readiness`
+- `/api/founder/media/readiness`
+
+They remain read-only, no-store, non-secret, non-private-data, non-metric, and non-execution routes. They are not public navigation, not SEO surfaces, and not Free/Pro/VIP/Enterprise features.

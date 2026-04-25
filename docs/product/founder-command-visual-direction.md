@@ -64,4 +64,17 @@ No raster AI dependency is required for the command app foundation.
 - Inactive/planned: muted graphite state
 
 The app must never make blocked systems look active.
+## Desktop/Mobile Command Direction
 
+The deep foundation visual direction is private command-grade:
+
+- black / graphite / gold
+- subtle Swiss red accent
+- TPM Earth Mark
+- Swiss Precision Clock / command time
+- high-density but controlled panels
+- planet overview first
+- approval and risk cards visible but read-only
+- mobile surfaces show urgent cards only
+
+It must not become fantasy, game-like, public-dashboard-like, or cluttered. The public trading workstation remains chart-first and separate.
