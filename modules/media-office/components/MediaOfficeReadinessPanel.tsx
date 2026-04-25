@@ -7,6 +7,7 @@ const channels = [
   "TikTok",
   "YouTube",
   "LinkedIn",
+  "Campaign planning",
   "Telegram",
   "Discord",
   "Blog / Newsroom",
@@ -19,8 +20,9 @@ export default function MediaOfficeReadinessPanel() {
         <span>Media Office</span>
         <h2>Draft, review, approval readiness</h2>
         <p>
-          Media and AI video are readiness surfaces only. No social
-          accounts, tokens, uploads, publishing, followers, views, or ads exist.
+          Media and AI video are readiness surfaces only. Drafts, campaign
+          planning, and scripts require review. No social accounts, tokens,
+          uploads, publishing, followers, views, or ads exist.
         </p>
       </header>
 

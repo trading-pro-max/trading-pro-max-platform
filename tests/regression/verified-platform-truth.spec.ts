@@ -7105,6 +7105,296 @@ test.describe("verified platform truth", () => {
     );
   });
 
+  test("reports Media Office and AI Video workflow readiness without publishing or unsafe claims", async ({
+    page,
+    request,
+  }) => {
+    const requiredDocs = [
+      "docs/product/media-office-workflow.md",
+      "docs/product/ai-video-studio-workflow.md",
+      "docs/product/content-review-lifecycle.md",
+      "docs/product/media-risk-classification.md",
+      "docs/legal/media-claims-policy.md",
+    ];
+
+    for (const docPath of requiredDocs) {
+      expect(fs.existsSync(path.join(process.cwd(), docPath)), docPath).toBe(true);
+    }
+
+    const endpoints = [
+      "/api/media-office/readiness",
+      "/api/ai-video-studio/readiness",
+      "/api/content-review/readiness",
+    ];
+
+    for (const endpoint of endpoints) {
+      const response = await request.get(endpoint);
+      expect(response.status()).toBe(200);
+      const text = await response.text();
+      expect(text).not.toMatch(
+        /(?:api[_-]?key|password|secret_value)\s*[:=]\s*["'][^"']{8,}/i
+      );
+      expect(text).not.toMatch(/AKIA[0-9A-Z]{16}|ghp_[A-Za-z0-9]{20,}|sk-[A-Za-z0-9]{20,}/);
+      expect(text).not.toMatch(/"socialAccountsConnected"\s*:\s*true/);
+      expect(text).not.toMatch(/"socialTokensPresent"\s*:\s*true/);
+      expect(text).not.toMatch(/"externalPublishingActive"\s*:\s*true/);
+      expect(text).not.toMatch(/"publishingActive"\s*:\s*true/);
+      expect(text).not.toMatch(/"uploadActive"\s*:\s*true/);
+      expect(text).not.toMatch(/"fakeFollowersIncluded"\s*:\s*true/);
+      expect(text).not.toMatch(/"fakeViewsIncluded"\s*:\s*true/);
+      expect(text).not.toMatch(/"fakeMetricsIncluded"\s*:\s*true/);
+      expect(text).not.toMatch(/"billingActive"\s*:\s*true/);
+      expect(text).not.toMatch(/"publicLaunchActive"\s*:\s*true/);
+    }
+
+    const mediaOffice = await (
+      await request.get("/api/media-office/readiness")
+    ).json();
+    expect(mediaOffice.snapshot).toMatchObject({
+      mode: "media_office_workflow_readiness",
+      status: "draft_review_only",
+      riskLevels: [
+        "safe_draft",
+        "review_required",
+        "founder_approval_required",
+        "blocked",
+      ],
+      noPublishingActive: true,
+      truth: {
+        socialAccountsConnected: false,
+        socialTokensPresent: false,
+        uploadActive: false,
+        externalPublishingActive: false,
+        publishingActive: false,
+        fakeFollowersIncluded: false,
+        fakeViewsIncluded: false,
+        fakeMetricsIncluded: false,
+        billingActive: false,
+        publicLaunchActive: false,
+        founderCommandPublic: false,
+        brandNamesAllowedWithoutContract: false,
+      },
+    });
+    expect(mediaOffice.snapshot.contentTypes).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ type: "education_post" }),
+        expect.objectContaining({ type: "product_update" }),
+        expect.objectContaining({ type: "trust_safety_post" }),
+        expect.objectContaining({ type: "pro_educational_teaser" }),
+        expect.objectContaining({ type: "vip_educational_teaser" }),
+        expect.objectContaining({ type: "changelog" }),
+        expect.objectContaining({ type: "community_announcement" }),
+        expect.objectContaining({ type: "partnership_draft" }),
+      ])
+    );
+    expect(mediaOffice.snapshot.lifecycle).toEqual([
+      "idea",
+      "draft",
+      "brand_review",
+      "guardian_review",
+      "legal_review",
+      "founder_approval",
+      "scheduled_later",
+      "blocked",
+      "archived",
+    ]);
+    expect(mediaOffice.snapshot.lifecycle).not.toContain("published");
+    expect(mediaOffice.snapshot.blockedClaims).toEqual(
+      expect.arrayContaining([
+        "guaranteed_profit",
+        "win_rate",
+        "fake_live_trading",
+        "fake_billing",
+        "fake_vip",
+        "fake_sharia",
+        "fake_partnership",
+        "uncontracted_brand_use",
+        "misleading_urgency",
+      ])
+    );
+    expect(mediaOffice.snapshot.sampleReviews).toMatchObject({
+      proTeaser: {
+        riskLevel: "founder_approval_required",
+        founderApprovalRequired: true,
+        externalPublishingAllowed: false,
+      },
+      vipTeaser: {
+        riskLevel: "founder_approval_required",
+        founderApprovalRequired: true,
+        externalPublishingAllowed: false,
+      },
+      partnershipDraft: {
+        riskLevel: "founder_approval_required",
+        founderApprovalRequired: true,
+        externalPublishingAllowed: false,
+      },
+      guaranteedProfit: {
+        riskLevel: "blocked",
+        detectedBlockedClaims: expect.arrayContaining([
+          "guaranteed_profit",
+          "win_rate",
+        ]),
+        externalPublishingAllowed: false,
+      },
+    });
+
+    const aiVideo = await (
+      await request.get("/api/ai-video-studio/readiness")
+    ).json();
+    expect(aiVideo.snapshot).toMatchObject({
+      mode: "ai_video_studio_workflow_readiness",
+      status: "script_readiness_only",
+      reviewWorkflow: {
+        brandReview: true,
+        guardianReview: true,
+        legalReview: true,
+        founderApprovalForSensitive: true,
+        externalPublishingEnabled: false,
+      },
+      truth: {
+        generationApiConnected: false,
+        uploadActive: false,
+        publishingActive: false,
+        socialAccountsConnected: false,
+        socialTokensPresent: false,
+        fakeViewsIncluded: false,
+        fakeFollowersIncluded: false,
+        fakeMetricsIncluded: false,
+        brandNamesAllowedWithoutContract: false,
+        profitClaimsAllowed: false,
+        publicLaunchActive: false,
+      },
+    });
+    expect(aiVideo.snapshot.artifactTypes).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ type: "idea" }),
+        expect.objectContaining({ type: "short_script" }),
+        expect.objectContaining({ type: "long_script" }),
+        expect.objectContaining({ type: "captions" }),
+        expect.objectContaining({ type: "hashtags" }),
+        expect.objectContaining({ type: "thumbnail_brief" }),
+        expect.objectContaining({ type: "voiceover_brief" }),
+        expect.objectContaining({ type: "scene_outline" }),
+        expect.objectContaining({ type: "compliance_risk_score" }),
+      ])
+    );
+
+    const contentReview = await (
+      await request.get("/api/content-review/readiness")
+    ).json();
+    expect(contentReview.snapshot).toMatchObject({
+      mode: "content_review_readiness",
+      status: "review_gate_ready",
+      lifecyclePolicy: {
+        scheduledLaterIsFutureOnly: true,
+        publishedStateIncluded: false,
+        founderApprovalBeforeExternalUse: true,
+        guardianLegalBeforeSensitiveClaims: true,
+      },
+      samples: {
+        proTeaser: {
+          riskLevel: "founder_approval_required",
+          founderApprovalRequired: true,
+        },
+        vipTeaser: {
+          riskLevel: "founder_approval_required",
+          founderApprovalRequired: true,
+        },
+        partnershipDraft: {
+          riskLevel: "founder_approval_required",
+          founderApprovalRequired: true,
+        },
+        fakePartnership: {
+          riskLevel: "blocked",
+          detectedBlockedClaims: expect.arrayContaining(["fake_partnership"]),
+        },
+        guaranteedProfit: {
+          riskLevel: "blocked",
+          detectedBlockedClaims: expect.arrayContaining([
+            "guaranteed_profit",
+            "win_rate",
+          ]),
+        },
+      },
+    });
+    expect(contentReview.snapshot.lifecycle).not.toContain("published");
+
+    const founderCommand = await (
+      await request.get("/api/founder/command/snapshot")
+    ).json();
+    expect(founderCommand.snapshot.mediaAiVideoWorkflowReadiness).toMatchObject({
+      readiness: "draft_review_only",
+      mediaOffice: {
+        mode: "media_office_workflow_readiness",
+        status: "draft_review_only",
+      },
+      aiVideoStudio: {
+        mode: "ai_video_studio_workflow_readiness",
+        status: "script_readiness_only",
+      },
+      reviewLifecycle: {
+        mode: "content_review_readiness",
+        publishedStateIncluded: false,
+        samples: {
+          partnershipDraft: "founder_approval_required",
+          fakePartnership: "blocked",
+          guaranteedProfit: "blocked",
+        },
+      },
+      founderCommandQueue: {
+        noPublishingActive: true,
+      },
+    });
+    expect(founderCommand.snapshot.mediaAiVideoWorkflowReadiness.truth).toMatchObject({
+      media: {
+        socialAccountsConnected: false,
+        socialTokensPresent: false,
+        publishingActive: false,
+        fakeMetricsIncluded: false,
+      },
+      aiVideo: {
+        generationApiConnected: false,
+        uploadActive: false,
+        publishingActive: false,
+        fakeMetricsIncluded: false,
+      },
+    });
+    expect(founderCommand.snapshot.apiReadiness).toEqual(
+      expect.arrayContaining([
+        "/api/media-office/readiness",
+        "/api/ai-video-studio/readiness",
+        "/api/content-review/readiness",
+      ])
+    );
+
+    const diagnostics = await (await request.get("/api/diagnostics/probes")).json();
+    expect(diagnostics.health.routes).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ path: "/api/media-office/readiness" }),
+        expect.objectContaining({ path: "/api/ai-video-studio/readiness" }),
+        expect.objectContaining({ path: "/api/content-review/readiness" }),
+      ])
+    );
+    expect(diagnostics.health.subsystems).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          key: "media_ai_video_workflow",
+          label: "Media and video workflow readiness",
+          status: "ready",
+        }),
+      ])
+    );
+
+    await page.goto("/diagnostics");
+    await expect(page.locator("main").first()).toBeVisible();
+    await expect(page.locator("body")).toContainText("Media Office");
+    await expect(page.locator("body")).toContainText("AI Video Studio");
+    await expect(page.locator("body")).toContainText("scheduled later");
+    await expect(page.locator("body")).not.toContainText(
+      /publish now|published|views active|secret token value|guaranteed profit|win-rate|Founder Command/i
+    );
+  });
+
   test("keeps real-money execution blocked when real mode is selected", async ({
     page,
   }) => {

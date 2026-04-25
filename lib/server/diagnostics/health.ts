@@ -1,6 +1,7 @@
 import "server-only";
 import { prisma } from "@/lib/db/client";
 import { getAcademyReadinessSnapshot } from "@/lib/server/academy";
+import { getAiVideoStudioReadinessSnapshot } from "@/lib/server/ai-video-studio";
 import {
   getBrokerConnectorDiagnosticsProbe,
   getBrokerConnectorSafetySnapshot,
@@ -37,6 +38,10 @@ import {
   getLocalOperationsFinalReportSnapshot,
   getLocalOperationsReadinessSnapshot,
 } from "@/lib/server/local-ops";
+import {
+  getContentReviewReadinessSnapshot,
+  getMediaOfficeReadinessSnapshot,
+} from "@/lib/server/media-office";
 import {
   getProductMemoryDailySummarySnapshot,
   getProductMemorySummarySnapshot,
@@ -1377,6 +1382,18 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       `${academySnapshot.learningPaths.length} Academy paths, ${communitySnapshot.rooms.length} planned Community rooms, and ${vipRoomsSnapshot.capabilities.length} VIP room capabilities are modeled with no fake members, no active rooms, no signal rooms, no copy trading, no billing, and no profit claims.`,
     checkedAt,
   };
+  const mediaOfficeSnapshot = getMediaOfficeReadinessSnapshot(checkedAt);
+  const aiVideoStudioSnapshot = getAiVideoStudioReadinessSnapshot(checkedAt);
+  const contentReviewSnapshot = getContentReviewReadinessSnapshot(checkedAt);
+  const mediaAiVideoWorkflowProbe: DiagnosticsProbe = {
+    key: "media_ai_video_workflow",
+    label: "Media and video workflow readiness",
+    status: "ready",
+    summary: "Draft, review, and approval workflow is readiness-only",
+    detail:
+      `${mediaOfficeSnapshot.contentTypes.length} media content types and ${aiVideoStudioSnapshot.artifactTypes.length} AI video artifacts are modeled with ${contentReviewSnapshot.blockedClaims.length} blocked claim categories, no social tokens, no uploads, no publishing, and no fake metrics.`,
+    checkedAt,
+  };
 
   return {
     ...baseHealth,
@@ -1394,6 +1411,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       secretsAuthorityProbe,
       worldInterfaceProbe,
       learningCommunityProbe,
+      mediaAiVideoWorkflowProbe,
     ],
     routes: [
       ...baseHealth.routes,
@@ -1607,6 +1625,27 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         detail:
           "VIP Rooms readiness route reports planned premium capabilities without fake VIP access, signal rooms, copy trading, profit promises, or billing.",
       },
+      {
+        path: "/api/media-office/readiness",
+        method: "GET",
+        status: mediaAiVideoWorkflowProbe.status,
+        detail:
+          "Media Office readiness route reports content drafts, review queues, blocked claims, and no-publishing truth without social tokens or fake metrics.",
+      },
+      {
+        path: "/api/ai-video-studio/readiness",
+        method: "GET",
+        status: mediaAiVideoWorkflowProbe.status,
+        detail:
+          "AI Video Studio readiness route reports script, caption, brief, and risk-score workflow readiness without generation APIs, uploads, publishing, or fake views.",
+      },
+      {
+        path: "/api/content-review/readiness",
+        method: "GET",
+        status: mediaAiVideoWorkflowProbe.status,
+        detail:
+          "Content review readiness route reports lifecycle, risk classification, and blocked claim samples with Founder approval gates for sensitive drafts.",
+      },
     ],
     subsystems: [
       ...(baseHealth.subsystems ?? []),
@@ -1693,6 +1732,13 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         status: learningCommunityProbe.status,
         summary: learningCommunityProbe.summary,
         detail: learningCommunityProbe.detail,
+      },
+      {
+        key: "media_ai_video_workflow",
+        label: mediaAiVideoWorkflowProbe.label,
+        status: mediaAiVideoWorkflowProbe.status,
+        summary: mediaAiVideoWorkflowProbe.summary,
+        detail: mediaAiVideoWorkflowProbe.detail,
       },
     ],
     launchReadiness: {

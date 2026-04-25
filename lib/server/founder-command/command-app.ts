@@ -3,6 +3,7 @@ import "server-only";
 import { getPlanEntitlementSnapshot } from "@/lib/plans/entitlements";
 import { getAcademyReadinessSnapshot } from "@/lib/server/academy";
 import { getBrandIntelligenceInternalReadiness } from "@/lib/server/brand-intelligence";
+import { getAiVideoStudioReadinessSnapshot } from "@/lib/server/ai-video-studio";
 import { getCommunityReadinessSnapshot } from "@/lib/server/community";
 import {
   getConstructionQueueSnapshot,
@@ -22,6 +23,10 @@ import {
   getLocalOperationsFinalReportSnapshot,
   getLocalOperationsReadinessSnapshot,
 } from "@/lib/server/local-ops";
+import {
+  getContentReviewReadinessSnapshot,
+  getMediaOfficeReadinessSnapshot,
+} from "@/lib/server/media-office";
 import { getPlanetConsciousnessSnapshot } from "@/lib/server/planet-consciousness";
 import { getPlanetMemoryGraphSnapshot } from "@/lib/server/planet-memory";
 import {
@@ -103,6 +108,9 @@ export function getFounderCommandAppSnapshot(
   const planEntitlements = getPlanEntitlementSnapshot("demo_free", checkedAt);
   const founderCompanion = getFounderPersonalCompanionSnapshot(checkedAt);
   const economyGrowth = getPlanetEconomyGrowthReadinessSnapshot(checkedAt);
+  const mediaOfficeWorkflow = getMediaOfficeReadinessSnapshot(checkedAt);
+  const aiVideoStudioWorkflow = getAiVideoStudioReadinessSnapshot(checkedAt);
+  const contentReviewWorkflow = getContentReviewReadinessSnapshot(checkedAt);
   const constructionQueue = getConstructionQueueSnapshot(checkedAt);
   const consciousness = getPlanetConsciousnessSnapshot(checkedAt);
   const taskDrafts = getCodexTaskDraftReadinessSnapshot(checkedAt);
@@ -278,6 +286,17 @@ export function getFounderCommandAppSnapshot(
       media: command.media,
       mediaOffice: economyGrowth.mediaOffice,
       aiVideoStudio: economyGrowth.aiVideoStudio,
+      workflowReadiness: mediaOfficeWorkflow.status,
+      aiVideoWorkflowReadiness: aiVideoStudioWorkflow.status,
+      contentReviewReadiness: contentReviewWorkflow.status,
+      mediaQueue: mediaOfficeWorkflow.queueSummary,
+      aiVideoQueue: aiVideoStudioWorkflow.queueSummary,
+      blockedClaims: mediaOfficeWorkflow.blockedClaims,
+      reviewRequired:
+        mediaOfficeWorkflow.reviewQueue.guardian.length +
+        mediaOfficeWorkflow.reviewQueue.legal.length,
+      founderApprovalRequiredItems: mediaOfficeWorkflow.reviewQueue.founder.length,
+      noPublishingActive: mediaOfficeWorkflow.noPublishingActive,
       partnershipReadiness: economyGrowth.partnerships,
       contentDraftReadiness: "draft_review_only",
       aiVideoScriptReadiness: "draft_review_only",
@@ -291,6 +310,61 @@ export function getFounderCommandAppSnapshot(
       externalPublishingActive: false,
       fakeFollowersIncluded: false,
       fakeMetricsIncluded: false,
+    },
+    mediaAiVideoWorkflowReadiness: {
+      readiness: "draft_review_only" as const,
+      mediaOffice: {
+        mode: mediaOfficeWorkflow.mode,
+        status: mediaOfficeWorkflow.status,
+        contentTypes: mediaOfficeWorkflow.contentTypes.length,
+        lifecycle: mediaOfficeWorkflow.lifecycle,
+        riskLevels: mediaOfficeWorkflow.riskLevels,
+        queueSummary: mediaOfficeWorkflow.queueSummary,
+        reviewQueue: mediaOfficeWorkflow.reviewQueue,
+        blockedClaims: mediaOfficeWorkflow.blockedClaims,
+      },
+      aiVideoStudio: {
+        mode: aiVideoStudioWorkflow.mode,
+        status: aiVideoStudioWorkflow.status,
+        artifactTypes: aiVideoStudioWorkflow.artifactTypes.length,
+        lifecycle: aiVideoStudioWorkflow.lifecycle,
+        riskLevels: aiVideoStudioWorkflow.riskLevels,
+        queueSummary: aiVideoStudioWorkflow.queueSummary,
+        reviewWorkflow: aiVideoStudioWorkflow.reviewWorkflow,
+      },
+      reviewLifecycle: {
+        mode: contentReviewWorkflow.mode,
+        status: contentReviewWorkflow.status,
+        lifecycle: contentReviewWorkflow.lifecycle,
+        publishedStateIncluded:
+          contentReviewWorkflow.lifecyclePolicy.publishedStateIncluded,
+        samples: {
+          safeEducation: contentReviewWorkflow.samples.safeEducation.riskLevel,
+          proTeaser: contentReviewWorkflow.samples.proTeaser.riskLevel,
+          vipTeaser: contentReviewWorkflow.samples.vipTeaser.riskLevel,
+          partnershipDraft:
+            contentReviewWorkflow.samples.partnershipDraft.riskLevel,
+          fakePartnership:
+            contentReviewWorkflow.samples.fakePartnership.riskLevel,
+          guaranteedProfit:
+            contentReviewWorkflow.samples.guaranteedProfit.riskLevel,
+        },
+      },
+      founderCommandQueue: {
+        mediaQueue: mediaOfficeWorkflow.queueSummary,
+        aiVideoQueue: aiVideoStudioWorkflow.queueSummary,
+        blockedClaims: mediaOfficeWorkflow.blockedClaims,
+        reviewRequired:
+          mediaOfficeWorkflow.reviewQueue.guardian.length +
+          mediaOfficeWorkflow.reviewQueue.legal.length,
+        founderApprovalRequired: mediaOfficeWorkflow.reviewQueue.founder.length,
+        noPublishingActive: true,
+      },
+      truth: {
+        media: mediaOfficeWorkflow.truth,
+        aiVideo: aiVideoStudioWorkflow.truth,
+        contentReview: contentReviewWorkflow.truth,
+      },
     },
     worldInterfaceCommand: {
       readiness: "readiness_only" as const,
@@ -794,6 +868,9 @@ export function getFounderCommandAppSnapshot(
       "/api/academy/readiness",
       "/api/community/readiness",
       "/api/vip-rooms/readiness",
+      "/api/media-office/readiness",
+      "/api/ai-video-studio/readiness",
+      "/api/content-review/readiness",
     ],
     safety: safetySummary,
     blockers: [

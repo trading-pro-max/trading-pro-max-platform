@@ -5049,8 +5049,7 @@ html[data-theme="light"] .tpm-plan-capability-list article {
   gap: 6px;
 }
 
-.tpm-content-lifecycle span[data-state="published"],
-.tpm-content-lifecycle span[data-state="scheduled"] {
+.tpm-content-lifecycle span[data-state="scheduled_later"] {
   opacity: 0.5;
 }
 

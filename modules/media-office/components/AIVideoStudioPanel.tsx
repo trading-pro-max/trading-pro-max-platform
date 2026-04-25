@@ -3,7 +3,10 @@ const studioReadiness = [
   "short script",
   "long script",
   "captions",
+  "hashtags",
   "thumbnail brief",
+  "voiceover brief",
+  "scene outline",
   "compliance risk score",
 ];
 

@@ -7,8 +7,7 @@ const states: ContentLifecycleState[] = [
   "guardian_review",
   "legal_review",
   "founder_approval",
-  "scheduled",
-  "published",
+  "scheduled_later",
   "blocked",
   "archived",
 ];

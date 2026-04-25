@@ -5,12 +5,12 @@ export type ContentLifecycleState =
   | "guardian_review"
   | "legal_review"
   | "founder_approval"
-  | "scheduled"
-  | "published"
+  | "scheduled_later"
   | "blocked"
   | "archived";
 
 export type MediaRiskClassification =
-  | "safe_auto_publish_candidate_later"
-  | "approval_required"
+  | "safe_draft"
+  | "review_required"
+  | "founder_approval_required"
   | "blocked";
