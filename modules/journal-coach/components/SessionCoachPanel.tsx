@@ -14,7 +14,7 @@ export default function SessionCoachPanel({ snapshot }: SessionCoachPanelProps) 
         <span>Journal / Coach</span>
         <h2>Paper-session guidance foundation</h2>
         <p>
-          Basic prompts are active for Demo / Free. Pro journal depth and VIP coaching remain planned or locked.
+          Basic prompts are active for Free. Pro journal depth and VIP coaching remain planned or locked.
         </p>
       </header>
 

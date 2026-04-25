@@ -11,23 +11,23 @@ const defaultContinents: PlanetMapContinentView[] = [
   },
   {
     id: "intelligence-brain",
-    name: "Intelligence & Brain",
+    name: "Assistant & Intelligence",
     readiness: "planned",
     publicLayer: true,
     founderOnly: false,
-    signal: "bounded Companion and Brain context",
+    signal: "bounded Assistant context",
   },
   {
     id: "protection-defense",
-    name: "Protection & Defense",
+    name: "Safety & Review",
     readiness: "guarded",
     publicLayer: false,
     founderOnly: true,
-    signal: "Guardian and Legal blocks",
+    signal: "safety and review blocks",
   },
   {
     id: "economy-treasury",
-    name: "Economy & Treasury",
+    name: "Plans & Revenue Readiness",
     readiness: "blocked",
     publicLayer: false,
     founderOnly: true,
@@ -35,7 +35,7 @@ const defaultContinents: PlanetMapContinentView[] = [
   },
   {
     id: "media-growth",
-    name: "Media & Growth",
+    name: "Media Readiness",
     readiness: "guarded",
     publicLayer: false,
     founderOnly: true,
@@ -59,10 +59,10 @@ export default function PlanetContinentStatusGrid({
   continents = defaultContinents,
 }: PlanetContinentStatusGridProps) {
   return (
-    <div className="tpm-planet-continent-grid" aria-label="Planet continent readiness">
+    <div className="tpm-planet-continent-grid" aria-label="Product area readiness">
       {continents.map((continent) => (
         <article key={continent.id} data-readiness={continent.readiness}>
-          <span>{continent.founderOnly ? "Founder" : "User-safe"}</span>
+          <span>{continent.founderOnly ? "Owner-only" : "User-safe"}</span>
           <strong>{continent.name}</strong>
           <small>{continent.signal}</small>
         </article>

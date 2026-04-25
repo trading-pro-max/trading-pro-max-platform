@@ -12,7 +12,7 @@ export default function CompanionPromptChips({
   prompts,
 }: CompanionPromptChipsProps) {
   return (
-    <div className="tpm-companion-prompt-row" role="toolbar" aria-label="Companion guided prompts">
+    <div className="tpm-companion-prompt-row" role="toolbar" aria-label="Assistant guided prompts">
       {prompts.map((prompt) => (
         <button
           key={prompt.id}

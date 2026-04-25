@@ -439,18 +439,18 @@ const treasury: FounderTreasuryControl[] = [
   },
   {
     id: "planet-economy-growth-readiness",
-    label: "Planet economy and growth readiness",
+    label: "Plan economy and growth readiness",
     readiness: "planned",
     riskLevel: "medium",
     actionState: "review_required",
     currentTruth:
-      "Free / Demo is active for paper-safe trust; Pro, VIP, and Enterprise remain planned/future with no fake paid activation.",
+      "Free is active for paper-safe trust; Pro, VIP, and Institutional remain planned/future with no fake paid activation.",
     activationRequirements: [
       "entitlement implementation",
       "support readiness",
-      "Legal review",
-      "Guardian review",
-      "Founder approval",
+      "legal review",
+      "safety review",
+      "owner approval",
     ],
   },
 ];

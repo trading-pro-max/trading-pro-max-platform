@@ -453,7 +453,7 @@ test.describe("verified platform truth", () => {
           /Paper-only evaluation|Fallback-first market data|Live execution blocked/
         );
         await expect(page.locator("body")).toContainText(
-          /Plan interface|Free \/ Demo|Pro|VIP|Enterprise|Familiar premium paper trading/
+          /Plan interface|Free|Pro|VIP|Institutional|Familiar premium paper trading/
         );
         await expect(page.locator("body")).toContainText(
           /TPM IQ \/ Brain|Interpretive, bounded guidance|Chart \+ execution stay primary/
@@ -494,7 +494,7 @@ test.describe("verified platform truth", () => {
           await expect(page.locator(".tpm-companion-panel").first()).toContainText(
             /Ask safely|execute trade|enable live/
           );
-          await page.getByLabel("Ask TPM Companion").fill("enable live and real money");
+          await page.getByLabel("Ask TPM Assistant").fill("enable live and real money");
           await page.getByRole("button", { name: "Send" }).click();
           await expect(page.locator(".tpm-companion-panel").first()).toContainText(
             /I cannot do that|remain blocked/
@@ -535,7 +535,7 @@ test.describe("verified platform truth", () => {
           expect(companionLayout.companionOverlapsExecution).toBe(false);
           expect(companionLayout.chartWidth).toBeGreaterThan(620);
           expect(companionLayout.chartHeight).toBeGreaterThan(420);
-          await page.getByRole("button", { name: "Close TPM Companion" }).click();
+          await page.getByRole("button", { name: "Close TPM Assistant" }).click();
         }
         const emptyStateNotice = page.locator(".tpm-state-notice[data-state='empty']").first();
         if (!(await emptyStateNotice.isVisible().catch(() => false))) {
@@ -574,13 +574,13 @@ test.describe("verified platform truth", () => {
           /Product trust ledger|Commercial packaging readiness|No billing system active|Broker integration/
         );
         await expect(page.locator("body")).toContainText(
-          /Personal companion|Demo \/ Paper Assistant|Pro, VIP, and Enterprise assistants remain locked/
+          /Personal assistant|Free Assistant|Pro, VIP, and Institutional assistants remain locked/
         );
         await expect(page.locator("body")).toContainText(
           /Plan capability truth|Paper-session guidance|No financial advice/
         );
         await expect(page.locator("body")).toContainText(
-          /Plan-based interface architecture|Experience layers|Familiar paper trading layer|Founder Command is owner-only/
+          /Plan-based interface architecture|Experience layers|Familiar paper trading layer|Owner command tools are private/
         );
         await expect(page.locator("body")).toContainText(
           /Academy|Community|VIP Rooms|Rooms planned|Learning paths foundation/
@@ -593,11 +593,11 @@ test.describe("verified platform truth", () => {
           const planCardText = (
             await page.locator(".tpm-plan-experience-card").allTextContents()
           ).join(" ");
-          expect(planCardText).not.toMatch(/Founder Command/);
+          expect(planCardText).not.toMatch(/Founder Command|Enterprise/);
         }
         if (route.path === "/diagnostics") {
           await expect(page.locator("body")).toContainText(
-            /Planet OS|Internal operating system|Core engines/
+            /Product readiness|Product readiness model|Core engines/
           );
           await expect(page.locator("body")).toContainText(
             /Why blocked readiness|Session coach foundation|Journal \/ Coach/
@@ -606,7 +606,7 @@ test.describe("verified platform truth", () => {
             /Self-governance readiness|TPM Brain context|Ministry autonomy|Roadmap planner/
           );
           await expect(page.locator("body")).toContainText(
-            /Planet map|Media Office|AI Video Studio|no social accounts/i
+            /Workspace access layer|Media Office|AI Video Studio|no social accounts/i
           );
         }
       }
@@ -1399,10 +1399,10 @@ test.describe("verified platform truth", () => {
     expect(productTruthPayload.snapshot.items).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          key: "plan_based_planet_layers",
+          key: "plan_based_product_layers",
           state: "guarded",
           safeNextStep:
-            "Keep Demo active, Pro/VIP planned, Enterprise future, and Founder Command owner-only.",
+            "Keep Free active, Pro/VIP planned, Institutional future, and owner command private.",
         }),
         expect.objectContaining({
           key: "brand_partnerships",
@@ -1490,33 +1490,33 @@ test.describe("verified platform truth", () => {
     expect(founderReadinessPayload.snapshot.roomFoundation.planVisibility).toMatchObject({
       citizenClasses: expect.arrayContaining([
         "Guest",
-        "Free / Demo Citizen",
-        "Pro Citizen",
-        "VIP Citizen",
-        "Enterprise House",
-        "Founder King",
+        "Free",
+        "Pro",
+        "VIP",
+        "Institutional",
+        "Owner",
       ]),
       billingInactive: true,
       performanceFeeHiddenInactive: true,
       nextSafePlanActions: expect.arrayContaining([
-        "Keep Demo / Free paper-safe layer active and understandable.",
+        "Keep Free paper-safe layer active and understandable.",
         "Prepare Pro/VIP entitlement UX without billing or activation claims.",
       ]),
       whatNotToActivateNow: expect.arrayContaining([
         "billing",
         "VIP access",
         "performance-fee UI",
-        "Founder Command user-plan access",
+        "owner command user-plan access",
       ]),
     });
     expect(
       founderReadinessPayload.snapshot.roomFoundation.planVisibility.planReadiness
     ).toEqual(
       expect.arrayContaining([
-        expect.objectContaining({ plan: "Demo / Free", state: "paper_active" }),
+        expect.objectContaining({ plan: "Free", state: "paper_active" }),
         expect.objectContaining({ plan: "Pro", state: "planned_locked" }),
         expect.objectContaining({ plan: "VIP", state: "planned_locked" }),
-        expect.objectContaining({ plan: "Enterprise later", state: "future_planned" }),
+        expect.objectContaining({ plan: "Institutional later", state: "future_planned" }),
       ])
     );
     expect(founderReadinessPayload.snapshot.roomFoundation.ministries).toHaveLength(40);
@@ -1851,19 +1851,19 @@ test.describe("verified platform truth", () => {
       planetAccess: {
         citizenClass: "demo_free",
         activeLayer: "Familiar paper trading layer",
-        companionLevel: "Basic Companion active",
+        companionLevel: "Basic Assistant active",
         founderCommandUserVisible: false,
         performanceFeeUserVisible: false,
       },
     });
     expect(companionContextPayload.snapshot.planetAccess.visibleCities).toEqual(
-      expect.arrayContaining(["Chart City", "Execution Hall", "Companion Center"])
+      expect.arrayContaining(["Chart City", "Execution Hall", "Assistant Center"])
     );
     expect(companionContextPayload.snapshot.planetAccess.lockedFeatures).toEqual(
       expect.arrayContaining(["VIP Brain"])
     );
     expect(companionContextPayload.snapshot.planetAccess.hiddenFeatures).toEqual(
-      expect.arrayContaining(["Founder Command", "private treasury research"])
+      expect.arrayContaining(["owner-only command tools", "private revenue research"])
     );
     expect(JSON.stringify(companionContextPayload.snapshot.planetAccess)).not.toMatch(
       /performance fee|performance-fee/i
@@ -2964,7 +2964,7 @@ test.describe("verified platform truth", () => {
     });
     expect(commercialCatalogPayload.snapshot.assistant.current).toMatchObject({
       tier: "demo_paper",
-      label: "Demo / Paper Assistant",
+      label: "Free Assistant",
       availability: "active",
       currentAccess: true,
     });
@@ -3059,7 +3059,7 @@ test.describe("verified platform truth", () => {
     );
     expect(intelligencePayload.snapshot.assist.tier).toMatchObject({
       tier: "demo_paper",
-      label: "Demo / Paper Assistant",
+      label: "Free Assistant",
       currentAccess: true,
     });
     expect(JSON.stringify(intelligencePayload.snapshot)).not.toMatch(
@@ -3215,7 +3215,7 @@ test.describe("verified platform truth", () => {
     });
     expect(productPayload.snapshot.assistant.current).toMatchObject({
       tier: "demo_paper",
-      label: "Demo / Paper Assistant",
+      label: "Free Assistant",
       currentAccess: true,
     });
     expect(productPayload.snapshot.assistant.tiers).toEqual(
@@ -4008,7 +4008,7 @@ test.describe("verified platform truth", () => {
     });
     expect(commercialStatePayload.snapshot.assistant.current).toMatchObject({
       tier: "demo_paper",
-      label: "Demo / Paper Assistant",
+      label: "Free Assistant",
       availability: "active",
       currentAccess: true,
     });

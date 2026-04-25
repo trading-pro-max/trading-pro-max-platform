@@ -79,8 +79,8 @@ export const ASSISTANT_PLAN_TIER_MAP: Record<AssistantPlanKey, AssistantTierKey>
 export const ASSISTANT_TIER_CONTRACTS: AssistantTierContract[] = [
   {
     tier: "demo_paper",
-    label: "Demo / Paper Assistant",
-    planLabel: "Demo / Paper",
+    label: "Free Assistant",
+    planLabel: "Free",
     availability: "active",
     currentAccess: true,
     visualIdentity: getPlanVisualIdentityForAssistantTier("demo_paper"),
@@ -116,7 +116,7 @@ export const ASSISTANT_TIER_CONTRACTS: AssistantTierContract[] = [
     summary:
       "Planned Pro tier. Adds richer market context, multi-timeframe summaries, session guidance, workflows, journal suggestions, preflight explanations, and performance context.",
     capabilities: [
-      capability("demo_capabilities", "Everything in Demo / Paper", "locked"),
+      capability("demo_capabilities", "Everything in Free", "locked"),
       capability("richer_market_context", "Richer market context", "locked"),
       capability("multi_timeframe_summaries", "Multi-timeframe summaries", "locked"),
       capability("session_guidance", "Session guidance", "locked"),
@@ -170,27 +170,27 @@ export const ASSISTANT_TIER_CONTRACTS: AssistantTierContract[] = [
   },
   {
     tier: "enterprise",
-    label: "Enterprise Assistant",
-    planLabel: "Enterprise later",
+    label: "Institutional Assistant",
+    planLabel: "Institutional later",
     availability: "planned_later",
     currentAccess: false,
     visualIdentity: getPlanVisualIdentityForAssistantTier("enterprise"),
     summary:
-      "Future enterprise-only concept for team/admin summaries, compliance and audit assistance, risk overview, team workspace support, and runbook guidance.",
+      "Future institutional concept for team/admin summaries, compliance and audit assistance, risk overview, team workspace support, and runbook guidance.",
     capabilities: [
       capability("team_admin_summaries", "Team and admin summaries", "coming_later"),
       capability("compliance_audit_assistant", "Compliance and audit assistant", "coming_later"),
       capability("risk_overview", "Risk overview", "coming_later"),
       capability("team_workspace_support", "Team workspace support", "coming_later"),
-      capability("enterprise_runbooks", "Enterprise runbook guidance", "coming_later"),
+      capability("institutional_runbooks", "Institutional runbook guidance", "coming_later"),
     ],
     restrictions: [
-      "Future planned only unless enterprise entitlement exists.",
-      "No enterprise availability claim.",
+      "Future planned only unless institutional entitlement exists.",
+      "No institutional availability claim.",
       "No legal compliance certification.",
     ],
     unavailableReason:
-      "Enterprise assistant is future planned only and has no active entitlement path.",
+      "Institutional assistant is future planned only and has no active entitlement path.",
     upgradeState: "future_planned",
   },
 ];

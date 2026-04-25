@@ -16,7 +16,7 @@ export default function CitizenAccessMap({
   const founderLayer = layers.find((layer) => layer.citizenClass === "founder_king");
 
   return (
-    <div className="tpm-citizen-access-map" aria-label="Citizen planet access map">
+    <div className="tpm-citizen-access-map" aria-label="Plan access map">
       <div className="tpm-citizen-access-grid">
         {userFacingLayers.map((layer) => (
           <PlanPlanetLayerCard
@@ -32,8 +32,8 @@ export default function CitizenAccessMap({
         <aside className="tpm-founder-access-boundary">
           <strong>{founderLayer.label}</strong>
           <p>
-            Founder Command sees the full planet privately. It is owner-only,
-            read-only by default, and never part of Free, Pro, VIP, or Enterprise plans.
+            Owner command tools are private, read-only by default, and never
+            part of Free, Pro, VIP, or Institutional plans.
           </p>
         </aside>
       ) : null}

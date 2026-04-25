@@ -36,7 +36,7 @@ export default function PlanPlanetLayerCard({
 
       <dl>
         <div>
-          <dt>Companion</dt>
+          <dt>Assistant</dt>
           <dd>{layer.companionLevel}</dd>
         </div>
         <div>

@@ -1,22 +1,22 @@
-# Citizen Tiers
+# Plan Tiers
 
-Citizens are users or internal roles in TPM Planet OS. Plans are citizenship classes. Founder King is not a plan and Founder Command is never a user-plan feature.
+Trading Pro Max uses professional plan tiers for public/user-facing surfaces. Internal compatibility IDs may still use older names, but public UI must expose only Free, Pro, VIP, and Institutional.
 
-| Class | Sees | Does Not See | Access Truth |
+| Tier | User-facing access | Hidden / unavailable | Status |
 | --- | --- | --- | --- |
-| Guest | public entry, product truth | Founder Command, paid tools | public-safe only |
-| Free / Demo Citizen | workstation, settings, diagnostics, Demo Companion | VIP Brain, billing, Founder Command | paper-safe active |
-| Pro Citizen | future Pro surfaces | Founder Command, VIP-only depth | planned unless entitlement exists |
-| VIP Citizen | future VIP Brain and private rooms | Founder Command, Enterprise admin | planned unless entitlement exists |
-| Enterprise House | future team/admin/audit | Founder owner controls | future only |
-| Beta Citizen | future closed beta path | public launch claim | only if explicitly configured |
-| Staff / Operator | guarded internal operations | Founder-only approval authority unless delegated | guarded and audit-backed later |
-| Founder King | all internal planet summaries | no public user restrictions, but privacy still applies | owner-only private |
+| Guest | public entry, product truth | paid tools, owner command | public-safe only |
+| Free | workstation, settings, diagnostics, basic Assistant | VIP Brain, billing, owner command | paper-safe active |
+| Pro | future Pro workspace surfaces | owner command, VIP-only depth | planned unless entitlement exists |
+| VIP | future VIP Brain and private rooms | owner command, Institutional admin | planned unless entitlement exists |
+| Institutional | future team/admin/audit | owner controls | future only |
+| Beta | future closed beta path | public launch claim | only if explicitly configured |
+| Staff / Operator | future internal support/quality role | owner approvals, secrets | planned |
+| Owner | all private internal summaries | public user-plan restrictions do not apply, but privacy still applies | owner-only private |
 
-## Product Truth
-
-- no billing is active
-- no VIP is active by default
-- no Enterprise availability is claimed
-- live execution and real money remain blocked for all citizen classes
-- Founder Command is private owner-only and never part of Free, Pro, VIP, or Enterprise
+Rules:
+- no plan activates billing
+- no plan activates live execution or real-money routing
+- no Pro or VIP availability is claimed unless entitlement exists
+- no Institutional availability is claimed
+- live execution and real money remain blocked for all user tiers
+- owner command is private owner-only and never part of Free, Pro, VIP, or Institutional

@@ -69,28 +69,28 @@ const firstUseSteps = [
 
 const planInterfaceLadder = [
   {
-    title: "Free / Demo",
+    title: "Free",
     badge: "Active",
     summary:
-      "Familiar premium paper trading: chart, watchlist, paper ticket, basic Companion, Why Blocked, Academy, clock, and pulse.",
+      "Familiar premium paper trading: chart, watchlist, paper ticket, basic Assistant, Why Blocked, Academy, clock, and pulse.",
   },
   {
     title: "Pro",
     badge: "Planned",
     summary:
-      "Professional intelligent workspace: richer Companion, Journal/Coach depth, decision replay, memory, alerts, and workflows.",
+      "Professional intelligent workspace: richer Assistant, Journal/Coach depth, decision replay, memory, alerts, and workflows.",
   },
   {
     title: "VIP",
     badge: "Planned",
     summary:
-      "Elite living planet layer: VIP Brain, advanced coaching, strategy review, premium reports, and private rooms when entitled.",
+      "Elite premium workspace layer: VIP Brain, advanced coaching, strategy review, premium reports, and private rooms when entitled.",
   },
   {
-    title: "Enterprise",
+    title: "Institutional",
     badge: "Future",
     summary:
-      "Future team, admin, audit, compliance, runbook, and organization-grade support layer.",
+      "Future team, admin, audit, compliance, runbook, and institution-grade support layer.",
   },
 ];
 
@@ -123,9 +123,9 @@ export default function PublicProductEntry({
                 Trading Pro Max keeps the chart first and every action paper-safe.
               </h1>
               <p>
-                Free / Demo stays familiar and premium: chart, watchlist, paper ticket, and
+                Free stays familiar and premium: chart, watchlist, paper ticket, and
                 compact TPM guidance. Pro and VIP carry the deeper intelligent workspace and
-                living-planet layers later, while live routing, broker/feed, billing, public
+                premium workspace layers later, while live routing, broker/feed, billing, public
                 launch, and real-money access remain inactive.
               </p>
 

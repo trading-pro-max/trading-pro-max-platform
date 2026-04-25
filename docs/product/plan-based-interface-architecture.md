@@ -1,10 +1,20 @@
 # Plan-Based Interface Architecture
 
-Trading Pro Max uses plan-based interface depth so the product stays clean for Free / Demo users while Pro, VIP, Enterprise, and Founder layers carry progressively deeper capability.
+Trading Pro Max uses plan-based interface depth so Free users get a clean trading product while Pro, VIP, Institutional, and owner-only internal layers carry progressively deeper capability.
 
-This is an interface architecture, not billing activation. It does not enable live execution, broker/feed activation, subscriptions, public launch, real-money routing, social publishing, or premium entitlement.
+This is interface architecture, not billing activation. It does not enable live execution, broker/feed activation, subscriptions, public launch, real-money routing, social publishing, or premium entitlement.
 
-## Free / Demo
+## Public Naming Rule
+
+Public/user-facing plan names are:
+- Free
+- Pro
+- VIP
+- Institutional
+
+The internal `enterprise` identifier may remain for compatibility, but normal user-facing UI must say Institutional. Founder/internal operating-system terminology is private and must not appear as a normal user plan feature.
+
+## Free
 
 Status: active.
 
@@ -13,12 +23,12 @@ Interface promise:
 - chart-first workstation
 - simple watchlist
 - paper execution only
-- basic Companion
+- basic Assistant
 - basic Why Blocked
 - basic Academy
 - Swiss Precision Clock / Pulse
 
-Free / Demo should feel close to a serious trading terminal with moderate TPM advantages. It should not expose deep Planet OS administration, ministries, councils, treasury controls, VIP Brain, premium reports, private rooms, or Founder Command.
+Free should feel close to a serious trading terminal with moderate TPM advantages. It should not expose internal governance, owner controls, VIP Brain, premium reports, private rooms, or owner command tools.
 
 ## Pro
 
@@ -26,7 +36,7 @@ Status: planned / locked unless real entitlement exists.
 
 Interface promise:
 - intelligent professional trading workspace
-- stronger Companion
+- stronger Assistant
 - deeper Journal / Coach
 - decision replay
 - workspace memory
@@ -40,9 +50,9 @@ Pro may be described as future product value, but not as active paid access. No 
 Status: planned / locked unless real entitlement exists.
 
 Interface promise:
-- elite living planet layer
+- elite premium workspace layer
 - VIP Brain
-- advanced Companion
+- advanced Assistant
 - advanced coaching
 - advanced journal analytics
 - strategy review
@@ -51,31 +61,31 @@ Interface promise:
 
 VIP must never imply guaranteed profit, win rate, priority signals, copy trading, financial advice, or active private-room access.
 
-## Enterprise
+## Institutional
 
 Status: future planned.
 
 Interface promise:
 - team/admin layer
 - audit and compliance readiness
-- enterprise command surfaces
+- institutional support surfaces
 - runbooks
 - custom support later
 
-Enterprise is not active and must not claim legal certification, team administration, or compliance completion.
+Institutional is not active and must not claim legal certification, team administration, or compliance completion.
 
-## Founder
+## Owner-Only Internal Command
 
-Founder King is not a user plan.
+Owner command is not a user plan.
 
-Founder Command remains:
+Owner command tools remain:
 - owner-only
 - private
 - hidden from public navigation
-- separate from Free / Pro / VIP / Enterprise
+- separate from Free / Pro / VIP / Institutional
 - read-only by default until audited action gates exist
 
-No user plan may present Founder Command as an upgrade, feature, entitlement, or public route.
+No user plan may present owner command tools as an upgrade, feature, entitlement, or public route.
 
 ## Runtime Sources
 
@@ -92,9 +102,9 @@ The plan interface architecture preserves:
 - paid access not enabled
 - Pro planned, not active
 - VIP planned, not active
-- Enterprise future
+- Institutional future
 - live execution blocked
 - real-money routing blocked
 - broker/feed guarded or unconfigured
 - public launch inactive
-- Founder Command owner-only
+- owner command owner-only

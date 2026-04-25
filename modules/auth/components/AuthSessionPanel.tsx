@@ -237,7 +237,7 @@ export default function AuthSessionPanel({
   const assistantTier = getAssistantTierSnapshot("evaluation").current;
   const assistantVisualIdentity = assistantTier.visualIdentity;
   const planEntitlementSnapshot = getPlanEntitlementSnapshot("demo_free");
-  const citizenLayer = planEntitlementSnapshot.citizenAccess.currentLayer;
+  const planLayer = planEntitlementSnapshot.citizenAccess.currentLayer;
 
   const form = (
     <form className="tpm-auth-form" onSubmit={handleLogin}>
@@ -288,15 +288,15 @@ export default function AuthSessionPanel({
             <span>{humanize(state.account.lifecycleState)}</span>
             <span>{accountTypeIdentity.label}</span>
             <span className={assistantVisualIdentity.chipClassName}>{assistantTier.label}</span>
-            <span>{citizenLayer.label}</span>
+            <span>{planLayer.label}</span>
           </div>
           <small className="tpm-auth-account-type">{accountTypeIdentity.note}</small>
           <small className="tpm-auth-account-type">
-            Assistant tier: {assistantTier.label}. Pro, VIP, and Enterprise assistants remain locked
+            Assistant tier: {assistantTier.label}. Pro, VIP, and Institutional assistants remain locked
             unless real entitlements exist.
           </small>
           <small className="tpm-auth-account-type">
-            Planet layer: {citizenLayer.activeLayer}. Founder Command is owner-only and never a user plan.
+            Plan access: {planLayer.activeLayer}. Owner command tools are private and never a user plan.
           </small>
           <small className="tpm-auth-session-expiry">{formatExpiry(state.session.expiresAt)}</small>
           {state.message ? <p className="tpm-auth-message">{state.message}</p> : null}
@@ -360,7 +360,7 @@ export default function AuthSessionPanel({
                 </span>{" "}
                 paper-safe guidance only.
               </small>
-              <small>{citizenLayer.label}: {citizenLayer.activeLayer}</small>
+              <small>{planLayer.label}: {planLayer.activeLayer}</small>
             </div>
             {checkingNotice ?? form}
             {errorNotice}
@@ -387,7 +387,7 @@ export default function AuthSessionPanel({
           </span>{" "}
           paper-safe guidance only.
         </small>
-        <small>{citizenLayer.label}: {citizenLayer.activeLayer}</small>
+        <small>{planLayer.label}: {planLayer.activeLayer}</small>
       </div>
       {checkingNotice ?? form}
       {errorNotice}

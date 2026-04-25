@@ -29,7 +29,7 @@ export type ProductTruthKey =
   | "performance_revenue_model"
   | "native_app_readiness"
   | "founder_command"
-  | "plan_based_planet_layers"
+  | "plan_based_product_layers"
   | "community_vip_rooms"
   | "brand_partnerships"
   | "final_internal_acceptance";
@@ -95,7 +95,7 @@ const items: ProductTruthItem[] = [
     state: "inactive",
     publicCopy: "Billing and subscriptions are inactive.",
     internalCopy: "No checkout, paid entitlement, invoice, or subscription engine is active.",
-    safeNextStep: "Keep Pro/VIP/Enterprise as planned until billing and entitlement logic exists.",
+    safeNextStep: "Keep Pro/VIP/Institutional as planned until billing and entitlement logic exists.",
     mustNotClaim: ["paid plan active", "checkout available"],
   },
   {
@@ -163,12 +163,12 @@ const items: ProductTruthItem[] = [
   },
   {
     key: "enterprise_activation",
-    label: "Enterprise activation",
+    label: "Institutional activation",
     state: "planned",
-    publicCopy: "Enterprise is future planned only.",
+    publicCopy: "Institutional is future planned only.",
     internalCopy: "No team/admin/audit/compliance product access is active.",
-    safeNextStep: "Keep enterprise surfaces roadmap-only.",
-    mustNotClaim: ["enterprise available", "team admin active"],
+    safeNextStep: "Keep institutional surfaces roadmap-only.",
+    mustNotClaim: ["Institutional available", "team admin active"],
   },
   {
     key: "islamic_sharia_certification",
@@ -208,21 +208,21 @@ const items: ProductTruthItem[] = [
   },
   {
     key: "founder_command",
-    label: "Founder Command",
+    label: "Owner command",
     state: "guarded",
-    publicCopy: "Founder Command is private and not a user feature.",
-    internalCopy: "Founder Command remains owner-only, read-only by default, and hidden from Free, Pro, VIP, Enterprise, and public navigation.",
+    publicCopy: "Owner command tools are private and not a user feature.",
+    internalCopy: "Owner command remains owner-only, read-only by default, and hidden from Free, Pro, VIP, Institutional, and public navigation.",
     safeNextStep: "Keep command room surfaces component/API foundation only until owner auth, device trust, and audit gates exist.",
-    mustNotClaim: ["admin dashboard available", "Founder Command public", "plan access to Founder Command"],
+    mustNotClaim: ["admin dashboard available", "owner command public", "plan access to owner command"],
   },
   {
-    key: "plan_based_planet_layers",
-    label: "Plan-based planet layers",
+    key: "plan_based_product_layers",
+    label: "Plan-based product layers",
     state: "guarded",
-    publicCopy: "Each plan sees only its appropriate planet layer.",
-    internalCopy: "Guest, Demo, Pro, VIP, Enterprise, Staff, and Founder classes are access models, not fake paid activation.",
-    safeNextStep: "Keep Demo active, Pro/VIP planned, Enterprise future, and Founder Command owner-only.",
-    mustNotClaim: ["VIP active", "Pro paid active", "Enterprise available", "Founder Command as user plan"],
+    publicCopy: "Each plan sees only its appropriate product layer.",
+    internalCopy: "Guest, Free, Pro, VIP, Institutional, Staff, and Owner classes are access models, not fake paid activation.",
+    safeNextStep: "Keep Free active, Pro/VIP planned, Institutional future, and owner command private.",
+    mustNotClaim: ["VIP active", "Pro paid active", "Institutional available", "owner command as user plan"],
   },
   {
     key: "community_vip_rooms",
@@ -230,7 +230,7 @@ const items: ProductTruthItem[] = [
     state: "planned",
     publicCopy: "Community and VIP rooms are planned and not active.",
     internalCopy:
-      "General, Pro, VIP, feedback, support, and learning rooms require Guardian moderation, Legal claim review, entitlement support, and Founder approval before activation.",
+      "General, Pro, VIP, feedback, support, and learning rooms require safety moderation, legal claim review, entitlement support, and owner approval before activation.",
     safeNextStep:
       "Keep rooms as architecture/readiness only until moderation, privacy, support, and entitlement gates exist.",
     mustNotClaim: ["active rooms", "members", "VIP private room access", "copy-trading community"],
@@ -241,7 +241,7 @@ const items: ProductTruthItem[] = [
     state: "inactive",
     publicCopy: "No brand partnership or sponsored clock is active.",
     internalCopy:
-      "Swiss Precision Clock sponsorship and other partnerships are future-only and require signed contracts, Rights/IP, Legal, Guardian, and Founder review.",
+      "Swiss Precision Clock sponsorship and other partnerships are future-only and require signed contracts, Rights/IP, legal, safety, and owner review.",
     safeNextStep:
       "Do not name companies, imply endorsement, or use partner assets without an executed contract and review chain.",
     mustNotClaim: ["sponsored by", "official partner", "endorsed by", "partner clock active"],

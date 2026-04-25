@@ -37,7 +37,7 @@ export type PlanInterfaceArchitectureSnapshot = {
     billing: "inactive";
     proActivation: "planned_not_active";
     vipActivation: "planned_not_active";
-    enterpriseActivation: "future_planned";
+    institutionalActivation: "future_planned";
     founderCommandUserPlan: false;
     publicLaunch: "inactive";
     liveExecution: "blocked";
@@ -48,37 +48,37 @@ export type PlanInterfaceArchitectureSnapshot = {
 export const PLAN_INTERFACE_LAYERS: PlanInterfaceLayer[] = [
   {
     id: "demo_free",
-    label: "Free / Demo",
+    label: "Free",
     status: "active",
     visualIdentity: "demo_free",
     headline: "Familiar premium paper platform",
     experience:
-      "A clean chart-first trading terminal with paper execution, basic Companion guidance, Why Blocked explanations, basic Academy, and subtle Swiss precision signals.",
-    surfaceDepth: "Moderate TPM advantage without exposing deep Planet OS administration.",
+      "A clean chart-first trading terminal with paper execution, basic Assistant guidance, Why Blocked explanations, basic Academy, and subtle Swiss precision signals.",
+    surfaceDepth: "Moderate TPM advantage without exposing internal operating-system detail.",
     primarySurfaces: [
       "chart-first workstation",
       "paper execution ticket",
       "watchlist",
-      "basic Companion",
+      "basic Assistant",
       "basic Journal/Coach prompts",
       "settings and diagnostics truth",
     ],
     hiddenFromThisLayer: [
-      "Founder Command",
-      "ministries and councils internals",
+      "owner-only command tools",
+      "internal governance detail",
       "VIP Brain",
       "advanced reports",
       "private rooms",
       "billing or paid activation",
     ],
     safeCopy:
-      "Free / Demo is active for paper-safe evaluation. It should feel familiar, premium, and simple.",
+      "Free is active for paper-safe evaluation. It should feel familiar, premium, and simple.",
     mustNotClaim: [
       "live execution",
       "real money",
       "paid access",
       "Pro or VIP activation",
-      "Founder Command access",
+      "owner-only command access",
     ],
   },
   {
@@ -88,17 +88,17 @@ export const PLAN_INTERFACE_LAYERS: PlanInterfaceLayer[] = [
     visualIdentity: "pro",
     headline: "Professional intelligent workspace",
     experience:
-      "A planned daily-trader layer for stronger Companion support, deeper Journal/Coach, decision replay, workspace memory, alerts, and workflow guidance.",
+      "A planned daily-trader layer for stronger Assistant support, deeper Journal/Coach, decision replay, workspace memory, alerts, and workflow guidance.",
     surfaceDepth: "Deeper than Free, but only active when real entitlement and safety support exists.",
     primarySurfaces: [
-      "Pro Companion planned",
+      "Pro Assistant planned",
       "journal depth planned",
       "decision replay planned",
       "workspace memory planned",
       "alerts and workflows planned",
       "Pro community planned",
     ],
-    hiddenFromThisLayer: ["Founder Command", "VIP Brain", "billing controls", "private treasury research"],
+    hiddenFromThisLayer: ["owner-only command tools", "VIP Brain", "billing controls", "private revenue research"],
     safeCopy:
       "Pro is planned and locked. It can be described as roadmap value, not as active paid access.",
     mustNotClaim: ["Pro active", "checkout active", "premium signal", "better outcome"],
@@ -108,10 +108,10 @@ export const PLAN_INTERFACE_LAYERS: PlanInterfaceLayer[] = [
     label: "VIP",
     status: "planned_locked",
     visualIdentity: "vip",
-    headline: "Elite living planet layer",
+    headline: "Elite premium workspace layer",
     experience:
-      "A planned premium layer for VIP Brain, advanced Companion, advanced coaching, advanced journal analytics, strategy review, premium reports, and private rooms.",
-    surfaceDepth: "Highest user-facing planet depth, still separated from private owner command.",
+      "A planned premium layer for VIP Brain, advanced Assistant, advanced coaching, advanced journal analytics, strategy review, premium reports, and private rooms.",
+    surfaceDepth: "Highest user-facing product depth, still separated from private owner command.",
     primarySurfaces: [
       "VIP Brain planned",
       "advanced Coach planned",
@@ -120,52 +120,52 @@ export const PLAN_INTERFACE_LAYERS: PlanInterfaceLayer[] = [
       "premium reports planned",
       "VIP rooms planned",
     ],
-    hiddenFromThisLayer: ["Founder Command", "critical owner controls", "treasury controls"],
+    hiddenFromThisLayer: ["owner-only command tools", "critical owner controls", "private revenue controls"],
     safeCopy:
       "VIP is a planned elite layer. It never implies guaranteed signals, win rates, or active premium access.",
     mustNotClaim: ["VIP active", "guaranteed signals", "win-rate", "priority support active"],
   },
   {
     id: "enterprise",
-    label: "Enterprise",
+    label: "Institutional",
     status: "future",
     visualIdentity: "enterprise",
-    headline: "Future team and governance layer",
+    headline: "Future institutional team layer",
     experience:
       "A future organization layer for teams, admin, audit, compliance readiness, runbooks, and custom support.",
-    surfaceDepth: "Future enterprise architecture only; not a public activation path.",
+    surfaceDepth: "Future institutional architecture only; not a public activation path.",
     primarySurfaces: [
       "team admin future",
       "audit future",
       "compliance overview future",
       "runbook support future",
-      "enterprise assistant future",
+      "Institutional Assistant future",
     ],
-    hiddenFromThisLayer: ["Founder Command", "owner approval controls", "private command data"],
+    hiddenFromThisLayer: ["owner-only command tools", "owner approval controls", "private command data"],
     safeCopy:
-      "Enterprise remains future planned and unavailable for activation in this build.",
-    mustNotClaim: ["Enterprise available", "compliance certified", "team admin active"],
+      "Institutional remains future planned and unavailable for activation in this build.",
+    mustNotClaim: ["Institutional available", "compliance certified", "team admin active"],
   },
   {
     id: "founder_king",
-    label: "Founder King",
+    label: "Owner",
     status: "owner_only",
     visualIdentity: "vip",
-    headline: "Private full planet command",
+    headline: "Private owner command",
     experience:
-      "The owner-only command layer for full planet governance, ministries, councils, risks, treasury, media, approvals, and next safe actions.",
+      "The owner-only command layer for full internal readiness, risks, revenue controls, media review, approvals, and next safe actions.",
     surfaceDepth: "Private command architecture, read-only by default, never a user-plan feature.",
     primarySurfaces: [
-      "Founder Command Room",
-      "Founder Command App shell",
-      "ministry reports",
+      "owner command room",
+      "owner command app shell",
+      "internal readiness reports",
       "approval center",
-      "treasury and media readiness",
-      "Guardian and Legal summaries",
+      "revenue and media readiness",
+      "safety and review summaries",
     ],
     hiddenFromThisLayer: ["public route", "public navigation", "normal user entitlement"],
     safeCopy:
-      "Founder Command is owner-only and remains separate from Free, Pro, VIP, and Enterprise user plans.",
+      "Owner command tools are private and remain separate from Free, Pro, VIP, and Institutional user plans.",
     mustNotClaim: ["public access", "plan unlock", "critical block override"],
   },
 ];
@@ -196,7 +196,7 @@ export function getPlanInterfaceArchitectureSnapshot(
       billing: "inactive",
       proActivation: "planned_not_active",
       vipActivation: "planned_not_active",
-      enterpriseActivation: "future_planned",
+      institutionalActivation: "future_planned",
       founderCommandUserPlan: false,
       publicLaunch: "inactive",
       liveExecution: "blocked",

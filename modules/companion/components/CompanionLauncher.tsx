@@ -37,7 +37,7 @@ export default function CompanionLauncher({
         onClick={() => setOpen((current) => !current)}
       >
         <span aria-hidden="true" />
-        <strong>{open ? "Companion open" : "TPM Companion"}</strong>
+        <strong>{open ? "Assistant open" : "TPM Assistant"}</strong>
         <small>Paper-safe guide</small>
       </button>
     </div>

@@ -6,7 +6,7 @@ type TPMEarthMarkProps = {
 
 export default function TPMEarthMark({
   className,
-  title = "Trading Pro Max Planet OS",
+  title = "Trading Pro Max product mark",
   variant = "compact",
 }: TPMEarthMarkProps) {
   return (

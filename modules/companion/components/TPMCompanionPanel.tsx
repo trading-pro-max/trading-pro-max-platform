@@ -189,7 +189,7 @@ export default function TPMCompanionPanel({
         if (!active) return;
 
         if (!contextResponse.ok || !explanationResponse.ok) {
-          throw new Error("Companion readiness routes unavailable.");
+          throw new Error("Assistant readiness routes unavailable.");
         }
 
         const contextPayload = (await contextResponse.json()) as CompanionContextPayload;
@@ -238,11 +238,11 @@ export default function TPMCompanionPanel({
         id: "response-plan",
         role: "companion",
         state: "planned",
-        title: "Citizen layer truth",
+        title: "Plan access truth",
         body:
           context?.planetAccess
-            ? `${context.planetAccess.activeLayer}. Free / Demo is the familiar paper trading layer with basic Companion support. Pro is planned as the intelligent professional workspace, VIP as the elite living planet layer, and Enterprise as future team governance.`
-            : "Basic Companion is active for Free / Demo guidance. Pro, VIP, and Enterprise assistants remain locked or future-planned until real entitlement support exists.",
+            ? `${context.planetAccess.activeLayer}. Free is the familiar paper trading layer with basic Assistant support. Pro is planned as the intelligent professional workspace, VIP as the elite premium workspace layer, and Institutional as future team support.`
+            : "Basic Assistant is active for Free guidance. Pro, VIP, and Institutional assistants remain locked or future-planned until real entitlement support exists.",
       },
       feedback: {
         id: "response-feedback",
@@ -315,7 +315,7 @@ export default function TPMCompanionPanel({
             title: "Safe platform guidance",
             body:
               "I can explain product truth, plan access, blocked states, feedback, diagnostics, and journal prompts. I cannot execute or activate anything.",
-            safeNextStep: "Ask about a blocked state, the current plan layer, or session learning.",
+            safeNextStep: "Ask about a blocked state, the current plan access, or session learning.",
           };
     }
 
@@ -352,15 +352,15 @@ export default function TPMCompanionPanel({
     <aside
       id="tpm-companion-panel"
       className="tpm-companion-panel"
-      aria-label="TPM Personal Companion"
+      aria-label="TPM Assistant"
     >
       <header className="tpm-companion-head">
         <div>
-          <span>TPM Companion</span>
+          <span>TPM Assistant</span>
           <h2>{context?.assistantTier.label ?? assistantSnapshot.current.label}</h2>
         </div>
         {onClose ? (
-          <button type="button" aria-label="Close TPM Companion" onClick={onClose}>
+          <button type="button" aria-label="Close TPM Assistant" onClick={onClose}>
             Close
           </button>
         ) : null}
@@ -405,7 +405,7 @@ export default function TPMCompanionPanel({
         value={chatInput}
       />
 
-      <div className="tpm-companion-blocked-intents" aria-label="Blocked companion intents">
+      <div className="tpm-companion-blocked-intents" aria-label="Blocked assistant intents">
         {(context?.blockedIntents ?? [
           "execute_trade",
           "enable_live",
@@ -429,7 +429,7 @@ export default function TPMCompanionPanel({
 
       <div className="tpm-companion-capability-grid">
         <div>
-          <span>Planet layer</span>
+          <span>Workspace layer</span>
           {(context?.planetAccess.visibleCities ?? []).slice(0, 3).map((city) => (
             <small key={city}>{city}</small>
           ))}

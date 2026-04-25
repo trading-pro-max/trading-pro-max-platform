@@ -91,19 +91,19 @@ export function getFounderPersonalCompanionSnapshot(
     productGapSummary: reporting.briefing.productGaps,
     visualGapSummary: [
       "Human visual acceptance by Ahmad is still required before any final 10/10 claim.",
-      "Chart-first hierarchy must be protected from Planet OS diagnostics growth.",
-      "Founder Command native desktop/mobile visual shells remain planned.",
+      "Chart-first hierarchy must be protected from diagnostics growth.",
+      "Owner command native desktop/mobile visual shells remain planned.",
     ],
     planReadinessSummary: planEntitlements.plans.map(
       (plan) => `${plan.planName}: ${plan.truthState}`
     ),
     userFacingRiskSummary: [
-      "Users must not see Founder Command as a plan feature.",
-      "Companion must not produce trading signals, profit claims, or execution instructions.",
+      "Users must not see owner command as a plan feature.",
+      "Assistant must not produce trading signals, profit claims, or execution instructions.",
       "Plan surfaces must not imply paid access while billing is inactive.",
     ],
     treasurySummary: [
-      "Demo / Free is active as paper-safe evaluation.",
+      "Free is active as paper-safe evaluation.",
       "Pro and VIP remain planned/locked.",
       "Billing is inactive and current performance fee remains 0%.",
     ],

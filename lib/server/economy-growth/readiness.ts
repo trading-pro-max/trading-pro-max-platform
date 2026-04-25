@@ -17,12 +17,12 @@ import type {
 const planRoles: EconomyPlanRole[] = [
   {
     plan: "free_demo",
-    label: "Free / Demo",
+    label: "Free",
     state: "active",
     economyRole: "Trust-building paper-safe entry layer.",
     activeValue: [
       "paper trading",
-      "basic Companion",
+      "basic Assistant",
       "basic Academy",
       "Why Blocked explanations",
       "feedback readiness",
@@ -39,7 +39,7 @@ const planRoles: EconomyPlanRole[] = [
     economyRole: "Daily trader workspace layer planned after entitlement and billing gates.",
     activeValue: [],
     plannedValue: [
-      "deeper Companion",
+      "deeper Assistant",
       "Journal/Coach depth",
       "alerts and workflows",
       "decision replay",
@@ -54,11 +54,11 @@ const planRoles: EconomyPlanRole[] = [
     plan: "vip",
     label: "VIP",
     state: "planned",
-    economyRole: "Elite planet layer planned for advanced guidance and private review.",
+    economyRole: "Elite premium workspace layer planned for advanced guidance and private review.",
     activeValue: [],
     plannedValue: [
       "VIP Brain",
-      "advanced Companion",
+      "advanced Assistant",
       "advanced Journal",
       "advanced Coach",
       "strategy review",
@@ -72,19 +72,19 @@ const planRoles: EconomyPlanRole[] = [
   },
   {
     plan: "enterprise",
-    label: "Enterprise",
+    label: "Institutional",
     state: "future",
-    economyRole: "Future team governance layer with audit, admin, and compliance concepts.",
+    economyRole: "Future institutional team layer with audit, admin, and compliance concepts.",
     activeValue: [],
     plannedValue: [
-      "team planet",
+      "team workspace",
       "admin",
       "audit",
       "compliance overview",
       "custom support",
     ],
-    upgradePath: "Keep Enterprise as future-only until a separate enterprise phase.",
-    mustNotClaim: ["Enterprise available", "compliance certified", "team admin active"],
+    upgradePath: "Keep Institutional as future-only until a separate institutional phase.",
+    mustNotClaim: ["Institutional available", "compliance certified", "team admin active"],
   },
 ];
 
@@ -108,21 +108,21 @@ const communityReadiness: CommunityReadiness = {
   layers: [
     {
       key: "free_learning_spaces",
-      label: "Free / Demo learning spaces",
+      label: "Free learning spaces",
       state: "planned",
-      safety: ["Guardian moderation", "anti-scam rules", "no fake profit screenshots"],
+      safety: ["safety moderation", "anti-scam rules", "no fake profit screenshots"],
     },
     {
       key: "pro_rooms",
       label: "Pro rooms",
       state: "planned",
-      safety: ["Legal claim review", "no paid active claim", "no signal-selling language"],
+      safety: ["legal claim review", "no paid active claim", "no signal-selling language"],
     },
     {
       key: "vip_private_rooms",
       label: "VIP private rooms",
       state: "planned",
-      safety: ["Founder approval", "Guardian moderation", "no guaranteed outcome claims"],
+      safety: ["owner approval", "safety moderation", "no guaranteed outcome claims"],
     },
     {
       key: "support_feedback_rooms",
@@ -171,7 +171,7 @@ const mediaOfficeReadiness: MediaOfficeReadiness = {
     "campaign planning",
     "scheduling readiness",
   ],
-  requiredReviews: ["Brand", "Guardian", "Legal", "Founder"],
+  requiredReviews: ["Brand", "Safety", "Legal", "Owner"],
   noAccountsConnected: true,
   noApiTokens: true,
   externalPublishingActive: false,
@@ -199,7 +199,7 @@ const aiVideoStudioReadiness: AiVideoStudioReadiness = {
     "feature walkthroughs",
     "changelog summaries",
     "Swiss precision identity content",
-    "Planet OS explanation content",
+    "product readiness explanation content",
   ],
   uploadActive: false,
   publishingActive: false,
@@ -226,7 +226,7 @@ const partnershipReadiness: PartnershipReadiness = {
     "event/webinar partnership",
     "academy partnership",
   ],
-  requiredReviews: ["Legal", "Rights/IP", "Guardian", "Founder"],
+  requiredReviews: ["Legal", "Rights/IP", "Safety", "Owner"],
   fakePartnershipClaims: false,
   impliedEndorsementAllowed: false,
 };
@@ -236,7 +236,7 @@ const resourcesToEconomy: ResourceEconomyMap = {
     {
       resource: "product truth",
       ethicalValue: "trust",
-      protection: "Guardian and Legal block fake capability claims",
+      protection: "Safety and legal review block fake capability claims",
     },
     {
       resource: "platform data",
@@ -305,14 +305,14 @@ const resourcesToEconomy: ResourceEconomyMap = {
       protection: "sponsored clock remains future partnership only",
     },
     {
-      resource: "Founder decisions",
+      resource: "owner decisions",
       ethicalValue: "governance",
-      protection: "Founder approval cannot override critical blocks without remediation",
+      protection: "owner approval cannot override critical blocks without remediation",
     },
     {
       resource: "partnerships",
       ethicalValue: "future growth",
-      protection: "contract, Rights/IP, Legal, Guardian, and Founder review required",
+      protection: "contract, Rights/IP, legal, safety, and owner review required",
     },
   ],
   rules: [
@@ -333,16 +333,16 @@ const finalAcceptance: FinalAcceptanceReadiness = {
   legalRegulatoryReviewRequiredLater: true,
   recommendation: "continue_internal_refinement",
   complete: [
-    "Planet OS hierarchy/readiness contracts",
-    "Founder Command foundation",
-    "Living Planet surfaces",
+    "internal hierarchy/readiness contracts",
+    "owner command foundation",
+    "living product surfaces",
     "plan-based access truth",
     "economy/media/growth readiness model",
   ],
   partial: [
     "native desktop/mobile app shells",
     "persistent journal depth",
-    "full Companion chat",
+    "full Assistant chat",
     "community and VIP rooms",
     "media/video UI",
   ],
@@ -351,7 +351,7 @@ const finalAcceptance: FinalAcceptanceReadiness = {
     "social publishing",
     "partnership activation",
     "Pro/VIP paid entitlement activation",
-    "Enterprise product",
+    "Institutional product",
   ],
   blocked: [
     "live execution",
@@ -374,12 +374,12 @@ const finalGapChecklist: FinalGapChecklistItem[] = [
     note: "Chart-first hierarchy remains the primary product surface.",
   },
   {
-    area: "companion",
+    area: "assistant",
     status: "partial",
     note: "Read-only guided foundation exists; full chat and persistence remain planned.",
   },
   {
-    area: "Founder Command",
+    area: "owner command",
     status: "partial",
     note: "Owner-only command architecture exists; native app shell and audited actions remain planned.",
   },
@@ -419,7 +419,7 @@ const nonLaunchRoadmap: NonLaunchRoadmapItem[] = [
   },
   {
     priority: 2,
-    area: "Companion",
+    area: "Assistant",
     nextStep: "Design full chat later with safe intent routing and no execution authority.",
     status: "planned",
   },
@@ -431,7 +431,7 @@ const nonLaunchRoadmap: NonLaunchRoadmapItem[] = [
   },
   {
     priority: 4,
-    area: "Founder Command",
+    area: "owner command",
     nextStep: "Build private desktop/mobile shell after owner auth and audit gates.",
     status: "planned",
   },

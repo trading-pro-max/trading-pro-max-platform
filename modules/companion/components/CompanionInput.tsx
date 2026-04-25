@@ -24,7 +24,7 @@ export default function CompanionInput({
       <label className="tpm-companion-chat-field">
         <span>Ask safely</span>
         <textarea
-          aria-label="Ask TPM Companion"
+          aria-label="Ask TPM Assistant"
           disabled={disabled}
           maxLength={320}
           onChange={(event) => onChange(event.target.value)}

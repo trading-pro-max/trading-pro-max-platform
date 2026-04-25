@@ -5,7 +5,7 @@ const resources: PlanetResourceLayerView[] = [
     label: "Product truth",
     category: "hidden",
     value: "trust",
-    protection: "Guardian, Legal, Founder Command",
+    protection: "safety, review, owner command",
   },
   {
     label: "Chart and UI",
@@ -14,7 +14,7 @@ const resources: PlanetResourceLayerView[] = [
     protection: "Quality and visual acceptance",
   },
   {
-    label: "Companion and journal",
+    label: "Assistant and journal",
     category: "living",
     value: "learning and retention",
     protection: "Safety boundaries, no advice claims",
@@ -29,7 +29,7 @@ const resources: PlanetResourceLayerView[] = [
 
 export default function PlanetResourceLayerSummary() {
   return (
-    <div className="tpm-planet-resource-summary" aria-label="Planet resources to value map">
+    <div className="tpm-planet-resource-summary" aria-label="Resources to value map">
       {resources.map((resource) => (
         <article key={resource.label} data-category={resource.category}>
           <span>{resource.category}</span>

@@ -1,45 +1,41 @@
 # Plan Value Map
 
-The Plan Value Map explains product value by plan without activating billing or paid access.
+The plan value map defines what each public plan can truthfully promise, what remains planned, and what must not be claimed.
 
-Runtime:
-- `lib/plans/value-map.ts`
+## Free
 
-Demo / Free:
-- promise: familiar premium paper trading with moderate TPM advantage
-- active: chart-first paper workstation, basic Companion, basic Why Blocked, basic Academy, basic journal prompts, diagnostics, feedback
-- must not claim: live execution, paid access, guaranteed outcomes
+- promise: familiar premium paper-safe trading terminal with moderate TPM advantages
+- active: chart-first paper workstation, basic Assistant, basic Why Blocked, basic Academy, basic journal prompts, diagnostics, feedback
+- must not claim: live execution, paid access, guaranteed outcome
 
-Pro:
+## Pro
+
 - promise: intelligent professional workspace after entitlement support exists
-- planned: Pro Companion, journal/coach depth, alerts/workflows, workspace memory, decision replay, Pro community
-- must not claim: Pro active, checkout active, premium signal
+- planned: Pro Assistant, journal/coach depth, alerts/workflows, workspace memory, decision replay, Pro community
+- must not claim: Pro active, checkout active, premium signal, better outcome
 
-VIP:
-- promise: elite living planet layer after entitlement, safety, and support gates exist
-- planned: VIP Brain, advanced Companion, advanced coaching, deep journal analytics, strategy review, premium reports, private rooms
+## VIP
+
+- promise: elite premium workspace layer after entitlement, safety, and support gates exist
+- planned: VIP Brain, advanced Assistant, advanced coaching, deep journal analytics, strategy review, premium reports, private rooms
 - must not claim: VIP active, guaranteed returns, win-rate, priority support active
 
-Enterprise:
-- promise: team governance later
-- planned: team/admin summaries, audit, compliance assistant, runbook guidance
-- must not claim: Enterprise available, compliance certified, team admin active
+## Institutional
 
-Billing remains inactive. Paid activation is not enabled. Performance-fee research remains hidden/inactive.
+- promise: future institutional team/admin/audit/compliance support
+- planned: team/admin summaries, compliance assistant, audit overview, runbook support
+- must not claim: Institutional available, compliance certified, team admin active
 
-## Expanded Citizen Value
+## Owner-Only Internal Command
 
-The value map now includes Guest and Founder King entries alongside Demo / Free, Pro, VIP, and Enterprise.
+Owner command receives private readiness summaries only and is not purchasable, visible in public navigation, or available through user plans.
 
-Guest receives public orientation only. Founder King receives private full-planet command readiness only and is not purchasable, visible in public navigation, or available through user plans.
-## Economy Growth Layer
+## Economy Link
 
-The plan value map now feeds the TPM Planet economy model:
+The plan value map feeds the product economy model:
+- Free: active familiar premium paper terminal, basic Assistant, basic Academy, Why Blocked, feedback readiness.
+- Pro: planned intelligent professional workspace with deeper Assistant, Journal/Coach, alerts/workflows, decision replay, workspace memory, and Pro community.
+- VIP: planned elite premium workspace layer with VIP Brain, advanced Assistant, advanced Journal/Coach, strategy review, premium reports, private rooms, and priority support concepts.
+- Institutional: future team/admin/audit/compliance layer.
 
-- Guest: public trust only.
-- Free / Demo: active familiar premium paper terminal, basic Companion, basic Academy, Why Blocked, feedback readiness.
-- Pro: planned intelligent professional workspace with deeper Companion, Journal/Coach, alerts/workflows, decision replay, workspace memory, and Pro community.
-- VIP: planned elite living planet layer with VIP Brain, advanced Companion, advanced Journal/Coach, strategy review, premium reports, private rooms, and priority support concepts.
-- Enterprise: future team/admin/audit/compliance layer.
-
-Billing, paid entitlement activation, performance fees, public launch, and VIP/Pro activation remain inactive. Founder Command is not a user-plan feature.
+Billing, paid entitlement activation, performance fees, public launch, and VIP/Pro activation remain inactive. Owner command is not a user-plan feature.

@@ -76,19 +76,19 @@ export const PLAN_VISUAL_IDENTITIES: Record<PlanVisualKey, PlanVisualIdentity> =
     assistantIdentity: "Orientation only",
     comparisonSummary:
       "Public entry, brand trust, limited Academy preview, and product truth orientation.",
-    lockedState: "Workstation depth, Companion depth, journal, and plan layers require access.",
+    lockedState: "Workstation depth, Assistant depth, journal, and plan layers require access.",
     upgradeState: "No checkout or billing path is active.",
     comingLaterState: "Guest remains an orientation layer only.",
     truthRules: [
       "No plan pressure.",
       "No paid activation claim.",
-      "No Founder Command visibility.",
+      "No owner command visibility.",
     ],
   },
   demo_free: {
     key: "demo_free",
-    label: "Demo / Free",
-    shortLabel: "Demo",
+    label: "Free",
+    shortLabel: "Free",
     availability: "active",
     ...classes("demo_free"),
     accent: {
@@ -98,8 +98,8 @@ export const PLAN_VISUAL_IDENTITIES: Record<PlanVisualKey, PlanVisualIdentity> =
     },
     tone: "Familiar premium trading identity",
     surfaceLanguage:
-      "Chart-first paper terminal with basic Companion, Why Blocked, Academy, and subtle Swiss precision cues.",
-    assistantIdentity: "Basic Companion",
+      "Chart-first paper terminal with basic Assistant, Why Blocked, Academy, and subtle Swiss precision cues.",
+    assistantIdentity: "Basic Assistant",
     comparisonSummary:
       "Familiar workstation, paper ticket, watchlist, blocked/fallback explanations, feedback help, and settings or diagnostics guidance.",
     lockedState:
@@ -125,7 +125,7 @@ export const PLAN_VISUAL_IDENTITIES: Record<PlanVisualKey, PlanVisualIdentity> =
     },
     tone: "Professional daily trader identity",
     surfaceLanguage:
-      "Professional workspace direction for stronger Companion, journal depth, decision replay, workspace memory, alerts, and workflows.",
+      "Professional workspace direction for stronger Assistant, journal depth, decision replay, workspace memory, alerts, and workflows.",
     assistantIdentity: "Pro Assistant",
     comparisonSummary:
       "Richer market context, multi-timeframe summaries, session guidance, journal suggestions, and workflow guidance.",
@@ -152,7 +152,7 @@ export const PLAN_VISUAL_IDENTITIES: Record<PlanVisualKey, PlanVisualIdentity> =
     },
     tone: "Elite premium identity",
     surfaceLanguage:
-      "Black, gold, and platinum cues for the elite living planet layer, VIP Brain, advanced coaching, and premium reports without visual noise.",
+      "Black, gold, and platinum cues for the elite premium workspace layer, VIP Brain, advanced coaching, and premium reports without visual noise.",
     assistantIdentity: "VIP Brain",
     comparisonSummary:
       "Advanced AI/IQ guidance, deeper performance review, strategy review assistant, journal insights, and VIP diagnostics summaries.",
@@ -168,27 +168,27 @@ export const PLAN_VISUAL_IDENTITIES: Record<PlanVisualKey, PlanVisualIdentity> =
   },
   enterprise: {
     key: "enterprise",
-    label: "Enterprise",
-    shortLabel: "Ent",
+    label: "Institutional",
+    shortLabel: "Inst",
     availability: "coming_later",
     ...classes("enterprise"),
     accent: {
       primary: token("Command navy", "--tpm-plan-enterprise-primary", "#38bdf8", "#0369a1"),
       secondary: token("Audit cyan", "--tpm-plan-enterprise-secondary", "#67e8f9", "#0891b2"),
-      metallic: token("Enterprise platinum", "--tpm-plan-enterprise-metallic", "#dbeafe", "#64748b"),
+      metallic: token("Institutional platinum", "--tpm-plan-enterprise-metallic", "#dbeafe", "#64748b"),
     },
     tone: "Organization-grade control identity",
     surfaceLanguage:
       "Navy, platinum, and cyan direction for team, admin, audit, compliance, and runbook surfaces.",
-    assistantIdentity: "Enterprise Assistant later",
+    assistantIdentity: "Institutional Assistant later",
     comparisonSummary:
       "Future team/admin summaries, compliance and audit assistant, risk overview, team workspace, and runbook guidance.",
     lockedState:
-      "Enterprise is future planned unless an enterprise entitlement path exists.",
-    upgradeState: "No enterprise sales or billing path is active.",
+      "Institutional is future planned unless an institutional entitlement path exists.",
+    upgradeState: "No institutional sales or billing path is active.",
     comingLaterState: "Clearly marked future planned only.",
     truthRules: [
-      "No enterprise product shipped claim.",
+      "No institutional product shipped claim.",
       "No legal or compliance certification claim.",
       "No team/admin access without entitlement.",
     ],

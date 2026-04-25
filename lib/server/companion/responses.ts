@@ -35,15 +35,15 @@ export function buildCompanionResponseTemplates(
     {
       intent: "explain_market_context",
       title: "Market context",
-      body: `${context.selectedAsset} on ${context.timeframe} is shown for bounded paper decision support only. The Companion can explain context quality and fallback truth, but it cannot produce guaranteed signals or predictive certainty.`,
+      body: `${context.selectedAsset} on ${context.timeframe} is shown for bounded paper decision support only. The Assistant can explain context quality and fallback truth, but it cannot produce guaranteed signals or predictive certainty.`,
       safeNextStep: "Treat market context as education and rehearsal support.",
       state: "fallback",
     },
     {
       intent: "explain_plan_access",
       title: "Plan access",
-      body: `${context.planetAccess.activeLayer}. Free / Demo stays familiar, chart-first, paper-safe, and compact. Pro is the planned intelligent professional workspace, VIP is the planned elite living planet layer, and Enterprise remains future.`,
-      safeNextStep: "Use Demo / Free paper-safe features and treat Pro/VIP/Enterprise capabilities as roadmap truth until entitlement and billing gates exist.",
+      body: `${context.planetAccess.activeLayer}. Free stays familiar, chart-first, paper-safe, and compact. Pro is the planned intelligent professional workspace, VIP is the planned elite premium workspace layer, and Institutional remains future.`,
+      safeNextStep: "Use Free paper-safe features and treat Pro/VIP/Institutional capabilities as roadmap truth until entitlement and billing gates exist.",
       state: "planned",
     },
     {
@@ -57,7 +57,7 @@ export function buildCompanionResponseTemplates(
     {
       intent: "guide_to_settings",
       title: "Go to settings",
-      body: "Settings controls theme, language, plan layer truth, paper ticket defaults, and journal/coach readiness.",
+      body: "Settings controls theme, language, plan access truth, paper ticket defaults, and journal/coach readiness.",
       safeNextStep: "Open Settings for product configuration that does not activate live systems.",
       state: "ready",
     },
@@ -114,15 +114,15 @@ export function buildCompanionResponseTemplates(
       intent: "explain_plan_upgrade_without_billing",
       title: "Plan ladder",
       body:
-        "Free / Demo is active as the familiar paper trading layer. Pro describes an intelligent professional workspace, VIP describes an elite living planet layer, and Enterprise describes future team governance. Billing, checkout, paid entitlements, and VIP activation are inactive.",
+        "Free is active as the familiar paper trading layer. Pro describes an intelligent professional workspace, VIP describes an elite premium workspace layer, and Institutional describes future team support. Billing, checkout, paid entitlements, and VIP activation are inactive.",
       safeNextStep: "Read plan value as roadmap truth, not an upgrade prompt.",
       state: "planned",
     },
     {
       intent: "founder_unavailable_for_user",
-      title: "Founder Command is private",
+      title: "Owner command is private",
       body:
-        "Founder Command is owner-only and never a Free, Pro, VIP, or Enterprise user-plan feature.",
+        "Owner command tools are private and never a Free, Pro, VIP, or Institutional user-plan feature.",
       safeNextStep: "Use user-facing settings, diagnostics, feedback, and plan layers instead.",
       state: "blocked",
     },

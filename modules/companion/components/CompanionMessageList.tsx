@@ -18,7 +18,7 @@ function messageTone(state: TPMCompanionMessage["state"]) {
 function roleLabel(role: TPMCompanionMessage["role"]) {
   if (role === "user") return "You";
   if (role === "system") return "Platform truth";
-  return "TPM Companion";
+  return "TPM Assistant";
 }
 
 export default function CompanionMessageList({

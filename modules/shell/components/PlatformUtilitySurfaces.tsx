@@ -411,7 +411,7 @@ function usePlanetOsStatus() {
         });
 
         if (!response.ok) {
-          throw new Error(`Planet OS status failed with ${response.status}.`);
+          throw new Error(`Readiness status failed with ${response.status}.`);
         }
 
         const payload = (await response.json()) as PlanetOsStatusPayload;
@@ -626,7 +626,7 @@ export function PlatformDiagnosticsSurface({
   const planetOsItems = planetOsSnapshot
     ? [
         {
-          label: "Planet OS status",
+          label: "Product readiness",
           value: planetOsSnapshot.status,
           tone:
             planetOsSnapshot.status === "operating" || planetOsSnapshot.status === "ready"
@@ -634,39 +634,39 @@ export function PlatformDiagnosticsSurface({
               : planetOsSnapshot.status === "degraded"
               ? ("pending" as const)
               : ("restricted" as const),
-          note: "Internal operating model only; not a launch or integration state.",
+          note: "Readiness model only; not a launch or integration state.",
         },
         {
-          label: "Continents",
+          label: "Product areas",
           value: `${
             planetHierarchySummary?.continents ?? planetOsSnapshot.continents.length
           } reporting`,
           tone: "approved" as const,
-          note: "Founder -> constitution -> councils -> presidency -> continents.",
+          note: "Internal product areas report readiness without exposing owner controls.",
         },
         {
-          label: "Ministries",
+          label: "Readiness reports",
           value: `${
             planetHierarchySummary?.ministries ?? planetOsSnapshot.ministries.length
           } deterministic reports`,
           tone: "approved" as const,
-          note: planetOsSnapshot.founderCommand.reportDestination,
+          note: "Reports stay internal and owner-only.",
         },
         {
-          label: "Earth hierarchy",
+          label: "Internal structure",
           value: planetHierarchySummary
             ? `${planetHierarchySummary.hierarchyLevels} levels / ${planetHierarchySummary.states} states`
             : "core model ready",
           tone: "approved" as const,
-          note: "Founder King -> Command Room -> Constitution -> Councils -> Presidency -> planet layers.",
+          note: "Structured internally; user screens show professional product layers only.",
         },
         {
-          label: "Presidency engine",
+          label: "Coordination engine",
           value: planetCoordinationSummary
             ? `${planetCoordinationSummary.workflows} workflows`
-            : "Presidency required",
+            : "Coordination required",
           tone: "pending" as const,
-          note: "Cross-ministry requests route through Founder Presidency; execution is readiness-only.",
+          note: "Cross-team requests route through review coordination; execution is readiness-only.",
         },
         {
           label: "Message ledger",
@@ -682,13 +682,13 @@ export function PlatformDiagnosticsSurface({
             ? `${planetCoordinationSummary.pendingReviewCategories.length} review lanes`
             : "review lanes ready",
           tone: "pending" as const,
-          note: "Legal, Guardian, Treasury, Engineering, Quality, Rights/Brand, and Founder review are identified automatically.",
+          note: "Safety, legal, revenue, engineering, quality, and brand review are identified automatically.",
         },
         {
-          label: "Council integration",
-          value: "3 councils",
+          label: "Policy gates",
+          value: "3 review gates",
           tone: "approved" as const,
-          note: "Constitutional, Legislative, and Executive councils are readiness-only governance gates.",
+          note: "Policy, implementation, and critical-block review gates remain readiness-only.",
         },
         {
           label: "Blocked categories",
@@ -707,8 +707,8 @@ export function PlatformDiagnosticsSurface({
           note: "No private data sale, fake users, fake revenue, or fake metrics.",
         },
         {
-          label: "Founder Command",
-          value: "Private owner-only",
+          label: "Owner controls",
+          value: "Private",
           tone: "restricted" as const,
           note: "No public command route, desktop app, or mobile app is shipped.",
         },
@@ -726,7 +726,7 @@ export function PlatformDiagnosticsSurface({
           tone: "approved" as const,
           note: planetOsEngineSummary
             ? `${planetOsEngineSummary.active} active; ${planetOsEngineSummary.foundationReady} foundation-ready; no external activation.`
-            : "Blueprint, truth, reporting, entitlement, companion, Guardian/Legal, visual, state, content, and build planning.",
+            : "Blueprint, truth, reporting, entitlement, assistant, safety/review, visual, state, content, and build planning.",
         },
       ]
     : [];
@@ -746,13 +746,13 @@ export function PlatformDiagnosticsSurface({
 
   const planLayerItems = [
     {
-      label: "Citizen class",
+      label: "Current plan",
       value: currentPlanetLayer.label,
       tone: "approved" as const,
       note: currentPlanetLayer.activeLayer,
     },
     {
-      label: "Companion layer",
+      label: "Assistant layer",
       value: currentPlanetLayer.companionLevel,
       tone: "approved" as const,
       note: "Plan-aware, paper-safe, and non-executing.",
@@ -764,8 +764,8 @@ export function PlatformDiagnosticsSurface({
       note: "Pro and VIP layers remain planned or locked until real entitlement support exists.",
     },
     {
-      label: "Founder Command",
-      value: "Owner-only",
+      label: "Owner controls",
+      value: "Private",
       tone: "blocked" as const,
       note: "Never exposed as a normal user plan or public route.",
     },
@@ -780,12 +780,12 @@ export function PlatformDiagnosticsSurface({
   const companionReadinessItems = [
     {
       label: "Assistant tier",
-      value: "Demo / Paper active",
+      value: "Free active",
       tone: "approved" as const,
-      note: "Pro, VIP, and Enterprise assistants remain locked/planned until real entitlement exists.",
+      note: "Pro, VIP, and Institutional assistants remain locked/planned until real entitlement exists.",
     },
     {
-      label: "Companion context",
+      label: "Assistant context",
       value: "Safe readiness only",
       tone: "pending" as const,
       note: "Route, theme, plan, account type, diagnostics, and product truth are safe to explain without secrets.",
@@ -802,7 +802,7 @@ export function PlatformDiagnosticsSurface({
       label: "TPM Brain context",
       value: "Bounded",
       tone: "pending" as const,
-      note: "Combines product truth, plan state, skill profile, journal readiness, Guardian/Legal boundaries, and visual acceptance without secrets.",
+      note: "Combines product truth, plan state, skill profile, journal readiness, safety/review boundaries, and visual acceptance without secrets.",
     },
     {
       label: "Skill profile",
@@ -811,13 +811,13 @@ export function PlatformDiagnosticsSurface({
       note: "Guidance adapts explanation depth without overtrading pressure or profit promises.",
     },
     {
-      label: "Companion intents",
+      label: "Assistant intents",
       value: "Safe categories only",
       tone: "approved" as const,
       note: "Explain state, blocked reasons, plans, feedback, journal prompts, and learning help; no execution authority.",
     },
     {
-      label: "Guardian / Legal matrix",
+      label: "Safety / review matrix",
       value: "Review and block ready",
       tone: "restricted" as const,
       note: "Risky claims, live claims, billing claims, Islamic certification claims, and VIP guarantees remain blocked or review-required.",
@@ -826,7 +826,7 @@ export function PlatformDiagnosticsSurface({
       label: "Ministry autonomy",
       value: "Assisted / review",
       tone: "pending" as const,
-      note: "No ministry can autonomously launch, publish, bill, activate broker/feed, or execute live trades.",
+      note: "No internal function can autonomously launch, publish, bill, activate broker/feed, or execute live trades.",
     },
     {
       label: "Roadmap planner",
@@ -837,10 +837,10 @@ export function PlatformDiagnosticsSurface({
   ];
   const economyMediaGrowthItems = [
     {
-      label: "Planet economy",
+      label: "Plan economy",
       value: "Readiness only",
       tone: "pending" as const,
-      note: "Free / Demo is active for paper-safe trust; Pro, VIP, and Enterprise remain planned/future.",
+      note: "Free is active for paper-safe trust; Pro, VIP, and Institutional remain planned/future.",
     },
     {
       label: "Billing and fees",
@@ -858,7 +858,7 @@ export function PlatformDiagnosticsSurface({
       label: "Community / VIP rooms",
       value: "Planned",
       tone: "pending" as const,
-      note: "Rooms require moderation, entitlement support, Guardian, Legal, and Founder review.",
+      note: "Rooms require moderation, entitlement support, safety review, legal review, and owner review.",
     },
     {
       label: "Partnerships",
@@ -1157,7 +1157,7 @@ export function PlatformDiagnosticsSurface({
         <PlanInterfaceSummary compact currentLayer="demo_free" />
       </UtilitySection>
 
-      <UtilitySection eyebrow="PLANET OS" title="Internal operating system">
+      <UtilitySection eyebrow="READINESS" title="Product readiness model">
         {planetOsLoadState.status === "ready" ? (
           <UtilityGrid items={planetOsItems} />
         ) : (
@@ -1166,10 +1166,10 @@ export function PlatformDiagnosticsSurface({
             kind={planetOsLoadState.status === "error" ? "recovery" : "loading"}
             title={
               planetOsLoadState.status === "error"
-                ? "Planet OS snapshot unavailable"
-                : "Loading Planet OS snapshot"
+                ? "Readiness snapshot unavailable"
+                : "Loading readiness snapshot"
             }
-            text="Diagnostics is checking the internal Planet OS reporting model without exposing owner controls or fake launch states."
+            text="Diagnostics is checking the internal readiness model without exposing owner controls or fake launch states."
           />
         )}
       </UtilitySection>
@@ -1186,12 +1186,12 @@ export function PlatformDiagnosticsSurface({
                 ? "Engine readiness unavailable"
                 : "Loading engine readiness"
             }
-            text="The 10 Planet OS engines report readiness only; no launch, billing, social, broker/feed, or live-money state is activated."
+            text="The core engines report readiness only; no launch, billing, social, broker/feed, or live-money state is activated."
           />
         )}
       </UtilitySection>
 
-      <UtilitySection eyebrow="CITIZEN LAYER" title="Plan-based planet access">
+      <UtilitySection eyebrow="PLAN ACCESS" title="Plan-based product access">
         <UtilityGrid items={planLayerItems} />
       </UtilitySection>
 
@@ -1207,7 +1207,7 @@ export function PlatformDiagnosticsSurface({
         <UtilityGrid items={economyMediaGrowthItems} />
       </UtilitySection>
 
-      <UtilitySection eyebrow="PRODUCT REALITY" title="Planet map and growth surfaces">
+      <UtilitySection eyebrow="PRODUCT REALITY" title="Workspace and growth readiness">
         <div className="tpm-product-reality-grid">
           <PlanetMapPreview audience="citizen" />
           <CommunityReadinessPanel />
@@ -1453,10 +1453,10 @@ export function PlatformSettingsSurface({
       note: accountTypeIdentity.note,
     },
     {
-      label: "Personal companion",
+      label: "Personal assistant",
       value: assistantTier.label,
       tone: "pending" as const,
-      note: "Demo / Paper guidance is active; Pro, VIP, and Enterprise assistants remain locked or planned until real entitlements exist.",
+      note: "Free guidance is active; Pro, VIP, and Institutional assistants remain locked or planned until real entitlements exist.",
     },
     {
       label: "Broker readiness",
@@ -1836,13 +1836,13 @@ export function PlatformSettingsSurface({
         <PlanIdentityGrid currentPlanKey="demo_free" identities={planVisualIdentities} />
       </UtilitySection>
 
-      <UtilitySection eyebrow="CITIZEN PLANET" title="Your planet layer">
+      <UtilitySection eyebrow="CURRENT PLAN" title="Your workspace layer">
         <div className="tpm-plan-layer-current">
           <PlanPlanetLayerCard current layer={currentPlanetLayer} />
         </div>
       </UtilitySection>
 
-      <UtilitySection eyebrow="ACCESS MAP" title="Plan-based planet layers">
+      <UtilitySection eyebrow="ACCESS MAP" title="Plan-based product layers">
         <CitizenAccessMap
           currentClass={planEntitlementSnapshot.citizenAccess.currentClass}
           layers={planEntitlementSnapshot.citizenAccess.layers}

@@ -53,7 +53,7 @@ export default function PlanInterfaceSummary({
       <aside className="tpm-plan-interface-founder-boundary">
         <strong>{founderLayer.headline}</strong>
         <p>
-          {founderLayer.safeCopy} It is not a Pro, VIP, Enterprise, or upgrade
+          {founderLayer.safeCopy} It is not a Pro, VIP, Institutional, or upgrade
           surface, and it stays hidden from public navigation.
         </p>
       </aside>

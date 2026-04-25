@@ -3,7 +3,7 @@ import type { CommunityRoomReadiness } from "../types";
 const rooms: CommunityRoomReadiness[] = [
   {
     id: "learning-spaces",
-    label: "Free / Demo learning spaces",
+    label: "Free learning spaces",
     planLayer: "free_demo",
     state: "planned",
     safetyRule: "moderated education only",
@@ -32,7 +32,7 @@ export default function CommunityReadinessPanel() {
         <h2>Rooms planned, not active</h2>
         <p>
           Community remains a guarded readiness layer with anti-scam,
-          anti-spam, Guardian, and Legal policies required before activation.
+          anti-spam, safety, and review policies required before activation.
         </p>
       </header>
       <div>

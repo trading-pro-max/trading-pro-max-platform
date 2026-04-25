@@ -75,7 +75,7 @@ const companionIntents: CompanionIntentAvailability[] = [
     enterprise: "future",
     safetyBoundary: "Diagnostics guidance only; no owner controls or private data.",
     responseStyle: "compact route and readiness guidance",
-    blockedLanguage: ["Founder Command", "secret values", "production keys"],
+    blockedLanguage: ["owner command", "secret values", "production keys"],
   },
   {
     intent: "guide_to_feedback",
@@ -140,20 +140,20 @@ const companionIntents: CompanionIntentAvailability[] = [
     vip: "planned",
     enterprise: "future",
     safetyBoundary:
-      "Explain why Pro/VIP/Enterprise are planned without checkout, paid activation, or urgency pressure.",
+      "Explain why Pro/VIP/Institutional are planned without checkout, paid activation, or urgency pressure.",
     responseStyle: "truthful plan ladder summary",
     blockedLanguage: ["pay now", "VIP active", "limited offer", "checkout available"],
   },
   {
     intent: "founder_unavailable_for_user",
-    label: "Founder Command unavailable",
+    label: "Owner command unavailable",
     demoFree: "blocked",
     pro: "blocked",
     vip: "blocked",
     enterprise: "blocked",
-    safetyBoundary: "Founder Command is owner-only and never a user-plan feature.",
+    safetyBoundary: "Owner command tools are private and never a user-plan feature.",
     responseStyle: "clear private-access explanation",
-    blockedLanguage: ["admin access", "Founder route", "plan unlock"],
+    blockedLanguage: ["admin access", "owner route", "plan unlock"],
   },
 ];
 

@@ -1,101 +1,62 @@
 # Plan Visual Identity
 
-Plan identity helps users understand access level and product tone. It must stay quiet, premium, and truthful. Plan visuals must never imply unavailable paid access.
+Plan identity gives each public plan a clear product feel while keeping the trading workstation clean, professional, and chart-first.
 
-## Free / Demo
-
-Tone: familiar premium trading.
+## Free
 
 Visual direction:
+- graphite / blue accent
+- familiar premium trading platform
+- safe learning identity
+- paper-safe truth
+- basic Assistant identity
 
-- graphite and blue accent
-- chart-first terminal surfaces
-- paper-only truth clear
-- basic Companion identity
-- basic Academy and Why Blocked messages
-- subtle Swiss Precision Clock / Pulse
-
-Must not imply:
-
-- paid access
-- live execution
-- real-money trading
-- deep Planet OS administration
+Free must avoid:
+- heavy internal operating-system language
+- paid activation pressure
+- owner-only command references
+- VIP Brain or premium reports as active features
 
 ## Pro
 
-Tone: professional daily trader.
-
 Visual direction:
+- graphite / emerald / silver
+- professional daily trader identity
+- stronger workspace feel
+- Pro Assistant planned truth
 
-- graphite, emerald, and silver accent
-- intelligent professional workspace
-- Pro Companion identity
-- alert, journal, decision replay, and workspace memory surfaces prepared
-
-Must not imply:
-
-- Pro is active before entitlement exists
-- better outcomes
-- live execution by plan alone
+Pro must avoid:
+- fake active entitlement
+- fake paid access
+- performance promises
 
 ## VIP
 
-Tone: elite premium, disciplined, quiet.
+Visual direction:
+- black / gold / platinum
+- elite premium workspace layer
+- advanced Assistant planned truth
+- premium but calm
+
+VIP must avoid:
+- noisy glow
+- guaranteed signals
+- win-rate claims
+- fake private room activation
+
+## Institutional
 
 Visual direction:
+- navy / platinum / cyan
+- team/admin/audit future truth
+- institutional support concept
 
-- black, gold, and platinum accent
-- elite living planet layer
-- VIP Brain identity
-- advanced coaching and reporting prepared
-- premium but not noisy
+Institutional remains future planned. Do not expose legacy internal compatibility names in normal user-facing UI.
 
-Must not imply:
+## Owner-Only Internal Visuals
 
-- guaranteed results
-- priority signals
-- financial advice
-- paid activation before billing exists
+Owner command visuals may use stronger internal command language and deeper operating-system identity, but they are private and hidden from public navigation. Owner command is not a plan identity and cannot appear as an upgrade.
 
-## Enterprise
+## Acceptance Rules
 
-Tone: organization-grade control.
-
-Visual direction:
-
-- navy, platinum, and cyan accent
-- team, admin, audit, and compliance direction
-- clearly marked planned/future unless entitlement exists
-
-Must not imply:
-
-- enterprise product is shipped
-- legal or compliance certification is complete
-
-## Global Rules
-
-- No badge spam.
-- No fake entitlement.
-- No plan color may overpower chart, execution, or safety truth.
-- Blocked and not configured states must stay visually clear.
-
-## Planet Earth Visual Role
-
-Plan identities are citizenship-class visual cues only. Free/Demo, Pro, VIP, and Enterprise styling must stay serious, compact, and truthful. No color treatment may imply paid activation, VIP access, live execution, billing, broker/feed activation, or public launch.
-
-## Operational Rule
-
-Plan badges and plan cards may clarify the current plan identity, but locked/planned plans must never look active. Billing remains inactive and performance-fee research remains hidden/inactive.
-
-## Guest Identity
-
-Guest uses a clean minimal public trust identity. It should orient without pressure, pricing, urgency, or plan confusion.
-
-## Citizen Access Map
-
-The Plan-Based Living Planet UI may show a compact citizen access map in settings/diagnostics. It must stay professional, avoid game/fantasy visuals, and keep Founder Command private.
-
-## Interface Architecture Rule
-
-Free / Demo surfaces should feel familiar and simple. Pro and VIP carry the deeper TPM differentiation, but only as planned/locked truth unless entitlement exists. Founder Command remains outside the plan visual system and cannot appear as an upgrade.
+Free surfaces should feel familiar and simple. Pro and VIP carry deeper TPM differentiation as planned/locked truth unless entitlement exists. Institutional remains future. No color treatment may imply paid activation, VIP access, live execution, billing, broker/feed activation, or public launch.

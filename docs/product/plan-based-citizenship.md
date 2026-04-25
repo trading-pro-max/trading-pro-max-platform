@@ -1,122 +1,61 @@
-# Plan-Based Citizenship
+# Plan-Based Access
 
-Citizenship is the product model for user classes. It organizes access, identity, assistant depth, community spaces, and future monetization without pretending paid access exists today.
+Plan-based access organizes user-facing product depth, identity, Assistant capabilities, community spaces, and future monetization without pretending paid access exists today.
 
-## Free / Demo Citizens
+## Free
 
-Purpose: safe learning and product evaluation.
+Free users receive:
+- familiar chart-first workstation
+- paper mode
+- basic Assistant guidance
+- basic Academy
+- basic Why Blocked explanations
+- journal/coach prompts
+- feedback and diagnostics
 
-May access:
+Free must remain simple, premium, and professional. It should not expose internal owner-command detail.
 
-- paper-mode workstation
-- basic Companion guidance
-- basic Academy content
-- feedback submission
-- settings and diagnostics that are appropriate to the user
-- public community spaces when built
+## Pro
 
-Must not be told:
-
-- that live trading is active
-- that real-money routing is available
-- that paid capabilities are active
-
-## Pro Citizens
-
-Purpose: serious daily platform use when Pro entitlement exists.
-
-Future access:
-
-- richer assistant context
-- journal and alert guidance
+Pro is planned and locked unless entitlement exists. It may later include:
+- stronger Assistant
+- deeper Journal / Coach
+- decision replay
 - workspace memory
+- alerts and workflows
 - Pro community
-- decision replay basics
 
-Truth boundary:
+## VIP
 
-- Pro is inactive until billing and entitlement are configured.
-
-## VIP Citizens
-
-Purpose: premium advanced support and intelligence when VIP entitlement exists.
-
-Future access:
-
+VIP is planned and locked unless entitlement exists. It may later include:
 - VIP Brain
-- advanced coaching
-- strategy review assistant
-- deep journal analytics
-- performance dashboard
+- advanced Assistant
+- advanced Journal / Coach
+- strategy review
 - premium reports
-- priority support
-- private rooms
-- advanced Guardian summaries
+- VIP private rooms
+- priority support concepts
 
-Truth boundary:
+VIP must not imply guaranteed outcomes, win rates, copy trading, or active private-room access.
 
-- VIP must never imply guaranteed results or financial advice.
+## Institutional
 
-## Enterprise Houses
-
-Purpose: future organization, team, admin, audit, and compliance workflows.
-
-Future access:
-
-- team administration
-- audit summaries
-- runbooks
+Institutional is future planned only. It may later include:
+- team workspaces
+- admin
+- audit
+- compliance readiness
 - custom support
-- compliance overview
+- runbooks
 
-Truth boundary:
+Institutional is the public label. The older internal `enterprise` identifier may remain in code for compatibility.
 
-- Enterprise is planned, not available by default.
+## Owner-Only Internal Command
 
-## Citizenship Rule
+Owner command is separate from user plans. It is private, hidden from public navigation, and not available through Free, Pro, VIP, or Institutional.
 
-Plan identity is an access model, not a status hierarchy for claims. No citizen class may bypass Guardian, Legal Counsel, authentication, safety boundaries, or product truth.
+## Product Truth
 
-## Planet Earth Citizenship Alignment
+No plan activates billing, live execution, real money, broker/feed, public launch, social publishing, performance fees, or guaranteed results.
 
-Citizenship classes are product access classes only:
-
-- Free / Demo: safe learning, paper mode, basic companion, basic academy, feedback
-- Pro: planned stronger assistant, journal, alerts, session coach, workspace memory
-- VIP: planned VIP Brain, advanced coaching, strategy review, deeper journal analytics, reports
-- Enterprise: future team/admin/audit/compliance/runbook support
-
-No citizenship class activates billing, live execution, real money, broker/feed, public launch, or guaranteed results.
-
-## Earth Core Citizen Classes
-
-The canonical citizenship classes are Guest, Free / Demo Citizen, Pro Citizen, VIP Citizen, Enterprise House, Beta Citizen, Staff / Operator, and Founder King.
-
-Each class defines what the user can see, what remains hidden, companion level, academy access, journal/coach access, community access, trading access, blocked capabilities, upgrade path, and product truth language. Founder King sees the private owner command model; users only see their plan-appropriate product experience.
-
-## Living Planet Access Contract
-
-The runtime access layer is defined in `lib/plans/entitlements.ts` as `PLANET_ACCESS_LAYERS`.
-
-Each class now declares visible continents, states, cities/modules, companion level, journal/coach level, academy level, community access, media/content access, visual identity, locked features, planned features, hidden features, upgrade explanation, safety boundaries, and what must not be shown.
-
-The settings surface can show the current citizen layer and a compact access map. This is explanatory only. It does not activate Pro, VIP, Enterprise, billing, live execution, broker/feed, public launch, social publishing, performance fees, or Founder Command.
-## Interface Architecture Update
-
-Free / Demo now carries the active familiar premium trading layer: chart-first, paper ticket, watchlist, basic Companion, basic Why Blocked, basic Academy, and subtle Swiss precision signals.
-
-Pro is the planned intelligent professional workspace layer. VIP is the planned elite living planet layer. Enterprise remains future team/admin/audit/compliance scope. Founder King remains a separate private owner command layer and is not a user plan.
-
-User-facing screens should keep Free / Demo simple and familiar. Deeper Planet OS identity belongs in Pro/VIP planned explanations, diagnostics, and Founder-only command surfaces, not in the Free workstation.
-
-## Economy And Growth Truth
-
-Citizen classes participate in different planet layers, but this does not activate billing or paid access.
-
-- Free / Demo Citizen: active familiar paper trading layer.
-- Pro Citizen: planned professional intelligent workspace layer.
-- VIP Citizen: planned elite living planet layer.
-- Enterprise House: future layer.
-- Founder King: owner-only full planet command, never purchasable and never visible to normal users.
-
-Community, VIP rooms, media, partnerships, and monetization remain readiness/planning layers until real entitlement, safety, support, legal, and Founder gates exist.
+User-facing screens should keep Free simple and familiar. Deeper product differentiation belongs in Pro/VIP planned explanations and compact settings/diagnostics surfaces, not in the Free workstation.
