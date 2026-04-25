@@ -63,6 +63,7 @@ import { getDesktopProductizationDiagnosticsProbe } from "@/lib/server/platform/
 import { getMobileAppsDiagnosticsProbe } from "@/lib/server/platform/mobile-foundation";
 import { getMobileProductizationDiagnosticsProbe } from "@/lib/server/platform/mobile-productization";
 import {
+  getEssentialIntegrationsDiagnosticsProbe,
   getRealActivationPilotDiagnosticsProbe,
   getRealActivationPilotSnapshot,
   getRealIntegrationsDiagnosticsProbe,
@@ -1426,6 +1427,8 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       `${mediaOfficeSnapshot.contentTypes.length} media content types and ${aiVideoStudioSnapshot.artifactTypes.length} AI video artifacts are modeled with ${contentReviewSnapshot.blockedClaims.length} blocked claim categories, no social tokens, no uploads, no publishing, and no fake metrics.`,
     checkedAt,
   };
+  const essentialIntegrationsProbe =
+    getEssentialIntegrationsDiagnosticsProbe(checkedAt);
 
   return {
     ...baseHealth,
@@ -1445,6 +1448,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       worldInterfaceProbe,
       learningCommunityProbe,
       mediaAiVideoWorkflowProbe,
+      essentialIntegrationsProbe,
     ],
     routes: [
       ...baseHealth.routes,
@@ -1700,6 +1704,27 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         detail:
           "Content review readiness route reports lifecycle, risk classification, and blocked claim samples with Founder approval gates for sensitive drafts.",
       },
+      {
+        path: "/api/integrations/registry",
+        method: "GET",
+        status: essentialIntegrationsProbe.status,
+        detail:
+          "Essential integrations registry route reports local tooling priorities and blocked external activation truth without secrets, account creation, or automation.",
+      },
+      {
+        path: "/api/integrations/account-provisioning",
+        method: "GET",
+        status: essentialIntegrationsProbe.status,
+        detail:
+          "Account provisioning planner route reports required, planned, future, and blocked accounts without creating accounts, connecting services, or storing tokens.",
+      },
+      {
+        path: "/api/founder/tooling/readiness",
+        method: "GET",
+        status: essentialIntegrationsProbe.status,
+        detail:
+          "Founder tooling readiness route reports owner-only integration, Codex, GitHub, runtime, secrets, and external-service setup readiness without action execution.",
+      },
     ],
     subsystems: [
       ...(baseHealth.subsystems ?? []),
@@ -1807,6 +1832,13 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         status: mediaAiVideoWorkflowProbe.status,
         summary: mediaAiVideoWorkflowProbe.summary,
         detail: mediaAiVideoWorkflowProbe.detail,
+      },
+      {
+        key: "essential_integrations_tooling",
+        label: essentialIntegrationsProbe.label,
+        status: essentialIntegrationsProbe.status,
+        summary: essentialIntegrationsProbe.summary,
+        detail: essentialIntegrationsProbe.detail,
       },
     ],
     launchReadiness: {

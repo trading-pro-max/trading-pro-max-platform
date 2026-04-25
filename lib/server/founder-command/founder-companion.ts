@@ -14,6 +14,7 @@ import {
   getProductMemorySummarySnapshot,
 } from "@/lib/server/product-memory";
 import { getProductRealityFinalScoreSnapshot } from "@/lib/server/product-reality";
+import { getFounderToolingReadinessSnapshot } from "@/lib/server/integrations";
 import { getFounderBuildRoomSnapshot } from "./build-room";
 import type { FounderBriefing, MinistryReport } from "@/lib/server/planet-os/types";
 import { getFounderCommandReportingSnapshot } from "./reporting";
@@ -43,6 +44,7 @@ export type FounderPersonalCompanionSnapshot = {
   localDayOneSummary: string[];
   productMemorySummary: string[];
   buildRoomSummary: string[];
+  toolingSummary: string[];
   whatNotToApprove: string[];
   nextSafeDecisions: string[];
   whatNotToDo: string[];
@@ -80,6 +82,7 @@ export function getFounderPersonalCompanionSnapshot(
   const productMemoryDailySummary =
     getProductMemoryDailySummarySnapshot(checkedAt);
   const buildRoom = getFounderBuildRoomSnapshot(checkedAt);
+  const tooling = getFounderToolingReadinessSnapshot(checkedAt);
   const decisionMinistries = reporting.ministries.filter(
     (report) => report.founderDecisionNeeded
   );
@@ -176,6 +179,13 @@ export function getFounderPersonalCompanionSnapshot(
       `${buildRoom.codexTaskDrafts.length} Codex-ready draft candidates are available for manual Ahmad review.`,
       `${buildRoom.topProductGaps.length} product gaps and ${buildRoom.topVisualGaps.length} visual gaps are highlighted.`,
       "No automatic external Codex sending, approval execution, launch, billing, broker/feed, live execution, real money, or social publishing is active.",
+    ],
+    toolingSummary: [
+      `Essential tooling hub is ${tooling.status}.`,
+      `${tooling.essentialIntegrations.p0_local_required.count} P0 local tools and ${tooling.essentialIntegrations.p1_soon.count} P1 readiness items are classified.`,
+      "Codex and GitHub are governed as manual, external workflows; the product only drafts tasks and records safe summaries.",
+      `${tooling.localRuntime.commands.length} local runtime commands are documented for terminal use only; the web app cannot execute shell commands.`,
+      `Blocked now: ${tooling.whatNotToConnectNow.join(", ")}.`,
     ],
     whatNotToApprove: [
       "live execution activation",

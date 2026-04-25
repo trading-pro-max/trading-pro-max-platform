@@ -40,6 +40,7 @@ import {
   getProductMemoryDailySummarySnapshot,
   getProductMemorySummarySnapshot,
 } from "@/lib/server/product-memory";
+import { getFounderToolingReadinessSnapshot } from "@/lib/server/integrations";
 import {
   getProductRealityFinalScoreSnapshot,
   getProductRealityLocalStartScoreSnapshot,
@@ -147,6 +148,7 @@ export function getFounderCommandAppSnapshot(
   const academy = getAcademyReadinessSnapshot(checkedAt);
   const community = getCommunityReadinessSnapshot(checkedAt);
   const vipRooms = getVipRoomsReadinessSnapshot(checkedAt);
+  const toolingReadiness = getFounderToolingReadinessSnapshot(checkedAt);
 
   const desktopApp: FounderCommandDeviceBlueprint = {
     platform: "desktop",
@@ -832,6 +834,42 @@ export function getFounderCommandAppSnapshot(
         founderProtection: founderSecurity.commandProtection,
         truth: founderSecurity.truth,
       },
+      essentialIntegrationsTooling: {
+        status: toolingReadiness.status,
+        prioritySummary: toolingReadiness.essentialIntegrations,
+        codex: {
+          localCodexCli: toolingReadiness.codexReadiness.localCodexCli,
+          codexCloud: toolingReadiness.codexReadiness.codexCloud,
+          githubReviewViaCodex:
+            toolingReadiness.codexReadiness.githubReviewViaCodex,
+          productCanDraftPrompts:
+            toolingReadiness.codexReadiness.productCanDraftPrompts,
+          productCanSendPromptsAutomatically:
+            toolingReadiness.codexReadiness.productCanSendPromptsAutomatically,
+          productCanExecuteCodex:
+            toolingReadiness.codexReadiness.productCanExecuteCodex,
+          productCanExposeSecretsToCodex:
+            toolingReadiness.codexReadiness.productCanExposeSecretsToCodex,
+        },
+        githubReadiness: {
+          status: toolingReadiness.githubReadiness.currentStatus,
+          safeNextAction: toolingReadiness.githubReadiness.safeNextAction,
+        },
+        localRuntimeCommands: toolingReadiness.localRuntime.commands.map(
+          (command) => ({
+            command: command.command,
+            executableFromWebApp: command.executableFromWebApp,
+          })
+        ),
+        secretsReadiness: toolingReadiness.secretsReadiness.currentStatus,
+        worldInterfaceReadiness:
+          toolingReadiness.worldInterfaceReadiness.currentStatus,
+        appsPlatformsReadiness:
+          toolingReadiness.appsPlatformsReadiness.currentStatus,
+        nextSafeSetupActions: toolingReadiness.nextSafeSetupActions,
+        whatNotToConnectNow: toolingReadiness.whatNotToConnectNow,
+        truth: toolingReadiness.truth,
+      },
       visualAcceptance: {
         status: visualAcceptance.status,
         averageScoreEstimate: visualAcceptance.averageScoreEstimate,
@@ -888,6 +926,10 @@ export function getFounderCommandAppSnapshot(
       "/api/brand-intelligence/occasion-themes",
       "/api/founder/secrets/readiness",
       "/api/founder/security/readiness",
+      "/api/founder/tooling/readiness",
+      "/api/integrations/readiness",
+      "/api/integrations/registry",
+      "/api/integrations/account-provisioning",
       "/api/world-interface/readiness",
       "/api/world-interface/channels",
       "/api/world-interface/quarantine/readiness",

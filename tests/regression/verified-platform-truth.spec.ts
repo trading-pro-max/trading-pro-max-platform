@@ -7710,6 +7710,250 @@ test.describe("verified platform truth", () => {
     );
   });
 
+  test("reports essential integrations and tooling readiness without activation", async ({
+    page,
+    request,
+  }) => {
+    const requiredDocs = [
+      "docs/product/essential-integrations-hub.md",
+      "docs/product/tooling-command-center.md",
+      "docs/product/codex-operating-model.md",
+      "docs/product/local-runtime-tooling.md",
+      "docs/product/integration-priority-law.md",
+      "docs/product/local-runtime-command-center.md",
+      "docs/product/essential-account-provisioning.md",
+    ];
+
+    for (const docPath of requiredDocs) {
+      expect(fs.existsSync(path.join(process.cwd(), docPath)), docPath).toBe(true);
+    }
+
+    const integrationEndpoints = [
+      "/api/integrations/readiness",
+      "/api/integrations/registry",
+      "/api/integrations/account-provisioning",
+      "/api/founder/tooling/readiness",
+    ];
+
+    for (const endpoint of integrationEndpoints) {
+      const response = await request.get(endpoint);
+      expect(response.status(), endpoint).toBe(200);
+      const text = await response.text();
+      expect(text).not.toMatch(
+        /(?:api[_-]?key|token|password|secret_value)\s*[:=]\s*["'][^"']{8,}/i
+      );
+      expect(text).not.toMatch(/AKIA[0-9A-Z]{16}|ghp_[A-Za-z0-9]{20,}|sk-[A-Za-z0-9]{20,}/);
+      expect(text).not.toMatch(/"value"\s*:/i);
+      expect(text).not.toMatch(/"createsAccountAutomatically"\s*:\s*true/);
+      expect(text).not.toMatch(/"connectsExternally"\s*:\s*true/);
+      expect(text).not.toMatch(/"productCanExecuteCodex"\s*:\s*true/);
+      expect(text).not.toMatch(/"productCanSendPromptsAutomatically"\s*:\s*true/);
+    }
+
+    const integrationsReadiness = await (
+      await request.get("/api/integrations/readiness")
+    ).json();
+    expect(integrationsReadiness.snapshot.essentialHub).toMatchObject({
+      mode: "essential_integrations_tooling_hub",
+      status: "ready",
+      founderCommandReadiness: {
+        publicNavigationVisible: false,
+        approvalExecutionActive: false,
+        automaticExternalExecution: false,
+      },
+      diagnosticsReadiness: {
+        publicSafeSection: true,
+        exposesSecrets: false,
+        exposesInternalCommandDetails: false,
+      },
+      truth: {
+        liveExecutionBlocked: true,
+        realMoneyBlocked: true,
+        brokerFeedActivationBlocked: true,
+        billingActivationBlocked: true,
+        productionSecretsUntouched: true,
+        socialPublishingInactive: true,
+        noAutomaticExternalExecution: true,
+        noAccountCreationAutomation: true,
+        noSecretsExposed: true,
+        fakeMetricsIncluded: false,
+      },
+    });
+    expect(Object.keys(integrationsReadiness.snapshot.essentialHub.prioritySummary)).toEqual(
+      expect.arrayContaining([
+        "p0_local_required",
+        "p1_soon",
+        "p2_pre_launch",
+        "p3_post_launch",
+        "blocked_now",
+      ])
+    );
+
+    const registry = await (
+      await request.get("/api/integrations/registry")
+    ).json();
+    expect(registry.snapshot.registry).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          id: "billing-activation",
+          priority: "blocked_now",
+          currentStatus: "forbidden_now",
+        }),
+        expect.objectContaining({
+          id: "broker-live",
+          priority: "blocked_now",
+          currentStatus: "forbidden_now",
+        }),
+        expect.objectContaining({
+          id: "real-money-routing",
+          priority: "blocked_now",
+          currentStatus: "forbidden_now",
+        }),
+        expect.objectContaining({
+          id: "production-secrets",
+          priority: "blocked_now",
+          currentStatus: "forbidden_now",
+        }),
+        expect.objectContaining({
+          id: "automatic-social-publishing",
+          priority: "blocked_now",
+          currentStatus: "forbidden_now",
+        }),
+        expect.objectContaining({
+          id: "external-autopilot",
+          priority: "blocked_now",
+          currentStatus: "forbidden_now",
+        }),
+      ])
+    );
+
+    const accountProvisioning = await (
+      await request.get("/api/integrations/account-provisioning")
+    ).json();
+    expect(accountProvisioning.snapshot).toMatchObject({
+      mode: "essential_account_provisioning_planner",
+      status: "ready",
+      noAccountCreationAutomation: true,
+      noExternalConnection: true,
+      noSecretsStored: true,
+    });
+    expect(accountProvisioning.snapshot.summary).toMatchObject({
+      p0: expect.any(Number),
+      p1: expect.any(Number),
+      p2: expect.any(Number),
+      p3: expect.any(Number),
+      blocked: expect.any(Number),
+    });
+
+    const founderTooling = await (
+      await request.get("/api/founder/tooling/readiness")
+    ).json();
+    expect(founderTooling.snapshot).toMatchObject({
+      mode: "founder_tooling_readiness",
+      status: "ready",
+      codexReadiness: {
+        productCanDraftPrompts: true,
+        productCanSendPromptsAutomatically: false,
+        productCanExecuteCodex: false,
+        productCanExposeSecretsToCodex: false,
+        productCanRequestBlockedActivation: false,
+      },
+      localRuntime: {
+        webAppShellExecution: false,
+        remoteCommandExecution: false,
+        unsafeAutomation: false,
+      },
+      truth: {
+        noAutomaticExternalExecution: true,
+        noAccountCreationAutomation: true,
+        noSecretsExposed: true,
+      },
+    });
+    for (const command of founderTooling.snapshot.localRuntime.commands) {
+      expect(command.executableFromWebApp).toBe(false);
+      expect(command.allowedSurface).toBe("docs_readiness_only");
+    }
+    expect(founderTooling.snapshot.whatNotToConnectNow).toEqual(
+      expect.arrayContaining([
+        "billing activation",
+        "broker/live execution",
+        "real-money routing",
+        "production secrets",
+        "automatic social publishing",
+        "external autopilot",
+      ])
+    );
+
+    const founderCommand = await (
+      await request.get("/api/founder/command/snapshot")
+    ).json();
+    expect(
+      founderCommand.snapshot.engineeringOpsQuality.essentialIntegrationsTooling
+    ).toMatchObject({
+      status: "ready",
+      codex: {
+        productCanDraftPrompts: true,
+        productCanSendPromptsAutomatically: false,
+        productCanExecuteCodex: false,
+        productCanExposeSecretsToCodex: false,
+      },
+      truth: {
+        liveExecutionBlocked: true,
+        realMoneyBlocked: true,
+        brokerFeedActivationBlocked: true,
+        billingActivationBlocked: true,
+        socialPublishingInactive: true,
+        noAutomaticExternalExecution: true,
+      },
+    });
+    expect(founderCommand.snapshot.apiReadiness).toEqual(
+      expect.arrayContaining([
+        "/api/integrations/readiness",
+        "/api/integrations/registry",
+        "/api/integrations/account-provisioning",
+        "/api/founder/tooling/readiness",
+      ])
+    );
+
+    const diagnostics = await (await request.get("/api/diagnostics/probes")).json();
+    expect(diagnostics.health.routes).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ path: "/api/integrations/readiness" }),
+        expect.objectContaining({ path: "/api/integrations/registry" }),
+        expect.objectContaining({ path: "/api/integrations/account-provisioning" }),
+        expect.objectContaining({ path: "/api/founder/tooling/readiness" }),
+      ])
+    );
+    expect(diagnostics.health.subsystems).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          key: "essential_integrations_tooling",
+          label: "Tooling readiness",
+          status: "ready",
+        }),
+      ])
+    );
+
+    await page.goto("/diagnostics");
+    await expect(page.locator("main").first()).toBeVisible();
+    await expect(page.locator("body")).toContainText("Essential tooling readiness");
+    await expect(page.locator("body")).toContainText("Terminal only");
+    await expect(page.locator("body")).toContainText("External setup");
+    await expect(page.locator("body")).not.toContainText(
+      /Founder Command|Codex|GitHub|production secrets|automatic social publishing|external autopilot/i
+    );
+
+    await page.goto("/");
+    await expect(page.locator("main").first()).toBeVisible();
+    await expect(page.locator("body")).toContainText("Free");
+    await expect(page.locator("body")).toContainText("Pro");
+    await expect(page.locator("body")).toContainText("VIP");
+    await expect(page.locator("body")).toContainText("Institutional");
+    await expect(page.locator("body")).not.toContainText(
+      /Founder Command|Codex task|GitHub readiness|tooling command center|external autopilot/i
+    );
+  });
+
   test("keeps real-money execution blocked when real mode is selected", async ({
     page,
   }) => {

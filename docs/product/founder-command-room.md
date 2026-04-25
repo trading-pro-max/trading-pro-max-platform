@@ -155,6 +155,24 @@ The Build Room follows this loop: observe, detect gaps, classify risk, suggest t
 
 No `/founder/build-room` page is exposed in public navigation. The current implementation is component/API only because owner authentication, device trust, step-up confirmation, and audit-backed approval execution are not shipped. No task is sent to Codex automatically.
 
+## Essential Integrations And Tooling Readiness
+
+Founder Command now receives the Essential Integrations Hub as an owner-only readiness signal:
+
+- P0 local required tooling
+- P1 soon readiness items
+- P2 pre-launch service planning
+- P3 post-launch service planning
+- blocked-now systems
+- Codex and GitHub manual workflow readiness
+- local runtime command documentation
+- account provisioning planner
+- secrets, world interface, apps/platforms, and diagnostics readiness
+- next safe setup actions
+- what not to connect now
+
+The hub is read-only and planning-only. It does not run shell commands from the web app, create accounts, connect email, connect social accounts, publish externally, store secrets, send tasks to Codex, activate billing, activate broker/feed, enable live execution, route real money, or claim launch readiness.
+
 # Living Brand Intelligence Readiness
 
 Founder Command receives the internal Brand Intelligence readiness summary:

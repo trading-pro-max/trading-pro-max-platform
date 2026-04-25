@@ -87,6 +87,7 @@ function publicDisplayText(value: string): string {
     .replace(/Codex-ready/gi, "build-ready")
     .replace(/Codex/gi, "build assistant")
     .replace(/secrets authority/gi, "secret safety")
+    .replace(/production secrets/gi, "restricted credentials")
     .replace(/treasury controls/gi, "billing controls")
     .replace(/security sovereignty/gi, "safety readiness")
     .replace(/Product memory/gi, "Safe notes")
@@ -107,7 +108,9 @@ function publicDisplayText(value: string): string {
     .replace(/Guardian review/gi, "safety review")
     .replace(/guardian review/gi, "safety review")
     .replace(/Legal review/gi, "claim review")
-    .replace(/legal review/gi, "claim review");
+    .replace(/legal review/gi, "claim review")
+    .replace(/automatic social publishing/gi, "external posting automation")
+    .replace(/external autopilot/gi, "external automation");
 }
 
 function utilitySectionKey(eyebrow: string): string {
@@ -1245,6 +1248,43 @@ export function PlatformDiagnosticsSurface({
       note: "Advanced build, note, secret-safety, security, and billing-control systems are not public navigation or plan features.",
     },
   ];
+  const essentialToolingProbe =
+    diagnosticsHealth?.subsystems?.find(
+      (subsystem) => subsystem.key === "essential_integrations_tooling"
+    ) ??
+    diagnosticsHealth?.probes.find(
+      (probe) => probe.key === "essential_integrations_tooling"
+    );
+  const essentialToolingItems = [
+    {
+      label: "Tooling readiness",
+      value: essentialToolingProbe?.summary ?? "Local tooling priorities ready",
+      tone: essentialToolingProbe
+        ? toneFromProbeStatus(essentialToolingProbe.status)
+        : ("approved" as const),
+      note:
+        essentialToolingProbe?.detail ??
+        "Local runtime, validation, safe notes, and external-service planning are classified without activation.",
+    },
+    {
+      label: "Build workflow",
+      value: "Draft and review",
+      tone: "pending" as const,
+      note: "Build tasks are drafted for manual review; no automatic external execution exists.",
+    },
+    {
+      label: "Runtime commands",
+      value: "Terminal only",
+      tone: "restricted" as const,
+      note: "The web app may show readiness but cannot execute shell commands.",
+    },
+    {
+      label: "External setup",
+      value: "Planned / blocked where risky",
+      tone: "blocked" as const,
+      note: "Billing, broker/live, real money, restricted credentials, external posting, and automated external actions remain blocked.",
+    },
+  ];
   const productMemoryItems =
     productMemoryLoadState.status === "ready"
       ? [
@@ -1765,6 +1805,10 @@ export function PlatformDiagnosticsSurface({
 
       <UtilitySection eyebrow="BOUNDARIES" title="Public/private surface readiness">
         <UtilityGrid items={surfaceBoundaryItems} />
+      </UtilitySection>
+
+      <UtilitySection eyebrow="TOOLING" title="Essential tooling readiness">
+        <UtilityGrid items={essentialToolingItems} />
       </UtilitySection>
 
       <UtilitySection eyebrow="JOURNAL MEMORY" title="Safe note readiness">
