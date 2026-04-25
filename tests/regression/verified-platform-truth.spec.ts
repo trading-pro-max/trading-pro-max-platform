@@ -4715,6 +4715,195 @@ test.describe("verified platform truth", () => {
     });
   });
 
+  test("reports persistent product memory without secrets or surveillance", async ({
+    page,
+    request,
+  }) => {
+    const endpoints = [
+      "/api/product-memory/summary",
+      "/api/product-memory/founder-acceptance",
+      "/api/product-memory/product-gaps",
+      "/api/product-memory/local-day",
+      "/api/product-memory/validation-summary",
+    ];
+
+    for (const endpoint of endpoints) {
+      const response = await request.get(endpoint);
+      expect(response.status()).toBe(200);
+      const text = await response.text();
+      expect(text).not.toMatch(/api[_-]?key\s*[:=]|password\s*[:=]|secret_value/i);
+      expect(text).not.toMatch(/broker credential stored|social token stored/i);
+      expect(text).not.toMatch(/fake users active|fake revenue active|metrics active/i);
+    }
+
+    const summary = await (await request.get("/api/product-memory/summary")).json();
+    expect(summary.snapshot).toMatchObject({
+      mode: "product_memory_summary",
+      storage: {
+        persistence: "deterministic_local_readiness_model",
+        databaseMigrationCreated: false,
+        productionStorageActive: false,
+        externalSyncActive: false,
+      },
+      truth: {
+        secretsStored: false,
+        privateSensitiveDataStored: false,
+        rawUserTrackingEnabled: false,
+        fakeUsersStored: false,
+        fakeRevenueStored: false,
+        fakeMetricsStored: false,
+        productionStorageActive: false,
+        automaticExternalSync: false,
+        launchAutomation: false,
+      },
+    });
+    expect(summary.snapshot.policy).toMatchObject({
+      surveillanceAllowed: false,
+      secretPersistenceAllowed: false,
+      rawSensitiveUserDataAllowed: false,
+      fakeMetricsAllowed: false,
+    });
+    expect(summary.snapshot.rejectedExamples).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          sensitivity: "secret_forbidden",
+          rejected: true,
+        }),
+      ])
+    );
+    expect(summary.snapshot.domainSummary).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ domain: "founder_acceptance" }),
+        expect.objectContaining({ domain: "journal_note" }),
+        expect.objectContaining({ domain: "decision_replay_note" }),
+        expect.objectContaining({ domain: "build_decision" }),
+        expect.objectContaining({ domain: "validation_summary" }),
+        expect.objectContaining({ domain: "product_gap" }),
+        expect.objectContaining({ domain: "local_day_report" }),
+      ])
+    );
+
+    const fullSummary = await (
+      await request.get("/api/product-memory/summary")
+    ).json();
+    expect(fullSummary.snapshot.founderSummary.forbiddenStorageReminders).toEqual(
+      expect.arrayContaining(["production secrets", "API keys", "passwords"])
+    );
+
+    const founderAcceptance = await (
+      await request.get("/api/product-memory/founder-acceptance")
+    ).json();
+    expect(founderAcceptance.snapshot.preferenceRules).toEqual(
+      expect.arrayContaining([
+        "no images unless explicitly requested",
+        "Institutional replaces Enterprise in public language",
+        "final visual acceptance requires Ahmad approval",
+      ])
+    );
+    expect(founderAcceptance.snapshot.truth).toMatchObject({
+      storesSecrets: false,
+      storesPrivateSensitiveData: false,
+      fakeAcceptanceRecords: false,
+      launchApprovalRecorded: false,
+    });
+
+    const productGaps = await (
+      await request.get("/api/product-memory/product-gaps")
+    ).json();
+    expect(productGaps.snapshot.gaps).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ id: "gap-boxed-small-ui" }),
+        expect.objectContaining({ id: "gap-chart-dominance" }),
+        expect.objectContaining({ id: "gap-internal-language-leak" }),
+        expect.objectContaining({ id: "gap-earth-mark-block" }),
+        expect.objectContaining({ id: "gap-no-unrequested-images" }),
+      ])
+    );
+    expect(productGaps.snapshot.truth).toMatchObject({
+      fakeMetricsStored: false,
+      privateUserDataStored: false,
+      secretsStored: false,
+    });
+
+    const journalCoach = await (
+      await request.get("/api/journal-coach/readiness")
+    ).json();
+    expect(journalCoach.snapshot.memoryFoundation).toMatchObject({
+      persistence: "local_session_memory_foundation",
+      accountSafePersistence: "planned",
+      storesSensitivePersonalData: false,
+      storesFinancialAdvice: false,
+      storesOutcomeGuarantees: false,
+    });
+    expect(journalCoach.snapshot.memoryFoundation.forbiddenMemory).toEqual(
+      expect.arrayContaining(["sensitive personal data", "advisory recommendations"])
+    );
+
+    const validationMemory = await (
+      await request.get("/api/product-memory/validation-summary")
+    ).json();
+    expect(validationMemory.snapshot).toMatchObject({
+      storagePolicy: "summary_only_no_raw_logs",
+      truth: {
+        rawLogsStored: false,
+        secretsStored: false,
+        falsePassAllowed: false,
+        visualProofTrackedAsPresenceOnly: true,
+      },
+    });
+
+    const localDayMemory = await (
+      await request.get("/api/product-memory/local-day")
+    ).json();
+    expect(localDayMemory.snapshot.truth).toMatchObject({
+      launchAutomation: false,
+      productionAction: false,
+      fakeUsersStored: false,
+      fakeMetricsStored: false,
+    });
+
+    const founderConstruction = await (
+      await request.get("/api/founder/construction/readiness")
+    ).json();
+    expect(founderConstruction.snapshot.persistentProductMemory).toMatchObject({
+      readiness: "safe_local_internal_foundation",
+      memorySafetyStatus: "safe_readiness_only",
+      truth: {
+        secretsStored: false,
+        privateSensitiveDataStored: false,
+        rawUserTrackingEnabled: false,
+        fakeUsersStored: false,
+        fakeRevenueStored: false,
+        fakeMetricsStored: false,
+      },
+    });
+
+    const diagnostics = await (await request.get("/api/diagnostics/probes")).json();
+    expect(diagnostics.health.routes).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ path: "/api/product-memory/summary" }),
+        expect.objectContaining({ path: "/api/product-memory/founder-acceptance" }),
+        expect.objectContaining({ path: "/api/product-memory/product-gaps" }),
+        expect.objectContaining({ path: "/api/product-memory/local-day" }),
+        expect.objectContaining({ path: "/api/product-memory/validation-summary" }),
+      ])
+    );
+    expect(diagnostics.health.subsystems).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          key: "product_memory",
+          status: "ready",
+        }),
+      ])
+    );
+
+    await page.goto("/diagnostics");
+    await expect(page.locator("main").first()).toBeVisible();
+    await expect(page.locator("body")).toContainText("Product memory readiness");
+    await expect(page.locator("body")).toContainText("Secret storage");
+    await expect(page.locator("body")).not.toContainText(/Enterprise|TPM Companion/);
+  });
+
   test("keeps real-money execution blocked when real mode is selected", async ({
     page,
   }) => {

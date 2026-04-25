@@ -24,6 +24,7 @@ import {
   getIntelligenceBackendDiagnosticsProbe,
 } from "@/lib/server/intelligence";
 import { getLocalOperationsReadinessSnapshot } from "@/lib/server/local-ops";
+import { getProductMemorySummarySnapshot } from "@/lib/server/product-memory";
 import { getClientExpansionSnapshot } from "@/lib/server/platform/client-contracts";
 import { getDesktopAppsDiagnosticsProbe } from "@/lib/server/platform/desktop-foundation";
 import { getDesktopProductizationDiagnosticsProbe } from "@/lib/server/platform/desktop-productization";
@@ -1222,10 +1223,20 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
   const marketParityProbe = getFinalMarketParityDiagnosticsProbe(
     marketParitySnapshot
   );
+  const productMemorySnapshot = getProductMemorySummarySnapshot(checkedAt);
+  const productMemoryProbe: DiagnosticsProbe = {
+    key: "product_memory",
+    label: "Product memory readiness",
+    status: "ready",
+    summary: "Safe local/internal memory foundation ready",
+    detail:
+      `${productMemorySnapshot.domainSummary.length} memory domains modeled; secrets, private sensitive data, fake users, fake revenue, and fake metrics remain unstored.`,
+    checkedAt,
+  };
 
   return {
     ...baseHealth,
-    probes: [...baseHealth.probes, launchProbe, marketParityProbe],
+    probes: [...baseHealth.probes, launchProbe, marketParityProbe, productMemoryProbe],
     routes: [
       ...baseHealth.routes,
       {
@@ -1241,6 +1252,41 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         status: marketParityProbe.status,
         detail:
           "Final market parity route provides auditable parity-closure evidence with explicit guarded capability truth.",
+      },
+      {
+        path: "/api/product-memory/summary",
+        method: "GET",
+        status: productMemoryProbe.status,
+        detail:
+          "Product Memory summary route reports safe local/internal memory readiness without secrets, raw private sensitive data, fake metrics, or production storage.",
+      },
+      {
+        path: "/api/product-memory/founder-acceptance",
+        method: "GET",
+        status: productMemoryProbe.status,
+        detail:
+          "Founder acceptance memory route reports safe acceptance readiness only; no launch approval or private data is stored.",
+      },
+      {
+        path: "/api/product-memory/product-gaps",
+        method: "GET",
+        status: productMemoryProbe.status,
+        detail:
+          "Product gap memory route reports known visual, UX, chart, Assistant, terminology, and safety gaps as safe product notes.",
+      },
+      {
+        path: "/api/product-memory/local-day",
+        method: "GET",
+        status: productMemoryProbe.status,
+        detail:
+          "Local day memory route reports local operation summaries without launch automation.",
+      },
+      {
+        path: "/api/product-memory/validation-summary",
+        method: "GET",
+        status: productMemoryProbe.status,
+        detail:
+          "Validation memory route reports summary-only command status and does not persist raw logs.",
       },
     ],
     subsystems: [
@@ -1258,6 +1304,13 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         status: marketParityProbe.status,
         summary: marketParityProbe.summary,
         detail: marketParityProbe.detail,
+      },
+      {
+        key: "product_memory",
+        label: productMemoryProbe.label,
+        status: productMemoryProbe.status,
+        summary: productMemoryProbe.summary,
+        detail: productMemoryProbe.detail,
       },
     ],
     launchReadiness: {

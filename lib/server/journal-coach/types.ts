@@ -67,6 +67,16 @@ export type JournalCoachSnapshot = {
     entries: JournalEntryFoundation[];
     persistenceGap: string;
   };
+  memoryFoundation: {
+    persistence: "local_session_memory_foundation";
+    accountSafePersistence: "planned";
+    storesSensitivePersonalData: false;
+    storesFinancialAdvice: false;
+    storesOutcomeGuarantees: false;
+    allowedJournalMemory: JournalEntryType[];
+    allowedCoachMemory: string[];
+    forbiddenMemory: string[];
+  };
   phases: Array<{
     phase: JournalCoachPhase;
     state: "active" | "planned" | "locked";

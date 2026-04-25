@@ -28,3 +28,20 @@ Stages:
 Each stage includes purpose, checks, pass criteria, fail criteria, output, and next action in `lib/server/local-ops/day-cycle.ts`.
 
 No stage is a launch criterion. A successful local day proves only local operation.
+## Local Day Memory
+
+The Product Memory foundation can remember safe local day summaries:
+
+- local day number
+- completed stages
+- failed stages
+- visual acceptance status
+- product truth status
+- TPM Assistant status
+- Journal/Coach status
+- Diagnostics status
+- validation status
+- next actions
+- Founder decision needed
+
+This memory does not automate launch. Local maturity never activates production, billing, broker/feed, live execution, real-money routing, or social publishing.

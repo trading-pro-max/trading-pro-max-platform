@@ -15,6 +15,7 @@ export async function GET() {
       access: snapshot.access,
       construction: snapshot.autonomousConstructionIntelligence,
       localUniverseOperations: snapshot.localUniverseOperations,
+      persistentProductMemory: snapshot.persistentProductMemory,
       safety: snapshot.safety,
     },
   });

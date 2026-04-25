@@ -135,6 +135,33 @@ export function getJournalCoachSnapshot(
         },
       ],
     },
+    memoryFoundation: {
+      persistence: "local_session_memory_foundation",
+      accountSafePersistence: "planned",
+      storesSensitivePersonalData: false,
+      storesFinancialAdvice: false,
+      storesOutcomeGuarantees: false,
+      allowedJournalMemory: [
+        "session_note",
+        "decision_note",
+        "lesson_learned",
+        "blocked_state_note",
+        "paper_reflection",
+      ],
+      allowedCoachMemory: [
+        "session readiness",
+        "safe prompt response",
+        "reflection note",
+        "risk-profile placeholder note",
+      ],
+      forbiddenMemory: [
+        "real-money records",
+        "sensitive personal data",
+        "advisory recommendations",
+        "profit guarantee",
+        "hidden tracking",
+      ],
+    },
     phases: [
       {
         phase: "pre_session",

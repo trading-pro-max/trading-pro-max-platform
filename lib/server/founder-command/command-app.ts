@@ -20,6 +20,7 @@ import {
   getPlanetGovernanceSnapshot,
 } from "@/lib/server/planet-os";
 import { getProductTruthSnapshot } from "@/lib/server/product";
+import { getProductMemorySummarySnapshot } from "@/lib/server/product-memory";
 import {
   getProductRealityScoreSnapshot,
   getProductSurfaceDigitalTwinSnapshot,
@@ -91,6 +92,7 @@ export function getFounderCommandAppSnapshot(
   const growthIntelligence = getGrowthIntelligenceReadinessSnapshot(checkedAt);
   const trustGovernor = getTrustGovernorSnapshot(checkedAt);
   const localOps = getLocalOperationsReadinessSnapshot(checkedAt);
+  const productMemory = getProductMemorySummarySnapshot(checkedAt);
 
   const desktopApp: FounderCommandDeviceBlueprint = {
     platform: "desktop",
@@ -360,6 +362,23 @@ export function getFounderCommandAppSnapshot(
       launchForbiddenReminder: localOps.report.launchForbiddenReminder,
       launchAutomationActive: false,
     },
+    persistentProductMemory: {
+      readiness: "safe_local_internal_foundation" as const,
+      storage: productMemory.storage,
+      domainSummary: productMemory.domainSummary,
+      recentFounderAcceptance:
+        productMemory.founderSummary.recentAcceptanceDecisions.length,
+      openProductGaps: productMemory.founderSummary.openProductGaps.length,
+      recentValidationSummaries:
+        productMemory.founderSummary.recentValidationSummaries.length,
+      buildDecisions: productMemory.founderSummary.buildDecisions.length,
+      localDayReports: productMemory.founderSummary.localDayReports.length,
+      journalCoachMemory: productMemory.founderSummary.journalCoachReadiness,
+      memorySafetyStatus: productMemory.founderSummary.memorySafetyStatus,
+      forbiddenStorageReminders:
+        productMemory.founderSummary.forbiddenStorageReminders,
+      truth: productMemory.truth,
+    },
     companionBrain: {
       founderCompanion,
       brainContextQuality: brain.contextQuality,
@@ -405,6 +424,11 @@ export function getFounderCommandAppSnapshot(
       "/api/local-ops/readiness-law",
       "/api/local-ops/report",
       "/api/local-ops/digital-twin",
+      "/api/product-memory/summary",
+      "/api/product-memory/founder-acceptance",
+      "/api/product-memory/product-gaps",
+      "/api/product-memory/local-day",
+      "/api/product-memory/validation-summary",
     ],
     safety: safetySummary,
     blockers: [

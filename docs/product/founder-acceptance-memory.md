@@ -35,4 +35,14 @@ Preference rules:
 - no fake claims
 - no launch pressure
 
-This model is readiness-only until a safe local record store is explicitly implemented.
+## Persistent Product Memory Integration
+
+Command 4 deepens this into the Product Memory foundation:
+
+- categories now include TPM Assistant, Swiss precision, product truth, and overall satisfaction
+- preference rules include Institutional public naming and Ahmad-only final visual acceptance
+- records are local/internal readiness summaries by default
+- no secrets, raw private sensitive data, fake users, fake revenue, or fake metrics are stored
+- launch approval is not recorded or implied
+
+Durable account-safe persistence remains planned; the current implementation is deterministic and read-only.

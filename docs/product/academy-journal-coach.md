@@ -121,3 +121,31 @@ Current capabilities:
 - decision replay context card
 
 Persistence remains a planned gap. Account-safe production journal storage is not active, and the local composer must not be treated as durable regulated recordkeeping.
+## Product Memory Readiness
+
+Journal/Coach memory is local/session foundation only in Command 4.
+
+Allowed journal memory:
+
+- session note
+- decision note
+- lesson learned
+- blocked-state reflection
+- paper-mode reflection
+
+Allowed coach memory:
+
+- session readiness
+- safe prompt response
+- reflection note
+- risk-profile placeholder note
+
+Forbidden memory:
+
+- real-money records
+- sensitive personal data
+- financial advice
+- outcome guarantees
+- hidden tracking
+
+Account-safe durable persistence remains planned and requires a future explicit implementation pass.

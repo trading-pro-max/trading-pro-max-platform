@@ -416,6 +416,58 @@ type JournalCoachLoadState =
   | { snapshot: JournalCoachSnapshot; status: "ready" }
   | { snapshot: null; status: "error" };
 
+type ProductMemorySummaryPayload = {
+  snapshot?: {
+    storage: {
+      persistence: string;
+      productionStorageActive: boolean;
+      externalSyncActive: boolean;
+      persistenceGap: string;
+    };
+    policy: {
+      productionStorageActive: false;
+      externalSyncActive: false;
+      surveillanceAllowed: false;
+      secretPersistenceAllowed: false;
+      rawSensitiveUserDataAllowed: false;
+      fakeMetricsAllowed: false;
+    };
+    domainSummary: Array<{
+      domain: string;
+      total: number;
+      safeToPersist: number;
+      founderOnly: number;
+      redactionRequired: number;
+      open: number;
+    }>;
+    founderSummary: {
+      openProductGaps: unknown[];
+      recentValidationSummaries: unknown[];
+      buildDecisions: unknown[];
+      localDayReports: unknown[];
+      journalCoachReadiness: string;
+      memorySafetyStatus: string;
+      forbiddenStorageReminders: string[];
+    };
+    truth: {
+      secretsStored: false;
+      privateSensitiveDataStored: false;
+      rawUserTrackingEnabled: false;
+      fakeUsersStored: false;
+      fakeRevenueStored: false;
+      fakeMetricsStored: false;
+      productionStorageActive: false;
+      automaticExternalSync: false;
+      launchAutomation: false;
+    };
+  };
+};
+
+type ProductMemoryLoadState =
+  | { snapshot: null; status: "loading" }
+  | { snapshot: NonNullable<ProductMemorySummaryPayload["snapshot"]>; status: "ready" }
+  | { snapshot: null; status: "error" };
+
 function useDiagnosticsHealth() {
   const [state, setState] = useState<DiagnosticsHealthLoadState>({
     health: null,
@@ -599,6 +651,46 @@ function useJournalCoachReadiness() {
   return state;
 }
 
+function useProductMemorySummary() {
+  const [state, setState] = useState<ProductMemoryLoadState>({
+    snapshot: null,
+    status: "loading",
+  });
+
+  useEffect(() => {
+    let active = true;
+
+    async function loadProductMemorySummary() {
+      try {
+        const response = await fetch("/api/product-memory/summary", {
+          method: "GET",
+          cache: "no-store",
+        });
+
+        if (!response.ok) {
+          throw new Error(`Product memory summary failed with ${response.status}.`);
+        }
+
+        const payload = (await response.json()) as ProductMemorySummaryPayload;
+
+        if (!active || !payload.snapshot) return;
+        setState({ snapshot: payload.snapshot, status: "ready" });
+      } catch {
+        if (!active) return;
+        setState({ snapshot: null, status: "error" });
+      }
+    }
+
+    void loadProductMemorySummary();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  return state;
+}
+
 export function PlatformDiagnosticsSurface({
   locale,
   dict,
@@ -611,6 +703,7 @@ export function PlatformDiagnosticsSurface({
   const planetOsLoadState = usePlanetOsStatus();
   const stateExplanationLoadState = useStateExplanations();
   const journalCoachLoadState = useJournalCoachReadiness();
+  const productMemoryLoadState = useProductMemorySummary();
   const diagnosticsHealth = diagnosticsLoadState.health;
   const planetOsSnapshot = planetOsLoadState.snapshot;
   const planetOsEngineSummary =
@@ -901,6 +994,54 @@ export function PlatformDiagnosticsSurface({
       note: "The assistant cannot execute trades, activate live mode, configure broker/feed, or unlock billing.",
     },
   ];
+  const productMemoryItems =
+    productMemoryLoadState.status === "ready"
+      ? [
+          {
+            label: "Memory mode",
+            value: productMemoryLoadState.snapshot.storage.persistence.replace(/_/g, " "),
+            tone: "pending" as const,
+            note: "Deterministic local/internal readiness only; durable account-safe persistence is planned.",
+          },
+          {
+            label: "Memory domains",
+            value: `${productMemoryLoadState.snapshot.domainSummary.length} modeled`,
+            tone: "approved" as const,
+            note: "Founder acceptance, visual feedback, journal/coach, validation, build decisions, product gaps, and local day reports.",
+          },
+          {
+            label: "Open product gaps",
+            value: `${productMemoryLoadState.snapshot.founderSummary.openProductGaps.length}`,
+            tone:
+              productMemoryLoadState.snapshot.founderSummary.openProductGaps.length > 0
+                ? ("pending" as const)
+                : ("approved" as const),
+            note: "Tracked as safe product notes, not user surveillance or metrics.",
+          },
+          {
+            label: "Secret storage",
+            value: productMemoryLoadState.snapshot.truth.secretsStored ? "Review" : "Blocked",
+            tone: "blocked" as const,
+            note: "Secrets, raw private sensitive data, social tokens, payment data, and broker credentials are forbidden.",
+          },
+          {
+            label: "External sync",
+            value: productMemoryLoadState.snapshot.truth.automaticExternalSync
+              ? "Review"
+              : "Inactive",
+            tone: "restricted" as const,
+            note: "No automatic external sync, production storage, hidden user tracking, or launch automation.",
+          },
+        ]
+      : [
+          {
+            label: "Product memory",
+            value: productMemoryLoadState.status === "error" ? "Unavailable" : "Loading",
+            tone: productMemoryLoadState.status === "error" ? ("restricted" as const) : ("pending" as const),
+            note: "Diagnostics is checking safe local/internal memory readiness.",
+          },
+        ];
+
   const intelligenceGovernanceItems = [
     {
       label: "Assistant context",
@@ -1301,6 +1442,10 @@ export function PlatformDiagnosticsSurface({
 
       <UtilitySection eyebrow="ASSISTANT" title="Assistant readiness">
         <UtilityGrid items={companionReadinessItems} />
+      </UtilitySection>
+
+      <UtilitySection eyebrow="MEMORY" title="Product memory readiness">
+        <UtilityGrid items={productMemoryItems} />
       </UtilitySection>
 
       <UtilitySection eyebrow="MESH" title="Integration mesh">

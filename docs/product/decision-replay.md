@@ -28,3 +28,18 @@ No live execution, real money, broker/feed activation, or trading signals are en
 The reusable replay card shows the symbol, timeframe, bounded context quality, product truth at the decision time, paper-safe preflight state, and learning prompts.
 
 It must never claim that a different decision would have produced a better result. It is a learning and reflection aid only, not a performance predictor, financial adviser, or signal engine.
+## Decision Replay Memory
+
+Decision Replay Memory may store only safe paper-session summaries:
+
+- symbol/timeframe label
+- product truth state
+- feed and paper/live state
+- blocked or allowed status
+- TPM Assistant guidance label
+- note summary
+- lesson learned
+
+It must never store broker credentials, real-money order credentials, sensitive private user details, fake market outcomes, profit guarantees, or win-rate claims.
+
+Replay memory is local/internal readiness only until account-safe persistence is explicitly approved later.

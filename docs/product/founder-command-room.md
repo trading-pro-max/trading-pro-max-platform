@@ -98,3 +98,18 @@ Founder Command now receives Local Universe readiness as a read-only signal:
 - launch forbidden reminder
 
 Local operations do not execute approvals, launch production, activate billing, connect broker/feed, enable live execution, route real money, or publish externally.
+
+## Persistent Product Memory Readiness
+
+Founder Command now receives Product Memory readiness as a private read-only signal:
+
+- recent founder acceptance decisions
+- open product gaps
+- recent validation summaries
+- build decisions
+- journal/coach memory readiness
+- local day report memory readiness
+- memory safety status
+- forbidden storage reminders
+
+The memory signal is summary-only. It does not expose secrets, raw private sensitive data, fake users, fake revenue, fake metrics, production storage, external sync, or launch automation.

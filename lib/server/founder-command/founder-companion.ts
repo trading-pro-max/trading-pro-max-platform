@@ -3,6 +3,7 @@ import "server-only";
 import { getPlanEntitlementSnapshot } from "@/lib/plans/entitlements";
 import { getConstructionQueueSnapshot } from "@/lib/server/codex-construction";
 import { getLocalOperationsReadinessSnapshot } from "@/lib/server/local-ops";
+import { getProductMemorySummarySnapshot } from "@/lib/server/product-memory";
 import type { FounderBriefing, MinistryReport } from "@/lib/server/planet-os/types";
 import { getFounderCommandReportingSnapshot } from "./reporting";
 
@@ -28,6 +29,7 @@ export type FounderPersonalCompanionSnapshot = {
   engineeringPrioritySuggestions: string[];
   constructionIntelligenceSummary: string[];
   localOperationsSummary: string[];
+  productMemorySummary: string[];
   whatNotToApprove: string[];
   nextSafeDecisions: string[];
   whatNotToDo: string[];
@@ -56,6 +58,7 @@ export function getFounderPersonalCompanionSnapshot(
   const planEntitlements = getPlanEntitlementSnapshot("demo_free", checkedAt);
   const constructionQueue = getConstructionQueueSnapshot(checkedAt);
   const localOps = getLocalOperationsReadinessSnapshot(checkedAt);
+  const productMemory = getProductMemorySummarySnapshot(checkedAt);
   const decisionMinistries = reporting.ministries.filter(
     (report) => report.founderDecisionNeeded
   );
@@ -129,6 +132,12 @@ export function getFounderPersonalCompanionSnapshot(
       `${localOps.dayCycle.totalStages} local day cycle stages are defined.`,
       `${localOps.digitalTwin.profileCount} local test personas are readiness-only and do not represent real users.`,
       localOps.report.launchForbiddenReminder,
+    ],
+    productMemorySummary: [
+      `${productMemory.domainSummary.length} memory domains are modeled for safe local/internal readiness.`,
+      `${productMemory.founderSummary.openProductGaps.length} open product gaps are visible for review.`,
+      productMemory.founderSummary.journalCoachReadiness,
+      "Memory forbids secrets, raw private sensitive data, fake users, fake revenue, and fake metrics.",
     ],
     whatNotToApprove: [
       "live execution activation",

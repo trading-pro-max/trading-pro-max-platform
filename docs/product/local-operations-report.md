@@ -28,3 +28,21 @@ Rules:
 - no production activation
 
 The deterministic default report starts at local day 0 and requires human Founder acceptance.
+## Product Memory Connection
+
+Local Operations Report memory stores summary fields only:
+
+- date
+- local day number
+- readiness state
+- completed and failed stages
+- visual acceptance
+- product truth status
+- Assistant, Journal/Coach, and Diagnostics status
+- validation and git status
+- blockers
+- next actions
+- Founder decision needed
+- launch forbidden reminder
+
+No fake users, fake metrics, production secrets, or launch automation are stored.
