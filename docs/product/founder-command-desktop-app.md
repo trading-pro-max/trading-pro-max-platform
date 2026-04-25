@@ -87,3 +87,8 @@ Rules:
 - no approval execution
 - no billing, broker/feed, live, real money, social publishing, production, or launch activation
 - visual direction remains black/graphite/gold with subtle Swiss red, TPM Earth Mark, Swiss Precision Clock, and serious command-app density
+## Product Reality Desktop Shell
+
+The desktop shell foundation organizes command zones for top command status, planet overview, ministry grid, Presidency coordination, approval queue, Guardian, Legal, Treasury, Media/AI Video, Engineering/Ops, daily briefing, and next safe actions.
+
+The shell is component-only in this phase. No public page, native desktop app, approval execution, billing, broker/feed activation, live execution, real-money routing, social publishing, or secret access is shipped.

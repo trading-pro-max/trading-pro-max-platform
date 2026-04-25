@@ -95,3 +95,8 @@ The TPM Earth Mark is an SVG-only identity extension for Planet OS and Founder C
 - No generic SaaS dashboard look.
 - No fake live claims.
 - No decorative status colors disconnected from runtime truth.
+## Product Reality Identity Rule
+
+The Product Reality pass uses the TPM Earth Mark most strongly on Founder, Planet Map, and internal command surfaces. Public trading surfaces keep identity subtle so the chart and execution ticket remain dominant.
+
+No Swiss legal status, brand partnership, luxury timepiece partnership, Islamic/Sharia certification, live trading, broker/feed, billing, public launch, user count, revenue, or metric claim may be implied by brand treatment.

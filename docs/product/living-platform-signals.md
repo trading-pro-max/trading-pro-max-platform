@@ -27,3 +27,8 @@ Rules:
 The signal map is defined in `lib/server/living-signals/state.ts`.
 
 Signals include platform pulse, Swiss precision clock, feed heartbeat, Guardian watch state, Legal watch state, Companion availability, Founder briefing freshness, ministry report freshness, journal prompt readiness, media queue readiness, and plan upgrade readiness. Each signal records visibility, display location, update cadence, clutter risk, reduced-motion behavior, and fake-state prevention.
+## Product Reality Signal Rule
+
+Living signals should make the product feel awake without cluttering the trading terminal.
+
+Allowed signals include compact clock, platform pulse, feed fallback state, execution mode, Companion availability, journal prompt readiness, Media readiness, and Founder briefing freshness. They must not show fake live market status, fake user activity, fake revenue, fake social metrics, or fake launch state.

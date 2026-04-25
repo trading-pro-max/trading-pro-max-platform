@@ -13,7 +13,22 @@ export type CompanionIntentCategory =
   | "journal_prompt"
   | "session_summary"
   | "learning_help"
+  | "explain_plan_upgrade_without_billing"
   | "founder_unavailable_for_user";
+
+export type CompanionBlockedIntentCategory =
+  | "execute_trade"
+  | "enable_live"
+  | "enable_real_money"
+  | "activate_broker"
+  | "activate_feed"
+  | "change_secrets"
+  | "bypass_auth"
+  | "guarantee_profit"
+  | "provide_win_rate"
+  | "fake_vip_activation"
+  | "fake_billing"
+  | "fake_launch";
 
 export type CompanionIntentAvailability = {
   intent: CompanionIntentCategory;
@@ -115,6 +130,7 @@ export type CompanionContextSnapshot = {
     winRateClaimsAllowed: false;
   };
   guidanceBoundaries: string[];
+  blockedIntents: CompanionBlockedIntentCategory[];
 };
 
 export type CompanionContextInput = Partial<{

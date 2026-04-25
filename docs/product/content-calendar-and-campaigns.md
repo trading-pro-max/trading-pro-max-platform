@@ -103,3 +103,8 @@ Blocked now:
 - unreviewed Pro/VIP claims
 - guaranteed profit claims
 - fake partnership claims
+## Product Reality Campaign State
+
+Content calendar and campaign surfaces remain readiness-only. The allowed lifecycle language is idea, draft, brand review, Guardian review, Legal review, Founder approval, scheduled, published, blocked, and archived.
+
+Scheduled and published states are model states for future workflows only. No current social publishing, campaign execution, token storage, followers, views, ad metrics, or launch claim is active.

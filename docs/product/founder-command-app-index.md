@@ -37,6 +37,8 @@ This index groups the private Founder King Command App foundation.
 - [Founder Command Reporting Model](./founder-command-reporting-model.md)
 - [Founder Treasury Controls](./founder-treasury-controls.md)
 - [Founder Media Command](./founder-media-command.md)
+- [Planet Map Visualization](./planet-map-visualization.md)
+- [Product Reality Index](./product-reality-index.md)
 
 ## Current Boundary
 

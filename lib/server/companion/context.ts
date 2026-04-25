@@ -133,6 +133,18 @@ const companionIntents: CompanionIntentAvailability[] = [
     blockedLanguage: ["financial advice", "buy now", "sure trade"],
   },
   {
+    intent: "explain_plan_upgrade_without_billing",
+    label: "Explain plan upgrade without billing",
+    demoFree: "allowed",
+    pro: "planned",
+    vip: "planned",
+    enterprise: "future",
+    safetyBoundary:
+      "Explain why Pro/VIP/Enterprise are planned without checkout, paid activation, or urgency pressure.",
+    responseStyle: "truthful plan ladder summary",
+    blockedLanguage: ["pay now", "VIP active", "limited offer", "checkout available"],
+  },
+  {
     intent: "founder_unavailable_for_user",
     label: "Founder Command unavailable",
     demoFree: "blocked",
@@ -261,6 +273,20 @@ export function getCompanionContextSnapshot(
       "Do not activate broker/feed or billing.",
       "Do not claim guaranteed signals, win rates, or financial advice.",
       "Do not bypass auth, entitlement, or safety boundaries.",
+    ],
+    blockedIntents: [
+      "execute_trade",
+      "enable_live",
+      "enable_real_money",
+      "activate_broker",
+      "activate_feed",
+      "change_secrets",
+      "bypass_auth",
+      "guarantee_profit",
+      "provide_win_rate",
+      "fake_vip_activation",
+      "fake_billing",
+      "fake_launch",
     ],
   };
 }

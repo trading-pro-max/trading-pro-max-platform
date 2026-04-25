@@ -4,8 +4,10 @@ import {
 } from "@/lib/server/founder-command";
 import TPMEarthMark from "@/modules/brand/components/TPMEarthMark";
 import ProductLogo from "@/modules/brand/components/ProductLogo";
+import { PlanetMapPreview } from "@/modules/planet-map/components";
 import type { FounderCommandRoomProps } from "../types";
 import FounderApprovalQueue from "./FounderApprovalQueue";
+import FounderCommandAppShell from "./FounderCommandAppShell";
 import FounderMinistryGrid from "./FounderMinistryGrid";
 import FounderPlanetOverview from "./FounderPlanetOverview";
 import FounderRiskPanel from "./FounderRiskPanel";
@@ -53,6 +55,10 @@ export default function FounderCommandRoom({
           <small>{commandSnapshot.access.exposureDecision}</small>
         </div>
       </header>
+
+      <PlanetMapPreview audience="founder" />
+
+      <FounderCommandAppShell checkedAt={commandSnapshot.checkedAt} />
 
       <section className="tpm-founder-panel">
         <div className="tpm-founder-panel-head">

@@ -51,3 +51,14 @@ Swiss-inspired identity supports:
 ## Planet Earth Identity Rule
 
 TPM Planet Earth OS may use Swiss-inspired precision, Swiss-style discipline, and engineered-with-trust language. It must not claim Swiss legal/company status, Swiss regulation, Swiss banking status, or Swiss certification unless those facts are real and documented.
+## Product Reality Hardening
+
+The Product Reality pass keeps Swiss precision subtle and useful:
+
+- the clock remains compact and local-time first
+- Zurich and UTC are reference signals, not legal/company claims
+- the Earth mark is SVG-only and used most strongly on Founder/Planet surfaces
+- public workstation identity remains trading-first and chart-first
+- no luxury brand, sponsored clock, or partnership identity is shown without a signed contract
+
+Swiss-inspired visual language means precision, restraint, clarity, and trust. It does not claim Swiss legal incorporation, regulatory status, or a partnership.

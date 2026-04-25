@@ -1,4 +1,6 @@
 import type { JournalCoachSnapshot } from "@/lib/server/journal-coach/types";
+import DecisionReplayCard from "./DecisionReplayCard";
+import JournalEntryComposer from "./JournalEntryComposer";
 import JournalPromptCard from "./JournalPromptCard";
 
 type SessionCoachPanelProps = {
@@ -20,6 +22,11 @@ export default function SessionCoachPanel({ snapshot }: SessionCoachPanelProps) 
         {snapshot.prompts.slice(0, 4).map((prompt) => (
           <JournalPromptCard key={prompt.id} prompt={prompt} />
         ))}
+      </div>
+
+      <div className="tpm-session-coach-daily-grid">
+        <JournalEntryComposer snapshot={snapshot} />
+        <DecisionReplayCard replay={snapshot.decisionReplay} />
       </div>
 
       <footer>

@@ -39,3 +39,8 @@ Media must not claim active partnerships, sponsorships, followers, views, ads, s
 Sponsored clock or brand partnership content requires signed contract, Rights/IP review, Legal review, Guardian review, and Founder approval before any public wording.
 
 AI video content remains script/draft only until a future reviewed publishing phase. No uploads or external posting are active.
+## Product Reality Media Claim Guard
+
+Media Office and AI Video Studio UI must not claim public publishing capability, social account connection, followers, views, ads, launch readiness, live trading, broker/feed activation, billing activation, VIP results, Islamic/Sharia certification, or brand partnerships unless those facts are real and approved.
+
+Educational content can be drafted for later review. Sensitive claims require Legal, Guardian, and Founder approval. Guaranteed profit and win-rate claims remain blocked.

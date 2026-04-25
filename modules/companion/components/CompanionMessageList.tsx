@@ -1,4 +1,5 @@
 import type { TPMCompanionMessage, TPMCompanionPrompt } from "../types";
+import CompanionPromptChips from "./CompanionPromptChips";
 
 type CompanionMessageListProps = {
   activePromptId: string;
@@ -14,6 +15,12 @@ function messageTone(state: TPMCompanionMessage["state"]) {
   return "ready";
 }
 
+function roleLabel(role: TPMCompanionMessage["role"]) {
+  if (role === "user") return "You";
+  if (role === "system") return "Platform truth";
+  return "TPM Companion";
+}
+
 export default function CompanionMessageList({
   activePromptId,
   messages,
@@ -22,19 +29,11 @@ export default function CompanionMessageList({
 }: CompanionMessageListProps) {
   return (
     <div className="tpm-companion-message-stack">
-      <div className="tpm-companion-prompt-row" role="toolbar" aria-label="Companion guided prompts">
-        {prompts.map((prompt) => (
-          <button
-            key={prompt.id}
-            type="button"
-            className={activePromptId === prompt.id ? "active" : undefined}
-            aria-pressed={activePromptId === prompt.id}
-            onClick={() => onSelectPrompt(prompt.id)}
-          >
-            {prompt.label}
-          </button>
-        ))}
-      </div>
+      <CompanionPromptChips
+        activePromptId={activePromptId}
+        onSelectPrompt={onSelectPrompt}
+        prompts={prompts}
+      />
 
       <div className="tpm-companion-message-list">
         {messages.map((message) => (
@@ -43,9 +42,10 @@ export default function CompanionMessageList({
             className="tpm-companion-message"
             data-tone={messageTone(message.state)}
           >
-            <span>{message.role === "companion" ? "TPM Companion" : "Platform truth"}</span>
+            <span>{roleLabel(message.role)}</span>
             <strong>{message.title}</strong>
             <p>{message.body}</p>
+            {message.safeNextStep ? <small>{message.safeNextStep}</small> : null}
           </article>
         ))}
       </div>

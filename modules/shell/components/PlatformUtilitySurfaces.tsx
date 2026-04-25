@@ -13,8 +13,12 @@ import type { Dictionary } from "../../../lib/i18n/get-dictionary";
 import type { PlanVisualIdentity, PlanVisualKey } from "../../../lib/plans/visual-identity";
 import { getPlanVisualIdentities } from "../../../lib/plans/visual-identity";
 import type { JournalCoachSnapshot } from "../../../lib/server/journal-coach/types";
+import { AcademyPreview } from "../../academy/components";
 import AuthSessionPanel from "../../auth/components/AuthSessionPanel";
+import { CommunityReadinessPanel, VIPRoomsPreview } from "../../community/components";
 import { SessionCoachPanel } from "../../journal-coach/components";
+import { MediaOfficeReadinessPanel } from "../../media-office/components";
+import { PlanetMapPreview } from "../../planet-map/components";
 import { CitizenAccessMap, PlanExperienceCard, PlanPlanetLayerCard } from "../../plans/components";
 import { SafeNextStepList, StateExplanationCard } from "../../state-explanations/components";
 import type { StateExplanationView } from "../../state-explanations/types";
@@ -1194,6 +1198,14 @@ export function PlatformDiagnosticsSurface({
         <UtilityGrid items={economyMediaGrowthItems} />
       </UtilitySection>
 
+      <UtilitySection eyebrow="PRODUCT REALITY" title="Planet map and growth surfaces">
+        <div className="tpm-product-reality-grid">
+          <PlanetMapPreview audience="citizen" />
+          <CommunityReadinessPanel />
+          <MediaOfficeReadinessPanel />
+        </div>
+      </UtilitySection>
+
       <UtilitySection eyebrow="STATE" title="Why blocked readiness">
         {stateExplanationLoadState.status === "ready" && stateExplanationHighlights.length > 0 ? (
           <>
@@ -1837,6 +1849,14 @@ export function PlatformSettingsSurface({
               truth={planEntitlementSnapshot.truth}
             />
           ))}
+        </div>
+      </UtilitySection>
+
+      <UtilitySection eyebrow="ACADEMY" title="Learning and community readiness">
+        <div className="tpm-product-reality-grid">
+          <AcademyPreview />
+          <CommunityReadinessPanel />
+          <VIPRoomsPreview />
         </div>
       </UtilitySection>
 

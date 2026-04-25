@@ -35,3 +35,8 @@ The top frame now carries a compact Platform Pulse beside the clock. It shows re
 - fallback
 
 It may show feed state and execution mode, but it must not claim a live market feed, live execution, monitoring, broker activation, billing, or launch.
+## Product Reality Clock Rule
+
+The clock remains a compact living signal. It should support a full-screen trading terminal without becoming a dashboard widget.
+
+Display order remains local time first, with Zurich and UTC as optional references. This is a precision signal only and does not claim Swiss legal/company status or any sponsored clock partnership.

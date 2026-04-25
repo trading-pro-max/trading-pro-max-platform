@@ -17,6 +17,20 @@ export type JournalCoachPhase =
   | "post_session"
   | "decision_replay";
 
+export type JournalEntryType =
+  | "session_note"
+  | "decision_note"
+  | "lesson_learned"
+  | "blocked_state_note"
+  | "paper_reflection";
+
+export type JournalEntryFoundation = {
+  type: JournalEntryType;
+  label: string;
+  placeholder: string;
+  safetyBoundary: string;
+};
+
 export type DecisionReplayFoundation = {
   mode: "decision_replay_foundation";
   selectedSymbol: string;
@@ -46,6 +60,13 @@ export type JournalCoachSnapshot = {
     enterprise: "team_reports_future";
   };
   prompts: JournalCoachPrompt[];
+  localJournalFoundation: {
+    persistence: "local_session_foundation";
+    accountSync: "planned";
+    privateSensitiveStorage: "not_enabled";
+    entries: JournalEntryFoundation[];
+    persistenceGap: string;
+  };
   phases: Array<{
     phase: JournalCoachPhase;
     state: "active" | "planned" | "locked";

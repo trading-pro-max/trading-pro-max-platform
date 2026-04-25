@@ -116,3 +116,20 @@ Each intent carries plan availability, response style, safety boundary, and bloc
 The user Companion now describes the current Demo / Free citizen layer as a paper-safe planet layer. It can explain visible cities such as Chart City, Execution Hall, Companion Center, Academy Library, Journal Office, and Feedback Court.
 
 Pro, VIP, and Enterprise language remains planned/future unless entitlement support exists. Founder Command remains owner-only and invisible as a user plan feature.
+
+## Product Reality Chat Foundation
+
+The Companion now has a compact chat foundation. It remains deterministic and template-based until a safe model backend is explicitly approved.
+
+The chat can respond to:
+
+- platform state
+- blocked states
+- market context truth
+- plan access
+- account type and Islamic review truth
+- settings, diagnostics, and feedback guidance
+- journal prompts and session summaries
+- plan upgrades without billing activation
+
+Blocked intents include trade execution, live activation, real-money routing, broker/feed activation, secret changes, auth bypass, profit guarantees, win-rate claims, fake VIP activation, fake billing, and public launch claims.

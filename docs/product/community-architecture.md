@@ -77,3 +77,8 @@ Planned community layers:
 - strategy discussion rooms
 
 All layers require Guardian moderation, Legal claim review, anti-scam controls, anti-spam controls, privacy rules, and Founder approval before any activation.
+## Product Reality UI Foundation
+
+Community readiness is now represented by compact planning panels for Free / Demo learning spaces, Pro rooms, feedback/support rooms, and VIP rooms.
+
+The panels are not a social network. There are no active rooms, posts, members, followers, moderators, or private-room access. All rooms remain planned until entitlement, moderation, Guardian, Legal, and Founder review gates exist.

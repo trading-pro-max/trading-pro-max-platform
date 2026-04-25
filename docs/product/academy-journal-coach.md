@@ -105,3 +105,19 @@ Decision Replay explicitly does not guarantee that any alternate decision would 
 Demo / Free has basic safe prompts active. Pro deeper session review is planned. VIP advanced coaching and strategy review are planned. Enterprise team reports are future planned.
 
 Journal and Coach surfaces must keep plan labels truthful and must not pressure trades, imply better outcomes, or sell premium results.
+
+## Product Reality Journal Foundation
+
+The Product Reality pass adds a practical local/session journal composer and decision replay card.
+
+Current capabilities:
+
+- session note
+- decision note
+- lesson learned
+- blocked-state note
+- paper-mode reflection
+- local draft saving in the browser
+- decision replay context card
+
+Persistence remains a planned gap. Account-safe production journal storage is not active, and the local composer must not be treated as durable regulated recordkeeping.

@@ -102,6 +102,39 @@ export function getJournalCoachSnapshot(
       enterprise: "team_reports_future",
     },
     prompts,
+    localJournalFoundation: {
+      persistence: "local_session_foundation",
+      accountSync: "planned",
+      privateSensitiveStorage: "not_enabled",
+      persistenceGap:
+        "Production journal storage is not active; this pass keeps notes local/session-ready until account-safe persistence is explicitly built.",
+      entries: [
+        {
+          type: "session_note",
+          label: "Session note",
+          placeholder: "What paper-market condition are you rehearsing today?",
+          safetyBoundary: "Paper-session context only; not advisory.",
+        },
+        {
+          type: "decision_note",
+          label: "Decision note",
+          placeholder: "Why did you consider this paper action?",
+          safetyBoundary: "Records reasoning without predicting outcome.",
+        },
+        {
+          type: "lesson_learned",
+          label: "Lesson learned",
+          placeholder: "What did you learn about timing, patience, or risk?",
+          safetyBoundary: "Educational reflection only.",
+        },
+        {
+          type: "blocked_state_note",
+          label: "Blocked state note",
+          placeholder: "Which blocked or fallback state shaped the session?",
+          safetyBoundary: "Keeps blocked product truth visible.",
+        },
+      ],
+    },
     phases: [
       {
         phase: "pre_session",

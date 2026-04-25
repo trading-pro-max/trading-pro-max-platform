@@ -488,6 +488,14 @@ test.describe("verified platform truth", () => {
           await expect(page.locator(".tpm-companion-panel").first()).toContainText(
             /Demo \/ Paper Assistant|paper-safe guidance|Real money blocked/
           );
+          await expect(page.locator(".tpm-companion-panel").first()).toContainText(
+            /Ask safely|execute trade|enable live/
+          );
+          await page.getByLabel("Ask TPM Companion").fill("enable live and real money");
+          await page.getByRole("button", { name: "Send" }).click();
+          await expect(page.locator(".tpm-companion-panel").first()).toContainText(
+            /I cannot do that|remain blocked/
+          );
           await expect(page.locator(".tpm-companion-panel").first()).not.toContainText(
             /guaranteed profit|win-rate/i
           );
@@ -571,6 +579,9 @@ test.describe("verified platform truth", () => {
         await expect(page.locator("body")).toContainText(
           /Citizen planet|Your planet layer|Paper-safe planet layer|Founder Command is owner-only/
         );
+        await expect(page.locator("body")).toContainText(
+          /Academy|Community|VIP Rooms|Rooms planned|Learning paths foundation/
+        );
         if (route.path === "/diagnostics") {
           await expect(page.locator("body")).toContainText(
             /Planet OS|Internal operating system|Core engines/
@@ -580,6 +591,9 @@ test.describe("verified platform truth", () => {
           );
           await expect(page.locator("body")).toContainText(
             /Self-governance readiness|TPM Brain context|Ministry autonomy|Roadmap planner/
+          );
+          await expect(page.locator("body")).toContainText(
+            /Planet map|Media Office|AI Video Studio|no social accounts/i
           );
         }
       }
@@ -1867,6 +1881,31 @@ test.describe("verified platform truth", () => {
       guaranteeClaimsAllowed: false,
       winRateClaimsAllowed: false,
     });
+    expect(companionContextPayload.snapshot.blockedIntents).toEqual(
+      expect.arrayContaining([
+        "execute_trade",
+        "enable_live",
+        "enable_real_money",
+        "activate_broker",
+        "fake_billing",
+        "fake_launch",
+      ])
+    );
+    expect(companionContextPayload.responses).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          intent: "explain_plan_upgrade_without_billing",
+          state: "planned",
+        }),
+        expect.objectContaining({
+          intent: "founder_unavailable_for_user",
+          state: "blocked",
+        }),
+      ])
+    );
+    expect(JSON.stringify(companionContextPayload)).not.toMatch(
+      /execute trade now|activate live now|DATABASE_URL/i
+    );
 
     const journalCoachReadiness = await request.get("/api/journal-coach/readiness");
     expect(journalCoachReadiness.status()).toBe(200);
@@ -1897,6 +1936,18 @@ test.describe("verified platform truth", () => {
       expect.arrayContaining([
         expect.objectContaining({ id: "session-readiness", state: "active" }),
         expect.objectContaining({ id: "vip-coach-review", state: "locked" }),
+      ])
+    );
+    expect(journalCoachReadinessPayload.snapshot.localJournalFoundation).toMatchObject({
+      persistence: "local_session_foundation",
+      accountSync: "planned",
+      privateSensitiveStorage: "not_enabled",
+    });
+    expect(journalCoachReadinessPayload.snapshot.localJournalFoundation.entries).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ type: "session_note" }),
+        expect.objectContaining({ type: "decision_note" }),
+        expect.objectContaining({ type: "lesson_learned" }),
       ])
     );
     expect(journalCoachReadinessPayload.snapshot.decisionReplay).toMatchObject({

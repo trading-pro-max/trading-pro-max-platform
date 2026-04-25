@@ -5,17 +5,20 @@ import { getAssistantTierSnapshot } from "@/lib/assistant/tiers";
 import { getPlanEntitlementSnapshot } from "@/lib/plans/entitlements";
 import { StateExplanationCard, WhyBlockedHint } from "@/modules/state-explanations/components";
 import type { StateExplanationView } from "@/modules/state-explanations/types";
+import CompanionInput from "./CompanionInput";
 import CompanionMessageList from "./CompanionMessageList";
 import type {
   TPMCompanionContextView,
   TPMCompanionMessage,
   TPMCompanionPrompt,
+  TPMCompanionResponseTemplate,
   TPMCompanionStateExplanationMap,
 } from "../types";
 
 type CompanionContextPayload = {
   ok: boolean;
   snapshot: TPMCompanionContextView;
+  responses?: TPMCompanionResponseTemplate[];
 };
 
 type StateExplanationPayload = {
@@ -82,6 +85,65 @@ function formatRoute(route?: string) {
   return route.replace(/^\/+/, "");
 }
 
+function isBlockedCompanionRequest(value: string) {
+  const normalized = value.toLowerCase();
+  return [
+    "execute trade",
+    "place trade",
+    "open order",
+    "enable live",
+    "real money",
+    "activate broker",
+    "connect broker",
+    "activate feed",
+    "change secrets",
+    "bypass auth",
+    "guarantee profit",
+    "win rate",
+    "activate vip",
+    "fake billing",
+    "launch publicly",
+  ].some((phrase) => normalized.includes(phrase));
+}
+
+function inferCompanionIntent(value: string): string {
+  const normalized = value.toLowerCase();
+  if (normalized.includes("blocked") || normalized.includes("why")) {
+    return "explain_blocked_state";
+  }
+  if (normalized.includes("plan") || normalized.includes("vip") || normalized.includes("pro")) {
+    return "explain_plan_access";
+  }
+  if (normalized.includes("upgrade")) return "explain_plan_upgrade_without_billing";
+  if (normalized.includes("account") || normalized.includes("islamic")) {
+    return "explain_account_type";
+  }
+  if (normalized.includes("diagnostic")) return "guide_to_diagnostics";
+  if (normalized.includes("setting")) return "guide_to_settings";
+  if (normalized.includes("feedback")) return "draft_feedback";
+  if (normalized.includes("journal") || normalized.includes("learn")) return "journal_prompt";
+  if (normalized.includes("session") || normalized.includes("summary")) return "session_summary";
+  if (normalized.includes("market") || normalized.includes("symbol") || normalized.includes("timeframe")) {
+    return "explain_market_context";
+  }
+  if (normalized.includes("founder")) return "founder_unavailable_for_user";
+  return "explain_platform_state";
+}
+
+function templateToMessage(
+  template: TPMCompanionResponseTemplate,
+  id: string
+): TPMCompanionMessage {
+  return {
+    id,
+    role: "companion",
+    state: template.state,
+    title: template.title,
+    body: template.body,
+    safeNextStep: template.safeNextStep,
+  };
+}
+
 export default function TPMCompanionPanel({
   diagnosticsHref,
   feedbackHref,
@@ -91,6 +153,9 @@ export default function TPMCompanionPanel({
   settingsHref,
 }: TPMCompanionPanelProps) {
   const [context, setContext] = useState<TPMCompanionContextView | null>(null);
+  const [chatInput, setChatInput] = useState("");
+  const [chatMessages, setChatMessages] = useState<TPMCompanionMessage[]>([]);
+  const [responseTemplates, setResponseTemplates] = useState<TPMCompanionResponseTemplate[]>([]);
   const [stateExplanations, setStateExplanations] =
     useState<TPMCompanionStateExplanationMap>(fallbackExplanations);
   const [activePromptId, setActivePromptId] = useState("state");
@@ -131,6 +196,7 @@ export default function TPMCompanionPanel({
         const explanationPayload = (await explanationResponse.json()) as StateExplanationPayload;
 
         setContext(contextPayload.snapshot);
+        setResponseTemplates(contextPayload.responses ?? []);
         setStateExplanations(
           explanationMap(explanationPayload.snapshot.explanations)
         );
@@ -200,6 +266,63 @@ export default function TPMCompanionPanel({
     [context]
   );
 
+  const templateByIntent = useMemo(() => {
+    return responseTemplates.reduce<Record<string, TPMCompanionResponseTemplate>>(
+      (result, template) => {
+        result[template.intent] = template;
+        return result;
+      },
+      {}
+    );
+  }, [responseTemplates]);
+
+  const submitChatMessage = () => {
+    const trimmed = chatInput.trim();
+    if (!trimmed) return;
+
+    const createdAt = Date.now();
+    const userMessage: TPMCompanionMessage = {
+      id: `user-${createdAt}`,
+      role: "user",
+      state: "ready",
+      title: "Your question",
+      body: trimmed,
+    };
+
+    let companionMessage: TPMCompanionMessage;
+
+    if (isBlockedCompanionRequest(trimmed)) {
+      companionMessage = {
+        id: `companion-blocked-${createdAt}`,
+        role: "companion",
+        state: "blocked",
+        title: "I cannot do that",
+        body:
+          "That request touches execution, live activation, real money, broker/feed, billing, secrets, launch, or guaranteed performance. Those capabilities remain blocked in this build.",
+        safeNextStep:
+          "Stay in paper-safe mode, review diagnostics, or ask me to explain the blocked state.",
+      };
+    } else {
+      const intent = inferCompanionIntent(trimmed);
+      const template = templateByIntent[intent] ?? templateByIntent.explain_platform_state;
+
+      companionMessage = template
+        ? templateToMessage(template, `companion-${intent}-${createdAt}`)
+        : {
+            id: `companion-fallback-${createdAt}`,
+            role: "companion",
+            state: "fallback",
+            title: "Safe platform guidance",
+            body:
+              "I can explain product truth, plan access, blocked states, feedback, diagnostics, and journal prompts. I cannot execute or activate anything.",
+            safeNextStep: "Ask about a blocked state, the current plan layer, or session learning.",
+          };
+    }
+
+    setChatMessages((messages) => [...messages, userMessage, companionMessage].slice(-8));
+    setChatInput("");
+  };
+
   const prompts: TPMCompanionPrompt[] = [
     { id: "state", label: "State", response: promptResponses.state },
     { id: "blocked", label: "Why blocked", response: promptResponses.blocked },
@@ -219,6 +342,7 @@ export default function TPMCompanionPanel({
       )}, plan status, blocked states, diagnostics, and feedback. I cannot execute trades or activate live, money, broker, feed, billing, secrets, or launch.`,
     },
     activePrompt.response,
+    ...chatMessages,
   ];
   const liveExplanation = stateExplanations.live_disabled;
   const moneyExplanation = stateExplanations.real_money_blocked;
@@ -271,6 +395,27 @@ export default function TPMCompanionPanel({
         onSelectPrompt={setActivePromptId}
         prompts={prompts}
       />
+
+      <CompanionInput
+        disabled={loadState === "loading"}
+        onChange={setChatInput}
+        onSubmit={submitChatMessage}
+        value={chatInput}
+      />
+
+      <div className="tpm-companion-blocked-intents" aria-label="Blocked companion intents">
+        {(context?.blockedIntents ?? [
+          "execute_trade",
+          "enable_live",
+          "enable_real_money",
+          "activate_broker",
+          "fake_launch",
+        ])
+          .slice(0, 5)
+          .map((intent) => (
+            <span key={intent}>{intent.replaceAll("_", " ")}</span>
+          ))}
+      </div>
 
       <div className="tpm-companion-state-strip">
         <WhyBlockedHint explanation={liveExplanation} label="Live" />

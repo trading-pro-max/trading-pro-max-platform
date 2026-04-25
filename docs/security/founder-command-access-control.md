@@ -78,3 +78,18 @@ The sanitized Founder readiness APIs are allowed only because they expose readin
 - `/api/founder/media/readiness`
 
 They remain read-only, no-store, non-secret, non-private-data, non-metric, and non-execution routes. They are not public navigation, not SEO surfaces, and not Free/Pro/VIP/Enterprise features.
+## Product Reality Access State
+
+Founder Command shell components and readiness APIs remain owner-only architecture. They are not linked in public navigation and are not user-plan features.
+
+Current access truth:
+
+- public navigation: disabled
+- user-plan access: disabled
+- read-only default: enabled
+- owner device trust: planned
+- step-up confirmation: planned
+- audit-backed sensitive actions: planned
+- approval execution: inactive
+- secrets visible: false
+- private user data visible: false

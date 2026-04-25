@@ -4244,3 +4244,498 @@ html[data-theme="light"] .tpm-plan-capability-list article {
     grid-template-columns: 1fr;
   }
 }
+
+/* Product Reality Mega Pass: terminal polish and compact living surfaces. */
+.tpmv2-page {
+  max-width: min(100vw, 2240px);
+  min-height: calc(100svh - 82px);
+  padding: clamp(6px, 0.7vw, 14px);
+}
+
+.tpmv2-shell-desktop {
+  min-height: calc(100svh - 98px);
+  grid-template-columns: clamp(190px, 12vw, 248px) minmax(0, 1fr);
+}
+
+.tpmv2-main {
+  min-height: 0;
+}
+
+.tpmv2-desktop-master {
+  align-items: stretch;
+  grid-template-columns: minmax(0, 1fr) clamp(300px, 18vw, 380px);
+}
+
+.tpmv2-desktop-master.tpmv2-desktop-master-focus-chart:not(.tpmv2-desktop-master-ticket-hidden) {
+  grid-template-columns: minmax(0, 1.25fr) clamp(292px, 16vw, 350px);
+}
+
+.tpmv2-chart-surface {
+  min-height: clamp(760px, calc(100svh - 132px), 1240px);
+}
+
+.tpmv2-side,
+.tpmv2-primary {
+  min-height: 0;
+}
+
+@media (min-width: 1900px) {
+  .tpmv2-page {
+    padding-inline: clamp(10px, 1vw, 22px);
+  }
+
+  .tpmv2-shell-desktop {
+    grid-template-columns: clamp(212px, 11vw, 270px) minmax(0, 1fr);
+  }
+
+  .tpmv2-desktop-master {
+    grid-template-columns: minmax(0, 1fr) clamp(320px, 17vw, 410px);
+  }
+
+  .tpmv2-chart-surface {
+    min-height: clamp(800px, calc(100svh - 120px), 1320px);
+  }
+}
+
+@media (min-width: 1200px) {
+  .tpm-companion-shell {
+    inset-inline-end: clamp(332px, 20vw, 420px);
+  }
+
+  .tpm-companion-panel {
+    --tpm-companion-desktop-offset: 0px;
+    transform: none;
+  }
+
+  [dir="rtl"] .tpm-companion-shell {
+    inset-inline-start: clamp(332px, 20vw, 420px);
+    inset-inline-end: auto;
+  }
+
+  [dir="rtl"] .tpm-companion-panel {
+    transform: none;
+  }
+}
+
+.tpm-companion-panel {
+  gap: 12px;
+  overflow: auto;
+}
+
+.tpm-companion-message-list {
+  max-height: 260px;
+  overflow: auto;
+  padding-inline-end: 2px;
+}
+
+.tpm-companion-message[data-tone="ready"] {
+  border-color: color-mix(in srgb, var(--tpm-success) 28%, var(--tpm-border));
+}
+
+.tpm-companion-message small {
+  color: var(--tpm-text-soft);
+  display: block;
+  font-size: 11px;
+  line-height: 1.35;
+  margin-top: 6px;
+}
+
+.tpm-companion-chat-form {
+  align-items: end;
+  border: 1px solid var(--tpm-border);
+  border-radius: 14px;
+  display: grid;
+  gap: 8px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  padding: 10px;
+}
+
+.tpm-companion-chat-field {
+  display: grid;
+  gap: 5px;
+}
+
+.tpm-companion-chat-field span,
+.tpm-journal-entry-composer header span,
+.tpm-decision-replay-card header span,
+.tpm-planet-map-preview header span,
+.tpm-academy-preview header span,
+.tpm-community-readiness header span,
+.tpm-vip-rooms-preview header span,
+.tpm-media-office-panel header span,
+.tpm-ai-video-studio-panel header span,
+.tpm-founder-command-app-shell header > span,
+.tpm-founder-command-desktop-shell header > span,
+.tpm-founder-command-mobile-shell header > span {
+  color: var(--tpm-text-soft);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.tpm-companion-chat-field textarea,
+.tpm-journal-entry-field textarea {
+  background: var(--tpm-input-bg);
+  border: 1px solid var(--tpm-border);
+  border-radius: 10px;
+  color: var(--tpm-text);
+  font: inherit;
+  min-height: 62px;
+  padding: 9px 10px;
+  resize: vertical;
+}
+
+.tpm-companion-chat-form button,
+.tpm-journal-entry-composer footer button {
+  background: color-mix(in srgb, var(--tpm-accent) 18%, transparent);
+  border: 1px solid color-mix(in srgb, var(--tpm-accent) 36%, var(--tpm-border));
+  border-radius: 10px;
+  color: var(--tpm-text);
+  cursor: pointer;
+  font-weight: 900;
+  min-height: 38px;
+  padding: 0 12px;
+}
+
+.tpm-companion-chat-form button:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+}
+
+.tpm-companion-blocked-intents {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tpm-companion-blocked-intents span,
+.tpm-vip-rooms-preview div span,
+.tpm-content-lifecycle span,
+.tpm-planet-map-preview footer span {
+  border: 1px solid var(--tpm-border);
+  border-radius: var(--tpm-radius-pill);
+  color: var(--tpm-text-soft);
+  font-size: 10px;
+  padding: 5px 7px;
+}
+
+.tpm-session-coach-daily-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
+}
+
+.tpm-journal-entry-composer,
+.tpm-decision-replay-card,
+.tpm-planet-map-preview,
+.tpm-academy-preview,
+.tpm-community-readiness,
+.tpm-vip-rooms-preview,
+.tpm-media-office-panel,
+.tpm-ai-video-studio-panel,
+.tpm-founder-command-app-shell,
+.tpm-founder-command-desktop-shell,
+.tpm-founder-command-mobile-shell {
+  background: color-mix(in srgb, var(--tpm-surface-strong) 94%, transparent);
+  border: 1px solid var(--tpm-border);
+  border-radius: 14px;
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+}
+
+.tpm-journal-entry-composer header,
+.tpm-decision-replay-card header,
+.tpm-planet-map-preview header,
+.tpm-academy-preview header,
+.tpm-community-readiness header,
+.tpm-vip-rooms-preview header,
+.tpm-media-office-panel header,
+.tpm-ai-video-studio-panel header,
+.tpm-founder-command-app-shell header,
+.tpm-founder-command-desktop-shell header,
+.tpm-founder-command-mobile-shell header {
+  display: grid;
+  gap: 4px;
+}
+
+.tpm-journal-entry-composer h2,
+.tpm-decision-replay-card h2,
+.tpm-planet-map-preview h2,
+.tpm-academy-preview h2,
+.tpm-community-readiness h2,
+.tpm-vip-rooms-preview h2,
+.tpm-media-office-panel h2,
+.tpm-ai-video-studio-panel h2,
+.tpm-founder-command-app-shell h2,
+.tpm-founder-command-desktop-shell h2,
+.tpm-founder-command-mobile-shell h2 {
+  color: var(--tpm-text);
+  font-size: 16px;
+  margin: 0;
+}
+
+.tpm-journal-entry-composer p,
+.tpm-journal-entry-composer small,
+.tpm-decision-replay-card p,
+.tpm-decision-replay-card small,
+.tpm-planet-map-preview p,
+.tpm-planet-map-preview small,
+.tpm-academy-preview p,
+.tpm-academy-preview small,
+.tpm-community-readiness p,
+.tpm-community-readiness small,
+.tpm-vip-rooms-preview p,
+.tpm-vip-rooms-preview small,
+.tpm-media-office-panel p,
+.tpm-media-office-panel small,
+.tpm-ai-video-studio-panel p,
+.tpm-ai-video-studio-panel small,
+.tpm-founder-command-app-shell p,
+.tpm-founder-command-app-shell small,
+.tpm-founder-command-desktop-shell p,
+.tpm-founder-command-desktop-shell small,
+.tpm-founder-command-mobile-shell p,
+.tpm-founder-command-mobile-shell small {
+  color: var(--tpm-text-soft);
+  font-size: 11px;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.tpm-journal-entry-grid,
+.tpm-product-reality-grid,
+.tpm-founder-command-shell-layouts {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.tpm-journal-entry-field {
+  display: grid;
+  gap: 6px;
+}
+
+.tpm-journal-entry-field span {
+  color: var(--tpm-text);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.tpm-journal-entry-composer footer,
+.tpm-decision-replay-card dl,
+.tpm-planet-map-preview footer,
+.tpm-founder-command-shell-status {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: space-between;
+}
+
+.tpm-decision-replay-card dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+}
+
+.tpm-decision-replay-card dt {
+  color: var(--tpm-text-soft);
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.tpm-decision-replay-card dd {
+  color: var(--tpm-text);
+  font-size: 11px;
+  margin: 2px 0 0;
+}
+
+.tpm-decision-replay-card ul {
+  color: var(--tpm-text-soft);
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding-inline-start: 18px;
+}
+
+.tpm-planet-map-core {
+  aspect-ratio: 16 / 6;
+  border: 1px solid var(--tpm-border);
+  border-radius: 14px;
+  display: grid;
+  overflow: hidden;
+  place-items: center;
+  position: relative;
+}
+
+.tpm-planet-map-core::before {
+  background:
+    linear-gradient(90deg, transparent, color-mix(in srgb, var(--tpm-warning) 18%, transparent), transparent),
+    linear-gradient(color-mix(in srgb, var(--tpm-accent) 8%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--tpm-accent) 8%, transparent) 1px, transparent 1px);
+  background-size: auto, 28px 28px, 28px 28px;
+  content: "";
+  inset: 0;
+  opacity: 0.72;
+  position: absolute;
+}
+
+.tpm-planet-map-globe {
+  aspect-ratio: 1;
+  border: 1px solid color-mix(in srgb, var(--tpm-accent) 45%, var(--tpm-border));
+  border-radius: 50%;
+  display: grid;
+  height: min(72%, 160px);
+  place-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.tpm-planet-map-globe span,
+.tpm-planet-map-orbit {
+  border: 1px solid color-mix(in srgb, var(--tpm-warning) 44%, var(--tpm-border));
+  border-radius: 50%;
+  inset: 16%;
+  position: absolute;
+}
+
+.tpm-planet-map-globe span:nth-child(2) {
+  inset: 28% 10%;
+}
+
+.tpm-planet-map-globe span:nth-child(3) {
+  inset: 10% 40%;
+}
+
+.tpm-planet-map-orbit {
+  inset: 28% 22%;
+  transform: rotate(-13deg);
+  z-index: 1;
+}
+
+.tpm-planet-continent-grid,
+.tpm-planet-resource-summary,
+.tpm-academy-preview > div,
+.tpm-community-readiness > div,
+.tpm-ai-video-studio-panel > div,
+.tpm-media-office-channel-grid,
+.tpm-founder-command-shell-grid,
+.tpm-founder-command-mobile-stack {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.tpm-planet-continent-grid article,
+.tpm-planet-resource-summary article,
+.tpm-academy-preview article,
+.tpm-community-readiness article,
+.tpm-ai-video-studio-panel article,
+.tpm-media-office-channel-grid article,
+.tpm-founder-command-shell-grid article,
+.tpm-founder-command-mobile-stack article,
+.tpm-founder-command-shell-status > div {
+  background: var(--tpm-control-bg);
+  border: 1px solid var(--tpm-border-soft);
+  border-radius: 10px;
+  display: grid;
+  gap: 4px;
+  padding: 9px;
+}
+
+.tpm-planet-continent-grid article[data-readiness="blocked"] {
+  border-color: color-mix(in srgb, var(--tpm-danger) 32%, var(--tpm-border));
+}
+
+.tpm-planet-continent-grid article[data-readiness="ready"] {
+  border-color: color-mix(in srgb, var(--tpm-success) 30%, var(--tpm-border));
+}
+
+.tpm-planet-continent-grid article > span,
+.tpm-planet-resource-summary article > span,
+.tpm-community-readiness article > span {
+  color: var(--tpm-text-soft);
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.tpm-planet-continent-grid strong,
+.tpm-planet-resource-summary strong,
+.tpm-academy-preview strong,
+.tpm-community-readiness strong,
+.tpm-ai-video-studio-panel strong,
+.tpm-media-office-channel-grid strong,
+.tpm-founder-command-shell-grid strong,
+.tpm-founder-command-mobile-stack strong,
+.tpm-founder-command-shell-status strong {
+  color: var(--tpm-text);
+  font-size: 12px;
+}
+
+.tpm-content-lifecycle {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tpm-content-lifecycle span[data-state="published"],
+.tpm-content-lifecycle span[data-state="scheduled"] {
+  opacity: 0.5;
+}
+
+.tpm-content-lifecycle span[data-state="blocked"] {
+  border-color: color-mix(in srgb, var(--tpm-danger) 44%, var(--tpm-border));
+  color: var(--tpm-status-blocked-text);
+}
+
+html[data-theme="light"] .tpm-journal-entry-composer,
+html[data-theme="light"] .tpm-decision-replay-card,
+html[data-theme="light"] .tpm-planet-map-preview,
+html[data-theme="light"] .tpm-academy-preview,
+html[data-theme="light"] .tpm-community-readiness,
+html[data-theme="light"] .tpm-vip-rooms-preview,
+html[data-theme="light"] .tpm-media-office-panel,
+html[data-theme="light"] .tpm-ai-video-studio-panel,
+html[data-theme="light"] .tpm-founder-command-app-shell,
+html[data-theme="light"] .tpm-founder-command-desktop-shell,
+html[data-theme="light"] .tpm-founder-command-mobile-shell {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+[dir="rtl"] .tpm-companion-chat-form,
+[dir="rtl"] .tpm-journal-entry-composer,
+[dir="rtl"] .tpm-decision-replay-card,
+[dir="rtl"] .tpm-planet-map-preview,
+[dir="rtl"] .tpm-academy-preview,
+[dir="rtl"] .tpm-community-readiness,
+[dir="rtl"] .tpm-vip-rooms-preview,
+[dir="rtl"] .tpm-media-office-panel,
+[dir="rtl"] .tpm-ai-video-studio-panel {
+  text-align: start;
+}
+
+@media (max-width: 1180px) {
+  .tpm-session-coach-daily-grid,
+  .tpm-product-reality-grid,
+  .tpm-founder-command-shell-layouts {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .tpm-companion-chat-form,
+  .tpm-journal-entry-grid,
+  .tpm-decision-replay-card dl,
+  .tpm-planet-continent-grid,
+  .tpm-planet-resource-summary,
+  .tpm-academy-preview > div,
+  .tpm-community-readiness > div,
+  .tpm-ai-video-studio-panel > div,
+  .tpm-media-office-channel-grid,
+  .tpm-founder-command-shell-grid {
+    grid-template-columns: 1fr;
+  }
+}

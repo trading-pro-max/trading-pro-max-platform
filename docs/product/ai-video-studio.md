@@ -81,3 +81,8 @@ Current truth:
 - no fake views
 - no fake partnerships
 - Legal, Guardian, and Founder review required before any public content workflow
+## Product Reality UI Foundation
+
+AI Video Studio is represented as readiness for ideas, scripts, captions, thumbnail briefs, scene outlines, and compliance scoring.
+
+There is no video generation API, upload, external publishing, fake views, fake followers, fake ads, or fake partnership claim in this phase. Legal, Guardian, and Founder review remain required before any future public release workflow.

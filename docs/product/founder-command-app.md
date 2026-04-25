@@ -96,3 +96,17 @@ This remains owner-only and read-only:
 - no approval execution
 - no revenue/user/metric claims
 - no public route or public navigation entry
+## Product Reality App Shell
+
+The Founder King Command App shell is now represented as reusable internal components for desktop and mobile command architecture. The shell aggregates planet status, ministries, Presidency coordination, councils, Guardian, Legal, Treasury, Media, AI Video, Engineering, Ops, approvals, product truth, and next safe actions.
+
+It remains:
+
+- owner-only
+- read-only by default
+- hidden from public navigation
+- not a Free, Pro, VIP, or Enterprise feature
+- non-operational for approval execution
+- disconnected from billing, broker/feed, live execution, real money, social publishing, and production secrets
+
+Native desktop/mobile app packaging, owner device trust, step-up confirmation, and audit-backed action execution remain planned blockers.

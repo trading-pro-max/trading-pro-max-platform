@@ -1,4 +1,7 @@
-import { getCompanionContextSnapshot } from "@/lib/server/companion";
+import {
+  buildCompanionResponseTemplates,
+  getCompanionContextSnapshot,
+} from "@/lib/server/companion";
 import { noStoreJson } from "@/lib/server/security";
 import type { CompanionContextInput } from "@/lib/server/companion/types";
 
@@ -50,8 +53,11 @@ export async function GET(request: Request) {
         : undefined,
   };
 
+  const snapshot = getCompanionContextSnapshot(input);
+
   return noStoreJson({
     ok: true,
-    snapshot: getCompanionContextSnapshot(input),
+    snapshot,
+    responses: buildCompanionResponseTemplates(snapshot),
   });
 }

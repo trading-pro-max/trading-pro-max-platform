@@ -66,3 +66,14 @@ Before future activation, VIP rooms require:
 - Founder approval
 
 Do not claim active rooms, members, VIP access, or private strategy channels.
+## Product Reality VIP Room State
+
+VIP rooms are represented as planned value only. They may describe future strategy review, advanced coaching, premium reports, and private discussions, but they must not claim:
+
+- active VIP room access
+- active VIP Brain
+- guaranteed trading signals
+- copy trading
+- priority support availability
+- private performance results
+- billing activation

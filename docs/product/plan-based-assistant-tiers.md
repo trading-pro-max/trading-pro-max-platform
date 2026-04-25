@@ -138,3 +138,15 @@ Assistant tiers support the plan economy only through truthful guidance:
 - Enterprise: future team/admin guidance.
 
 The assistant must not execute trades, activate live mode, activate broker/feed, unlock billing, claim paid access, guarantee signals, imply VIP is active, or pressure the user into upgrade behavior.
+## Product Reality Chat Tier Behavior
+
+The current Companion chat foundation is deterministic and bounded by plan truth:
+
+- Guest: product orientation only
+- Free / Demo: paper-safe platform explanation, blocked-state explanation, basic learning, feedback drafting, and journal prompts
+- Pro: richer guidance, alerts, workflows, and deeper journal support remain planned
+- VIP: VIP Brain, advanced review, premium reports, and strategy support remain planned
+- Enterprise: future team/admin guidance only
+- Founder: handled by the separate Founder Personal Companion, not the user chat
+
+No tier can execute trades, activate live, route real money, configure broker/feed, change secrets, bypass auth, guarantee profit, provide win-rate claims, fake billing, fake launch, or fake VIP activation.

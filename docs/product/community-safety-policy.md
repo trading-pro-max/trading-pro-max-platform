@@ -32,3 +32,17 @@ No rooms are active in the current product.
 ## Truth Rules
 
 Community readiness must not claim members, active rooms, active moderators, active VIP rooms, revenue, or public social-network launch.
+## Product Reality Safety Reminder
+
+Community and VIP room surfaces must remain readiness-only until moderation exists. They must block or review:
+
+- scam attempts
+- fake profit screenshots
+- guaranteed signals
+- deceptive strategy selling
+- impersonation
+- harassment
+- illegal content
+- copy-trading claims without legal review
+
+No fake room activity, fake members, fake moderators, or fake VIP access may be shown.

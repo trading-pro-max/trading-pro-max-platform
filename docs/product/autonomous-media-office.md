@@ -83,3 +83,9 @@ Current hard truth:
 - Legal review required
 - Guardian review required
 - Founder approval required for sensitive claims
+
+## Product Reality UI Foundation
+
+The Media Office readiness panel now shows draft/review/approval lifecycle states, future channel registry readiness, and AI Video Studio script readiness.
+
+It does not publish, upload, connect social accounts, hold tokens, run campaigns, show followers, show views, run ads, or claim partnerships.

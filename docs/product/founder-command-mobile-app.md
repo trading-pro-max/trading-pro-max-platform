@@ -81,3 +81,8 @@ Mobile rules:
 - no secrets or private user data
 - no approve/reject execution until audited approval system exists
 - approval cards remain conceptual/read-only until owner auth, device trust, step-up confirmation, Guardian/Legal/Treasury/Engineering review, and audit gates exist
+## Product Reality Mobile Shell
+
+The mobile shell foundation is for urgent owner review only: today briefing, critical alerts, approval queue, Guardian alerts, Legal warnings, media review, ops incidents, treasury readiness, and review-later concepts.
+
+No mobile approval execution exists. Future approve/reject/review-later actions require owner auth, device trust, step-up confirmation, audit trails, and Guardian/Legal block preservation.

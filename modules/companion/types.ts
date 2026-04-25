@@ -83,14 +83,16 @@ export type TPMCompanionContextView = {
     winRateClaimsAllowed: false;
   };
   guidanceBoundaries: string[];
+  blockedIntents: string[];
 };
 
 export type TPMCompanionMessage = {
   id: string;
-  role: "companion" | "system";
+  role: "companion" | "system" | "user";
   title: string;
   body: string;
   state?: "ready" | "blocked" | "planned" | "fallback";
+  safeNextStep?: string;
 };
 
 export type TPMCompanionPrompt = {
@@ -106,3 +108,11 @@ export type TPMCompanionPlanView = {
 };
 
 export type TPMCompanionStateExplanationMap = Record<string, StateExplanationView>;
+
+export type TPMCompanionResponseTemplate = {
+  intent: string;
+  title: string;
+  body: string;
+  safeNextStep: string;
+  state: "ready" | "blocked" | "planned" | "fallback";
+};
