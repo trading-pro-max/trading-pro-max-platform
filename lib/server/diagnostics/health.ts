@@ -33,6 +33,7 @@ import {
 } from "@/lib/server/intelligence";
 import {
   getLocalDayOneReadinessSnapshot,
+  getLocalDayOneOperationSnapshot,
   getLocalDailyOperationsLoopSnapshot,
   getLocalDailyOperationsReportSnapshot,
   getLocalOperationsFinalReportSnapshot,
@@ -46,7 +47,10 @@ import {
   getProductMemoryDailySummarySnapshot,
   getProductMemorySummarySnapshot,
 } from "@/lib/server/product-memory";
-import { getProductRealityFinalScoreSnapshot } from "@/lib/server/product-reality";
+import {
+  getProductRealityFinalScoreSnapshot,
+  getProductRealityLocalStartScoreSnapshot,
+} from "@/lib/server/product-reality";
 import { getCommunityReadinessSnapshot } from "@/lib/server/community";
 import { getSecuritySovereigntySnapshot } from "@/lib/server/security-sovereignty";
 import { getSecretsAuthoritySnapshot } from "@/lib/server/secrets-authority";
@@ -1307,8 +1311,12 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     checkedAt,
   };
   const localDayOneSnapshot = getLocalDayOneReadinessSnapshot(checkedAt);
+  const localDayOneOperationSnapshot =
+    getLocalDayOneOperationSnapshot(checkedAt);
   const localFinalReport = getLocalOperationsFinalReportSnapshot(checkedAt);
   const productRealityFinalScore = getProductRealityFinalScoreSnapshot(checkedAt);
+  const productRealityLocalStartScore =
+    getProductRealityLocalStartScoreSnapshot(checkedAt);
   const localDayOneProbe: DiagnosticsProbe = {
     key: "local_day_one_acceptance",
     label: "Local Day One readiness",
@@ -1318,6 +1326,19 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       : "Local Day One has blockers",
     detail:
       `Gate ${localDayOneSnapshot.gateStatus}; score ${productRealityFinalScore.overallScore}/10; ${localDayOneSnapshot.summary.needsAhmadReview} area(s) need Ahmad review. ${localFinalReport.launchForbiddenReminder}`,
+    checkedAt,
+  };
+  const localDayOneOperationProbe: DiagnosticsProbe = {
+    key: "local_day_one_operation",
+    label: "Local Day One Operation",
+    status: localDayOneOperationSnapshot.canStartLocalWork
+      ? "ready"
+      : "degraded",
+    summary: localDayOneOperationSnapshot.canStartLocalWork
+      ? "Ready with notes for closed local work"
+      : "Local operation start has blockers",
+    detail:
+      `Operation gate ${localDayOneOperationSnapshot.status}; local start score ${productRealityLocalStartScore.overallScore}/10; Ahmad visual review required: ${localDayOneOperationSnapshot.ahmadHumanVisualAcceptanceRequired}. This is local-only, paper-safe, non-production, non-launch work-start readiness.`,
     checkedAt,
   };
   const founderBuildRoomSnapshot = getFounderBuildRoomReadinessSnapshot(checkedAt);
@@ -1514,6 +1535,20 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
           "Local Day One route reports the closed local acceptance gate, Ahmad review requirement, and non-launch truth.",
       },
       {
+        path: "/api/local-ops/start-readiness",
+        method: "GET",
+        status: localDayOneOperationProbe.status,
+        detail:
+          "Local start readiness route reports the closed local operation gate, required screenshots, and non-launch truth without activation authority.",
+      },
+      {
+        path: "/api/local-ops/day-one-operation",
+        method: "GET",
+        status: localDayOneOperationProbe.status,
+        detail:
+          "Local Day One Operation route reports the final local work-start checklist, Ahmad visual review requirement, and blocked-by-design activation scope.",
+      },
+      {
         path: "/api/local-ops/final-report",
         method: "GET",
         status: localDayOneProbe.status,
@@ -1526,6 +1561,13 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         status: localDayOneProbe.status,
         detail:
           "Product reality final score route uses a 0-10 local review scale and forbids fake 10/10 or global launch readiness claims.",
+      },
+      {
+        path: "/api/product-reality/local-start-score",
+        method: "GET",
+        status: localDayOneOperationProbe.status,
+        detail:
+          "Local start score route reports practical local operation scores and keeps Ahmad human visual acceptance required.",
       },
       {
         path: "/api/founder/local-day-one/readiness",
@@ -1690,6 +1732,13 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         status: localDayOneProbe.status,
         summary: localDayOneProbe.summary,
         detail: localDayOneProbe.detail,
+      },
+      {
+        key: "local_day_one_operation",
+        label: localDayOneOperationProbe.label,
+        status: localDayOneOperationProbe.status,
+        summary: localDayOneOperationProbe.summary,
+        detail: localDayOneOperationProbe.detail,
       },
       {
         key: "founder_build_room",

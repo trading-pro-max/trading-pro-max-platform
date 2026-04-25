@@ -108,3 +108,54 @@ export type ProductRealityFinalScoreSnapshot = {
     fakeUsersRevenueMetrics: false;
   };
 };
+
+export type ProductRealityLocalStartScoreArea =
+  | "public_entry"
+  | "workstation"
+  | "chart"
+  | "execution"
+  | "assistant"
+  | "journal_coach"
+  | "settings"
+  | "diagnostics"
+  | "plan_clarity"
+  | "visual_maturity"
+  | "local_operations";
+
+export type ProductRealityLocalStartScoreItem = {
+  area: ProductRealityLocalStartScoreArea;
+  label: string;
+  score: number;
+  status: "pass" | "ready_with_notes" | "needs_ahmad_review" | "blocked";
+  reason: string;
+  nextAction: string;
+  humanAcceptanceNeeded: boolean;
+};
+
+export type ProductRealityLocalStartScoreSnapshot = {
+  checkedAt: string;
+  mode: "local_start_product_reality_score";
+  overallScore: number;
+  status: "ready_with_notes" | "partial" | "blocked";
+  areas: ProductRealityLocalStartScoreItem[];
+  ahmadHumanVisualAcceptanceRequired: true;
+  summary: {
+    totalAreas: number;
+    pass: number;
+    readyWithNotes: number;
+    needsAhmadReview: number;
+    blocked: number;
+  };
+  truth: {
+    scale: "0_to_10";
+    noPerfectScoreClaim: true;
+    localOperationsOnly: true;
+    globalLaunchReadinessClaimed: false;
+    fakeUsersRevenueMetrics: false;
+    billingActive: false;
+    brokerFeedActive: false;
+    liveExecutionActive: false;
+    realMoneyActive: false;
+    socialPublishingActive: false;
+  };
+};

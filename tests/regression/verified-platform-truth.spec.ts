@@ -5759,8 +5759,11 @@ test.describe("verified platform truth", () => {
   }) => {
     const endpoints = [
       "/api/local-ops/day-one",
+      "/api/local-ops/start-readiness",
+      "/api/local-ops/day-one-operation",
       "/api/local-ops/final-report",
       "/api/product-reality/final-score",
+      "/api/product-reality/local-start-score",
       "/api/founder/local-day-one/readiness",
     ];
 
@@ -5847,6 +5850,83 @@ test.describe("verified platform truth", () => {
       "does not evaluate or authorize global launch"
     );
 
+    const operation = await (
+      await request.get("/api/local-ops/day-one-operation")
+    ).json();
+    expect(operation.snapshot).toMatchObject({
+      mode: "local_day_one_operation_gate",
+      status: "ready_with_notes",
+      canStartLocalWork: true,
+      canStartOnlyAs: "closed_local_paper_safe_review",
+      ahmadHumanVisualAcceptanceRequired: true,
+      ahmadVisualReviewRecorded: false,
+      globalLaunchReadinessClaimed: false,
+      truth: {
+        localOnly: true,
+        paperSafe: true,
+        nonLaunch: true,
+        nonProduction: true,
+        billingActive: false,
+        brokerFeedActive: false,
+        liveExecutionActive: false,
+        realMoneyActive: false,
+        socialPublishingActive: false,
+        fakeUsersRevenueMetrics: false,
+        founderGoverned: true,
+        globalLaunchReadinessClaimed: false,
+      },
+    });
+    expect(operation.snapshot.reviewAreas).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ id: "chart", status: "needs_ahmad_review" }),
+        expect.objectContaining({
+          id: "founder_command_privacy",
+          status: "pass",
+        }),
+        expect.objectContaining({
+          id: "build_room_readiness",
+          status: "pass",
+        }),
+      ])
+    );
+    expect(operation.snapshot.requiredScreenshots).toEqual(
+      expect.arrayContaining([
+        "public-entry-dark.png",
+        "public-entry-light.png",
+        "workstation-dark.png",
+        "workstation-light.png",
+        "chart-focus.png",
+        "execution-ticket.png",
+        "assistant-open.png",
+        "journal-coach.png",
+        "settings.png",
+        "diagnostics.png",
+        "plan-surfaces.png",
+        "arabic-rtl-workstation.png",
+      ])
+    );
+    expect(operation.snapshot.blockedByDesign).toEqual(
+      expect.arrayContaining([
+        "global launch",
+        "production activation",
+        "billing activation",
+        "broker/feed activation",
+        "live execution",
+        "real-money routing",
+        "social publishing",
+      ])
+    );
+
+    const startReadiness = await (
+      await request.get("/api/local-ops/start-readiness")
+    ).json();
+    expect(startReadiness.snapshot).toMatchObject({
+      mode: "local_day_one_operation_gate",
+      status: "ready_with_notes",
+      canStartLocalWork: true,
+      globalLaunchReadinessClaimed: false,
+    });
+
     const finalReport = await (
       await request.get("/api/local-ops/final-report")
     ).json();
@@ -5914,6 +5994,45 @@ test.describe("verified platform truth", () => {
       expect(area.blocker).toBeNull();
     }
 
+    const localStartScore = await (
+      await request.get("/api/product-reality/local-start-score")
+    ).json();
+    expect(localStartScore.snapshot).toMatchObject({
+      mode: "local_start_product_reality_score",
+      status: "ready_with_notes",
+      ahmadHumanVisualAcceptanceRequired: true,
+      summary: {
+        totalAreas: 11,
+        blocked: 0,
+      },
+      truth: {
+        scale: "0_to_10",
+        noPerfectScoreClaim: true,
+        localOperationsOnly: true,
+        globalLaunchReadinessClaimed: false,
+        fakeUsersRevenueMetrics: false,
+        billingActive: false,
+        brokerFeedActive: false,
+        liveExecutionActive: false,
+        realMoneyActive: false,
+        socialPublishingActive: false,
+      },
+    });
+    expect(localStartScore.snapshot.overallScore).toBeGreaterThan(0);
+    expect(localStartScore.snapshot.overallScore).toBeLessThan(10);
+    expect(localStartScore.snapshot.areas).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          area: "chart",
+          status: "needs_ahmad_review",
+        }),
+        expect.objectContaining({
+          area: "local_operations",
+          status: "pass",
+        }),
+      ])
+    );
+
     const founderDayOne = await (
       await request.get("/api/founder/local-day-one/readiness")
     ).json();
@@ -5932,6 +6051,17 @@ test.describe("verified platform truth", () => {
       },
       productRealityFinalScore: {
         status: "needs_human_review",
+        noPerfectScoreClaim: true,
+      },
+      operationGate: {
+        status: "ready_with_notes",
+        canStartLocalWork: true,
+        canStartOnlyAs: "closed_local_paper_safe_review",
+        ahmadHumanVisualAcceptanceRequired: true,
+        ahmadVisualReviewRecorded: false,
+      },
+      productRealityLocalStartScore: {
+        status: "ready_with_notes",
         noPerfectScoreClaim: true,
       },
       truth: {
@@ -5963,6 +6093,15 @@ test.describe("verified platform truth", () => {
         status: "needs_human_review",
         noPerfectScoreClaim: true,
       },
+      operationGate: {
+        status: "ready_with_notes",
+        canStartLocalWork: true,
+        ahmadHumanVisualAcceptanceRequired: true,
+      },
+      productRealityLocalStartScore: {
+        status: "ready_with_notes",
+        noPerfectScoreClaim: true,
+      },
       truth: {
         publicLaunchActive: false,
         globalLaunchReadinessClaimed: false,
@@ -5982,8 +6121,13 @@ test.describe("verified platform truth", () => {
     expect(diagnostics.health.routes).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ path: "/api/local-ops/day-one" }),
+        expect.objectContaining({ path: "/api/local-ops/start-readiness" }),
+        expect.objectContaining({ path: "/api/local-ops/day-one-operation" }),
         expect.objectContaining({ path: "/api/local-ops/final-report" }),
         expect.objectContaining({ path: "/api/product-reality/final-score" }),
+        expect.objectContaining({
+          path: "/api/product-reality/local-start-score",
+        }),
         expect.objectContaining({ path: "/api/founder/local-day-one/readiness" }),
       ])
     );
@@ -5993,12 +6137,17 @@ test.describe("verified platform truth", () => {
           key: "local_day_one_acceptance",
           status: "ready",
         }),
+        expect.objectContaining({
+          key: "local_day_one_operation",
+          status: "ready",
+        }),
       ])
     );
 
     await page.goto("/diagnostics");
     await expect(page.locator("main").first()).toBeVisible();
     await expect(page.locator("body")).toContainText("Local acceptance gate");
+    await expect(page.locator("body")).toContainText("Local Day One Operation");
     await expect(page.locator("body")).toContainText("Ready for local review");
     await expect(page.locator("body")).toContainText("Product reality score");
     await expect(page.locator("body")).not.toContainText(/Enterprise|TPM Companion/);

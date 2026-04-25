@@ -1251,6 +1251,15 @@ export function PlatformDiagnosticsSurface({
     localDayOneLoadState.status === "ready" && productRealityFinalScoreLoadState.status === "ready"
       ? [
           {
+            label: "Local Day One Operation",
+            value:
+              diagnosticsHealth?.subsystems?.find(
+                (subsystem) => subsystem.key === "local_day_one_operation"
+              )?.summary ?? "Ready with notes",
+            tone: "pending" as const,
+            note: "Closed local work-start only: local, paper-safe, non-production, and non-launch.",
+          },
+          {
             label: "Local Day One",
             value: localDayOneLoadState.snapshot.readyToStartLocalDayOne
               ? "Ready for local review"

@@ -1,5 +1,6 @@
 export * from "./day-cycle";
 export * from "./day-one";
+export * from "./day-one-operation";
 export * from "./daily-loop";
 export * from "./daily-report";
 export * from "./digital-twin";

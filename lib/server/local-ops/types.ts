@@ -243,3 +243,73 @@ export type LocalOperationsFinalReportSnapshot = {
   launchForbiddenReminder: string;
   truth: LocalDayOneReadinessSnapshot["truth"];
 };
+
+export type LocalDayOneOperationStatus =
+  | "ready_to_start"
+  | "ready_with_notes"
+  | "partial"
+  | "blocked"
+  | "requires_ahmad_visual_review";
+
+export type LocalDayOneOperationReviewAreaId =
+  | "public_entry"
+  | "free_clarity"
+  | "pro_planned_clarity"
+  | "vip_planned_clarity"
+  | "institutional_future_clarity"
+  | "workstation"
+  | "chart"
+  | "paper_execution"
+  | "assistant"
+  | "journal_coach"
+  | "settings"
+  | "diagnostics"
+  | "product_truth"
+  | "founder_command_privacy"
+  | "local_day_cycle"
+  | "product_memory"
+  | "build_room_readiness";
+
+export type LocalDayOneOperationReviewArea = {
+  id: LocalDayOneOperationReviewAreaId;
+  label: string;
+  status: "pass" | "ready_with_notes" | "needs_ahmad_review" | "blocked_by_design";
+  reason: string;
+  evidence: string[];
+  nextAction: string;
+};
+
+export type LocalDayOneOperationSnapshot = {
+  checkedAt: string;
+  mode: "local_day_one_operation_gate";
+  status: LocalDayOneOperationStatus;
+  canStartLocalWork: boolean;
+  canStartOnlyAs: "closed_local_paper_safe_review";
+  ahmadHumanVisualAcceptanceRequired: true;
+  ahmadVisualReviewRecorded: false;
+  globalLaunchReadinessClaimed: false;
+  commands: string[];
+  routes: string[];
+  reviewAreas: LocalDayOneOperationReviewArea[];
+  operationChecklist: string[];
+  finalChecklist: string[];
+  visualProofDirectory: string;
+  requiredScreenshots: string[];
+  remainingLocalBlockers: string[];
+  notes: string[];
+  blockedByDesign: string[];
+  truth: {
+    localOnly: true;
+    paperSafe: true;
+    nonLaunch: true;
+    nonProduction: true;
+    billingActive: false;
+    brokerFeedActive: false;
+    liveExecutionActive: false;
+    realMoneyActive: false;
+    socialPublishingActive: false;
+    fakeUsersRevenueMetrics: false;
+    founderGoverned: true;
+    globalLaunchReadinessClaimed: false;
+  };
+};

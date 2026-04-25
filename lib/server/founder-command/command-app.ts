@@ -18,6 +18,7 @@ import { getGrowthIntelligenceReadinessSnapshot } from "@/lib/server/growth-inte
 import { getJournalCoachSnapshot } from "@/lib/server/journal-coach";
 import {
   getLocalDayOneReadinessSnapshot,
+  getLocalDayOneOperationSnapshot,
   getLocalDailyOperationsLoopSnapshot,
   getLocalDailyOperationsReportSnapshot,
   getLocalOperationsFinalReportSnapshot,
@@ -41,6 +42,7 @@ import {
 } from "@/lib/server/product-memory";
 import {
   getProductRealityFinalScoreSnapshot,
+  getProductRealityLocalStartScoreSnapshot,
   getProductRealityScoreSnapshot,
   getProductSurfaceDigitalTwinSnapshot,
 } from "@/lib/server/product-reality";
@@ -118,6 +120,8 @@ export function getFounderCommandAppSnapshot(
   const selfHealing = getSelfHealingPipelineSnapshot(checkedAt);
   const productRealityScore = getProductRealityScoreSnapshot(checkedAt);
   const productRealityFinalScore = getProductRealityFinalScoreSnapshot(checkedAt);
+  const productRealityLocalStartScore =
+    getProductRealityLocalStartScoreSnapshot(checkedAt);
   const digitalTwin = getProductSurfaceDigitalTwinSnapshot(checkedAt);
   const memoryGraph = getPlanetMemoryGraphSnapshot(checkedAt);
   const founderPreferences = getFounderPreferenceSnapshot(checkedAt);
@@ -125,6 +129,7 @@ export function getFounderCommandAppSnapshot(
   const trustGovernor = getTrustGovernorSnapshot(checkedAt);
   const localOps = getLocalOperationsReadinessSnapshot(checkedAt);
   const localDayOne = getLocalDayOneReadinessSnapshot(checkedAt);
+  const localDayOneOperation = getLocalDayOneOperationSnapshot(checkedAt);
   const localDailyLoop = getLocalDailyOperationsLoopSnapshot(checkedAt);
   const localDailyReport = getLocalDailyOperationsReportSnapshot(checkedAt);
   const localFinalReport = getLocalOperationsFinalReportSnapshot(checkedAt);
@@ -626,6 +631,25 @@ export function getFounderCommandAppSnapshot(
         noPerfectScoreClaim:
           productRealityFinalScore.truth.noPerfectScoreClaim,
       },
+      operationGate: {
+        status: localDayOneOperation.status,
+        canStartLocalWork: localDayOneOperation.canStartLocalWork,
+        canStartOnlyAs: localDayOneOperation.canStartOnlyAs,
+        ahmadHumanVisualAcceptanceRequired:
+          localDayOneOperation.ahmadHumanVisualAcceptanceRequired,
+        ahmadVisualReviewRecorded:
+          localDayOneOperation.ahmadVisualReviewRecorded,
+        visualProofDirectory: localDayOneOperation.visualProofDirectory,
+        requiredScreenshots: localDayOneOperation.requiredScreenshots,
+        remainingLocalBlockers: localDayOneOperation.remainingLocalBlockers,
+      },
+      productRealityLocalStartScore: {
+        overallScore: productRealityLocalStartScore.overallScore,
+        status: productRealityLocalStartScore.status,
+        summary: productRealityLocalStartScore.summary,
+        noPerfectScoreClaim:
+          productRealityLocalStartScore.truth.noPerfectScoreClaim,
+      },
       finalReport: {
         canStartLocalDayOne: localFinalReport.canStartLocalDayOne,
         complete: localFinalReport.complete.length,
@@ -841,6 +865,8 @@ export function getFounderCommandAppSnapshot(
       "/api/founder/construction/readiness",
       "/api/local-ops/day-cycle",
       "/api/local-ops/day-one",
+      "/api/local-ops/start-readiness",
+      "/api/local-ops/day-one-operation",
       "/api/local-ops/daily-loop",
       "/api/local-ops/daily-report",
       "/api/local-ops/readiness-law",
@@ -848,6 +874,7 @@ export function getFounderCommandAppSnapshot(
       "/api/local-ops/final-report",
       "/api/local-ops/digital-twin",
       "/api/product-reality/final-score",
+      "/api/product-reality/local-start-score",
       "/api/founder/local-day-one/readiness",
       "/api/product-memory/summary",
       "/api/product-memory/founder-acceptance",

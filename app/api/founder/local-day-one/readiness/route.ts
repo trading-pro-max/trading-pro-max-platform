@@ -1,9 +1,13 @@
 import { getFounderCommandAppSnapshot } from "@/lib/server/founder-command";
 import {
   getLocalDayOneReadinessSnapshot,
+  getLocalDayOneOperationSnapshot,
   getLocalOperationsFinalReportSnapshot,
 } from "@/lib/server/local-ops";
-import { getProductRealityFinalScoreSnapshot } from "@/lib/server/product-reality";
+import {
+  getProductRealityFinalScoreSnapshot,
+  getProductRealityLocalStartScoreSnapshot,
+} from "@/lib/server/product-reality";
 import { noStoreJson } from "@/lib/server/security";
 
 export const runtime = "nodejs";
@@ -12,7 +16,9 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   const checkedAt = new Date().toISOString();
   const dayOne = getLocalDayOneReadinessSnapshot(checkedAt);
+  const operationGate = getLocalDayOneOperationSnapshot(checkedAt);
   const finalScore = getProductRealityFinalScoreSnapshot(checkedAt);
+  const localStartScore = getProductRealityLocalStartScoreSnapshot(checkedAt);
   const finalReport = getLocalOperationsFinalReportSnapshot(checkedAt);
   const founderCommand = getFounderCommandAppSnapshot(checkedAt);
 
@@ -36,6 +42,22 @@ export async function GET() {
         ahmadHumanAcceptanceRequired:
           finalScore.ahmadHumanAcceptanceRequired,
         noPerfectScoreClaim: finalScore.truth.noPerfectScoreClaim,
+      },
+      operationGate: {
+        status: operationGate.status,
+        canStartLocalWork: operationGate.canStartLocalWork,
+        canStartOnlyAs: operationGate.canStartOnlyAs,
+        ahmadHumanVisualAcceptanceRequired:
+          operationGate.ahmadHumanVisualAcceptanceRequired,
+        ahmadVisualReviewRecorded: operationGate.ahmadVisualReviewRecorded,
+        visualProofDirectory: operationGate.visualProofDirectory,
+        remainingLocalBlockers: operationGate.remainingLocalBlockers,
+      },
+      productRealityLocalStartScore: {
+        overallScore: localStartScore.overallScore,
+        status: localStartScore.status,
+        summary: localStartScore.summary,
+        noPerfectScoreClaim: localStartScore.truth.noPerfectScoreClaim,
       },
       finalReport: {
         canStartLocalDayOne: finalReport.canStartLocalDayOne,
