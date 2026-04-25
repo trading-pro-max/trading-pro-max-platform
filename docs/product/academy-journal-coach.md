@@ -149,3 +149,17 @@ Forbidden memory:
 - hidden tracking
 
 Account-safe durable persistence remains planned and requires a future explicit implementation pass.
+
+## TPM Assistant Integration
+
+TPM Assistant may guide Journal/Coach safely:
+
+- start a paper-session note
+- suggest a decision note
+- ask what condition is being rehearsed
+- ask what would make the user pause
+- suggest a post-session learning reflection
+- explain paper-mode learning
+- explain that persistence is local/session foundation only
+
+TPM Assistant must not promise better trading results, pressure the user to trade, provide financial advice, generate guaranteed strategies, or fake persistent storage.

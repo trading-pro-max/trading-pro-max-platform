@@ -985,7 +985,13 @@ export function PlatformDiagnosticsSurface({
       label: "Assistant context",
       value: "Safe readiness only",
       tone: "pending" as const,
-      note: "Route, theme, plan, account type, diagnostics, and product truth are safe to explain without secrets.",
+      note: "Route, theme, plan, account type, Why Blocked, Journal/Coach, diagnostics, and product truth are safe to explain without secrets.",
+    },
+    {
+      label: "Blocked intents",
+      value: "Covered",
+      tone: "blocked" as const,
+      note: "Execution, live, real money, broker/feed, billing, secrets, social publishing, advice, guarantees, and fake activation stay blocked.",
     },
     {
       label: "Execution authority",
@@ -1057,9 +1063,9 @@ export function PlatformDiagnosticsSurface({
     },
     {
       label: "Assistant intents",
-      value: "Safe categories only",
+      value: "Daily-use safe",
       tone: "approved" as const,
-      note: "Explain state, blocked reasons, plans, feedback, journal prompts, and learning help; no execution authority.",
+      note: "Explain state, blocked reasons, plans, feedback, Journal/Coach prompts, settings, diagnostics, and learning help; no execution authority.",
     },
     {
       label: "Safety / review matrix",

@@ -21,6 +21,7 @@ export type TPMCompanionContextView = {
   };
   planEntitlements: {
     currentPlan: PlanId;
+    publicPlanName: "Free" | "Pro" | "VIP" | "Institutional";
     billing: "inactive";
     paidAccess: "not_enabled";
     vipActivation: "not_active";
@@ -59,10 +60,58 @@ export type TPMCompanionContextView = {
     socialPublishing: "inactive";
     founderCommand: "owner_only_private";
   };
+  whyBlocked: {
+    liveDisabled: string;
+    realMoneyBlocked: string;
+    brokerUnavailable: string;
+    feedFallback: string;
+    billingInactive: string;
+    proPlanned: string;
+    vipPlanned: string;
+    institutionalFuture: string;
+    islamicNotCertified: string;
+    launchInactive: string;
+    socialPublishingInactive: string;
+    restrictedControlsPrivate: string;
+  };
+  journalCoach: {
+    readiness: "basic_safe_prompts_active";
+    persistence: "local_session_memory_foundation";
+    accountSafePersistence: "planned";
+    canSuggestJournalNotes: true;
+    canSuggestCoachPrompts: true;
+    canPromiseResults: false;
+    canGiveFinancialAdvice: false;
+    canFakePersistence: false;
+  };
+  memoryReadiness: {
+    mode: "session_local_foundation";
+    localNotesSupported: boolean;
+    safeSummariesOnly: true;
+    accountSafePersistence: "planned";
+    productionSync: "inactive";
+    surveillance: "blocked";
+  };
+  settingsReadiness: {
+    route: "/settings";
+    canGuide: true;
+    canChangeSecrets: false;
+    canActivateBilling: false;
+  };
+  diagnosticsReadiness: {
+    route: "/diagnostics";
+    canGuide: true;
+    rawSecretsVisible: false;
+    ownerOnlyDataVisible: false;
+  };
   diagnostics: {
     readiness: "ready" | "guarded" | "blocked";
     feedbackState: string;
     aiIqContextQuality: "bounded";
+    assistantDailyUse: "ready";
+    whyBlockedIntegration: "ready";
+    journalCoachIntegration: "ready";
+    blockedIntentCoverage: "ready";
   };
   brain: {
     contextQuality: "bounded" | "limited" | "ready";
@@ -82,19 +131,47 @@ export type TPMCompanionContextView = {
     responseStyle: string;
     blockedLanguage: string[];
   }>;
+  blockedIntentRegistry: Array<{
+    intent: string;
+    label: string;
+    allowedPlans: [];
+    responseStyle: "blocked_with_safe_alternative";
+    safetyBoundary: string;
+    blockedReason: string;
+    safeAlternative: string;
+  }>;
   preferences: {
     skillLevel: string;
     riskProfile: string;
+  };
+  dailyUse: {
+    assistantName: "TPM Assistant";
+    role: "safe_daily_workspace_assistant";
+    modes: string[];
+    publicLanguage: ["Free", "Pro", "VIP", "Institutional", "TPM Assistant"];
+    nonAdvice: true;
+    nonExecuting: true;
+    nonPredictive: true;
+    localOperationSupport: true;
   };
   safety: {
     secretsIncluded: false;
     privateSensitiveDataIncluded: false;
     brokerCredentialsIncluded: false;
+    paymentDataIncluded: false;
+    socialTokensIncluded: false;
+    rawPrivateLogsIncluded: false;
     rawTokensIncluded: false;
     canExecuteTrades: false;
     canActivateLive: false;
+    canActivateBilling: false;
+    canActivateBrokerFeed: false;
+    canPublishSocial: false;
+    financialAdviceAllowed: false;
+    legalAdviceAllowed: false;
     guaranteeClaimsAllowed: false;
     winRateClaimsAllowed: false;
+    pressureToTradeAllowed: false;
   };
   guidanceBoundaries: string[];
   blockedIntents: string[];

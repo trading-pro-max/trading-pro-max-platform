@@ -87,8 +87,20 @@ Allowed intents include platform-state explanation, blocked-state explanation, p
 
 Blocked intents include trade execution, live activation, real-money routing, broker/feed activation, secret changes, auth bypass, guaranteed profit, win-rate claims, fake VIP activation, fake billing, and public launch claims.
 
+The blocked intent registry now also covers billing activation, secret reveal, fake Institutional activation, social publishing, legal advice, and financial advice.
+
 ## Integration
 
 `/api/companion/context` returns the current Assistant tier, plan entitlement truth, Product Truth, blocked intents, Journal/Coach readiness, and safe context. Normal users see professional product language only: Free, Pro, VIP, Institutional, TPM Assistant, Trading Workspace, Journal, Coach, Academy, Community, Plans, Settings, and Diagnostics.
 
 Private command tooling and internal governance terms are not user-plan capabilities and must not appear as upgrades.
+
+## Daily Use Plan Behavior
+
+- Guest: orientation only.
+- Free: paper-safe state explanation, Why Blocked, Settings/Diagnostics guidance, basic Journal/Coach prompts, feedback drafting, and learning help.
+- Pro: richer workspace guidance, Journal/Coach depth, decision replay, workspace memory, alerts, and workflows remain planned unless real entitlement exists.
+- VIP: advanced Assistant, premium guidance, strategy review, premium reports, and private-room guidance remain planned unless real entitlement exists.
+- Institutional: future team/admin/audit/compliance guidance only.
+
+No plan tier may imply live execution, broker/feed activation, billing activation, financial advice, guaranteed signals, win-rate claims, or fake paid access.

@@ -1,14 +1,25 @@
 import "server-only";
 
 import type {
+  CompanionBlockedIntentCategory,
   CompanionContextSnapshot,
   CompanionIntentCategory,
 } from "./types";
 import { getJournalCoachSnapshot } from "@/lib/server/journal-coach";
 import { getStateExplanation } from "@/lib/server/state-explanations";
+import { classifyCompanionIntent, getCompanionBlockedIntent } from "./intents";
 
 export type CompanionResponseTemplate = {
   intent: CompanionIntentCategory;
+  title: string;
+  body: string;
+  safeNextStep: string;
+  state: "ready" | "blocked" | "planned" | "fallback";
+};
+
+export type CompanionDailyUseResponse = {
+  input: string;
+  intent: CompanionIntentCategory | CompanionBlockedIntentCategory;
   title: string;
   body: string;
   safeNextStep: string;
@@ -20,10 +31,15 @@ export function buildCompanionResponseTemplates(
 ): CompanionResponseTemplate[] {
   const live = getStateExplanation("live_disabled");
   const realMoney = getStateExplanation("real_money_blocked");
+  const broker = getStateExplanation("broker_unavailable");
+  const feed = getStateExplanation("feed_fallback");
   const billing = getStateExplanation("billing_inactive");
+  const pro = getStateExplanation("pro_locked");
   const vip = getStateExplanation("vip_locked");
   const institutional = getStateExplanation("institutional_future");
-  const islamic = getStateExplanation("islamic_review_required");
+  const islamic = getStateExplanation("islamic_certification_not_certified");
+  const launch = getStateExplanation("launch_not_active");
+  const social = getStateExplanation("social_publishing_inactive");
   const ownerCommand = getStateExplanation("founder_command_private");
   const journalCoach = getJournalCoachSnapshot(context.checkedAt);
 
@@ -31,15 +47,51 @@ export function buildCompanionResponseTemplates(
     {
       intent: "explain_platform_state",
       title: "Platform state",
-      body: `You are on ${context.route}. The platform is paper-safe, feed state is ${context.marketFeedState}, and live execution, real money, billing, launch, broker/feed activation, and social publishing remain blocked or inactive.`,
+      body: `You are on ${context.route}. The platform is paper-safe, feed state is ${context.marketFeedState}, and live execution, real money, billing, launch, broker/feed activation, and social publishing remain blocked or inactive. ${launch.shortMessage}; ${social.shortMessage}.`,
       safeNextStep: "Use paper mode, diagnostics, and settings for truthful state review.",
       state: "fallback",
     },
     {
       intent: "explain_blocked_state",
       title: "Why blocked",
-      body: `Blocked conditions are intentional safety boundaries, not broken features. ${live.userCopy} ${realMoney.userCopy} ${billing.userCopy}`,
+      body: `Blocked conditions are intentional safety boundaries, not broken features. ${live.userCopy} ${realMoney.userCopy} ${broker.userCopy} ${billing.userCopy}`,
       safeNextStep: "Review the reason and use the paper-safe alternative.",
+      state: "blocked",
+    },
+    {
+      intent: "explain_live_disabled",
+      title: "Live disabled",
+      body: live.userCopy,
+      safeNextStep: live.safeNextStep,
+      state: "blocked",
+    },
+    {
+      intent: "explain_real_money_blocked",
+      title: "Real money blocked",
+      body: realMoney.userCopy,
+      safeNextStep: realMoney.safeNextStep,
+      state: "blocked",
+    },
+    {
+      intent: "explain_paper_mode",
+      title: "Paper mode",
+      body:
+        "Paper mode is the active safe rehearsal layer. It lets you review the workspace, practice decision notes, and inspect blocked states without live execution or real-money routing.",
+      safeNextStep: "Use paper mode for learning, journal notes, and diagnostics review.",
+      state: "ready",
+    },
+    {
+      intent: "explain_feed_fallback",
+      title: "Feed fallback",
+      body: `${feed.userCopy} No external live feed or broker feed is activated.`,
+      safeNextStep: "Treat market context as fallback-labeled paper context.",
+      state: "fallback",
+    },
+    {
+      intent: "explain_billing_inactive",
+      title: "Billing inactive",
+      body: billing.userCopy,
+      safeNextStep: "Read Pro, VIP, and Institutional as plan truth, not checkout.",
       state: "blocked",
     },
     {
@@ -52,7 +104,7 @@ export function buildCompanionResponseTemplates(
     {
       intent: "explain_plan_access",
       title: "Plan access",
-      body: `${context.planAccess?.activeLayer ?? context.planetAccess.activeLayer}. Free stays familiar, chart-first, paper-safe, and compact. Pro is the planned intelligent professional workspace, VIP is the planned elite premium workspace layer, and Institutional remains future. ${vip.userCopy} ${institutional.userCopy}`,
+      body: `${context.planAccess?.activeLayer ?? context.planetAccess.activeLayer}. Free stays familiar, chart-first, paper-safe, and compact. Pro is the planned intelligent professional workspace, VIP is the planned premium advanced layer, and Institutional remains future. ${pro.userCopy} ${vip.userCopy} ${institutional.userCopy}`,
       safeNextStep: "Use Free paper-safe features and treat Pro/VIP/Institutional capabilities as roadmap truth until entitlement and billing gates exist.",
       state: "planned",
     },
@@ -101,6 +153,14 @@ export function buildCompanionResponseTemplates(
       state: "ready",
     },
     {
+      intent: "coach_prompt",
+      title: "Coach prompt",
+      body:
+        "Before continuing, name the condition you are rehearsing, the point where you will pause, and one learning question. This is coaching for paper-mode discipline, not a trading instruction.",
+      safeNextStep: "Use the Coach panel for a calm pre/during/post-session reflection.",
+      state: "ready",
+    },
+    {
       intent: "session_summary",
       title: "Session summary",
       body:
@@ -119,10 +179,18 @@ export function buildCompanionResponseTemplates(
       state: "ready",
     },
     {
+      intent: "explain_upgrade_path_without_billing",
+      title: "Plan ladder",
+      body:
+        "Free is active as the familiar paper trading layer. Pro describes an intelligent professional workspace, VIP describes a premium advanced layer, and Institutional describes future team support. Billing, checkout, paid entitlements, and VIP activation are inactive.",
+      safeNextStep: "Read plan value as roadmap truth, not an upgrade prompt.",
+      state: "planned",
+    },
+    {
       intent: "explain_plan_upgrade_without_billing",
       title: "Plan ladder",
       body:
-        "Free is active as the familiar paper trading layer. Pro describes an intelligent professional workspace, VIP describes an elite premium workspace layer, and Institutional describes future team support. Billing, checkout, paid entitlements, and VIP activation are inactive.",
+        "Free is active as the familiar paper trading layer. Pro describes an intelligent professional workspace, VIP describes a premium advanced layer, and Institutional describes future team support. Billing, checkout, paid entitlements, and VIP activation are inactive.",
       safeNextStep: "Read plan value as roadmap truth, not an upgrade prompt.",
       state: "planned",
     },
@@ -134,4 +202,63 @@ export function buildCompanionResponseTemplates(
       state: "blocked",
     },
   ];
+}
+
+export function buildCompanionDailyUseResponse(
+  input: string,
+  context: CompanionContextSnapshot
+): CompanionDailyUseResponse {
+  const classification = classifyCompanionIntent(input);
+  const templates = buildCompanionResponseTemplates(context);
+
+  if (classification.blocked) {
+    const blocked = getCompanionBlockedIntent(
+      classification.intent as CompanionBlockedIntentCategory
+    );
+
+    return {
+      input,
+      intent: classification.intent,
+      title: blocked?.label ?? "Request blocked",
+      body:
+        blocked?.blockedReason ??
+        "That request is blocked by TPM Assistant safety boundaries.",
+      safeNextStep:
+        blocked?.safeAlternative ??
+        "Ask for a product-truth explanation or paper-safe learning prompt.",
+      state: "blocked",
+    };
+  }
+
+  const template =
+    templates.find((item) => item.intent === classification.intent) ??
+    templates.find((item) => item.intent === "explain_platform_state") ??
+    templates[0];
+
+  return {
+    input,
+    intent: template.intent,
+    title: template.title,
+    body: template.body,
+    safeNextStep: template.safeNextStep,
+    state: template.state,
+  };
+}
+
+export function buildCompanionDailyUseSamples(
+  context: CompanionContextSnapshot
+): CompanionDailyUseResponse[] {
+  return [
+    "activate live trading",
+    "use real money",
+    "show broker secret",
+    "guarantee profit",
+    "what is VIP",
+    "why billing inactive",
+    "why Institutional future",
+    "why Founder Command private",
+    "help me journal",
+    "explain paper mode",
+    "draft feedback",
+  ].map((input) => buildCompanionDailyUseResponse(input, context));
 }

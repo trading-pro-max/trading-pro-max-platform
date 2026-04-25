@@ -3,17 +3,24 @@ export type CompanionContextSource = "default_safe" | "route_context" | "authent
 export type CompanionIntentCategory =
   | "explain_platform_state"
   | "explain_blocked_state"
-  | "explain_market_context"
   | "explain_plan_access"
   | "explain_account_type"
+  | "explain_paper_mode"
+  | "explain_feed_fallback"
+  | "explain_billing_inactive"
+  | "explain_live_disabled"
+  | "explain_real_money_blocked"
+  | "explain_market_context"
   | "guide_to_settings"
   | "guide_to_diagnostics"
   | "guide_to_feedback"
   | "draft_feedback"
   | "journal_prompt"
+  | "coach_prompt"
   | "session_summary"
   | "learning_help"
   | "explain_plan_upgrade_without_billing"
+  | "explain_upgrade_path_without_billing"
   | "founder_unavailable_for_user";
 
 export type CompanionBlockedIntentCategory =
@@ -22,13 +29,31 @@ export type CompanionBlockedIntentCategory =
   | "enable_real_money"
   | "activate_broker"
   | "activate_feed"
-  | "change_secrets"
+  | "activate_billing"
+  | "reveal_secrets"
   | "bypass_auth"
   | "guarantee_profit"
   | "provide_win_rate"
   | "fake_vip_activation"
+  | "fake_institutional_activation"
   | "fake_billing"
-  | "fake_launch";
+  | "fake_launch"
+  | "publish_social"
+  | "provide_legal_advice"
+  | "provide_financial_advice";
+
+export type CompanionDailyUseMode =
+  | "orientation"
+  | "platform_state_help"
+  | "why_blocked_help"
+  | "journal_help"
+  | "coach_help"
+  | "feedback_help"
+  | "settings_help"
+  | "diagnostics_help"
+  | "plan_explanation"
+  | "learning_help"
+  | "session_summary";
 
 export type CompanionIntentAvailability = {
   intent: CompanionIntentCategory;
@@ -40,6 +65,16 @@ export type CompanionIntentAvailability = {
   safetyBoundary: string;
   responseStyle: string;
   blockedLanguage: string[];
+};
+
+export type CompanionBlockedIntentAvailability = {
+  intent: CompanionBlockedIntentCategory;
+  label: string;
+  allowedPlans: [];
+  responseStyle: "blocked_with_safe_alternative";
+  safetyBoundary: string;
+  blockedReason: string;
+  safeAlternative: string;
 };
 
 export type CompanionContextSnapshot = {
@@ -72,6 +107,7 @@ export type CompanionContextSnapshot = {
   };
   planEntitlements: {
     currentPlan: "demo_free" | "pro" | "vip" | "enterprise";
+    publicPlanName: "Free" | "Pro" | "VIP" | "Institutional";
     billing: "inactive";
     paidAccess: "not_enabled";
     vipActivation: "not_active";
@@ -114,11 +150,65 @@ export type CompanionContextSnapshot = {
     performanceRevenue: "hidden_inactive";
     founderCommand: "owner_only_private";
   };
+  whyBlocked: {
+    liveDisabled: string;
+    realMoneyBlocked: string;
+    brokerUnavailable: string;
+    feedFallback: string;
+    billingInactive: string;
+    proPlanned: string;
+    vipPlanned: string;
+    institutionalFuture: string;
+    islamicNotCertified: string;
+    launchInactive: string;
+    socialPublishingInactive: string;
+    restrictedControlsPrivate: string;
+  };
+  journalCoach: {
+    readiness: "basic_safe_prompts_active";
+    persistence: "local_session_memory_foundation";
+    accountSafePersistence: "planned";
+    canSuggestJournalNotes: true;
+    canSuggestCoachPrompts: true;
+    canPromiseResults: false;
+    canGiveFinancialAdvice: false;
+    canFakePersistence: false;
+  };
+  memoryReadiness: {
+    mode: "session_local_foundation";
+    localNotesSupported: true;
+    safeSummariesOnly: true;
+    accountSafePersistence: "planned";
+    productionSync: "inactive";
+    surveillance: "blocked";
+  };
+  settingsReadiness: {
+    route: "/settings";
+    canGuide: true;
+    canChangeSecrets: false;
+    canActivateBilling: false;
+  };
+  diagnosticsReadiness: {
+    route: "/diagnostics";
+    canGuide: true;
+    rawSecretsVisible: false;
+    ownerOnlyDataVisible: false;
+  };
   preferences: {
     language: string;
     theme: "dark" | "light" | "system";
     skillLevel: "unknown" | "beginner" | "intermediate" | "advanced" | "professional" | "learning_only";
     riskProfile: "learning" | "conservative" | "balanced" | "active" | "high_caution";
+  };
+  dailyUse: {
+    assistantName: "TPM Assistant";
+    role: "safe_daily_workspace_assistant";
+    modes: CompanionDailyUseMode[];
+    publicLanguage: ["Free", "Pro", "VIP", "Institutional", "TPM Assistant"];
+    nonAdvice: true;
+    nonExecuting: true;
+    nonPredictive: true;
+    localOperationSupport: true;
   };
   brain: {
     contextQuality: "bounded" | "limited" | "ready";
@@ -128,20 +218,34 @@ export type CompanionContextSnapshot = {
     blockedCapabilities: string[];
   };
   intents: CompanionIntentAvailability[];
+  blockedIntentRegistry: CompanionBlockedIntentAvailability[];
   diagnostics: {
     readiness: "ready" | "guarded" | "blocked";
     feedbackState: "available_guarded" | "unavailable";
     aiIqContextQuality: "bounded";
+    assistantDailyUse: "ready";
+    whyBlockedIntegration: "ready";
+    journalCoachIntegration: "ready";
+    blockedIntentCoverage: "ready";
   };
   safety: {
     secretsIncluded: false;
     privateSensitiveDataIncluded: false;
     brokerCredentialsIncluded: false;
+    paymentDataIncluded: false;
+    socialTokensIncluded: false;
+    rawPrivateLogsIncluded: false;
     rawTokensIncluded: false;
     canExecuteTrades: false;
     canActivateLive: false;
+    canActivateBilling: false;
+    canActivateBrokerFeed: false;
+    canPublishSocial: false;
+    financialAdviceAllowed: false;
+    legalAdviceAllowed: false;
     guaranteeClaimsAllowed: false;
     winRateClaimsAllowed: false;
+    pressureToTradeAllowed: false;
   };
   guidanceBoundaries: string[];
   blockedIntents: CompanionBlockedIntentCategory[];

@@ -65,3 +65,14 @@ The Assistant remains deterministic and template-based until a safe model backen
 The current UI exposes TPM Assistant as a compact launcher and collapsible panel so the chart and execution ticket remain primary. It shows plan status, context readiness, authority boundaries, blocked intents, why-blocked hints, and links to Settings, Diagnostics, and Feedback.
 
 The Assistant can be helpful, warm, and precise. It must stay truthful, non-predictive, non-executing, and plan-aware.
+
+## Daily Use Deepening
+
+The Assistant now has a formal daily-use model and intent registry:
+
+- context comes from Product Truth, plan entitlements, Why Blocked explanations, Journal/Coach readiness, Settings, Diagnostics, account/session state, and account type truth
+- allowed intents cover platform state, plan access, paper mode, feed fallback, billing inactive, live disabled, real money blocked, Journal, Coach, feedback, Settings, Diagnostics, learning help, and session summary
+- blocked intents cover execution, live activation, real money, broker/feed, billing, secrets, auth bypass, profit guarantees, win-rate claims, fake Pro/VIP/Institutional activation, fake launch, social publishing, legal advice, and financial advice
+- `/api/companion/context` returns deterministic sample classifications for safety tests
+
+The Assistant remains a daily local-use foundation. It does not execute actions, call an external model, store secrets, publish content, or activate paid/live systems.

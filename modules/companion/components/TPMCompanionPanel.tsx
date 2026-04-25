@@ -92,16 +92,28 @@ function isBlockedCompanionRequest(value: string) {
     "place trade",
     "open order",
     "enable live",
+    "activate live",
     "real money",
     "activate broker",
     "connect broker",
     "activate feed",
+    "activate billing",
+    "checkout",
+    "show secret",
+    "broker secret",
+    "api key",
     "change secrets",
     "bypass auth",
     "guarantee profit",
+    "guaranteed profit",
     "win rate",
     "activate vip",
+    "activate institutional",
+    "fake institutional",
     "fake billing",
+    "financial advice",
+    "legal advice",
+    "publish social",
     "launch publicly",
   ].some((phrase) => normalized.includes(phrase));
 }
@@ -114,13 +126,19 @@ function inferCompanionIntent(value: string): string {
   if (normalized.includes("plan") || normalized.includes("vip") || normalized.includes("pro")) {
     return "explain_plan_access";
   }
-  if (normalized.includes("upgrade")) return "explain_plan_upgrade_without_billing";
+  if (normalized.includes("paper")) return "explain_paper_mode";
+  if (normalized.includes("feed") || normalized.includes("fallback")) return "explain_feed_fallback";
+  if (normalized.includes("billing")) return "explain_billing_inactive";
+  if (normalized.includes("live")) return "explain_live_disabled";
+  if (normalized.includes("real money")) return "explain_real_money_blocked";
+  if (normalized.includes("upgrade")) return "explain_upgrade_path_without_billing";
   if (normalized.includes("account") || normalized.includes("islamic")) {
     return "explain_account_type";
   }
   if (normalized.includes("diagnostic")) return "guide_to_diagnostics";
   if (normalized.includes("setting")) return "guide_to_settings";
   if (normalized.includes("feedback")) return "draft_feedback";
+  if (normalized.includes("coach")) return "coach_prompt";
   if (normalized.includes("journal") || normalized.includes("learn")) return "journal_prompt";
   if (normalized.includes("session") || normalized.includes("summary")) return "session_summary";
   if (normalized.includes("market") || normalized.includes("symbol") || normalized.includes("timeframe")) {
@@ -239,9 +257,9 @@ export default function TPMCompanionPanel({
         role: "companion",
         state: "planned",
         title: "Plan access truth",
-        body:
+      body:
           context?.planAccess
-            ? `${context.planAccess.activeLayer}. Free is the familiar paper trading layer with basic TPM Assistant support. Pro is planned as the professional workspace, VIP as the premium advanced layer, and Institutional as future team support.`
+            ? `${context.planAccess.activeLayer}. Free is familiar and paper-safe. Pro is planned for professional workspace depth, VIP for premium advanced guidance, and Institutional for future team support.`
             : "Basic Assistant is active for Free guidance. Pro, VIP, and Institutional assistants remain locked or future-planned until real entitlement support exists.",
       },
       feedback: {
@@ -261,6 +279,15 @@ export default function TPMCompanionPanel({
           context?.brain.userGuidanceMode === "beginner_safe"
             ? "I will keep explanations plain, paper-first, and focused on what is safe to learn next."
             : "I can summarize context more compactly while keeping all guidance bounded and non-predictive.",
+      },
+      journal: {
+        id: "response-journal",
+        role: "companion",
+        state: "ready",
+        title: "Journal prompt",
+        body:
+          "Write what you are rehearsing in paper mode, what would make you pause, and one thing you want to learn. Keep it educational and non-advisory.",
+        safeNextStep: "Use Journal/Coach for reflection, not outcome promises.",
       },
     }),
     [context]
@@ -298,7 +325,7 @@ export default function TPMCompanionPanel({
         state: "blocked",
         title: "I cannot do that",
         body:
-          "That request touches execution, live activation, real money, broker/feed, billing, secrets, launch, or guaranteed performance. Those capabilities remain blocked in this build.",
+          "That request touches execution, live activation, real money, broker/feed, billing, secrets, launch, publishing, advice, or guaranteed performance. Those capabilities remain blocked in this build.",
         safeNextStep:
           "Stay in paper-safe mode, review diagnostics, or ask me to explain the blocked state.",
       };
@@ -327,6 +354,7 @@ export default function TPMCompanionPanel({
     { id: "state", label: "State", response: promptResponses.state },
     { id: "blocked", label: "Why blocked", response: promptResponses.blocked },
     { id: "plan", label: "Plan", response: promptResponses.plan },
+    { id: "journal", label: "Journal", response: promptResponses.journal },
   ];
   const activePrompt = prompts.find((prompt) => prompt.id === activePromptId) ?? prompts[0];
   const messages: TPMCompanionMessage[] = [
@@ -337,7 +365,7 @@ export default function TPMCompanionPanel({
       title: "Paper-safe workspace guidance",
       body: `I can explain ${formatRoute(
         context?.route ?? route
-      )}, plan status, blocked states, diagnostics, and feedback. I cannot execute trades or activate live, money, broker, feed, billing, secrets, or launch.`,
+      )}, plan status, blocked states, Journal/Coach, diagnostics, and feedback. I cannot execute trades or activate live, money, broker, feed, billing, secrets, publishing, or launch.`,
     },
     activePrompt.response,
     ...chatMessages,
@@ -375,7 +403,7 @@ export default function TPMCompanionPanel({
         <div>
           <span>Context</span>
           <strong>{loadState === "ready" ? "Ready" : "Fallback"}</strong>
-          <small>No secrets, no credentials</small>
+          <small>Safe daily use</small>
         </div>
         <div>
           <span>Authority</span>

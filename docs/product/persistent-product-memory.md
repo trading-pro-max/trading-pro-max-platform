@@ -65,3 +65,16 @@ Founder Command now receives a product memory summary inside the local command s
 - forbidden storage reminders
 
 The shell receives summaries only. It does not display secrets, raw private sensitive data, production storage, external sync state, fake users, fake revenue, fake metrics, or surveillance records.
+
+## TPM Assistant Memory Readiness
+
+TPM Assistant can reference memory readiness as a local/session foundation:
+
+- session/local notes are supported conceptually
+- safe summaries only
+- account-safe persistence remains planned
+- production sync is inactive
+- surveillance is blocked
+- secrets, private sensitive data, broker credentials, payment data, and social tokens are forbidden
+
+The Assistant must not claim durable account persistence until that storage is explicitly implemented and reviewed.

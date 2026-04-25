@@ -1900,6 +1900,20 @@ test.describe("verified platform truth", () => {
         publicLaunch: "inactive",
         founderCommand: "owner_only_private",
       },
+      dailyUse: {
+        assistantName: "TPM Assistant",
+        role: "safe_daily_workspace_assistant",
+        nonAdvice: true,
+        nonExecuting: true,
+        nonPredictive: true,
+        localOperationSupport: true,
+      },
+      memoryReadiness: {
+        safeSummariesOnly: true,
+        accountSafePersistence: "planned",
+        productionSync: "inactive",
+        surveillance: "blocked",
+      },
       planetAccess: {
         citizenClass: "demo_free",
         activeLayer: "Familiar paper trading layer",
@@ -1955,6 +1969,15 @@ test.describe("verified platform truth", () => {
       canActivateLive: false,
       guaranteeClaimsAllowed: false,
       winRateClaimsAllowed: false,
+      paymentDataIncluded: false,
+      socialTokensIncluded: false,
+      rawPrivateLogsIncluded: false,
+      canActivateBilling: false,
+      canActivateBrokerFeed: false,
+      canPublishSocial: false,
+      financialAdviceAllowed: false,
+      legalAdviceAllowed: false,
+      pressureToTradeAllowed: false,
     });
     expect(companionContextPayload.snapshot.blockedIntents).toEqual(
       expect.arrayContaining([
@@ -1962,10 +1985,39 @@ test.describe("verified platform truth", () => {
         "enable_live",
         "enable_real_money",
         "activate_broker",
+        "activate_feed",
+        "activate_billing",
+        "reveal_secrets",
         "fake_billing",
         "fake_launch",
+        "fake_institutional_activation",
+        "publish_social",
+        "provide_legal_advice",
+        "provide_financial_advice",
       ])
     );
+    expect(companionContextPayload.snapshot.dailyUse.publicLanguage).toEqual([
+      "Free",
+      "Pro",
+      "VIP",
+      "Institutional",
+      "TPM Assistant",
+    ]);
+    expect(companionContextPayload.snapshot.whyBlocked).toMatchObject({
+      liveDisabled: expect.stringContaining("Live disabled"),
+      realMoneyBlocked: expect.stringContaining("Real money blocked"),
+      billingInactive: expect.stringContaining("Billing inactive"),
+      institutionalFuture: expect.stringContaining("Institutional future"),
+    });
+    expect(companionContextPayload.snapshot.journalCoach).toMatchObject({
+      readiness: "basic_safe_prompts_active",
+      persistence: "local_session_memory_foundation",
+      canSuggestJournalNotes: true,
+      canSuggestCoachPrompts: true,
+      canPromiseResults: false,
+      canGiveFinancialAdvice: false,
+      canFakePersistence: false,
+    });
     expect(companionContextPayload.responses).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
@@ -1976,7 +2028,77 @@ test.describe("verified platform truth", () => {
           intent: "founder_unavailable_for_user",
           state: "blocked",
         }),
+        expect.objectContaining({
+          intent: "explain_upgrade_path_without_billing",
+          state: "planned",
+        }),
+        expect.objectContaining({
+          intent: "coach_prompt",
+          state: "ready",
+        }),
       ])
+    );
+    expect(companionContextPayload.samples).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          input: "activate live trading",
+          intent: "enable_live",
+          state: "blocked",
+        }),
+        expect.objectContaining({
+          input: "use real money",
+          intent: "enable_real_money",
+          state: "blocked",
+        }),
+        expect.objectContaining({
+          input: "show broker secret",
+          intent: "reveal_secrets",
+          state: "blocked",
+        }),
+        expect.objectContaining({
+          input: "guarantee profit",
+          intent: "guarantee_profit",
+          state: "blocked",
+        }),
+        expect.objectContaining({
+          input: "what is VIP",
+          intent: "explain_plan_access",
+          state: "planned",
+        }),
+        expect.objectContaining({
+          input: "why billing inactive",
+          intent: "explain_billing_inactive",
+          state: "blocked",
+        }),
+        expect.objectContaining({
+          input: "why Institutional future",
+          intent: "explain_plan_access",
+          state: "planned",
+        }),
+        expect.objectContaining({
+          input: "why Founder Command private",
+          intent: "founder_unavailable_for_user",
+          state: "blocked",
+        }),
+        expect.objectContaining({
+          input: "help me journal",
+          intent: "journal_prompt",
+          state: "ready",
+        }),
+        expect.objectContaining({
+          input: "explain paper mode",
+          intent: "explain_paper_mode",
+          state: "ready",
+        }),
+        expect.objectContaining({
+          input: "draft feedback",
+          intent: "draft_feedback",
+          state: "ready",
+        }),
+      ])
+    );
+    expect(JSON.stringify(companionContextPayload.samples)).not.toMatch(
+      /guaranteed signal|win-rate claim|financial advice|legal advice/i
     );
     expect(JSON.stringify(companionContextPayload)).not.toMatch(
       /execute trade now|activate live now|DATABASE_URL/i

@@ -73,3 +73,22 @@ Coverage includes Pro/VIP locks, broker activation, live feed, media publishing,
 Plan-based blocked states should explain whether the cause is entitlement, billing, safety, review, broker/feed, launch, production, or private access.
 
 Private command copy must always say separate/private and never a user plan. Pro/VIP copy must say planned or locked without implying checkout or paid activation. Institutional copy must say future.
+
+## TPM Assistant Integration
+
+TPM Assistant consumes the Why Blocked engine for simple public explanations:
+
+- live disabled
+- real money blocked
+- broker unavailable
+- feed fallback
+- billing inactive
+- Pro planned/locked
+- VIP planned/locked
+- Institutional future
+- Islamic/Sharia not certified
+- public launch inactive
+- social publishing inactive
+- restricted controls separate/private
+
+Assistant responses must use public product language and avoid internal governance detail for normal users.

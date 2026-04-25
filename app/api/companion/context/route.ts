@@ -1,4 +1,5 @@
 import {
+  buildCompanionDailyUseSamples,
   buildCompanionResponseTemplates,
   getCompanionContextSnapshot,
 } from "@/lib/server/companion";
@@ -59,5 +60,6 @@ export async function GET(request: Request) {
     ok: true,
     snapshot,
     responses: buildCompanionResponseTemplates(snapshot),
+    samples: buildCompanionDailyUseSamples(snapshot),
   });
 }

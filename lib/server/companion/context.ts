@@ -3,159 +3,24 @@ import "server-only";
 import { getAssistantTierSnapshot } from "@/lib/assistant/tiers";
 import { getPlanEntitlementSnapshot } from "@/lib/plans/entitlements";
 import { getTpmBrainContextSnapshot } from "@/lib/server/brain";
+import { getJournalCoachSnapshot } from "@/lib/server/journal-coach";
 import { getProductTruthSnapshot } from "@/lib/server/product/truth";
+import { getStateExplanation } from "@/lib/server/state-explanations";
+import {
+  companionAllowedIntents,
+  companionBlockedIntentRegistry,
+} from "./intents";
 import type {
   CompanionContextInput,
   CompanionContextSnapshot,
-  CompanionIntentAvailability,
 } from "./types";
 
-const companionIntents: CompanionIntentAvailability[] = [
-  {
-    intent: "explain_platform_state",
-    label: "Explain platform state",
-    demoFree: "allowed",
-    pro: "allowed",
-    vip: "allowed",
-    enterprise: "future",
-    safetyBoundary: "Explain readiness, fallback, paper/live truth, and diagnostics only.",
-    responseStyle: "calm, compact, platform-aware",
-    blockedLanguage: ["live ready", "production ready", "guaranteed outcome"],
-  },
-  {
-    intent: "explain_blocked_state",
-    label: "Explain why blocked",
-    demoFree: "allowed",
-    pro: "allowed",
-    vip: "allowed",
-    enterprise: "future",
-    safetyBoundary: "Use why-blocked state explanations and safe next steps.",
-    responseStyle: "direct reason plus safe alternative",
-    blockedLanguage: ["bypass", "force enable", "unlock now"],
-  },
-  {
-    intent: "explain_market_context",
-    label: "Explain market context",
-    demoFree: "allowed",
-    pro: "planned",
-    vip: "planned",
-    enterprise: "future",
-    safetyBoundary: "Decision support only; no prediction certainty or trade signal.",
-    responseStyle: "educational, fallback-labeled",
-    blockedLanguage: ["sure signal", "win-rate", "guaranteed profit"],
-  },
-  {
-    intent: "explain_plan_access",
-    label: "Explain plan access",
-    demoFree: "allowed",
-    pro: "allowed",
-    vip: "allowed",
-    enterprise: "future",
-    safetyBoundary: "No billing or paid activation claim.",
-    responseStyle: "truthful entitlement summary",
-    blockedLanguage: ["paid active", "VIP enabled", "checkout available"],
-  },
-  {
-    intent: "guide_to_settings",
-    label: "Guide to settings",
-    demoFree: "allowed",
-    pro: "allowed",
-    vip: "allowed",
-    enterprise: "future",
-    safetyBoundary: "Navigation guidance only; cannot change secrets or enable live systems.",
-    responseStyle: "short navigation hint",
-    blockedLanguage: ["configure broker", "activate billing"],
-  },
-  {
-    intent: "guide_to_diagnostics",
-    label: "Guide to diagnostics",
-    demoFree: "allowed",
-    pro: "allowed",
-    vip: "allowed",
-    enterprise: "future",
-    safetyBoundary: "Diagnostics guidance only; no owner controls or private data.",
-    responseStyle: "compact route and readiness guidance",
-    blockedLanguage: ["restricted controls", "secret values", "production keys"],
-  },
-  {
-    intent: "guide_to_feedback",
-    label: "Guide to feedback",
-    demoFree: "allowed",
-    pro: "allowed",
-    vip: "allowed",
-    enterprise: "future",
-    safetyBoundary: "Feedback drafting only; no private sensitive data.",
-    responseStyle: "short draft with route/context summary",
-    blockedLanguage: ["password", "token", "broker credentials"],
-  },
-  {
-    intent: "draft_feedback",
-    label: "Draft feedback",
-    demoFree: "allowed",
-    pro: "allowed",
-    vip: "allowed",
-    enterprise: "future",
-    safetyBoundary: "Draft locally and avoid secrets or private data.",
-    responseStyle: "structured issue summary",
-    blockedLanguage: ["secret", "token", "password"],
-  },
-  {
-    intent: "journal_prompt",
-    label: "Journal prompt",
-    demoFree: "allowed",
-    pro: "planned",
-    vip: "planned",
-    enterprise: "future",
-    safetyBoundary: "Reflection only; no financial advice or performance guarantee.",
-    responseStyle: "paper-session coaching",
-    blockedLanguage: ["you should trade", "guaranteed improvement"],
-  },
-  {
-    intent: "session_summary",
-    label: "Session summary",
-    demoFree: "allowed",
-    pro: "planned",
-    vip: "planned",
-    enterprise: "future",
-    safetyBoundary: "Paper-session summary only; no performance guarantee.",
-    responseStyle: "reflective and non-predictive",
-    blockedLanguage: ["you would have won", "guaranteed better result"],
-  },
-  {
-    intent: "learning_help",
-    label: "Learning help",
-    demoFree: "allowed",
-    pro: "allowed",
-    vip: "allowed",
-    enterprise: "future",
-    safetyBoundary: "Education only; no financial advice.",
-    responseStyle: "skill-level adaptive",
-    blockedLanguage: ["financial advice", "buy now", "sure trade"],
-  },
-  {
-    intent: "explain_plan_upgrade_without_billing",
-    label: "Explain plan upgrade without billing",
-    demoFree: "allowed",
-    pro: "planned",
-    vip: "planned",
-    enterprise: "future",
-    safetyBoundary:
-      "Explain why Pro/VIP/Institutional are planned without checkout, paid activation, or urgency pressure.",
-    responseStyle: "truthful plan ladder summary",
-    blockedLanguage: ["pay now", "VIP active", "limited offer", "checkout available"],
-  },
-  {
-    intent: "founder_unavailable_for_user",
-    label: "Restricted controls unavailable",
-    demoFree: "blocked",
-    pro: "blocked",
-    vip: "blocked",
-    enterprise: "blocked",
-    safetyBoundary: "Restricted controls are separate and never a user-plan feature.",
-    responseStyle: "clear restricted-access explanation",
-    blockedLanguage: ["admin access", "private route", "plan unlock"],
-  },
-];
+function publicPlanName(planTier: CompanionContextSnapshot["account"]["planTier"]) {
+  if (planTier === "pro") return "Pro";
+  if (planTier === "vip") return "VIP";
+  if (planTier === "enterprise") return "Institutional";
+  return "Free";
+}
 
 export function getCompanionContextSnapshot(
   input: CompanionContextInput = {},
@@ -168,6 +33,19 @@ export function getCompanionContextSnapshot(
   const planEntitlements = getPlanEntitlementSnapshot(planTier, checkedAt);
   const planetAccess = planEntitlements.citizenAccess.currentLayer;
   const productTruth = getProductTruthSnapshot(checkedAt);
+  const journalCoach = getJournalCoachSnapshot(checkedAt);
+  const live = getStateExplanation("live_disabled");
+  const realMoney = getStateExplanation("real_money_blocked");
+  const broker = getStateExplanation("broker_unavailable");
+  const feed = getStateExplanation("feed_fallback");
+  const billing = getStateExplanation("billing_inactive");
+  const pro = getStateExplanation("pro_locked");
+  const vip = getStateExplanation("vip_locked");
+  const institutional = getStateExplanation("institutional_future");
+  const islamic = getStateExplanation("islamic_certification_not_certified");
+  const launch = getStateExplanation("launch_not_active");
+  const social = getStateExplanation("social_publishing_inactive");
+  const restrictedControls = getStateExplanation("founder_command_private");
   const brain = getTpmBrainContextSnapshot(
     {
       route: input.route,
@@ -210,6 +88,7 @@ export function getCompanionContextSnapshot(
     },
     planEntitlements: {
       currentPlan: planEntitlements.currentPlan,
+      publicPlanName: publicPlanName(planEntitlements.currentPlan),
       billing: planEntitlements.truth.billing,
       paidAccess: planEntitlements.truth.paidAccess,
       vipActivation: planEntitlements.truth.vipActivation,
@@ -252,11 +131,77 @@ export function getCompanionContextSnapshot(
       performanceRevenue: productTruth.summary.performanceRevenue,
       founderCommand: productTruth.summary.founderCommand,
     },
+    whyBlocked: {
+      liveDisabled: live.userCopy,
+      realMoneyBlocked: realMoney.userCopy,
+      brokerUnavailable: broker.userCopy,
+      feedFallback: feed.userCopy,
+      billingInactive: billing.userCopy,
+      proPlanned: pro.userCopy,
+      vipPlanned: vip.userCopy,
+      institutionalFuture: institutional.userCopy,
+      islamicNotCertified: islamic.userCopy,
+      launchInactive: launch.userCopy,
+      socialPublishingInactive: social.userCopy,
+      restrictedControlsPrivate: restrictedControls.userCopy,
+    },
+    journalCoach: {
+      readiness: "basic_safe_prompts_active",
+      persistence: journalCoach.memoryFoundation.persistence,
+      accountSafePersistence: journalCoach.memoryFoundation.accountSafePersistence,
+      canSuggestJournalNotes: true,
+      canSuggestCoachPrompts: true,
+      canPromiseResults: false,
+      canGiveFinancialAdvice: false,
+      canFakePersistence: false,
+    },
+    memoryReadiness: {
+      mode: "session_local_foundation",
+      localNotesSupported: true,
+      safeSummariesOnly: true,
+      accountSafePersistence: "planned",
+      productionSync: "inactive",
+      surveillance: "blocked",
+    },
+    settingsReadiness: {
+      route: "/settings",
+      canGuide: true,
+      canChangeSecrets: false,
+      canActivateBilling: false,
+    },
+    diagnosticsReadiness: {
+      route: "/diagnostics",
+      canGuide: true,
+      rawSecretsVisible: false,
+      ownerOnlyDataVisible: false,
+    },
     preferences: {
       language: input.language ?? "en",
       theme: input.theme ?? "system",
       skillLevel: input.skillLevel ?? brain.skillProfile.skillLevel,
       riskProfile: input.riskProfile ?? brain.skillProfile.riskProfile,
+    },
+    dailyUse: {
+      assistantName: "TPM Assistant",
+      role: "safe_daily_workspace_assistant",
+      modes: [
+        "orientation",
+        "platform_state_help",
+        "why_blocked_help",
+        "journal_help",
+        "coach_help",
+        "feedback_help",
+        "settings_help",
+        "diagnostics_help",
+        "plan_explanation",
+        "learning_help",
+        "session_summary",
+      ],
+      publicLanguage: ["Free", "Pro", "VIP", "Institutional", "TPM Assistant"],
+      nonAdvice: true,
+      nonExecuting: true,
+      nonPredictive: true,
+      localOperationSupport: true,
     },
     brain: {
       contextQuality: brain.contextQuality,
@@ -265,21 +210,35 @@ export function getCompanionContextSnapshot(
       safeNextActions: brain.safeNextActions,
       blockedCapabilities: brain.blockedCapabilities,
     },
-    intents: companionIntents,
+    intents: companionAllowedIntents,
+    blockedIntentRegistry: companionBlockedIntentRegistry,
     diagnostics: {
       readiness: "ready",
       feedbackState: "available_guarded",
       aiIqContextQuality: "bounded",
+      assistantDailyUse: "ready",
+      whyBlockedIntegration: "ready",
+      journalCoachIntegration: "ready",
+      blockedIntentCoverage: "ready",
     },
     safety: {
       secretsIncluded: false,
       privateSensitiveDataIncluded: false,
       brokerCredentialsIncluded: false,
+      paymentDataIncluded: false,
+      socialTokensIncluded: false,
+      rawPrivateLogsIncluded: false,
       rawTokensIncluded: false,
       canExecuteTrades: false,
       canActivateLive: false,
+      canActivateBilling: false,
+      canActivateBrokerFeed: false,
+      canPublishSocial: false,
+      financialAdviceAllowed: false,
+      legalAdviceAllowed: false,
       guaranteeClaimsAllowed: false,
       winRateClaimsAllowed: false,
+      pressureToTradeAllowed: false,
     },
     guidanceBoundaries: [
       "Explain platform state and safe next steps.",
@@ -287,20 +246,8 @@ export function getCompanionContextSnapshot(
       "Do not activate broker/feed or billing.",
       "Do not claim guaranteed signals, win rates, or financial advice.",
       "Do not bypass auth, entitlement, or safety boundaries.",
+      "Keep restricted controls and internal governance terms out of normal user guidance.",
     ],
-    blockedIntents: [
-      "execute_trade",
-      "enable_live",
-      "enable_real_money",
-      "activate_broker",
-      "activate_feed",
-      "change_secrets",
-      "bypass_auth",
-      "guarantee_profit",
-      "provide_win_rate",
-      "fake_vip_activation",
-      "fake_billing",
-      "fake_launch",
-    ],
+    blockedIntents: companionBlockedIntentRegistry.map((intent) => intent.intent),
   };
 }
