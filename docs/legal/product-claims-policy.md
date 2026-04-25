@@ -33,6 +33,10 @@ Trading Pro Max claims must be truthful, narrow, and reviewable.
 - public launch when not launched
 - Sharia certified when not certified
 - Swiss regulated unless legally true
+- performance fee active when hidden/inactive
+- VIP active or guaranteed when entitlement is not active
+- social publishing active when accounts/tokens are not connected
+- company names, sponsorships, or partner claims without real contracts
 
 ## Review Rule
 
@@ -41,3 +45,7 @@ When uncertain, choose the weaker truthful claim and send the stronger version t
 ## Runtime Rule Connection
 
 The Guardian + Legal Rules Engine blocks or escalates unsafe claim text before it reaches media, assistant, public entry, launch wording, VIP wording, Islamic account wording, or broker/feed wording. This is internal guidance only and is not legal certification.
+
+## Presidency Coordination
+
+Cross-ministry product claims route through Founder Presidency Coordination. Sensitive claims identify Legal, Guardian, Treasury, Engineering, Rights/Brand, Council, and Founder review requirements before any future public use.

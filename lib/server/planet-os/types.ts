@@ -260,8 +260,10 @@ export type CouncilDecision = {
 export type MinistryMessageState =
   | "draft"
   | "sent"
+  | "received"
   | "in_review"
   | "waiting_for_response"
+  | "requires_revision"
   | "approved"
   | "rejected"
   | "blocked"
@@ -279,12 +281,50 @@ export type MinistryMessageType =
   | "handoff"
   | "blocker"
   | "escalation"
-  | "resolution";
+  | "resolution"
+  | "policy_question"
+  | "content_review"
+  | "plan_review"
+  | "security_review"
+  | "legal_review"
+  | "engineering_review"
+  | "treasury_review"
+  | "founder_decision_request";
+
+export type CoordinationDecisionOutcome =
+  | "auto_route"
+  | "review_required"
+  | "legal_review_required"
+  | "guardian_review_required"
+  | "treasury_review_required"
+  | "engineering_review_required"
+  | "founder_approval_required"
+  | "constitutional_review_required"
+  | "blocked"
+  | "archived";
+
+export type CoordinationReviewer =
+  | "Presidency Coordination"
+  | "Constitutional Council"
+  | "Legislative Council"
+  | "Executive Council"
+  | "Legal Counsel"
+  | "Guardian"
+  | "Treasury"
+  | "Engineering"
+  | "Quality"
+  | "Rights & Brand"
+  | "Emergency"
+  | "Support"
+  | "AI Brain"
+  | "Founder Command Room";
 
 export type MinistryMessage = {
   messageId: string;
   sourceMinistry: string;
   targetMinistry: string;
+  sourceState: string;
+  targetState: string;
   coordinationCenter: "Founder Presidency / Central Coordination System";
   type: MinistryMessageType;
   priority: "low" | "medium" | "high" | "critical";
@@ -297,28 +337,81 @@ export type MinistryMessage = {
   treasuryReviewRequired: boolean;
   engineeringReviewRequired: boolean;
   founderApprovalRequired: boolean;
+  constitutionalReviewRequired: boolean;
+  legislativePolicyRequired: boolean;
+  executiveImplementationRequired: boolean;
+  councilDecision: string | null;
+  councilBlockerReason: string | null;
   status: MinistryMessageState;
   createdAt: string;
   updatedAt: string;
   resolvedAt: string | null;
+  productTruth: {
+    liveExecution: "blocked";
+    realMoneyRouting: "blocked";
+    brokerFeedActivation: "blocked" | "not_configured" | "guarded";
+    billing: "inactive";
+    publicLaunch: "inactive" | "not_claimed";
+    socialPublishing: "inactive";
+    secrets: "not_exposed";
+  };
+  safetyBoundary: "safe" | "review_required" | "founder_approval_required" | "blocked";
+  reasonIfBlocked: string | null;
 };
 
 export type MinistryWorkflow = {
   id: string;
   name: string;
   path: string[];
+  steps: string[];
   currentTruth: "architecture_only" | "readiness_only" | "blocked_until_future_stage";
   blockedCapabilities: string[];
   requiredReviews: string[];
+  riskLevel: PlanetRiskLevel;
+  automationLevel: PlanetAutomationLevel;
+  blockedConditions: string[];
+  founderDecisionPoint: string;
+  productTruthProtections: string[];
+  whatMustNotBeFaked: string[];
   founderApprovalRequired: boolean;
 };
 
 export type PresidencyCoordinationDecision = {
   id: string;
   title: string;
-  decision: "route_to_review" | "request_revision" | "escalate_to_founder" | "block";
+  decision: CoordinationDecisionOutcome;
+  outcome: CoordinationDecisionOutcome;
   reason: string;
-  nextStep: string;
+  requiredReviewers: CoordinationReviewer[];
+  blockedReasons: string[];
+  safeNextStep: string;
+  founderVisible: boolean;
+  userVisible: boolean;
+  auditRequiredLater: boolean;
+  productTruthImpact: string[];
+  constitutionalReviewRequired: boolean;
+  legislativePolicyRequired: boolean;
+  executiveImplementationRequired: boolean;
+  councilDecision: string | null;
+  councilBlockerReason: string | null;
+};
+
+export type CoordinationActivityCount = {
+  count: number;
+  truth: "readiness_blueprint_not_real_activity";
+};
+
+export type MinistryCoordinationReadiness = {
+  incomingRequests: CoordinationActivityCount;
+  outgoingRequests: CoordinationActivityCount;
+  pendingReviews: CoordinationActivityCount;
+  pendingFounderApprovals: CoordinationActivityCount;
+  blockedRequests: CoordinationActivityCount;
+  escalatedRequests: CoordinationActivityCount;
+  completedHandOffs: CoordinationActivityCount;
+  currentCoordinationLoad: "none" | "low" | "medium" | "high" | "blocked";
+  topCoordinationRisk: string;
+  nextCoordinationAction: string;
 };
 
 export type GovernanceReport = {
@@ -378,6 +471,7 @@ export type MinistryReport = {
   revenueImpactLater: string;
   nextActions: string[];
   founderDecisionNeeded: boolean;
+  coordination: MinistryCoordinationReadiness;
   productTruth: ProductTruthSnapshot;
   reportDestination: "Founder Command Room";
   lastUpdated: string;

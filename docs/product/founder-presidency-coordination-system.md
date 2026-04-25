@@ -25,4 +25,24 @@ Ministries may operate internally within their scope. Cross-ministry requests mu
 
 ## Runtime Contract
 
-The deterministic readiness model lives in `lib/server/planet-os/coordination.ts`.
+The deterministic readiness model lives in:
+
+- `lib/server/planet-os/coordination.ts`
+- `lib/server/planet-os/messages.ts`
+- `lib/server/planet-os/workflows.ts`
+- `/api/planet/coordination`
+- `/api/founder/coordination/readiness`
+
+## Decision Engine
+
+The Presidency Coordination System classifies every cross-ministry request as auto_route, review_required, legal_review_required, guardian_review_required, treasury_review_required, engineering_review_required, founder_approval_required, constitutional_review_required, blocked, or archived.
+
+It returns required reviewers, blocked reasons, safe next step, Founder visibility, user visibility, future audit requirement, product truth impact, and council requirements.
+
+## Council Integration
+
+- Constitutional Council blocks fake claims, critical activation attempts, and constitutional violations.
+- Legislative Council drafts internal policy when a ministry requests new operating law.
+- Executive Council coordinates implementation only after policy is accepted.
+
+No council may activate production, billing, broker/feed, live execution, real money, public launch, social publishing, fake VIP access, fake certification, or uncontracted brand/company usage.

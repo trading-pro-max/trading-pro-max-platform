@@ -17,6 +17,7 @@ import type {
   ProductTruthSnapshot,
   SafetyBoundaryState,
 } from "./types";
+import { getMinistryCoordinationReadinessFor } from "./coordination";
 import { PLANET_40_MINISTRIES } from "./hierarchy";
 
 const PRODUCT_TRUTH: ProductTruthSnapshot = {
@@ -355,7 +356,7 @@ const PROFESSIONS: PlanetProfession[] = [
 
 type MinistryDefinition = Omit<
   MinistryReport,
-  "lastUpdated" | "productTruth" | "reportDestination"
+  "coordination" | "lastUpdated" | "productTruth" | "reportDestination"
 >;
 
 const MINISTRY_DEFINITIONS: MinistryDefinition[] = [
@@ -778,6 +779,7 @@ const MINISTRY_DEFINITIONS: MinistryDefinition[] = [
 function buildMinistryReports(checkedAt: string): MinistryReport[] {
   const detailedReports: MinistryReport[] = MINISTRY_DEFINITIONS.map((definition) => ({
     ...definition,
+    coordination: getMinistryCoordinationReadinessFor(definition.ministryName),
     productTruth: { ...PRODUCT_TRUTH },
     reportDestination: "Founder Command Room" as const,
     lastUpdated: checkedAt,
@@ -823,6 +825,7 @@ function buildMinistryReports(checkedAt: string): MinistryReport[] {
     revenueImpactLater: "No revenue, billing, subscription, or performance-fee activation is active.",
     nextActions: ministry.nextActions,
     founderDecisionNeeded: ministry.automationLevel === "founder_approval",
+    coordination: getMinistryCoordinationReadinessFor(ministry.officialName),
     productTruth: { ...PRODUCT_TRUTH },
     reportDestination: "Founder Command Room",
     lastUpdated: checkedAt,

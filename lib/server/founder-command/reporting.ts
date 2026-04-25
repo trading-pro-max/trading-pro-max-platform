@@ -1,6 +1,7 @@
 import "server-only";
 
 import { getFounderCommandSnapshot } from "./state";
+import { getInterMinistryCoordinationSnapshot } from "@/lib/server/planet-os/coordination";
 import { getFounderBriefing, getPlanetMinistryReports } from "@/lib/server/planet-os/state";
 import type { FounderBriefing, MinistryReport } from "@/lib/server/planet-os/types";
 
@@ -11,6 +12,7 @@ export type FounderCommandReportingSnapshot = {
   publicRouteExposed: false;
   ministries: MinistryReport[];
   briefing: FounderBriefing;
+  coordination: ReturnType<typeof getInterMinistryCoordinationSnapshot>;
   commandReadiness: ReturnType<typeof getFounderCommandSnapshot>;
   truth: {
     fakeUsers: "blocked";
@@ -33,6 +35,7 @@ export function getFounderCommandReportingSnapshot(
     publicRouteExposed: false,
     ministries: getPlanetMinistryReports(checkedAt),
     briefing: getFounderBriefing(checkedAt),
+    coordination: getInterMinistryCoordinationSnapshot(checkedAt),
     commandReadiness: getFounderCommandSnapshot(checkedAt),
     truth: {
       fakeUsers: "blocked",

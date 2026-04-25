@@ -66,3 +66,9 @@ The Planet OS runtime snapshot exposes the current safety boundary state:
 - audit trail: required for sensitive actions
 
 This boundary state is intentionally strict. It activates reporting and governance, not live capabilities.
+
+## Presidency Coordination Blocks
+
+The Presidency Coordination Engine must block requests that attempt to activate live execution, real-money routing, broker/feed, billing, social publishing, public launch, fake VIP claims, fake Islamic/Sharia certification, performance-fee activation, uncontracted company/brand use, guaranteed profit, or win-rate claims.
+
+Legal, Guardian, Treasury, Engineering, council, and Founder review can classify or remediate a request, but cannot turn a false or unconfigured capability into an active capability.

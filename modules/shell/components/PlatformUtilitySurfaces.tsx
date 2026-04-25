@@ -265,8 +265,19 @@ type PlanetOsStatusPayload = {
   };
   coordinationSummary?: {
     workflows: number;
+    messageTypes: number;
+    messageStates: string[];
+    decisionOutcomes: string[];
+    pendingReviewCategories: string[];
+    criticalBlockedCategories: string[];
     crossMinistryMustUsePresidency: boolean;
     realWorkflowExecutionActive: boolean;
+    socialPublishingActive: boolean;
+    productionActivationActive: boolean;
+    secretsExposed: boolean;
+    fakeUsersIncluded: boolean;
+    fakeRevenueIncluded: boolean;
+    fakeMetricsIncluded: boolean;
   };
   resourceSummary?: {
     total: number;
@@ -637,12 +648,42 @@ export function PlatformDiagnosticsSurface({
           note: "Founder King -> Command Room -> Constitution -> Councils -> Presidency -> planet layers.",
         },
         {
-          label: "Coordination",
+          label: "Presidency engine",
           value: planetCoordinationSummary
             ? `${planetCoordinationSummary.workflows} workflows`
             : "Presidency required",
           tone: "pending" as const,
           note: "Cross-ministry requests route through Founder Presidency; execution is readiness-only.",
+        },
+        {
+          label: "Message ledger",
+          value: planetCoordinationSummary
+            ? `${planetCoordinationSummary.messageTypes} types / ${planetCoordinationSummary.messageStates.length} states`
+            : "ledger planned",
+          tone: "approved" as const,
+          note: "Messages carry review flags, product truth, safety boundary, and blocked reason.",
+        },
+        {
+          label: "Review routing",
+          value: planetCoordinationSummary
+            ? `${planetCoordinationSummary.pendingReviewCategories.length} review lanes`
+            : "review lanes ready",
+          tone: "pending" as const,
+          note: "Legal, Guardian, Treasury, Engineering, Quality, Rights/Brand, and Founder review are identified automatically.",
+        },
+        {
+          label: "Council integration",
+          value: "3 councils",
+          tone: "approved" as const,
+          note: "Constitutional, Legislative, and Executive councils are readiness-only governance gates.",
+        },
+        {
+          label: "Blocked categories",
+          value: planetCoordinationSummary
+            ? `${planetCoordinationSummary.criticalBlockedCategories.length} critical`
+            : "critical blocks ready",
+          tone: "blocked" as const,
+          note: "Live, real money, billing, broker/feed, social publishing, launch, fake VIP, and fake certification remain blocked.",
         },
         {
           label: "Resources",

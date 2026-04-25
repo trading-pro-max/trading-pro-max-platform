@@ -64,3 +64,15 @@ Cannot:
 - high risk requires Founder approval
 - critical actions are blocked
 - public launch is last
+
+## Coordination Flow
+
+The Presidency Coordination Engine may mark a request with:
+
+- constitutionalReviewRequired
+- legislativePolicyRequired
+- executiveImplementationRequired
+- councilDecision
+- councilBlockerReason
+
+Constitutional Council reviews hard violations and blocks fake claims. Legislative Council creates or updates internal laws for plans, media, community, assistant, safety, and accounts. Executive Council coordinates implementation only after law/policy is accepted.

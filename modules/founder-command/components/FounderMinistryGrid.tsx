@@ -10,10 +10,10 @@ export default function FounderMinistryGrid({ ministries }: FounderMinistryGridP
     <section className="tpm-founder-panel">
       <div className="tpm-founder-panel-head">
         <span>Ministry Reporting</span>
-        <h2>18 operating reports</h2>
+        <h2>40 ministry reports</h2>
         <p>
           Compact command cards for state, risk, blockers, automation level,
-          and Founder decision needs.
+          Founder decision needs, and Presidency coordination readiness.
         </p>
       </div>
 
@@ -55,9 +55,18 @@ export default function FounderMinistryGrid({ ministries }: FounderMinistryGridP
                   <dt>Founder</dt>
                   <dd>{ministry.founderDecisionNeeded ? "decision" : "observe"}</dd>
                 </div>
+                <div>
+                  <dt>Coordination</dt>
+                  <dd>{ministry.coordinationLoad}</dd>
+                </div>
+                <div>
+                  <dt>Reviews</dt>
+                  <dd>{ministry.pendingReviewBlueprintCount}</dd>
+                </div>
               </dl>
 
               <p>{ministry.compactNextAction}</p>
+              <p>{ministry.nextCoordinationAction}</p>
             </article>
           );
         })}

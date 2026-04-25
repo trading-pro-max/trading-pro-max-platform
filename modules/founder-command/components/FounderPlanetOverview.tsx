@@ -57,6 +57,11 @@ export default function FounderPlanetOverview({
           value="Private"
           detail={snapshot.access.ownerAuthState}
         />
+        <OverviewMetric
+          label="Coordination"
+          value={snapshot.coordination.workflowCount}
+          detail="Presidency workflows"
+        />
       </div>
 
       <div className="tpm-founder-command-lists">
@@ -82,6 +87,15 @@ export default function FounderPlanetOverview({
           <h3>Next Safe Actions</h3>
           <ul>
             {snapshot.overview.nextSafeActions.slice(0, 5).map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <h3>Do Not Approve</h3>
+          <ul>
+            {snapshot.coordination.whatNotToApprove.slice(0, 5).map((item) => (
               <li key={item}>{item}</li>
             ))}
           </ul>

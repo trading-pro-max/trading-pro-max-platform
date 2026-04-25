@@ -48,3 +48,9 @@ The reports are readiness contracts only. They must not be interpreted as real s
 `lib/server/planet-os/state.ts` now combines the detailed operational ministry reports with the Earth hierarchy ministry catalog from `lib/server/planet-os/hierarchy.ts`. Diagnostics and `/api/planet/status` can see the 40-ministry readiness model, while all reports remain deterministic readiness data with no fake users, no fake revenue, and no activation claims.
 
 Every ministry reports to Founder Command Room through its state governor, continent governor, and Founder Presidency / Central Coordination System.
+
+## Inter-Ministry Runtime
+
+Ministries can now expose coordination readiness in their deterministic reports. Cross-ministry work must be sent through the Founder Presidency Coordination System, which identifies Legal, Guardian, Treasury, Engineering, Council, and Founder review needs before any sensitive work can proceed.
+
+The current counts are readiness blueprint indicators only. They are not real activity metrics, real tickets, real approvals, or executed handoffs.

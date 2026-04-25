@@ -60,3 +60,20 @@ The route is safe to inspect because it contains no secrets, private account dat
 Earth-like reports may include `reportDestination` and `hierarchyPath` so each report can show City -> Ministry -> State Governor -> Continent Governor -> Presidency Coordination -> Founder Command Room.
 
 Reports include status, risks, blockers, resources, requests, approvals needed, Legal flags, Guardian flags, Engineering flags, citizen impact, and next actions. They do not create real staff accounts or operational execution.
+
+## Coordination Fields
+
+Each ministry report now includes coordination readiness:
+
+- incomingRequests
+- outgoingRequests
+- pendingReviews
+- pendingFounderApprovals
+- blockedRequests
+- escalatedRequests
+- completedHandOffs
+- currentCoordinationLoad
+- topCoordinationRisk
+- nextCoordinationAction
+
+These are blueprint/readiness indicators, not real activity counts.

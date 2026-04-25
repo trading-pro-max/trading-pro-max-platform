@@ -1175,12 +1175,29 @@ test.describe("verified platform truth", () => {
       },
     });
     expect(planetPayload.coordinationSummary).toMatchObject({
-      workflows: 6,
+      workflows: 10,
+      messageTypes: 18,
       crossMinistryMustUsePresidency: true,
       realWorkflowExecutionActive: false,
       socialPublishingActive: false,
       productionActivationActive: false,
+      secretsExposed: false,
+      fakeUsersIncluded: false,
+      fakeRevenueIncluded: false,
+      fakeMetricsIncluded: false,
     });
+    expect(planetPayload.coordinationSummary.messageStates).toEqual(
+      expect.arrayContaining(["draft", "received", "requires_revision", "blocked"])
+    );
+    expect(planetPayload.coordinationSummary.criticalBlockedCategories).toEqual(
+      expect.arrayContaining([
+        "live execution activation",
+        "real-money routing",
+        "billing activation",
+        "social publishing",
+        "guaranteed profit or win-rate claims",
+      ])
+    );
     expect(planetPayload.resourceSummary).toMatchObject({
       privateDataSaleAllowed: false,
       fakeMetricsAllowed: false,
@@ -1234,6 +1251,87 @@ test.describe("verified platform truth", () => {
       },
     });
     expect(planetBlueprintPayload.snapshot.engines).toHaveLength(10);
+
+    const planetCoordination = await request.get("/api/planet/coordination");
+    expect(planetCoordination.status()).toBe(200);
+    const planetCoordinationPayload = await planetCoordination.json();
+    expect(planetCoordinationPayload.snapshot).toMatchObject({
+      mode: "founder_presidency_coordination_system",
+      coordinationCenter: "Founder Presidency / Central Coordination System",
+      summary: {
+        workflows: 10,
+        messageTypes: 18,
+        crossMinistryMustUsePresidency: true,
+        realWorkflowExecutionActive: false,
+        socialPublishingActive: false,
+        productionActivationActive: false,
+        secretsExposed: false,
+        fakeUsersIncluded: false,
+        fakeRevenueIncluded: false,
+        fakeMetricsIncluded: false,
+      },
+    });
+    expect(planetCoordinationPayload.snapshot.decisions).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          id: "decision-guaranteed-profit-claim",
+          outcome: "blocked",
+          constitutionalReviewRequired: true,
+        }),
+        expect.objectContaining({
+          id: "decision-live-trading-activation",
+          outcome: "blocked",
+        }),
+        expect.objectContaining({
+          id: "decision-vip-campaign-copy",
+          outcome: "founder_approval_required",
+          requiredReviewers: expect.arrayContaining([
+            "Legal Counsel",
+            "Guardian",
+            "Treasury",
+            "Founder Command Room",
+          ]),
+        }),
+        expect.objectContaining({
+          id: "decision-educational-academy-post",
+          outcome: "auto_route",
+        }),
+      ])
+    );
+    expect(planetCoordinationPayload.snapshot.messageLedger).toMatchObject({
+      truth: {
+        realMessageQueueActive: false,
+        privateUserDataIncluded: false,
+        secretsIncluded: false,
+        fakeActivityMetricsIncluded: false,
+      },
+    });
+
+    const planetWorkflows = await request.get("/api/planet/workflows");
+    expect(planetWorkflows.status()).toBe(200);
+    const planetWorkflowsPayload = await planetWorkflows.json();
+    expect(planetWorkflowsPayload.snapshot.summary).toMatchObject({
+      workflows: 10,
+      externalExecutionActive: false,
+      publicLaunchActive: false,
+      socialPublishingActive: false,
+    });
+    expect(planetWorkflowsPayload.snapshot.workflows).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ id: "production-activation-workflow" }),
+        expect.objectContaining({ id: "plan-entitlement-change-workflow" }),
+      ])
+    );
+
+    const planetCouncils = await request.get("/api/planet/councils");
+    expect(planetCouncils.status()).toBe(200);
+    const planetCouncilsPayload = await planetCouncils.json();
+    expect(planetCouncilsPayload.snapshot.summary).toMatchObject({
+      councils: 3,
+      publicLaunchAllowed: false,
+      criticalOverrideAllowedWithoutRemediation: false,
+      secretsAllowedInGit: false,
+    });
 
     const productTruth = await request.get("/api/product/truth");
     expect(productTruth.status()).toBe(200);
@@ -1304,6 +1402,12 @@ test.describe("verified platform truth", () => {
         externalPublishingActive: false,
         aiVideoPublishingActive: false,
       },
+      coordination: {
+        readiness: "readiness_only",
+        workflowCount: 10,
+        messageTypeCount: 18,
+        realWorkflowExecutionActive: false,
+      },
       security: {
         secretsExposed: false,
         privateUserDataExposed: false,
@@ -1314,6 +1418,9 @@ test.describe("verified platform truth", () => {
       },
     });
     expect(founderReadinessPayload.snapshot.roomFoundation.ministries).toHaveLength(40);
+    expect(
+      founderReadinessPayload.snapshot.roomFoundation.ministries[0].coordinationLoad
+    ).toBeDefined();
     expect(
       founderReadinessPayload.snapshot.roomFoundation.approvalQueue.states
     ).toEqual(
@@ -1330,6 +1437,25 @@ test.describe("verified platform truth", () => {
     expect(founderReadinessText).not.toMatch(
       /DoNotLeak|TradingProMaxOperator|TradingProMaxDemo|Bearer\s+[A-Za-z0-9]/i
     );
+
+    const founderCoordination = await request.get("/api/founder/coordination/readiness");
+    expect(founderCoordination.status()).toBe(200);
+    const founderCoordinationPayload = await founderCoordination.json();
+    expect(founderCoordinationPayload.snapshot).toMatchObject({
+      mode: "founder_coordination_readiness",
+      privateOwnerOnly: true,
+      publicRouteExposed: false,
+      readOnly: true,
+      noExecution: true,
+      coordination: {
+        summary: {
+          workflows: 10,
+          realWorkflowExecutionActive: false,
+          socialPublishingActive: false,
+          productionActivationActive: false,
+        },
+      },
+    });
 
     const founderCommandPath = await request.get("/founder-command");
     expect([200, 404]).toContain(founderCommandPath.status());

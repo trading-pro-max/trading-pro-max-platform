@@ -81,3 +81,9 @@ The Constitution is protected by three high councils:
 - Executive Council: turns accepted laws into implementation work, coordinates ministry execution, and escalates blockers to Founder Presidency / Founder Command.
 
 No council can activate billing, broker/feed, live execution, real money, social publishing, production, public launch, fake legal status, or fake Sharia certification by documentation alone.
+
+## Presidency Coordination Law
+
+All cross-ministry requests must route through Founder Presidency / Central Coordination when they affect another ministry, public wording, plans, safety, legal claims, media, billing, broker/feed, launch, production, user access, or Founder approval.
+
+Critical requests are blocked when they attempt live execution activation, real-money routing, broker/feed activation, billing activation, social publishing, public launch claims, fake VIP claims, fake Islamic/Sharia certification, performance-fee activation, uncontracted company/brand usage, guaranteed profit, or win-rate claims.

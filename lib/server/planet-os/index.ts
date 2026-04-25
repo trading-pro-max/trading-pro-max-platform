@@ -5,5 +5,7 @@ export * from "./coordination";
 export * from "./engines";
 export * from "./governance";
 export * from "./hierarchy";
+export * from "./messages";
 export * from "./resources";
+export * from "./workflows";
 export type * from "./types";

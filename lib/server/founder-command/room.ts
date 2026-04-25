@@ -48,6 +48,9 @@ export type FounderMinistryCommandCard = {
   blockerCount: number;
   founderDecisionNeeded: boolean;
   compactNextAction: string;
+  coordinationLoad: MinistryReport["coordination"]["currentCoordinationLoad"];
+  pendingReviewBlueprintCount: number;
+  nextCoordinationAction: string;
   productTruth: string[];
 };
 
@@ -85,6 +88,20 @@ export type FounderCommandMediaVideoPanel = {
   requiredReviews: string[];
 };
 
+export type FounderCommandCoordinationPanel = {
+  readiness: "readiness_only";
+  coordinationCenter: string;
+  workflowCount: number;
+  messageTypeCount: number;
+  pendingReviewCategories: string[];
+  criticalBlockedCategories: string[];
+  councilReadiness: string[];
+  topInterMinistryDependencies: string[];
+  whatNotToApprove: string[];
+  nextSafeCoordinationActions: string[];
+  realWorkflowExecutionActive: false;
+};
+
 export type FounderCommandRoomFoundationSnapshot = {
   checkedAt: string;
   mode: "founder_command_room_foundation";
@@ -102,6 +119,7 @@ export type FounderCommandRoomFoundationSnapshot = {
   guardianLegal: FounderCommandGuardianLegalPanel;
   treasury: FounderCommandTreasuryPanel;
   mediaVideo: FounderCommandMediaVideoPanel;
+  coordination: FounderCommandCoordinationPanel;
   productTruth: ReturnType<typeof getProductTruthSnapshot>;
   security: {
     secretsExposed: false;
@@ -156,6 +174,9 @@ function summarizeMinistry(report: MinistryReport): FounderMinistryCommandCard {
     founderDecisionNeeded: report.founderDecisionNeeded,
     compactNextAction:
       report.nextActions[0] ?? "Keep current readiness truth visible.",
+    coordinationLoad: report.coordination.currentCoordinationLoad,
+    pendingReviewBlueprintCount: report.coordination.pendingReviews.count,
+    nextCoordinationAction: report.coordination.nextCoordinationAction,
     productTruth: [
       `live=${report.productTruth.liveExecution}`,
       `money=${report.productTruth.realMoneyRouting}`,
@@ -174,6 +195,7 @@ export function getFounderCommandRoomFoundationSnapshot(
   const planEntitlements = getPlanEntitlementSnapshot("demo_free", checkedAt);
   const founderCompanion = getFounderPersonalCompanionSnapshot(checkedAt);
   const readiness = reporting.commandReadiness;
+  const coordination = reporting.coordination;
 
   const activeContinents = blueprint.continents.filter(
     (continent) => continent.readiness === "active"
@@ -282,6 +304,29 @@ export function getFounderCommandRoomFoundationSnapshot(
       externalPublishingActive: false,
       aiVideoPublishingActive: false,
       requiredReviews: ["Guardian", "Legal", "Founder"],
+    },
+    coordination: {
+      readiness: "readiness_only",
+      coordinationCenter: coordination.coordinationCenter,
+      workflowCount: coordination.summary.workflows,
+      messageTypeCount: coordination.summary.messageTypes,
+      pendingReviewCategories: coordination.summary.pendingReviewCategories,
+      criticalBlockedCategories: coordination.summary.criticalBlockedCategories,
+      councilReadiness: [
+        "Constitutional Council blocks fake claims and unsafe activation.",
+        "Legislative Council drafts internal laws and policies.",
+        "Executive Council coordinates approved implementation readiness.",
+      ],
+      topInterMinistryDependencies: coordination.workflows
+        .slice(0, 5)
+        .map((workflow) => `${workflow.name}: ${workflow.requiredReviews.join(" -> ")}`),
+      whatNotToApprove: coordination.summary.criticalBlockedCategories.slice(0, 8),
+      nextSafeCoordinationActions: [
+        "Keep all cross-ministry work routed through Presidency Coordination.",
+        "Use message ledger states before Founder review.",
+        "Treat blocked categories as constitutional blocks, not approval queue items.",
+      ],
+      realWorkflowExecutionActive: false,
     },
     productTruth,
     security: {

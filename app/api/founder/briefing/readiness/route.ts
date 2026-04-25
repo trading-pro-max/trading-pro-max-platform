@@ -19,6 +19,7 @@ export async function GET() {
       privateOwnerOnly: snapshot.privateOwnerOnly,
       publicRouteExposed: snapshot.publicRouteExposed,
       briefing: snapshot.briefing,
+      coordination: snapshot.coordination,
       truth: snapshot.truth,
       roomFoundation: {
         mode: roomFoundation.mode,
@@ -31,6 +32,7 @@ export async function GET() {
         guardianLegal: roomFoundation.guardianLegal,
         treasury: roomFoundation.treasury,
         mediaVideo: roomFoundation.mediaVideo,
+        coordination: roomFoundation.coordination,
         security: roomFoundation.security,
       },
     },

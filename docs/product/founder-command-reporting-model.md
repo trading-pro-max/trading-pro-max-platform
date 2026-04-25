@@ -48,3 +48,9 @@ The snapshot allows diagnostics to show whether continents and ministries are re
 The reporting model now also understands hierarchy summaries from `lib/server/planet-os/hierarchy.ts`, coordination summaries from `lib/server/planet-os/coordination.ts`, and resource summaries from `lib/server/planet-os/resources.ts`.
 
 Founder Command can conceptually review 12 continents, 60 states, 40 ministries, authorities, cities/modules, citizen classes, resources, and inter-ministry workflows. The current implementation remains read-only readiness reporting.
+
+## Coordination Overview
+
+Founder Command now receives read-only coordination readiness: workflow count, message type count, pending review categories, critical blocked categories, council readiness, inter-ministry dependencies, what not to approve, and next safe coordination actions.
+
+No approval execution, publishing, billing, broker/feed activation, public launch, live execution, or real-money routing is available from this overview.
