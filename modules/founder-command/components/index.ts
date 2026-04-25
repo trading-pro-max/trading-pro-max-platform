@@ -1,4 +1,10 @@
 export { default as FounderApprovalQueue } from "./FounderApprovalQueue";
+export { default as FounderBuildGapPanel } from "./FounderBuildGapPanel";
+export { default as FounderBuildNextActionsPanel } from "./FounderBuildNextActionsPanel";
+export { default as FounderBuildRoom } from "./FounderBuildRoom";
+export { default as FounderBuildStatusPanel } from "./FounderBuildStatusPanel";
+export { default as FounderBuildValidationPanel } from "./FounderBuildValidationPanel";
+export { default as FounderCodexDraftPanel } from "./FounderCodexDraftPanel";
 export { default as FounderConstructionQueuePanel } from "./FounderConstructionQueuePanel";
 export { default as FounderCommandAppShell } from "./FounderCommandAppShell";
 export { default as FounderCommandDesktopShell } from "./FounderCommandDesktopShell";

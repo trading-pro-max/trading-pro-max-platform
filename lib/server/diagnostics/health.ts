@@ -18,7 +18,10 @@ import {
   getAlertDeliveryActivationDiagnosticsProbe,
   getAlertWorkflowDiagnosticsProbe,
 } from "@/lib/server/workflows";
-import { getFounderLocalCommandReadinessSnapshot } from "@/lib/server/founder-command";
+import {
+  getFounderBuildRoomReadinessSnapshot,
+  getFounderLocalCommandReadinessSnapshot,
+} from "@/lib/server/founder-command";
 import {
   getAiIqBrainDeepeningDiagnosticsProbe,
   getAiIqBrainDiagnosticsProbe,
@@ -1264,6 +1267,16 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       `Gate ${localDayOneSnapshot.gateStatus}; score ${productRealityFinalScore.overallScore}/10; ${localDayOneSnapshot.summary.needsAhmadReview} area(s) need Ahmad review. ${localFinalReport.launchForbiddenReminder}`,
     checkedAt,
   };
+  const founderBuildRoomSnapshot = getFounderBuildRoomReadinessSnapshot(checkedAt);
+  const founderBuildRoomProbe: DiagnosticsProbe = {
+    key: "founder_build_room",
+    label: "Founder Build Room readiness",
+    status: "ready",
+    summary: "Local build-command room ready for draft-only construction guidance",
+    detail:
+      `${founderBuildRoomSnapshot.summaries.codexTaskDrafts} Codex task drafts, ${founderBuildRoomSnapshot.summaries.productGaps} product gaps, and ${founderBuildRoomSnapshot.summaries.visualGaps} visual gaps are visible with automatic Codex sending disabled.`,
+    checkedAt,
+  };
 
   return {
     ...baseHealth,
@@ -1274,6 +1287,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       productMemoryProbe,
       founderLocalCommandProbe,
       localDayOneProbe,
+      founderBuildRoomProbe,
     ],
     routes: [
       ...baseHealth.routes,
@@ -1341,6 +1355,13 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
           "Founder local command readiness route reports compact owner-only local shell truth and keeps public navigation disabled.",
       },
       {
+        path: "/api/founder/build-room/readiness",
+        method: "GET",
+        status: founderBuildRoomProbe.status,
+        detail:
+          "Founder Build Room readiness route reports local build-command drafting status without public navigation, approval execution, external Codex sending, secrets, or fake metrics.",
+      },
+      {
         path: "/api/local-ops/day-one",
         method: "GET",
         status: localDayOneProbe.status,
@@ -1405,6 +1426,13 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         status: localDayOneProbe.status,
         summary: localDayOneProbe.summary,
         detail: localDayOneProbe.detail,
+      },
+      {
+        key: "founder_build_room",
+        label: founderBuildRoomProbe.label,
+        status: founderBuildRoomProbe.status,
+        summary: founderBuildRoomProbe.summary,
+        detail: founderBuildRoomProbe.detail,
       },
     ],
     launchReadiness: {

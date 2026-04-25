@@ -5,6 +5,7 @@ export * from "./founder-preferences";
 export * from "./room";
 export * from "./command-app";
 export * from "./access";
+export * from "./build-room";
 export * from "./local-app";
 export * from "./local-snapshot";
 export * from "./snapshot";

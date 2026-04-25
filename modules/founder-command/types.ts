@@ -1,4 +1,5 @@
 import type {
+  FounderBuildRoomSnapshot as FounderBuildRoomSnapshotModel,
   FounderCommandRoomFoundationSnapshot,
   FounderLocalCommandSnapshot as FounderLocalCommandSnapshotModel,
 } from "@/lib/server/founder-command";
@@ -9,6 +10,8 @@ export type FounderCommandRoomProps = {
 };
 
 export type FounderLocalCommandSnapshot = FounderLocalCommandSnapshotModel;
+
+export type FounderBuildRoomSnapshot = FounderBuildRoomSnapshotModel;
 
 export type FounderCommandPanelTone =
   | "ready"

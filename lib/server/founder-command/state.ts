@@ -541,6 +541,16 @@ const ops: FounderOpsSignal[] = [
     safeNextStep:
       "Use the gate to start local operations review only after validation and Ahmad visual review.",
   },
+  {
+    id: "founder-command-build-room",
+    label: "Founder Command Build Room",
+    readiness: "active_contract",
+    riskLevel: "medium",
+    currentTruth:
+      "Build Room can observe local readiness, gaps, validation, memory, queue items, and Codex draft candidates without sending tasks or executing actions.",
+    safeNextStep:
+      "Use Build Room drafts as manual Ahmad-approved construction prompts only.",
+  },
 ];
 
 export function getFounderCommandSnapshot(checkedAt = new Date().toISOString()): FounderCommandSnapshot {

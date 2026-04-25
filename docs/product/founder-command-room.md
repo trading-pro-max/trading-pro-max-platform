@@ -146,3 +146,11 @@ Founder Command now receives the Local Day One gate as a private readiness summa
 - launch forbidden reminder
 
 The signal is read-only. It does not create approval execution, public launch authority, production activation, billing, broker/feed activation, live execution, real-money routing, social publishing, fake metrics, or private data exposure.
+
+## Build Room Readiness
+
+Founder Command now includes a private Build Room readiness layer for local platform construction. It shows local platform state, Local Day One readiness, product gaps, visual gaps, validation status, product memory, construction queue status, safe next build actions, blocked actions, and Codex-ready task drafts.
+
+The Build Room follows this loop: observe, detect gaps, classify risk, suggest the next build task, draft a Codex command, wait for Ahmad approval, let Codex execute separately, review validation, and update product memory.
+
+No `/founder/build-room` page is exposed in public navigation. The current implementation is component/API only because owner authentication, device trust, step-up confirmation, and audit-backed approval execution are not shipped. No task is sent to Codex automatically.

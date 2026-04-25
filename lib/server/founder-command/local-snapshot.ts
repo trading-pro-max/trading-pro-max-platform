@@ -15,6 +15,7 @@ import {
 } from "@/lib/server/product-memory";
 import { getProductRealityFinalScoreSnapshot } from "@/lib/server/product-reality";
 import { getFounderLocalCommandAccessSnapshot } from "./access";
+import { getFounderBuildRoomSnapshot } from "./build-room";
 import { getFounderCommandAppSnapshot } from "./command-app";
 
 export function getFounderLocalCommandSnapshot(
@@ -32,6 +33,7 @@ export function getFounderLocalCommandSnapshot(
   const journalCoach = getJournalCoachSnapshot(checkedAt);
   const productTruth = getProductTruthSnapshot(checkedAt);
   const productRealityFinalScore = getProductRealityFinalScoreSnapshot(checkedAt);
+  const buildRoom = getFounderBuildRoomSnapshot(checkedAt);
 
   return {
     checkedAt,
@@ -123,6 +125,18 @@ export function getFounderLocalCommandSnapshot(
       nextSafeConstructionActions:
         commandApp.autonomousConstructionIntelligence.nextSafeConstructionActions,
     },
+    buildRoom: {
+      readinessStatus: buildRoom.readinessStatus,
+      routeExposure: buildRoom.routeExposure,
+      localDayReadiness: buildRoom.localDayReadiness,
+      topProductGaps: buildRoom.topProductGaps,
+      topVisualGaps: buildRoom.topVisualGaps,
+      codexTaskDrafts: buildRoom.codexTaskDrafts,
+      nextSafeBuildActions: buildRoom.nextSafeBuildActions,
+      blockedActions: buildRoom.blockedActions,
+      founderDecisionNeeded: buildRoom.founderDecisionNeeded,
+      truth: buildRoom.truth,
+    },
     readiness: {
       constructionIntelligence:
         commandApp.autonomousConstructionIntelligence.readiness,
@@ -205,6 +219,8 @@ export function getFounderLocalCommandReadinessSnapshot(
       memoryDomains: snapshot.productMemory.domainSummary.length,
       openProductGaps: snapshot.productGaps.summary.open,
       constructionQueueItems: snapshot.constructionQueue.summary.total,
+      buildRoomDrafts: snapshot.buildRoom.codexTaskDrafts.length,
+      buildRoomReady: snapshot.buildRoom.readinessStatus,
       validationCommands: snapshot.validation.commandStatuses.length,
       nextSafeActions: snapshot.nextSafeActions.length,
       whatNotToDoToday: snapshot.whatNotToDoToday.length,

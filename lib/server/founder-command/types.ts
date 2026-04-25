@@ -1,3 +1,15 @@
+import type {
+  CodexTaskDraft,
+  ConstructionQueueSnapshot,
+} from "@/lib/server/codex-construction";
+import type { LocalDayOneReadinessSnapshot } from "@/lib/server/local-ops";
+import type {
+  ProductGapMemory,
+  ProductMemoryStoreSnapshot,
+  ValidationMemoryCommandStatus,
+} from "@/lib/server/product-memory";
+import type { ProductRealityFinalScoreSnapshot } from "@/lib/server/product-reality";
+
 export type FounderRiskLevel = "low" | "medium" | "high" | "critical";
 
 export type FounderActionState =
@@ -216,6 +228,79 @@ export interface FounderCommandSafetySummary {
   fakeMetricsIncluded: false;
   secretsExposed: false;
   privateUserDataExposed: false;
+}
+
+export type FounderBuildRoomReadinessStatus =
+  | "ready_for_local_build_drafting"
+  | "needs_founder_review"
+  | "blocked";
+
+export interface FounderBuildRoomSnapshot {
+  checkedAt: string;
+  mode: "founder_command_build_room";
+  localMode: "local_laptop_universe";
+  readinessStatus: FounderBuildRoomReadinessStatus;
+  routeExposure: {
+    hiddenRouteCreated: false;
+    apiReadinessAdded: true;
+    publicNavigationVisible: false;
+    userPlanExposure: false;
+    reason: string;
+  };
+  localDayReadiness: {
+    gateStatus: LocalDayOneReadinessSnapshot["gateStatus"];
+    readyToStartLocalDayOne: boolean;
+    ahmadHumanReviewRequired: true;
+    globalLaunchEvaluation: "not_evaluated";
+  };
+  topProductGaps: ProductGapMemory[];
+  topVisualGaps: ProductGapMemory[];
+  assistantStatus: string;
+  journalCoachStatus: string;
+  workstationStatus: string;
+  chartStatus: string;
+  settingsStatus: string;
+  diagnosticsStatus: string;
+  validationStatus: {
+    commands: ValidationMemoryCommandStatus[];
+    policy: "summary_only_no_raw_logs";
+    falsePassAllowed: false;
+  };
+  memoryStatus: {
+    storage: ProductMemoryStoreSnapshot["storage"];
+    domainCount: number;
+    openProductGaps: number;
+    secretsStored: false;
+    privateSensitiveDataStored: false;
+  };
+  constructionQueueStatus: ConstructionQueueSnapshot["summary"];
+  nextSafeBuildActions: string[];
+  blockedActions: string[];
+  codexTaskDrafts: CodexTaskDraft[];
+  founderDecisionNeeded: boolean;
+  whatNotToDo: string[];
+  productReality: {
+    overallScore: ProductRealityFinalScoreSnapshot["overallScore"];
+    status: ProductRealityFinalScoreSnapshot["status"];
+    ahmadHumanAcceptanceRequired: true;
+    noPerfectScoreClaim: true;
+  };
+  truth: {
+    noSecrets: true;
+    noPrivateUserData: true;
+    noFakeUsers: true;
+    noFakeRevenue: true;
+    noFakeMetrics: true;
+    noAutomaticCodexSending: true;
+    noUncontrolledAutomation: true;
+    approvalExecutionActive: false;
+    liveExecution: "blocked";
+    realMoneyRouting: "blocked";
+    brokerFeedActivation: "blocked";
+    billing: "inactive";
+    publicLaunch: "inactive";
+    socialPublishing: "inactive";
+  };
 }
 
 export interface FounderLocalCommandAccessSnapshot {

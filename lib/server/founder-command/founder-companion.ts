@@ -9,6 +9,7 @@ import {
 } from "@/lib/server/local-ops";
 import { getProductMemorySummarySnapshot } from "@/lib/server/product-memory";
 import { getProductRealityFinalScoreSnapshot } from "@/lib/server/product-reality";
+import { getFounderBuildRoomSnapshot } from "./build-room";
 import type { FounderBriefing, MinistryReport } from "@/lib/server/planet-os/types";
 import { getFounderCommandReportingSnapshot } from "./reporting";
 
@@ -36,6 +37,7 @@ export type FounderPersonalCompanionSnapshot = {
   localOperationsSummary: string[];
   localDayOneSummary: string[];
   productMemorySummary: string[];
+  buildRoomSummary: string[];
   whatNotToApprove: string[];
   nextSafeDecisions: string[];
   whatNotToDo: string[];
@@ -68,6 +70,7 @@ export function getFounderPersonalCompanionSnapshot(
   const localFinalReport = getLocalOperationsFinalReportSnapshot(checkedAt);
   const productRealityFinalScore = getProductRealityFinalScoreSnapshot(checkedAt);
   const productMemory = getProductMemorySummarySnapshot(checkedAt);
+  const buildRoom = getFounderBuildRoomSnapshot(checkedAt);
   const decisionMinistries = reporting.ministries.filter(
     (report) => report.founderDecisionNeeded
   );
@@ -155,6 +158,12 @@ export function getFounderPersonalCompanionSnapshot(
       `${productMemory.founderSummary.openProductGaps.length} open product gaps are visible for review.`,
       productMemory.founderSummary.journalCoachReadiness,
       "Memory forbids secrets, raw private sensitive data, fake users, fake revenue, and fake metrics.",
+    ],
+    buildRoomSummary: [
+      `Build Room is ${buildRoom.readinessStatus}.`,
+      `${buildRoom.codexTaskDrafts.length} Codex-ready draft candidates are available for manual Ahmad review.`,
+      `${buildRoom.topProductGaps.length} product gaps and ${buildRoom.topVisualGaps.length} visual gaps are highlighted.`,
+      "No automatic external Codex sending, approval execution, launch, billing, broker/feed, live execution, real money, or social publishing is active.",
     ],
     whatNotToApprove: [
       "live execution activation",

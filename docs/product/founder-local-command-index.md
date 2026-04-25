@@ -7,6 +7,8 @@ This index links the local owner command shell and its supporting readiness syst
 - [Founder Command Desktop App](./founder-command-desktop-app.md)
 - [Founder Command Mobile App](./founder-command-mobile-app.md)
 - [Founder Command Room](./founder-command-room.md)
+- [Founder Command Build Room](./founder-command-build-room.md)
+- [Local Build Command Loop](./local-build-command-loop.md)
 - [Local Universe Genesis Protocol](./local-universe-genesis-protocol.md)
 - [Local Sovereign Operations Mode](./local-sovereign-operations-mode.md)
 - [Local Day Cycle](./local-day-cycle.md)

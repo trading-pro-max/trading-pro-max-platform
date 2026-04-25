@@ -33,6 +33,7 @@ import {
 import { getTrustGovernorSnapshot } from "@/lib/server/trust-governor";
 import { getVisualAcceptanceSnapshot } from "@/lib/server/visual-acceptance";
 import { getFounderLocalCommandAccessSnapshot } from "./access";
+import { getFounderBuildRoomSnapshot } from "./build-room";
 import { getFounderPersonalCompanionSnapshot } from "./founder-companion";
 import { getFounderPreferenceSnapshot } from "./founder-preferences";
 import { getFounderCommandRoomFoundationSnapshot } from "./room";
@@ -103,6 +104,7 @@ export function getFounderCommandAppSnapshot(
   const localFinalReport = getLocalOperationsFinalReportSnapshot(checkedAt);
   const productMemory = getProductMemorySummarySnapshot(checkedAt);
   const localCommandAccess = getFounderLocalCommandAccessSnapshot(checkedAt);
+  const buildRoom = getFounderBuildRoomSnapshot(checkedAt);
 
   const desktopApp: FounderCommandDeviceBlueprint = {
     platform: "desktop",
@@ -448,6 +450,21 @@ export function getFounderCommandAppSnapshot(
       privateUserDataVisible: false,
       fakeMetricsVisible: false,
     },
+    founderBuildRoom: {
+      readiness: buildRoom.readinessStatus,
+      localMode: buildRoom.localMode,
+      routeExposure: buildRoom.routeExposure,
+      localDayReadiness: buildRoom.localDayReadiness,
+      topProductGaps: buildRoom.topProductGaps.length,
+      topVisualGaps: buildRoom.topVisualGaps.length,
+      codexTaskDrafts: buildRoom.codexTaskDrafts.length,
+      constructionQueue: buildRoom.constructionQueueStatus,
+      validationCommands: buildRoom.validationStatus.commands.length,
+      founderDecisionNeeded: buildRoom.founderDecisionNeeded,
+      nextSafeBuildActions: buildRoom.nextSafeBuildActions,
+      blockedActions: buildRoom.blockedActions,
+      truth: buildRoom.truth,
+    },
     companionBrain: {
       founderCompanion,
       brainContextQuality: brain.contextQuality,
@@ -481,6 +498,7 @@ export function getFounderCommandAppSnapshot(
       "/api/founder/final-acceptance/readiness",
       "/api/founder/local-command/snapshot",
       "/api/founder/local-command/readiness",
+      "/api/founder/build-room/readiness",
       "/api/planet/economy/readiness",
       "/api/planet/media/readiness",
       "/api/planet/consciousness",

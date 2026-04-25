@@ -5179,6 +5179,169 @@ test.describe("verified platform truth", () => {
     );
   });
 
+  test("reports founder build room as draft-only local construction guidance", async ({
+    page,
+    request,
+  }) => {
+    const response = await request.get("/api/founder/build-room/readiness");
+    expect(response.status()).toBe(200);
+    const text = await response.text();
+    expect(text).not.toMatch(/api[_-]?key\s*[:=]|password\s*[:=]|secret_value/i);
+    expect(text).not.toMatch(/fake users active|fake revenue active|metrics active/i);
+    expect(text).not.toMatch(/approvalExecutionActive":true/);
+    expect(text).not.toMatch(/noAutomaticCodexSending":false/);
+
+    const payload = JSON.parse(text);
+    expect(payload.snapshot).toMatchObject({
+      mode: "founder_command_build_room",
+      localMode: "local_laptop_universe",
+      readinessStatus: "ready_for_local_build_drafting",
+      routeExposure: {
+        hiddenRouteCreated: false,
+        apiReadinessAdded: true,
+        publicNavigationVisible: false,
+        userPlanExposure: false,
+      },
+      localDayReadiness: {
+        readyToStartLocalDayOne: true,
+        ahmadHumanReviewRequired: true,
+        globalLaunchEvaluation: "not_evaluated",
+      },
+      truth: {
+        noSecrets: true,
+        noPrivateUserData: true,
+        noFakeUsers: true,
+        noFakeRevenue: true,
+        noFakeMetrics: true,
+        noAutomaticCodexSending: true,
+        noUncontrolledAutomation: true,
+        approvalExecutionActive: false,
+        liveExecution: "blocked",
+        realMoneyRouting: "blocked",
+        brokerFeedActivation: "blocked",
+        billing: "inactive",
+        publicLaunch: "inactive",
+        socialPublishing: "inactive",
+      },
+    });
+    expect(payload.snapshot.codexTaskDrafts.length).toBeGreaterThanOrEqual(8);
+    expect(payload.snapshot.codexTaskDrafts).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          title: "Visual simplification and global trading polish",
+        }),
+        expect.objectContaining({ title: "Chart polish for local Day One acceptance" }),
+        expect.objectContaining({ title: "TPM Assistant daily-use improvement" }),
+        expect.objectContaining({ title: "Journal and Coach local reflection improvement" }),
+        expect.objectContaining({ title: "Settings and Diagnostics cleanup" }),
+        expect.objectContaining({ title: "Public entry local acceptance polish" }),
+        expect.objectContaining({ title: "Local Day One blocker fix" }),
+        expect.objectContaining({ title: "Regression and smoke test cleanup" }),
+      ])
+    );
+
+    for (const draft of payload.snapshot.codexTaskDrafts) {
+      expect(draft.executionTruth).toBe("draft_only_not_sent_not_executed");
+      expect(draft.validationCommands).toEqual(
+        expect.arrayContaining([
+          "npx tsc --noEmit",
+          "npm run test:regression",
+          "git status --short",
+        ])
+      );
+      expect(draft.scope.join(" ")).not.toMatch(
+        /enable live|activate billing|activate broker|route real money|publish externally/i
+      );
+      expect(draft.productTruthRequirements).toEqual(
+        expect.arrayContaining([
+          "live execution blocked",
+          "real money blocked",
+          "broker/feed inactive",
+          "billing inactive",
+          "public launch inactive",
+          "social publishing inactive",
+        ])
+      );
+      expect(draft.prompt).toContain("FORBIDDEN:");
+      expect(draft.prompt).toContain("VALIDATION:");
+    }
+
+    expect(payload.readiness).toMatchObject({
+      mode: "founder_build_room_readiness",
+      localMode: "local_laptop_universe",
+      routeExposure: {
+        hiddenRouteCreated: false,
+        publicNavigationVisible: false,
+        userPlanExposure: false,
+      },
+      summaries: {
+        codexTaskDrafts: expect.any(Number),
+        productGaps: expect.any(Number),
+        visualGaps: expect.any(Number),
+        validationCommands: expect.any(Number),
+      },
+      truth: {
+        noAutomaticCodexSending: true,
+        noUncontrolledAutomation: true,
+        approvalExecutionActive: false,
+      },
+    });
+
+    const founderCommand = await (
+      await request.get("/api/founder/command/snapshot")
+    ).json();
+    expect(founderCommand.snapshot.founderBuildRoom).toMatchObject({
+      readiness: "ready_for_local_build_drafting",
+      localMode: "local_laptop_universe",
+      routeExposure: {
+        hiddenRouteCreated: false,
+        publicNavigationVisible: false,
+        userPlanExposure: false,
+      },
+      founderDecisionNeeded: true,
+      truth: {
+        noAutomaticCodexSending: true,
+        noUncontrolledAutomation: true,
+        approvalExecutionActive: false,
+      },
+    });
+
+    const localCommand = await (
+      await request.get("/api/founder/local-command/readiness")
+    ).json();
+    expect(localCommand.snapshot.summaries).toMatchObject({
+      buildRoomDrafts: expect.any(Number),
+      buildRoomReady: "ready_for_local_build_drafting",
+    });
+
+    const hiddenRoute = await request.get("/founder/build-room");
+    expect(hiddenRoute.status()).not.toBe(200);
+
+    await page.goto("/");
+    await expect(page.locator("main").first()).toBeVisible();
+    await expect(page.locator("body")).not.toContainText("Founder Command Build Room");
+    await expect(page.locator("body")).not.toContainText("Codex-ready task drafts");
+    await expect(page.locator("body")).toContainText("Free");
+    await expect(page.locator("body")).toContainText("Pro");
+    await expect(page.locator("body")).toContainText("VIP");
+    await expect(page.locator("body")).toContainText("Institutional");
+
+    const diagnostics = await (await request.get("/api/diagnostics/probes")).json();
+    expect(diagnostics.health.routes).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ path: "/api/founder/build-room/readiness" }),
+      ])
+    );
+    expect(diagnostics.health.subsystems).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          key: "founder_build_room",
+          status: "ready",
+        }),
+      ])
+    );
+  });
+
   test("reports local day one acceptance gate without launch readiness claims", async ({
     page,
     request,
