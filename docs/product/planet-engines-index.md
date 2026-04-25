@@ -8,7 +8,7 @@ The 10 core engines help Trading Pro Max construct, govern, explain, protect, an
 | Product Truth Engine | central blocked/inactive/planned truth | `lib/server/product/truth.ts` | [Product Truth Engine](./product-truth-engine.md) |
 | Founder Command Reporting Engine | ministry and briefing reports | `lib/server/founder-command/reporting.ts` | [Founder Command Reporting Engine](./founder-command-reporting-engine.md) |
 | Plan Entitlement Engine | plan capability truth | `lib/plans/entitlements.ts` | [Plan Entitlement Engine](./plan-entitlement-engine.md) |
-| Companion Context Engine | safe assistant context | `lib/server/companion/context.ts` | [Companion Context Engine](./companion-context-engine.md) |
+| Assistant Context Engine | safe assistant context | `lib/server/companion/context.ts` | [Companion Context Engine](./companion-context-engine.md) |
 | Guardian + Legal Rules Engine | abuse and claim classification | `lib/server/guardian-legal/rules.ts` | [Guardian + Legal Rules Engine](../security/guardian-legal-rules-engine.md) |
 | Visual Acceptance Engine | visual acceptance rubric | `lib/server/visual-acceptance/rubric.ts` | [Visual Acceptance Engine](./visual-acceptance-engine.md) |
 | State / Error / Blocked Engine | state explanations and safe next steps | `lib/server/state-explanations/engine.ts` | [State / Error / Blocked Engine](./state-error-blocked-engine.md) |
@@ -31,17 +31,25 @@ Safe read-only API surfaces:
 
 These routes expose readiness/planned/blocked truth only. They do not expose secrets, private user data, production config, fake metrics, billing, broker/feed activation, public launch, social publishing, live execution, or real-money routing.
 
+Integration mesh:
+
+- Product Truth is the source for live, real money, broker/feed, billing, launch, social, plan activation, Islamic/Sharia, and private command truth.
+- Plan Entitlements are the source for Free, Pro, VIP, Institutional, and hidden/internal capabilities.
+- TPM Assistant reads Product Truth, Plan Entitlements, Why Blocked explanations, Journal/Coach readiness, Settings, Diagnostics, and account/session state.
+- Diagnostics shows public-safe readiness and must not expose secrets, fake metrics, private user data, or internal governance detail to normal users.
+- Public surfaces use Free, Pro, VIP, Institutional, TPM Assistant, Trading Workspace, Journal, Coach, Academy, Community, Premium Reports, Plans, Settings, and Diagnostics.
+
 Operational expansion:
 
 - Founder Companion summaries are now available inside Founder readiness snapshots.
-- Product Truth includes Founder Command as owner-only/private.
+- Product Truth includes private command tooling as separate from user plans.
 - Companion Context includes assistant tier, plan entitlement, and product truth summaries.
 - Content Factory exposes sample classifications for education, VIP, Islamic, live-trading, and guaranteed-profit language.
 - AI Build Planner now separates launch-forbidden, secret-forbidden, live-forbidden, companion, and media work.
 
 Living experience activation:
 
-- TPM Companion launcher/panel now consumes safe context and state explanations.
+- TPM Assistant launcher/panel now consumes safe context and state explanations.
 - Diagnostics shows compact engine, assistant, why-blocked, and journal/coach readiness.
 - Settings shows plan experience cards and paper-session coach prompts.
 - Swiss Precision Clock and Platform Pulse provide compact living signals without fake market/live claims.

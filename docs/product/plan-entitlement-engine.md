@@ -17,13 +17,13 @@ The internal `enterprise` ID may remain in code for compatibility, but public UI
 - Paid access is not enabled.
 - Pro and VIP are planned/locked unless real entitlement exists.
 - Institutional is future planned.
-- Owner command access is owner-only and never part of user plans.
+- Private command access is separate and never part of user plans.
 - Performance-fee research is hidden/inactive and not user-facing.
 - Live execution, real money, broker/feed activation, social publishing, and public launch remain blocked/inactive.
 
 ## Runtime Surfaces
 
-The entitlement snapshot feeds Assistant Context, settings, diagnostics, and plan cards. Free remains the active paper-safe plan. Pro and VIP remain planned/locked. Institutional remains future planned. Owner command remains private and is never part of a user plan.
+The entitlement snapshot feeds Assistant Context, Settings, Diagnostics, and plan cards. Free remains the active paper-safe plan. Pro and VIP remain planned/locked. Institutional remains future planned. Private command tooling remains separate and is never part of a user plan.
 
 The settings surface includes compact Plan Experience cards for Free, Pro, VIP, and Institutional. These cards show:
 - current truth state
@@ -43,8 +43,8 @@ The entitlement snapshot includes plan access with:
 - visible product surfaces
 - locked features
 - planned features
-- hidden owner-only features
-- owner command user-visible truth: false
+- hidden private features
+- private command user-visible truth: false
 - performance fee user-visible truth: false
 
 This allows Assistant, settings, and diagnostics to explain what the current user can access without exposing internal command language or faking paid activation.

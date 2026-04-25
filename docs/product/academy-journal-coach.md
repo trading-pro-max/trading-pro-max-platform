@@ -64,9 +64,9 @@ VIP strategy review may be planned as advanced coaching. It must remain:
 - no pressure loops
 - no win-rate or certainty claims
 
-## Planet Earth Learning Role
+## Learning Role
 
-Academy, Journal, and Coach sit inside the Academy and Intelligence continents. They may teach, prompt reflection, summarize paper practice, and support discipline. They must not provide financial advice, manipulate behavior, create gambling-style urgency, or imply guaranteed improvement.
+Academy, Journal, and Coach teach, prompt reflection, summarize paper practice, and support discipline. They must not provide financial advice, manipulate behavior, create gambling-style urgency, or imply guaranteed improvement.
 
 ## Current Runtime Foundation
 
@@ -80,7 +80,7 @@ Runtime sources:
 - `modules/journal-coach/components/SessionCoachPanel.tsx`
 - `modules/journal-coach/components/JournalPromptCard.tsx`
 
-Active Demo / Free prompts:
+Active Free prompts:
 
 - session readiness
 - paper-mode reminder
@@ -102,7 +102,7 @@ Decision Replay explicitly does not guarantee that any alternate decision would 
 
 ## Plan-Based Learning Depth
 
-Demo / Free has basic safe prompts active. Pro deeper session review is planned. VIP advanced coaching and strategy review are planned. Enterprise team reports are future planned.
+Free has basic safe prompts active. Pro deeper session review is planned. VIP advanced coaching and strategy review are planned. Institutional team reports are future planned.
 
 Journal and Coach surfaces must keep plan labels truthful and must not pressure trades, imply better outcomes, or sell premium results.
 

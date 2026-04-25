@@ -22,7 +22,7 @@ export default function AIVideoStudioPanel() {
         {studioReadiness.map((item) => (
           <article key={item}>
             <strong>{item}</strong>
-            <small>Safety + legal + owner review required</small>
+            <small>Safety + legal + private approval review required</small>
           </article>
         ))}
       </div>

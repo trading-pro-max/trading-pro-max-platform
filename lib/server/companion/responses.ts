@@ -4,6 +4,8 @@ import type {
   CompanionContextSnapshot,
   CompanionIntentCategory,
 } from "./types";
+import { getJournalCoachSnapshot } from "@/lib/server/journal-coach";
+import { getStateExplanation } from "@/lib/server/state-explanations";
 
 export type CompanionResponseTemplate = {
   intent: CompanionIntentCategory;
@@ -16,6 +18,15 @@ export type CompanionResponseTemplate = {
 export function buildCompanionResponseTemplates(
   context: CompanionContextSnapshot
 ): CompanionResponseTemplate[] {
+  const live = getStateExplanation("live_disabled");
+  const realMoney = getStateExplanation("real_money_blocked");
+  const billing = getStateExplanation("billing_inactive");
+  const vip = getStateExplanation("vip_locked");
+  const institutional = getStateExplanation("institutional_future");
+  const islamic = getStateExplanation("islamic_review_required");
+  const ownerCommand = getStateExplanation("founder_command_private");
+  const journalCoach = getJournalCoachSnapshot(context.checkedAt);
+
   return [
     {
       intent: "explain_platform_state",
@@ -27,8 +38,7 @@ export function buildCompanionResponseTemplates(
     {
       intent: "explain_blocked_state",
       title: "Why blocked",
-      body:
-        "Blocked states are intentional safety boundaries, not broken features. They protect live execution, real money, broker/feed, billing, launch, social publishing, secrets, and unsafe claims.",
+      body: `Blocked states are intentional safety boundaries, not broken features. ${live.userCopy} ${realMoney.userCopy} ${billing.userCopy}`,
       safeNextStep: "Review the reason and use the paper-safe alternative.",
       state: "blocked",
     },
@@ -42,16 +52,15 @@ export function buildCompanionResponseTemplates(
     {
       intent: "explain_plan_access",
       title: "Plan access",
-      body: `${context.planetAccess.activeLayer}. Free stays familiar, chart-first, paper-safe, and compact. Pro is the planned intelligent professional workspace, VIP is the planned elite premium workspace layer, and Institutional remains future.`,
+      body: `${context.planAccess?.activeLayer ?? context.planetAccess.activeLayer}. Free stays familiar, chart-first, paper-safe, and compact. Pro is the planned intelligent professional workspace, VIP is the planned elite premium workspace layer, and Institutional remains future. ${vip.userCopy} ${institutional.userCopy}`,
       safeNextStep: "Use Free paper-safe features and treat Pro/VIP/Institutional capabilities as roadmap truth until entitlement and billing gates exist.",
       state: "planned",
     },
     {
       intent: "explain_account_type",
       title: "Account type",
-      body:
-        "Standard account status is active. Islamic account wording remains review-sensitive and is not certified unless a real review/certification process exists.",
-      safeNextStep: "Keep account-type copy truthful and avoid certification claims.",
+      body: `Standard account status is active. ${islamic.userCopy}`,
+      safeNextStep: islamic.safeNextStep,
       state: "ready",
     },
     {
@@ -87,17 +96,16 @@ export function buildCompanionResponseTemplates(
     {
       intent: "journal_prompt",
       title: "Journal prompt",
-      body:
-        "Before the paper decision, write what condition you are rehearsing, what would make you pause, and what you want to learn.",
-      safeNextStep: "Record a learning note, not a profit target.",
+      body: `Before the paper decision, write what condition you are rehearsing, what would make you pause, and what you want to learn. Current journal mode: ${journalCoach.localJournalFoundation.persistence}.`,
+      safeNextStep: "Record a learning note, not a profit target or performance promise.",
       state: "ready",
     },
     {
       intent: "session_summary",
       title: "Session summary",
       body:
-        "Summarize the paper session by context, preflight state, blocked/allowed state, what you learned, and what you would review next. Do not assume an alternate outcome.",
-      safeNextStep: "Use the journal/coach panel for reflection.",
+        "Summarize the paper session by context, preflight state, blocked/allowed state, what you learned, and what you would review next. Deeper Journal/Coach review remains planned for Pro and VIP; do not assume an alternate outcome.",
+      safeNextStep: "Use the journal/coach panel for paper-session reflection.",
       state: "ready",
     },
     {
@@ -120,10 +128,9 @@ export function buildCompanionResponseTemplates(
     },
     {
       intent: "founder_unavailable_for_user",
-      title: "Owner command is private",
-      body:
-        "Owner command tools are private and never a Free, Pro, VIP, or Institutional user-plan feature.",
-      safeNextStep: "Use user-facing settings, diagnostics, feedback, and plan layers instead.",
+      title: "Private command tools are separate",
+      body: ownerCommand.userCopy,
+      safeNextStep: "Use user-facing settings, diagnostics, feedback, and plan access instead.",
       state: "blocked",
     },
   ];

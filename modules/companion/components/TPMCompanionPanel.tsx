@@ -240,8 +240,8 @@ export default function TPMCompanionPanel({
         state: "planned",
         title: "Plan access truth",
         body:
-          context?.planetAccess
-            ? `${context.planetAccess.activeLayer}. Free is the familiar paper trading layer with basic Assistant support. Pro is planned as the intelligent professional workspace, VIP as the elite premium workspace layer, and Institutional as future team support.`
+          context?.planAccess
+            ? `${context.planAccess.activeLayer}. Free is the familiar paper trading layer with basic Assistant support. Pro is planned as the intelligent professional workspace, VIP as the elite premium workspace layer, and Institutional as future team support.`
             : "Basic Assistant is active for Free guidance. Pro, VIP, and Institutional assistants remain locked or future-planned until real entitlement support exists.",
       },
       feedback: {
@@ -371,7 +371,7 @@ export default function TPMCompanionPanel({
           <span>Plan</span>
           <strong>{currentPlan.planName}</strong>
           <small>
-            {context?.planetAccess.activeLayer ?? currentPlan.truthState.replaceAll("_", " ")}
+            {context?.planAccess.activeLayer ?? currentPlan.truthState.replaceAll("_", " ")}
           </small>
         </div>
         <div>
@@ -385,7 +385,7 @@ export default function TPMCompanionPanel({
           <small>No execution or activation</small>
         </div>
         <div>
-          <span>Brain</span>
+          <span>Context</span>
           <strong>{context?.brain.contextQuality ?? "bounded"}</strong>
           <small>{context?.preferences.skillLevel ?? "beginner"} guidance</small>
         </div>
@@ -430,7 +430,7 @@ export default function TPMCompanionPanel({
       <div className="tpm-companion-capability-grid">
         <div>
           <span>Workspace layer</span>
-          {(context?.planetAccess.visibleCities ?? []).slice(0, 3).map((city) => (
+          {(context?.planAccess.visibleSurfaces ?? []).slice(0, 3).map((city) => (
             <small key={city}>{city}</small>
           ))}
         </div>

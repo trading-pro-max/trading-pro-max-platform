@@ -64,9 +64,9 @@ export const PLAN_INTERFACE_LAYERS: PlanInterfaceLayer[] = [
       "settings and diagnostics truth",
     ],
     hiddenFromThisLayer: [
-      "owner-only command tools",
+      "private command tools",
       "internal governance detail",
-      "VIP Brain",
+      "advanced Assistant",
       "advanced reports",
       "private rooms",
       "billing or paid activation",
@@ -78,7 +78,7 @@ export const PLAN_INTERFACE_LAYERS: PlanInterfaceLayer[] = [
       "real money",
       "paid access",
       "Pro or VIP activation",
-      "owner-only command access",
+      "private command access",
     ],
   },
   {
@@ -98,7 +98,7 @@ export const PLAN_INTERFACE_LAYERS: PlanInterfaceLayer[] = [
       "alerts and workflows planned",
       "Pro community planned",
     ],
-    hiddenFromThisLayer: ["owner-only command tools", "VIP Brain", "billing controls", "private revenue research"],
+    hiddenFromThisLayer: ["private command tools", "advanced Assistant", "billing controls", "private revenue research"],
     safeCopy:
       "Pro is planned and locked. It can be described as roadmap value, not as active paid access.",
     mustNotClaim: ["Pro active", "checkout active", "premium signal", "better outcome"],
@@ -110,17 +110,17 @@ export const PLAN_INTERFACE_LAYERS: PlanInterfaceLayer[] = [
     visualIdentity: "vip",
     headline: "Elite premium workspace layer",
     experience:
-      "A planned premium layer for VIP Brain, advanced Assistant, advanced coaching, advanced journal analytics, strategy review, premium reports, and private rooms.",
-    surfaceDepth: "Highest user-facing product depth, still separated from private owner command.",
+      "A planned premium layer for advanced Assistant, advanced coaching, advanced journal analytics, strategy review, premium reports, and private rooms.",
+    surfaceDepth: "Highest user-facing product depth, still separated from private command.",
     primarySurfaces: [
-      "VIP Brain planned",
+      "Advanced Assistant planned",
       "advanced Coach planned",
       "advanced Journal planned",
       "strategy review planned",
       "premium reports planned",
       "VIP rooms planned",
     ],
-    hiddenFromThisLayer: ["owner-only command tools", "critical owner controls", "private revenue controls"],
+    hiddenFromThisLayer: ["private command tools", "critical private controls", "private revenue controls"],
     safeCopy:
       "VIP is a planned elite layer. It never implies guaranteed signals, win rates, or active premium access.",
     mustNotClaim: ["VIP active", "guaranteed signals", "win-rate", "priority support active"],
@@ -141,23 +141,23 @@ export const PLAN_INTERFACE_LAYERS: PlanInterfaceLayer[] = [
       "runbook support future",
       "Institutional Assistant future",
     ],
-    hiddenFromThisLayer: ["owner-only command tools", "owner approval controls", "private command data"],
+    hiddenFromThisLayer: ["private command tools", "private approval controls", "private command data"],
     safeCopy:
       "Institutional remains future planned and unavailable for activation in this build.",
     mustNotClaim: ["Institutional available", "compliance certified", "team admin active"],
   },
   {
     id: "founder_king",
-    label: "Owner",
+    label: "Private Command",
     status: "owner_only",
     visualIdentity: "vip",
-    headline: "Private owner command",
+    headline: "Private command",
     experience:
-      "The owner-only command layer for full internal readiness, risks, revenue controls, media review, approvals, and next safe actions.",
+      "The private command layer for full internal readiness, risks, revenue controls, media review, approvals, and next safe actions.",
     surfaceDepth: "Private command architecture, read-only by default, never a user-plan feature.",
     primarySurfaces: [
-      "owner command room",
-      "owner command app shell",
+      "private command room",
+      "private command app shell",
       "internal readiness reports",
       "approval center",
       "revenue and media readiness",
@@ -165,7 +165,7 @@ export const PLAN_INTERFACE_LAYERS: PlanInterfaceLayer[] = [
     ],
     hiddenFromThisLayer: ["public route", "public navigation", "normal user entitlement"],
     safeCopy:
-      "Owner command tools are private and remain separate from Free, Pro, VIP, and Institutional user plans.",
+      "Private command tools remain separate from Free, Pro, VIP, and Institutional user plans.",
     mustNotClaim: ["public access", "plan unlock", "critical block override"],
   },
 ];

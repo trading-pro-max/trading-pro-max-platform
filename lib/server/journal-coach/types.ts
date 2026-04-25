@@ -57,7 +57,7 @@ export type JournalCoachSnapshot = {
     demo: "basic_safe_prompts_active";
     pro: "deeper_session_review_planned";
     vip: "advanced_coaching_planned";
-    enterprise: "team_reports_future";
+    enterprise: "institutional_team_reports_future";
   };
   prompts: JournalCoachPrompt[];
   localJournalFoundation: {

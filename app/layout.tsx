@@ -14,7 +14,7 @@ import { DEFAULT_THEME_MODE, THEME_MODES } from "../lib/constants/theme";
 export const metadata: Metadata = {
   title: "Trading Pro Max | Operator-Grade Evaluation Workstation",
   description:
-    "Commercial-grade trading workstation with TPM IQ / Brain, truthful paper-only execution, fallback-first market context, and diagnostics-ready product trust.",
+    "Commercial-grade trading workspace with TPM Assistant, truthful paper-only execution, fallback-first market context, and diagnostics-ready product trust.",
 };
 
 const THEME_BOOTSTRAP_SCRIPT = `

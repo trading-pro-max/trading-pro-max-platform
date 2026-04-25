@@ -1,6 +1,6 @@
 # Plan-Based Interface Architecture
 
-Trading Pro Max uses plan-based interface depth so Free users get a clean trading product while Pro, VIP, Institutional, and owner-only internal layers carry progressively deeper capability.
+Trading Pro Max uses plan-based interface depth so Free users get a clean trading product while Pro, VIP, Institutional, and private internal layers carry progressively deeper capability.
 
 This is interface architecture, not billing activation. It does not enable live execution, broker/feed activation, subscriptions, public launch, real-money routing, social publishing, or premium entitlement.
 
@@ -28,7 +28,7 @@ Interface promise:
 - basic Academy
 - Swiss Precision Clock / Pulse
 
-Free should feel close to a serious trading terminal with moderate TPM advantages. It should not expose internal governance, owner controls, VIP Brain, premium reports, private rooms, or owner command tools.
+Free should feel close to a serious trading terminal with moderate TPM advantages. It should not expose internal governance, private controls, advanced Assistant, premium reports, private rooms, or private command tools.
 
 ## Pro
 
@@ -51,7 +51,7 @@ Status: planned / locked unless real entitlement exists.
 
 Interface promise:
 - elite premium workspace layer
-- VIP Brain
+- advanced Assistant
 - advanced Assistant
 - advanced coaching
 - advanced journal analytics
@@ -74,18 +74,17 @@ Interface promise:
 
 Institutional is not active and must not claim legal certification, team administration, or compliance completion.
 
-## Owner-Only Internal Command
+## Private Internal Command
 
-Owner command is not a user plan.
+Private command tooling is not a user plan.
 
-Owner command tools remain:
-- owner-only
+Private command tools remain:
 - private
 - hidden from public navigation
 - separate from Free / Pro / VIP / Institutional
 - read-only by default until audited action gates exist
 
-No user plan may present owner command tools as an upgrade, feature, entitlement, or public route.
+No user plan may present private command tools as an upgrade, feature, entitlement, or public route.
 
 ## Runtime Sources
 
@@ -107,4 +106,4 @@ The plan interface architecture preserves:
 - real-money routing blocked
 - broker/feed guarded or unconfigured
 - public launch inactive
-- owner command owner-only
+- private command remains separate

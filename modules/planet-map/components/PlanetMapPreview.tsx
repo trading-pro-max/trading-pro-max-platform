@@ -13,16 +13,16 @@ export default function PlanetMapPreview({ audience = "citizen" }: PlanetMapPrev
     <section
       className="tpm-planet-map-preview"
       data-audience={audience}
-      aria-label={founder ? "Owner command map preview" : "Workspace access map preview"}
+      aria-label={founder ? "Private command map preview" : "Workspace access map preview"}
     >
       <header>
         <TPMEarthMark variant={founder ? "command" : "compact"} />
         <div>
-          <span>{founder ? "Owner command map" : "Workspace access layer"}</span>
+          <span>{founder ? "Private command map" : "Workspace access layer"}</span>
           <h2>{founder ? "Internal command visualization" : "Paper-safe workspace view"}</h2>
           <p>
             {founder
-              ? "Owner-only readiness view of internal areas, resources, risks, and approvals."
+              ? "Private readiness view of internal areas, resources, risks, and approvals."
               : "A simplified plan layer showing only user-safe product areas without internal command data."}
           </p>
         </div>
@@ -37,7 +37,7 @@ export default function PlanetMapPreview({ audience = "citizen" }: PlanetMapPrev
         <div className="tpm-planet-map-orbit" />
       </div>
 
-      <PlanetContinentStatusGrid />
+      <PlanetContinentStatusGrid showInternal={founder} />
       {founder ? <PlanetResourceLayerSummary /> : null}
 
       <footer>

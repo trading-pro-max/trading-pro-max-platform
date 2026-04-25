@@ -1,152 +1,94 @@
 # Plan-Based Assistant Tiers
 
-Assistant tiers describe capability boundaries by plan. They do not activate billing, paid access, or VIP entitlement. The current verified account receives Demo / Paper Assistant only. Higher tiers stay locked or planned unless the entitlement system, billing truth, and product gates are genuinely configured.
+Assistant tiers describe what TPM Assistant may explain for each public plan. They do not activate billing, paid access, broker/feed, live execution, real money, or social publishing.
 
-## Demo / Paper Assistant
+## Free Assistant
 
-Purpose: safe onboarding and paper-mode guidance.
-
-State: active for current evaluation accounts.
+State: active for paper-safe use.
 
 Capabilities:
 
-- explain paper/live/blocked/fallback truth
-- guide first entry and workstation use
-- explain basic market context
-- help draft feedback
-- suggest basic journal notes
-- route to settings and diagnostics
+- explain paper mode, blocked live mode, and fallback states
+- guide first-use workspace behavior
+- explain basic market context without prediction certainty
+- draft feedback for user review
+- suggest basic Journal and Coach prompts
+- route to Settings and Diagnostics
 
 Limits:
 
-- no advanced performance claims
+- no premium reports
 - no advanced coaching
-- no premium insights
 - no strategy review
-- no personalized performance deep-dive
-- no guaranteed signals
-- no real execution
+- no personalized performance promise
 - no paid entitlement claim
 
 ## Pro Assistant
 
-Purpose: stronger daily guidance for a serious user when Pro is genuinely available.
+State: planned/locked unless real Pro entitlement exists.
 
-State: locked/planned unless real Pro entitlement exists.
+Capabilities when entitled:
 
-Capabilities:
-
-- everything in Demo
-- richer market context
-- multi-timeframe summaries
+- richer workspace guidance
 - session guidance
-- workspace suggestions
-- alert and workflow guidance
-- journal suggestions
-- preflight explanation
-- performance context
+- Journal/Coach depth
+- decision replay
+- workspace memory
+- alerts and workflows
 
 Limits:
 
+- no Pro active claim without entitlement
 - no prediction certainty
-- no VIP-only deep strategy review
-- no priority support claim unless support exists
 - no win-rate claim
 - no live execution bypass
-- no Pro active claim unless entitlement exists
+- no VIP-only claim
 
 ## VIP Assistant
 
-Purpose: premium operator-assist layer for advanced future users.
+State: planned/locked unless real VIP entitlement exists.
 
-State: locked/planned unless real VIP entitlement exists.
+Capabilities when entitled:
 
-Capabilities:
-
-- everything in Pro
-- deeper AI/IQ Brain summaries
-- advanced journal insights
-- strategy review assistant
-- personalized workflow memory
+- advanced Assistant
+- advanced Journal and Coach
+- strategy review
 - premium reports
-- VIP diagnostics summaries
-- early access assistant capabilities when configured
+- private rooms
 
 Limits:
 
-- no guaranteed outcome
+- no guaranteed outcomes
 - no guaranteed signals
-- no win-rate claims
-- no live execution
-- no real-money activation
-- no broker/feed activation
-- no signal-selling behavior
 - no fake VIP activation
+- no priority support claim unless support exists
 - no copy-trading claim unless a future compliant product supports it
 
-## Enterprise Assistant
+## Institutional Assistant
 
-Purpose: future team and operations assistant.
+State: future only.
 
-State: future planned only unless enterprise entitlement exists.
-
-Capabilities:
+Future capabilities:
 
 - team and admin summaries
-- audit assistant
-- compliance and risk overview
-- enterprise runbook guidance
-- organization-level diagnostics
+- audit and compliance readiness guidance
+- runbook support
+- institution-grade Diagnostics
 
 Limits:
 
-- future only
-- no enterprise availability claim
-- no legal compliance certification
+- no active Institutional availability claim
+- no compliance certification claim
+- no team admin activation claim
 
-## Global Rule
+## Intent Boundaries
 
-Assistant tier language must always distinguish available, planned, inactive, blocked, and not configured states.
+Allowed intents include platform-state explanation, blocked-state explanation, plan access, account type, Settings, Diagnostics, Feedback, Journal prompts, session summaries, learning help, and upgrade explanation without billing.
 
-The assistant must not create manipulative engagement loops, urgency pressure, guaranteed-profit framing, or paid-access deception.
+Blocked intents include trade execution, live activation, real-money routing, broker/feed activation, secret changes, auth bypass, guaranteed profit, win-rate claims, fake VIP activation, fake billing, and public launch claims.
 
-## Runtime Connector
+## Integration
 
-The Companion Context Engine exposes the current assistant tier as Demo / Paper by default. Pro, VIP, and Enterprise remain locked/planned unless real entitlement support exists. Founder Command access is never part of user plans.
+`/api/companion/context` returns the current Assistant tier, plan entitlement truth, Product Truth, blocked intents, Journal/Coach readiness, and safe context. Normal users see professional product language only: Free, Pro, VIP, Institutional, TPM Assistant, Trading Workspace, Journal, Coach, Academy, Community, Plans, Settings, and Diagnostics.
 
-## Intent-Aware Assistant Boundaries
-
-The Companion intent model is defined in `lib/server/companion/types.ts` and returned through `/api/companion/context`.
-
-Demo / Free may use safe explanation, blocked-state, plan, settings, diagnostics, feedback, journal, and learning intents. Pro and VIP may have richer versions later, but remain planned/locked unless real entitlements exist. Enterprise remains future planned.
-
-Blocked language includes bypass/force-enable wording, guaranteed-profit claims, win-rate claims, fake live/broker/feed/billing/launch claims, and any implication that Founder Command can be unlocked by a user plan.
-
-## Planet Layer Awareness
-
-The Companion Context now includes the current citizen layer. Guest receives minimal orientation. Demo / Free receives basic paper-safe guidance. Pro and VIP receive planned richer guidance only when entitlement support exists. Enterprise remains future.
-
-The Companion may explain visible cities/modules for the current layer, but it must not reveal private Founder Command, private ministry data, performance-fee research, secrets, or paid activation paths.
-## Economy Layer Assistant Truth
-
-Assistant tiers support the plan economy only through truthful guidance:
-
-- Guest: orientation only.
-- Free / Demo: basic paper-safe Companion.
-- Pro: richer guidance planned.
-- VIP: VIP Brain planned.
-- Enterprise: future team/admin guidance.
-
-The assistant must not execute trades, activate live mode, activate broker/feed, unlock billing, claim paid access, guarantee signals, imply VIP is active, or pressure the user into upgrade behavior.
-## Product Reality Chat Tier Behavior
-
-The current Companion chat foundation is deterministic and bounded by plan truth:
-
-- Guest: product orientation only
-- Free / Demo: paper-safe platform explanation, blocked-state explanation, basic learning, feedback drafting, and journal prompts
-- Pro: richer guidance, alerts, workflows, and deeper journal support remain planned
-- VIP: VIP Brain, advanced review, premium reports, and strategy support remain planned
-- Enterprise: future team/admin guidance only
-- Founder: handled by the separate Founder Personal Companion, not the user chat
-
-No tier can execute trades, activate live, route real money, configure broker/feed, change secrets, bypass auth, guarantee profit, provide win-rate claims, fake billing, fake launch, or fake VIP activation.
+Private command tooling and internal governance terms are not user-plan capabilities and must not appear as upgrades.

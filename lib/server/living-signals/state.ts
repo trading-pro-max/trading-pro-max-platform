@@ -90,7 +90,7 @@ const signals: LivingSignal[] = [
   {
     id: "plan_upgrade_readiness",
     label: "Plan upgrade readiness",
-    purpose: "Show Pro/VIP/Enterprise value map without billing.",
+    purpose: "Show Pro/VIP/Institutional value map without billing.",
     visibility: "internal_diagnostics",
     displayLocation: "settings plan cards",
     updateCadence: "manual_review",

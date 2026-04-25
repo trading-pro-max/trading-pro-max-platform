@@ -3,7 +3,7 @@
 VIP is a planned product identity and value direction, not an active entitlement.
 
 Future VIP value may include:
-- VIP Brain guidance
+- advanced Assistant guidance
 - advanced coaching
 - deeper journal analytics
 - decision replay expansion
@@ -21,7 +21,7 @@ Current truth:
 Before any VIP activation, TPM needs entitlement logic, billing gates, support readiness, Guardian/Legal review, user consent where needed, and Founder approval.
 ## Final VIP Readiness Truth
 
-VIP is a planned elite planet layer, not an active paid product. VIP may later include VIP Brain, advanced Companion, advanced Journal, advanced Coach, strategy review, premium reports, private rooms, priority support, Guardian summaries, Legal clarity, and early access when configured.
+VIP is a planned elite premium layer, not an active paid product. VIP may later include advanced Assistant, advanced Journal, advanced Coach, strategy review, premium reports, private rooms, priority support, safety summaries, review clarity, and early access when configured.
 
 VIP must not claim:
 

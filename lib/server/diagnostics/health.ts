@@ -224,21 +224,21 @@ function buildRouteProbes(input: {
       method: "GET",
       status: input.productBackend.status,
       detail:
-        "Planet OS status route reports internal continents, ministries, Founder Command readiness, and blocked product truth without secrets or private data.",
+        "Readiness route reports product structure, private reporting readiness, and blocked product truth without secrets or private data.",
     },
     {
       path: "/api/planet/blueprint",
       method: "GET",
       status: input.productBackend.status,
       detail:
-        "Planet Blueprint Engine route reports deterministic Planet OS structure and core engine readiness without fake metrics.",
+        "Blueprint route reports deterministic internal structure and core engine readiness without fake metrics.",
     },
     {
       path: "/api/planet/engines",
       method: "GET",
       status: input.productBackend.status,
       detail:
-        "Planet core engines route reports all 10 internal engines as read-only architecture without activating external capabilities.",
+        "Core engines route reports all 10 internal engines as read-only architecture without activating external capabilities.",
     },
     {
       path: "/api/planet/visual-acceptance",
@@ -266,14 +266,14 @@ function buildRouteProbes(input: {
       method: "GET",
       status: input.productBackend.status,
       detail:
-        "Planet Economy readiness route reports Free/Demo, Pro, VIP, Enterprise, resources, and monetization truth without billing, revenue, or fake metrics.",
+        "Economy readiness route reports Free, Pro, VIP, Institutional, resources, and monetization truth without billing, revenue, or fake metrics.",
     },
     {
       path: "/api/planet/media/readiness",
       method: "GET",
       status: input.productBackend.status,
       detail:
-        "Planet Media readiness route reports Autonomous Media Office and AI Video Studio draft readiness without accounts, tokens, uploads, publishing, or fake metrics.",
+        "Media readiness route reports draft and AI Video Studio readiness without accounts, tokens, uploads, publishing, or fake metrics.",
     },
     {
       path: "/api/build-planner/readiness",
@@ -294,70 +294,70 @@ function buildRouteProbes(input: {
       method: "GET",
       status: input.productBackend.status,
       detail:
-        "Founder reporting readiness route exposes non-sensitive briefing truth only; it is not a Founder action surface.",
+        "Private reporting readiness route exposes non-sensitive briefing truth only; it is not an action surface.",
     },
     {
       path: "/api/founder/command/snapshot",
       method: "GET",
       status: input.productBackend.status,
       detail:
-        "Founder Command App snapshot route exposes owner-only architecture readiness only; no action execution, secrets, private data, fake metrics, or public route is enabled.",
+        "Private command app snapshot route exposes private architecture readiness only; no action execution, secrets, private data, fake metrics, or public route is enabled.",
     },
     {
       path: "/api/founder/command/modules",
       method: "GET",
       status: input.productBackend.status,
       detail:
-        "Founder Command modules route reports read-only desktop/mobile command module readiness without exposing Founder controls to user plans.",
+        "Private command modules route reports read-only desktop/mobile command module readiness without exposing private controls to user plans.",
     },
     {
       path: "/api/founder/approval/readiness",
       method: "GET",
       status: input.productBackend.status,
       detail:
-        "Founder Approval Center readiness route reports lifecycle and review gates only; approval execution remains inactive.",
+        "Private approval readiness route reports lifecycle and review gates only; approval execution remains inactive.",
     },
     {
       path: "/api/founder/treasury/readiness",
       method: "GET",
       status: input.productBackend.status,
       detail:
-        "Founder Treasury readiness route reports billing inactive, subscriptions inactive, and owner-only future monetization review truth.",
+        "Private treasury readiness route reports billing inactive, subscriptions inactive, and future monetization review truth.",
     },
     {
       path: "/api/founder/media/readiness",
       method: "GET",
       status: input.productBackend.status,
       detail:
-        "Founder Media readiness route reports draft and AI video review readiness only; no social tokens, accounts, publishing, or media metrics exist.",
+        "Private media readiness route reports draft and AI video review readiness only; no social tokens, accounts, publishing, or media metrics exist.",
     },
     {
       path: "/api/founder/economy/readiness",
       method: "GET",
       status: input.productBackend.status,
       detail:
-        "Founder Economy readiness route reports treasury, growth, VIP, community, performance-fee research, and final acceptance truth without revenue or billing activation.",
+        "Private economy readiness route reports treasury, growth, VIP, community, performance-fee research, and final acceptance truth without revenue or billing activation.",
     },
     {
       path: "/api/founder/partnerships/readiness",
       method: "GET",
       status: input.productBackend.status,
       detail:
-        "Founder Partnerships readiness route reports sponsored clock and brand partnership rules as inactive/planned without company names, contracts, or fake endorsements.",
+        "Private partnerships readiness route reports sponsored clock and brand partnership rules as inactive/planned without company names, contracts, or fake endorsements.",
     },
     {
       path: "/api/founder/final-acceptance/readiness",
       method: "GET",
       status: input.productBackend.status,
       detail:
-        "Founder Final Acceptance readiness route reports internal review, gap checklist, and non-launch roadmap truth; public launch and production remain unapproved.",
+        "Private final acceptance readiness route reports internal review, gap checklist, and non-launch roadmap truth; public launch and production remain unapproved.",
     },
     {
       path: "/api/companion/context",
       method: "GET",
       status: input.intelligence.status,
       detail:
-        "Companion Context Engine route reports safe default assistant context without secrets, private data, or execution authority.",
+        "Assistant Context route reports safe default assistant context without secrets, private data, or execution authority.",
     },
     {
       path: "/api/brain/context",
@@ -378,7 +378,7 @@ function buildRouteProbes(input: {
       method: "GET",
       status: input.productBackend.status,
       detail:
-        "Self-governance route reports Guardian/Legal matrix, ministry autonomy, plan value, living signals, and roadmap planning as readiness truth only.",
+        "Safety integration route reports review matrix, internal automation boundaries, plan value, living signals, and roadmap planning as readiness truth only.",
     },
     {
       path: "/api/market",

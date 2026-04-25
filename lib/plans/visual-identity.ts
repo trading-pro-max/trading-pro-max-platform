@@ -82,7 +82,7 @@ export const PLAN_VISUAL_IDENTITIES: Record<PlanVisualKey, PlanVisualIdentity> =
     truthRules: [
       "No plan pressure.",
       "No paid activation claim.",
-      "No owner command visibility.",
+      "No private command visibility.",
     ],
   },
   demo_free: {
@@ -152,8 +152,8 @@ export const PLAN_VISUAL_IDENTITIES: Record<PlanVisualKey, PlanVisualIdentity> =
     },
     tone: "Elite premium identity",
     surfaceLanguage:
-      "Black, gold, and platinum cues for the elite premium workspace layer, VIP Brain, advanced coaching, and premium reports without visual noise.",
-    assistantIdentity: "VIP Brain",
+      "Black, gold, and platinum cues for the elite premium workspace layer, advanced Assistant, advanced coaching, and premium reports without visual noise.",
+    assistantIdentity: "Advanced Assistant",
     comparisonSummary:
       "Advanced AI/IQ guidance, deeper performance review, strategy review assistant, journal insights, and VIP diagnostics summaries.",
     lockedState:

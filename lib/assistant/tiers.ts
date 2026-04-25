@@ -144,10 +144,10 @@ export const ASSISTANT_TIER_CONTRACTS: AssistantTierContract[] = [
     currentAccess: false,
     visualIdentity: getPlanVisualIdentityForAssistantTier("vip"),
     summary:
-      "Planned VIP tier. Adds advanced AI/IQ Brain guidance, deeper performance review, strategy review, advanced journaling, memory, premium reports, and VIP diagnostics summaries only when explicitly configured.",
+      "Planned VIP tier. Adds advanced Assistant guidance, deeper performance review, strategy review, advanced journaling, memory, premium reports, and VIP diagnostics summaries only when explicitly configured.",
     capabilities: [
       capability("pro_capabilities", "Everything in Pro", "locked"),
-      capability("advanced_ai_iq_brain", "Advanced AI/IQ Brain guidance", "locked"),
+      capability("advanced_ai_iq_brain", "Advanced Assistant guidance", "locked"),
       capability("deeper_performance_review", "Deeper performance review", "locked"),
       capability("strategy_review_assistant", "Strategy review assistant", "locked"),
       capability("advanced_journaling", "Advanced journaling insights", "locked"),

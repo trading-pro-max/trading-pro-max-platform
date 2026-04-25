@@ -14,8 +14,8 @@ Visual direction:
 Free must avoid:
 - heavy internal operating-system language
 - paid activation pressure
-- owner-only command references
-- VIP Brain or premium reports as active features
+- private command references
+- advanced Assistant or premium reports as active features
 
 ## Pro
 
@@ -55,7 +55,7 @@ Institutional remains future planned. Do not expose legacy internal compatibilit
 
 ## Owner-Only Internal Visuals
 
-Owner command visuals may use stronger internal command language and deeper operating-system identity, but they are private and hidden from public navigation. Owner command is not a plan identity and cannot appear as an upgrade.
+Private command visuals may use stronger internal command language and deeper operating-system identity, but they are private and hidden from public navigation. Private command tooling is not a plan identity and cannot appear as an upgrade.
 
 ## Acceptance Rules
 

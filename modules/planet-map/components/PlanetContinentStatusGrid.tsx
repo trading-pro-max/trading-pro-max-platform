@@ -53,16 +53,22 @@ const defaultContinents: PlanetMapContinentView[] = [
 
 type PlanetContinentStatusGridProps = {
   continents?: PlanetMapContinentView[];
+  showInternal?: boolean;
 };
 
 export default function PlanetContinentStatusGrid({
   continents = defaultContinents,
+  showInternal = false,
 }: PlanetContinentStatusGridProps) {
+  const visibleContinents = showInternal
+    ? continents
+    : continents.filter((continent) => !continent.founderOnly);
+
   return (
     <div className="tpm-planet-continent-grid" aria-label="Product area readiness">
-      {continents.map((continent) => (
+      {visibleContinents.map((continent) => (
         <article key={continent.id} data-readiness={continent.readiness}>
-          <span>{continent.founderOnly ? "Owner-only" : "User-safe"}</span>
+          <span>{continent.founderOnly ? "Internal" : "User-safe"}</span>
           <strong>{continent.name}</strong>
           <small>{continent.signal}</small>
         </article>

@@ -296,7 +296,7 @@ export default function AuthSessionPanel({
             unless real entitlements exist.
           </small>
           <small className="tpm-auth-account-type">
-            Plan access: {planLayer.activeLayer}. Owner command tools are private and never a user plan.
+            Plan access: {planLayer.activeLayer}. Private command tools stay separate from user plans.
           </small>
           <small className="tpm-auth-session-expiry">{formatExpiry(state.session.expiresAt)}</small>
           {state.message ? <p className="tpm-auth-message">{state.message}</p> : null}

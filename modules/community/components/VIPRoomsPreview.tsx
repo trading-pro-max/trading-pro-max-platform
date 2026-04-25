@@ -1,5 +1,5 @@
 const vipCapabilities = [
-  "VIP Brain planned",
+  "Advanced Assistant planned",
   "Advanced coaching planned",
   "Strategy review planned",
   "Premium reports planned",

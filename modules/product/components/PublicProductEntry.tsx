@@ -15,7 +15,7 @@ const commandPillars = [
     note: "The workspace opens around the market, not around administration.",
   },
   {
-    label: "TPM IQ / Brain",
+    label: "TPM Assistant",
     value: "Quiet operator assist",
     note: "Guidance stays bounded, visible, and non-predictive.",
   },
@@ -84,7 +84,7 @@ const planInterfaceLadder = [
     title: "VIP",
     badge: "Planned",
     summary:
-      "Elite premium workspace layer: VIP Brain, advanced coaching, strategy review, premium reports, and private rooms when entitled.",
+      "Elite premium workspace layer: advanced Assistant, advanced coaching, strategy review, premium reports, and private rooms when entitled.",
   },
   {
     title: "Institutional",
@@ -184,7 +184,7 @@ export default function PublicProductEntry({
           <div className="tpm-product-section-head">
             <div>
               <span className="tpm-product-kicker">Plan interface</span>
-              <h2>Simple at entry, deeper by plan, private at Founder level.</h2>
+              <h2>Simple at entry, deeper by plan, private where required.</h2>
             </div>
             <p>
               The public product starts like a serious trading platform. Pro and VIP explain

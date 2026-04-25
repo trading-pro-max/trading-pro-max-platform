@@ -60,6 +60,16 @@ function toneFromProbeStatus(status: DiagnosticsProbeStatus): WorkstationStatusT
   return "blocked";
 }
 
+function publicEngineLabel(key: string, fallback: string): string {
+  const labels: Record<string, string> = {
+    founder_command_reporting: "Private Reporting Engine",
+    companion_context: "Assistant Context Engine",
+    guardian_legal_rules: "Safety + Review Rules Engine",
+  };
+
+  return labels[key] ?? fallback;
+}
+
 function UtilityStatus({
   text,
   tone,
@@ -296,6 +306,30 @@ type PlanetOsStatusPayload = {
     privateDataSaleAllowed: boolean;
     fakeMetricsAllowed: boolean;
   };
+  integrationMeshSummary?: {
+    mode: "tpm_integration_mesh";
+    systemsConnected: number;
+    publicLanguageAligned: boolean;
+    productTruthSource: string;
+    planSource: string;
+    assistantSource: string;
+    diagnosticsRole: string;
+    privateReportingRole: string;
+    publicPlanNames: string[];
+    assistantName: string;
+    requiredBlockedStateCoverage: boolean;
+    privateReportingReadinessOnly: boolean;
+    truth: {
+      liveExecution: "blocked";
+      realMoneyRouting: "blocked";
+      brokerFeedBillingLaunch: "not_faked";
+      socialPublishing: "inactive";
+      productionSecrets: "not_touched";
+      authSecurity: "preserved";
+      fakePlanActivation: "blocked";
+      internalGovernanceLeakedToNormalUsers: false;
+    };
+  };
   snapshot: {
     status: "operating" | "ready" | "planned" | "blocked" | "degraded";
     continents: Array<{ id: string; name: string; readiness: string }>;
@@ -334,6 +368,7 @@ type PlanetOsLoadState =
       coordinationSummary: PlanetOsStatusPayload["coordinationSummary"];
       engineSummary: PlanetOsStatusPayload["engineSummary"];
       hierarchySummary: PlanetOsStatusPayload["hierarchySummary"];
+      integrationMeshSummary: PlanetOsStatusPayload["integrationMeshSummary"];
       resourceSummary: PlanetOsStatusPayload["resourceSummary"];
       snapshot: PlanetOsStatusPayload["snapshot"];
       status: "ready";
@@ -421,6 +456,7 @@ function usePlanetOsStatus() {
           coordinationSummary: payload.coordinationSummary,
           engineSummary: payload.engineSummary,
           hierarchySummary: payload.hierarchySummary,
+          integrationMeshSummary: payload.integrationMeshSummary,
           resourceSummary: payload.resourceSummary,
           snapshot: payload.snapshot,
           status: "ready",
@@ -554,6 +590,8 @@ export function PlatformDiagnosticsSurface({
     planetOsLoadState.status === "ready" ? planetOsLoadState.coordinationSummary : undefined;
   const planetResourceSummary =
     planetOsLoadState.status === "ready" ? planetOsLoadState.resourceSummary : undefined;
+  const integrationMeshSummary =
+    planetOsLoadState.status === "ready" ? planetOsLoadState.integrationMeshSummary : undefined;
   const planEntitlementSnapshot = getPlanEntitlementSnapshot("demo_free");
   const currentPlanetLayer = planEntitlementSnapshot.citizenAccess.currentLayer;
   const localePrefix = locale ? `/${locale}` : "";
@@ -642,7 +680,7 @@ export function PlatformDiagnosticsSurface({
             planetHierarchySummary?.continents ?? planetOsSnapshot.continents.length
           } reporting`,
           tone: "approved" as const,
-          note: "Internal product areas report readiness without exposing owner controls.",
+          note: "Internal product areas report readiness without exposing private controls.",
         },
         {
           label: "Readiness reports",
@@ -650,7 +688,7 @@ export function PlatformDiagnosticsSurface({
             planetHierarchySummary?.ministries ?? planetOsSnapshot.ministries.length
           } deterministic reports`,
           tone: "approved" as const,
-          note: "Reports stay internal and owner-only.",
+          note: "Reports stay internal and private.",
         },
         {
           label: "Internal structure",
@@ -707,7 +745,7 @@ export function PlatformDiagnosticsSurface({
           note: "No private data sale, fake users, fake revenue, or fake metrics.",
         },
         {
-          label: "Owner controls",
+          label: "Private controls",
           value: "Private",
           tone: "restricted" as const,
           note: "No public command route, desktop app, or mobile app is shipped.",
@@ -733,7 +771,7 @@ export function PlatformDiagnosticsSurface({
 
   const planetEngineItems =
     planetOsEngineSummary?.engines.slice(0, 10).map((engine) => ({
-      label: engine.label,
+      label: publicEngineLabel(engine.key, engine.label),
       value: engine.readiness.replace(/_/g, " "),
       tone:
         engine.readiness === "active"
@@ -743,6 +781,41 @@ export function PlatformDiagnosticsSurface({
           : ("restricted" as const),
       note: `${engine.automationLevel.replace(/_/g, " ")} / ${engine.riskLevel} risk. ${engine.truth}`,
     })) ?? [];
+
+  const integrationMeshItems = integrationMeshSummary
+    ? [
+        {
+          label: "Integration mesh",
+          value: `${integrationMeshSummary.systemsConnected} systems`,
+          tone: "approved" as const,
+          note: "Product truth, plans, Assistant, blocked-state explanations, journal/coach, safety, content, reporting, diagnostics, and visual checks share one readiness chain.",
+        },
+        {
+          label: "Public language",
+          value: integrationMeshSummary.publicLanguageAligned ? "Aligned" : "Review needed",
+          tone: integrationMeshSummary.publicLanguageAligned
+            ? ("approved" as const)
+            : ("pending" as const),
+          note: `${integrationMeshSummary.publicPlanNames.join(" / ")} with ${integrationMeshSummary.assistantName}.`,
+        },
+        {
+          label: "Blocked coverage",
+          value: integrationMeshSummary.requiredBlockedStateCoverage ? "Covered" : "Partial",
+          tone: integrationMeshSummary.requiredBlockedStateCoverage
+            ? ("approved" as const)
+            : ("pending" as const),
+          note: "Live, real money, billing, VIP, Institutional, Islamic status, and private command states have explanations.",
+        },
+        {
+          label: "Private reporting",
+          value: integrationMeshSummary.privateReportingReadinessOnly ? "Private" : "Review",
+          tone: integrationMeshSummary.privateReportingReadinessOnly
+            ? ("restricted" as const)
+            : ("pending" as const),
+          note: "Readiness summaries remain separate from normal user plans and public navigation.",
+        },
+      ]
+    : [];
 
   const planLayerItems = [
     {
@@ -764,7 +837,7 @@ export function PlatformDiagnosticsSurface({
       note: "Pro and VIP layers remain planned or locked until real entitlement support exists.",
     },
     {
-      label: "Owner controls",
+      label: "Private controls",
       value: "Private",
       tone: "blocked" as const,
       note: "Never exposed as a normal user plan or public route.",
@@ -799,7 +872,7 @@ export function PlatformDiagnosticsSurface({
   ];
   const intelligenceGovernanceItems = [
     {
-      label: "TPM Brain context",
+      label: "Assistant context",
       value: "Bounded",
       tone: "pending" as const,
       note: "Combines product truth, plan state, skill profile, journal readiness, safety/review boundaries, and visual acceptance without secrets.",
@@ -823,7 +896,7 @@ export function PlatformDiagnosticsSurface({
       note: "Risky claims, live claims, billing claims, Islamic certification claims, and VIP guarantees remain blocked or review-required.",
     },
     {
-      label: "Ministry autonomy",
+      label: "Internal automation",
       value: "Assisted / review",
       tone: "pending" as const,
       note: "No internal function can autonomously launch, publish, bill, activate broker/feed, or execute live trades.",
@@ -858,7 +931,7 @@ export function PlatformDiagnosticsSurface({
       label: "Community / VIP rooms",
       value: "Planned",
       tone: "pending" as const,
-      note: "Rooms require moderation, entitlement support, safety review, legal review, and owner review.",
+      note: "Rooms require moderation, entitlement support, safety review, legal review, and private approval review.",
     },
     {
       label: "Partnerships",
@@ -1169,7 +1242,7 @@ export function PlatformDiagnosticsSurface({
                 ? "Readiness snapshot unavailable"
                 : "Loading readiness snapshot"
             }
-            text="Diagnostics is checking the internal readiness model without exposing owner controls or fake launch states."
+            text="Diagnostics is checking the internal readiness model without exposing private controls or fake launch states."
           />
         )}
       </UtilitySection>
@@ -1195,11 +1268,24 @@ export function PlatformDiagnosticsSurface({
         <UtilityGrid items={planLayerItems} />
       </UtilitySection>
 
-      <UtilitySection eyebrow="COMPANION" title="Assistant readiness">
+      <UtilitySection eyebrow="ASSISTANT" title="Assistant readiness">
         <UtilityGrid items={companionReadinessItems} />
       </UtilitySection>
 
-      <UtilitySection eyebrow="INTELLIGENCE" title="Self-governance readiness">
+      <UtilitySection eyebrow="MESH" title="Integration mesh">
+        {integrationMeshItems.length > 0 ? (
+          <UtilityGrid items={integrationMeshItems} />
+        ) : (
+          <ProductStateNotice
+            compact
+            kind="loading"
+            title="Integration mesh loading"
+            text="Diagnostics is aligning product truth, plans, Assistant, blocked states, safety, content, reporting, and visual readiness."
+          />
+        )}
+      </UtilitySection>
+
+      <UtilitySection eyebrow="INTELLIGENCE" title="Safety integration readiness">
         <UtilityGrid items={intelligenceGovernanceItems} />
       </UtilitySection>
 
@@ -1453,7 +1539,7 @@ export function PlatformSettingsSurface({
       note: accountTypeIdentity.note,
     },
     {
-      label: "Personal assistant",
+      label: "TPM Assistant",
       value: assistantTier.label,
       tone: "pending" as const,
       note: "Free guidance is active; Pro, VIP, and Institutional assistants remain locked or planned until real entitlements exist.",
@@ -1502,12 +1588,12 @@ export function PlatformSettingsSurface({
   const onboardingItems = [
     {
       label: "Workspace orientation",
-      value: "Topbar -> IQ / Brain -> chart depth -> ticket preflight -> blotter",
+      value: "Topbar -> Assistant -> chart depth -> ticket preflight -> blotter",
       tone: "approved" as const,
       note: "The workstation now teaches a first pass without tutorial clutter.",
     },
     {
-      label: "TPM IQ / Brain",
+      label: "TPM Assistant",
       value: "Interpretive operator assist",
       tone: "pending" as const,
       note: "Context and risk guidance remain grounded, bounded, and non-predictive.",

@@ -310,9 +310,9 @@ export function createTradingIntelligenceViewModel(
       : "Context engine operating in degraded mode";
 
   return {
-    productLabel: "TPM IQ / Brain",
-    commandKicker: "TPM IQ Context",
-    stateLabel: "IQ state",
+    productLabel: "TPM Assistant",
+    commandKicker: "Assistant Context",
+    stateLabel: "Assistant state",
     stateValue,
     stateTone: toneFromAvailability(intelligence.availability),
     confidenceLabel: "Context confidence",
@@ -461,17 +461,17 @@ export function createTradingIntelligenceViewModel(
         },
       ],
       note:
-        "TPM IQ never overrides blocked live routes, broker unavailability, or session guardrails.",
+        "TPM Assistant never overrides blocked live routes, broker unavailability, or session guardrails.",
       chips: ["Operator manual", "Paper-only", "Live blocked"],
     },
-    chartKicker: "TPM IQ Context",
+    chartKicker: "Assistant Context",
     chartHeadline: marketHeadline,
     chartSummary: buildMarketSummary(marketContext),
     chartNote:
       marketContext.availability === "grounded"
         ? `${confidenceValue} on ${marketContext.candleSampleSize} sampled candles.`
         : `${stateValue}: confidence is bounded by ${marketContext.feedLabel}.`,
-    executionKicker: "TPM Brain Guidance",
+    executionKicker: "Assistant Guidance",
     executionHeadline: executionHeadline,
     executionSummary: buildExecutionSummary(intelligence, dict),
     executionNote: buildGuidanceSummary(guidance.primaryAction),

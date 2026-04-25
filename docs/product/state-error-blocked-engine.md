@@ -32,7 +32,8 @@ Covered states:
 - launch not active
 - real money blocked
 - social publishing inactive
-- Founder Command private
+- private command unavailable
+- Institutional future
 
 Each explanation includes:
 
@@ -55,12 +56,12 @@ Current UI surfaces:
 
 - the execution ticket includes a compact "Why live is blocked" disclosure
 - diagnostics shows highlighted blocked-state explanation cards and safe next steps
-- the TPM Companion panel reuses the explanations for live, real money, and broker states
+- the TPM Assistant panel reuses the explanations for live, real money, broker, plan, and account-type states
 
 The surface is intentionally compact. It should clarify without turning the workstation into an admin dashboard.
 
 ## Self-Governance Deepening
 
-State explanations now distinguish cause families: plan, auth, safety, legal, broker, feed, billing, launch, production, owner-private, and future scope.
+State explanations now distinguish cause families: plan, auth, safety, review, broker, feed, billing, launch, production, private access, and future scope.
 
-This allows TPM Brain, Companion, diagnostics, and future Founder Command surfaces to explain not only that something is blocked, but who can resolve it and what real condition would be required.
+This allows TPM Assistant, Diagnostics, and private reporting surfaces to explain not only that something is blocked, but who can resolve it and what real condition would be required.

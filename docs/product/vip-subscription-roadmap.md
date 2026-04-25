@@ -8,8 +8,8 @@ VIP should feel like a serious premium command layer, not a promise of results.
 
 Future VIP may include:
 
-- VIP Brain summaries
-- VIP Assistant with advanced AI/IQ Brain guidance
+- advanced Assistant summaries
+- VIP Assistant with advanced bounded guidance
 - advanced coaching
 - strategy review assistant
 - deeper journal analytics
@@ -49,7 +49,7 @@ Future VIP may include:
 - premium decision support
 - deeper context
 - advanced journal review
-- advanced AI/IQ Brain guidance when entitlement is active
+- advanced bounded guidance when entitlement is active
 - VIP diagnostics summaries when configured
 - priority support readiness
 - future paid entitlement when configured

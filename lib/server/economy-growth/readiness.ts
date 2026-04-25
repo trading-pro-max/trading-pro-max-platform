@@ -171,7 +171,7 @@ const mediaOfficeReadiness: MediaOfficeReadiness = {
     "campaign planning",
     "scheduling readiness",
   ],
-  requiredReviews: ["Brand", "Safety", "Legal", "Owner"],
+  requiredReviews: ["Brand", "Safety", "Legal", "Private approval"],
   noAccountsConnected: true,
   noApiTokens: true,
   externalPublishingActive: false,
@@ -226,7 +226,7 @@ const partnershipReadiness: PartnershipReadiness = {
     "event/webinar partnership",
     "academy partnership",
   ],
-  requiredReviews: ["Legal", "Rights/IP", "Safety", "Owner"],
+  requiredReviews: ["Legal", "Rights/IP", "Safety", "Private approval"],
   fakePartnershipClaims: false,
   impliedEndorsementAllowed: false,
 };
@@ -305,14 +305,14 @@ const resourcesToEconomy: ResourceEconomyMap = {
       protection: "sponsored clock remains future partnership only",
     },
     {
-      resource: "owner decisions",
+      resource: "private decisions",
       ethicalValue: "governance",
-      protection: "owner approval cannot override critical blocks without remediation",
+      protection: "private approval cannot override critical blocks without remediation",
     },
     {
       resource: "partnerships",
       ethicalValue: "future growth",
-      protection: "contract, Rights/IP, legal, safety, and owner review required",
+      protection: "contract, Rights/IP, legal, safety, and private approval review required",
     },
   ],
   rules: [
@@ -334,7 +334,7 @@ const finalAcceptance: FinalAcceptanceReadiness = {
   recommendation: "continue_internal_refinement",
   complete: [
     "internal hierarchy/readiness contracts",
-    "owner command foundation",
+    "private command foundation",
     "living product surfaces",
     "plan-based access truth",
     "economy/media/growth readiness model",
@@ -379,9 +379,9 @@ const finalGapChecklist: FinalGapChecklistItem[] = [
     note: "Read-only guided foundation exists; full chat and persistence remain planned.",
   },
   {
-    area: "owner command",
+    area: "private command",
     status: "partial",
-    note: "Owner-only command architecture exists; native app shell and audited actions remain planned.",
+    note: "Private command architecture exists; native app shell and audited actions remain planned.",
   },
   {
     area: "media/video",
@@ -431,8 +431,8 @@ const nonLaunchRoadmap: NonLaunchRoadmapItem[] = [
   },
   {
     priority: 4,
-    area: "owner command",
-    nextStep: "Build private desktop/mobile shell after owner auth and audit gates.",
+    area: "private command",
+    nextStep: "Build private desktop/mobile shell after private auth and audit gates.",
     status: "planned",
   },
   {

@@ -98,7 +98,9 @@ export type PlanEntitlementSnapshot = {
     paidAccess: "not_enabled";
     vipActivation: "not_active";
     enterpriseActivation: "future_planned";
+    institutionalActivation: "future_planned";
     founderCommandAccess: "owner_only_never_user_plan";
+    ownerCommandAccess: "owner_only_never_user_plan";
     performanceFee: "hidden_inactive";
   };
 };

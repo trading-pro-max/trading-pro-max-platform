@@ -22,6 +22,7 @@ export type ProductStateExplanationKey =
   | "billing_inactive"
   | "pro_locked"
   | "vip_locked"
+  | "institutional_future"
   | "islamic_review_required"
   | "islamic_certification_not_certified"
   | "launch_not_active"

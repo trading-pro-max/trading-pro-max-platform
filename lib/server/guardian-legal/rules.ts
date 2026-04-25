@@ -81,6 +81,22 @@ const blockedRules: GuardianLegalRuleMatch[] = [
     safeAlternative: "Mark VIP as planned/locked and avoid outcome promises.",
   },
   {
+    id: "fake-institutional-active",
+    category: "product_claim",
+    outcome: "blocked",
+    pattern: "institutional active",
+    reason: "Institutional is future planned and cannot be claimed active.",
+    safeAlternative: "Describe Institutional as future planned only.",
+  },
+  {
+    id: "fake-institutional-available",
+    category: "product_claim",
+    outcome: "blocked",
+    pattern: "institutional available",
+    reason: "Institutional availability is not active in current product truth.",
+    safeAlternative: "Use future Institutional roadmap wording only.",
+  },
+  {
     id: "fake-islamic-certification",
     category: "product_claim",
     outcome: "blocked",
@@ -95,6 +111,14 @@ const blockedRules: GuardianLegalRuleMatch[] = [
     pattern: "financial advice",
     reason: "The platform must not claim to provide financial advice.",
     safeAlternative: "Use education and decision-support wording.",
+  },
+  {
+    id: "legal-advice",
+    category: "product_claim",
+    outcome: "blocked",
+    pattern: "legal advice",
+    reason: "The platform must not claim to provide legal advice.",
+    safeAlternative: "Use review-required or legal-review wording.",
   },
   {
     id: "fake-performance-fee",
@@ -121,6 +145,14 @@ const blockedRules: GuardianLegalRuleMatch[] = [
     safeAlternative: "Use internal partnership readiness wording until contracts exist.",
   },
   {
+    id: "copied-competitor-content",
+    category: "copied_competitor_content",
+    outcome: "blocked",
+    pattern: "copy competitor",
+    reason: "Copied competitor content or identity is forbidden.",
+    safeAlternative: "Create original Trading Pro Max wording and visual direction.",
+  },
+  {
     id: "ai-prediction-overclaim",
     category: "product_claim",
     outcome: "blocked",
@@ -144,7 +176,7 @@ const reviewRules: GuardianLegalRuleMatch[] = [
     category: "product_claim",
     outcome: "founder_approval_required",
     pattern: "launch",
-    reason: "Launch wording requires all gates and Founder approval.",
+    reason: "Launch wording requires all gates and private approval.",
     safeAlternative: "Use internal readiness or not-launched wording.",
   },
 ];

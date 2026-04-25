@@ -34,6 +34,7 @@ export type ContentFactoryClassification = {
   mode: "content_factory_engine";
   contentType: ContentFactoryType;
   lifecycle: ContentFactoryLifecycle;
+  reviewSequence: ContentFactoryLifecycle[];
   risk: ContentFactoryRisk;
   requiredReviews: string[];
   blockedReasons: string[];
@@ -50,6 +51,7 @@ export type ContentFactoryReadinessSnapshot = {
   mode: "content_factory_readiness";
   lifecycle: {
     states: ContentFactoryLifecycle[];
+    reviewSequence: ContentFactoryLifecycle[];
     externalPublishing: "blocked";
     socialTokens: "not_present";
     fakeMetrics: "blocked";

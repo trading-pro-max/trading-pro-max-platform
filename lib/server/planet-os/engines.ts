@@ -105,7 +105,7 @@ export function getPlanetCoreEnginesSnapshot(
       }),
       vipClaim: classifyContentFactoryDraft({
         contentType: "pro_vip_teaser",
-        text: "VIP Brain requires entitlement, Guardian review, Legal review, and Founder approval.",
+        text: "VIP advanced Assistant requires entitlement, safety review, legal review, and private approval.",
       }),
       islamicClaim: classifyContentFactoryDraft({
         contentType: "text_post",

@@ -19,6 +19,8 @@ const blockedPatterns = [
   "public launch",
   "sharia certified",
   "vip active",
+  "institutional active",
+  "institutional available",
   "official partner",
   "sponsored by",
   "partner clock active",
@@ -29,6 +31,17 @@ const blockedPatterns = [
   "followers",
   "financial advice",
   "legal advice",
+  "copy competitor",
+  "copied competitor",
+];
+
+const reviewSequence: ContentFactoryLifecycle[] = [
+  "idea",
+  "draft",
+  "brand_review",
+  "guardian_review",
+  "legal_review",
+  "founder_approval",
 ];
 
 function classifyRisk(text: string, contentType: ContentFactoryType): {
@@ -46,7 +59,7 @@ function classifyRisk(text: string, contentType: ContentFactoryType): {
     return {
       risk: "blocked",
       blockedReasons,
-      requiredReviews: ["Guardian", "Legal", "Founder"],
+      requiredReviews: ["Safety", "Legal", "Private approval"],
       lifecycle: "blocked",
     };
   }
@@ -64,7 +77,7 @@ function classifyRisk(text: string, contentType: ContentFactoryType): {
     return {
       risk: "approval_required",
       blockedReasons: [],
-      requiredReviews: ["Brand", "Guardian", "Legal", "Founder"],
+      requiredReviews: ["Brand", "Safety", "Legal", "Private approval"],
       lifecycle: "founder_approval",
     };
   }
@@ -81,7 +94,7 @@ function classifyRisk(text: string, contentType: ContentFactoryType): {
   return {
     risk: "approval_required",
     blockedReasons: [],
-    requiredReviews: ["Brand", "Guardian"],
+      requiredReviews: ["Brand", "Safety"],
     lifecycle: "guardian_review",
   };
 }
@@ -97,6 +110,7 @@ export function classifyContentFactoryDraft(input: {
     mode: "content_factory_engine",
     contentType: input.contentType,
     lifecycle: result.lifecycle,
+    reviewSequence,
     risk: result.risk,
     requiredReviews: result.requiredReviews,
     blockedReasons: result.blockedReasons,
@@ -131,6 +145,7 @@ export function getContentFactoryReadinessSnapshot(
         "blocked",
         "archived",
       ],
+      reviewSequence,
       externalPublishing: "blocked",
       socialTokens: "not_present",
       fakeMetrics: "blocked",
@@ -142,7 +157,7 @@ export function getContentFactoryReadinessSnapshot(
       }),
       vipClaim: classifyContentFactoryDraft({
         contentType: "pro_vip_teaser",
-        text: "VIP Brain will require entitlement and review before any activation claim.",
+        text: "Advanced Assistant will require entitlement and review before any activation claim.",
       }),
       guaranteedProfitClaim: classifyContentFactoryDraft({
         contentType: "text_post",
@@ -187,7 +202,7 @@ export function getContentFactoryReadinessSnapshot(
       upload: "blocked",
       publishing: "blocked",
       fakeViews: "blocked",
-      requiredReviews: ["Brand", "Guardian", "Legal", "Founder"],
+      requiredReviews: ["Brand", "Safety", "Legal", "Private approval"],
     },
     truth: {
       externalPublishing: "blocked",

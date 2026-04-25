@@ -9,6 +9,7 @@ import {
   getPlanetResourceSnapshot,
 } from "@/lib/server/planet-os";
 import { getTpmBrainContextSnapshot } from "@/lib/server/brain";
+import { getTpmIntegrationMeshSnapshot } from "@/lib/server/integration-mesh";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -22,6 +23,7 @@ export async function GET() {
   const resources = getPlanetResourceSnapshot(snapshot.checkedAt);
   const coordination = getInterMinistryCoordinationSnapshot(snapshot.checkedAt);
   const economyGrowth = getPlanetEconomyGrowthReadinessSnapshot(snapshot.checkedAt);
+  const integrationMesh = getTpmIntegrationMeshSnapshot(snapshot.checkedAt);
 
   return noStoreJson({
     ok: true,
@@ -86,6 +88,23 @@ export async function GET() {
       ministryAutonomyRules: autonomy.rules.length,
       dangerousAutonomy: autonomy.truth.dangerousAutonomy,
       liveTradingAutonomy: autonomy.truth.liveTradingAutonomy,
+    },
+    integrationMeshSummary: {
+      mode: integrationMesh.mode,
+      systemsConnected: integrationMesh.summary.systemsConnected,
+      publicLanguageAligned: integrationMesh.summary.publicLanguageAligned,
+      productTruthSource: integrationMesh.summary.productTruthSource,
+      planSource: integrationMesh.summary.planSource,
+      assistantSource: integrationMesh.summary.assistantSource,
+      diagnosticsRole: integrationMesh.summary.diagnosticsRole,
+      privateReportingRole: integrationMesh.summary.founderRole,
+      publicPlanNames: integrationMesh.publicLanguage.planNames,
+      assistantName: integrationMesh.publicLanguage.assistantName,
+      requiredBlockedStateCoverage:
+        integrationMesh.blockedStateAlignment.requiredKeysPresent,
+      privateReportingReadinessOnly:
+        integrationMesh.founderReportingAlignment.accessOwnerOnly,
+      truth: integrationMesh.truth,
     },
   });
 }

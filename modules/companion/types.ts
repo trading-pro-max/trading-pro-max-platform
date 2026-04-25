@@ -24,7 +24,21 @@ export type TPMCompanionContextView = {
     billing: "inactive";
     paidAccess: "not_enabled";
     vipActivation: "not_active";
+    institutionalActivation: "future_planned";
     founderCommandAccess: "owner_only_never_user_plan";
+    ownerCommandAccess: "owner_only_never_user_plan";
+  };
+  planAccess: {
+    planClass: "guest" | "demo_free" | "pro" | "vip" | "enterprise" | "staff_operator" | "founder_king";
+    label: string;
+    activeLayer: string;
+    assistantLevel: string;
+    visibleSurfaces: string[];
+    lockedCapabilities: string[];
+    plannedCapabilities: string[];
+    hiddenCapabilities: string[];
+    ownerCommandUserVisible: false;
+    performanceFeeUserVisible: false;
   };
   planetAccess: {
     citizenClass: "guest" | "demo_free" | "pro" | "vip" | "enterprise" | "staff_operator" | "founder_king";

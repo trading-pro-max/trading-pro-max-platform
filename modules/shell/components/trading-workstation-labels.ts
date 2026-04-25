@@ -233,7 +233,7 @@ export function getCoreModeCopy(locale: string) {
     settingsLabel: isArabic(locale) ? "الإعدادات" : "Settings",
     signOutLabel: isArabic(locale) ? "الخروج" : "Sign out",
     policyPanelLabel: isArabic(locale) ? "سياسة الحساب" : "Account policy",
-    userRole: isArabic(locale) ? "المالك" : "Owner",
+    userRole: isArabic(locale) ? "المستخدم" : "User",
   };
 }
 

@@ -17,7 +17,7 @@ The plan value map defines what each public plan can truthfully promise, what re
 ## VIP
 
 - promise: elite premium workspace layer after entitlement, safety, and support gates exist
-- planned: VIP Brain, advanced Assistant, advanced coaching, deep journal analytics, strategy review, premium reports, private rooms
+- planned: advanced Assistant, advanced coaching, deep journal analytics, strategy review, premium reports, private rooms
 - must not claim: VIP active, guaranteed returns, win-rate, priority support active
 
 ## Institutional
@@ -28,14 +28,14 @@ The plan value map defines what each public plan can truthfully promise, what re
 
 ## Owner-Only Internal Command
 
-Owner command receives private readiness summaries only and is not purchasable, visible in public navigation, or available through user plans.
+Private command reporting receives private readiness summaries only and is not purchasable, visible in public navigation, or available through user plans.
 
 ## Economy Link
 
 The plan value map feeds the product economy model:
 - Free: active familiar premium paper terminal, basic Assistant, basic Academy, Why Blocked, feedback readiness.
 - Pro: planned intelligent professional workspace with deeper Assistant, Journal/Coach, alerts/workflows, decision replay, workspace memory, and Pro community.
-- VIP: planned elite premium workspace layer with VIP Brain, advanced Assistant, advanced Journal/Coach, strategy review, premium reports, private rooms, and priority support concepts.
+- VIP: planned elite premium workspace layer with advanced Assistant, advanced Journal/Coach, strategy review, premium reports, private rooms, and priority support concepts.
 - Institutional: future team/admin/audit/compliance layer.
 
-Billing, paid entitlement activation, performance fees, public launch, and VIP/Pro activation remain inactive. Owner command is not a user-plan feature.
+Billing, paid entitlement activation, performance fees, public launch, and VIP/Pro activation remain inactive. Private command tooling is not a user-plan feature.

@@ -30,10 +30,10 @@ export default function CitizenAccessMap({
 
       {founderLayer ? (
         <aside className="tpm-founder-access-boundary">
-          <strong>{founderLayer.label}</strong>
+          <strong>Private command boundary</strong>
           <p>
-            Owner command tools are private, read-only by default, and never
-            part of Free, Pro, VIP, or Institutional plans.
+            Private command tools are separate from public plans, read-only by
+            default, and never part of Free, Pro, VIP, or Institutional.
           </p>
         </aside>
       ) : null}

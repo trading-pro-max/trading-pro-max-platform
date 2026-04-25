@@ -1,6 +1,6 @@
-# Companion Context Engine
+# Assistant Context Engine
 
-The Companion Context Engine creates safe, platform-aware context for the TPM Personal Companion.
+The Assistant Context Engine creates safe, platform-aware context for TPM Assistant.
 
 Runtime source:
 
@@ -42,6 +42,6 @@ Assistant boundaries:
 
 ## Operational Expansion
 
-The context snapshot now also includes assistant tier, plan entitlement truth, Product Truth summary, account type status, diagnostics readiness, and feedback readiness. This makes the Companion explain more of the product state without creating a chat action agent.
+The context snapshot now also includes assistant tier, plan entitlement truth, Product Truth summary, account type status, diagnostics readiness, and feedback readiness. This makes TPM Assistant explain more of the product state without creating a chat action agent.
 
 It still excludes secrets, broker credentials, raw tokens, hidden production config, private sensitive data, and execution authority.

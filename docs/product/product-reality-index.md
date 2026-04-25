@@ -1,39 +1,40 @@
-# TPM Planet Product Reality Index
+# Product Reality Index
 
-This index records the current daily product reality for Trading Pro Max after the Product Reality Mega Pass.
+This index records the current daily product reality for Trading Pro Max after the Product Reality foundation and Integration Mesh passes.
 
 ## User-Facing Surfaces
 
-- Full-screen trading terminal: chart-first, paper-safe, live and real money blocked.
-- TPM Companion: deterministic safe chat foundation using Companion Context and blocked-intent language.
+- Trading Workspace: chart-first, paper-safe, live and real money blocked.
+- TPM Assistant: deterministic safe chat foundation using Assistant Context and blocked-intent language.
 - Journal / Coach: local/session note composer, paper-session prompts, and decision replay foundation.
-- Plan layer surfaces: Demo / Free active truth with Pro, VIP, and Enterprise planned or future.
+- Plan surfaces: Free active, Pro planned/locked, VIP planned/locked, Institutional future.
 - Academy / Community / VIP previews: readiness-only learning and room surfaces.
 - Swiss Precision Clock and Platform Pulse: compact living signals only.
+- Settings and Diagnostics: compact product truth, plan, Assistant, Journal/Coach, safety, and readiness views.
 
-## Founder-Only Surfaces
+## Private/Internal Surfaces
 
-- Founder Command Room components.
-- Founder King Command App shell components.
-- Planet Map founder view.
-- Approval, Treasury, Media, AI Video, Guardian, Legal, Engineering, Ops, and plan readiness summaries.
+- Founder Command components and private command shell foundations.
+- Private map/readiness views for internal areas, approval readiness, treasury, media, AI Video, safety, legal, engineering, ops, and plan readiness.
 
-Founder surfaces are owner-only, read-only by default, and not exposed through public navigation.
+Private surfaces are read-only by default, not public navigation, and never user-plan features.
 
 ## Internal-Only Systems
 
-- Planet OS hierarchy, ministries, councils, and Presidency coordination.
-- Product Truth, Guardian/Legal, State Explanations, Visual Acceptance, Content Factory, Build Planner.
+- TPM Planet OS hierarchy, councils, reporting, and coordination models.
+- Product Truth, Guardian/Legal, State Explanations, Visual Acceptance, Content Factory, Build Planner, and Integration Mesh.
 - Economy, media, partnership, and final internal acceptance readiness.
+
+These internal systems may use Founder/Planet/governance terminology in internal docs and private command surfaces only.
 
 ## Planned Systems
 
-- native Founder desktop/mobile command apps
-- full Companion model backend if later approved
-- account-safe persistent journal storage
-- community rooms and VIP rooms
-- media office workspace and AI video tooling
-- billing, subscriptions, Pro/VIP entitlements, and Enterprise admin
+- native private desktop/mobile command apps
+- full Assistant model backend if later approved
+- account-safe persistent Journal storage
+- Community rooms and VIP rooms
+- Media Office workspace and AI Video tooling
+- billing, subscriptions, Pro/VIP entitlements, and Institutional admin
 
 ## Blocked Systems
 

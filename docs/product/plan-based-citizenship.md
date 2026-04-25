@@ -28,7 +28,7 @@ Pro is planned and locked unless entitlement exists. It may later include:
 ## VIP
 
 VIP is planned and locked unless entitlement exists. It may later include:
-- VIP Brain
+- advanced Assistant
 - advanced Assistant
 - advanced Journal / Coach
 - strategy review
@@ -52,7 +52,7 @@ Institutional is the public label. The older internal `enterprise` identifier ma
 
 ## Owner-Only Internal Command
 
-Owner command is separate from user plans. It is private, hidden from public navigation, and not available through Free, Pro, VIP, or Institutional.
+Private command tooling is separate from user plans. It is hidden from public navigation and not available through Free, Pro, VIP, or Institutional.
 
 ## Product Truth
 

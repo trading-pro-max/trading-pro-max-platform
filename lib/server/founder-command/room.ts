@@ -366,7 +366,7 @@ export function getFounderCommandRoomFoundationSnapshot(
         "VIP access",
         "Pro paid access",
         "performance-fee UI",
-        "owner command user-plan access",
+        "private command user-plan access",
       ],
     },
     mediaVideo: {
@@ -377,7 +377,7 @@ export function getFounderCommandRoomFoundationSnapshot(
       socialAccountsConnected: false,
       externalPublishingActive: false,
       aiVideoPublishingActive: false,
-      requiredReviews: ["Guardian", "Legal", "Founder"],
+      requiredReviews: ["Safety", "Legal", "Private approval"],
     },
     coordination: {
       readiness: "readiness_only",

@@ -2,7 +2,7 @@ const learningPaths = [
   "Platform basics",
   "Paper training",
   "Why blocked",
-  "Companion guide",
+  "Assistant guide",
   "Journal / Coach guide",
   "Risk and safety lessons",
 ];
