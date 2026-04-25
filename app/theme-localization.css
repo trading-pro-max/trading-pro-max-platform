@@ -5125,3 +5125,363 @@ html[data-theme="light"] .tpm-founder-command-mobile-shell {
     grid-template-columns: 1fr;
   }
 }
+
+/* Global Trading Platform Standard UI Redesign pass */
+.tpm-product-entry {
+  gap: 14px;
+  max-width: min(100%, 1780px);
+  padding: 18px;
+}
+
+.tpm-product-hero {
+  border-color: color-mix(in srgb, var(--tpm-border) 46%, transparent);
+  box-shadow: 0 22px 70px rgba(2, 8, 23, 0.24);
+  min-height: min(640px, calc(100svh - 92px));
+  overflow: hidden;
+  padding: 40px;
+}
+
+.tpm-product-hero-layout {
+  align-items: center;
+  gap: 34px;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 360px);
+}
+
+.tpm-product-hero-copy h1 {
+  max-width: 760px;
+}
+
+.tpm-product-hero-copy p {
+  max-width: 720px;
+}
+
+.tpm-product-hero-logo {
+  margin-bottom: 16px;
+  max-width: 330px;
+}
+
+.tpm-product-cta-row {
+  gap: 10px;
+}
+
+.tpm-product-route-note {
+  color: color-mix(in srgb, var(--tpm-text-soft) 88%, var(--tpm-text));
+  margin: 10px 0 0;
+  max-width: 680px;
+}
+
+.tpm-product-route-note a {
+  color: var(--tpm-brand-gold-soft);
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.tpm-product-proof-row {
+  border-color: color-mix(in srgb, var(--tpm-border) 44%, transparent);
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.tpm-product-proof-row > div,
+.tpm-product-signal-card,
+.tpm-product-card {
+  background: color-mix(in srgb, var(--tpm-surface) 70%, transparent);
+  border-color: color-mix(in srgb, var(--tpm-border) 42%, transparent);
+  box-shadow: none;
+}
+
+.tpm-product-signal-grid {
+  gap: 8px;
+}
+
+.tpm-product-signal-card {
+  min-height: auto;
+  padding: 14px;
+}
+
+.tpm-product-signal-card p,
+.tpm-product-card p {
+  margin-bottom: 0;
+}
+
+.tpm-product-auth {
+  margin-top: 10px;
+}
+
+.tpm-product-section {
+  padding: 6px 0;
+}
+
+.tpm-product-section-head {
+  border-bottom: 1px solid color-mix(in srgb, var(--tpm-border) 36%, transparent);
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}
+
+.tpm-product-section-compact .tpm-product-plan-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.tpm-product-card {
+  padding: 14px;
+}
+
+.tpm-product-truth-strip {
+  padding-bottom: 18px;
+}
+
+.tpmv2-page {
+  padding: 6px;
+}
+
+.tpmv2-shell-desktop {
+  gap: 8px;
+  grid-template-columns: clamp(190px, 11vw, 232px) minmax(0, 1fr);
+}
+
+.tpmv2-main {
+  gap: 7px;
+}
+
+.tpmv2-card,
+.tpmv2-topbar,
+.tpmv2-command-center,
+.tpmv2-chart-surface,
+.tpmv2-execution,
+.tpmv2-blotter {
+  border-color: color-mix(in srgb, var(--tpm-border) 42%, transparent);
+  box-shadow: none;
+}
+
+.tpmv2-command-center {
+  background: transparent;
+  border-color: transparent;
+  gap: 6px;
+  grid-template-columns: minmax(220px, 1.24fr) repeat(4, minmax(104px, 0.62fr));
+  padding: 0;
+}
+
+.tpmv2-command-cell,
+.tpmv2-command-primary {
+  background: color-mix(in srgb, var(--tpm-surface) 66%, transparent);
+  border-color: color-mix(in srgb, var(--tpm-border) 38%, transparent);
+  min-height: 52px;
+  padding: 9px;
+}
+
+.tpmv2-desktop-master {
+  align-items: stretch;
+  gap: 8px;
+  grid-template-columns: minmax(0, 1fr) clamp(318px, 18vw, 372px);
+}
+
+.tpmv2-desktop-master.tpmv2-desktop-master-focus-chart:not(.tpmv2-desktop-master-ticket-hidden) {
+  grid-template-columns: minmax(0, 1.2fr) clamp(300px, 16vw, 340px);
+}
+
+.tpmv2-chart-surface {
+  --tpmv2-dock-space: 42px;
+  background:
+    linear-gradient(180deg, rgba(7, 14, 25, 0.96), rgba(4, 9, 18, 0.98)),
+    linear-gradient(rgba(148, 163, 184, 0.075) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.052) 1px, transparent 1px);
+  background-size: auto, 58px 58px, 58px 58px;
+  min-height: clamp(720px, calc(100svh - 132px), 1180px);
+  outline: 0;
+}
+
+.tpmv2-chart-surface::before {
+  opacity: 0.58;
+}
+
+.tpmv2-chart-surface::after {
+  opacity: 0.35;
+}
+
+.tpmv2-chart-market-bar,
+.tpmv2-chart-toolbar,
+.tpmv2-chart-indicator-dock,
+.tpmv2-chart-zoom-controls,
+.tpmv2-chart-tool-rail,
+.tpmv2-chart-depth-panel,
+.tpmv2-chart-ai-panel {
+  box-shadow: none;
+}
+
+.tpmv2-chart-depth-panel {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+}
+
+.tpmv2-chart-surface:hover .tpmv2-chart-depth-panel,
+.tpmv2-chart-surface:focus-within .tpmv2-chart-depth-panel {
+  opacity: 0.82;
+  pointer-events: auto;
+}
+
+.tpmv2-chart-ai-panel {
+  max-width: 280px;
+  opacity: 0.86;
+}
+
+.tpmv2-execution {
+  gap: 8px;
+  padding: 10px;
+}
+
+.tpmv2-ticket-preflight-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.tpmv2-ticket-preflight-card:nth-child(n + 3) {
+  display: none;
+}
+
+.tpmv2-ticket-activity,
+.tpmv2-ticket-status-grid {
+  display: none;
+}
+
+.tpmv2-workspace-depth-bar-compact {
+  grid-template-columns: minmax(220px, 1fr) minmax(180px, 0.74fr) minmax(240px, 1fr);
+  padding: 9px;
+}
+
+.tpmv2-workspace-depth-status small {
+  max-width: 100%;
+}
+
+.tpmv2-brain-deck {
+  display: none;
+}
+
+.tpm-companion-shell {
+  inset-block-end: 18px;
+}
+
+.tpm-companion-panel {
+  border-color: color-mix(in srgb, var(--tpm-border) 46%, transparent);
+  max-height: min(560px, calc(100svh - 106px));
+  width: min(328px, calc(100vw - 28px));
+}
+
+.tpm-companion-status-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.tpm-companion-status-grid > div,
+.tpm-companion-message,
+.tpm-companion-blocked-intents,
+.tpm-companion-state-strip {
+  border-color: color-mix(in srgb, var(--tpm-border) 42%, transparent);
+  box-shadow: none;
+}
+
+.tpm-companion-message-list,
+.tpm-companion-panel {
+  gap: 9px;
+}
+
+.tpm-utility-page {
+  gap: 10px;
+  max-width: min(100%, 1500px);
+}
+
+.tpm-utility-card,
+.tpm-utility-hero,
+.tpm-foundation-item,
+.tpm-utility-control {
+  border-color: color-mix(in srgb, var(--tpm-border) 42%, transparent);
+  box-shadow: none;
+}
+
+.tpm-utility-page-settings,
+.tpm-utility-page-diagnostics {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.tpm-utility-page-settings > .tpm-utility-card,
+.tpm-utility-page-diagnostics > .tpm-utility-card {
+  grid-column: span 4;
+}
+
+.tpm-utility-page-settings > .tpm-utility-card:has(.tpm-plan-experience-grid),
+.tpm-utility-page-diagnostics > .tpm-utility-card:has(.tpm-utility-health-grid),
+.tpm-utility-page-diagnostics > .tpm-utility-card:has(.tpm-state-explanation-grid) {
+  grid-column: 1 / -1;
+}
+
+.tpm-utility-page-settings > .tpm-utility-card:has(.tpm-plan-interface-summary),
+.tpm-utility-page-settings > .tpm-utility-card:has(.tpm-citizen-access-map),
+.tpm-utility-page-settings > .tpm-utility-card:has(.tpm-academy-preview),
+.tpm-utility-page-settings > .tpm-utility-card:has(.tpm-community-readiness),
+.tpm-utility-page-settings > .tpm-utility-card:has(.tpm-safe-next-step-list),
+.tpm-utility-page-diagnostics > .tpm-utility-card:has(.tpm-planet-map-preview),
+.tpm-utility-page-diagnostics > .tpm-utility-card:has(.tpm-product-reality-grid),
+.tpm-utility-page-diagnostics > .tpm-utility-card:has(.tpm-media-office-readiness),
+.tpm-utility-page-diagnostics > .tpm-utility-card:has(.tpm-ai-video-studio-panel),
+.tpm-utility-page-diagnostics > .tpm-utility-card:has(.tpm-founder-command-shell) {
+  display: none;
+}
+
+html[data-theme="light"] .tpm-product-proof-row > div,
+html[data-theme="light"] .tpm-product-signal-card,
+html[data-theme="light"] .tpm-product-card,
+html[data-theme="light"] .tpmv2-command-cell,
+html[data-theme="light"] .tpmv2-command-primary {
+  background: rgba(255, 255, 255, 0.78);
+  border-color: rgba(15, 23, 42, 0.12);
+}
+
+html[data-theme="light"] .tpmv2-chart-surface {
+  background:
+    linear-gradient(180deg, rgba(248, 250, 252, 0.98), rgba(235, 242, 250, 0.97)),
+    linear-gradient(rgba(15, 23, 42, 0.075) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 23, 42, 0.052) 1px, transparent 1px);
+  background-size: auto, 58px 58px, 58px 58px;
+}
+
+@media (min-width: 1900px) {
+  .tpmv2-shell-desktop {
+    grid-template-columns: 250px minmax(0, 1fr);
+  }
+
+  .tpmv2-desktop-master {
+    grid-template-columns: minmax(0, 1fr) 388px;
+  }
+}
+
+@media (max-width: 1260px) {
+  .tpm-product-hero-layout,
+  .tpm-product-section-compact .tpm-product-plan-grid,
+  .tpmv2-desktop-master,
+  .tpmv2-desktop-master.tpmv2-desktop-master-focus-chart:not(.tpmv2-desktop-master-ticket-hidden),
+  .tpmv2-desktop-master.tpmv2-desktop-master-focus-execution:not(.tpmv2-desktop-master-ticket-hidden) {
+    grid-template-columns: 1fr;
+  }
+
+  .tpmv2-brain-deck {
+    display: none;
+  }
+}
+
+@media (max-width: 980px) {
+  .tpm-product-hero {
+    padding: 24px;
+  }
+
+  .tpmv2-workspace-depth-bar-compact,
+  .tpm-companion-status-grid,
+  .tpm-utility-page-settings,
+  .tpm-utility-page-diagnostics {
+    grid-template-columns: 1fr;
+  }
+
+  .tpm-utility-page-settings > .tpm-utility-card,
+  .tpm-utility-page-diagnostics > .tpm-utility-card,
+  .tpm-utility-page-settings > .tpm-utility-hero,
+  .tpm-utility-page-diagnostics > .tpm-utility-hero {
+    grid-column: 1;
+  }
+}

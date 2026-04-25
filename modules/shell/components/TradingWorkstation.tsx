@@ -71,9 +71,12 @@ function WorkspaceDepthBar({
   shortcutHint: string;
 }) {
   return (
-    <section className="tpmv2-card tpmv2-workspace-depth-bar" aria-label="Workspace depth">
+    <section
+      className="tpmv2-card tpmv2-workspace-depth-bar tpmv2-workspace-depth-bar-compact"
+      aria-label="Workspace controls"
+    >
       <div className="tpmv2-workspace-depth-block">
-        <span>Workspace depth</span>
+        <span>Workspace focus</span>
         <div className="tpmv2-workspace-depth-buttons" role="toolbar" aria-label="Workstation focus">
           {(["balanced", "chart_focus", "execution_focus"] as const).map((mode) => (
             <button
@@ -90,7 +93,7 @@ function WorkspaceDepthBar({
       </div>
 
       <div className="tpmv2-workspace-depth-block">
-        <span>Market surface</span>
+        <span>Watchlist</span>
         <div className="tpmv2-workspace-depth-buttons" role="toolbar" aria-label="Watchlist density">
           {(["standard", "dense"] as const).map((density) => (
             <button
@@ -107,18 +110,9 @@ function WorkspaceDepthBar({
       </div>
 
       <div className="tpmv2-workspace-depth-status">
-        <span>Shortcut layer</span>
+        <span>Paper-safe controls</span>
         <strong>Layout-only</strong>
-        <small>
-          Shift+1 watchlist, Shift+2 ticket, Shift+3 blotter, Shift+4/5/6 focus, Shift+7/8/9/0
-          amount presets.
-        </small>
-      </div>
-
-      <div className="tpmv2-workspace-depth-status tpmv2-workspace-depth-status-live">
-        <span>Feedback loop</span>
-        <strong>{shortcutHint}</strong>
-        <small>Beta notes stay review-bound; no order-entry hotkeys are armed.</small>
+        <small>{shortcutHint} No order-entry hotkeys are armed.</small>
       </div>
     </section>
   );

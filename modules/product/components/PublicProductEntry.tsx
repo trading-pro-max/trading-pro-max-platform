@@ -8,62 +8,36 @@ type PublicProductEntryProps = {
   workspaceHref: string;
 };
 
-const commandPillars = [
+const platformSignals = [
   {
-    label: "Chart first",
-    value: "Price, signal, and context lead",
-    note: "The workspace opens around the market, not around settings noise.",
+    label: "Workspace",
+    value: "Chart first",
+    note: "A familiar market view with a clean paper ticket.",
   },
   {
     label: "TPM Assistant",
-    value: "Quiet operator assist",
-    note: "Guidance stays bounded, visible, and non-predictive.",
+    value: "Basic guidance",
+    note: "Compact explanations for state, plan, and blocked actions.",
   },
   {
-    label: "Trust posture",
-    value: "Paper-only, fallback-first",
-    note: "Live execution and broker routing remain blocked until configured.",
+    label: "Safety",
+    value: "Paper-safe",
+    note: "Live, real-money, billing, broker, and launch claims stay inactive.",
   },
 ];
 
 const truthLedger = [
   {
-    title: "Execution authority",
-    summary: "Manual paper entry is available; live-money routing stays blocked.",
-    chips: ["Paper-only", "Live blocked"],
+    label: "Mode",
+    value: "Free paper workspace",
   },
   {
-    title: "Market source truth",
-    summary: "Fallback-first market data stays labeled with bounded confidence.",
-    chips: ["Fallback-first", "Bounded confidence"],
+    label: "Execution",
+    value: "Paper-only",
   },
   {
-    title: "Connector posture",
-    summary: "Broker and operator-review layers are unconfigured; no fake activation is claimed.",
-    chips: ["Broker unconfigured", "No fake activation"],
-  },
-];
-
-const firstUseSteps = [
-  {
-    step: "01",
-    title: "Read market",
-    note: "Asset, price, signal, and readiness are visible first.",
-  },
-  {
-    step: "02",
-    title: "Use chart + ticket",
-    note: "Decision context and paper controls stay in one flow.",
-  },
-  {
-    step: "03",
-    title: "Check trust",
-    note: "Fallback feed and blocked live route remain compact but explicit.",
-  },
-  {
-    step: "04",
-    title: "Verify support",
-    note: "Settings and diagnostics are available without taking over the screen.",
+    label: "Live route",
+    value: "Blocked",
   },
 ];
 
@@ -72,19 +46,19 @@ const planInterfaceLadder = [
     title: "Free",
     badge: "Active",
     summary:
-      "Familiar premium paper trading: chart, watchlist, paper ticket, basic Assistant, Why Blocked, Academy, clock, and pulse.",
+      "Familiar paper trading with chart, watchlist, paper ticket, TPM Assistant, Academy, and concise readiness labels.",
   },
   {
     title: "Pro",
     badge: "Planned",
     summary:
-      "Professional intelligent workspace: richer Assistant, Journal/Coach depth, decision replay, memory, alerts, and workflows.",
+      "Professional workspace layer for richer Assistant guidance, Journal/Coach depth, replay, alerts, and workflows when entitled.",
   },
   {
     title: "VIP",
     badge: "Planned",
     summary:
-      "Elite premium workspace layer: advanced Assistant, advanced coaching, strategy review, premium reports, and private rooms when entitled.",
+      "Premium advanced layer for deeper Assistant support, strategy review, premium reports, and private rooms when entitled.",
   },
   {
     title: "Institutional",
@@ -104,10 +78,10 @@ export default function PublicProductEntry({
       <section className="tpm-foundation-page tpm-product-entry">
         <section className="tpm-foundation-card tpm-product-hero">
           <div className="tpm-product-kicker-row">
-            <span className="tpm-product-kicker">Public Commercial Entry</span>
+            <span className="tpm-product-kicker">Trading workspace</span>
             <div className="tpm-product-chip-row">
-              <span className="tpm-product-chip">Paper-only evaluation</span>
-              <span className="tpm-product-chip">Fallback-first market data</span>
+              <span className="tpm-product-chip">Free paper-safe access</span>
+              <span className="tpm-product-chip">Swiss precision identity</span>
               <span className="tpm-product-chip">Live execution blocked</span>
             </div>
           </div>
@@ -116,53 +90,46 @@ export default function PublicProductEntry({
             <div className="tpm-product-hero-copy">
               <ProductLogo
                 className="tpm-product-hero-logo"
-                subtitle="Paper-safe trading identity"
+                subtitle="Swiss-inspired intelligent trading workspace"
                 variant="hero"
               />
               <h1>
-                Trading Pro Max keeps the chart first and every action paper-safe.
+                A familiar paper-safe trading workspace with a sharper edge.
               </h1>
               <p>
-                Free stays familiar and premium: chart, watchlist, paper ticket, and
-                compact TPM guidance. Pro and VIP carry the deeper intelligent workspace and
-                premium workspace layers later, while live routing, broker/feed, billing, public
-                launch, and real-money access remain inactive.
+                Trading Pro Max opens around the chart, the watchlist, and a clear paper
+                execution ticket. Free stays simple and premium; Pro and VIP introduce deeper
+                professional layers only when real entitlement support exists.
               </p>
 
               <div className="tpm-product-cta-row">
-                <a
-                  className="tpm-product-cta tpm-product-cta-primary"
-                  href="#workspace-experience"
-                >
-                  Enter workstation
-                </a>
-                <Link className="tpm-product-cta" href={workspaceHref}>
-                  Open localized workspace
+                <Link className="tpm-product-cta tpm-product-cta-primary" href={workspaceHref}>
+                  Enter workspace
                 </Link>
                 <Link className="tpm-product-cta tpm-product-cta-secondary" href={diagnosticsHref}>
-                  Review diagnostics
+                  Review readiness
                 </Link>
               </div>
 
               <div className="tpm-product-proof-row">
-                <div>
-                  <span>Product mode</span>
-                  <strong>Evaluation workstation</strong>
-                </div>
-                <div>
-                  <span>Execution</span>
-                  <strong>Paper-only manual route</strong>
-                </div>
-                <div>
-                  <span>Broker state</span>
-                  <strong>Unconfigured / blocked</strong>
-                </div>
+                {truthLedger.map((item) => (
+                  <div key={item.label}>
+                    <span>{item.label}</span>
+                    <strong>{item.value}</strong>
+                  </div>
+                ))}
               </div>
+
+              <p className="tpm-product-route-note">
+                Settings remains available for account, plan, Assistant, theme, and language
+                controls.{" "}
+                <Link href={settingsHref}>Open settings</Link>
+              </p>
             </div>
 
             <div className="tpm-product-hero-side">
               <div className="tpm-product-signal-grid">
-                {commandPillars.map((item) => (
+                {platformSignals.map((item) => (
                   <article key={item.label} className="tpm-product-signal-card">
                     <span>{item.label}</span>
                     <strong>{item.value}</strong>
@@ -173,23 +140,22 @@ export default function PublicProductEntry({
 
               <AuthSessionPanel
                 className="tpm-product-auth"
-                title="Closed access"
-                note="Sign in with seeded beta credentials to unlock protected account routes. Public registration, live execution, and real-money access remain disabled."
+                title="Account access"
+                note="Sign in with seeded beta credentials for protected account routes. Registration, live execution, real money, and billing remain disabled."
               />
             </div>
           </div>
         </section>
 
-        <section className="tpm-product-section">
+        <section className="tpm-product-section tpm-product-section-compact">
           <div className="tpm-product-section-head">
             <div>
-              <span className="tpm-product-kicker">Plan interface</span>
-              <h2>Simple at entry, deeper by plan, private where required.</h2>
+              <span className="tpm-product-kicker">Plans at a glance</span>
+              <h2>Simple first. Deeper only when the plan actually supports it.</h2>
             </div>
             <p>
-              The public product starts like a serious trading platform. Pro and VIP explain
-              future differentiation without pretending paid access, billing, or premium
-              entitlement is active.
+              Public plans stay easy to scan and truthful: no fake paid activation, no billing
+              claim, no real-money access, and no hidden command features.
             </p>
           </div>
 
@@ -206,78 +172,16 @@ export default function PublicProductEntry({
           </div>
         </section>
 
-        <section className="tpm-product-section">
+        <section className="tpm-product-section tpm-product-truth-strip">
           <div className="tpm-product-section-head">
             <div>
-              <span className="tpm-product-kicker">Platform truth</span>
-              <h2>Capability and limits stay visible without slowing the trade flow.</h2>
+              <span className="tpm-product-kicker">Readiness stays honest</span>
+              <h2>Free is paper-safe; Pro and VIP remain planned unless entitled.</h2>
             </div>
             <p>
-              The entry shows what is available, what is blocked, and where to verify truth in a
-              compact operator path.
+              Live execution, real money, broker/feed activation, billing, and public launch stay
+              inactive until future configuration and approval.
             </p>
-          </div>
-
-          <div className="tpm-product-card-grid">
-            {truthLedger.map((card) => (
-              <article key={card.title} className="tpm-foundation-card tpm-product-card">
-                <div className="tpm-product-card-head">
-                  <strong>{card.title}</strong>
-                </div>
-                <p>{card.summary}</p>
-                <div className="tpm-product-chip-row tpm-product-chip-row-left">
-                  {card.chips.map((chip) => (
-                    <span key={chip} className="tpm-product-chip">
-                      {chip}
-                    </span>
-                  ))}
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="tpm-product-section">
-          <div className="tpm-product-section-head">
-            <div>
-              <span className="tpm-product-kicker">First-use path</span>
-              <h2>A short operator path keeps attention on the market.</h2>
-            </div>
-            <p>
-              Orient fast, rehearse paper execution, and verify trust semantics without onboarding
-              noise.
-            </p>
-          </div>
-
-          <div className="tpm-product-step-grid">
-            {firstUseSteps.map((step) => (
-              <article key={step.step} className="tpm-foundation-card tpm-product-step-card">
-                <span>{step.step}</span>
-                <strong>{step.title}</strong>
-                <p>{step.note}</p>
-              </article>
-            ))}
-          </div>
-
-          <div className="tpm-foundation-card tpm-product-cta-panel">
-            <div>
-              <span className="tpm-product-kicker">Route flow</span>
-              <strong>Product entry, workstation, settings, and diagnostics stay one coherent system.</strong>
-            </div>
-            <div className="tpm-product-cta-row">
-              <a
-                className="tpm-product-cta tpm-product-cta-primary"
-                href="#workspace-experience"
-              >
-                Enter workstation
-              </a>
-              <Link className="tpm-product-cta" href={settingsHref}>
-                Open settings
-              </Link>
-              <Link className="tpm-product-cta tpm-product-cta-secondary" href={diagnosticsHref}>
-                Open diagnostics
-              </Link>
-            </div>
           </div>
         </section>
       </section>

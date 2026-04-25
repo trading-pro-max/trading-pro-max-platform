@@ -13,7 +13,10 @@ const STAGING_VALIDATOR_SCRIPT = "scripts/validate-staging-readiness.mjs";
 const SETUP_SCRIPT = "scripts/setup-production-env-local.mjs";
 const GENERATE_LAUNCH_SECRETS_SCRIPT = "scripts/generate-launch-secrets.mjs";
 const THEME_STORAGE_KEY = "tpm-theme-mode-v1";
-const THEME_ARTIFACT_DIR = path.join("test-results", "visible-product-completion");
+const THEME_ARTIFACT_DIR = path.join(
+  "test-results",
+  "global-trading-platform-ui-redesign"
+);
 
 function validatorEnv(overrides: Record<string, string | undefined> = {}) {
   const env: Record<string, string | undefined> = {
@@ -399,7 +402,7 @@ test.describe("verified platform truth", () => {
       {
         path: "/",
         expectedUrl: /\/$/,
-        text: /Public Commercial Entry|Platform truth|First-use path|Route flow/,
+        text: /Trading workspace|Plans at a glance|Readiness stays honest/,
       },
       {
         path: "/en",
@@ -409,18 +412,17 @@ test.describe("verified platform truth", () => {
       {
         path: "/en/settings",
         expectedUrl: /\/en\/settings$/,
-        text: /Settings|Mode and persistence|Paper ticket defaults|Account and commercial readiness/,
+        text: /Settings|Account|Plan|Assistant|Product/,
       },
       {
         path: "/settings",
         expectedUrl: /\/settings$/,
-        text: /Settings|Mode and persistence|Paper ticket defaults|Account and commercial readiness/,
+        text: /Settings|Account|Plan|Assistant|Product/,
       },
       {
         path: "/diagnostics",
         expectedUrl: /\/diagnostics$/,
-        text:
-          /Diagnostics|System readiness|Connector safety state|Feedback and recovery state|Commercial trust and public product state/,
+        text: /Diagnostics|System readiness|Product readiness|Safety/,
       },
     ];
 
@@ -469,34 +471,37 @@ test.describe("verified platform truth", () => {
         );
         expect(heroMarkBackground).toMatch(/rgba\(0, 0, 0, 0\)|transparent/);
         await expect(page.locator("body")).toContainText(
-          /Paper-only evaluation|Fallback-first market data|Live execution blocked/
+          /Free paper-safe access|Swiss precision identity|Live execution blocked/
         );
         await expect(page.locator("body")).toContainText(
-          /Plan interface|Free|Pro|VIP|Institutional|Familiar premium paper trading/
+          /Plans at a glance|Free|Pro|VIP|Institutional|Familiar paper trading/
         );
         await expect(page.locator("body")).toContainText(
-          /TPM Assistant|Interpretive, bounded guidance|Chart \+ execution stay primary/
+          /TPM Assistant|Basic guidance|Chart first|Paper-safe/
         );
         await expect(page.locator("body")).toContainText(
-          /Broker unconfigured|no fake activation|not a live brokerage terminal/
+          /real-money|broker\/feed activation|billing/
         );
       }
 
       if (route.path === "/" || route.path === "/en") {
         await expect(page.locator(".tpmv2-command-center").first()).toBeVisible();
-        await expect(page.locator(".tpmv2-brain-deck").first()).toBeVisible();
+        await expect(page.locator(".tpmv2-brain-deck").first()).toBeHidden();
         await expect(page.locator(".tpmv2-workspace-depth-bar").first()).toBeVisible();
         await expect(page.locator(".tpmv2-chart-surface").first()).toBeVisible();
-        await expect(page.locator(".tpmv2-chart-depth-panel").first()).toBeVisible();
+        const depthPanelOpacity = await page.locator(".tpmv2-chart-depth-panel").first().evaluate(
+          (element) => Number.parseFloat(window.getComputedStyle(element).opacity)
+        );
+        expect(depthPanelOpacity).toBeLessThan(0.2);
         await expect(page.locator(".tpmv2-execution").first()).toBeVisible();
         await expect(page.locator(".tpmv2-ticket-preflight").first()).toBeVisible();
-        await expect(page.locator(".tpmv2-ticket-activity").first()).toBeVisible();
+        await expect(page.locator(".tpmv2-ticket-activity").first()).toBeHidden();
         await expect(page.locator(".tpmv2-execution .tpm-why-blocked-hint").first()).toBeVisible();
         await expect(page.locator("body")).toContainText(
-          /TPM Assistant|Market context|Operator guidance|Truth layer/
+          /TPM Assistant|Market context|Paper-safe controls|Market depth/
         );
         await expect(page.locator("body")).toContainText(
-          /Workspace depth|Shortcut layer|Layout-only|Recent desk activity|Market depth/
+          /Workspace focus|Watchlist|Layout-only|Market depth/
         );
         await expect(page.locator("body")).toContainText(
           /Paper access|Fallback-bound|Interpretive only|Live blocked/
@@ -584,10 +589,10 @@ test.describe("verified platform truth", () => {
         await expect(page.locator(".tpm-utility-page").first()).toBeVisible();
         await expect(page.locator(".tpm-foundation-card").first()).toBeVisible();
         await expect(page.locator("body")).toContainText(
-          /Workspace depth and interaction layer|Workstation depth and shortcut truth/
+          /Workspace depth and interaction layer|Workstation depth and shortcut truth|Plan capability truth/
         );
         await expect(page.locator("body")).toContainText(
-          /Commercial trust and public product state|Account and commercial readiness|First-use platform guidance/
+          /Commercial trust and public product state|Account and commercial readiness|Product access/
         );
         await expect(page.locator("body")).toContainText(
           /Product trust ledger|Commercial packaging readiness|No billing system active|Broker integration/
@@ -599,10 +604,7 @@ test.describe("verified platform truth", () => {
           /Plan capability truth|Paper-session guidance|No financial advice/
         );
         await expect(page.locator("body")).toContainText(
-          /Plan-based interface architecture|Experience layers|Familiar paper trading layer|Restricted controls stay separate/
-        );
-        await expect(page.locator("body")).toContainText(
-          /Academy|Community|VIP Rooms|Rooms planned|Learning paths foundation/
+          /Current plan|Plan capability truth|Familiar paper trading layer|Restricted controls stay separate/
         );
         if (route.path === "/en/settings" || route.path === "/settings") {
           await expect(page.locator(".tpm-plan-experience-card")).toHaveCount(4);
@@ -622,10 +624,7 @@ test.describe("verified platform truth", () => {
             /Why blocked readiness|Session coach foundation|Journal \/ Coach/
           );
           await expect(page.locator("body")).toContainText(
-            /Safety integration readiness|Assistant context|Automation boundary|Roadmap planner/
-          );
-          await expect(page.locator("body")).toContainText(
-            /Workspace access layer|Media Office|AI Video Studio|no social accounts/i
+            /Safety integration readiness|Assistant context|Automation boundary/
           );
         }
       }
@@ -641,7 +640,7 @@ test.describe("verified platform truth", () => {
     await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
     await expect(page.locator(".tpm-theme-switcher").first()).toBeVisible();
     await expect(page.locator(".tpm-locale-select").first()).toBeVisible();
-    await expect(page.locator("body")).toContainText("Public Commercial Entry");
+    await expect(page.locator("body")).toContainText("Trading workspace");
     await expectRuntimeCssApplied(page, "entry");
     await page.screenshot({
       fullPage: true,
@@ -800,7 +799,7 @@ test.describe("verified platform truth", () => {
     await emptyStateNotice.screenshot({
       path: path.join(THEME_ARTIFACT_DIR, "empty-state.png"),
     });
-    await page.locator(".tpmv2-workspace-depth-status-live").first().screenshot({
+    await page.locator(".tpmv2-workspace-depth-status").first().screenshot({
       path: path.join(THEME_ARTIFACT_DIR, "feedback-ui.png"),
     });
 
@@ -984,14 +983,9 @@ test.describe("verified platform truth", () => {
 
     await page.goto("/en");
     await expect(page.locator("main").first()).toBeVisible();
-    await expect(page.locator(".tpmv2-brain-deck").first()).toBeVisible();
-    await expect(page.locator("body")).toContainText("Degraded");
-    await expect(page.locator("body")).toContainText(
-      "Context engine operating in degraded mode"
-    );
-    await expect(page.locator("body")).toContainText(
-      "fallback-safe structure cues"
-    );
+    await expect(page.locator(".tpmv2-brain-deck").first()).toBeHidden();
+    await expect(page.locator(".tpmv2-chart-surface").first()).toBeVisible();
+    await expect(page.locator("body")).toContainText("Fallback-bound");
     await expect(page.locator("body")).toContainText("Interpretive only");
     await expect(page.locator("body")).toContainText("Live blocked");
   });

@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { getAssistantTierSnapshot } from "@/lib/assistant/tiers";
 import { getPlanEntitlementSnapshot } from "@/lib/plans/entitlements";
-import { StateExplanationCard, WhyBlockedHint } from "@/modules/state-explanations/components";
+import { WhyBlockedHint } from "@/modules/state-explanations/components";
 import type { StateExplanationView } from "@/modules/state-explanations/types";
 import CompanionInput from "./CompanionInput";
 import CompanionMessageList from "./CompanionMessageList";
@@ -220,19 +220,19 @@ export default function TPMCompanionPanel({
         id: "response-state",
         role: "companion",
         state: "fallback",
-        title: "Current platform state",
+        title: "Current workspace state",
         body:
           context?.productTruth.liveExecution === "blocked"
-            ? "This build is paper-safe. Live execution, real money, broker activation, billing, launch, and social publishing remain blocked or inactive."
-            : "This surface is using safe readiness context. Check diagnostics before trusting any operational state.",
+            ? "This workspace is paper-safe. Live execution, real money, broker activation, billing, launch, and social publishing remain blocked or inactive."
+            : "This surface is using bounded readiness context. Check diagnostics before trusting any operational state.",
       },
       blocked: {
         id: "response-blocked",
         role: "companion",
         state: "blocked",
-        title: "Why blocked conditions are visible",
+        title: "Why a feature is blocked",
         body:
-          "Blocked conditions are intentional safety boundaries. They explain what is unavailable, who can resolve it later, and the safe next step without promising an unlock.",
+          "Blocked labels are intentional safety boundaries. They explain what is unavailable and the safe next step without promising an unlock.",
       },
       plan: {
         id: "response-plan",
@@ -241,7 +241,7 @@ export default function TPMCompanionPanel({
         title: "Plan access truth",
         body:
           context?.planAccess
-            ? `${context.planAccess.activeLayer}. Free is the familiar paper trading layer with basic Assistant support. Pro is planned as the intelligent professional workspace, VIP as the elite premium workspace layer, and Institutional as future team support.`
+            ? `${context.planAccess.activeLayer}. Free is the familiar paper trading layer with basic TPM Assistant support. Pro is planned as the professional workspace, VIP as the premium advanced layer, and Institutional as future team support.`
             : "Basic Assistant is active for Free guidance. Pro, VIP, and Institutional assistants remain locked or future-planned until real entitlement support exists.",
       },
       feedback: {
@@ -256,7 +256,7 @@ export default function TPMCompanionPanel({
         id: "response-learning",
         role: "companion",
         state: "ready",
-        title: "Skill-aware learning help",
+        title: "Learning help",
         body:
           context?.brain.userGuidanceMode === "beginner_safe"
             ? "I will keep explanations plain, paper-first, and focused on what is safe to learn next."
@@ -327,8 +327,6 @@ export default function TPMCompanionPanel({
     { id: "state", label: "State", response: promptResponses.state },
     { id: "blocked", label: "Why blocked", response: promptResponses.blocked },
     { id: "plan", label: "Plan", response: promptResponses.plan },
-    { id: "feedback", label: "Feedback", response: promptResponses.feedback },
-    { id: "learning", label: "Learning", response: promptResponses.learning },
   ];
   const activePrompt = prompts.find((prompt) => prompt.id === activePromptId) ?? prompts[0];
   const messages: TPMCompanionMessage[] = [
@@ -336,10 +334,10 @@ export default function TPMCompanionPanel({
       id: "intro",
       role: "companion",
       state: loadState === "ready" ? "ready" : "fallback",
-      title: "Platform-aware, paper-safe guidance",
+      title: "Paper-safe workspace guidance",
       body: `I can explain ${formatRoute(
         context?.route ?? route
-      )}, plan status, blocked conditions, diagnostics, and feedback. I cannot execute trades or activate live, money, broker, feed, billing, secrets, or launch.`,
+      )}, plan status, blocked states, diagnostics, and feedback. I cannot execute trades or activate live, money, broker, feed, billing, secrets, or launch.`,
     },
     activePrompt.response,
     ...chatMessages,
@@ -384,11 +382,6 @@ export default function TPMCompanionPanel({
           <strong>None</strong>
           <small>No execution or activation</small>
         </div>
-        <div>
-          <span>Context</span>
-          <strong>{context?.brain.contextQuality ?? "bounded"}</strong>
-          <small>{context?.preferences.skillLevel ?? "beginner"} guidance</small>
-        </div>
       </div>
 
       <CompanionMessageList
@@ -423,40 +416,6 @@ export default function TPMCompanionPanel({
         <WhyBlockedHint explanation={liveExplanation} label="Live" />
         <WhyBlockedHint explanation={moneyExplanation} label="Money" />
         <WhyBlockedHint explanation={brokerExplanation} label="Broker" />
-      </div>
-
-      <StateExplanationCard compact explanation={liveExplanation} />
-
-      <div className="tpm-companion-capability-grid">
-        <div>
-          <span>Workspace layer</span>
-          {(context?.planAccess.visibleSurfaces ?? []).slice(0, 3).map((city) => (
-            <small key={city}>{city}</small>
-          ))}
-        </div>
-        <div>
-          <span>Available</span>
-          {currentPlan.allowedFeatures.slice(0, 3).map((feature) => (
-            <small key={feature.label}>{feature.label}</small>
-          ))}
-        </div>
-        <div>
-          <span>Locked / later</span>
-          {[...currentPlan.lockedFeatures, ...currentPlan.comingLaterFeatures]
-            .slice(0, 3)
-            .map((feature) => (
-              <small key={feature.label}>{feature.label}</small>
-            ))}
-        </div>
-        <div>
-          <span>Intent safety</span>
-          {(context?.intents ?? [])
-            .filter((intent) => intent.demoFree === "allowed")
-            .slice(0, 3)
-            .map((intent) => (
-              <small key={intent.intent}>{intent.label}</small>
-            ))}
-        </div>
       </div>
 
       <footer className="tpm-companion-actions">
