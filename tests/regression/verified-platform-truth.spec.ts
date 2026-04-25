@@ -4904,6 +4904,159 @@ test.describe("verified platform truth", () => {
     await expect(page.locator("body")).not.toContainText(/Enterprise|TPM Companion/);
   });
 
+  test("reports founder local command shell without public exposure or approval execution", async ({
+    request,
+  }) => {
+    const endpoints = [
+      "/api/founder/local-command/snapshot",
+      "/api/founder/local-command/readiness",
+    ];
+
+    for (const endpoint of endpoints) {
+      const response = await request.get(endpoint);
+      expect(response.status()).toBe(200);
+      const text = await response.text();
+      expect(text).not.toMatch(/api[_-]?key\s*[:=]|password\s*[:=]|secret_value/i);
+      expect(text).not.toMatch(/fake users active|fake revenue active|metrics active/i);
+      expect(text).not.toMatch(/approvalExecutionActive":true/);
+    }
+
+    const snapshotPayload = await (
+      await request.get("/api/founder/local-command/snapshot")
+    ).json();
+    const snapshot = snapshotPayload.snapshot;
+
+    expect(snapshot).toMatchObject({
+      mode: "founder_local_command_app_shell",
+      access: {
+        currentState: "owner_auth_required",
+        ownerOnly: true,
+        localOnly: true,
+        publicRouteExposed: false,
+        publicNavigationVisible: false,
+        userPlanAccess: false,
+        freeProVipInstitutionalAccess: false,
+        readOnlyDefault: true,
+        approvalExecution: "disabled",
+        secretsVisible: false,
+      },
+      routeExposure: {
+        apiSnapshotAdded: true,
+        apiReadinessAdded: true,
+        previewRouteCreated: false,
+        publicNavigationVisible: false,
+        userPlanExposure: false,
+      },
+      localCommandStatus: {
+        ownerOnly: true,
+        localOnly: true,
+        approvalExecutionActive: false,
+        publicRouteExposed: false,
+      },
+      truth: {
+        noSecrets: true,
+        noPrivateUserData: true,
+        noFakeUsers: true,
+        noFakeRevenue: true,
+        noFakeMetrics: true,
+        liveExecution: "blocked",
+        realMoneyRouting: "blocked",
+        brokerFeedActivation: "blocked",
+        billing: "inactive",
+        publicLaunch: "inactive",
+        socialPublishing: "inactive",
+        approvalExecution: "disabled",
+        externalAutomation: "not_enabled",
+      },
+    });
+    expect(snapshot.localOperations.dayCycle.totalStages).toBe(21);
+    expect(snapshot.localOperations.readinessLaw.automaticLaunch).toBe(false);
+    expect(snapshot.productMemory.truth).toMatchObject({
+      secretsStored: false,
+      privateSensitiveDataStored: false,
+      fakeUsersStored: false,
+      fakeRevenueStored: false,
+      fakeMetricsStored: false,
+    });
+    expect(snapshot.constructionQueue.summary).toMatchObject({
+      externalExecutionActive: false,
+    });
+    expect(snapshot.validation.truth).toMatchObject({
+      rawLogsStored: false,
+      secretsStored: false,
+      falsePassAllowed: false,
+    });
+    expect(snapshot.treasuryMedia).toMatchObject({
+      billingInactive: true,
+      performanceFeeHiddenInactive: true,
+      socialPublishingInactive: true,
+      fakePartnershipClaimsAllowed: false,
+      swissLegalCompanyClaimAllowed: false,
+      islamicShariaCertificationClaimAllowed: false,
+    });
+    expect(snapshot.safety).toMatchObject({
+      approvalExecutionActive: false,
+      billingActivationActive: false,
+      brokerFeedActivationActive: false,
+      liveExecutionActive: false,
+      realMoneyRoutingActive: false,
+      socialPublishingActive: false,
+      noPublicNavigation: true,
+      noUserPlanExposure: true,
+    });
+
+    const readinessPayload = await (
+      await request.get("/api/founder/local-command/readiness")
+    ).json();
+    expect(readinessPayload.snapshot).toMatchObject({
+      mode: "founder_local_command_readiness",
+      access: {
+        ownerOnly: true,
+        publicRouteExposed: false,
+        publicNavigationVisible: false,
+        userPlanAccess: false,
+      },
+      routeExposure: {
+        previewRouteCreated: false,
+        publicNavigationVisible: false,
+        userPlanExposure: false,
+      },
+      localCommandStatus: {
+        approvalExecutionActive: false,
+        publicRouteExposed: false,
+      },
+      truth: {
+        noSecrets: true,
+        noPrivateUserData: true,
+        noFakeUsers: true,
+        noFakeRevenue: true,
+        noFakeMetrics: true,
+        approvalExecution: "disabled",
+      },
+    });
+    expect(readinessPayload.snapshot.summaries.localDayStages).toBe(21);
+    expect(readinessPayload.snapshot.summaries.memoryDomains).toBeGreaterThan(0);
+
+    const hiddenPreviewRoute = await request.get("/founder/local-command");
+    expect(hiddenPreviewRoute.status()).not.toBe(200);
+
+    const diagnostics = await (await request.get("/api/diagnostics/probes")).json();
+    expect(diagnostics.health.routes).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ path: "/api/founder/local-command/snapshot" }),
+        expect.objectContaining({ path: "/api/founder/local-command/readiness" }),
+      ])
+    );
+    expect(diagnostics.health.subsystems).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          key: "founder_local_command",
+          status: "ready",
+        }),
+      ])
+    );
+  });
+
   test("keeps real-money execution blocked when real mode is selected", async ({
     page,
   }) => {

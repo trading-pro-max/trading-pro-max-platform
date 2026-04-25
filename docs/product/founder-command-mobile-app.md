@@ -2,6 +2,12 @@
 
 The Founder Command Mobile App is the future urgent review and action surface for Ahmad on Android and iOS.
 
+## Local Shell Status
+
+The current local command shell is not a native mobile application. Mobile app packaging, push, device trust, step-up confirmation, and audit-backed approval execution remain planned.
+
+The shell defines the mobile command information hierarchy for future work: daily briefing first, then local operations, urgent gaps, validation state, Guardian/Legal warnings, and next safe actions. No mobile route, public user access, approval execution, billing activation, broker/feed activation, live execution, real-money routing, social publishing, or secret access is created.
+
 This document defines readiness only. No App Store release, Play Store release, push notification integration, or native mobile app is shipped by this foundation.
 
 ## Mobile Purpose

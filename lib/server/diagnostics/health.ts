@@ -18,6 +18,7 @@ import {
   getAlertDeliveryActivationDiagnosticsProbe,
   getAlertWorkflowDiagnosticsProbe,
 } from "@/lib/server/workflows";
+import { getFounderLocalCommandReadinessSnapshot } from "@/lib/server/founder-command";
 import {
   getAiIqBrainDeepeningDiagnosticsProbe,
   getAiIqBrainDiagnosticsProbe,
@@ -1233,10 +1234,27 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       `${productMemorySnapshot.domainSummary.length} memory domains modeled; secrets, private sensitive data, fake users, fake revenue, and fake metrics remain unstored.`,
     checkedAt,
   };
+  const founderLocalCommandSnapshot =
+    getFounderLocalCommandReadinessSnapshot(checkedAt);
+  const founderLocalCommandProbe: DiagnosticsProbe = {
+    key: "founder_local_command",
+    label: "Founder local command readiness",
+    status: "ready",
+    summary: "Owner-only local command shell foundation ready",
+    detail:
+      `${founderLocalCommandSnapshot.summaries.localDayStages} local stages, ${founderLocalCommandSnapshot.summaries.memoryDomains} memory domains, and ${founderLocalCommandSnapshot.summaries.constructionQueueItems} construction queue items are summarized with approval execution disabled.`,
+    checkedAt,
+  };
 
   return {
     ...baseHealth,
-    probes: [...baseHealth.probes, launchProbe, marketParityProbe, productMemoryProbe],
+    probes: [
+      ...baseHealth.probes,
+      launchProbe,
+      marketParityProbe,
+      productMemoryProbe,
+      founderLocalCommandProbe,
+    ],
     routes: [
       ...baseHealth.routes,
       {
@@ -1288,6 +1306,20 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         detail:
           "Validation memory route reports summary-only command status and does not persist raw logs.",
       },
+      {
+        path: "/api/founder/local-command/snapshot",
+        method: "GET",
+        status: founderLocalCommandProbe.status,
+        detail:
+          "Founder local command snapshot route reports owner-only local app shell readiness without secrets, private data, fake metrics, or approval execution.",
+      },
+      {
+        path: "/api/founder/local-command/readiness",
+        method: "GET",
+        status: founderLocalCommandProbe.status,
+        detail:
+          "Founder local command readiness route reports compact owner-only local shell truth and keeps public navigation disabled.",
+      },
     ],
     subsystems: [
       ...(baseHealth.subsystems ?? []),
@@ -1311,6 +1343,13 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         status: productMemoryProbe.status,
         summary: productMemoryProbe.summary,
         detail: productMemoryProbe.detail,
+      },
+      {
+        key: "founder_local_command",
+        label: founderLocalCommandProbe.label,
+        status: founderLocalCommandProbe.status,
+        summary: founderLocalCommandProbe.summary,
+        detail: founderLocalCommandProbe.detail,
       },
     ],
     launchReadiness: {

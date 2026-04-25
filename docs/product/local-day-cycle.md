@@ -45,3 +45,9 @@ The Product Memory foundation can remember safe local day summaries:
 - Founder decision needed
 
 This memory does not automate launch. Local maturity never activates production, billing, broker/feed, live execution, real-money routing, or social publishing.
+
+## Founder Command Local Shell Integration
+
+The Local Day Cycle is now summarized inside the Founder Command Local App Shell snapshot. The shell shows total stages, current local readiness state, completed/planned stage counts, next safe local actions, and the launch-forbidden reminder.
+
+This integration is report-only. It does not launch, deploy, activate billing, connect broker/feed, enable live execution, route real money, publish externally, or execute approvals.

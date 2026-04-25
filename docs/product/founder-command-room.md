@@ -7,7 +7,7 @@ The Founder Command Room is the private operational room for the Founder King in
 - private owner-only concept
 - no public user route
 - no public navigation
-- no Free, Pro, VIP, or Enterprise access
+- no Free, Pro, VIP, or Institutional access
 - no fake native app release
 - no launch claim
 - no live trading activation
@@ -34,7 +34,7 @@ Current runtime foundation:
 - `modules/founder-command/components/FounderCommandRoom.tsx` provides a reusable read-only command shell
 - `/api/founder/briefing/readiness` includes sanitized `roomFoundation` readiness data
 - public navigation does not include Founder Command
-- normal Free, Pro, VIP, and Enterprise surfaces do not expose Founder Command access
+- normal Free, Pro, VIP, and Institutional surfaces do not expose Founder Command access
 
 The room snapshot includes Planet Overview, Ministry Reporting, Daily Briefing, Founder Approval Queue, Guardian, Legal Counsel, Treasury, Media, AI Video, and Product Truth panels.
 
@@ -113,3 +113,20 @@ Founder Command now receives Product Memory readiness as a private read-only sig
 - forbidden storage reminders
 
 The memory signal is summary-only. It does not expose secrets, raw private sensitive data, fake users, fake revenue, fake metrics, production storage, external sync, or launch automation.
+
+## Local Command App Shell Readiness
+
+Founder Command now includes a local command shell component set for Ahmad's machine. The shell brings together:
+
+- daily briefing
+- local day cycle
+- product memory
+- product gaps
+- construction queue
+- validation summaries
+- Guardian and Legal warnings
+- Treasury and Media readiness
+- next safe local actions
+- what not to do
+
+It is still private, owner-only, read-only, and hidden from public navigation. No hidden preview route is created in this pass because owner authentication, device trust, step-up confirmation, and audit-backed approval execution are not yet shipped.

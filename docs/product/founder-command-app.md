@@ -8,7 +8,7 @@ The Founder Command App is the future private desktop and mobile command applica
 - no native app shipped
 - no public route
 - no normal user access
-- no Free, Pro, VIP, or Enterprise access
+- no Free, Pro, VIP, or Institutional access
 - no social publishing
 - no billing activation
 - no broker/feed activation
@@ -105,8 +105,31 @@ It remains:
 - owner-only
 - read-only by default
 - hidden from public navigation
-- not a Free, Pro, VIP, or Enterprise feature
+- not a Free, Pro, VIP, or Institutional feature
 - non-operational for approval execution
 - disconnected from billing, broker/feed, live execution, real money, social publishing, and production secrets
 
 Native desktop/mobile app packaging, owner device trust, step-up confirmation, and audit-backed action execution remain planned blockers.
+
+## Local Command App Shell
+
+Founder Command now has a local app-shell foundation for Ahmad's machine. It is a reusable private owner surface that summarizes:
+
+- local operations state
+- local day cycle
+- product memory readiness
+- founder acceptance readiness
+- product gaps
+- validation summaries
+- construction queue readiness
+- Guardian/Legal warnings
+- Treasury/Media readiness
+- next safe local actions
+- what not to do
+
+The shell remains read-only and local/internal. No public navigation entry, user-plan exposure, hidden preview route, approval execution, native installer, billing activation, broker/feed activation, live execution, real-money routing, social publishing, production secret access, fake users, fake revenue, or fake metrics are created.
+
+The sanitized local command APIs are:
+
+- `/api/founder/local-command/snapshot`
+- `/api/founder/local-command/readiness`

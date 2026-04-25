@@ -59,3 +59,25 @@ The deep command app foundation may display blocked categories, but it cannot ac
 - production/secret actions
 
 Founder approval cannot override Critical blocks without remediation, and Guardian/Legal hard blocks remain hard blocks.
+
+## Local Command Shell Boundaries
+
+The local Founder Command shell may display readiness summaries for local operations, product memory, construction queue, product gaps, validation summaries, Treasury, Media, Guardian, Legal, Ops, and Quality. It may not execute approvals.
+
+Hard boundaries:
+
+- no public navigation
+- no normal user access
+- no Free, Pro, VIP, or Institutional plan access
+- no secrets
+- no private sensitive user data
+- no fake users, revenue, or metrics
+- no production action
+- no billing activation
+- no broker/feed activation
+- no live execution
+- no real-money routing
+- no social publishing
+- no approval execution
+
+The local shell can recommend safe next local actions, but it cannot perform them automatically.

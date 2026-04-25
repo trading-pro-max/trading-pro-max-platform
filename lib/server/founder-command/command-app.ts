@@ -27,6 +27,7 @@ import {
 } from "@/lib/server/product-reality";
 import { getTrustGovernorSnapshot } from "@/lib/server/trust-governor";
 import { getVisualAcceptanceSnapshot } from "@/lib/server/visual-acceptance";
+import { getFounderLocalCommandAccessSnapshot } from "./access";
 import { getFounderPersonalCompanionSnapshot } from "./founder-companion";
 import { getFounderPreferenceSnapshot } from "./founder-preferences";
 import { getFounderCommandRoomFoundationSnapshot } from "./room";
@@ -93,6 +94,7 @@ export function getFounderCommandAppSnapshot(
   const trustGovernor = getTrustGovernorSnapshot(checkedAt);
   const localOps = getLocalOperationsReadinessSnapshot(checkedAt);
   const productMemory = getProductMemorySummarySnapshot(checkedAt);
+  const localCommandAccess = getFounderLocalCommandAccessSnapshot(checkedAt);
 
   const desktopApp: FounderCommandDeviceBlueprint = {
     platform: "desktop",
@@ -379,6 +381,36 @@ export function getFounderCommandAppSnapshot(
         productMemory.founderSummary.forbiddenStorageReminders,
       truth: productMemory.truth,
     },
+    localCommandAppShell: {
+      readiness: "local_read_only_shell_foundation" as const,
+      access: localCommandAccess,
+      routeExposure: {
+        apiSnapshotAdded: true,
+        apiReadinessAdded: true,
+        hiddenPreviewRouteCreated: false,
+        publicNavigationVisible: false,
+        userPlanExposure: false,
+      },
+      shellZones: [
+        "local command status",
+        "daily briefing",
+        "local day cycle",
+        "construction queue",
+        "product memory",
+        "product gaps",
+        "validation summaries",
+        "Guardian/Legal warnings",
+        "Treasury/Media readiness",
+        "next safe actions",
+        "what not to do",
+      ],
+      approvalExecutionActive: false,
+      nativeDesktopShellShipped: false,
+      nativeMobileShellShipped: false,
+      secretsVisible: false,
+      privateUserDataVisible: false,
+      fakeMetricsVisible: false,
+    },
     companionBrain: {
       founderCompanion,
       brainContextQuality: brain.contextQuality,
@@ -410,6 +442,8 @@ export function getFounderCommandAppSnapshot(
       "/api/founder/economy/readiness",
       "/api/founder/partnerships/readiness",
       "/api/founder/final-acceptance/readiness",
+      "/api/founder/local-command/snapshot",
+      "/api/founder/local-command/readiness",
       "/api/planet/economy/readiness",
       "/api/planet/media/readiness",
       "/api/planet/consciousness",

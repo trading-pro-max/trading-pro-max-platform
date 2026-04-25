@@ -4,5 +4,8 @@ export * from "./founder-companion";
 export * from "./founder-preferences";
 export * from "./room";
 export * from "./command-app";
+export * from "./access";
+export * from "./local-app";
+export * from "./local-snapshot";
 export * from "./snapshot";
 export type * from "./types";

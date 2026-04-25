@@ -14,3 +14,8 @@ Current rules:
 
 Queue items contain source event, owner ministry, task type, risk level, autonomy level, draft prompt, reviews, validation plan, expected artifacts, and timestamps.
 
+## Founder Command Local Shell Integration
+
+The queue is now summarized in the Founder Command Local App Shell. Founder Command can see proposed tasks, drafted tasks, waiting review, waiting Founder, blocked tasks, validation-pending categories, and safe next construction actions.
+
+No automatic external Codex sending exists. Blocked items remain blocked, and activation requests for launch, production, billing, broker/feed, live execution, real money, social publishing, secrets, fake metrics, or fake plan activation are not eligible for execution.

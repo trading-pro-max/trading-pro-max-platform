@@ -8,6 +8,7 @@ import { PlanetMapPreview } from "@/modules/planet-map/components";
 import type { FounderCommandRoomProps } from "../types";
 import FounderApprovalQueue from "./FounderApprovalQueue";
 import FounderCommandAppShell from "./FounderCommandAppShell";
+import FounderLocalCommandShell from "./FounderLocalCommandShell";
 import FounderMinistryGrid from "./FounderMinistryGrid";
 import FounderPlanetOverview from "./FounderPlanetOverview";
 import FounderRiskPanel from "./FounderRiskPanel";
@@ -59,6 +60,8 @@ export default function FounderCommandRoom({
       <PlanetMapPreview audience="founder" />
 
       <FounderCommandAppShell checkedAt={commandSnapshot.checkedAt} />
+
+      <FounderLocalCommandShell checkedAt={commandSnapshot.checkedAt} />
 
       <section className="tpm-founder-panel">
         <div className="tpm-founder-panel-head">

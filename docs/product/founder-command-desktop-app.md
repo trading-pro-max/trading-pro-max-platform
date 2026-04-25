@@ -2,6 +2,12 @@
 
 The Founder Command Desktop App is the future full private command surface for Ahmad on Windows, macOS, and Linux.
 
+## Local Shell Status
+
+The current repository now includes a local command app-shell foundation, but it is not a packaged desktop application. Desktop packaging, installer work, device trust, step-up confirmation, and audit-backed approval execution remain planned.
+
+The local shell is useful for desktop review because it groups local operations, product memory, construction queue, product gaps, validation summaries, Guardian/Legal warnings, Treasury/Media readiness, next safe actions, and what not to do. It remains read-only and cannot activate launch, production, billing, broker/feed, live execution, real money, social publishing, or approval execution.
+
 This document defines readiness only. No installers, packages, app signing, update channel, or native runtime are shipped by this foundation.
 
 ## Desktop Purpose

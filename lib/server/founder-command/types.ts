@@ -20,6 +20,15 @@ export type FounderCommandAccessState =
   | "owner_authenticated"
   | "blocked_unavailable";
 
+export type FounderLocalCommandAccessState =
+  | "not_configured"
+  | "local_owner_ready"
+  | "owner_auth_required"
+  | "device_trust_planned"
+  | "step_up_required_later"
+  | "approval_execution_disabled"
+  | "blocked_public_access";
+
 export type FounderCommandReadinessState =
   | "active_contract"
   | "planned"
@@ -207,4 +216,23 @@ export interface FounderCommandSafetySummary {
   fakeMetricsIncluded: false;
   secretsExposed: false;
   privateUserDataExposed: false;
+}
+
+export interface FounderLocalCommandAccessSnapshot {
+  checkedAt: string;
+  mode: "founder_local_command_access";
+  currentState: FounderLocalCommandAccessState;
+  states: FounderLocalCommandAccessState[];
+  ownerOnly: true;
+  localOnly: true;
+  publicRouteExposed: false;
+  publicNavigationVisible: false;
+  userPlanAccess: false;
+  freeProVipInstitutionalAccess: false;
+  readOnlyDefault: true;
+  routeExposure: "disabled_until_guarded";
+  deviceTrust: "planned";
+  stepUpConfirmation: "planned";
+  approvalExecution: "disabled";
+  secretsVisible: false;
 }

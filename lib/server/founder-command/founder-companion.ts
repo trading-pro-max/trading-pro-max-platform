@@ -131,6 +131,7 @@ export function getFounderPersonalCompanionSnapshot(
       `Local operations state is ${localOps.report.readinessState}.`,
       `${localOps.dayCycle.totalStages} local day cycle stages are defined.`,
       `${localOps.digitalTwin.profileCount} local test personas are readiness-only and do not represent real users.`,
+      "Founder Local Command shell is read-only and owner-only until owner auth, device trust, and step-up gates exist.",
       localOps.report.launchForbiddenReminder,
     ],
     productMemorySummary: [

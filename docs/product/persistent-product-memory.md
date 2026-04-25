@@ -49,3 +49,19 @@ It does not store secrets, raw private sensitive user data, payment data, broker
 ## Product Truth
 
 Memory cannot activate launch, production, billing, broker/feed, live execution, real-money routing, or social publishing. It can only summarize decisions, gaps, validation, and safe next actions.
+
+## Founder Command Local Shell Integration
+
+Founder Command now receives a product memory summary inside the local command shell:
+
+- memory safety status
+- founder acceptance readiness
+- visual feedback readiness
+- journal/coach memory readiness
+- build decision memory readiness
+- validation memory readiness
+- product gap memory readiness
+- local day report memory readiness
+- forbidden storage reminders
+
+The shell receives summaries only. It does not display secrets, raw private sensitive data, production storage, external sync state, fake users, fake revenue, fake metrics, or surveillance records.

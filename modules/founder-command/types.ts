@@ -1,9 +1,14 @@
-import type { FounderCommandRoomFoundationSnapshot } from "@/lib/server/founder-command";
+import type {
+  FounderCommandRoomFoundationSnapshot,
+  FounderLocalCommandSnapshot as FounderLocalCommandSnapshotModel,
+} from "@/lib/server/founder-command";
 
 export type FounderCommandRoomProps = {
   snapshot?: FounderCommandRoomFoundationSnapshot;
   className?: string;
 };
+
+export type FounderLocalCommandSnapshot = FounderLocalCommandSnapshotModel;
 
 export type FounderCommandPanelTone =
   | "ready"
