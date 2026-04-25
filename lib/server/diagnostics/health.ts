@@ -36,6 +36,7 @@ import {
 } from "@/lib/server/local-ops";
 import { getProductMemorySummarySnapshot } from "@/lib/server/product-memory";
 import { getProductRealityFinalScoreSnapshot } from "@/lib/server/product-reality";
+import { getSecuritySovereigntySnapshot } from "@/lib/server/security-sovereignty";
 import { getClientExpansionSnapshot } from "@/lib/server/platform/client-contracts";
 import { getDesktopAppsDiagnosticsProbe } from "@/lib/server/platform/desktop-foundation";
 import { getDesktopProductizationDiagnosticsProbe } from "@/lib/server/platform/desktop-productization";
@@ -1310,6 +1311,16 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       `Genome, plan DNA, state language, motion safety, occasion governance, and surface simulation are ${brandIntelligenceSummary.status}. Public plans remain ${brandIntelligenceSummary.publicPlanNames.join(" / ")} and no raster assets, external logo assets, fake launch, billing, broker/feed, or live-money state is used.`,
     checkedAt,
   };
+  const securitySovereigntySnapshot = getSecuritySovereigntySnapshot(checkedAt);
+  const securitySovereigntyProbe: DiagnosticsProbe = {
+    key: "security_sovereignty",
+    label: "Security sovereignty readiness",
+    status: "ready",
+    summary: "Zero-trust security readiness is defined",
+    detail:
+      `${securitySovereigntySnapshot.authorities.length} security authorities, red/blue/purple readiness, incident response, evidence ledger, and hardening are modeled with no secrets exposed and no activation authority.`,
+    checkedAt,
+  };
 
   return {
     ...baseHealth,
@@ -1322,6 +1333,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       localDayOneProbe,
       founderBuildRoomProbe,
       brandIntelligenceProbe,
+      securitySovereigntyProbe,
     ],
     routes: [
       ...baseHealth.routes,
@@ -1502,6 +1514,13 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         status: brandIntelligenceProbe.status,
         summary: brandIntelligenceProbe.summary,
         detail: brandIntelligenceProbe.detail,
+      },
+      {
+        key: "security_sovereignty",
+        label: securitySovereigntyProbe.label,
+        status: securitySovereigntyProbe.status,
+        summary: securitySovereigntyProbe.summary,
+        detail: securitySovereigntyProbe.detail,
       },
     ],
     launchReadiness: {

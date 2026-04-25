@@ -5930,6 +5930,120 @@ test.describe("verified platform truth", () => {
     await expect(page.locator("body")).not.toContainText(/Enterprise|TPM Companion/);
   });
 
+  test("reports public security and cyber sovereignty readiness without unsafe scope", async ({
+    page,
+    request,
+  }) => {
+    const requiredSecurityDocs = [
+      "docs/security/ministry-public-security-cyber-sovereignty.md",
+      "docs/security/cyber-sovereignty-state.md",
+      "docs/security/planet-immune-system.md",
+      "docs/security/red-team-command.md",
+      "docs/security/blue-team-defense.md",
+      "docs/security/purple-team-operations.md",
+      "docs/security/incident-response-doctrine.md",
+      "docs/security/forensics-evidence-ledger.md",
+    ];
+
+    for (const docPath of requiredSecurityDocs) {
+      expect(fs.existsSync(path.join(process.cwd(), docPath)), docPath).toBe(true);
+    }
+
+    const redTeamDoctrine = fs.readFileSync(
+      path.join(process.cwd(), "docs/security/red-team-command.md"),
+      "utf8"
+    );
+    expect(redTeamDoctrine).toContain("owned local");
+    expect(redTeamDoctrine).toContain("No third-party targeting");
+    expect(redTeamDoctrine).toContain("No malware");
+    expect(redTeamDoctrine).toContain("No credential theft");
+    expect(redTeamDoctrine).toContain("No external attack automation");
+
+    const founderResponse = await request.get("/api/founder/command/snapshot");
+    expect(founderResponse.status()).toBe(200);
+    const founderText = await founderResponse.text();
+    expect(founderText).not.toMatch(
+      /api[_-]?key\s*[:=]\s*["']?[A-Za-z0-9_-]{16,}/i
+    );
+    expect(founderText).not.toMatch(
+      /password\s*[:=]\s*["']?[^"',\s]{8,}/i
+    );
+    expect(founderText).not.toMatch(/secret_value\s*[:=]/i);
+    expect(founderText).not.toMatch(/AKIA[0-9A-Z]{16}/);
+
+    const founderPayload = JSON.parse(founderText);
+    const securitySovereignty =
+      founderPayload.snapshot.engineeringOpsQuality.securitySovereignty;
+    expect(securitySovereignty).toMatchObject({
+      status: "ready",
+      authorities: 13,
+      redTeamReadiness: "readiness_only",
+      blueTeamReadiness: "ready",
+      purpleTeamReadiness: "ready",
+      incidentReadiness: "ready",
+      evidenceReadiness: "defined_no_secret_payloads",
+      hardeningReadiness: "ready",
+      blockedSampleDecisions: {
+        thirdPartyRedTeam: "blocked",
+        secretExposureAttempt: "blocked",
+        launchAttempt: "blocked",
+        billingAttempt: "blocked",
+        liveExecutionAttempt: "blocked",
+        realMoneyAttempt: "blocked",
+        brokerFeedAttempt: "blocked",
+        socialPublishingAttempt: "blocked",
+        malwareExploitAttempt: "blocked",
+        founderCommandPublicAttempt: "blocked",
+      },
+      localDefensiveReview: "allowed_with_logging",
+      truth: {
+        thirdPartyTargetingAllowed: false,
+        malwareAllowed: false,
+        credentialTheftAllowed: false,
+        externalAttackAutomationAllowed: false,
+        secretsExposed: false,
+        liveExecutionActivated: false,
+        realMoneyActivated: false,
+        billingActivated: false,
+        brokerFeedActivated: false,
+        publicLaunchActivated: false,
+        socialPublishingActive: false,
+        founderCommandPublic: false,
+        authWeakened: false,
+      },
+    });
+    expect(securitySovereignty.decisionLevels).toEqual([
+      "allowed_with_logging",
+      "review_required",
+      "founder_approval_required",
+      "quarantined",
+      "blocked",
+      "incident_required",
+    ]);
+
+    const diagnostics = await (await request.get("/api/diagnostics/probes")).json();
+    expect(diagnostics.health.subsystems).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          key: "security_sovereignty",
+          label: "Security sovereignty readiness",
+          status: "ready",
+        }),
+      ])
+    );
+    expect(JSON.stringify(diagnostics)).not.toMatch(/secret_value\s*[:=]/i);
+
+    await page.goto("/");
+    await expect(page.locator("main").first()).toBeVisible();
+    await expect(page.locator("body")).toContainText("Free");
+    await expect(page.locator("body")).toContainText("Pro");
+    await expect(page.locator("body")).toContainText("VIP");
+    await expect(page.locator("body")).toContainText("Institutional");
+    await expect(page.locator("body")).not.toContainText(
+      /Cyber Sovereignty|Red Team Command|Blue Team Defense|Purple Team|Founder Command|Security Command/i
+    );
+  });
+
   test("keeps real-money execution blocked when real mode is selected", async ({
     page,
   }) => {

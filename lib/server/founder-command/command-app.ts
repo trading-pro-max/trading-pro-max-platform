@@ -32,6 +32,7 @@ import {
   getProductRealityScoreSnapshot,
   getProductSurfaceDigitalTwinSnapshot,
 } from "@/lib/server/product-reality";
+import { getSecuritySovereigntySnapshot } from "@/lib/server/security-sovereignty";
 import { getTrustGovernorSnapshot } from "@/lib/server/trust-governor";
 import { getVisualAcceptanceSnapshot } from "@/lib/server/visual-acceptance";
 import { getFounderLocalCommandAccessSnapshot } from "./access";
@@ -109,6 +110,7 @@ export function getFounderCommandAppSnapshot(
   const buildRoom = getFounderBuildRoomSnapshot(checkedAt);
   const designMinistry = getDesignMinistrySnapshot(checkedAt);
   const brandIntelligence = getBrandIntelligenceInternalReadiness(checkedAt);
+  const securitySovereignty = getSecuritySovereigntySnapshot(checkedAt);
 
   const desktopApp: FounderCommandDeviceBlueprint = {
     platform: "desktop",
@@ -508,6 +510,45 @@ export function getFounderCommandAppSnapshot(
         externalImagesUsed: brandIntelligence.snapshot.truth.externalImagesUsed,
         publicInternalTerminologyLeakAllowed:
           brandIntelligence.snapshot.truth.publicInternalTerminologyLeakAllowed,
+      },
+      securitySovereignty: {
+        status: securitySovereignty.status,
+        coreLaw: securitySovereignty.coreLaw,
+        authorities: securitySovereignty.authorities.length,
+        decisionLevels: securitySovereignty.decisionLevels,
+        redTeamReadiness: securitySovereignty.redTeam.status,
+        blueTeamReadiness: securitySovereignty.blueTeam.status,
+        purpleTeamReadiness: securitySovereignty.purpleTeam.status,
+        incidentReadiness: securitySovereignty.incidentResponse.status,
+        evidenceReadiness: securitySovereignty.evidenceLedger.status,
+        hardeningReadiness: securitySovereignty.hardening.status,
+        blockedSampleDecisions: {
+          thirdPartyRedTeam:
+            securitySovereignty.decisionSamples.thirdPartyRedTeam.decisionLevel,
+          secretExposureAttempt:
+            securitySovereignty.decisionSamples.secretExposureAttempt.decisionLevel,
+          launchAttempt:
+            securitySovereignty.decisionSamples.launchAttempt.decisionLevel,
+          billingAttempt:
+            securitySovereignty.decisionSamples.billingAttempt.decisionLevel,
+          liveExecutionAttempt:
+            securitySovereignty.decisionSamples.liveExecutionAttempt.decisionLevel,
+          realMoneyAttempt:
+            securitySovereignty.decisionSamples.realMoneyAttempt.decisionLevel,
+          brokerFeedAttempt:
+            securitySovereignty.decisionSamples.brokerFeedAttempt.decisionLevel,
+          socialPublishingAttempt:
+            securitySovereignty.decisionSamples.socialPublishingAttempt.decisionLevel,
+          malwareExploitAttempt:
+            securitySovereignty.decisionSamples.malwareExploitAttempt.decisionLevel,
+          founderCommandPublicAttempt:
+            securitySovereignty.decisionSamples.founderCommandPublicAttempt
+              .decisionLevel,
+        },
+        localDefensiveReview:
+          securitySovereignty.decisionSamples.localDefensiveReview.decisionLevel,
+        productTruth: securitySovereignty.productTruth,
+        truth: securitySovereignty.truth,
       },
       visualAcceptance: {
         status: visualAcceptance.status,
