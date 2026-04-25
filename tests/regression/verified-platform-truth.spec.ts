@@ -6275,6 +6275,319 @@ test.describe("verified platform truth", () => {
     );
   });
 
+  test("reports world interface readiness without external connections or publishing", async ({
+    page,
+    request,
+  }) => {
+    const requiredWorldInterfaceDocs = [
+      "docs/product/world-interface-layer.md",
+      "docs/product/global-nervous-system.md",
+      "docs/product/email-command-center.md",
+      "docs/product/social-channel-readiness.md",
+      "docs/product/world-interface-borders.md",
+      "docs/product/quarantine-and-evidence-locker.md",
+      "docs/product/diplomatic-response-system.md",
+    ];
+
+    for (const docPath of requiredWorldInterfaceDocs) {
+      expect(fs.existsSync(path.join(process.cwd(), docPath)), docPath).toBe(true);
+    }
+
+    const endpoints = [
+      "/api/world-interface/readiness",
+      "/api/world-interface/channels",
+      "/api/world-interface/quarantine/readiness",
+      "/api/founder/world-interface/readiness",
+    ];
+
+    for (const endpoint of endpoints) {
+      const response = await request.get(endpoint);
+      expect(response.status()).toBe(200);
+      const text = await response.text();
+      expect(text).not.toMatch(
+        /(?:api[_-]?key|password|secret_value)\s*[:=]\s*["'][^"']{8,}/i
+      );
+      expect(text).not.toMatch(/AKIA[0-9A-Z]{16}|ghp_[A-Za-z0-9]{20,}|sk-[A-Za-z0-9]{20,}/);
+      expect(text).not.toMatch(/"connected"\s*:\s*true/);
+      expect(text).not.toMatch(/"tokenStored"\s*:\s*true/);
+      expect(text).not.toMatch(/"sendingEnabled"\s*:\s*true/);
+      expect(text).not.toMatch(/"publishingEnabled"\s*:\s*true/);
+      expect(text).not.toMatch(/"fakeMetricsIncluded"\s*:\s*true/);
+    }
+
+    const readiness = await (
+      await request.get("/api/world-interface/readiness")
+    ).json();
+    expect(readiness.snapshot).toMatchObject({
+      mode: "world_interface_readiness",
+      status: "ready",
+      channelStates: [
+        "not_configured",
+        "planned",
+        "read_only_future",
+        "draft_only",
+        "approval_required",
+        "publishing_enabled_later",
+        "disabled",
+        "blocked",
+        "compromised",
+        "rotation_required",
+      ],
+      classifierOutcomes: [
+        "classify",
+        "draft_reply",
+        "review_required",
+        "founder_approval_required",
+        "quarantine",
+        "blocked",
+        "archive",
+      ],
+      channelSummary: {
+        total: 18,
+        connected: 0,
+        tokenStored: 0,
+        sendingEnabled: 0,
+        publishingEnabled: 0,
+      },
+      quarantine: {
+        status: "ready",
+        evidenceLocker: "safe_metadata_only_no_tokens",
+        secretRequestsQuarantined: true,
+        suspiciousLinksQuarantined: true,
+        fakePartnershipsQuarantined: true,
+      },
+      diplomaticResponse: {
+        status: "draft_only",
+        sendActive: false,
+        publishActive: false,
+        externalAutomationActive: false,
+        founderApprovalRequiredForExternalSend: true,
+      },
+      founderCommandReadiness: {
+        unifiedInboxReadiness: "readiness_only",
+        channelHealth: "status_only",
+        quarantineReadiness: "ready",
+        draftReplies: "draft_only",
+        legalGuardianQueues: "review_required",
+        vipInstitutionalInterest: "classification_only",
+        partnershipOpportunities: "founder_approval_required",
+        brandProtectionAlerts: "quarantine_ready",
+      },
+      sampleClassifications: {
+        supportRequest: { outcome: "draft_reply", externalActionAllowed: false },
+        partnerRequest: {
+          outcome: "founder_approval_required",
+          founderApprovalRequired: true,
+          externalActionAllowed: false,
+        },
+        mediaRequest: {
+          outcome: "review_required",
+          founderApprovalRequired: true,
+          externalActionAllowed: false,
+        },
+        brandImpersonation: {
+          outcome: "quarantine",
+          externalActionAllowed: false,
+        },
+        scamAttempt: {
+          outcome: "quarantine",
+          externalActionAllowed: false,
+        },
+        secretRequest: {
+          outcome: "quarantine",
+          externalActionAllowed: false,
+        },
+      },
+      truth: {
+        realEmailConnected: false,
+        supportInboxConnected: false,
+        socialAccountsConnected: false,
+        socialTokensStored: false,
+        emailsSent: false,
+        dmsSent: false,
+        publishingActive: false,
+        externalAutomationActive: false,
+        spamAutomationActive: false,
+        fakeFollowersIncluded: false,
+        fakeViewsIncluded: false,
+        fakeMetricsIncluded: false,
+        secretsExposed: false,
+        tokensExposed: false,
+        privateDataStored: false,
+        productionActivated: false,
+        billingActivated: false,
+        brokerFeedActivated: false,
+        liveExecutionActivated: false,
+      },
+    });
+    expect(readiness.snapshot.quarantine.reasons).toEqual(
+      expect.arrayContaining([
+        "scam",
+        "phishing",
+        "suspicious_links",
+        "impersonation",
+        "fake_partnership",
+        "threats",
+        "secret_requests",
+      ])
+    );
+    expect(readiness.snapshot.channels).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ category: "email", label: "Email" }),
+        expect.objectContaining({ category: "support", label: "Support" }),
+        expect.objectContaining({ category: "partners", label: "Partners" }),
+        expect.objectContaining({ category: "media", label: "Media" }),
+        expect.objectContaining({ category: "legal", label: "Legal" }),
+        expect.objectContaining({ category: "security", label: "Security" }),
+        expect.objectContaining({ category: "vip", label: "VIP" }),
+        expect.objectContaining({
+          category: "institutional",
+          label: "Institutional",
+        }),
+        expect.objectContaining({ category: "x_twitter", label: "X/Twitter" }),
+        expect.objectContaining({ category: "instagram", label: "Instagram" }),
+        expect.objectContaining({ category: "tiktok", label: "TikTok" }),
+        expect.objectContaining({ category: "youtube", label: "YouTube" }),
+        expect.objectContaining({ category: "linkedin", label: "LinkedIn" }),
+        expect.objectContaining({ category: "facebook", label: "Facebook" }),
+        expect.objectContaining({ category: "telegram", label: "Telegram" }),
+        expect.objectContaining({ category: "discord", label: "Discord" }),
+        expect.objectContaining({ category: "reddit", label: "Reddit" }),
+        expect.objectContaining({
+          category: "blog_newsroom",
+          label: "Blog/Newsroom",
+        }),
+      ])
+    );
+
+    const channels = await (
+      await request.get("/api/world-interface/channels")
+    ).json();
+    expect(channels.snapshot.summary).toMatchObject({
+      total: 18,
+      connected: 0,
+      tokenStored: 0,
+      sendingEnabled: 0,
+      publishingEnabled: 0,
+    });
+    for (const channel of channels.snapshot.channels) {
+      expect(channel).toMatchObject({
+        connected: false,
+        tokenStored: false,
+        sendingEnabled: false,
+        publishingEnabled: false,
+      });
+    }
+
+    const quarantine = await (
+      await request.get("/api/world-interface/quarantine/readiness")
+    ).json();
+    expect(quarantine.snapshot.samples).toMatchObject({
+      brandImpersonation: {
+        outcome: "quarantine",
+        quarantineReasons: expect.arrayContaining(["impersonation"]),
+      },
+      scamAttempt: {
+        outcome: "quarantine",
+        quarantineReasons: expect.arrayContaining([
+          "scam",
+          "phishing",
+          "suspicious_links",
+        ]),
+      },
+      secretRequest: {
+        outcome: "quarantine",
+        quarantineReasons: expect.arrayContaining(["secret_requests"]),
+      },
+    });
+
+    const founderWorldInterface = await (
+      await request.get("/api/founder/world-interface/readiness")
+    ).json();
+    expect(founderWorldInterface.snapshot).toMatchObject({
+      mode: "founder_world_interface_readiness",
+      status: "ready",
+      sampleOutcomes: {
+        supportRequest: "draft_reply",
+        partnerRequest: "founder_approval_required",
+        mediaRequest: "review_required",
+        brandImpersonation: "quarantine",
+        scamAttempt: "quarantine",
+        secretRequest: "quarantine",
+      },
+      truth: {
+        socialAccountsConnected: false,
+        socialTokensStored: false,
+        emailsSent: false,
+        dmsSent: false,
+        publishingActive: false,
+        externalAutomationActive: false,
+        fakeMetricsIncluded: false,
+        secretsExposed: false,
+        founderCommandPublic: false,
+      },
+    });
+
+    const founderCommand = await (
+      await request.get("/api/founder/command/snapshot")
+    ).json();
+    expect(founderCommand.snapshot.worldInterfaceCommand).toMatchObject({
+      readiness: "readiness_only",
+      unifiedInbox: "readiness_only",
+      channelHealth: "status_only",
+      draftReplies: "draft_only",
+      legalGuardianQueues: "review_required",
+      partnershipOpportunities: "founder_approval_required",
+      brandProtectionAlerts: "quarantine_ready",
+      sampleOutcomes: {
+        partnerRequest: "founder_approval_required",
+        scamAttempt: "quarantine",
+        secretRequest: "quarantine",
+      },
+      truth: {
+        realEmailConnected: false,
+        socialAccountsConnected: false,
+        socialTokensStored: false,
+        publishingActive: false,
+        externalAutomationActive: false,
+        fakeMetricsIncluded: false,
+      },
+    });
+
+    const diagnostics = await (await request.get("/api/diagnostics/probes")).json();
+    expect(diagnostics.health.routes).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ path: "/api/world-interface/readiness" }),
+        expect.objectContaining({ path: "/api/world-interface/channels" }),
+        expect.objectContaining({
+          path: "/api/world-interface/quarantine/readiness",
+        }),
+        expect.objectContaining({
+          path: "/api/founder/world-interface/readiness",
+        }),
+      ])
+    );
+    expect(diagnostics.health.subsystems).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          key: "world_interface",
+          label: "World interface readiness",
+          status: "ready",
+        }),
+      ])
+    );
+
+    await page.goto("/");
+    await expect(page.locator("main").first()).toBeVisible();
+    await expect(page.locator("body")).toContainText("Free");
+    await expect(page.locator("body")).toContainText("Pro");
+    await expect(page.locator("body")).toContainText("VIP");
+    await expect(page.locator("body")).toContainText("Institutional");
+    await expect(page.locator("body")).not.toContainText(
+      /World Interface|Global Nervous System|unified inbox|quarantine|Founder Command/i
+    );
+  });
+
   test("keeps real-money execution blocked when real mode is selected", async ({
     page,
   }) => {

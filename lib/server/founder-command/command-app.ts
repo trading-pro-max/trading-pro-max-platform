@@ -39,6 +39,7 @@ import {
 } from "@/lib/server/secrets-authority";
 import { getTrustGovernorSnapshot } from "@/lib/server/trust-governor";
 import { getVisualAcceptanceSnapshot } from "@/lib/server/visual-acceptance";
+import { getWorldInterfaceSnapshot } from "@/lib/server/world-interface";
 import { getFounderLocalCommandAccessSnapshot } from "./access";
 import { getFounderBuildRoomSnapshot } from "./build-room";
 import { getFounderPersonalCompanionSnapshot } from "./founder-companion";
@@ -117,6 +118,7 @@ export function getFounderCommandAppSnapshot(
   const securitySovereignty = getSecuritySovereigntySnapshot(checkedAt);
   const secretsAuthority = getSecretsAuthoritySnapshot(checkedAt);
   const founderSecurity = getFounderSecurityReadinessSnapshot(checkedAt);
+  const worldInterface = getWorldInterfaceSnapshot(checkedAt);
 
   const desktopApp: FounderCommandDeviceBlueprint = {
     platform: "desktop",
@@ -274,6 +276,40 @@ export function getFounderCommandAppSnapshot(
       externalPublishingActive: false,
       fakeFollowersIncluded: false,
       fakeMetricsIncluded: false,
+    },
+    worldInterfaceCommand: {
+      readiness: "readiness_only" as const,
+      unifiedInbox: worldInterface.founderCommandReadiness.unifiedInboxReadiness,
+      channelHealth: worldInterface.founderCommandReadiness.channelHealth,
+      channels: worldInterface.channelSummary,
+      quarantine: worldInterface.quarantine,
+      diplomaticResponse: worldInterface.diplomaticResponse,
+      draftReplies: worldInterface.founderCommandReadiness.draftReplies,
+      legalGuardianQueues:
+        worldInterface.founderCommandReadiness.legalGuardianQueues,
+      vipInstitutionalInterest:
+        worldInterface.founderCommandReadiness.vipInstitutionalInterest,
+      partnershipOpportunities:
+        worldInterface.founderCommandReadiness.partnershipOpportunities,
+      brandProtectionAlerts:
+        worldInterface.founderCommandReadiness.brandProtectionAlerts,
+      sampleOutcomes: {
+        supportRequest:
+          worldInterface.sampleClassifications.supportRequest.outcome,
+        partnerRequest:
+          worldInterface.sampleClassifications.partnerRequest.outcome,
+        mediaRequest: worldInterface.sampleClassifications.mediaRequest.outcome,
+        vipInterest: worldInterface.sampleClassifications.vipInterest.outcome,
+        brandImpersonation:
+          worldInterface.sampleClassifications.brandImpersonation.outcome,
+        securityAlert:
+          worldInterface.sampleClassifications.securityAlert.outcome,
+        legalNotice: worldInterface.sampleClassifications.legalNotice.outcome,
+        scamAttempt: worldInterface.sampleClassifications.scamAttempt.outcome,
+        secretRequest:
+          worldInterface.sampleClassifications.secretRequest.outcome,
+      },
+      truth: worldInterface.truth,
     },
     communityVipGrowth: {
       readiness: "planned_only" as const,
@@ -624,6 +660,10 @@ export function getFounderCommandAppSnapshot(
       "/api/brand-intelligence/occasion-themes",
       "/api/founder/secrets/readiness",
       "/api/founder/security/readiness",
+      "/api/world-interface/readiness",
+      "/api/world-interface/channels",
+      "/api/world-interface/quarantine/readiness",
+      "/api/founder/world-interface/readiness",
     ],
     safety: safetySummary,
     blockers: [

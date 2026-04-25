@@ -38,6 +38,7 @@ import { getProductMemorySummarySnapshot } from "@/lib/server/product-memory";
 import { getProductRealityFinalScoreSnapshot } from "@/lib/server/product-reality";
 import { getSecuritySovereigntySnapshot } from "@/lib/server/security-sovereignty";
 import { getSecretsAuthoritySnapshot } from "@/lib/server/secrets-authority";
+import { getWorldInterfaceSnapshot } from "@/lib/server/world-interface";
 import { getClientExpansionSnapshot } from "@/lib/server/platform/client-contracts";
 import { getDesktopAppsDiagnosticsProbe } from "@/lib/server/platform/desktop-foundation";
 import { getDesktopProductizationDiagnosticsProbe } from "@/lib/server/platform/desktop-productization";
@@ -1332,6 +1333,16 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       `${secretsAuthoritySnapshot.categories.length} secret categories report status only. Raw values, logs, Assistant/Codex transfer, screenshots, product memory storage, env commits, and activation remain blocked.`,
     checkedAt,
   };
+  const worldInterfaceSnapshot = getWorldInterfaceSnapshot(checkedAt);
+  const worldInterfaceProbe: DiagnosticsProbe = {
+    key: "world_interface",
+    label: "World interface readiness",
+    status: "ready",
+    summary: "External channel readiness is draft-only",
+    detail:
+      `${worldInterfaceSnapshot.channelSummary.total} external channel categories are modeled with no real connections, no tokens, no sending, no publishing, no spam automation, and no fake metrics.`,
+    checkedAt,
+  };
 
   return {
     ...baseHealth,
@@ -1346,6 +1357,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       brandIntelligenceProbe,
       securitySovereigntyProbe,
       secretsAuthorityProbe,
+      worldInterfaceProbe,
     ],
     routes: [
       ...baseHealth.routes,
@@ -1489,6 +1501,34 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         detail:
           "Founder security readiness route reports owner-only command protection and secret exposure policy without private data or action execution.",
       },
+      {
+        path: "/api/world-interface/readiness",
+        method: "GET",
+        status: worldInterfaceProbe.status,
+        detail:
+          "World Interface readiness route reports external-channel classification, quarantine, and draft-only response readiness without connections, tokens, sending, or publishing.",
+      },
+      {
+        path: "/api/world-interface/channels",
+        method: "GET",
+        status: worldInterfaceProbe.status,
+        detail:
+          "World Interface channels route reports channel status only with no account connections, tokens, sending, or fake metrics.",
+      },
+      {
+        path: "/api/world-interface/quarantine/readiness",
+        method: "GET",
+        status: worldInterfaceProbe.status,
+        detail:
+          "World Interface quarantine route reports suspicious-signal handling and evidence-locker readiness without storing tokens or private payloads.",
+      },
+      {
+        path: "/api/founder/world-interface/readiness",
+        method: "GET",
+        status: worldInterfaceProbe.status,
+        detail:
+          "Founder World Interface route reports owner-only unified inbox readiness, queues, draft replies, and quarantine state without external automation.",
+      },
     ],
     subsystems: [
       ...(baseHealth.subsystems ?? []),
@@ -1554,6 +1594,13 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         status: secretsAuthorityProbe.status,
         summary: secretsAuthorityProbe.summary,
         detail: secretsAuthorityProbe.detail,
+      },
+      {
+        key: "world_interface",
+        label: worldInterfaceProbe.label,
+        status: worldInterfaceProbe.status,
+        summary: worldInterfaceProbe.summary,
+        detail: worldInterfaceProbe.detail,
       },
     ],
     launchReadiness: {
