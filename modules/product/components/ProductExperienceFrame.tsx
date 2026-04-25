@@ -44,39 +44,65 @@ export default function ProductExperienceFrame({
     { href: settingsHref, label: dict.nav.settings },
     { href: diagnosticsHref, label: dict.nav.diagnostics },
   ];
+  const primaryNavLabels = new Set([
+    "Home",
+    "Trading Workspace",
+    "Markets",
+    "Plans",
+    "Apps / Platforms",
+    "Support",
+  ]);
+  const primaryNavItems = navItems.filter((item) => primaryNavLabels.has(item.label));
+  const secondaryNavItems = navItems.filter((item) => !primaryNavLabels.has(item.label));
 
   return (
-    <div dir={dir} lang={locale} className="tpm-foundation-frame">
-      <nav className="tpm-foundation-nav">
-        <ProductLogo
-          className="tpm-foundation-nav-brand"
-          motionIntensity="low"
-          state="paper_safe"
-          subtitle={dict.shell.foundation}
-          variant="nav"
-        />
-
-        <div className="tpm-foundation-nav-links">
-          {navItems.map((item) => (
-            <Link key={item.href} href={item.href} className="tpm-foundation-link">
-              {item.label}
-            </Link>
-          ))}
-        </div>
-
-        <div className="tpm-foundation-nav-actions">
-          <SwissPrecisionClock compact />
-          <PlatformPulse />
-          <AuthSessionPanel
+    <div
+      dir={dir}
+      lang={locale}
+      className={`tpm-foundation-frame tpm-foundation-frame-${routeMode}`}
+    >
+      <header className="tpm-foundation-nav-shell">
+        <nav className="tpm-foundation-nav">
+          <ProductLogo
+            className="tpm-foundation-nav-brand"
+            motionIntensity="low"
+            state="paper_safe"
+            subtitle={dict.shell.foundation}
             variant="nav"
-            title="Protected account access"
           />
-          <ThemeSwitcher label={dict.nav.theme} />
-          <LanguageSwitcher locale={locale} label={dict.nav.language} />
-        </div>
-      </nav>
 
-      <div className="tpm-foundation-body">{children}</div>
+          <div className="tpm-foundation-nav-links">
+            {primaryNavItems.map((item) => (
+              <Link key={item.href} href={item.href} className="tpm-foundation-link">
+                {item.label}
+              </Link>
+            ))}
+          </div>
+
+          <div className="tpm-foundation-nav-actions">
+            <SwissPrecisionClock compact />
+            <PlatformPulse />
+            <AuthSessionPanel
+              variant="nav"
+              title="Protected account access"
+            />
+            <ThemeSwitcher label={dict.nav.theme} />
+            <LanguageSwitcher locale={locale} label={dict.nav.language} />
+          </div>
+        </nav>
+
+        {routeMode === "root" ? (
+          <div className="tpm-foundation-secondary-nav" aria-label="Public sections">
+            {secondaryNavItems.map((item) => (
+              <Link key={item.href} href={item.href} className="tpm-foundation-link">
+                {item.label}
+              </Link>
+            ))}
+          </div>
+        ) : null}
+      </header>
+
+      <main className="tpm-foundation-body">{children}</main>
       <CompanionLauncher
         diagnosticsHref={diagnosticsHref}
         feedbackHref={feedbackHref}

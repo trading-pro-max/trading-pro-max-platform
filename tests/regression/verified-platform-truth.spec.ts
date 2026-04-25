@@ -158,8 +158,7 @@ async function expectRuntimeCssApplied(page: Page, mode: "entry" | "workstation"
       ])
     );
     expect(runtime.entryDisplay).not.toBe("missing");
-    expect(runtime.workstationDisplay).toBe("grid");
-    expect(runtime.workstationColumns).not.toBe("none");
+    expect(runtime.workstationDisplay).toBe("missing");
   }
 
   if (mode === "workstation") {
@@ -439,8 +438,13 @@ test.describe("verified platform truth", () => {
       const compactNavMark = page.locator(".tpm-foundation-nav-brand .tpm-earth-mark-compact").first();
       await expect(compactNavMark).toBeVisible();
       await expect(compactNavMark).toHaveAttribute("data-variant", "compact");
-      await expect(page.locator(".tpm-precision-clock").first()).toBeVisible();
-      await expect(page.locator(".tpm-platform-pulse").first()).toBeVisible();
+      if (route.path === "/") {
+        await expect(page.locator(".tpm-precision-clock").first()).toBeHidden();
+        await expect(page.locator(".tpm-platform-pulse").first()).toBeHidden();
+      } else {
+        await expect(page.locator(".tpm-precision-clock")).toHaveCount(1);
+        await expect(page.locator(".tpm-platform-pulse")).toHaveCount(1);
+      }
       await expect(page.locator(".tpm-companion-launcher").first()).toBeVisible();
       await expect(page.locator("body")).toContainText(route.text);
       await expectRuntimeCssApplied(
@@ -457,13 +461,17 @@ test.describe("verified platform truth", () => {
       );
 
       if (route.path === "/") {
-        const publicNavText = await page.locator(".tpm-foundation-nav-links").innerText();
+        const publicNavText = await page.locator(".tpm-foundation-nav-shell").innerText();
         expect(publicNavText).toMatch(
           /Home|Trading Workspace|Markets|Plans|Apps \/ Platforms|Academy|Community|Support|Settings|Diagnostics/
         );
         await expect(page.locator(".tpm-product-entry").first()).toBeVisible();
         await expect(page.locator(".tpm-product-hero").first()).toBeVisible();
-        await expect(page.locator(".tpm-product-workstation-shell").first()).toBeVisible();
+        await expect(page.locator(".tpm-product-workstation-shell")).toHaveCount(0);
+        await expect(page.locator(".tpm-product-cta-primary").first()).toHaveAttribute(
+          "href",
+          "/en"
+        );
         const heroMark = page.locator(".tpm-product-hero-logo .tpm-earth-mark-public").first();
         await expect(heroMark).toBeVisible();
         await expect(heroMark).toHaveAttribute("data-variant", "public");
@@ -506,35 +514,38 @@ test.describe("verified platform truth", () => {
         );
         expect(heroMarkBackground).toMatch(/rgba\(0, 0, 0, 0\)|transparent/);
         await expect(page.locator("body")).toContainText(
-          /Free paper-safe access|Readiness-first|Live execution blocked/
+          /Paper-safe|Web available|Live inactive/
         );
         await expect(page.locator(".tpm-product-hero-logo .tpm-brand-subline")).toHaveCount(0);
         await expect(page.locator("body")).not.toContainText(/Celestial Swiss/i);
         await expect(page.locator("body")).not.toContainText(/CELESTIAL SWISS TRADING IDENTITY/i);
         await expect(page.locator("body")).toContainText(
-          /Plans at a glance|Free|Pro|VIP|Institutional|Familiar paper trading/
+          /Plans at a glance|Free|Pro|VIP|Institutional|Familiar paper-safe workspace/
         );
         await expect(page.locator("body")).toContainText(
           /Product navigation|Markets|Apps \/ Platforms|Academy|Community|Support/
         );
+        await expect(page.locator("#markets")).toContainText(
+          /Forex|Crypto|Commodities|Indices|Stocks|Paper-safe/
+        );
         await expect(page.locator("#apps-platforms")).toContainText(
-          /Web App|Available \/ Current|Desktop App|Planned|Mobile App|Tablet|Future/
+          /Web App|Current|Desktop App|Planned|Mobile App|Tablet|Future/
         );
         await expect(page.locator("#support")).toContainText(
-          /Help Center readiness|Contact Support readiness|Report a Problem|Security Contact|Partnership Contact/
+          /Help Center|Contact Support|Report a Problem|Security Contact|Partnership Contact/
         );
         await expect(page.locator("#community")).toContainText(
-          /Planned learning spaces|no fake members|no active signal rooms/
+          /Learning|Feedback|Pro community|VIP rooms|No fake members|active rooms|signal rooms/
         );
         await expect(page.locator("body")).toContainText(
-          /TPM Assistant|Basic guidance|Chart first|Paper-safe/
+          /TPM Assistant|Journal\/Coach|Paper-safe|Why Blocked/
         );
         await expect(page.locator("body")).toContainText(
-          /real-money|broker\/feed activation|billing/
+          /real-money routing|broker\/feed activation|billing/
         );
       }
 
-      if (route.path === "/" || route.path === "/en") {
+      if (route.path === "/en") {
         if (route.path === "/en") {
           const topbarMark = page
             .locator(".tpmv2-topbar-brand .tpm-earth-mark-compact")
@@ -736,7 +747,7 @@ test.describe("verified platform truth", () => {
     expect(outputMapper).toContain("VIP is planned.");
 
     await page.goto("/");
-    const navText = await page.locator(".tpm-foundation-nav-links").innerText();
+    const navText = await page.locator(".tpm-foundation-nav-shell").innerText();
     for (const label of [
       "Home",
       "Trading Workspace",
@@ -754,9 +765,10 @@ test.describe("verified platform truth", () => {
 
     await expect(page.locator("#markets")).toContainText(/Forex|Crypto|Commodities|Indices|Stocks/);
     await expect(page.locator("#apps-platforms")).toContainText(/Web App|Desktop App|Mobile App|Tablet/);
-    await expect(page.locator("#academy")).toContainText(/Getting started|Paper trading basics|Why Blocked|TPM Assistant guide/);
-    await expect(page.locator("#community")).toContainText(/Learning community|Feedback room|Pro community|VIP rooms/);
-    await expect(page.locator("#support")).toContainText(/Help Center readiness|Security Contact|Partnership Contact/);
+    await expect(page.locator("#apps-platforms")).not.toContainText(/Download Windows|Download Android|App Store|Play Store/);
+    await expect(page.locator("#academy")).toContainText(/Getting started|paper trading basics|Why Blocked|TPM Assistant/i);
+    await expect(page.locator("#community")).toContainText(/Learning|Feedback|Pro community|VIP rooms|No fake members/i);
+    await expect(page.locator("#support")).toContainText(/Help Center|Security Contact|Partnership Contact/);
 
     const forbiddenPublicTerms =
       /Founder Command|Founder King|Kingdom|\bministries\b|\bcouncils\b|Presidency|government model|Planet OS|Planet governance|\bPlanet\b|\bEnterprise\b|Owner command|Owner-only|owner-only|private command|internal governance|ruler|construction queue|Codex task|secrets authority|treasury controls|security sovereignty|product memory internals|local operations|local universe/i;
