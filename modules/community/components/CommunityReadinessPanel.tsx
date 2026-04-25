@@ -4,21 +4,28 @@ const rooms: CommunityRoomReadiness[] = [
   {
     id: "learning-spaces",
     label: "Free learning spaces",
-    planLayer: "free_demo",
+    planLayer: "Free",
     state: "planned",
     safetyRule: "moderated education only",
   },
   {
     id: "pro-rooms",
     label: "Pro rooms",
-    planLayer: "pro",
+    planLayer: "Pro",
     state: "planned",
     safetyRule: "no fake Pro activation",
   },
   {
+    id: "vip-rooms",
+    label: "VIP rooms",
+    planLayer: "VIP",
+    state: "planned",
+    safetyRule: "no signal room or fake VIP access",
+  },
+  {
     id: "feedback-rooms",
     label: "Feedback rooms",
-    planLayer: "free_demo",
+    planLayer: "Free",
     state: "planned",
     safetyRule: "anti-spam and support review",
   },
@@ -38,7 +45,7 @@ export default function CommunityReadinessPanel() {
       <div>
         {rooms.map((room) => (
           <article key={room.id}>
-            <span>{room.planLayer.replaceAll("_", " ")}</span>
+            <span>{room.planLayer}</span>
             <strong>{room.label}</strong>
             <small>
               {room.state} / {room.safetyRule}

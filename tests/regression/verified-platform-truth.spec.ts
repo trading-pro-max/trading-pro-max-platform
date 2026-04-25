@@ -6849,6 +6849,262 @@ test.describe("verified platform truth", () => {
     );
   });
 
+  test("reports Academy, Community, and VIP Rooms readiness without fake rooms or signals", async ({
+    page,
+    request,
+  }) => {
+    const requiredDocs = [
+      "docs/product/academy-system.md",
+      "docs/product/community-system.md",
+      "docs/product/vip-rooms-system.md",
+      "docs/product/academy-learning-paths.md",
+      "docs/product/community-safety-policy.md",
+      "docs/product/vip-room-rules.md",
+    ];
+
+    for (const docPath of requiredDocs) {
+      expect(fs.existsSync(path.join(process.cwd(), docPath)), docPath).toBe(true);
+    }
+
+    const endpoints = [
+      "/api/academy/readiness",
+      "/api/community/readiness",
+      "/api/vip-rooms/readiness",
+    ];
+
+    for (const endpoint of endpoints) {
+      const response = await request.get(endpoint);
+      expect(response.status()).toBe(200);
+      const text = await response.text();
+      expect(text).not.toMatch(
+        /(?:api[_-]?key|password|secret_value)\s*[:=]\s*["'][^"']{8,}/i
+      );
+      expect(text).not.toMatch(/AKIA[0-9A-Z]{16}|ghp_[A-Za-z0-9]{20,}|sk-[A-Za-z0-9]{20,}/);
+      expect(text).not.toMatch(/"activeRooms"\s*:\s*true/);
+      expect(text).not.toMatch(/"fakeMembers"\s*:\s*true/);
+      expect(text).not.toMatch(/"fakeVipAccess"\s*:\s*true/);
+      expect(text).not.toMatch(/"signalRooms"\s*:\s*true/);
+      expect(text).not.toMatch(/"copyTrading"\s*:\s*true/);
+      expect(text).not.toMatch(/"billingActive"\s*:\s*true/);
+    }
+
+    const academy = await (await request.get("/api/academy/readiness")).json();
+    expect(academy.snapshot).toMatchObject({
+      mode: "academy_readiness",
+      status: "ready",
+      planAccess: {
+        free: "foundation_visible",
+        pro: "planned_not_active",
+        vip: "planned_not_active",
+        institutional: "future",
+      },
+      safety: {
+        educationalOnly: true,
+        financialAdvice: false,
+        tradingSignals: false,
+        guaranteedProfitClaims: false,
+        fakePlanActivation: false,
+        guardianReviewRequired: true,
+        legalClaimReviewRequired: true,
+      },
+      truth: {
+        fakeUsers: false,
+        fakeProgressMetrics: false,
+        billingActive: false,
+        liveExecutionActive: false,
+        realMoneyActive: false,
+        copyTradingActive: false,
+        socialAccountsConnected: false,
+        founderCommandPublic: false,
+      },
+    });
+    expect(academy.snapshot.learningPaths).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ planLayer: "free", state: "active_foundation" }),
+        expect.objectContaining({ planLayer: "pro", state: "planned" }),
+        expect.objectContaining({ planLayer: "vip", state: "planned" }),
+        expect.objectContaining({ planLayer: "institutional", state: "future" }),
+      ])
+    );
+    expect(academy.snapshot.lessons).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ key: "platform_basics" }),
+        expect.objectContaining({ key: "paper_trading_basics" }),
+        expect.objectContaining({ key: "chart_basics" }),
+        expect.objectContaining({ key: "why_blocked" }),
+        expect.objectContaining({ key: "tpm_assistant_guide" }),
+        expect.objectContaining({ key: "journal_coach_guide" }),
+        expect.objectContaining({ key: "risk_safety_lessons" }),
+      ])
+    );
+
+    const community = await (
+      await request.get("/api/community/readiness")
+    ).json();
+    expect(community.snapshot).toMatchObject({
+      mode: "community_readiness",
+      status: "planned_only",
+      safetyPolicy: {
+        moderation: "guardian_required",
+        legalReview: "claim_review_required",
+        fakeProfitScreenshots: "blocked",
+        signalRooms: "blocked",
+        copyTrading: "blocked",
+      },
+      planAccess: {
+        free: "learning_space_planned",
+        pro: "room_planned",
+        vip: "room_planned",
+        institutional: "future",
+      },
+      truth: {
+        activeRooms: false,
+        fakeRooms: false,
+        fakeMembers: false,
+        liveChatActive: false,
+        socialNetworkActive: false,
+        socialAccountsConnected: false,
+        billingActive: false,
+        fakeProAccess: false,
+        fakeVipAccess: false,
+        founderCommandPublic: false,
+      },
+    });
+    expect(community.snapshot.rooms).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ id: "free_learning_space", state: "planned" }),
+        expect.objectContaining({ id: "pro_room", state: "planned" }),
+        expect.objectContaining({ id: "vip_room", state: "planned" }),
+        expect.objectContaining({ id: "feedback_room", state: "planned" }),
+        expect.objectContaining({ id: "support_room", state: "planned" }),
+      ])
+    );
+    expect(community.snapshot.safetyPolicy.rules).toEqual(
+      expect.arrayContaining([
+        "anti_scam",
+        "no_fake_profit_screenshots",
+        "no_signal_rooms",
+        "no_copy_trading",
+        "guardian_moderation",
+        "legal_claim_review",
+        "no_fake_members",
+      ])
+    );
+
+    const vipRooms = await (
+      await request.get("/api/vip-rooms/readiness")
+    ).json();
+    expect(vipRooms.snapshot).toMatchObject({
+      mode: "vip_rooms_readiness",
+      status: "planned_not_active",
+      planAccess: {
+        vip: "planned_not_active",
+        pro: "not_vip_access",
+        free: "not_vip_access",
+        institutional: "future",
+      },
+      roomRules: {
+        signalGuarantees: "blocked",
+        copyTrading: "blocked",
+        profitPromises: "blocked",
+        fakeAccess: "blocked",
+        fakeMembers: "blocked",
+        guardianModerationRequired: true,
+        legalClaimReviewRequired: true,
+        founderApprovalRequiredBeforeActivation: true,
+      },
+      truth: {
+        vipActive: false,
+        privateRoomsActive: false,
+        advancedCoachingActive: false,
+        strategyReviewActive: false,
+        premiumReportsActive: false,
+        fakeVipAccess: false,
+        fakeMembers: false,
+        signalRooms: false,
+        copyTrading: false,
+        guaranteedProfitClaims: false,
+        billingActive: false,
+        founderCommandPublic: false,
+      },
+    });
+    expect(vipRooms.snapshot.capabilities).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ id: "advanced_coaching", state: "planned_not_active" }),
+        expect.objectContaining({ id: "strategy_review", state: "planned_not_active" }),
+        expect.objectContaining({ id: "premium_reports", state: "planned_not_active" }),
+        expect.objectContaining({ id: "private_rooms", state: "planned_not_active" }),
+      ])
+    );
+
+    const founderCommand = await (
+      await request.get("/api/founder/command/snapshot")
+    ).json();
+    expect(founderCommand.snapshot.academyCommunityVipReadiness).toMatchObject({
+      readiness: "readiness_only",
+      academy: {
+        status: "ready",
+        free: "foundation_visible",
+        pro: "planned_not_active",
+        vip: "planned_not_active",
+        institutional: "future",
+      },
+      community: {
+        status: "planned_only",
+        guardianModeration: "guardian_required",
+        legalReview: "claim_review_required",
+      },
+      vipRooms: {
+        status: "planned_not_active",
+        vipAccess: "planned_not_active",
+        signalGuarantees: "blocked",
+        copyTrading: "blocked",
+        profitPromises: "blocked",
+      },
+      truth: {
+        academyFakeUsers: false,
+        communityActiveRooms: false,
+        communityFakeMembers: false,
+        vipActive: false,
+        vipPrivateRoomsActive: false,
+        copyTradingActive: false,
+        billingActive: false,
+        founderCommandPublic: false,
+      },
+    });
+
+    const diagnostics = await (await request.get("/api/diagnostics/probes")).json();
+    expect(diagnostics.health.routes).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ path: "/api/academy/readiness" }),
+        expect.objectContaining({ path: "/api/community/readiness" }),
+        expect.objectContaining({ path: "/api/vip-rooms/readiness" }),
+      ])
+    );
+    expect(diagnostics.health.subsystems).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          key: "learning_community_vip",
+          label: "Learning and community readiness",
+          status: "ready",
+        }),
+      ])
+    );
+
+    await page.goto("/settings");
+    await expect(page.locator("main").first()).toBeVisible();
+    await expect(page.locator("body")).toContainText("Academy");
+    await expect(page.locator("body")).toContainText("Community");
+    await expect(page.locator("body")).toContainText("VIP Rooms");
+    await expect(page.locator("body")).toContainText("Free");
+    await expect(page.locator("body")).toContainText("Pro");
+    await expect(page.locator("body")).toContainText("VIP");
+    await expect(page.locator("body")).toContainText("Institutional");
+    await expect(page.locator("body")).not.toContainText(
+      /Enterprise|Founder Command|active VIP room|active members|copy trading enabled|guaranteed profit/i
+    );
+  });
+
   test("keeps real-money execution blocked when real mode is selected", async ({
     page,
   }) => {

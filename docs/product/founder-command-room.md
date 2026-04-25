@@ -171,3 +171,22 @@ Founder Command receives the internal Brand Intelligence readiness summary:
 - public/internal vocabulary separation
 
 This readiness is owner-only, read-only, and does not execute approvals or product activation.
+
+## Academy / Community / VIP Rooms Readiness
+
+Founder Command receives a private readiness summary for learning and community differentiation:
+
+- Academy learning paths and lesson count
+- Community planned-room count
+- VIP planned capability count
+- Free / Pro / VIP / Institutional access truth
+- Guardian moderation requirements
+- Legal claim review requirements
+- no fake users or members
+- no fake active rooms
+- no signal rooms
+- no copy trading
+- no profit promises
+- no fake Pro/VIP activation
+
+The signal is read-only and readiness-only. It does not activate rooms, billing, paid access, social accounts, live chat, copy trading, or external publishing.

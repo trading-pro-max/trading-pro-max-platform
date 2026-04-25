@@ -1,7 +1,7 @@
 export type CommunityRoomReadiness = {
   id: string;
   label: string;
-  planLayer: "free_demo" | "pro" | "vip" | "enterprise";
+  planLayer: "Free" | "Pro" | "VIP" | "Institutional";
   state: "planned" | "blocked" | "future";
   safetyRule: string;
 };

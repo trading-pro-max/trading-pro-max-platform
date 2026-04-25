@@ -1,10 +1,12 @@
 const learningPaths = [
   "Platform basics",
   "Paper training",
+  "Chart basics",
   "Why blocked",
   "Assistant guide",
   "Journal / Coach guide",
   "Risk and safety lessons",
+  "Free / Pro / VIP paths",
 ];
 
 export default function AcademyPreview() {

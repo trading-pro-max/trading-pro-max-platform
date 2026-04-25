@@ -1,7 +1,9 @@
 import "server-only";
 
 import { getPlanEntitlementSnapshot } from "@/lib/plans/entitlements";
+import { getAcademyReadinessSnapshot } from "@/lib/server/academy";
 import { getBrandIntelligenceInternalReadiness } from "@/lib/server/brand-intelligence";
+import { getCommunityReadinessSnapshot } from "@/lib/server/community";
 import {
   getConstructionQueueSnapshot,
   getCodexTaskDraftReadinessSnapshot,
@@ -44,6 +46,7 @@ import {
 } from "@/lib/server/secrets-authority";
 import { getTrustGovernorSnapshot } from "@/lib/server/trust-governor";
 import { getVisualAcceptanceSnapshot } from "@/lib/server/visual-acceptance";
+import { getVipRoomsReadinessSnapshot } from "@/lib/server/vip-rooms";
 import { getWorldInterfaceSnapshot } from "@/lib/server/world-interface";
 import { getFounderLocalCommandAccessSnapshot } from "./access";
 import { getFounderBuildRoomSnapshot } from "./build-room";
@@ -128,6 +131,9 @@ export function getFounderCommandAppSnapshot(
   const secretsAuthority = getSecretsAuthoritySnapshot(checkedAt);
   const founderSecurity = getFounderSecurityReadinessSnapshot(checkedAt);
   const worldInterface = getWorldInterfaceSnapshot(checkedAt);
+  const academy = getAcademyReadinessSnapshot(checkedAt);
+  const community = getCommunityReadinessSnapshot(checkedAt);
+  const vipRooms = getVipRoomsReadinessSnapshot(checkedAt);
 
   const desktopApp: FounderCommandDeviceBlueprint = {
     platform: "desktop",
@@ -326,6 +332,67 @@ export function getFounderCommandAppSnapshot(
       vip: economyGrowth.vip,
       noFakeRooms: !economyGrowth.community.fakeActiveRooms,
       noFakeVipActivation: economyGrowth.vip.status === "planned_not_active",
+    },
+    academyCommunityVipReadiness: {
+      readiness: "readiness_only" as const,
+      academy: {
+        status: academy.status,
+        learningPaths: academy.learningPaths.length,
+        lessons: academy.lessons.length,
+        free: academy.planAccess.free,
+        pro: academy.planAccess.pro,
+        vip: academy.planAccess.vip,
+        institutional: academy.planAccess.institutional,
+        safety: academy.safety,
+      },
+      community: {
+        status: community.status,
+        rooms: community.rooms.length,
+        free: community.planAccess.free,
+        pro: community.planAccess.pro,
+        vip: community.planAccess.vip,
+        institutional: community.planAccess.institutional,
+        safetyRules: community.safetyPolicy.rules,
+        guardianModeration: community.safetyPolicy.moderation,
+        legalReview: community.safetyPolicy.legalReview,
+      },
+      vipRooms: {
+        status: vipRooms.status,
+        capabilities: vipRooms.capabilities.length,
+        vipAccess: vipRooms.planAccess.vip,
+        signalGuarantees: vipRooms.roomRules.signalGuarantees,
+        copyTrading: vipRooms.roomRules.copyTrading,
+        profitPromises: vipRooms.roomRules.profitPromises,
+        guardianModerationRequired:
+          vipRooms.roomRules.guardianModerationRequired,
+        legalClaimReviewRequired: vipRooms.roomRules.legalClaimReviewRequired,
+      },
+      safetyRules: [
+        "no fake active rooms",
+        "no fake users or members",
+        "no fake Pro/VIP access",
+        "no signal rooms",
+        "no copy trading",
+        "no profit promises",
+        "Guardian moderation required",
+        "Legal claim review required",
+      ],
+      truth: {
+        academyFakeUsers: academy.truth.fakeUsers,
+        communityActiveRooms: community.truth.activeRooms,
+        communityFakeMembers: community.truth.fakeMembers,
+        vipActive: vipRooms.truth.vipActive,
+        vipPrivateRoomsActive: vipRooms.truth.privateRoomsActive,
+        copyTradingActive: vipRooms.truth.copyTrading,
+        billingActive:
+          academy.truth.billingActive ||
+          community.truth.billingActive ||
+          vipRooms.truth.billingActive,
+        founderCommandPublic:
+          academy.truth.founderCommandPublic ||
+          community.truth.founderCommandPublic ||
+          vipRooms.truth.founderCommandPublic,
+      },
     },
     partnershipsCommand: {
       readiness: "inactive_planned" as const,
@@ -724,6 +791,9 @@ export function getFounderCommandAppSnapshot(
       "/api/world-interface/channels",
       "/api/world-interface/quarantine/readiness",
       "/api/founder/world-interface/readiness",
+      "/api/academy/readiness",
+      "/api/community/readiness",
+      "/api/vip-rooms/readiness",
     ],
     safety: safetySummary,
     blockers: [

@@ -4,6 +4,8 @@ const vipCapabilities = [
   "Strategy review planned",
   "Premium reports planned",
   "Private rooms planned",
+  "No copy trading",
+  "No signal guarantees",
 ];
 
 export default function VIPRoomsPreview() {

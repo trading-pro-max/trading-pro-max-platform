@@ -1,5 +1,6 @@
 import "server-only";
 import { prisma } from "@/lib/db/client";
+import { getAcademyReadinessSnapshot } from "@/lib/server/academy";
 import {
   getBrokerConnectorDiagnosticsProbe,
   getBrokerConnectorSafetySnapshot,
@@ -41,8 +42,10 @@ import {
   getProductMemorySummarySnapshot,
 } from "@/lib/server/product-memory";
 import { getProductRealityFinalScoreSnapshot } from "@/lib/server/product-reality";
+import { getCommunityReadinessSnapshot } from "@/lib/server/community";
 import { getSecuritySovereigntySnapshot } from "@/lib/server/security-sovereignty";
 import { getSecretsAuthoritySnapshot } from "@/lib/server/secrets-authority";
+import { getVipRoomsReadinessSnapshot } from "@/lib/server/vip-rooms";
 import { getWorldInterfaceSnapshot } from "@/lib/server/world-interface";
 import { getClientExpansionSnapshot } from "@/lib/server/platform/client-contracts";
 import { getDesktopAppsDiagnosticsProbe } from "@/lib/server/platform/desktop-foundation";
@@ -1362,6 +1365,18 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       `${worldInterfaceSnapshot.channelSummary.total} external channel categories are modeled with no real connections, no tokens, no sending, no publishing, no spam automation, and no fake metrics.`,
     checkedAt,
   };
+  const academySnapshot = getAcademyReadinessSnapshot(checkedAt);
+  const communitySnapshot = getCommunityReadinessSnapshot(checkedAt);
+  const vipRoomsSnapshot = getVipRoomsReadinessSnapshot(checkedAt);
+  const learningCommunityProbe: DiagnosticsProbe = {
+    key: "learning_community_vip",
+    label: "Learning and community readiness",
+    status: "ready",
+    summary: "Academy, Community, and VIP Rooms are readiness-only",
+    detail:
+      `${academySnapshot.learningPaths.length} Academy paths, ${communitySnapshot.rooms.length} planned Community rooms, and ${vipRoomsSnapshot.capabilities.length} VIP room capabilities are modeled with no fake members, no active rooms, no signal rooms, no copy trading, no billing, and no profit claims.`,
+    checkedAt,
+  };
 
   return {
     ...baseHealth,
@@ -1378,6 +1393,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       securitySovereigntyProbe,
       secretsAuthorityProbe,
       worldInterfaceProbe,
+      learningCommunityProbe,
     ],
     routes: [
       ...baseHealth.routes,
@@ -1570,6 +1586,27 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         detail:
           "Founder World Interface route reports owner-only unified inbox readiness, queues, draft replies, and quarantine state without external automation.",
       },
+      {
+        path: "/api/academy/readiness",
+        method: "GET",
+        status: learningCommunityProbe.status,
+        detail:
+          "Academy readiness route reports learning paths and safety-led plan access without advice, signals, fake progress, or paid activation.",
+      },
+      {
+        path: "/api/community/readiness",
+        method: "GET",
+        status: learningCommunityProbe.status,
+        detail:
+          "Community readiness route reports planned rooms and safety policy only; no active rooms, fake members, live chat, social network, or billing exists.",
+      },
+      {
+        path: "/api/vip-rooms/readiness",
+        method: "GET",
+        status: learningCommunityProbe.status,
+        detail:
+          "VIP Rooms readiness route reports planned premium capabilities without fake VIP access, signal rooms, copy trading, profit promises, or billing.",
+      },
     ],
     subsystems: [
       ...(baseHealth.subsystems ?? []),
@@ -1649,6 +1686,13 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         status: worldInterfaceProbe.status,
         summary: worldInterfaceProbe.summary,
         detail: worldInterfaceProbe.detail,
+      },
+      {
+        key: "learning_community_vip",
+        label: learningCommunityProbe.label,
+        status: learningCommunityProbe.status,
+        summary: learningCommunityProbe.summary,
+        detail: learningCommunityProbe.detail,
       },
     ],
     launchReadiness: {
