@@ -1,6 +1,7 @@
 import "server-only";
 
 import { getPlanEntitlementSnapshot } from "@/lib/plans/entitlements";
+import { getConstructionQueueSnapshot } from "@/lib/server/codex-construction";
 import type { FounderBriefing, MinistryReport } from "@/lib/server/planet-os/types";
 import { getFounderCommandReportingSnapshot } from "./reporting";
 
@@ -24,6 +25,7 @@ export type FounderPersonalCompanionSnapshot = {
   userFacingRiskSummary: string[];
   treasurySummary: string[];
   engineeringPrioritySuggestions: string[];
+  constructionIntelligenceSummary: string[];
   whatNotToApprove: string[];
   nextSafeDecisions: string[];
   whatNotToDo: string[];
@@ -50,6 +52,7 @@ export function getFounderPersonalCompanionSnapshot(
 ): FounderPersonalCompanionSnapshot {
   const reporting = getFounderCommandReportingSnapshot(checkedAt);
   const planEntitlements = getPlanEntitlementSnapshot("demo_free", checkedAt);
+  const constructionQueue = getConstructionQueueSnapshot(checkedAt);
   const decisionMinistries = reporting.ministries.filter(
     (report) => report.founderDecisionNeeded
   );
@@ -111,6 +114,12 @@ export function getFounderPersonalCompanionSnapshot(
       "Keep intelligence contracts deterministic and tested.",
       "Prefer compact diagnostics over workstation clutter.",
       "Add UI only where it clarifies product truth.",
+    ],
+    constructionIntelligenceSummary: [
+      `${constructionQueue.summary.total} construction queue drafts are readiness-only.`,
+      `${constructionQueue.summary.blocked} blocked construction items remain blocked.`,
+      "Codex task drafts must not be sent or executed automatically.",
+      "Validation interpretation is required before Founder acceptance.",
     ],
     whatNotToApprove: [
       "live execution activation",

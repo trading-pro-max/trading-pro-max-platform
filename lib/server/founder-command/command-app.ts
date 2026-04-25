@@ -1,17 +1,32 @@
 import "server-only";
 
 import { getPlanEntitlementSnapshot } from "@/lib/plans/entitlements";
+import {
+  getConstructionQueueSnapshot,
+  getCodexTaskDraftReadinessSnapshot,
+  getSelfHealingPipelineSnapshot,
+  getValidationInterpreterReadinessSnapshot,
+} from "@/lib/server/codex-construction";
 import { getPlanetEconomyGrowthReadinessSnapshot } from "@/lib/server/economy-growth";
 import { getTpmBrainContextSnapshot } from "@/lib/server/brain";
+import { getGrowthIntelligenceReadinessSnapshot } from "@/lib/server/growth-intelligence";
 import { getJournalCoachSnapshot } from "@/lib/server/journal-coach";
+import { getPlanetConsciousnessSnapshot } from "@/lib/server/planet-consciousness";
+import { getPlanetMemoryGraphSnapshot } from "@/lib/server/planet-memory";
 import {
   getInterMinistryCoordinationSnapshot,
   getPlanetBlueprintSnapshot,
   getPlanetGovernanceSnapshot,
 } from "@/lib/server/planet-os";
 import { getProductTruthSnapshot } from "@/lib/server/product";
+import {
+  getProductRealityScoreSnapshot,
+  getProductSurfaceDigitalTwinSnapshot,
+} from "@/lib/server/product-reality";
+import { getTrustGovernorSnapshot } from "@/lib/server/trust-governor";
 import { getVisualAcceptanceSnapshot } from "@/lib/server/visual-acceptance";
 import { getFounderPersonalCompanionSnapshot } from "./founder-companion";
+import { getFounderPreferenceSnapshot } from "./founder-preferences";
 import { getFounderCommandRoomFoundationSnapshot } from "./room";
 import { getFounderCommandSnapshot } from "./state";
 import type {
@@ -63,6 +78,17 @@ export function getFounderCommandAppSnapshot(
   const planEntitlements = getPlanEntitlementSnapshot("demo_free", checkedAt);
   const founderCompanion = getFounderPersonalCompanionSnapshot(checkedAt);
   const economyGrowth = getPlanetEconomyGrowthReadinessSnapshot(checkedAt);
+  const constructionQueue = getConstructionQueueSnapshot(checkedAt);
+  const consciousness = getPlanetConsciousnessSnapshot(checkedAt);
+  const taskDrafts = getCodexTaskDraftReadinessSnapshot(checkedAt);
+  const validationInterpreter = getValidationInterpreterReadinessSnapshot(checkedAt);
+  const selfHealing = getSelfHealingPipelineSnapshot(checkedAt);
+  const productRealityScore = getProductRealityScoreSnapshot(checkedAt);
+  const digitalTwin = getProductSurfaceDigitalTwinSnapshot(checkedAt);
+  const memoryGraph = getPlanetMemoryGraphSnapshot(checkedAt);
+  const founderPreferences = getFounderPreferenceSnapshot(checkedAt);
+  const growthIntelligence = getGrowthIntelligenceReadinessSnapshot(checkedAt);
+  const trustGovernor = getTrustGovernorSnapshot(checkedAt);
 
   const desktopApp: FounderCommandDeviceBlueprint = {
     platform: "desktop",
@@ -250,6 +276,66 @@ export function getFounderCommandAppSnapshot(
       gapChecklist: economyGrowth.finalGapChecklist,
       nonLaunchRoadmap: economyGrowth.nonLaunchRoadmap,
     },
+    autonomousConstructionIntelligence: {
+      readiness: "readiness_only" as const,
+      loop: consciousness.coreLoop,
+      eventSummary: consciousness.riskSummary,
+      constructionQueue: constructionQueue.summary,
+      taskDrafts: {
+        total: taskDrafts.drafts.length,
+        blocked: taskDrafts.drafts.filter((draft) => draft.autonomyLevel === "blocked").length,
+        externalExecution: taskDrafts.truth.externalCodexExecution,
+      },
+      validationInterpreter: {
+        sampleStatuses: Object.values(validationInterpreter.samples).map((sample) => sample.status),
+        falsePassAllowed: validationInterpreter.truth.falsePassAllowed,
+      },
+      selfHealing: {
+        automaticRepairExecution: selfHealing.truth.automaticRepairExecution,
+        supportedFailures: selfHealing.supportedFailures,
+      },
+      productRealityScore: {
+        averageScore: productRealityScore.averageScore,
+        humanAcceptanceRequired: productRealityScore.truth.humanAhmadAcceptanceRequired,
+      },
+      digitalTwin: {
+        layers: digitalTwin.layers.map((layer) => ({
+          role: layer.role,
+          founderCommandExposure: layer.founderCommandExposure,
+        })),
+        usersSeeFounderCommand: digitalTwin.truth.usersSeeFounderCommand,
+      },
+      memoryGraph: {
+        nodes: memoryGraph.nodes.length,
+        edges: memoryGraph.edges.length,
+        privateUserDataStored: memoryGraph.truth.privateUserDataStored,
+        secretsStored: memoryGraph.truth.secretsStored,
+      },
+      founderPreferences: founderPreferences.preferences,
+      growthIntelligence: {
+        signals: growthIntelligence.signals.length,
+        realAnalytics: growthIntelligence.truth.realAnalytics,
+      },
+      trustGovernor: {
+        guaranteedProfitOutcome: trustGovernor.samples.guaranteedProfit.outcome,
+        fakePartnershipAllowed: trustGovernor.truth.fakePartnershipAllowed,
+      },
+      whatNotToSendToCodex: [
+        "production secret changes",
+        "live execution activation",
+        "real-money routing",
+        "broker/feed activation",
+        "billing activation",
+        "social publishing",
+        "public launch claims",
+      ],
+      nextSafeConstructionActions: [
+        "Use queue drafts for scoped Codex prompts only after review.",
+        "Interpret validation results before accepting work.",
+        "Report blocked activation requests to Founder Command as blocked readiness only.",
+      ],
+      externalExecutionActive: false,
+    },
     companionBrain: {
       founderCompanion,
       brainContextQuality: brain.contextQuality,
@@ -283,6 +369,14 @@ export function getFounderCommandAppSnapshot(
       "/api/founder/final-acceptance/readiness",
       "/api/planet/economy/readiness",
       "/api/planet/media/readiness",
+      "/api/planet/consciousness",
+      "/api/planet/events/readiness",
+      "/api/planet/construction/queue",
+      "/api/planet/codex/task-drafts",
+      "/api/planet/validation/interpreter",
+      "/api/planet/product-reality/score",
+      "/api/planet/trust-governor",
+      "/api/founder/construction/readiness",
     ],
     safety: safetySummary,
     blockers: [

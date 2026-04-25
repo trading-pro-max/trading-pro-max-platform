@@ -4371,6 +4371,177 @@ test.describe("verified platform truth", () => {
     });
   });
 
+  test("reports autonomous construction intelligence without uncontrolled execution", async ({
+    request,
+  }) => {
+    const endpoints = [
+      "/api/planet/consciousness",
+      "/api/planet/events/readiness",
+      "/api/planet/construction/queue",
+      "/api/planet/codex/task-drafts",
+      "/api/planet/validation/interpreter",
+      "/api/planet/product-reality/score",
+      "/api/planet/trust-governor",
+      "/api/founder/construction/readiness",
+    ];
+
+    for (const endpoint of endpoints) {
+      const response = await request.get(endpoint);
+      expect(response.status()).toBe(200);
+      const text = await response.text();
+      expect(text).not.toMatch(/api[_-]?key\s*[:=]|password\s*[:=]|secret_value/i);
+      expect(text).not.toMatch(/fake users active|fake revenue active|metrics active/i);
+    }
+
+    const consciousness = await (await request.get("/api/planet/consciousness")).json();
+    expect(consciousness.snapshot).toMatchObject({
+      mode: "tpm_planet_consciousness_layer",
+      consciousnessStatus: "ready_readiness_only",
+      truth: {
+        readinessOnly: true,
+        externalExecution: "not_enabled",
+        productionActions: "blocked",
+        secrets: "not_allowed",
+        fakeMetrics: "not_allowed",
+      },
+    });
+    expect(consciousness.snapshot.coreLoop).toEqual([
+      "observe",
+      "understand",
+      "classify",
+      "route",
+      "decide",
+      "draft",
+      "validate",
+      "learn",
+      "report",
+    ]);
+    expect(consciousness.snapshot.blockedActions).toEqual(
+      expect.arrayContaining([
+        "live execution activation",
+        "real-money routing",
+        "broker/feed activation",
+        "billing activation",
+        "public launch",
+        "production secret changes",
+        "social publishing",
+      ])
+    );
+
+    const events = await (await request.get("/api/planet/events/readiness")).json();
+    expect(events.snapshot.sampleEvents).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          type: "live_execution_requested",
+          riskLevel: "critical",
+          status: "blocked",
+        }),
+      ])
+    );
+
+    const queue = await (await request.get("/api/planet/construction/queue")).json();
+    expect(queue.snapshot.summary).toMatchObject({
+      total: expect.any(Number),
+      blocked: expect.any(Number),
+      externalExecutionActive: false,
+    });
+    expect(queue.snapshot.truth).toMatchObject({
+      noAutomaticExternalSending: true,
+      noUncontrolledExecution: true,
+      blockedItemsStayBlocked: true,
+    });
+    expect(queue.snapshot.items).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          status: "blocked",
+          autonomyLevel: "blocked",
+          blockedReason: expect.stringContaining("forbidden"),
+        }),
+      ])
+    );
+
+    const drafts = await (await request.get("/api/planet/codex/task-drafts")).json();
+    expect(drafts.snapshot.truth).toMatchObject({
+      externalCodexExecution: "not_enabled",
+      taskSending: "not_enabled",
+      approvalsExecuted: false,
+      productionActions: "blocked",
+    });
+    expect(drafts.snapshot.drafts).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          taskType: "blocked_live_request",
+          autonomyLevel: "blocked",
+          executionTruth: "draft_only_not_sent_not_executed",
+        }),
+      ])
+    );
+
+    const validation = await (
+      await request.get("/api/planet/validation/interpreter")
+    ).json();
+    expect(validation.snapshot.samples.productTruthViolation).toMatchObject({
+      status: "failed",
+      blockers: expect.arrayContaining(["fake_activation_risk"]),
+    });
+    expect(validation.snapshot.truth.falsePassAllowed).toBe(false);
+
+    const score = await (await request.get("/api/planet/product-reality/score")).json();
+    expect(score.snapshot.scoring.truth).toMatchObject({
+      humanAhmadAcceptanceRequired: true,
+      launchReadyClaimAllowed: false,
+      fakeMetricsAllowed: false,
+    });
+    expect(score.snapshot.digitalTwin.truth).toMatchObject({
+      usersSeeFounderCommand: false,
+      enterprisePublicLabelAllowed: false,
+      performanceFeePubliclyVisible: false,
+      fakeBillingLiveLaunchClaimsAllowed: false,
+    });
+    expect(score.snapshot.digitalTwin.layers).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ role: "Free", founderCommandExposure: "hidden" }),
+        expect.objectContaining({ role: "Founder", founderCommandExposure: "owner_only" }),
+      ])
+    );
+
+    const trustGovernor = await (await request.get("/api/planet/trust-governor")).json();
+    expect(trustGovernor.snapshot.samples.guaranteedProfit).toMatchObject({
+      outcome: "blocked",
+    });
+    expect(trustGovernor.snapshot.truth).toMatchObject({
+      hiddenFeesAllowed: false,
+      pressureToTradeAllowed: false,
+      fakePartnershipAllowed: false,
+    });
+
+    const founderConstruction = await (
+      await request.get("/api/founder/construction/readiness")
+    ).json();
+    expect(founderConstruction.snapshot.access).toMatchObject({
+      publicRouteExposed: false,
+      publicNavigationVisible: false,
+      userPlanAccess: false,
+      readOnlyDefault: true,
+    });
+    expect(founderConstruction.snapshot.construction).toMatchObject({
+      readiness: "readiness_only",
+      externalExecutionActive: false,
+    });
+    expect(founderConstruction.snapshot.safety).toMatchObject({
+      approvalExecutionActive: false,
+      billingActivationActive: false,
+      brokerFeedActivationActive: false,
+      liveExecutionActive: false,
+      realMoneyRoutingActive: false,
+      socialPublishingActive: false,
+      secretsExposed: false,
+      fakeUsersIncluded: false,
+      fakeRevenueIncluded: false,
+      fakeMetricsIncluded: false,
+    });
+  });
+
   test("keeps real-money execution blocked when real mode is selected", async ({
     page,
   }) => {
