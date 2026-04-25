@@ -468,6 +468,63 @@ type ProductMemoryLoadState =
   | { snapshot: NonNullable<ProductMemorySummaryPayload["snapshot"]>; status: "ready" }
   | { snapshot: null; status: "error" };
 
+type LocalDayOnePayload = {
+  snapshot?: {
+    gateStatus: string;
+    readyToStartLocalDayOne: boolean;
+    ahmadHumanReviewRequired: boolean;
+    globalLaunchEvaluation: "not_evaluated";
+    summary: {
+      pass: number;
+      partial: number;
+      blocker: number;
+      needsAhmadReview: number;
+    };
+    launchForbiddenReminder: string;
+    truth: {
+      publicLaunchActive: false;
+      productionActive: false;
+      billingActive: false;
+      brokerFeedActive: false;
+      liveExecutionActive: false;
+      realMoneyActive: false;
+      socialPublishingActive: false;
+      globalLaunchReadinessClaimed: false;
+    };
+  };
+};
+
+type ProductRealityFinalScorePayload = {
+  snapshot?: {
+    overallScore: number;
+    status: string;
+    ahmadHumanAcceptanceRequired: boolean;
+    summary: {
+      pass: number;
+      partial: number;
+      blocker: number;
+      needsHumanReview: number;
+    };
+    truth: {
+      noPerfectScoreClaim: true;
+      globalLaunchReadinessClaimed: false;
+    };
+  };
+};
+
+type LocalDayOneLoadState =
+  | { snapshot: null; status: "loading" }
+  | { snapshot: NonNullable<LocalDayOnePayload["snapshot"]>; status: "ready" }
+  | { snapshot: null; status: "error" };
+
+type ProductRealityFinalScoreLoadState =
+  | { snapshot: null; status: "loading" }
+  | {
+      snapshot: NonNullable<ProductRealityFinalScorePayload["snapshot"]>;
+      status: "ready";
+    }
+  | { snapshot: null; status: "error" };
+
 function useDiagnosticsHealth() {
   const [state, setState] = useState<DiagnosticsHealthLoadState>({
     health: null,
@@ -691,6 +748,86 @@ function useProductMemorySummary() {
   return state;
 }
 
+function useLocalDayOneReadiness() {
+  const [state, setState] = useState<LocalDayOneLoadState>({
+    snapshot: null,
+    status: "loading",
+  });
+
+  useEffect(() => {
+    let active = true;
+
+    async function loadLocalDayOneReadiness() {
+      try {
+        const response = await fetch("/api/local-ops/day-one", {
+          method: "GET",
+          cache: "no-store",
+        });
+
+        if (!response.ok) {
+          throw new Error(`Local Day One readiness failed with ${response.status}.`);
+        }
+
+        const payload = (await response.json()) as LocalDayOnePayload;
+
+        if (!active || !payload.snapshot) return;
+        setState({ snapshot: payload.snapshot, status: "ready" });
+      } catch {
+        if (!active) return;
+        setState({ snapshot: null, status: "error" });
+      }
+    }
+
+    void loadLocalDayOneReadiness();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  return state;
+}
+
+function useProductRealityFinalScore() {
+  const [state, setState] = useState<ProductRealityFinalScoreLoadState>({
+    snapshot: null,
+    status: "loading",
+  });
+
+  useEffect(() => {
+    let active = true;
+
+    async function loadProductRealityFinalScore() {
+      try {
+        const response = await fetch("/api/product-reality/final-score", {
+          method: "GET",
+          cache: "no-store",
+        });
+
+        if (!response.ok) {
+          throw new Error(`Product reality final score failed with ${response.status}.`);
+        }
+
+        const payload = (await response.json()) as ProductRealityFinalScorePayload;
+
+        if (!active || !payload.snapshot) return;
+        setState({ snapshot: payload.snapshot, status: "ready" });
+      } catch {
+        if (!active) return;
+        setState({ snapshot: null, status: "error" });
+      }
+    }
+
+    void loadProductRealityFinalScore();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  return state;
+}
+
 export function PlatformDiagnosticsSurface({
   locale,
   dict,
@@ -704,6 +841,8 @@ export function PlatformDiagnosticsSurface({
   const stateExplanationLoadState = useStateExplanations();
   const journalCoachLoadState = useJournalCoachReadiness();
   const productMemoryLoadState = useProductMemorySummary();
+  const localDayOneLoadState = useLocalDayOneReadiness();
+  const productRealityFinalScoreLoadState = useProductRealityFinalScore();
   const diagnosticsHealth = diagnosticsLoadState.health;
   const planetOsSnapshot = planetOsLoadState.snapshot;
   const planetOsEngineSummary =
@@ -1045,6 +1184,59 @@ export function PlatformDiagnosticsSurface({
             value: productMemoryLoadState.status === "error" ? "Unavailable" : "Loading",
             tone: productMemoryLoadState.status === "error" ? ("restricted" as const) : ("pending" as const),
             note: "Diagnostics is checking safe local/internal memory readiness.",
+          },
+        ];
+
+  const localDayOneItems =
+    localDayOneLoadState.status === "ready" && productRealityFinalScoreLoadState.status === "ready"
+      ? [
+          {
+            label: "Local Day One",
+            value: localDayOneLoadState.snapshot.readyToStartLocalDayOne
+              ? "Ready for local review"
+              : "Blocked",
+            tone: localDayOneLoadState.snapshot.readyToStartLocalDayOne
+              ? ("approved" as const)
+              : ("blocked" as const),
+            note: "Closed local review only; global launch is not evaluated.",
+          },
+          {
+            label: "Product reality score",
+            value: `${productRealityFinalScoreLoadState.snapshot.overallScore}/10`,
+            tone: "pending" as const,
+            note: `${productRealityFinalScoreLoadState.snapshot.status}; no 10/10 claim without Ahmad review.`,
+          },
+          {
+            label: "Ahmad review",
+            value: localDayOneLoadState.snapshot.ahmadHumanReviewRequired
+              ? "Required"
+              : "Not required",
+            tone: localDayOneLoadState.snapshot.ahmadHumanReviewRequired
+              ? ("pending" as const)
+              : ("approved" as const),
+            note: `${localDayOneLoadState.snapshot.summary.needsAhmadReview} area(s) require human visual review.`,
+          },
+          {
+            label: "Launch status",
+            value: localDayOneLoadState.snapshot.globalLaunchEvaluation,
+            tone: "blocked" as const,
+            note: localDayOneLoadState.snapshot.launchForbiddenReminder,
+          },
+        ]
+      : [
+          {
+            label: "Local Day One",
+            value:
+              localDayOneLoadState.status === "error" ||
+              productRealityFinalScoreLoadState.status === "error"
+                ? "Unavailable"
+                : "Loading",
+            tone:
+              localDayOneLoadState.status === "error" ||
+              productRealityFinalScoreLoadState.status === "error"
+                ? ("restricted" as const)
+                : ("pending" as const),
+            note: "Diagnostics is loading the closed local acceptance gate.",
           },
         ];
 
@@ -1452,6 +1644,10 @@ export function PlatformDiagnosticsSurface({
 
       <UtilitySection eyebrow="MEMORY" title="Product memory readiness">
         <UtilityGrid items={productMemoryItems} />
+      </UtilitySection>
+
+      <UtilitySection eyebrow="LOCAL DAY ONE" title="Local acceptance gate">
+        <UtilityGrid items={localDayOneItems} />
       </UtilitySection>
 
       <UtilitySection eyebrow="MESH" title="Integration mesh">

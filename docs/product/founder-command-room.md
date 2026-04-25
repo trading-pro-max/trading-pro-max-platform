@@ -130,3 +130,19 @@ Founder Command now includes a local command shell component set for Ahmad's mac
 - what not to do
 
 It is still private, owner-only, read-only, and hidden from public navigation. No hidden preview route is created in this pass because owner authentication, device trust, step-up confirmation, and audit-backed approval execution are not yet shipped.
+
+## Local Day One Acceptance Readiness
+
+Founder Command now receives the Local Day One gate as a private readiness summary:
+
+- Local Day One readiness
+- product reality final score
+- open blockers
+- Ahmad review required
+- local operations checklist
+- final gap summary
+- what not to do
+- next safe actions
+- launch forbidden reminder
+
+The signal is read-only. It does not create approval execution, public launch authority, production activation, billing, broker/feed activation, live execution, real-money routing, social publishing, fake metrics, or private data exposure.

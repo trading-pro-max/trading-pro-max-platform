@@ -48,3 +48,63 @@ export type ProductSurfaceDigitalTwinLayer = {
   productTruth: string[];
   founderCommandExposure: "hidden" | "owner_only";
 };
+
+export type ProductRealityFinalScoreArea =
+  | "public_clarity"
+  | "workstation_clarity"
+  | "chart_dominance"
+  | "execution_clarity"
+  | "assistant_usefulness"
+  | "journal_coach_usefulness"
+  | "plan_clarity"
+  | "settings_organization"
+  | "diagnostics_organization"
+  | "visual_maturity"
+  | "swiss_identity"
+  | "earth_mark_identity"
+  | "product_truth"
+  | "safety_legal"
+  | "founder_command_privacy"
+  | "local_operations_readiness"
+  | "user_simplicity"
+  | "internal_integration";
+
+export type ProductRealityFinalScoreStatus =
+  | "pass"
+  | "partial"
+  | "blocker"
+  | "needs_human_review";
+
+export type ProductRealityFinalScoreItem = {
+  area: ProductRealityFinalScoreArea;
+  label: string;
+  score: number;
+  status: ProductRealityFinalScoreStatus;
+  reason: string;
+  blocker: string | null;
+  nextAction: string;
+  humanAcceptanceNeeded: boolean;
+};
+
+export type ProductRealityFinalScoreSnapshot = {
+  checkedAt: string;
+  mode: "local_product_reality_final_score";
+  overallScore: number;
+  status: ProductRealityFinalScoreStatus;
+  areas: ProductRealityFinalScoreItem[];
+  ahmadHumanAcceptanceRequired: true;
+  summary: {
+    totalAreas: number;
+    pass: number;
+    partial: number;
+    blocker: number;
+    needsHumanReview: number;
+  };
+  truth: {
+    scale: "0_to_10";
+    noPerfectScoreClaim: true;
+    ahmadVisualAcceptanceRequired: true;
+    globalLaunchReadinessClaimed: false;
+    fakeUsersRevenueMetrics: false;
+  };
+};

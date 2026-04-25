@@ -102,3 +102,15 @@ Safe next decision: continue controlled internal review and closed-beta preparat
 | Sponsored clock partnership | planned | Inactive until contract, Rights/IP, Legal, Guardian, and Founder approval. |
 | Brand partnerships | planned | No fake partnership or implied endorsement allowed. |
 | Final internal acceptance | partial | Internal readiness is stronger, but launch remains blocked. |
+
+## Local Day One Non-Launch Gap Addendum
+
+| Area | Status | Notes / Required Action |
+| --- | --- | --- |
+| Local Day One gate | pass | Closed local review can start when validation is clean and Ahmad visual review is recorded. |
+| Product reality final score | needs_human_review | Uses a 0-10 internal scale and forbids fake 10/10 claims. |
+| Visual acceptance | needs_ahmad_review | Ahmad must review screenshots for public entry, workstation, chart, execution, Assistant, Settings, Diagnostics, plans, and RTL. |
+| Journal / Coach persistence | partial | Local/session reflection is safe; durable account-safe persistence remains planned. |
+| Product memory persistence | partial | Deterministic local/internal memory exists; no production storage or external sync. |
+| Git / validation evidence | partial | Must be confirmed by the current validation run and final clean Git status. |
+| Launch readiness | blocked by design | Local Day One does not evaluate, approve, or imply global launch readiness. |

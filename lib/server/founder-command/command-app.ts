@@ -11,7 +11,11 @@ import { getPlanetEconomyGrowthReadinessSnapshot } from "@/lib/server/economy-gr
 import { getTpmBrainContextSnapshot } from "@/lib/server/brain";
 import { getGrowthIntelligenceReadinessSnapshot } from "@/lib/server/growth-intelligence";
 import { getJournalCoachSnapshot } from "@/lib/server/journal-coach";
-import { getLocalOperationsReadinessSnapshot } from "@/lib/server/local-ops";
+import {
+  getLocalDayOneReadinessSnapshot,
+  getLocalOperationsFinalReportSnapshot,
+  getLocalOperationsReadinessSnapshot,
+} from "@/lib/server/local-ops";
 import { getPlanetConsciousnessSnapshot } from "@/lib/server/planet-consciousness";
 import { getPlanetMemoryGraphSnapshot } from "@/lib/server/planet-memory";
 import {
@@ -22,6 +26,7 @@ import {
 import { getProductTruthSnapshot } from "@/lib/server/product";
 import { getProductMemorySummarySnapshot } from "@/lib/server/product-memory";
 import {
+  getProductRealityFinalScoreSnapshot,
   getProductRealityScoreSnapshot,
   getProductSurfaceDigitalTwinSnapshot,
 } from "@/lib/server/product-reality";
@@ -87,12 +92,15 @@ export function getFounderCommandAppSnapshot(
   const validationInterpreter = getValidationInterpreterReadinessSnapshot(checkedAt);
   const selfHealing = getSelfHealingPipelineSnapshot(checkedAt);
   const productRealityScore = getProductRealityScoreSnapshot(checkedAt);
+  const productRealityFinalScore = getProductRealityFinalScoreSnapshot(checkedAt);
   const digitalTwin = getProductSurfaceDigitalTwinSnapshot(checkedAt);
   const memoryGraph = getPlanetMemoryGraphSnapshot(checkedAt);
   const founderPreferences = getFounderPreferenceSnapshot(checkedAt);
   const growthIntelligence = getGrowthIntelligenceReadinessSnapshot(checkedAt);
   const trustGovernor = getTrustGovernorSnapshot(checkedAt);
   const localOps = getLocalOperationsReadinessSnapshot(checkedAt);
+  const localDayOne = getLocalDayOneReadinessSnapshot(checkedAt);
+  const localFinalReport = getLocalOperationsFinalReportSnapshot(checkedAt);
   const productMemory = getProductMemorySummarySnapshot(checkedAt);
   const localCommandAccess = getFounderLocalCommandAccessSnapshot(checkedAt);
 
@@ -364,6 +372,35 @@ export function getFounderCommandAppSnapshot(
       launchForbiddenReminder: localOps.report.launchForbiddenReminder,
       launchAutomationActive: false,
     },
+    localDayOneAcceptance: {
+      readiness: "local_day_one_gate" as const,
+      gateStatus: localDayOne.gateStatus,
+      readyToStartLocalDayOne: localDayOne.readyToStartLocalDayOne,
+      ahmadHumanReviewRequired: localDayOne.ahmadHumanReviewRequired,
+      globalLaunchEvaluation: localDayOne.globalLaunchEvaluation,
+      categorySummary: localDayOne.summary,
+      blockers: localDayOne.blockers,
+      checklistRoutes: localDayOne.routes,
+      productRealityFinalScore: {
+        overallScore: productRealityFinalScore.overallScore,
+        status: productRealityFinalScore.status,
+        ahmadHumanAcceptanceRequired:
+          productRealityFinalScore.ahmadHumanAcceptanceRequired,
+        noPerfectScoreClaim:
+          productRealityFinalScore.truth.noPerfectScoreClaim,
+      },
+      finalReport: {
+        canStartLocalDayOne: localFinalReport.canStartLocalDayOne,
+        complete: localFinalReport.complete.length,
+        partial: localFinalReport.partial.length,
+        planned: localFinalReport.planned.length,
+        blockedByDesign: localFinalReport.blockedByDesign.length,
+      },
+      whatNotToDo: localFinalReport.blockedByDesign,
+      nextSafeActions: localFinalReport.nextSafeActions,
+      launchForbiddenReminder: localDayOne.launchForbiddenReminder,
+      truth: localDayOne.truth,
+    },
     persistentProductMemory: {
       readiness: "safe_local_internal_foundation" as const,
       storage: productMemory.storage,
@@ -455,9 +492,13 @@ export function getFounderCommandAppSnapshot(
       "/api/planet/trust-governor",
       "/api/founder/construction/readiness",
       "/api/local-ops/day-cycle",
+      "/api/local-ops/day-one",
       "/api/local-ops/readiness-law",
       "/api/local-ops/report",
+      "/api/local-ops/final-report",
       "/api/local-ops/digital-twin",
+      "/api/product-reality/final-score",
+      "/api/founder/local-day-one/readiness",
       "/api/product-memory/summary",
       "/api/product-memory/founder-acceptance",
       "/api/product-memory/product-gaps",

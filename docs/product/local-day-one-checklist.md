@@ -9,26 +9,43 @@ npm start
 ```
 
 Routes to review:
-- `/`
-- `/en`
-- `/settings`
-- `/diagnostics`
+- `http://localhost:3000`
+- `http://localhost:3000/en`
+- `http://localhost:3000/settings`
+- `http://localhost:3000/diagnostics`
 
 Review checklist:
 - public entry
+- Free plan clarity
+- Pro planned clarity
+- VIP planned clarity
+- Institutional future clarity
 - workstation
 - chart
-- execution
-- TPM Assistant
+- execution paper
+- Assistant open/closed
 - Why Blocked
 - Journal/Coach
 - Settings
 - Diagnostics
+- Earth Mark
+- Swiss Clock/Pulse
+- no internal terminology leak
+- no fake activation
+- no visual blockers
 - product truth
 - visual acceptance
 - Git clean
 
 Do not include launch steps. Do not enable billing, broker/feed, live execution, real-money routing, production actions, or social publishing.
+
+End-of-day:
+
+- founder acceptance notes
+- gaps
+- next build task
+- Git clean
+- launch remains forbidden
 
 ## Founder Command Local Review
 

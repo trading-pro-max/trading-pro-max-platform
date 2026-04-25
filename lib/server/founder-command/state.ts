@@ -531,6 +531,16 @@ const ops: FounderOpsSignal[] = [
     safeNextStep:
       "Keep APIs readiness-only until private owner app authentication, step-up confirmation, and audit requirements are finalized.",
   },
+  {
+    id: "founder-command-local-day-one-gate",
+    label: "Local Day One acceptance gate",
+    readiness: "active_contract",
+    riskLevel: "medium",
+    currentTruth:
+      "Local Day One readiness can be viewed as a closed local acceptance gate; it does not evaluate global launch or activate approvals.",
+    safeNextStep:
+      "Use the gate to start local operations review only after validation and Ahmad visual review.",
+  },
 ];
 
 export function getFounderCommandSnapshot(checkedAt = new Date().toISOString()): FounderCommandSnapshot {

@@ -24,8 +24,13 @@ import {
   getAiIqBrainDiagnosticsProbe,
   getIntelligenceBackendDiagnosticsProbe,
 } from "@/lib/server/intelligence";
-import { getLocalOperationsReadinessSnapshot } from "@/lib/server/local-ops";
+import {
+  getLocalDayOneReadinessSnapshot,
+  getLocalOperationsFinalReportSnapshot,
+  getLocalOperationsReadinessSnapshot,
+} from "@/lib/server/local-ops";
 import { getProductMemorySummarySnapshot } from "@/lib/server/product-memory";
+import { getProductRealityFinalScoreSnapshot } from "@/lib/server/product-reality";
 import { getClientExpansionSnapshot } from "@/lib/server/platform/client-contracts";
 import { getDesktopAppsDiagnosticsProbe } from "@/lib/server/platform/desktop-foundation";
 import { getDesktopProductizationDiagnosticsProbe } from "@/lib/server/platform/desktop-productization";
@@ -1245,6 +1250,20 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       `${founderLocalCommandSnapshot.summaries.localDayStages} local stages, ${founderLocalCommandSnapshot.summaries.memoryDomains} memory domains, and ${founderLocalCommandSnapshot.summaries.constructionQueueItems} construction queue items are summarized with approval execution disabled.`,
     checkedAt,
   };
+  const localDayOneSnapshot = getLocalDayOneReadinessSnapshot(checkedAt);
+  const localFinalReport = getLocalOperationsFinalReportSnapshot(checkedAt);
+  const productRealityFinalScore = getProductRealityFinalScoreSnapshot(checkedAt);
+  const localDayOneProbe: DiagnosticsProbe = {
+    key: "local_day_one_acceptance",
+    label: "Local Day One readiness",
+    status: localDayOneSnapshot.readyToStartLocalDayOne ? "ready" : "degraded",
+    summary: localDayOneSnapshot.readyToStartLocalDayOne
+      ? "Closed local Day One review can start"
+      : "Local Day One has blockers",
+    detail:
+      `Gate ${localDayOneSnapshot.gateStatus}; score ${productRealityFinalScore.overallScore}/10; ${localDayOneSnapshot.summary.needsAhmadReview} area(s) need Ahmad review. ${localFinalReport.launchForbiddenReminder}`,
+    checkedAt,
+  };
 
   return {
     ...baseHealth,
@@ -1254,6 +1273,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       marketParityProbe,
       productMemoryProbe,
       founderLocalCommandProbe,
+      localDayOneProbe,
     ],
     routes: [
       ...baseHealth.routes,
@@ -1320,6 +1340,34 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         detail:
           "Founder local command readiness route reports compact owner-only local shell truth and keeps public navigation disabled.",
       },
+      {
+        path: "/api/local-ops/day-one",
+        method: "GET",
+        status: localDayOneProbe.status,
+        detail:
+          "Local Day One route reports the closed local acceptance gate, Ahmad review requirement, and non-launch truth.",
+      },
+      {
+        path: "/api/local-ops/final-report",
+        method: "GET",
+        status: localDayOneProbe.status,
+        detail:
+          "Final local operations report route separates complete, partial, planned, and blocked-by-design local readiness without launch authority.",
+      },
+      {
+        path: "/api/product-reality/final-score",
+        method: "GET",
+        status: localDayOneProbe.status,
+        detail:
+          "Product reality final score route uses a 0-10 local review scale and forbids fake 10/10 or global launch readiness claims.",
+      },
+      {
+        path: "/api/founder/local-day-one/readiness",
+        method: "GET",
+        status: localDayOneProbe.status,
+        detail:
+          "Founder Local Day One readiness route summarizes owner-only local gate status without secrets, private data, or approval execution.",
+      },
     ],
     subsystems: [
       ...(baseHealth.subsystems ?? []),
@@ -1350,6 +1398,13 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         status: founderLocalCommandProbe.status,
         summary: founderLocalCommandProbe.summary,
         detail: founderLocalCommandProbe.detail,
+      },
+      {
+        key: "local_day_one_acceptance",
+        label: localDayOneProbe.label,
+        status: localDayOneProbe.status,
+        summary: localDayOneProbe.summary,
+        detail: localDayOneProbe.detail,
       },
     ],
     launchReadiness: {

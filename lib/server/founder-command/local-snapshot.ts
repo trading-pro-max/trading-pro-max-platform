@@ -2,13 +2,18 @@ import "server-only";
 
 import { getConstructionQueueSnapshot } from "@/lib/server/codex-construction";
 import { getJournalCoachSnapshot } from "@/lib/server/journal-coach";
-import { getLocalOperationsReadinessSnapshot } from "@/lib/server/local-ops";
+import {
+  getLocalDayOneReadinessSnapshot,
+  getLocalOperationsFinalReportSnapshot,
+  getLocalOperationsReadinessSnapshot,
+} from "@/lib/server/local-ops";
 import { getProductTruthSnapshot } from "@/lib/server/product";
 import {
   getProductMemorySummarySnapshot,
   getProductGapMemorySnapshot,
   getValidationSummaryMemorySnapshot,
 } from "@/lib/server/product-memory";
+import { getProductRealityFinalScoreSnapshot } from "@/lib/server/product-reality";
 import { getFounderLocalCommandAccessSnapshot } from "./access";
 import { getFounderCommandAppSnapshot } from "./command-app";
 
@@ -18,12 +23,15 @@ export function getFounderLocalCommandSnapshot(
   const commandApp = getFounderCommandAppSnapshot(checkedAt);
   const access = getFounderLocalCommandAccessSnapshot(checkedAt);
   const localOps = getLocalOperationsReadinessSnapshot(checkedAt);
+  const localDayOne = getLocalDayOneReadinessSnapshot(checkedAt);
+  const localFinalReport = getLocalOperationsFinalReportSnapshot(checkedAt);
   const productMemory = getProductMemorySummarySnapshot(checkedAt);
   const productGaps = getProductGapMemorySnapshot(checkedAt);
   const validationSummary = getValidationSummaryMemorySnapshot(checkedAt);
   const constructionQueue = getConstructionQueueSnapshot(checkedAt);
   const journalCoach = getJournalCoachSnapshot(checkedAt);
   const productTruth = getProductTruthSnapshot(checkedAt);
+  const productRealityFinalScore = getProductRealityFinalScoreSnapshot(checkedAt);
 
   return {
     checkedAt,
@@ -67,6 +75,27 @@ export function getFounderLocalCommandSnapshot(
       nextSafeLocalActions: commandApp.localUniverseOperations.nextSafeLocalActions,
       launchForbiddenReminder:
         commandApp.localUniverseOperations.launchForbiddenReminder,
+    },
+    localDayOneAcceptance: {
+      gateStatus: localDayOne.gateStatus,
+      readyToStartLocalDayOne: localDayOne.readyToStartLocalDayOne,
+      ahmadHumanReviewRequired: localDayOne.ahmadHumanReviewRequired,
+      globalLaunchEvaluation: localDayOne.globalLaunchEvaluation,
+      summary: localDayOne.summary,
+      finalReport: {
+        canStartLocalDayOne: localFinalReport.canStartLocalDayOne,
+        partial: localFinalReport.partial,
+        planned: localFinalReport.planned,
+        blockedByDesign: localFinalReport.blockedByDesign,
+      },
+      productRealityFinalScore: {
+        overallScore: productRealityFinalScore.overallScore,
+        status: productRealityFinalScore.status,
+        noPerfectScoreClaim:
+          productRealityFinalScore.truth.noPerfectScoreClaim,
+      },
+      launchForbiddenReminder: localDayOne.launchForbiddenReminder,
+      truth: localDayOne.truth,
     },
     productMemory: {
       storage: productMemory.storage,
@@ -169,6 +198,10 @@ export function getFounderLocalCommandReadinessSnapshot(
     routeExposure: snapshot.routeExposure,
     summaries: {
       localDayStages: snapshot.localOperations.dayCycle.totalStages,
+      localDayOneGate: snapshot.localDayOneAcceptance.gateStatus,
+      localDayOneReady: snapshot.localDayOneAcceptance.readyToStartLocalDayOne,
+      localDayOneAhmadReviewRequired:
+        snapshot.localDayOneAcceptance.ahmadHumanReviewRequired,
       memoryDomains: snapshot.productMemory.domainSummary.length,
       openProductGaps: snapshot.productGaps.summary.open,
       constructionQueueItems: snapshot.constructionQueue.summary.total,

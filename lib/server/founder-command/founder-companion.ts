@@ -2,8 +2,13 @@ import "server-only";
 
 import { getPlanEntitlementSnapshot } from "@/lib/plans/entitlements";
 import { getConstructionQueueSnapshot } from "@/lib/server/codex-construction";
-import { getLocalOperationsReadinessSnapshot } from "@/lib/server/local-ops";
+import {
+  getLocalDayOneReadinessSnapshot,
+  getLocalOperationsFinalReportSnapshot,
+  getLocalOperationsReadinessSnapshot,
+} from "@/lib/server/local-ops";
 import { getProductMemorySummarySnapshot } from "@/lib/server/product-memory";
+import { getProductRealityFinalScoreSnapshot } from "@/lib/server/product-reality";
 import type { FounderBriefing, MinistryReport } from "@/lib/server/planet-os/types";
 import { getFounderCommandReportingSnapshot } from "./reporting";
 
@@ -29,6 +34,7 @@ export type FounderPersonalCompanionSnapshot = {
   engineeringPrioritySuggestions: string[];
   constructionIntelligenceSummary: string[];
   localOperationsSummary: string[];
+  localDayOneSummary: string[];
   productMemorySummary: string[];
   whatNotToApprove: string[];
   nextSafeDecisions: string[];
@@ -58,6 +64,9 @@ export function getFounderPersonalCompanionSnapshot(
   const planEntitlements = getPlanEntitlementSnapshot("demo_free", checkedAt);
   const constructionQueue = getConstructionQueueSnapshot(checkedAt);
   const localOps = getLocalOperationsReadinessSnapshot(checkedAt);
+  const localDayOne = getLocalDayOneReadinessSnapshot(checkedAt);
+  const localFinalReport = getLocalOperationsFinalReportSnapshot(checkedAt);
+  const productRealityFinalScore = getProductRealityFinalScoreSnapshot(checkedAt);
   const productMemory = getProductMemorySummarySnapshot(checkedAt);
   const decisionMinistries = reporting.ministries.filter(
     (report) => report.founderDecisionNeeded
@@ -133,6 +142,13 @@ export function getFounderPersonalCompanionSnapshot(
       `${localOps.digitalTwin.profileCount} local test personas are readiness-only and do not represent real users.`,
       "Founder Local Command shell is read-only and owner-only until owner auth, device trust, and step-up gates exist.",
       localOps.report.launchForbiddenReminder,
+    ],
+    localDayOneSummary: [
+      `Local Day One gate is ${localDayOne.gateStatus}.`,
+      `Ready to start local review: ${localDayOne.readyToStartLocalDayOne ? "yes" : "no"}.`,
+      `Product reality final score is ${productRealityFinalScore.overallScore}/10 with ${productRealityFinalScore.status}.`,
+      `Ahmad human visual review required: ${localDayOne.ahmadHumanReviewRequired ? "yes" : "no"}.`,
+      localFinalReport.launchForbiddenReminder,
     ],
     productMemorySummary: [
       `${productMemory.domainSummary.length} memory domains are modeled for safe local/internal readiness.`,

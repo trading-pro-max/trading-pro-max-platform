@@ -138,3 +138,108 @@ export type LocalOperationsReport = {
     fakeUsersMetricsRevenue: "not_allowed";
   };
 };
+
+export type LocalDayOneReadinessStatus =
+  | "pass"
+  | "partial"
+  | "blocker"
+  | "planned"
+  | "blocked_by_design"
+  | "needs_ahmad_review";
+
+export type LocalDayOneGateStatus =
+  | "local_operations_ready"
+  | "local_operations_partially_ready"
+  | "not_ready"
+  | "global_launch_not_evaluated";
+
+export type LocalDayOneReadinessCategoryId =
+  | "runtime_readiness"
+  | "public_entry_readiness"
+  | "trading_workstation_readiness"
+  | "chart_readiness"
+  | "paper_execution_readiness"
+  | "tpm_assistant_readiness"
+  | "why_blocked_readiness"
+  | "journal_coach_readiness"
+  | "settings_readiness"
+  | "diagnostics_readiness"
+  | "plan_language_readiness"
+  | "product_truth_readiness"
+  | "founder_command_privacy_readiness"
+  | "local_operations_protocol_readiness"
+  | "product_memory_readiness"
+  | "visual_acceptance_readiness"
+  | "security_safety_readiness"
+  | "git_validation_readiness";
+
+export type LocalDayOneReadinessCategory = {
+  id: LocalDayOneReadinessCategoryId;
+  label: string;
+  status: LocalDayOneReadinessStatus;
+  reason: string;
+  evidence: string[];
+  nextAction: string;
+  blocker: string | null;
+  humanAcceptanceNeeded: boolean;
+};
+
+export type LocalDayOneReadinessSummary = {
+  total: number;
+  pass: number;
+  partial: number;
+  blocker: number;
+  planned: number;
+  blockedByDesign: number;
+  needsAhmadReview: number;
+};
+
+export type LocalDayOneReadinessSnapshot = {
+  checkedAt: string;
+  mode: "local_day_one_acceptance_gate";
+  operationMode: "closed_local_product_review";
+  gateStatus: LocalDayOneGateStatus;
+  readyToStartLocalDayOne: boolean;
+  ahmadHumanReviewRequired: true;
+  globalLaunchEvaluation: "not_evaluated";
+  categories: LocalDayOneReadinessCategory[];
+  summary: LocalDayOneReadinessSummary;
+  commands: string[];
+  routes: string[];
+  reviewChecklist: string[];
+  endOfDayChecklist: string[];
+  blockers: string[];
+  launchForbiddenReminder: string;
+  truth: {
+    localOnly: true;
+    paperSafe: true;
+    productionActive: false;
+    billingActive: false;
+    brokerFeedActive: false;
+    liveExecutionActive: false;
+    realMoneyActive: false;
+    publicLaunchActive: false;
+    socialPublishingActive: false;
+    fakeUsersRevenueMetrics: false;
+    globalLaunchReadinessClaimed: false;
+  };
+};
+
+export type LocalOperationsFinalReportSnapshot = {
+  checkedAt: string;
+  mode: "local_operations_final_report";
+  readinessState: LocalDayOneGateStatus;
+  canStartLocalDayOne: boolean;
+  ahmadHumanVisualReviewRequired: true;
+  complete: string[];
+  partial: string[];
+  planned: string[];
+  blockedByDesign: string[];
+  excludedFromLocalOperations: string[];
+  mustWaitForRealActivation: string[];
+  ahmadMustReviewVisually: string[];
+  blockers: string[];
+  nextSafeActions: string[];
+  launchForbiddenReminder: string;
+  truth: LocalDayOneReadinessSnapshot["truth"];
+};

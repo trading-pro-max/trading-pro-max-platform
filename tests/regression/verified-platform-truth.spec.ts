@@ -5179,6 +5179,257 @@ test.describe("verified platform truth", () => {
     );
   });
 
+  test("reports local day one acceptance gate without launch readiness claims", async ({
+    page,
+    request,
+  }) => {
+    const endpoints = [
+      "/api/local-ops/day-one",
+      "/api/local-ops/final-report",
+      "/api/product-reality/final-score",
+      "/api/founder/local-day-one/readiness",
+    ];
+
+    for (const endpoint of endpoints) {
+      const response = await request.get(endpoint);
+      expect(response.status()).toBe(200);
+      const text = await response.text();
+      expect(text).not.toMatch(/api[_-]?key\s*[:=]|password\s*[:=]|secret_value/i);
+      expect(text).not.toMatch(/fake users active|fake revenue active|metrics active/i);
+      expect(text).not.toMatch(/global launch ready|production active|billing active/i);
+    }
+
+    const dayOne = await (await request.get("/api/local-ops/day-one")).json();
+    expect(dayOne.snapshot).toMatchObject({
+      mode: "local_day_one_acceptance_gate",
+      operationMode: "closed_local_product_review",
+      gateStatus: "local_operations_ready",
+      readyToStartLocalDayOne: true,
+      ahmadHumanReviewRequired: true,
+      globalLaunchEvaluation: "not_evaluated",
+      summary: {
+        total: 18,
+        blocker: 0,
+        needsAhmadReview: expect.any(Number),
+      },
+      truth: {
+        localOnly: true,
+        paperSafe: true,
+        productionActive: false,
+        billingActive: false,
+        brokerFeedActive: false,
+        liveExecutionActive: false,
+        realMoneyActive: false,
+        publicLaunchActive: false,
+        socialPublishingActive: false,
+        fakeUsersRevenueMetrics: false,
+        globalLaunchReadinessClaimed: false,
+      },
+    });
+    expect(dayOne.snapshot.categories).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          id: "chart_readiness",
+          status: "needs_ahmad_review",
+        }),
+        expect.objectContaining({
+          id: "git_validation_readiness",
+          status: "partial",
+        }),
+        expect.objectContaining({
+          id: "founder_command_privacy_readiness",
+          status: "pass",
+        }),
+      ])
+    );
+    expect(dayOne.snapshot.commands).toEqual(
+      expect.arrayContaining([
+        "cd C:\\Users\\ahmad\\Desktop\\trading-pro-max-platform",
+        "npm run build",
+        "npm start",
+      ])
+    );
+    expect(dayOne.snapshot.routes).toEqual(
+      expect.arrayContaining([
+        "http://localhost:3000",
+        "http://localhost:3000/en",
+        "http://localhost:3000/settings",
+        "http://localhost:3000/diagnostics",
+      ])
+    );
+    expect(dayOne.snapshot.reviewChecklist).toEqual(
+      expect.arrayContaining([
+        "Free plan clarity",
+        "Pro planned clarity",
+        "VIP planned clarity",
+        "Institutional future clarity",
+        "no fake activation",
+      ])
+    );
+    expect(dayOne.snapshot.endOfDayChecklist).toEqual(
+      expect.arrayContaining(["Git clean", "launch remains forbidden"])
+    );
+    expect(dayOne.snapshot.launchForbiddenReminder).toContain(
+      "does not evaluate or authorize global launch"
+    );
+
+    const finalReport = await (
+      await request.get("/api/local-ops/final-report")
+    ).json();
+    expect(finalReport.snapshot).toMatchObject({
+      mode: "local_operations_final_report",
+      readinessState: "local_operations_ready",
+      canStartLocalDayOne: true,
+      ahmadHumanVisualReviewRequired: true,
+      truth: {
+        publicLaunchActive: false,
+        productionActive: false,
+        billingActive: false,
+        brokerFeedActive: false,
+        liveExecutionActive: false,
+        realMoneyActive: false,
+        socialPublishingActive: false,
+        globalLaunchReadinessClaimed: false,
+      },
+    });
+    expect(finalReport.snapshot.excludedFromLocalOperations).toEqual(
+      expect.arrayContaining([
+        "public launch",
+        "production deployment",
+        "billing and checkout",
+        "real broker/feed credentials",
+        "live-money order routing",
+        "social account connection",
+      ])
+    );
+    expect(finalReport.snapshot.blockedByDesign).toEqual(
+      expect.arrayContaining([
+        "global launch",
+        "billing activation",
+        "broker/feed activation",
+        "live execution",
+        "real-money routing",
+        "social publishing",
+      ])
+    );
+
+    const finalScore = await (
+      await request.get("/api/product-reality/final-score")
+    ).json();
+    expect(finalScore.snapshot).toMatchObject({
+      mode: "local_product_reality_final_score",
+      status: "needs_human_review",
+      ahmadHumanAcceptanceRequired: true,
+      summary: {
+        totalAreas: 18,
+        blocker: 0,
+      },
+      truth: {
+        scale: "0_to_10",
+        noPerfectScoreClaim: true,
+        ahmadVisualAcceptanceRequired: true,
+        globalLaunchReadinessClaimed: false,
+        fakeUsersRevenueMetrics: false,
+      },
+    });
+    expect(finalScore.snapshot.overallScore).toBeGreaterThan(0);
+    expect(finalScore.snapshot.overallScore).toBeLessThan(10);
+    for (const area of finalScore.snapshot.areas) {
+      expect(area.score).toBeLessThan(10);
+      expect(area.score).toBeGreaterThanOrEqual(0);
+      expect(area.blocker).toBeNull();
+    }
+
+    const founderDayOne = await (
+      await request.get("/api/founder/local-day-one/readiness")
+    ).json();
+    expect(founderDayOne.snapshot).toMatchObject({
+      mode: "founder_local_day_one_readiness",
+      access: {
+        ownerOnly: true,
+        publicNavigationVisible: false,
+        userPlanAccess: false,
+      },
+      localDayOne: {
+        gateStatus: "local_operations_ready",
+        readyToStartLocalDayOne: true,
+        ahmadHumanReviewRequired: true,
+        globalLaunchEvaluation: "not_evaluated",
+      },
+      productRealityFinalScore: {
+        status: "needs_human_review",
+        noPerfectScoreClaim: true,
+      },
+      truth: {
+        publicLaunchActive: false,
+        noApprovalExecution: true,
+        noSecrets: true,
+        noPrivateSensitiveData: true,
+      },
+    });
+    expect(founderDayOne.snapshot.safety).toMatchObject({
+      approvalExecutionActive: false,
+      billingActivationActive: false,
+      brokerFeedActivationActive: false,
+      liveExecutionActive: false,
+      realMoneyRoutingActive: false,
+      socialPublishingActive: false,
+      publicLaunchActive: false,
+    });
+
+    const founderCommand = await (
+      await request.get("/api/founder/command/snapshot")
+    ).json();
+    expect(founderCommand.snapshot.localDayOneAcceptance).toMatchObject({
+      gateStatus: "local_operations_ready",
+      readyToStartLocalDayOne: true,
+      ahmadHumanReviewRequired: true,
+      globalLaunchEvaluation: "not_evaluated",
+      productRealityFinalScore: {
+        status: "needs_human_review",
+        noPerfectScoreClaim: true,
+      },
+      truth: {
+        publicLaunchActive: false,
+        globalLaunchReadinessClaimed: false,
+      },
+    });
+
+    const localCommand = await (
+      await request.get("/api/founder/local-command/readiness")
+    ).json();
+    expect(localCommand.snapshot.summaries).toMatchObject({
+      localDayOneGate: "local_operations_ready",
+      localDayOneReady: true,
+      localDayOneAhmadReviewRequired: true,
+    });
+
+    const diagnostics = await (await request.get("/api/diagnostics/probes")).json();
+    expect(diagnostics.health.routes).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ path: "/api/local-ops/day-one" }),
+        expect.objectContaining({ path: "/api/local-ops/final-report" }),
+        expect.objectContaining({ path: "/api/product-reality/final-score" }),
+        expect.objectContaining({ path: "/api/founder/local-day-one/readiness" }),
+      ])
+    );
+    expect(diagnostics.health.subsystems).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          key: "local_day_one_acceptance",
+          status: "ready",
+        }),
+      ])
+    );
+
+    await page.goto("/diagnostics");
+    await expect(page.locator("main").first()).toBeVisible();
+    await expect(page.locator("body")).toContainText("Local acceptance gate");
+    await expect(page.locator("body")).toContainText("Ready for local review");
+    await expect(page.locator("body")).toContainText("Product reality score");
+    await expect(page.locator("body")).not.toContainText(/Enterprise|TPM Companion/);
+  });
+
   test("keeps real-money execution blocked when real mode is selected", async ({
     page,
   }) => {
