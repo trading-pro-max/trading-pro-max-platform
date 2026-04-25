@@ -2,6 +2,8 @@
 
 The Founder Command App should feel like a serious private command instrument, not a game, fantasy surface, or public dashboard.
 
+Founder Command visual direction is owned internally by the Ministry of Visual Identity, Plan Experience & Platform Design. This ministry may use internal command terminology in private docs and owner surfaces only; it must not leak those terms into normal public UI.
+
 ## Identity
 
 - black, graphite, and controlled gold
@@ -82,3 +84,11 @@ It must not become fantasy, game-like, public-dashboard-like, or cluttered. The 
 ## Living Earth Mark Command Rule
 
 Founder Command may use the `command` Earth Mark variant with stronger graphite/gold treatment and safe readiness states such as `local_only` or `review_required`. It remains internal/private, cannot appear as a Free / Pro / VIP / Institutional feature, and must never leak into normal public navigation.
+
+## Ministry Alignment
+
+- Founder Command palette: graphite / gold / subtle Swiss red.
+- Density: command-grade, compact, and scannable.
+- Motion: slightly stronger than public UI, still reduced-motion safe.
+- Public separation: not a user plan, not a public route, not public navigation.
+- Activation boundary: no approval execution, launch, billing, broker/feed, live execution, real money, or social publishing.

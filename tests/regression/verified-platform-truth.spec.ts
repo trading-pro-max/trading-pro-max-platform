@@ -672,6 +672,9 @@ test.describe("verified platform truth", () => {
       "docs/product/brand-voice-constitution.md",
       "docs/product/identity-governance.md",
       "docs/product/founder-command-visual-direction.md",
+      "docs/product/ministry-visual-identity-platform-design.md",
+      "docs/product/platform-design-system.md",
+      "docs/product/swiss-precision-motion-law.md",
     ];
 
     for (const docPath of identityDocs) {
@@ -694,6 +697,21 @@ test.describe("verified platform truth", () => {
     expect(identityOs).toContain("Founder terms internal only");
     expect(identityOs).toContain("guaranteed profit");
     expect(identityOs).toContain("fake win-rate");
+
+    const visualMinistryDoc = fs.readFileSync(
+      "docs/product/ministry-visual-identity-platform-design.md",
+      "utf8"
+    );
+    expect(visualMinistryDoc).toContain("Design System Authority");
+    expect(visualMinistryDoc).toContain("Plan Style Authority");
+    expect(visualMinistryDoc).toContain("Platform Experience Authority");
+    expect(visualMinistryDoc).toContain("Motion & State Authority");
+    expect(visualMinistryDoc).toContain("Visual Quality Authority");
+    expect(visualMinistryDoc).toContain("Free");
+    expect(visualMinistryDoc).toContain("Pro");
+    expect(visualMinistryDoc).toContain("VIP");
+    expect(visualMinistryDoc).toContain("Institutional");
+    expect(visualMinistryDoc).toContain("Founder Command is not a user plan");
   });
 
   test("renders global theme modes, language fallback, and RTL/LTR surfaces", async ({
@@ -1761,6 +1779,13 @@ test.describe("verified platform truth", () => {
         humanVisualAcceptanceRequired: true,
         realWorldBetaTestingRequired: true,
       },
+      engineeringOpsQuality: {
+        designMinistry: {
+          status: "ready",
+          publicLanguageGuarded: true,
+          platformExperiences: 6,
+        },
+      },
       safety: {
         approvalExecutionActive: false,
         billingActivationActive: false,
@@ -1788,6 +1813,32 @@ test.describe("verified platform truth", () => {
         expect.objectContaining({ key: "quality_visual_acceptance_command" }),
         expect.objectContaining({ key: "rights_brand_command" }),
         expect.objectContaining({ key: "islamic_review_command" }),
+      ])
+    );
+    expect(
+      founderCommandSnapshotPayload.snapshot.engineeringOpsQuality.designMinistry.authorities
+    ).toEqual(
+      expect.arrayContaining([
+        "Design System Authority",
+        "Plan Style Authority",
+        "Platform Experience Authority",
+        "Motion & State Authority",
+        "Visual Quality Authority",
+      ])
+    );
+    expect(
+      founderCommandSnapshotPayload.snapshot.engineeringOpsQuality.designMinistry.planIdentities
+    ).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ label: "Free", state: "active_paper_safe" }),
+        expect.objectContaining({ label: "Pro", state: "planned_locked" }),
+        expect.objectContaining({ label: "VIP", state: "planned_locked" }),
+        expect.objectContaining({ label: "Institutional", state: "future_planned" }),
+        expect.objectContaining({
+          label: "Founder Command",
+          audience: "founder_internal",
+          state: "internal_private",
+        }),
       ])
     );
     expect(
@@ -2639,6 +2690,9 @@ test.describe("verified platform truth", () => {
     expect(["ready", "degraded"]).toContain(
       probes.get("market_parity_closure")?.status
     );
+    expect(probes.get("visual_identity_platform_design")).toMatchObject({
+      status: "ready",
+    });
 
     const routes = new Map<string, { path: string; status: string }>(
       diagnosticsPayload.health.routes.map((route: { path: string; status: string }) => [
@@ -2670,6 +2724,14 @@ test.describe("verified platform truth", () => {
     expect(routes.get("/api/planet/media/readiness")).toMatchObject({
       status: "ready",
     });
+    expect(diagnosticsPayload.health.subsystems).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          key: "visual_identity_platform_design",
+          status: "ready",
+        }),
+      ])
+    );
     expect(routes.get("/api/build-planner/readiness")).toMatchObject({
       status: "ready",
     });

@@ -1139,6 +1139,33 @@ export function PlatformDiagnosticsSurface({
       note: "The assistant cannot execute trades, activate live mode, configure broker/feed, or unlock billing.",
     },
   ];
+  const designMinistryProbe = diagnosticsHealth?.probes.find(
+    (probe) => probe.key === "visual_identity_platform_design"
+  );
+  const designMinistryItems = [
+    {
+      label: "Visual design readiness",
+      value: designMinistryProbe?.summary ?? "Plan identity contracts ready",
+      tone: designMinistryProbe
+        ? toneFromProbeStatus(designMinistryProbe.status)
+        : ("approved" as const),
+      note:
+        designMinistryProbe?.detail ??
+        "Free, Pro, VIP, and Institutional identities are governed without making locked plans look active.",
+    },
+    {
+      label: "Plan identities",
+      value: "Free / Pro / VIP / Institutional",
+      tone: "approved" as const,
+      note: "Restricted command visuals remain private and never appear as a user plan feature.",
+    },
+    {
+      label: "Motion and state",
+      value: "Reduced-motion safe",
+      tone: "approved" as const,
+      note: "State visuals stay tied to paper-safe, blocked, fallback, planned, inactive, and review-required truth.",
+    },
+  ];
   const productMemoryItems =
     productMemoryLoadState.status === "ready"
       ? [
@@ -1640,6 +1667,10 @@ export function PlatformDiagnosticsSurface({
 
       <UtilitySection eyebrow="ASSISTANT" title="Assistant readiness">
         <UtilityGrid items={companionReadinessItems} />
+      </UtilitySection>
+
+      <UtilitySection eyebrow="VISUAL DESIGN" title="Plan identity and platform design">
+        <UtilityGrid items={designMinistryItems} />
       </UtilitySection>
 
       <UtilitySection eyebrow="MEMORY" title="Product memory readiness">

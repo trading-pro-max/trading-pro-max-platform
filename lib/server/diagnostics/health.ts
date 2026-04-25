@@ -22,6 +22,7 @@ import {
   getFounderBuildRoomReadinessSnapshot,
   getFounderLocalCommandReadinessSnapshot,
 } from "@/lib/server/founder-command";
+import { getDesignMinistrySnapshot } from "@/lib/server/design-ministry";
 import {
   getAiIqBrainDeepeningDiagnosticsProbe,
   getAiIqBrainDiagnosticsProbe,
@@ -694,6 +695,7 @@ function buildSubsystems(input: {
   aiFoundation: DiagnosticsProbe;
   aiDeepening: DiagnosticsProbe;
   localOperations: DiagnosticsProbe;
+  designMinistry: DiagnosticsProbe;
   readiness: DiagnosticsProbe;
 }) {
   return [
@@ -921,6 +923,13 @@ function buildSubsystems(input: {
       summary: input.localOperations.summary,
       detail: input.localOperations.detail,
     },
+    {
+      key: "visual_identity_platform_design",
+      label: input.designMinistry.label,
+      status: input.designMinistry.status,
+      summary: input.designMinistry.summary,
+      detail: input.designMinistry.detail,
+    },
   ];
 }
 
@@ -1008,6 +1017,16 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       `${localOperationsSnapshot.dayCycle.totalStages} local review stages are defined. ${localOperationsSnapshot.report.launchForbiddenReminder}`,
     checkedAt,
   };
+  const designMinistrySnapshot = getDesignMinistrySnapshot(checkedAt);
+  const designMinistry: DiagnosticsProbe = {
+    key: "visual_identity_platform_design",
+    label: "Visual identity readiness",
+    status: "ready",
+    summary: "Plan identity and platform design governance ready",
+    detail:
+      `${designMinistrySnapshot.authorities.length} design authorities, ${designMinistrySnapshot.planIdentities.length} plan identities, and ${designMinistrySnapshot.platformExperiences.length} platform experience rules are modeled. Public language remains Free / Pro / VIP / Institutional; restricted command visuals stay private.`,
+    checkedAt,
+  };
 
   const readiness = buildAggregateReadiness({
     checkedAt,
@@ -1046,6 +1065,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       aiFoundation,
       aiDeepening,
       localOperations,
+      designMinistry,
     ],
   });
 
@@ -1082,6 +1102,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     aiFoundation,
     aiDeepening,
     localOperations,
+    designMinistry,
   ];
   const routes = buildRouteProbes({
     readiness,
@@ -1148,6 +1169,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     aiFoundation,
     aiDeepening,
     localOperations,
+    designMinistry,
     readiness,
   });
   const baseHealth: DiagnosticsHealthSnapshot = {

@@ -34,3 +34,9 @@ State visuals must not imply:
 ## Living Earth Mark Mapping
 
 The `TPMEarthMark` component maps safe states to subtle orbit, pulse, and accent changes. It does not read private data, credentials, production configuration, or raw logs.
+
+## Motion & State Authority
+
+The internal Motion & State Authority owns state color semantics, reduced-motion behavior, and state-specific identity signals. Normal users should see only public-safe state words such as paper-safe, blocked, planned, inactive, fallback, review required, not certified, local only, future, and readiness.
+
+State visuals must stay compact in the Trading Workspace. They may clarify why something is blocked, planned, or inactive, but they must not compete with chart, execution, TPM Assistant, Journal, or Coach surfaces.

@@ -7,6 +7,7 @@ import {
   getSelfHealingPipelineSnapshot,
   getValidationInterpreterReadinessSnapshot,
 } from "@/lib/server/codex-construction";
+import { getDesignMinistrySnapshot } from "@/lib/server/design-ministry";
 import { getPlanetEconomyGrowthReadinessSnapshot } from "@/lib/server/economy-growth";
 import { getTpmBrainContextSnapshot } from "@/lib/server/brain";
 import { getGrowthIntelligenceReadinessSnapshot } from "@/lib/server/growth-intelligence";
@@ -105,6 +106,7 @@ export function getFounderCommandAppSnapshot(
   const productMemory = getProductMemorySummarySnapshot(checkedAt);
   const localCommandAccess = getFounderLocalCommandAccessSnapshot(checkedAt);
   const buildRoom = getFounderBuildRoomSnapshot(checkedAt);
+  const designMinistry = getDesignMinistrySnapshot(checkedAt);
 
   const desktopApp: FounderCommandDeviceBlueprint = {
     platform: "desktop",
@@ -478,6 +480,18 @@ export function getFounderCommandAppSnapshot(
     engineeringOpsQuality: {
       engineeringTasks: room.briefing.engineeringTasks,
       opsHealth: command.ops,
+      designMinistry: {
+        status: designMinistry.status,
+        authorities: designMinistry.authorities.map((authority) => authority.label),
+        planIdentities: designMinistry.planIdentities.map((identity) => ({
+          label: identity.publicLabel,
+          state: identity.state,
+          audience: identity.audience,
+        })),
+        platformExperiences: designMinistry.platformExperiences.length,
+        publicLanguageGuarded:
+          designMinistry.diagnostics.publicLanguageGuarded,
+      },
       visualAcceptance: {
         status: visualAcceptance.status,
         averageScoreEstimate: visualAcceptance.averageScoreEstimate,

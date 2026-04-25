@@ -2,6 +2,8 @@
 
 Plan identity gives each public plan a clear product feel while keeping the trading workstation clean, professional, and chart-first.
 
+The Ministry of Visual Identity, Plan Experience & Platform Design owns plan style internally. Normal public UI must only show Free, Pro, VIP, and Institutional plan language.
+
 ## Free
 
 Visual direction:
@@ -59,8 +61,25 @@ Institutional remains future planned. Do not expose legacy internal compatibilit
 
 ## Owner-Only Internal Visuals
 
-Private command visuals may use stronger internal command language and deeper operating-system identity, but they are private and hidden from public navigation. Private command tooling is not a plan identity and cannot appear as an upgrade.
+Private command visuals may use stronger internal command language and deeper command identity, but they are private and hidden from public navigation. Private command tooling is not a plan identity and cannot appear as an upgrade.
+
+Visual direction:
+- graphite / gold / subtle Swiss red
+- serious command density
+- owner-only readiness
+- no public navigation
+- no approval execution
 
 ## Acceptance Rules
 
 Free surfaces should feel familiar and simple. Pro and VIP carry deeper TPM differentiation as planned/locked truth unless entitlement exists. Institutional remains future. No color treatment may imply paid activation, VIP access, live execution, billing, broker/feed activation, or public launch.
+
+## Ministry Readiness Contract
+
+The internal ministry keeps:
+
+- Free familiar, paper-safe, clean, and premium.
+- Pro graphite / emerald / silver.
+- VIP black / gold / platinum.
+- Institutional navy / platinum / cyan.
+- Founder Command graphite / gold / subtle Swiss red and internal only.
