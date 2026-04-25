@@ -479,6 +479,12 @@ test.describe("verified platform truth", () => {
           hasPulse: Boolean(element.querySelector(".tpm-earth-pulse")),
           hasSegment: Boolean(element.querySelector(".tpm-earth-orbit-segment")),
           hasMarketMove: Boolean(element.querySelector(".tpm-earth-market-move")),
+          hasMoonOrbit: Boolean(element.querySelector(".tpm-earth-moon-orbit")),
+          hasMoon: Boolean(element.querySelector(".tpm-earth-moon")),
+          hasGoldMapEdge: Boolean(element.querySelector(".tpm-earth-map-edge")),
+          hasPrimaryGoldMapEdge: Boolean(
+            element.querySelector(".tpm-earth-map-edge-primary")
+          ),
         }));
         expect(heroMarkContracts).toMatchObject({
           hasBEMVariant: true,
@@ -486,13 +492,17 @@ test.describe("verified platform truth", () => {
           hasPulse: true,
           hasSegment: true,
           hasMarketMove: true,
+          hasMoonOrbit: true,
+          hasMoon: true,
+          hasGoldMapEdge: true,
+          hasPrimaryGoldMapEdge: true,
         });
         const heroMarkBackground = await heroMark.evaluate((element) =>
           window.getComputedStyle(element).backgroundColor
         );
         expect(heroMarkBackground).toMatch(/rgba\(0, 0, 0, 0\)|transparent/);
         await expect(page.locator("body")).toContainText(
-          /Free paper-safe access|Swiss precision identity|Live execution blocked/
+          /Free paper-safe access|Celestial Swiss Earth Mark|Live execution blocked/
         );
         await expect(page.locator("body")).toContainText(
           /Plans at a glance|Free|Pro|VIP|Institutional|Familiar paper trading/
@@ -506,6 +516,15 @@ test.describe("verified platform truth", () => {
       }
 
       if (route.path === "/" || route.path === "/en") {
+        if (route.path === "/en") {
+          const topbarMark = page
+            .locator(".tpmv2-topbar-brand .tpm-earth-mark-compact")
+            .first();
+          await expect(topbarMark).toBeVisible();
+          await expect(topbarMark).toHaveAttribute("data-variant", "compact");
+          await expect(topbarMark).toHaveAttribute("data-animated", "true");
+          await expect(topbarMark.locator(".tpm-earth-moon")).toHaveCount(1);
+        }
         await expect(page.locator(".tpmv2-command-center").first()).toBeVisible();
         await expect(page.locator(".tpmv2-brain-deck").first()).toBeHidden();
         await expect(page.locator(".tpmv2-workspace-depth-bar").first()).toBeVisible();
@@ -658,10 +677,32 @@ test.describe("verified platform truth", () => {
     expect(css).toContain(".tpm-earth-mark--paper-safe");
     expect(css).toContain(".tpm-earth-mark--command");
     expect(css).toContain(".tpm-earth-mark--motion-none");
+    expect(css).toContain(".tpm-earth-mark--motion-command");
     expect(css).toContain(".tpm-earth-mark--surface-workstation");
+    expect(css).toContain(".tpm-earth-moon-orbit");
+    expect(css).toContain(".tpm-earth-moon-carrier");
+    expect(css).toContain(".tpm-earth-map-edge");
+    expect(css).toContain("tpm-earth-moon-orbit");
+    expect(css).toContain("tpm-earth-gold-edge-shimmer");
     expect(css).toContain("tpm-earth-orbit-breathe");
     expect(css).toContain("tpm-earth-point-pulse");
     expect(css).toContain("prefers-reduced-motion: reduce");
+
+    const earthMarkSource = fs.readFileSync(
+      "modules/brand/components/TPMEarthMark.tsx",
+      "utf8"
+    );
+    expect(earthMarkSource).toContain("tpm-earth-moon-orbit");
+    expect(earthMarkSource).toContain("tpm-earth-moon");
+    expect(earthMarkSource).toContain("tpm-earth-map-edge");
+    expect(earthMarkSource).toContain("tpm-earth-map-edge-primary");
+    expect(earthMarkSource).not.toMatch(/<image|<img|\\.png|\\.jpg|\\.gif/i);
+
+    const appIconSource = fs.readFileSync("app/icon.svg", "utf8");
+    expect(appIconSource).toContain("Trading Pro Max Celestial Swiss Earth Mark");
+    expect(appIconSource).toContain("rx=\"29.6\"");
+    expect(appIconSource).toContain("stroke=\"#f4d37a\"");
+    expect(appIconSource).not.toMatch(/<image|<img|\\.png|\\.jpg|\\.gif/i);
 
     const identityDocs = [
       "docs/product/living-earth-mark.md",
@@ -692,6 +733,9 @@ test.describe("verified platform truth", () => {
 
     const livingMarkDoc = fs.readFileSync("docs/product/living-earth-mark.md", "utf8");
     expect(livingMarkDoc).toContain("SVG-only");
+    expect(livingMarkDoc).toContain("Celestial Swiss Earth Mark");
+    expect(livingMarkDoc).toContain("gold coast/edge strokes");
+    expect(livingMarkDoc).toContain("moon orbiting Earth");
     expect(livingMarkDoc).toContain("prefers-reduced-motion");
     expect(livingMarkDoc).toContain("ready");
     expect(livingMarkDoc).toContain("paper_safe");

@@ -1,5 +1,9 @@
 # Swiss Precision Identity
+## Celestial Swiss Precision Direction
 
+The Swiss influence is geometric discipline, watch-like calm motion, crisp spacing, and small red precision accents. It is not a Swiss legal, company, banking, regulatory, or certification claim.
+
+The Celestial Swiss Earth Mark may use a tiny Swiss red pulse point, graphite/gold/silver/cyan palette, and precise moon-orbit motion. It must avoid copied watch-brand styling, oversized flag symbolism, noisy glow, or casino/neon visual behavior.
 Trading Pro Max may use Swiss-inspired precision as a design and trust principle. It must not claim Swiss legal status, Swiss company registration, Swiss regulation, Swiss banking status, or Swiss certification unless those facts become real and documented.
 
 ## Identity Principles

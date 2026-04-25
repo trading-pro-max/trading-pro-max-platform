@@ -1,5 +1,9 @@
 # TPM Living Brand Intelligence
+## Brand Intelligence Reset Input
 
+Founder preference now includes a hard rejection of the previous visual direction. Brand Intelligence should prefer the Celestial Swiss Earth Mark, low-noise chart-first surfaces, fewer boxes, fewer borders, and code/SVG identity only.
+
+Brand Intelligence must continue to block raster/external logo assets, fake Swiss legal/company claims, fake partnerships, fake paid activation, internal terminology leaks, casino/neon chaos, and motion that distracts from the chart.
 TPM Living Brand Intelligence is the safe identity decision layer for Trading Pro Max. It does not generate images, fetch raster assets, copy competitors, or activate any product capability. It chooses the correct code/SVG identity behavior for each surface, plan, state, audience, theme, occasion, and motion preference.
 
 ## Inputs

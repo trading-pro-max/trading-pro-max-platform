@@ -1,5 +1,9 @@
 # Final Gap Checklist
 
+## Visual Reset Gap
+
+Before visual acceptance, Ahmad must review the new Celestial Swiss Earth Mark, public/compact/command logo variants, reduced-motion behavior, chart-focus screenshot, workstation dark/light/ultrawide, settings, diagnostics, plan surfaces, Assistant open state, and Arabic RTL workstation. This does not evaluate global launch readiness.
+
 This checklist is the strict pre-launch gap map. It separates current product readiness from items that require real external values, controlled testing, real users, or final launch authority.
 
 Status key:

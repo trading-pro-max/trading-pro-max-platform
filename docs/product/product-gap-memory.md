@@ -1,5 +1,9 @@
 # Product Gap Memory
 
+## Current Visual Gaps
+
+Open visual gaps now include: previous logo rejected, desired Celestial Swiss Earth Mark with gold world-map edges and moon orbit, chart currently visually annoying, public/product UI still too boxed, and product must feel more premium. These are safe product notes only, not private user data or launch approval.
+
 Product Gap Memory prevents known problems from being rediscovered and repeated.
 
 Tracked gap categories:

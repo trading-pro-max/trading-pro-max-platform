@@ -1,5 +1,9 @@
 # Platform Design System
 
+## Reset Direction
+
+Ahmad rejected the previous visible direction as not premium enough. The design system must now favor deeper chart surfaces, fewer boxes, fewer borders, disciplined spacing, compact controls, and a world-class trading terminal feel. This is a code/CSS/SVG reset only and does not add raster assets or activate launch scope.
+
 The Trading Pro Max platform design system keeps all surfaces recognizable as one product while adapting density and hierarchy to each platform.
 
 ## Core System

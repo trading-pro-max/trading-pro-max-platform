@@ -56,3 +56,14 @@ Canonical runtime component:
 - `app/theme-localization.css`
 
 The component exposes `variant`, `state`, `animated`, `size`, `className`, and `title` props. Decorative instances may omit a title and become `aria-hidden`; meaningful public hero instances use an accessible title.
+
+## Rejected Direction Reset
+
+Ahmad rejected the previous logo direction as not distinctive or premium enough. The accepted direction for this pass is the TPM Celestial Swiss Earth Mark:
+
+- Earth globe with visible longitude and latitude geometry.
+- Abstract world-map paths with gold coast/edge strokes.
+- Small moon orbiting Earth with a visible premium orbit path.
+- Swiss red micro-accent only; Swiss-inspired precision, not Swiss legal/company status.
+- Code/SVG only; no generated images, raster files, GIF, video, copied maps, or external image assets.
+- Motion must be felt in public and compact identity, quieter on workstation, stronger only on Founder/internal command surfaces, and static under reduced motion.

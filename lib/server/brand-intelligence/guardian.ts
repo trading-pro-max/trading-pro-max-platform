@@ -11,7 +11,7 @@ type IdentityGuardianInput = {
   audience: BrandAudience;
   surface: BrandSurface;
   copy?: string;
-  motionIntensity?: "none" | "low" | "medium" | "high";
+  motionIntensity?: "none" | "low" | "medium" | "command";
   chartPriority?: "low" | "medium" | "high";
   occasionTheme?: string;
 };
@@ -77,8 +77,8 @@ export function reviewIdentityExpression(
     }
   }
 
-  if (input.chartPriority === "high" && input.motionIntensity === "high") {
-    blockedReasons.push("High motion is blocked on chart-priority surfaces.");
+  if (input.chartPriority === "high" && input.motionIntensity === "command") {
+    blockedReasons.push("Command motion is blocked on chart-priority surfaces.");
     requiredReviews.add("Visual Quality");
   }
 
@@ -143,7 +143,7 @@ export function getIdentityGuardianSnapshot(checkedAt = new Date().toISOString()
       chartHighMotion: reviewIdentityExpression({
         audience: "authenticated_user",
         surface: "workstation",
-        motionIntensity: "high",
+        motionIntensity: "command",
         chartPriority: "high",
       }, checkedAt),
     },

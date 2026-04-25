@@ -1,5 +1,9 @@
 # State Visual Language
 
+## Reset Direction
+
+State visuals must support the calmer premium reset. Blocked does not look broken, planned does not look active, paper-safe feels trustworthy, local-only never implies launch, and chart-priority surfaces keep motion low. The Celestial Swiss Earth Mark may express state through moon orbit pace, gold edge intensity, and a tiny Swiss red micro-accent only.
+
 Trading Pro Max uses state visuals to explain product truth quickly without overwhelming the trading workspace.
 
 ## Public-Safe State Terms

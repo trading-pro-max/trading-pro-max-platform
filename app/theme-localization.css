@@ -2355,7 +2355,8 @@ html[data-theme="light"] .tpm-brand-lockup-hero .tpm-brand-subline {
   --tpm-earth-pulse-duration: 5.2s;
 }
 
-.tpm-earth-mark--motion-high {
+.tpm-earth-mark--motion-high,
+.tpm-earth-mark--motion-command {
   --tpm-earth-orbit-duration: 12s;
   --tpm-earth-pulse-duration: 4.6s;
 }
@@ -6181,5 +6182,457 @@ html[data-theme="light"] .tpmv2-chart-surface {
 
   .tpmv2-chart-surface {
     min-height: clamp(520px, 70svh, 780px);
+  }
+}
+
+/* Full visual identity reset: Celestial Swiss Earth Mark and calmer terminal surfaces */
+:root {
+  --tpm-celestial-graphite: #04080f;
+  --tpm-celestial-panel: rgba(7, 12, 20, 0.86);
+  --tpm-celestial-panel-soft: rgba(12, 20, 31, 0.72);
+  --tpm-celestial-gold: #f1c96b;
+  --tpm-celestial-gold-deep: #b57b22;
+  --tpm-celestial-silver: #dbe7f6;
+  --tpm-celestial-cyan: #35d6c4;
+  --tpm-celestial-blue: #5d83d8;
+  --tpm-celestial-red: #d72638;
+  --tpm-celestial-border: rgba(219, 231, 246, 0.12);
+  --tpm-celestial-border-gold: rgba(241, 201, 107, 0.2);
+}
+
+html[data-theme="light"] {
+  --tpm-celestial-graphite: #f7fafc;
+  --tpm-celestial-panel: rgba(255, 255, 255, 0.84);
+  --tpm-celestial-panel-soft: rgba(246, 250, 253, 0.82);
+  --tpm-celestial-gold: #a66f13;
+  --tpm-celestial-gold-deep: #80520e;
+  --tpm-celestial-silver: #162235;
+  --tpm-celestial-cyan: #0f8f82;
+  --tpm-celestial-blue: #2855c8;
+  --tpm-celestial-border: rgba(15, 23, 42, 0.1);
+  --tpm-celestial-border-gold: rgba(166, 111, 19, 0.18);
+}
+
+.tpm-earth-mark {
+  --tpm-earth-gold: var(--tpm-celestial-gold);
+  --tpm-earth-red: var(--tpm-celestial-red);
+  --tpm-earth-stroke: color-mix(in srgb, var(--tpm-celestial-silver) 86%, transparent);
+  --tpm-earth-fill: color-mix(in srgb, var(--tpm-celestial-graphite) 72%, transparent);
+  --tpm-earth-moon-duration: 18s;
+  --tpm-earth-map-duration: 7.5s;
+  --tpm-earth-state-accent: var(--tpm-celestial-cyan);
+  background: transparent;
+}
+
+.tpm-earth-mark--public {
+  --tpm-earth-size: clamp(74px, 7.2vw, 104px);
+  --tpm-earth-moon-duration: 18s;
+}
+
+.tpm-earth-mark--compact {
+  --tpm-earth-size: 42px;
+  --tpm-earth-moon-duration: 24s;
+  --tpm-earth-orbit-opacity: 0.74;
+  --tpm-earth-soft-orbit-opacity: 0.32;
+}
+
+.tpm-earth-mark--command {
+  --tpm-earth-size: 82px;
+  --tpm-earth-moon-duration: 13s;
+  --tpm-earth-map-duration: 5.8s;
+  --tpm-earth-orbit-opacity: 0.96;
+}
+
+.tpm-earth-mark--surface-workstation {
+  --tpm-earth-size: 38px;
+  --tpm-earth-moon-duration: 28s;
+  --tpm-earth-orbit-opacity: 0.54;
+  --tpm-earth-soft-orbit-opacity: 0.2;
+}
+
+.tpm-earth-mark--motion-command {
+  --tpm-earth-moon-duration: 12s;
+  --tpm-earth-map-duration: 5.5s;
+  --tpm-earth-orbit-opacity: 0.98;
+}
+
+.tpm-earth-mark--motion-none {
+  --tpm-earth-moon-duration: 0s;
+  --tpm-earth-map-duration: 0s;
+}
+
+.tpm-earth-moon-track {
+  fill: none;
+  stroke: color-mix(in srgb, var(--tpm-earth-gold) 70%, transparent);
+  stroke-dasharray: 2.6 6.2;
+  stroke-linecap: round;
+  stroke-width: 1.25;
+  opacity: var(--tpm-earth-orbit-opacity);
+}
+
+.tpm-earth-moon-orbit {
+  pointer-events: none;
+  transform-box: view-box;
+  transform-origin: 36px 36px;
+}
+
+.tpm-earth-moon-carrier {
+  transform-box: view-box;
+  transform-origin: 36px 36px;
+}
+
+.tpm-earth-moon-shadow {
+  fill: rgba(0, 0, 0, 0.22);
+}
+
+.tpm-earth-moon {
+  fill: color-mix(in srgb, var(--tpm-celestial-silver) 86%, white 14%);
+  stroke: var(--tpm-earth-gold);
+  stroke-width: 0.9;
+}
+
+.tpm-earth-celestial-globe {
+  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.22));
+}
+
+.tpm-earth-grid .tpm-earth-line {
+  stroke-width: 1.05;
+}
+
+.tpm-earth-map-edge,
+.tpm-earth-map-coast {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.tpm-earth-map-edge {
+  stroke: var(--tpm-earth-gold);
+  stroke-width: 1.85;
+  opacity: 0.95;
+}
+
+.tpm-earth-map-edge-primary {
+  stroke-width: 2.15;
+}
+
+.tpm-earth-map-coast {
+  stroke: color-mix(in srgb, var(--tpm-earth-gold) 74%, var(--tpm-earth-stroke));
+  stroke-width: 1.05;
+  opacity: 0.72;
+}
+
+.tpm-earth-market-mini {
+  opacity: 0.72;
+}
+
+.tpm-earth-mark--animated .tpm-earth-moon-carrier {
+  animation: tpm-earth-moon-orbit var(--tpm-earth-moon-duration) linear infinite;
+}
+
+.tpm-earth-mark--animated .tpm-earth-map-edge {
+  animation: tpm-earth-gold-edge-shimmer var(--tpm-earth-map-duration) ease-in-out infinite;
+}
+
+.tpm-earth-mark--surface-workstation .tpm-earth-map-edge,
+.tpm-earth-mark--surface-workstation .tpm-earth-moon-track {
+  opacity: 0.58;
+}
+
+.tpm-earth-mark--blocked .tpm-earth-moon-carrier,
+.tpm-earth-mark--inactive .tpm-earth-moon-carrier,
+.tpm-earth-mark--planned .tpm-earth-moon-carrier {
+  animation-play-state: paused;
+}
+
+@keyframes tpm-earth-moon-orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes tpm-earth-gold-edge-shimmer {
+  0%,
+  100% {
+    opacity: 0.72;
+    stroke-dashoffset: 0;
+  }
+  48% {
+    opacity: 1;
+    stroke-dashoffset: -5;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tpm-earth-mark--animated .tpm-earth-moon-carrier,
+  .tpm-earth-mark--animated .tpm-earth-map-edge,
+  .tpm-earth-mark--animated .tpm-earth-orbit,
+  .tpm-earth-mark--animated .tpm-earth-pulse,
+  .tpm-earth-mark--animated .tpm-earth-swiss-point {
+    animation: none;
+  }
+}
+
+.tpm-brand-wordmark {
+  letter-spacing: 0;
+}
+
+.tpm-brand-wordmark span {
+  color: var(--tpm-celestial-gold);
+}
+
+.tpm-product-entry {
+  background:
+    radial-gradient(circle at 18% 12%, color-mix(in srgb, var(--tpm-celestial-gold) 13%, transparent), transparent 29rem),
+    radial-gradient(circle at 82% 18%, color-mix(in srgb, var(--tpm-celestial-cyan) 10%, transparent), transparent 32rem),
+    linear-gradient(180deg, color-mix(in srgb, var(--tpm-celestial-graphite) 88%, #101827 12%), var(--tpm-bg));
+}
+
+.tpm-product-hero {
+  border-color: color-mix(in srgb, var(--tpm-celestial-gold) 14%, transparent);
+  border-radius: 16px;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--tpm-celestial-panel) 86%, transparent), color-mix(in srgb, var(--tpm-celestial-panel-soft) 72%, transparent)),
+    radial-gradient(circle at 30% 20%, color-mix(in srgb, var(--tpm-celestial-gold) 10%, transparent), transparent 24rem);
+  box-shadow:
+    0 30px 90px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.tpm-product-hero-logo .tpm-brand-mark {
+  --tpm-brand-mark-size: clamp(82px, 7vw, 108px);
+}
+
+.tpm-product-hero h1 {
+  max-width: 780px;
+  letter-spacing: 0;
+}
+
+.tpm-product-signal-card,
+.tpm-product-card,
+.tpm-product-truth-strip,
+.tpm-foundation-card,
+.tpm-utility-card {
+  border-color: color-mix(in srgb, var(--tpm-celestial-border) 84%, transparent);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.16);
+}
+
+.tpm-product-card:nth-child(1) {
+  border-color: color-mix(in srgb, var(--tpm-celestial-cyan) 22%, var(--tpm-celestial-border));
+}
+
+.tpm-product-card:nth-child(2) {
+  border-color: color-mix(in srgb, #35d399 24%, var(--tpm-celestial-border));
+}
+
+.tpm-product-card:nth-child(3) {
+  border-color: color-mix(in srgb, var(--tpm-celestial-gold) 28%, var(--tpm-celestial-border));
+}
+
+.tpm-product-card:nth-child(4) {
+  border-color: color-mix(in srgb, #5da7ff 26%, var(--tpm-celestial-border));
+}
+
+.tpmv2-shell-desktop,
+.tpmv2-main {
+  background:
+    radial-gradient(circle at 50% -8%, rgba(241, 201, 107, 0.08), transparent 34rem),
+    linear-gradient(180deg, rgba(3, 7, 13, 0.94), rgba(2, 5, 10, 0.98));
+}
+
+.tpmv2-topbar,
+.tpmv2-command-center,
+.tpmv2-workspace-depth-bar-compact {
+  border-color: color-mix(in srgb, var(--tpm-celestial-border-gold) 58%, transparent);
+  background: color-mix(in srgb, var(--tpm-celestial-panel) 88%, transparent);
+}
+
+.tpmv2-chart-surface {
+  --tpmv2-dock-space: 174px;
+  --tpmv2-left-tools: 46px;
+  min-height: clamp(760px, calc(100svh - 116px), 1260px);
+  border-color: rgba(219, 231, 246, 0.1);
+  background:
+    radial-gradient(circle at 18% 18%, rgba(53, 214, 196, 0.07), transparent 28rem),
+    radial-gradient(circle at 84% 22%, rgba(241, 201, 107, 0.055), transparent 30rem),
+    linear-gradient(180deg, #040910 0%, #02060b 54%, #020409 100%);
+  box-shadow:
+    0 32px 82px rgba(0, 0, 0, 0.46),
+    inset 0 1px 0 rgba(255, 255, 255, 0.035),
+    inset 0 -160px 190px rgba(0, 0, 0, 0.32);
+}
+
+.tpmv2-chart-surface::before {
+  inset: 66px var(--tpmv2-dock-space) 54px var(--tpmv2-left-tools);
+  border-color: rgba(219, 231, 246, 0.075);
+  background: rgba(0, 0, 0, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(53, 214, 196, 0.025);
+}
+
+.tpmv2-chart-surface::after {
+  opacity: 0.18;
+}
+
+.tpmv2-chart-grid-bg {
+  opacity: 0.54;
+  background-size: 100% 92px, 96px 100%, 100% 23px, 24px 100%;
+}
+
+.tpmv2-chart-market-structure,
+.tpmv2-chart-liquidity-zone,
+.tpmv2-chart-session-zone {
+  opacity: 0.16;
+}
+
+.tpmv2-chart-plot {
+  inset: 114px var(--tpmv2-dock-space) 72px var(--tpmv2-left-tools);
+}
+
+.tpmv2-chart-line-stroke {
+  stroke: #42e6ce;
+  stroke-width: 2.05;
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.28));
+}
+
+.tpmv2-chart-area-fill {
+  fill: rgba(53, 214, 196, 0.07);
+}
+
+.tpmv2-candles {
+  gap: clamp(6px, 0.74vw, 13px);
+}
+
+.tpmv2-candle {
+  width: clamp(8px, 0.5vw, 11px);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 7px 16px rgba(0, 0, 0, 0.24);
+}
+
+.tpmv2-candle.up {
+  background: linear-gradient(180deg, #8df9e9, #2ccfba 54%, #0f8f82);
+}
+
+.tpmv2-candle.down {
+  background: linear-gradient(180deg, #a4b8ff, #5d83d8 54%, #2f53b8);
+}
+
+.tpmv2-chart-volume {
+  opacity: 0.36;
+}
+
+.tpmv2-chart-floating-bar,
+.tpmv2-chart-toolbar,
+.tpmv2-chart-tool-rail,
+.tpmv2-chart-indicator-dock,
+.tpmv2-chart-zoom-controls,
+.tpmv2-chart-ai-panel,
+.tpmv2-chart-depth-panel {
+  border-color: rgba(219, 231, 246, 0.09);
+  background: rgba(4, 9, 16, 0.64);
+  backdrop-filter: blur(16px);
+}
+
+.tpmv2-chart-toolbar,
+.tpmv2-chart-indicator-dock,
+.tpmv2-chart-zoom-controls,
+.tpmv2-chart-tool-rail {
+  opacity: 0.16;
+}
+
+.tpmv2-chart-surface:hover .tpmv2-chart-toolbar,
+.tpmv2-chart-surface:hover .tpmv2-chart-indicator-dock,
+.tpmv2-chart-surface:hover .tpmv2-chart-zoom-controls,
+.tpmv2-chart-surface:hover .tpmv2-chart-tool-rail,
+.tpmv2-chart-surface:focus-within .tpmv2-chart-toolbar,
+.tpmv2-chart-surface:focus-within .tpmv2-chart-indicator-dock,
+.tpmv2-chart-surface:focus-within .tpmv2-chart-zoom-controls,
+.tpmv2-chart-surface:focus-within .tpmv2-chart-tool-rail {
+  opacity: 0.74;
+}
+
+.tpmv2-chart-ai-panel {
+  opacity: 0.58;
+}
+
+.tpmv2-chart-depth-panel {
+  opacity: 0.08;
+}
+
+.tpmv2-chart-surface:hover .tpmv2-chart-depth-panel,
+.tpmv2-chart-surface:focus-within .tpmv2-chart-depth-panel {
+  opacity: 0.58;
+}
+
+.tpmv2-chart-price-marker span {
+  background: linear-gradient(180deg, #62ead8, #129987);
+  box-shadow: 0 0 18px rgba(53, 214, 196, 0.18);
+}
+
+.tpmv2-execution {
+  border-color: color-mix(in srgb, var(--tpm-celestial-gold) 18%, var(--tpm-celestial-border));
+  background:
+    linear-gradient(180deg, rgba(12, 19, 30, 0.9), rgba(5, 10, 17, 0.92)),
+    var(--tpm-celestial-panel);
+}
+
+.tpm-companion-launcher,
+.tpm-companion-panel {
+  border-color: color-mix(in srgb, var(--tpm-celestial-gold) 22%, var(--tpm-celestial-border));
+}
+
+.tpm-companion-panel {
+  background: color-mix(in srgb, var(--tpm-celestial-panel) 92%, transparent);
+}
+
+html[data-theme="light"] .tpm-product-entry {
+  background:
+    radial-gradient(circle at 18% 12%, rgba(166, 111, 19, 0.09), transparent 29rem),
+    radial-gradient(circle at 82% 18%, rgba(15, 143, 130, 0.08), transparent 32rem),
+    linear-gradient(180deg, #f4f8fb, #e8eef4);
+}
+
+html[data-theme="light"] .tpmv2-shell-desktop,
+html[data-theme="light"] .tpmv2-main {
+  background: linear-gradient(180deg, #eef4f8, #dce7ef);
+}
+
+html[data-theme="light"] .tpmv2-chart-surface {
+  border-color: rgba(15, 23, 42, 0.12);
+  background:
+    radial-gradient(circle at 18% 18%, rgba(15, 143, 130, 0.08), transparent 28rem),
+    radial-gradient(circle at 84% 22%, rgba(166, 111, 19, 0.06), transparent 30rem),
+    linear-gradient(180deg, #f6fafc 0%, #e1ebf2 54%, #d5e1ea 100%);
+  box-shadow:
+    0 28px 68px rgba(15, 23, 42, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.74);
+}
+
+html[data-theme="light"] .tpmv2-chart-floating-bar,
+html[data-theme="light"] .tpmv2-chart-toolbar,
+html[data-theme="light"] .tpmv2-chart-tool-rail,
+html[data-theme="light"] .tpmv2-chart-indicator-dock,
+html[data-theme="light"] .tpmv2-chart-zoom-controls,
+html[data-theme="light"] .tpmv2-chart-ai-panel,
+html[data-theme="light"] .tpmv2-chart-depth-panel,
+html[data-theme="light"] .tpmv2-execution {
+  background: rgba(255, 255, 255, 0.76);
+  border-color: rgba(15, 23, 42, 0.1);
+}
+
+@media (min-width: 1600px) {
+  .tpmv2-desktop-master,
+  .tpmv2-desktop-master.tpmv2-desktop-master-focus-chart:not(.tpmv2-desktop-master-ticket-hidden) {
+    grid-template-columns: minmax(0, 1fr) clamp(328px, 17vw, 380px);
+  }
+}
+
+@media (max-width: 900px) {
+  .tpmv2-chart-surface {
+    --tpmv2-dock-space: 18px;
+    --tpmv2-left-tools: 14px;
+    min-height: clamp(540px, 72svh, 820px);
   }
 }

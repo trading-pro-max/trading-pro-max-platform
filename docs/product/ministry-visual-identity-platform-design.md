@@ -1,5 +1,9 @@
 # Ministry of Visual Identity, Plan Experience & Platform Design
 
+## Founder Rejection Record
+
+Ahmad rejected the current logo, chart feel, and overall visible product direction. The ministry must treat the Celestial Swiss Earth Mark, calmer chart reconstruction, less boxed public UI, and stricter premium trading-platform hierarchy as active visual acceptance requirements until Ahmad signs off.
+
 This internal ministry owns the visual identity and platform design system for Trading Pro Max. It is an internal Founder/operations structure only; normal users must not see ministry terminology in public UI.
 
 ## Mission

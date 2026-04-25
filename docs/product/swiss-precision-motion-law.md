@@ -1,5 +1,9 @@
 # Swiss Precision Motion Law
 
+## Celestial Motion Reset
+
+Motion must be clearly felt but premium and calm: visible moon orbit, subtle gold map-edge shimmer, and tiny Swiss red pulse only. Workstation motion stays low, command motion stays internal, and reduced motion freezes the moon and shimmer. No rapid spin, flashing, casino glow, or chart distraction is allowed.
+
 Motion in Trading Pro Max must feel precise, calm, and meaningful. It is a readiness signal, not decoration.
 
 ## Motion Principles

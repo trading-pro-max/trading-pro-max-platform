@@ -1,5 +1,9 @@
 # Founder Acceptance Memory
 
+## Visual Rejection Memory
+
+Ahmad rejected the previous visual direction. Founder acceptance now requires review of the Celestial Swiss Earth Mark, visible moon orbit, gold world-map edges, calmer chart, less boxed public entry, and a more premium trading terminal feel. Final visual acceptance remains Ahmad-only.
+
 Founder Acceptance Memory records local product review decisions without secrets or personal sensitive data.
 
 Allowed states:

@@ -32,6 +32,9 @@ export const founderMemoryPreferenceRules = [
   "no fake claims",
   "no rush to launch",
   "final visual acceptance requires Ahmad approval",
+  "current visual direction was rejected and must be reset",
+  "desired logo is Earth with gold world-map edges and visible moon orbit",
+  "chart must be calmer, deeper, and less annoying",
 ];
 
 export function getFounderAcceptanceMemoryItems(
@@ -48,6 +51,23 @@ export function getFounderAcceptanceMemoryItems(
         tags: ["visual", "acceptance", "command-3"],
         source: "visual-simplification-global-standard",
         relatedArea: "public interface",
+        sensitivity: "internal",
+        visibility: "founder_only",
+        productTruthImpact: "preserves_truth",
+        founderDecisionImpact: "acceptance_required",
+      },
+      checkedAt
+    ),
+    createProductMemoryDraft(
+      {
+        domain: "visual_feedback",
+        title: "Full visual identity reset required",
+        summary:
+          "Ahmad rejected the current visual direction. The reset direction is a code-only Celestial Swiss Earth Mark with gold world-map edges and moon orbit, plus a calmer premium chart rebuild and less boxed product surface.",
+        status: "needs_polish",
+        tags: ["visual-rejection", "celestial-earth-mark", "chart-rebuild"],
+        source: "full-visual-identity-reset",
+        relatedArea: "brand and workstation",
         sensitivity: "internal",
         visibility: "founder_only",
         productTruthImpact: "preserves_truth",

@@ -13,7 +13,7 @@ export type BrandSurface =
   | "mobile_future"
   | "desktop_future";
 
-export type BrandMotionIntensity = "none" | "low" | "medium" | "high";
+export type BrandMotionIntensity = "none" | "low" | "medium" | "command";
 
 export type BrandOccasionThemeKey =
   | "default"

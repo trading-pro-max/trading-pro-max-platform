@@ -58,7 +58,9 @@ function motionFor(input: Required<BrandIntelligenceInput>): BrandMotionIntensit
   if (input.reducedMotion || input.motionPreference === "reduced") return "none";
   if (input.surface === "workstation") return "low";
   if (input.surface === "founder_command" || input.surface === "local_command") {
-    return input.audience === "founder" || input.audience === "internal" ? "medium" : "low";
+    return input.audience === "founder" || input.audience === "internal"
+      ? "command"
+      : "low";
   }
   if (input.state === "blocked" || input.state === "inactive" || input.state === "planned") {
     return "none";
@@ -69,7 +71,7 @@ function motionFor(input: Required<BrandIntelligenceInput>): BrandMotionIntensit
 function intensityFor(input: Required<BrandIntelligenceInput>): BrandMotionIntensity {
   if (input.surface === "workstation") return "low";
   if (input.plan === "vip") return "medium";
-  if (input.plan === "founder") return "high";
+  if (input.plan === "founder") return "command";
   return "low";
 }
 

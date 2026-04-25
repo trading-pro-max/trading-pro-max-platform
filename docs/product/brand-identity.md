@@ -1,10 +1,16 @@
 # Trading Pro Max Brand Identity
 
+## Full Visual Identity Reset
+
+Ahmad rejected the prior visible direction. Trading Pro Max identity must now move to the Celestial Swiss Earth Mark: a code-only Earth globe with longitude/latitude grid, abstract gold-edged world map, small moon orbit, and a disciplined Swiss red micro-accent.
+
+The product visual language must become calmer, more premium, less boxed, and more like a world-class trading platform. This reset does not activate launch, production, billing, broker/feed, live execution, real money, social publishing, paid plan access, Swiss legal/company claims, or certification claims.
+
 Trading Pro Max is a premium, paper-safe trading workstation. The brand should feel serious, fast to read, and globally credible without copying any competitor.
 
 ## Logo System
 
-- **Brand mark:** the TPM Living Earth Mark, an SVG-only digital globe with visible latitude/longitude geometry, a disciplined gold orbit, a subtle Swiss red precision point, and minimal market movement.
+- **Brand mark:** the TPM Celestial Swiss Earth Mark, an SVG-only Earth globe with latitude/longitude geometry, abstract gold world-map edges, visible moon orbit, and a subtle Swiss red precision point.
 - **Wordmark:** `Trading Pro Max`, with `Max` carrying the gold emphasis.
 - **Primary use:** mark plus wordmark in navigation, workstation topbar, public entry, auth/session, and docs.
 - **Small use:** the mark alone can be used for favicon/app icon, compact nav, future desktop icon, and future mobile icon.

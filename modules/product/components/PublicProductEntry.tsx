@@ -12,7 +12,7 @@ const platformSignals = [
   {
     label: "Workspace",
     value: "Chart first",
-    note: "A familiar market view with a clean paper ticket.",
+    note: "A calmer premium market view with a clean paper ticket.",
   },
   {
     label: "TPM Assistant",
@@ -81,7 +81,7 @@ export default function PublicProductEntry({
             <span className="tpm-product-kicker">Trading workspace</span>
             <div className="tpm-product-chip-row">
               <span className="tpm-product-chip">Free paper-safe access</span>
-              <span className="tpm-product-chip">Swiss precision identity</span>
+              <span className="tpm-product-chip">Celestial Swiss Earth Mark</span>
               <span className="tpm-product-chip">Live execution blocked</span>
             </div>
           </div>
@@ -93,16 +93,17 @@ export default function PublicProductEntry({
                 motionIntensity="low"
                 state="paper_safe"
                 surface="public_entry"
-                subtitle="Swiss-inspired intelligent trading workspace"
+                subtitle="Celestial Swiss trading identity"
                 variant="hero"
               />
               <h1>
-                A familiar paper-safe trading workspace with a sharper edge.
+                A calmer, chart-first trading workspace with a living Earth identity.
               </h1>
               <p>
-                Trading Pro Max opens around the chart, the watchlist, and a clear paper
-                execution ticket. Free stays simple and premium; Pro and VIP introduce deeper
-                professional layers only when real entitlement support exists.
+                Trading Pro Max opens around a deeper chart, a clear paper execution ticket,
+                and the Celestial Swiss Earth Mark. Free stays familiar and premium; Pro and
+                VIP introduce deeper professional layers only when real entitlement support
+                exists.
               </p>
 
               <div className="tpm-product-cta-row">

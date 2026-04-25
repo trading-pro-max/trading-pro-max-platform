@@ -5,6 +5,48 @@ import type { ProductGapMemory, ProductMemoryItem } from "./types";
 
 export const knownProductGaps: ProductGapMemory[] = [
   {
+    id: "gap-visual-direction-rejected",
+    category: "visual",
+    gap: "Current visual direction was rejected and must feel more premium, less boxed, and more world-class.",
+    severity: "high",
+    founderFeedback:
+      "Ahmad rejected the current visual direction; this is a full identity reset, not a small polish pass.",
+    affectedSurface: "Public entry, Trading Workspace, Settings, Diagnostics, plans, Assistant",
+    suggestedFix:
+      "Use Celestial Swiss Earth Mark, stronger premium hierarchy, fewer borders, calmer surfaces, and chart-first rhythm.",
+    ownerMinistry: "Brand + Product + Quality",
+    status: "needs_polish",
+    nextAction: "Capture full visual identity reset screenshots and require Ahmad review.",
+  },
+  {
+    id: "gap-celestial-earth-mark",
+    category: "visual",
+    gap: "Logo must become the Celestial Swiss Earth Mark with gold world-map edges and visible moon orbit.",
+    severity: "high",
+    founderFeedback:
+      "Previous logo was not accepted; desired identity is Earth with abstract gold-edged world map and a small moon orbit.",
+    affectedSurface: "Brand mark, public entry, topbar, settings, diagnostics, internal command surfaces",
+    suggestedFix:
+      "Keep the identity SVG/code-only with no raster assets, no copied maps, and reduced-motion safety.",
+    ownerMinistry: "Brand + Rights + Quality",
+    status: "needs_polish",
+    nextAction: "Verify SVG elements, moon orbit, gold map edges, and no giant dark block regression.",
+  },
+  {
+    id: "gap-chart-annoying",
+    category: "chart",
+    gap: "Chart has become visually annoying and needs a calmer premium terminal rebuild.",
+    severity: "high",
+    founderFeedback:
+      "Chart should stop feeling noisy or exhausting and become calmer, deeper, professional, and dominant.",
+    affectedSurface: "Trading Workspace chart",
+    suggestedFix:
+      "Reduce overlays and control opacity, deepen chart background, calm grid contrast, and preserve chart dominance.",
+    ownerMinistry: "Markets/Trading + Visual Quality",
+    status: "needs_polish",
+    nextAction: "Review chart-focus, dark, light, ultrawide, and RTL screenshots.",
+  },
+  {
     id: "gap-boxed-small-ui",
     category: "visual",
     gap: "Avoid boxed/small UI feeling on public entry and workstation.",

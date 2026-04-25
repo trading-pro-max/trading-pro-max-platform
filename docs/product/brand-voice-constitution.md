@@ -1,5 +1,9 @@
 # Brand Voice Constitution
 
+## Reset Voice Rule
+
+Visual language may say Swiss-inspired precision and Celestial Swiss Earth Mark, but must not imply Swiss legal/company status, regulation, certification, guaranteed profit, fake win-rate, fake paid activation, live execution, billing, broker/feed activation, public launch, or social publishing.
+
 Trading Pro Max speaks with calm precision. The voice should help users understand the platform, not pressure them into action.
 
 ## Voice Traits

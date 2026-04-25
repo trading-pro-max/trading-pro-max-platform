@@ -14,8 +14,11 @@ Identity Memory stores safe product identity preferences only. It does not store
 - no clutter
 - no boxed/small feeling
 - Earth Mark alive but calm
-- matrix Earth Mark preferred direction
+- previous logo rejected as not distinctive enough
+- Celestial Swiss Earth Mark direction
+- visible moon orbit around Earth
 - gold world-map edge preference
+- chart currently visually annoying and requires calmer rebuild
 - no fake claims
 - no competitor copying
 - no noisy animation

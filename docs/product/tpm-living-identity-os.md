@@ -1,5 +1,16 @@
 # TPM Living Identity OS
 
+## Visual Rejection Update
+
+Ahmad rejected the current logo, chart feel, and overall visible direction. Living Identity OS now treats the Celestial Swiss Earth Mark and calmer chart reconstruction as the active identity correction:
+
+- Earth, abstract gold world-map edges, and moon orbit are the signature code identity.
+- Free must feel like a familiar premium trading platform.
+- Pro and VIP must carry stronger differentiation without fake activation.
+- Institutional remains formal and future.
+- Founder Command remains internal/private.
+- The chart must feel calmer, deeper, less noisy, and more professional.
+
 TPM Living Identity OS is the identity system behind Trading Pro Max. It keeps the visible product simple, premium, and trading-first while preserving deeper internal command identity for owner-only surfaces.
 
 ## Living Brand Intelligence Extension

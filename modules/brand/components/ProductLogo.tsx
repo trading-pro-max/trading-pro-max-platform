@@ -52,7 +52,7 @@ export function BrandMark({
   occasionTheme,
   state = "paper_safe",
   surface,
-  title = "Trading Pro Max Earth Mark",
+  title = "Trading Pro Max Celestial Swiss Earth Mark",
   variant = "compact",
 }: BrandMarkProps) {
   return (
@@ -80,21 +80,29 @@ export function BrandWordmark({ className }: BrandWordmarkProps) {
 export default function ProductLogo({
   animated,
   className,
-  markTitle = "Trading Pro Max Earth Mark",
+  markTitle = "Trading Pro Max Celestial Swiss Earth Mark",
   mode = "lockup",
   motionIntensity,
   occasionTheme,
   showSubtitle = true,
   state,
   surface,
-  subtitle = "Global trading foundation",
+  subtitle = "Swiss-inspired trading workspace",
   variant = "nav",
 }: ProductLogoProps) {
   const showMark = mode !== "wordmark-only";
   const showWordmark = mode !== "mark-only";
   const markVariant = markVariantForLogo(variant);
   const markState = state ?? (variant === "command" ? "local_only" : "paper_safe");
-  const markAnimated = animated ?? (variant === "hero" || variant === "command");
+  const markAnimated =
+    animated ?? (variant === "hero" || variant === "command" || variant === "topbar");
+  const resolvedMotion =
+    motionIntensity ??
+    (variant === "command"
+      ? "command"
+      : markAnimated
+      ? "low"
+      : "none");
 
   return (
     <div
@@ -111,7 +119,7 @@ export default function ProductLogo({
         <BrandMark
           animated={markAnimated}
           className="tpm-brand-lockup-mark"
-          motionIntensity={motionIntensity ?? (markAnimated ? "low" : "none")}
+          motionIntensity={resolvedMotion}
           occasionTheme={occasionTheme}
           state={markState}
           surface={surface}

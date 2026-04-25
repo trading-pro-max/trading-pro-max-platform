@@ -1,5 +1,9 @@
 # Plan Visual Identity
 
+## Reset Direction
+
+Plan identity now inherits the Celestial Swiss Earth Mark and calmer chart-first surface. Free must feel like a familiar premium trading platform; Pro is professional and intelligent; VIP is black/gold/platinum premium without profit promises; Institutional is formal, navy/platinum/cyan, and future. Founder Command remains internal only and is not a public plan.
+
 Plan identity gives each public plan a clear product feel while keeping the trading workstation clean, professional, and chart-first.
 
 The Ministry of Visual Identity, Plan Experience & Platform Design owns plan style internally. Normal public UI must only show Free, Pro, VIP, and Institutional plan language.
