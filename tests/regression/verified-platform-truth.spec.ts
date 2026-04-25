@@ -432,6 +432,9 @@ test.describe("verified platform truth", () => {
       await expect(page.locator(".tpm-brand-wordmark").first()).toContainText(
         "Trading Pro Max"
       );
+      await expect(page.locator(".tpm-brand-mark svg").first()).toBeVisible();
+      await expect(page.locator(".tpm-brand-mark img")).toHaveCount(0);
+      await expect(page.locator(".tpm-foundation-nav-brand .tpm-earth-mark-compact").first()).toBeVisible();
       await expect(page.locator(".tpm-precision-clock").first()).toBeVisible();
       await expect(page.locator(".tpm-platform-pulse").first()).toBeVisible();
       await expect(page.locator(".tpm-companion-launcher").first()).toBeVisible();
@@ -453,6 +456,18 @@ test.describe("verified platform truth", () => {
         await expect(page.locator(".tpm-product-entry").first()).toBeVisible();
         await expect(page.locator(".tpm-product-hero").first()).toBeVisible();
         await expect(page.locator(".tpm-product-workstation-shell").first()).toBeVisible();
+        const heroMark = page.locator(".tpm-product-hero-logo .tpm-earth-mark-public").first();
+        await expect(heroMark).toBeVisible();
+        const heroMarkBox = await heroMark.boundingBox();
+        expect(heroMarkBox?.width ?? 0).toBeGreaterThan(48);
+        expect(heroMarkBox?.width ?? 0).toBeLessThanOrEqual(120);
+        expect(heroMarkBox?.height ?? 0).toBeLessThanOrEqual(120);
+        const heroMarkDetailCount = await heroMark.locator("circle, ellipse, path").count();
+        expect(heroMarkDetailCount).toBeGreaterThanOrEqual(10);
+        const heroMarkBackground = await heroMark.evaluate((element) =>
+          window.getComputedStyle(element).backgroundColor
+        );
+        expect(heroMarkBackground).toMatch(/rgba\(0, 0, 0, 0\)|transparent/);
         await expect(page.locator("body")).toContainText(
           /Paper-only evaluation|Fallback-first market data|Live execution blocked/
         );

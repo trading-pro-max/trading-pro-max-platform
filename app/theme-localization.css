@@ -2153,8 +2153,13 @@ html[data-theme="light"] .tpm-utility-hero {
   --tpm-brand-graphite: #080d14;
   --tpm-brand-graphite-raised: #0e1520;
   --tpm-brand-ink: #f8fafc;
+  --tpm-brand-surface: rgba(14, 21, 32, 0.62);
   --tpm-brand-muted: #9fb0c6;
   --tpm-brand-aqua: #2dd4bf;
+  --tpm-swiss-red: #d72638;
+  --tpm-earth-line: rgba(226, 236, 248, 0.82);
+  --tpm-earth-fill: rgba(14, 21, 32, 0.26);
+  --tpm-earth-orbit: var(--tpm-brand-gold-soft);
   --tpm-state-ready: #2dd4bf;
   --tpm-state-warning: #f4d37a;
   --tpm-state-blocked: #fb7185;
@@ -2171,9 +2176,13 @@ html[data-theme="light"] {
   --tpm-brand-graphite: #f8fafc;
   --tpm-brand-graphite-raised: #ffffff;
   --tpm-brand-ink: #0d1726;
+  --tpm-brand-surface: rgba(255, 255, 255, 0.72);
   --tpm-brand-muted: #52657b;
   --tpm-brand-gold: #b27a13;
   --tpm-brand-gold-soft: #d8a83c;
+  --tpm-earth-line: rgba(28, 43, 62, 0.78);
+  --tpm-earth-fill: rgba(255, 255, 255, 0.56);
+  --tpm-earth-orbit: var(--tpm-brand-gold);
 }
 
 .tpm-brand-lockup {
@@ -2185,39 +2194,20 @@ html[data-theme="light"] {
 
 .tpm-brand-mark {
   --tpm-brand-mark-size: 38px;
-  --tpm-brand-mark-shell: var(--tpm-brand-gold);
-  --tpm-brand-mark-inner: var(--tpm-brand-graphite);
-  --tpm-brand-mark-candle: var(--tpm-brand-ink);
-  --tpm-brand-mark-arrow: var(--tpm-brand-aqua);
+  --tpm-earth-size: var(--tpm-brand-mark-size);
   display: inline-grid;
   width: var(--tpm-brand-mark-size);
   height: var(--tpm-brand-mark-size);
   place-items: center;
   flex: 0 0 auto;
-  border-radius: 12px;
-  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.22));
+  border-radius: 999px;
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.2));
 }
 
 .tpm-brand-mark svg {
   width: 100%;
   height: 100%;
   display: block;
-}
-
-.tpm-brand-mark-shell {
-  fill: var(--tpm-brand-mark-shell);
-}
-
-.tpm-brand-mark-inner {
-  fill: var(--tpm-brand-mark-inner);
-}
-
-.tpm-brand-mark-candle {
-  fill: var(--tpm-brand-mark-candle);
-}
-
-.tpm-brand-mark-arrow {
-  fill: var(--tpm-brand-mark-arrow);
 }
 
 .tpm-brand-wordmark {
@@ -2270,8 +2260,7 @@ html[data-theme="light"] .tpm-brand-wordmark span {
 }
 
 .tpm-brand-lockup-hero .tpm-brand-mark {
-  --tpm-brand-mark-size: 58px;
-  border-radius: 16px;
+  --tpm-brand-mark-size: 64px;
 }
 
 .tpm-brand-lockup-hero .tpm-brand-wordmark {
@@ -2289,9 +2278,9 @@ html[data-theme="light"] .tpm-brand-lockup-hero .tpm-brand-subline {
 
 .tpm-earth-mark {
   --tpm-earth-size: 40px;
-  --tpm-earth-gold: var(--tpm-brand-gold-soft, #d8a83c);
-  --tpm-earth-red: #d12b2b;
-  --tpm-earth-line: color-mix(in srgb, var(--tpm-earth-gold) 52%, var(--tpm-border));
+  --tpm-earth-gold: var(--tpm-earth-orbit, var(--tpm-brand-gold-soft, #d8a83c));
+  --tpm-earth-red: var(--tpm-swiss-red, #d72638);
+  --tpm-earth-stroke: var(--tpm-earth-line, rgba(226, 236, 248, 0.82));
   display: inline-grid;
   width: var(--tpm-earth-size);
   height: var(--tpm-earth-size);
@@ -2311,22 +2300,38 @@ html[data-theme="light"] .tpm-brand-lockup-hero .tpm-brand-subline {
   --tpm-earth-size: 78px;
 }
 
-.tpm-earth-mark-lockup {
-  --tpm-earth-size: 48px;
+.tpm-earth-mark-public {
+  --tpm-earth-size: 64px;
 }
 
-.tpm-earth-globe {
-  fill: color-mix(in srgb, var(--tpm-surface-strong) 88%, transparent);
-  stroke: var(--tpm-earth-line);
-  stroke-width: 2;
+.tpm-earth-mark-compact {
+  --tpm-earth-size: 38px;
 }
 
+.tpm-earth-halo {
+  fill: color-mix(in srgb, var(--tpm-earth-gold) 12%, transparent);
+  stroke: color-mix(in srgb, var(--tpm-earth-gold) 42%, transparent);
+  stroke-width: 1;
+}
+
+.tpm-earth-fill {
+  fill: var(--tpm-earth-fill);
+}
+
+.tpm-earth-outline,
 .tpm-earth-line,
-.tpm-earth-orbit {
+.tpm-earth-orbit,
+.tpm-earth-orbit-soft {
   fill: none;
-  stroke: var(--tpm-earth-line);
+  stroke: var(--tpm-earth-stroke);
   stroke-linecap: round;
-  stroke-width: 1.7;
+  stroke-linejoin: round;
+  stroke-width: 1.55;
+  vector-effect: non-scaling-stroke;
+}
+
+.tpm-earth-outline {
+  stroke-width: 1.9;
 }
 
 .tpm-earth-orbit {
@@ -2334,12 +2339,43 @@ html[data-theme="light"] .tpm-brand-lockup-hero .tpm-brand-subline {
   stroke-width: 2.2;
 }
 
+.tpm-earth-orbit-soft {
+  stroke: color-mix(in srgb, var(--tpm-earth-gold) 34%, var(--tpm-earth-stroke));
+  stroke-width: 1.1;
+}
+
 .tpm-earth-market-bar {
   fill: var(--tpm-earth-gold);
+  opacity: 0.92;
 }
 
 .tpm-earth-swiss-point {
   fill: var(--tpm-earth-red);
+  stroke: color-mix(in srgb, var(--tpm-brand-ink) 88%, transparent);
+  stroke-width: 0.8;
+}
+
+.tpm-earth-mark-animated .tpm-earth-orbit {
+  transform-origin: 32px 32px;
+  animation: tpm-earth-orbit-breathe 8s ease-in-out infinite;
+}
+
+@keyframes tpm-earth-orbit-breathe {
+  0%,
+  100% {
+    opacity: 0.78;
+    transform: rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: rotate(2.5deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tpm-earth-mark-animated .tpm-earth-orbit {
+    animation: none;
+  }
 }
 
 .tpm-precision-clock {
@@ -2614,23 +2650,14 @@ html[data-theme="light"] {
 
 .tpm-brand-mark {
   position: relative;
-  padding: 2px;
-  border: 1px solid color-mix(in srgb, var(--tpm-brand-gold) 46%, transparent);
-  background:
-    linear-gradient(145deg, rgba(216, 168, 60, 0.2), rgba(45, 212, 191, 0.08)),
-    color-mix(in srgb, var(--tpm-brand-graphite-raised) 92%, black);
-  box-shadow:
-    0 14px 28px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.11);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 .tpm-brand-mark::after {
-  content: "";
-  position: absolute;
-  inset: 4px;
-  border: 1px solid color-mix(in srgb, var(--tpm-brand-gold-soft) 34%, transparent);
-  border-radius: 10px;
-  pointer-events: none;
+  content: none;
 }
 
 .tpm-brand-mark svg {
@@ -2639,7 +2666,7 @@ html[data-theme="light"] {
 }
 
 .tpm-brand-lockup-hero .tpm-brand-mark {
-  --tpm-brand-mark-size: 66px;
+  --tpm-brand-mark-size: 72px;
 }
 
 .tpm-brand-lockup-hero .tpm-brand-wordmark {

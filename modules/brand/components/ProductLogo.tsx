@@ -1,40 +1,43 @@
+import TPMEarthMark from "./TPMEarthMark";
+
 type ProductLogoProps = {
   className?: string;
+  markTitle?: string;
+  mode?: "lockup" | "mark-only" | "wordmark-only";
   showSubtitle?: boolean;
   subtitle?: string;
-  variant?: "nav" | "topbar" | "hero" | "auth" | "compact";
+  variant?: "nav" | "topbar" | "hero" | "auth" | "compact" | "command";
 };
 
 type BrandMarkProps = {
   className?: string;
   title?: string;
+  variant?: "public" | "compact" | "command";
 };
 
 type BrandWordmarkProps = {
   className?: string;
 };
 
-export function BrandMark({ className, title = "Trading Pro Max" }: BrandMarkProps) {
+function markVariantForLogo(
+  variant: NonNullable<ProductLogoProps["variant"]>
+): BrandMarkProps["variant"] {
+  if (variant === "hero" || variant === "auth") return "public";
+  if (variant === "command") return "command";
+  return "compact";
+}
+
+export function BrandMark({
+  className,
+  title = "Trading Pro Max Earth Mark",
+  variant = "compact",
+}: BrandMarkProps) {
   return (
-    <span className={["tpm-brand-mark", className].filter(Boolean).join(" ")} aria-label={title}>
-      <svg viewBox="0 0 64 64" role="img" focusable="false">
-        <path
-          className="tpm-brand-mark-shell"
-          d="M32 4 55 16.8v29.9L32 60 9 46.7V16.8L32 4Z"
-        />
-        <path
-          className="tpm-brand-mark-inner"
-          d="M32 10.7 49.1 20v22.2L32 52.1 14.9 42.2V20L32 10.7Z"
-        />
-        <path className="tpm-brand-mark-candle" d="M22 35.5h5.2v10H22v-10Z" />
-        <path className="tpm-brand-mark-candle" d="M29.4 27.8h5.2v17.7h-5.2V27.8Z" />
-        <path className="tpm-brand-mark-candle" d="M36.8 21.4H42v24.1h-5.2V21.4Z" />
-        <path
-          className="tpm-brand-mark-arrow"
-          d="M21.4 27.8 30.6 21l5.4 4.6 8.5-10.1 1.8 8.8-8.3 9.8-5.7-4.8-8.8 6.4-2.1-7.9Z"
-        />
-      </svg>
-    </span>
+    <TPMEarthMark
+      className={["tpm-brand-mark", className].filter(Boolean).join(" ")}
+      title={title}
+      variant={variant}
+    />
   );
 }
 
@@ -48,25 +51,39 @@ export function BrandWordmark({ className }: BrandWordmarkProps) {
 
 export default function ProductLogo({
   className,
+  markTitle = "Trading Pro Max Earth Mark",
+  mode = "lockup",
   showSubtitle = true,
   subtitle = "Global trading foundation",
   variant = "nav",
 }: ProductLogoProps) {
+  const showMark = mode !== "wordmark-only";
+  const showWordmark = mode !== "mark-only";
+
   return (
     <div
       className={[
         "tpm-brand-lockup",
         `tpm-brand-lockup-${variant}`,
+        `tpm-brand-lockup-${mode}`,
         className,
       ]
         .filter(Boolean)
         .join(" ")}
     >
-      <BrandMark className="tpm-brand-lockup-mark" />
-      <div className="tpm-brand-lockup-copy">
-        <BrandWordmark />
-        {showSubtitle ? <span className="tpm-brand-subline">{subtitle}</span> : null}
-      </div>
+      {showMark ? (
+        <BrandMark
+          className="tpm-brand-lockup-mark"
+          title={markTitle}
+          variant={markVariantForLogo(variant)}
+        />
+      ) : null}
+      {showWordmark ? (
+        <div className="tpm-brand-lockup-copy">
+          <BrandWordmark />
+          {showSubtitle ? <span className="tpm-brand-subline">{subtitle}</span> : null}
+        </div>
+      ) : null}
     </div>
   );
 }
