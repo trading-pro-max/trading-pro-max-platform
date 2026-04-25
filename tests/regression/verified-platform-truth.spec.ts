@@ -481,8 +481,8 @@ test.describe("verified platform truth", () => {
           hasBEMVariant: element.classList.contains("tpm-earth-mark--public"),
           hasStateClass: element.classList.contains("tpm-earth-mark--paper-safe"),
           hasPulse: Boolean(element.querySelector(".tpm-earth-pulse")),
-          hasSegment: Boolean(element.querySelector(".tpm-earth-orbit-segment")),
-          hasMarketMove: Boolean(element.querySelector(".tpm-earth-market-move")),
+          hasNoExtraOrbitSegments: !element.querySelector(".tpm-earth-orbit-segment"),
+          hasNoMarketMiniLayer: !element.querySelector(".tpm-earth-market-move"),
           hasMoonOrbit: Boolean(element.querySelector(".tpm-earth-moon-orbit")),
           hasMoon: Boolean(element.querySelector(".tpm-earth-moon")),
           hasGoldMapEdge: Boolean(element.querySelector(".tpm-earth-map-edge")),
@@ -494,8 +494,8 @@ test.describe("verified platform truth", () => {
           hasBEMVariant: true,
           hasStateClass: true,
           hasPulse: true,
-          hasSegment: true,
-          hasMarketMove: true,
+          hasNoExtraOrbitSegments: true,
+          hasNoMarketMiniLayer: true,
           hasMoonOrbit: true,
           hasMoon: true,
           hasGoldMapEdge: true,
@@ -506,8 +506,11 @@ test.describe("verified platform truth", () => {
         );
         expect(heroMarkBackground).toMatch(/rgba\(0, 0, 0, 0\)|transparent/);
         await expect(page.locator("body")).toContainText(
-          /Free paper-safe access|Celestial Swiss Earth Mark|Live execution blocked/
+          /Free paper-safe access|Readiness-first|Live execution blocked/
         );
+        await expect(page.locator(".tpm-product-hero-logo .tpm-brand-subline")).toHaveCount(0);
+        await expect(page.locator("body")).not.toContainText(/Celestial Swiss/i);
+        await expect(page.locator("body")).not.toContainText(/CELESTIAL SWISS TRADING IDENTITY/i);
         await expect(page.locator("body")).toContainText(
           /Plans at a glance|Free|Pro|VIP|Institutional|Familiar paper trading/
         );
@@ -807,11 +810,21 @@ test.describe("verified platform truth", () => {
     expect(earthMarkSource).toContain("tpm-earth-moon");
     expect(earthMarkSource).toContain("tpm-earth-map-edge");
     expect(earthMarkSource).toContain("tpm-earth-map-edge-primary");
+    expect(earthMarkSource).toContain("Trading Pro Max Earth Moon Mark");
+    expect(earthMarkSource).not.toContain("Celestial Swiss Trading Identity");
     expect(earthMarkSource).not.toMatch(/<image|<img|\\.png|\\.jpg|\\.gif/i);
 
+    const productLogoSource = fs.readFileSync(
+      "modules/brand/components/ProductLogo.tsx",
+      "utf8"
+    );
+    expect(productLogoSource).toContain("Trading Pro Max Earth Moon Mark");
+    expect(productLogoSource).not.toContain("Celestial Swiss Trading Identity");
+    expect(productLogoSource).not.toContain("Trading Pro Max Celestial Swiss Earth Mark");
+
     const appIconSource = fs.readFileSync("app/icon.svg", "utf8");
-    expect(appIconSource).toContain("Trading Pro Max Celestial Swiss Earth Mark");
-    expect(appIconSource).toContain("rx=\"29.6\"");
+    expect(appIconSource).toContain("Trading Pro Max Earth Moon Mark");
+    expect(appIconSource).toContain("rx=\"28.9\"");
     expect(appIconSource).toContain("stroke=\"#f4d37a\"");
     expect(appIconSource).not.toMatch(/<image|<img|\\.png|\\.jpg|\\.gif/i);
 
@@ -5599,7 +5612,8 @@ test.describe("verified platform truth", () => {
 
     await page.goto("/en");
     await expect(page.locator("main").first()).toBeVisible();
-    await expect(page.locator("body")).toContainText("Trading Workstation Core");
+    await expect(page.locator(".tpmv2-chart-surface").first()).toBeVisible();
+    await expect(page.locator(".tpmv2-execution").first()).toContainText("Execution Panel");
     await expect(page.locator("body")).toContainText(/EUR\/USD|BTC\/USD|AAPL/i);
   });
 

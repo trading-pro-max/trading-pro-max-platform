@@ -207,7 +207,7 @@ export default function PublicProductEntry({
             <span className="tpm-product-kicker">Trading workspace</span>
             <div className="tpm-product-chip-row">
               <span className="tpm-product-chip">Free paper-safe access</span>
-              <span className="tpm-product-chip">Celestial Swiss Earth Mark</span>
+              <span className="tpm-product-chip">Readiness-first</span>
               <span className="tpm-product-chip">Live execution blocked</span>
             </div>
           </div>
@@ -219,17 +219,16 @@ export default function PublicProductEntry({
                 motionIntensity="low"
                 state="paper_safe"
                 surface="public_entry"
-                subtitle="Celestial Swiss trading identity"
                 variant="hero"
               />
               <h1>
-                A calmer, chart-first trading workspace with a living Earth identity.
+                A calmer, chart-first trading workspace for paper-safe review.
               </h1>
               <p>
                 Trading Pro Max opens around a deeper chart, a clear paper execution ticket,
-                and the Celestial Swiss Earth Mark. Free stays familiar and premium; Pro and
-                VIP introduce deeper professional layers only when real entitlement support
-                exists.
+                and a clean professional product surface. Free stays familiar and premium;
+                Pro and VIP introduce deeper professional layers only when real entitlement
+                support exists.
               </p>
 
               <div className="tpm-product-cta-row">

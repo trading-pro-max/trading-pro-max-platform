@@ -6185,7 +6185,7 @@ html[data-theme="light"] .tpmv2-chart-surface {
   }
 }
 
-/* Full visual identity reset: Celestial Swiss Earth Mark and calmer terminal surfaces */
+/* Full visual identity reset: Earth Moon mark and calmer terminal surfaces */
 :root {
   --tpm-celestial-graphite: #04080f;
   --tpm-celestial-panel: rgba(7, 12, 20, 0.86);
@@ -6221,6 +6221,8 @@ html[data-theme="light"] {
   --tpm-earth-moon-duration: 18s;
   --tpm-earth-map-duration: 7.5s;
   --tpm-earth-state-accent: var(--tpm-celestial-cyan);
+  --tpm-earth-orbit-opacity: 0.76;
+  --tpm-earth-line-opacity: 0.78;
   background: transparent;
 }
 
@@ -6264,9 +6266,9 @@ html[data-theme="light"] {
 .tpm-earth-moon-track {
   fill: none;
   stroke: color-mix(in srgb, var(--tpm-earth-gold) 70%, transparent);
-  stroke-dasharray: 2.6 6.2;
+  stroke-dasharray: 2.2 7.4;
   stroke-linecap: round;
-  stroke-width: 1.25;
+  stroke-width: 1.1;
   opacity: var(--tpm-earth-orbit-opacity);
 }
 
@@ -6282,7 +6284,7 @@ html[data-theme="light"] {
 }
 
 .tpm-earth-moon-shadow {
-  fill: rgba(0, 0, 0, 0.22);
+  fill: rgba(0, 0, 0, 0.18);
 }
 
 .tpm-earth-moon {
@@ -6292,7 +6294,7 @@ html[data-theme="light"] {
 }
 
 .tpm-earth-celestial-globe {
-  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.22));
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.18));
 }
 
 .tpm-earth-grid .tpm-earth-line {
@@ -6308,21 +6310,17 @@ html[data-theme="light"] {
 
 .tpm-earth-map-edge {
   stroke: var(--tpm-earth-gold);
-  stroke-width: 1.85;
+  stroke-width: 1.75;
   opacity: 0.95;
 }
 
 .tpm-earth-map-edge-primary {
-  stroke-width: 2.15;
+  stroke-width: 2;
 }
 
 .tpm-earth-map-coast {
   stroke: color-mix(in srgb, var(--tpm-earth-gold) 74%, var(--tpm-earth-stroke));
   stroke-width: 1.05;
-  opacity: 0.72;
-}
-
-.tpm-earth-market-mini {
   opacity: 0.72;
 }
 
@@ -6341,7 +6339,8 @@ html[data-theme="light"] {
 
 .tpm-earth-mark--blocked .tpm-earth-moon-carrier,
 .tpm-earth-mark--inactive .tpm-earth-moon-carrier,
-.tpm-earth-mark--planned .tpm-earth-moon-carrier {
+.tpm-earth-mark--planned .tpm-earth-moon-carrier,
+.tpm-earth-mark--motion-none .tpm-earth-moon-carrier {
   animation-play-state: paused;
 }
 
