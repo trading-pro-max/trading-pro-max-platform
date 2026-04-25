@@ -38,7 +38,7 @@ export function buildCompanionResponseTemplates(
     {
       intent: "explain_blocked_state",
       title: "Why blocked",
-      body: `Blocked states are intentional safety boundaries, not broken features. ${live.userCopy} ${realMoney.userCopy} ${billing.userCopy}`,
+      body: `Blocked conditions are intentional safety boundaries, not broken features. ${live.userCopy} ${realMoney.userCopy} ${billing.userCopy}`,
       safeNextStep: "Review the reason and use the paper-safe alternative.",
       state: "blocked",
     },
@@ -74,7 +74,7 @@ export function buildCompanionResponseTemplates(
       intent: "guide_to_diagnostics",
       title: "Go to diagnostics",
       body:
-        "Diagnostics shows readiness, blocked states, engines, economy/media readiness, and connector truth without raw secrets or owner controls.",
+        "Diagnostics shows readiness, blocked conditions, engines, economy/media readiness, and connector truth without raw secrets or restricted controls.",
       safeNextStep: "Open Diagnostics to verify readiness and fallback state.",
       state: "ready",
     },
@@ -128,7 +128,7 @@ export function buildCompanionResponseTemplates(
     },
     {
       intent: "founder_unavailable_for_user",
-      title: "Private command tools are separate",
+      title: "Restricted controls are separate",
       body: ownerCommand.userCopy,
       safeNextStep: "Use user-facing settings, diagnostics, feedback, and plan access instead.",
       state: "blocked",

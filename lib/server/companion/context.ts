@@ -75,7 +75,7 @@ const companionIntents: CompanionIntentAvailability[] = [
     enterprise: "future",
     safetyBoundary: "Diagnostics guidance only; no owner controls or private data.",
     responseStyle: "compact route and readiness guidance",
-    blockedLanguage: ["private command", "secret values", "production keys"],
+    blockedLanguage: ["restricted controls", "secret values", "production keys"],
   },
   {
     intent: "guide_to_feedback",
@@ -146,13 +146,13 @@ const companionIntents: CompanionIntentAvailability[] = [
   },
   {
     intent: "founder_unavailable_for_user",
-    label: "Private command unavailable",
+    label: "Restricted controls unavailable",
     demoFree: "blocked",
     pro: "blocked",
     vip: "blocked",
     enterprise: "blocked",
-    safetyBoundary: "Private command tools are separate and never a user-plan feature.",
-    responseStyle: "clear private-access explanation",
+    safetyBoundary: "Restricted controls are separate and never a user-plan feature.",
+    responseStyle: "clear restricted-access explanation",
     blockedLanguage: ["admin access", "private route", "plan unlock"],
   },
 ];

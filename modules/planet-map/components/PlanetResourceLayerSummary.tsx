@@ -5,7 +5,7 @@ const resources: PlanetResourceLayerView[] = [
     label: "Product truth",
     category: "hidden",
     value: "trust",
-    protection: "safety, review, private command",
+    protection: "safety, review, restricted controls",
   },
   {
     label: "Chart and UI",

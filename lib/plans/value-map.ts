@@ -45,7 +45,7 @@ export const PLAN_VALUE_MAP: PlanValueMapEntry[] = [
     supportLevel: "No support claim.",
     reportingLevel: "No user reporting.",
     upgradeTrigger: "No billing or checkout is active.",
-    mustNotClaim: ["paid access", "private command access", "live execution"],
+    mustNotClaim: ["paid access", "restricted control access", "live execution"],
   },
   {
     planId: "demo_free",
@@ -109,9 +109,9 @@ export const PLAN_VALUE_MAP: PlanValueMapEntry[] = [
   },
   {
     planId: "founder_king",
-    userPromise: "Private command of the internal TPM operating system.",
-    visibleIdentity: "Private command identity, not a user plan.",
-    activeCapabilities: ["Read-only private command readiness", "Internal reports", "Readiness summaries"],
+    userPromise: "Restricted administration of internal TPM readiness.",
+    visibleIdentity: "Restricted controls identity, not a user plan.",
+    activeCapabilities: ["Read-only restricted controls readiness", "Restricted reports", "Readiness summaries"],
     plannedCapabilities: ["Private device auth", "Desktop/mobile command app", "Audited approvals"],
     lockedCapabilities: ["Approval execution", "production controls"],
     companionLevel: "Private assistant readiness",

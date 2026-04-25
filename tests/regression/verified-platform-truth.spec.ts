@@ -449,7 +449,7 @@ test.describe("verified platform truth", () => {
       expect(publicNavText).not.toMatch(/Founder Command|Command Room/);
       const publicBodyText = await page.locator("body").innerText();
       expect(publicBodyText).not.toMatch(
-        /Founder Command|Founder King|Kingdom|\bministries\b|\bcouncils\b|Presidency|government model|\bEnterprise\b|Owner command|Owner-only|TPM Companion|Demo \/ Paper/i
+        /Founder Command|Founder King|Kingdom|\bministries\b|\bcouncils\b|Presidency|government model|Planet OS|Planet governance|\bPlanet\b|\bEnterprise\b|Owner command|Owner-only|owner-only|private command|internal governance|ruler|TPM Companion|Demo \/ Paper/i
       );
 
       if (route.path === "/") {
@@ -599,7 +599,7 @@ test.describe("verified platform truth", () => {
           /Plan capability truth|Paper-session guidance|No financial advice/
         );
         await expect(page.locator("body")).toContainText(
-          /Plan-based interface architecture|Experience layers|Familiar paper trading layer|Private command tools stay separate/
+          /Plan-based interface architecture|Experience layers|Familiar paper trading layer|Restricted controls stay separate/
         );
         await expect(page.locator("body")).toContainText(
           /Academy|Community|VIP Rooms|Rooms planned|Learning paths foundation/
@@ -622,7 +622,7 @@ test.describe("verified platform truth", () => {
             /Why blocked readiness|Session coach foundation|Journal \/ Coach/
           );
           await expect(page.locator("body")).toContainText(
-            /Safety integration readiness|Assistant context|Internal automation|Roadmap planner/
+            /Safety integration readiness|Assistant context|Automation boundary|Roadmap planner/
           );
           await expect(page.locator("body")).toContainText(
             /Workspace access layer|Media Office|AI Video Studio|no social accounts/i
@@ -1437,7 +1437,7 @@ test.describe("verified platform truth", () => {
           key: "plan_based_product_layers",
           state: "guarded",
           safeNextStep:
-            "Keep Free active, Pro/VIP planned, Institutional future, and private command separate.",
+            "Keep Free active, Pro/VIP planned, Institutional future, and restricted controls separate.",
         }),
         expect.objectContaining({
           key: "brand_partnerships",
@@ -1529,7 +1529,7 @@ test.describe("verified platform truth", () => {
         "Pro",
         "VIP",
         "Institutional",
-        "Private Command",
+        "Restricted Controls",
       ]),
       billingInactive: true,
       performanceFeeHiddenInactive: true,
@@ -1901,16 +1901,16 @@ test.describe("verified platform truth", () => {
       },
     });
     expect(companionContextPayload.snapshot.planetAccess.visibleCities).toEqual(
-      expect.arrayContaining(["Chart City", "Execution Hall", "Assistant Center"])
+      expect.arrayContaining(["Chart", "Paper ticket", "TPM Assistant"])
     );
     expect(companionContextPayload.snapshot.planetAccess.lockedFeatures).toEqual(
       expect.arrayContaining(["advanced Assistant"])
     );
     expect(companionContextPayload.snapshot.planetAccess.hiddenFeatures).toEqual(
-      expect.arrayContaining(["private command tools", "private revenue research"])
+      expect.arrayContaining(["restricted controls", "revenue research"])
     );
     expect(companionContextPayload.snapshot.planAccess.visibleSurfaces).toEqual(
-      expect.arrayContaining(["Chart City", "Execution Hall", "Assistant Center"])
+      expect.arrayContaining(["Chart", "Paper ticket", "TPM Assistant"])
     );
     expect(JSON.stringify(companionContextPayload.snapshot.planetAccess)).not.toMatch(
       /performance fee|performance-fee/i

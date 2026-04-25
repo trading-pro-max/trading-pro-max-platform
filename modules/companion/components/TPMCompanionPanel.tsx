@@ -230,9 +230,9 @@ export default function TPMCompanionPanel({
         id: "response-blocked",
         role: "companion",
         state: "blocked",
-        title: "Why the blocked states are visible",
+        title: "Why blocked conditions are visible",
         body:
-          "Blocked states are intentional safety boundaries. They explain what is unavailable, who can resolve it later, and the safe next step without promising an unlock.",
+          "Blocked conditions are intentional safety boundaries. They explain what is unavailable, who can resolve it later, and the safe next step without promising an unlock.",
       },
       plan: {
         id: "response-plan",
@@ -314,7 +314,7 @@ export default function TPMCompanionPanel({
             state: "fallback",
             title: "Safe platform guidance",
             body:
-              "I can explain product truth, plan access, blocked states, feedback, diagnostics, and journal prompts. I cannot execute or activate anything.",
+              "I can explain product truth, plan access, blocked conditions, feedback, diagnostics, and journal prompts. I cannot execute or activate anything.",
             safeNextStep: "Ask about a blocked state, the current plan access, or session learning.",
           };
     }
@@ -339,7 +339,7 @@ export default function TPMCompanionPanel({
       title: "Platform-aware, paper-safe guidance",
       body: `I can explain ${formatRoute(
         context?.route ?? route
-      )}, plan status, blocked states, diagnostics, and feedback. I cannot execute trades or activate live, money, broker, feed, billing, secrets, or launch.`,
+      )}, plan status, blocked conditions, diagnostics, and feedback. I cannot execute trades or activate live, money, broker, feed, billing, secrets, or launch.`,
     },
     activePrompt.response,
     ...chatMessages,

@@ -82,7 +82,7 @@ export const PLAN_VISUAL_IDENTITIES: Record<PlanVisualKey, PlanVisualIdentity> =
     truthRules: [
       "No plan pressure.",
       "No paid activation claim.",
-      "No private command visibility.",
+      "No restricted controls visibility.",
     ],
   },
   demo_free: {

@@ -54,7 +54,7 @@ export const PLAN_INTERFACE_LAYERS: PlanInterfaceLayer[] = [
     headline: "Familiar premium paper platform",
     experience:
       "A clean chart-first trading terminal with paper execution, basic Assistant guidance, Why Blocked explanations, basic Academy, and subtle Swiss precision signals.",
-    surfaceDepth: "Moderate TPM advantage without exposing internal operating-system detail.",
+    surfaceDepth: "Moderate TPM advantage without exposing restricted operational detail.",
     primarySurfaces: [
       "chart-first workstation",
       "paper execution ticket",
@@ -64,7 +64,7 @@ export const PLAN_INTERFACE_LAYERS: PlanInterfaceLayer[] = [
       "settings and diagnostics truth",
     ],
     hiddenFromThisLayer: [
-      "private command tools",
+      "restricted controls",
       "internal governance detail",
       "advanced Assistant",
       "advanced reports",
@@ -78,7 +78,7 @@ export const PLAN_INTERFACE_LAYERS: PlanInterfaceLayer[] = [
       "real money",
       "paid access",
       "Pro or VIP activation",
-      "private command access",
+      "restricted control access",
     ],
   },
   {
@@ -98,7 +98,7 @@ export const PLAN_INTERFACE_LAYERS: PlanInterfaceLayer[] = [
       "alerts and workflows planned",
       "Pro community planned",
     ],
-    hiddenFromThisLayer: ["private command tools", "advanced Assistant", "billing controls", "private revenue research"],
+    hiddenFromThisLayer: ["restricted controls", "advanced Assistant", "billing controls", "revenue research"],
     safeCopy:
       "Pro is planned and locked. It can be described as roadmap value, not as active paid access.",
     mustNotClaim: ["Pro active", "checkout active", "premium signal", "better outcome"],
@@ -111,7 +111,7 @@ export const PLAN_INTERFACE_LAYERS: PlanInterfaceLayer[] = [
     headline: "Elite premium workspace layer",
     experience:
       "A planned premium layer for advanced Assistant, advanced coaching, advanced journal analytics, strategy review, premium reports, and private rooms.",
-    surfaceDepth: "Highest user-facing product depth, still separated from private command.",
+    surfaceDepth: "Highest user-facing product depth, still separated from restricted controls.",
     primarySurfaces: [
       "Advanced Assistant planned",
       "advanced Coach planned",
@@ -120,7 +120,7 @@ export const PLAN_INTERFACE_LAYERS: PlanInterfaceLayer[] = [
       "premium reports planned",
       "VIP rooms planned",
     ],
-    hiddenFromThisLayer: ["private command tools", "critical private controls", "private revenue controls"],
+    hiddenFromThisLayer: ["restricted controls", "critical control gates", "revenue controls"],
     safeCopy:
       "VIP is a planned elite layer. It never implies guaranteed signals, win rates, or active premium access.",
     mustNotClaim: ["VIP active", "guaranteed signals", "win-rate", "priority support active"],
@@ -141,31 +141,31 @@ export const PLAN_INTERFACE_LAYERS: PlanInterfaceLayer[] = [
       "runbook support future",
       "Institutional Assistant future",
     ],
-    hiddenFromThisLayer: ["private command tools", "private approval controls", "private command data"],
+    hiddenFromThisLayer: ["restricted controls", "approval controls", "restricted control data"],
     safeCopy:
       "Institutional remains future planned and unavailable for activation in this build.",
     mustNotClaim: ["Institutional available", "compliance certified", "team admin active"],
   },
   {
     id: "founder_king",
-    label: "Private Command",
+    label: "Restricted Controls",
     status: "owner_only",
     visualIdentity: "vip",
-    headline: "Private command",
+    headline: "Restricted controls",
     experience:
-      "The private command layer for full internal readiness, risks, revenue controls, media review, approvals, and next safe actions.",
-    surfaceDepth: "Private command architecture, read-only by default, never a user-plan feature.",
+      "The restricted controls layer for restricted readiness, risks, revenue controls, media review, approvals, and next safe actions.",
+    surfaceDepth: "Restricted controls architecture, read-only by default, never a user-plan feature.",
     primarySurfaces: [
-      "private command room",
-      "private command app shell",
-      "internal readiness reports",
+      "protected command room",
+      "protected app shell",
+      "restricted readiness reports",
       "approval center",
       "revenue and media readiness",
       "safety and review summaries",
     ],
     hiddenFromThisLayer: ["public route", "public navigation", "normal user entitlement"],
     safeCopy:
-      "Private command tools remain separate from Free, Pro, VIP, and Institutional user plans.",
+      "Restricted controls remain separate from Free, Pro, VIP, and Institutional user plans.",
     mustNotClaim: ["public access", "plan unlock", "critical block override"],
   },
 ];

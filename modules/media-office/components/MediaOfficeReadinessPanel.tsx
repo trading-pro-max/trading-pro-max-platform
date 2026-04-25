@@ -19,7 +19,7 @@ export default function MediaOfficeReadinessPanel() {
         <span>Media Office</span>
         <h2>Draft, review, approval readiness</h2>
         <p>
-          Media and AI video are internal readiness surfaces only. No social
+          Media and AI video are readiness surfaces only. No social
           accounts, tokens, uploads, publishing, followers, views, or ads exist.
         </p>
       </header>

@@ -12,7 +12,7 @@ const commandPillars = [
   {
     label: "Chart first",
     value: "Price, signal, and context lead",
-    note: "The workspace opens around the market, not around administration.",
+    note: "The workspace opens around the market, not around settings noise.",
   },
   {
     label: "TPM Assistant",

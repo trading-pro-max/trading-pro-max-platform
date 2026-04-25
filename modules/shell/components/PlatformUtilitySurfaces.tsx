@@ -62,12 +62,29 @@ function toneFromProbeStatus(status: DiagnosticsProbeStatus): WorkstationStatusT
 
 function publicEngineLabel(key: string, fallback: string): string {
   const labels: Record<string, string> = {
-    founder_command_reporting: "Private Reporting Engine",
+    founder_command_reporting: "Protected Reporting Engine",
     companion_context: "Assistant Context Engine",
     guardian_legal_rules: "Safety + Review Rules Engine",
   };
 
-  return labels[key] ?? fallback;
+  return labels[key] ?? publicDisplayText(fallback);
+}
+
+function publicDisplayText(value: string): string {
+  return value
+    .replace(/\bEnterprise\b/g, "Institutional")
+    .replace(/Founder Command/gi, "Restricted controls")
+    .replace(/Founder King/gi, "Restricted controls")
+    .replace(/Private command/gi, "Restricted controls")
+    .replace(/private command/gi, "restricted controls")
+    .replace(/Planet OS/gi, "product readiness system")
+    .replace(/Planet governance/gi, "product governance")
+    .replace(/\bPlanet\b/g, "Product")
+    .replace(/\bplanet\b/g, "product")
+    .replace(/\bministries\b/gi, "readiness reports")
+    .replace(/\bcouncils\b/gi, "review gates")
+    .replace(/Presidency/gi, "review coordination")
+    .replace(/\bstates\b/gi, "statuses");
 }
 
 function UtilityStatus({
@@ -119,11 +136,11 @@ function UtilityGrid({
     <div className="tpm-foundation-grid tpm-utility-grid">
       {items.map((item) => (
         <div key={`${item.label}-${item.value}`} className="tpm-foundation-item">
-          <span>{item.label}</span>
+          <span>{publicDisplayText(item.label)}</span>
           <strong className={item.tone ? `tpmv2-detail-value ${item.tone}` : undefined}>
-            {item.value}
+            {publicDisplayText(item.value)}
           </strong>
-          {item.note ? <small>{item.note}</small> : null}
+          {item.note ? <small>{publicDisplayText(item.note)}</small> : null}
         </div>
       ))}
     </div>
@@ -680,7 +697,7 @@ export function PlatformDiagnosticsSurface({
             planetHierarchySummary?.continents ?? planetOsSnapshot.continents.length
           } reporting`,
           tone: "approved" as const,
-          note: "Internal product areas report readiness without exposing private controls.",
+          note: "Product areas report readiness without exposing restricted controls.",
         },
         {
           label: "Readiness reports",
@@ -688,15 +705,15 @@ export function PlatformDiagnosticsSurface({
             planetHierarchySummary?.ministries ?? planetOsSnapshot.ministries.length
           } deterministic reports`,
           tone: "approved" as const,
-          note: "Reports stay internal and private.",
+          note: "Reports stay restricted and readiness-only.",
         },
         {
-          label: "Internal structure",
+          label: "Product model",
           value: planetHierarchySummary
-            ? `${planetHierarchySummary.hierarchyLevels} levels / ${planetHierarchySummary.states} states`
+            ? `${planetHierarchySummary.hierarchyLevels} layers / ${planetHierarchySummary.states} status areas`
             : "core model ready",
           tone: "approved" as const,
-          note: "Structured internally; user screens show professional product layers only.",
+          note: "Structured behind the product; user screens show professional product layers only.",
         },
         {
           label: "Coordination engine",
@@ -707,12 +724,12 @@ export function PlatformDiagnosticsSurface({
           note: "Cross-team requests route through review coordination; execution is readiness-only.",
         },
         {
-          label: "Message ledger",
+          label: "Review ledger",
           value: planetCoordinationSummary
-            ? `${planetCoordinationSummary.messageTypes} types / ${planetCoordinationSummary.messageStates.length} states`
+            ? `${planetCoordinationSummary.messageTypes} types / ${planetCoordinationSummary.messageStates.length} statuses`
             : "ledger planned",
           tone: "approved" as const,
-          note: "Messages carry review flags, product truth, safety boundary, and blocked reason.",
+          note: "Review records carry flags, product truth, safety boundary, and blocked reason.",
         },
         {
           label: "Review routing",
@@ -745,10 +762,10 @@ export function PlatformDiagnosticsSurface({
           note: "No private data sale, fake users, fake revenue, or fake metrics.",
         },
         {
-          label: "Private controls",
-          value: "Private",
+          label: "Restricted controls",
+          value: "Restricted",
           tone: "restricted" as const,
-          note: "No public command route, desktop app, or mobile app is shipped.",
+          note: "No public restricted-control route, desktop app, or mobile app is shipped.",
         },
         {
           label: "Safety boundaries",
@@ -804,11 +821,11 @@ export function PlatformDiagnosticsSurface({
           tone: integrationMeshSummary.requiredBlockedStateCoverage
             ? ("approved" as const)
             : ("pending" as const),
-          note: "Live, real money, billing, VIP, Institutional, Islamic status, and private command states have explanations.",
+          note: "Live, real money, billing, VIP, Institutional, Islamic status, and restricted control conditions have explanations.",
         },
         {
-          label: "Private reporting",
-          value: integrationMeshSummary.privateReportingReadinessOnly ? "Private" : "Review",
+          label: "Restricted reporting",
+          value: integrationMeshSummary.privateReportingReadinessOnly ? "Restricted" : "Review",
           tone: integrationMeshSummary.privateReportingReadinessOnly
             ? ("restricted" as const)
             : ("pending" as const),
@@ -837,8 +854,8 @@ export function PlatformDiagnosticsSurface({
       note: "Pro and VIP layers remain planned or locked until real entitlement support exists.",
     },
     {
-      label: "Private controls",
-      value: "Private",
+      label: "Restricted controls",
+      value: "Restricted",
       tone: "blocked" as const,
       note: "Never exposed as a normal user plan or public route.",
     },
@@ -896,10 +913,10 @@ export function PlatformDiagnosticsSurface({
       note: "Risky claims, live claims, billing claims, Islamic certification claims, and VIP guarantees remain blocked or review-required.",
     },
     {
-      label: "Internal automation",
+      label: "Automation boundary",
       value: "Assisted / review",
       tone: "pending" as const,
-      note: "No internal function can autonomously launch, publish, bill, activate broker/feed, or execute live trades.",
+      note: "No product function can autonomously launch, publish, bill, activate broker/feed, or execute live trades.",
     },
     {
       label: "Roadmap planner",
@@ -941,7 +958,7 @@ export function PlatformDiagnosticsSurface({
     },
     {
       label: "Final acceptance",
-      value: "Internal only",
+      value: "Review only",
       tone: "restricted" as const,
       note: "Not launch-ready; human visual acceptance, beta testing, legal review, and real environment gates remain.",
     },
@@ -1189,11 +1206,11 @@ export function PlatformDiagnosticsSurface({
   ];
 
   return (
-    <main className="tpm-foundation-page tpm-utility-page">
+    <main className="tpm-foundation-page tpm-utility-page tpm-utility-page-diagnostics">
       <section className="tpm-foundation-card tpm-utility-hero">
         <header className="tpm-foundation-head">
           <div>
-            <span>TPM SYSTEM</span>
+            <span>READINESS CENTER</span>
             <h1>{dict.diagnostics.title}</h1>
             <p>{dict.diagnostics.subtitle}</p>
           </div>
@@ -1242,7 +1259,7 @@ export function PlatformDiagnosticsSurface({
                 ? "Readiness snapshot unavailable"
                 : "Loading readiness snapshot"
             }
-            text="Diagnostics is checking the internal readiness model without exposing private controls or fake launch states."
+            text="Diagnostics is checking the product readiness model without exposing restricted controls or fake launch claims."
           />
         )}
       </UtilitySection>
@@ -1280,7 +1297,7 @@ export function PlatformDiagnosticsSurface({
             compact
             kind="loading"
             title="Integration mesh loading"
-            text="Diagnostics is aligning product truth, plans, Assistant, blocked states, safety, content, reporting, and visual readiness."
+            text="Diagnostics is aligning product truth, plans, Assistant, blocked conditions, safety, content, reporting, and visual readiness."
           />
         )}
       </UtilitySection>
@@ -1324,7 +1341,7 @@ export function PlatformDiagnosticsSurface({
                 ? "State explanations unavailable"
                 : "Loading state explanations"
             }
-            text="The state explanation engine provides user-safe reasons and next steps for blocked, fallback, degraded, and protected states."
+            text="The state explanation engine provides user-safe reasons and next steps for blocked, fallback, degraded, and protected conditions."
           />
         )}
       </UtilitySection>
@@ -1607,11 +1624,11 @@ export function PlatformSettingsSurface({
   ];
 
   return (
-    <main className="tpm-foundation-page tpm-utility-page">
+    <main className="tpm-foundation-page tpm-utility-page tpm-utility-page-settings">
       <section className="tpm-foundation-card tpm-utility-hero">
         <header className="tpm-foundation-head">
           <div>
-            <span>TPM CONTROL</span>
+            <span>USER CONTROLS</span>
             <h1>{dict.settings.title}</h1>
             <p>{dict.settings.subtitle}</p>
           </div>
@@ -1693,7 +1710,7 @@ export function PlatformSettingsSurface({
               {ACCOUNT_TYPE_IDENTITY_STATES.islamic_requested.label},{" "}
               {ACCOUNT_TYPE_IDENTITY_STATES.islamic_review_required.label},{" "}
               {ACCOUNT_TYPE_IDENTITY_STATES.islamic_configured.label}, and{" "}
-              {ACCOUNT_TYPE_IDENTITY_STATES.unavailable.label} are supported states; no
+              {ACCOUNT_TYPE_IDENTITY_STATES.unavailable.label} are supported status options; no
               certification is claimed.
             </small>
           </div>

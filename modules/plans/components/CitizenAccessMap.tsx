@@ -30,9 +30,9 @@ export default function CitizenAccessMap({
 
       {founderLayer ? (
         <aside className="tpm-founder-access-boundary">
-          <strong>Private command boundary</strong>
+          <strong>Restricted controls boundary</strong>
           <p>
-            Private command tools are separate from public plans, read-only by
+            Restricted controls are separate from public plans, read-only by
             default, and never part of Free, Pro, VIP, or Institutional.
           </p>
         </aside>

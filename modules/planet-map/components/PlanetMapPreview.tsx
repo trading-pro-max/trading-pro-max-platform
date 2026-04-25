@@ -13,17 +13,17 @@ export default function PlanetMapPreview({ audience = "citizen" }: PlanetMapPrev
     <section
       className="tpm-planet-map-preview"
       data-audience={audience}
-      aria-label={founder ? "Private command map preview" : "Workspace access map preview"}
+      aria-label={founder ? "Restricted controls map preview" : "Workspace access map preview"}
     >
       <header>
         <TPMEarthMark variant={founder ? "command" : "compact"} />
         <div>
-          <span>{founder ? "Private command map" : "Workspace access layer"}</span>
-          <h2>{founder ? "Internal command visualization" : "Paper-safe workspace view"}</h2>
+          <span>{founder ? "Restricted controls map" : "Workspace access layer"}</span>
+          <h2>{founder ? "Restricted readiness visualization" : "Paper-safe workspace view"}</h2>
           <p>
             {founder
-              ? "Private readiness view of internal areas, resources, risks, and approvals."
-              : "A simplified plan layer showing only user-safe product areas without internal command data."}
+              ? "Restricted readiness view of protected areas, resources, risks, and approvals."
+              : "A simplified plan layer showing only user-safe product areas without restricted control data."}
           </p>
         </div>
       </header>

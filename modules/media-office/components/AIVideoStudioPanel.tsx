@@ -14,7 +14,7 @@ export default function AIVideoStudioPanel() {
         <span>AI Video Studio</span>
         <h2>Script readiness only</h2>
         <p>
-          The studio can model future scripts and review states. No generation
+          The studio can model future scripts and review statuses. No generation
           API, upload, external publishing, views, followers, or ad metrics are active.
         </p>
       </header>
