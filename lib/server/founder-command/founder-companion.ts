@@ -15,10 +15,12 @@ import {
 } from "@/lib/server/local-ops";
 import { getRealWorldLaunchReadinessSnapshot } from "@/lib/server/launch-readiness";
 import { getFinalConvergenceSnapshot } from "@/lib/server/final-convergence";
+import { getAlkonLegitimacySnapshot } from "@/lib/server/alkon-legitimacy";
 import { getPlanetaryEnvironmentReadinessSnapshot } from "@/lib/server/environment";
 import { getEarthRealitySnapshot } from "@/lib/server/earth-reality";
 import { getPersonalRealityReadinessSnapshot } from "@/lib/server/personal-reality";
 import { getFounderDeviceReadinessSnapshot } from "@/lib/server/devices";
+import { getMediaIntelligenceSnapshot } from "@/lib/server/media-intelligence";
 import { getIntentInterfaceReadinessSnapshot } from "@/lib/server/intent-interface";
 import { getInvisibleOperatingLayerSnapshot } from "@/lib/server/invisible-operating-layer";
 import {
@@ -31,6 +33,7 @@ import {
   getSovereignAutonomyReadinessSnapshot,
 } from "@/lib/server/sovereign-autonomy";
 import { getFounderToolingReadinessSnapshot } from "@/lib/server/integrations";
+import { getTreasuryLifeSnapshot } from "@/lib/server/treasury-life";
 import { getFounderBuildRoomSnapshot } from "./build-room";
 import type { FounderBriefing, MinistryReport } from "@/lib/server/planet-os/types";
 import { getFounderCommandReportingSnapshot } from "./reporting";
@@ -66,6 +69,9 @@ export type FounderPersonalCompanionSnapshot = {
   alkonCosmicPhysicsSummary: string[];
   alkonSovereignConsciousnessSummary: string[];
   alkonOntologySummary: string[];
+  alkonLegitimacySummary: string[];
+  treasuryLifeSummary: string[];
+  mediaIntelligenceSummary: string[];
   finalConvergenceSummary: string[];
   earthRealitySummary: string[];
   personalRealitySummary: string[];
@@ -123,6 +129,9 @@ export function getFounderPersonalCompanionSnapshot(
   const founderIdeaInbox = getFounderIdeaInboxReadiness(checkedAt);
   const codexSovereignty = getCodexPresidencyReport(checkedAt);
   const alkonUniverse = getAlkonUniverseSnapshot(checkedAt);
+  const alkonLegitimacy = getAlkonLegitimacySnapshot(checkedAt);
+  const treasuryLife = getTreasuryLifeSnapshot();
+  const mediaIntelligence = getMediaIntelligenceSnapshot();
   const finalConvergence = getFinalConvergenceSnapshot(checkedAt);
   const realWorldLaunchReadiness =
     getRealWorldLaunchReadinessSnapshot(checkedAt);
@@ -267,6 +276,24 @@ export function getFounderPersonalCompanionSnapshot(
       `${alkonUniverse.ontology.entityCount} entities are registered across ${alkonUniverse.ontology.publicEntityCount} public, ${alkonUniverse.ontology.privateEntityCount} private, and ${alkonUniverse.ontology.invisibleEntityCount} invisible entities.`,
       `${alkonUniverse.ontology.completeEntities} entities are complete; ${alkonUniverse.ontology.partialEntities} require validation, memory, relationship, or cleanup review.`,
       "Ontology is private, read-only, and cannot delete entities, execute shell commands, expose secrets, activate launch, or expose Alkon publicly.",
+    ],
+    alkonLegitimacySummary: [
+      `${alkonLegitimacy.name} is ${alkonLegitimacy.visibility}; public exposure is ${String(alkonLegitimacy.publicExposure)}.`,
+      `${alkonLegitimacy.recentSampleDecisions.length} sample decisions prove permit outcomes across user, billing, treasury, and media actions.`,
+      `${alkonLegitimacy.blackHoleCategories.length} categories are black-holed, including billing, broker/feed, live execution, real money, production, and secrets access.`,
+      "Legitimacy is private, read-only, and cannot execute payments, expose bank/card data, publish, activate production, or override Product Truth.",
+    ],
+    treasuryLifeSummary: [
+      `Treasury Life is ${treasuryLife.status}; funding mode is ${treasuryLife.fundingMode}.`,
+      `Initial cap is ${treasuryLife.budgetCap.initialCap} ${treasuryLife.budgetCap.currency}; payment execution is ${treasuryLife.paymentExecutionStatus}.`,
+      `Tax reserve is ${treasuryLife.taxReserveReadiness}; VAT threshold watch is ${treasuryLife.vatThresholdWatch}; bank/card data is ${treasuryLife.bankCardSecretStatus}.`,
+      treasuryLife.nextSafeFinancialAction,
+    ],
+    mediaIntelligenceSummary: [
+      `Media Reality is ${mediaIntelligence.status}; publishing gate is ${mediaIntelligence.publishingGate}.`,
+      `Claims firewall ready: ${String(mediaIntelligence.claimsFirewall.ready)}; social accounts connected: ${String(mediaIntelligence.channelReality.socialAccountsConnected)}.`,
+      `AI content factory is ${mediaIntelligence.aiContentFactoryReadiness}; story architecture is ${mediaIntelligence.storyArchitecture}.`,
+      "Media remains draft/review-only with no social tokens, no publishing, no ad spend, and no fake metrics.",
     ],
     finalConvergenceSummary: [
       `Final Convergence is ${finalConvergence.status} with score ${finalConvergence.convergenceScore.score}/10; no fake 10/10 is claimed.`,

@@ -33,10 +33,12 @@ import {
 } from "@/lib/server/local-ops";
 import { getRealWorldLaunchReadinessSnapshot } from "@/lib/server/launch-readiness";
 import { getFinalConvergenceSnapshot } from "@/lib/server/final-convergence";
+import { getAlkonLegitimacySnapshot } from "@/lib/server/alkon-legitimacy";
 import { getPlanetaryEnvironmentReadinessSnapshot } from "@/lib/server/environment";
 import { getEarthRealitySnapshot } from "@/lib/server/earth-reality";
 import { getPersonalRealityReadinessSnapshot } from "@/lib/server/personal-reality";
 import { getFounderDeviceReadinessSnapshot } from "@/lib/server/devices";
+import { getMediaIntelligenceSnapshot } from "@/lib/server/media-intelligence";
 import { getInvisibleOperatingLayerSnapshot } from "@/lib/server/invisible-operating-layer";
 import {
   getContentReviewReadinessSnapshot,
@@ -62,6 +64,7 @@ import {
   getProductSurfaceDigitalTwinSnapshot,
 } from "@/lib/server/product-reality";
 import { getSecuritySovereigntySnapshot } from "@/lib/server/security-sovereignty";
+import { getTreasuryLifeSnapshot } from "@/lib/server/treasury-life";
 import {
   getFounderSecurityReadinessSnapshot,
   getSecretsAuthoritySnapshot,
@@ -182,11 +185,14 @@ export function getFounderCommandAppSnapshot(
   const realWorldLaunchReadiness =
     getRealWorldLaunchReadinessSnapshot(checkedAt);
   const finalConvergence = getFinalConvergenceSnapshot(checkedAt);
+  const alkonLegitimacy = getAlkonLegitimacySnapshot(checkedAt);
   const planetaryEnvironment =
     getPlanetaryEnvironmentReadinessSnapshot(checkedAt);
   const earthReality = getEarthRealitySnapshot(checkedAt);
   const personalReality = getPersonalRealityReadinessSnapshot(checkedAt);
   const deviceConstellation = getFounderDeviceReadinessSnapshot(checkedAt);
+  const treasuryLife = getTreasuryLifeSnapshot();
+  const mediaIntelligence = getMediaIntelligenceSnapshot();
 
   const desktopApp: FounderCommandDeviceBlueprint = {
     platform: "desktop",
@@ -314,6 +320,10 @@ export function getFounderCommandAppSnapshot(
           ontologyReady:
             alkonCommandUniverse.ontology.ontologyStatus === "ready",
           ontologyPublicExposure: alkonCommandUniverse.ontology.publicExposure,
+          legitimacyReady:
+            alkonCommandUniverse.sovereignLegitimacy.readiness === "ready",
+          legitimacyPublicExposure:
+            alkonCommandUniverse.sovereignLegitimacy.publicExposure,
         },
       },
       planRealmFunctionalExperience: {
@@ -370,6 +380,9 @@ export function getFounderCommandAppSnapshot(
     alkonSovereignConsciousness:
       alkonCommandUniverse.sovereignOperatingConsciousness,
     alkonOntology: alkonCommandUniverse.ontology,
+    alkonLegitimacy,
+    treasuryLife,
+    mediaIntelligence,
     finalConvergence,
     earthReality: {
       status: earthReality.status,
@@ -497,6 +510,7 @@ export function getFounderCommandAppSnapshot(
         economyGrowth.economy.monetizationReadiness.performanceBasedRevenue,
       ownerOnlyFutureActivation: true,
       visibleToPublicUsers: false,
+      treasuryLife,
       requiredBeforeActivation: [
         "billing provider",
         "legal review",
@@ -535,6 +549,7 @@ export function getFounderCommandAppSnapshot(
       externalPublishingActive: false,
       fakeFollowersIncluded: false,
       fakeMetricsIncluded: false,
+      mediaIntelligence,
     },
     mediaAiVideoWorkflowReadiness: {
       readiness: "draft_review_only" as const,
@@ -1200,6 +1215,10 @@ export function getFounderCommandAppSnapshot(
       "/api/founder/alkon-ontology/entities",
       "/api/founder/alkon-ontology/completeness",
       "/api/founder/alkon-ontology/cleanup-candidates",
+      "/api/founder/alkon-legitimacy/readiness",
+      "/api/founder/alkon-legitimacy/decision-sample",
+      "/api/founder/treasury-life/readiness",
+      "/api/founder/media-intelligence/readiness",
       "/api/founder/final-convergence/readiness",
       "/api/founder/final-convergence/snapshot",
       "/api/founder/final-convergence/layers",

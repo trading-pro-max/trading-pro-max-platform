@@ -17,7 +17,9 @@ import AlkonConvergenceScorePanel from "./AlkonConvergenceScorePanel";
 import AlkonFinalConvergencePanel from "./AlkonFinalConvergencePanel";
 import AlkonLayerGrowthPanel from "./AlkonLayerGrowthPanel";
 import AlkonGravityRoutePanel from "./AlkonGravityRoutePanel";
+import AlkonLegitimacyPanel from "./AlkonLegitimacyPanel";
 import AlkonMeaningLawPanel from "./AlkonMeaningLawPanel";
+import AlkonMediaRealityPanel from "./AlkonMediaRealityPanel";
 import AlkonMemoryEvolutionPanel from "./AlkonMemoryEvolutionPanel";
 import AlkonNextSafeLayersPanel from "./AlkonNextSafeLayersPanel";
 import AlkonOntologyPanel from "./AlkonOntologyPanel";
@@ -25,6 +27,9 @@ import AlkonEntityGraphPanel from "./AlkonEntityGraphPanel";
 import AlkonCompletenessPanel from "./AlkonCompletenessPanel";
 import AlkonCleanupCandidatesPanel from "./AlkonCleanupCandidatesPanel";
 import AlkonSignalSensePanel from "./AlkonSignalSensePanel";
+import AlkonDecisionPermitPanel from "./AlkonDecisionPermitPanel";
+import AlkonTreasuryLifePanel from "./AlkonTreasuryLifePanel";
+import AlkonAuthorityFabricPanel from "./AlkonAuthorityFabricPanel";
 import AlkonDeviceConstellationPanel from "./AlkonDeviceConstellationPanel";
 import AlkonPocketUniversePanel from "./AlkonPocketUniversePanel";
 import AlkonDeviceSecurityPanel from "./AlkonDeviceSecurityPanel";
@@ -105,6 +110,15 @@ export default function FounderCommandRoom({
       <FounderPlanetCommandWorld checkedAt={commandSnapshot.checkedAt} />
 
       <AlkonCommandUniverse checkedAt={commandSnapshot.checkedAt} />
+
+      <AlkonLegitimacyPanel snapshot={appSnapshot.alkonLegitimacy} />
+
+      <div className="alkon-command-grid alkon-legitimacy-grid">
+        <AlkonDecisionPermitPanel snapshot={appSnapshot.alkonLegitimacy} />
+        <AlkonTreasuryLifePanel snapshot={appSnapshot.treasuryLife} />
+        <AlkonAuthorityFabricPanel snapshot={appSnapshot.alkonLegitimacy} />
+        <AlkonMediaRealityPanel snapshot={appSnapshot.mediaIntelligence} />
+      </div>
 
       <AlkonOntologyPanel snapshot={appSnapshot.alkonOntology} />
 

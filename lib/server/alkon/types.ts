@@ -2,6 +2,7 @@ import "server-only";
 
 import type { AlkonConsciousnessSnapshot } from "@/lib/server/alkon-consciousness";
 import type { AlkonCosmicPhysicsSnapshot } from "@/lib/server/alkon-physics";
+import type { AlkonLegitimacySnapshot } from "@/lib/server/alkon-legitimacy";
 import type { AlkonOntologySnapshot } from "@/lib/server/alkon-ontology";
 
 export type AlkonUniverseVisibility = "private_founder_only";
@@ -70,6 +71,7 @@ export type AlkonApiExposure = {
   founderPhysicsReadinessRoute: "/api/founder/alkon-physics/readiness";
   founderConsciousnessReadinessRoute: "/api/founder/alkon-consciousness/readiness";
   founderOntologyReadinessRoute: "/api/founder/alkon-ontology/readiness";
+  founderLegitimacyReadinessRoute: "/api/founder/alkon-legitimacy/readiness";
   publicRouteDecision: string;
   routeMode: "read_only_status_only";
   secretsExposed: false;
@@ -96,6 +98,7 @@ export type AlkonUniverseSnapshot = {
   cosmicPhysics: AlkonCosmicPhysicsSnapshot;
   sovereignOperatingConsciousness: AlkonConsciousnessSnapshot;
   ontology: AlkonOntologySnapshot;
+  sovereignLegitimacy: AlkonLegitimacySnapshot;
   universeMap: AlkonSubsystem[];
   nextSafeActions: string[];
   blockedActions: string[];
