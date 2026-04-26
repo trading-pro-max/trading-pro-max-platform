@@ -11,6 +11,6 @@ export async function GET() {
     ok: true,
     productTruth: snapshot.productTruthStatus,
     publicCopy:
-      "Trading Pro Max is paper-safe. Live execution, real money, broker/feed, billing, production launch, and social publishing are inactive or blocked.",
+      "Pro Max Trading is paper-safe. Live execution, real money, broker/feed, billing, production launch, and social publishing are inactive or blocked.",
   });
 }

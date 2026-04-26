@@ -61,7 +61,7 @@ export function getRevelationExperienceSnapshot(
     visualAcceptanceNeeded: true,
     productTruth,
     publicCopy:
-      "Trading Pro Max reveals itself as a calm Earth-native, paper-safe web workspace: clear in seconds, guided by TPM Assistant, useful in Workspace, and honest over time.",
+      "Pro Max Trading reveals itself as a calm Earth-native, paper-safe web workspace: clear in seconds, guided by Pro Max Assistant, useful in Workspace, and honest over time.",
     founderReadiness: {
       revelationReadiness: "ready_with_notes",
       first3SecondsStatus: "needs_polish",
@@ -96,7 +96,7 @@ export function getPublicRevelationExperienceSnapshot(
     needsPolish: snapshot.needsPolish,
     nextSafeActions: [
       "Enter Trading Workspace.",
-      "Ask TPM Assistant for Start, Why blocked, Bigger chart, Calmer, Plans, Apps, Support, or Journal.",
+      "Ask Pro Max Assistant for Start, Why blocked, Bigger chart, Calmer, Plans, Apps, Support, or Journal.",
       "Use Settings for Static Mode, Low Motion, High Contrast, Personal Reality, and Adaptive Atmosphere.",
       "Use Diagnostics for public-safe readiness truth.",
     ],

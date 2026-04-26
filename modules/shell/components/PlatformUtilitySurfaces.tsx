@@ -82,6 +82,8 @@ function publicEngineLabel(key: string, fallback: string): string {
 
 function publicDisplayText(value: string): string {
   return value
+    .replace(/Trading Pro Max/gi, "Pro Max Trading")
+    .replace(/TPM Assistant/gi, "Pro Max Assistant")
     .replace(/\bEnterprise\b/g, "Institutional")
     .replace(/Founder Command/gi, "Advanced controls")
     .replace(/Founder King/gi, "Advanced controls")
@@ -1229,7 +1231,7 @@ export function PlatformDiagnosticsSurface({
       label: "Private systems",
       value: "Internal",
       tone: "restricted" as const,
-      note: "Normal users only see the public Trading Pro Max product world.",
+      note: "Normal users only see Pro Max and the public Pro Max Trading product world.",
     },
   ];
 
@@ -1244,7 +1246,7 @@ export function PlatformDiagnosticsSurface({
       label: "Assistant control",
       value: "Preview and explain",
       tone: "approved" as const,
-      note: "TPM Assistant interprets intent, checks plan access, and explains allowed changes.",
+      note: "Pro Max Assistant interprets intent, checks plan access, and explains allowed changes.",
     },
     {
       label: "Pro / VIP / Institutional",
@@ -1368,7 +1370,7 @@ export function PlatformDiagnosticsSurface({
       label: "Assistant intents",
       value: "Secondary controls",
       tone: "approved" as const,
-      note: "Calmer, Bigger chart, Plans, Apps, Support, Journal, and Why blocked route through TPM Assistant.",
+      note: "Calmer, Bigger chart, Plans, Apps, Support, Journal, and Why blocked route through Pro Max Assistant.",
     },
     {
       label: "Blocked intents",
@@ -1398,13 +1400,13 @@ export function PlatformDiagnosticsSurface({
           label: "First 10 seconds",
           value: diagnosticsHealth.revelationExperience.first10Seconds,
           tone: "approved" as const,
-          note: "Users can see what Trading Pro Max is, where to start, and what is active or planned.",
+          note: "Users can see what Pro Max Trading is, where to start, and what is active or planned.",
         },
         {
           label: "First 30 seconds",
           value: diagnosticsHealth.revelationExperience.first30Seconds,
           tone: "approved" as const,
-          note: "TPM Assistant guides Start, Why blocked, Bigger chart, Calmer, Plans, Apps, Support, and Journal.",
+          note: "Pro Max Assistant guides Start, Why blocked, Bigger chart, Calmer, Plans, Apps, Support, and Journal.",
         },
         {
           label: "First 3 minutes",
@@ -2420,7 +2422,7 @@ export function PlatformSettingsSurface({
       note: accountTypeIdentity.note,
     },
     {
-      label: "TPM Assistant",
+      label: "Pro Max Assistant",
       value: assistantTier.label,
       tone: "pending" as const,
       note: "Free guidance is active; Pro, VIP, and Institutional assistants remain locked or planned until real entitlements exist.",
@@ -2478,7 +2480,7 @@ export function PlatformSettingsSurface({
       label: "Earth Reality",
       value: "Reference reality",
       tone: "approved" as const,
-      note: "Trading Pro Max uses Earth as the public reference for human, time, privacy, market, learning, support, environment, and Product Truth decisions.",
+      note: "Pro Max Trading uses Earth as the public reference for human, time, privacy, market, learning, support, environment, and Product Truth decisions.",
     },
     {
       label: "Safety truth",
@@ -2502,7 +2504,7 @@ export function PlatformSettingsSurface({
       note: "Static Mode, Low Motion, High Contrast, and Learning Basics are also active.",
     },
     {
-      label: "TPM Assistant",
+      label: "Pro Max Assistant",
       value: "Controls by intent",
       tone: "approved" as const,
       note: "Ask for calmer, focus, bigger chart, low motion, static, or why a profile is locked.",
@@ -2523,7 +2525,7 @@ export function PlatformSettingsSurface({
       note: "Navigation, sign-in, paper execution, Settings, and Diagnostics stay visible for fast access.",
     },
     {
-      label: "Ask TPM Assistant",
+      label: "Ask Pro Max Assistant",
       value: "Intent-first",
       tone: "approved" as const,
       note: "Use Assistant for calmer workspace, bigger chart, plan questions, apps, support, Journal/Coach guidance, and blocked-state explanations.",
@@ -2598,7 +2600,7 @@ export function PlatformSettingsSurface({
       note: "The workstation now teaches a first pass without tutorial clutter.",
     },
     {
-      label: "TPM Assistant",
+      label: "Pro Max Assistant",
       value: "Interpretive operator assist",
       tone: "pending" as const,
       note: "Context and risk guidance remain grounded, bounded, and non-predictive.",

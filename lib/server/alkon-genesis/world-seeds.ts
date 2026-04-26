@@ -55,7 +55,7 @@ export const ALKON_WORLD_SEEDS: AlkonWorldSeed[] = [
     category: "education_academy",
     purposeHypothesis:
       "Possible future expansion of learning paths and practice education.",
-    intendedAudience: "Trading Pro Max learners",
+    intendedAudience: "Pro Max Trading learners",
     relationshipToPrime: "extends_prime_world",
     possibleValue: "Can strengthen onboarding and reduce support burden.",
     possibleRisk: "Could distract from current Academy readiness if overbuilt.",

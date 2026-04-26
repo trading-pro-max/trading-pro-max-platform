@@ -23,12 +23,13 @@ export const PUBLIC_FORBIDDEN_TERMS = [
 ];
 
 export const PUBLIC_ALLOWED_TERMS = [
-  "Trading Pro Max",
+  "Pro Max",
+  "Pro Max Trading",
   "Free",
   "Pro",
   "VIP",
   "Institutional",
-  "TPM Assistant",
+  "Pro Max Assistant",
   "Trading Workspace",
   "Markets",
   "Apps / Platforms",

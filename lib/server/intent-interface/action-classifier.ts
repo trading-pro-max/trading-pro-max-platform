@@ -31,7 +31,7 @@ function coreAction(
     safetyBoundaries: ["no_execution", "no_public_alkon"],
     publicCopy,
     blockedCopy: "This core action is unavailable only if the route is unavailable.",
-    safeAlternative: "Ask TPM Assistant where to go next.",
+    safeAlternative: "Ask Pro Max Assistant where to go next.",
   };
 }
 
@@ -62,7 +62,7 @@ function contextAction(
     safetyBoundaries,
     publicCopy,
     blockedCopy: "This contextual control cannot bypass Product Truth.",
-    safeAlternative: "Ask TPM Assistant for an explanation or safer route.",
+    safeAlternative: "Ask Pro Max Assistant for an explanation or safer route.",
   };
 }
 
@@ -94,7 +94,7 @@ function assistantIntent(
     ],
     safetyBoundaries: ["no_execution", "no_signals", "no_profit_claims", "no_public_alkon"],
     publicCopy,
-    blockedCopy: "TPM Assistant can explain this request, but cannot fake activation.",
+    blockedCopy: "Pro Max Assistant can explain this request, but cannot fake activation.",
     safeAlternative: "Use active Free controls or read the truthful planned/future state.",
   };
 }
@@ -158,19 +158,19 @@ export const intentActionCatalog: IntentActionDefinition[] = [
   contextAction("save_journal_note", "Save journal note", "journal_coach", true, "Save a paper-session reflection."),
   contextAction("open_coach", "Open Coach", "journal_coach", true, "Open a paper-session coaching prompt."),
   contextAction("reset_chart", "Reset chart", "trading_workspace", true, "Reset chart layout after confirmation."),
-  contextAction("open_assistant", "Open TPM Assistant", "assistant", true, "Open the human intent interface."),
+  contextAction("open_assistant", "Open Pro Max Assistant", "assistant", true, "Open the human intent interface."),
   contextAction("switch_timeframe", "Switch timeframe", "trading_workspace", true, "Change chart timeframe without implying live feed."),
   contextAction("change_symbol", "Change symbol", "trading_workspace", true, "Change selected symbol in the paper workspace."),
 
-  assistantIntent("make_calmer", "Make it calmer", "assistant", "TPM Assistant can preview calmer visual and workspace settings.", {
+  assistantIntent("make_calmer", "Make it calmer", "assistant", "Pro Max Assistant can preview calmer visual and workspace settings.", {
     allowedPlans: [...freePlan, "pro", "vip", "enterprise"],
   }),
-  assistantIntent("bigger_chart", "Bigger chart", "assistant", "TPM Assistant can explain Chart Comfort and focus the workspace.", {
+  assistantIntent("bigger_chart", "Bigger chart", "assistant", "Pro Max Assistant can explain Chart Comfort and focus the workspace.", {
     requiresConfirmation: true,
   }),
-  assistantIntent("reduce_motion", "Reduce motion", "assistant", "TPM Assistant can guide Low Motion accessibility settings."),
-  assistantIntent("static_mode", "Static Mode", "assistant", "TPM Assistant can guide Static Mode without changing Product Truth."),
-  assistantIntent("high_contrast", "High Contrast", "assistant", "TPM Assistant can guide High Contrast for readability."),
+  assistantIntent("reduce_motion", "Reduce motion", "assistant", "Pro Max Assistant can guide Low Motion accessibility settings."),
+  assistantIntent("static_mode", "Static Mode", "assistant", "Pro Max Assistant can guide Static Mode without changing Product Truth."),
+  assistantIntent("high_contrast", "High Contrast", "assistant", "Pro Max Assistant can guide High Contrast for readability."),
   assistantIntent("explain_pro", "Explain Pro", "plans", "Explain Pro as planned professional depth unless entitlement exists.", {
     requiresEntitlement: true,
   }),
@@ -200,14 +200,14 @@ export const intentActionCatalog: IntentActionDefinition[] = [
   blockedIntent(
     "execute_trade",
     "Execute trade",
-    "TPM Assistant cannot execute trades or place orders.",
+    "Pro Max Assistant cannot execute trades or place orders.",
     "Use paper buttons for rehearsal or ask why execution is blocked.",
     ["no_execution", "no_live_activation", "no_real_money"]
   ),
   blockedIntent(
     "provide_signal",
     "Provide signal",
-    "TPM Assistant cannot provide trading signals.",
+    "Pro Max Assistant cannot provide trading signals.",
     "Ask for educational context or a Journal/Coach prompt.",
     ["no_signals", "no_profit_claims", "no_execution"]
   ),
@@ -277,7 +277,7 @@ export const intentActionCatalog: IntentActionDefinition[] = [
   blockedIntent(
     "expose_codex",
     "Expose build internals",
-    "Build internals are not part of the public TPM Assistant.",
+    "Build internals are not part of the public Pro Max Assistant.",
     "Ask for public product readiness instead.",
     ["no_public_alkon", "no_secrets"]
   ),

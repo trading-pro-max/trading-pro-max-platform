@@ -173,10 +173,10 @@ export type TPMCompanionContextView = {
     riskProfile: string;
   };
   dailyUse: {
-    assistantName: "TPM Assistant";
+    assistantName: "Pro Max Assistant";
     role: "safe_daily_workspace_assistant";
     modes: string[];
-    publicLanguage: ["Free", "Pro", "VIP", "Institutional", "TPM Assistant"];
+    publicLanguage: ["Free", "Pro", "VIP", "Institutional", "Pro Max Assistant"];
     nonAdvice: true;
     nonExecuting: true;
     nonPredictive: true;

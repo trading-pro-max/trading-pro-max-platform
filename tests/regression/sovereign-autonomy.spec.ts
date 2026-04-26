@@ -276,7 +276,7 @@ test.describe("sovereign autonomy operating civilization", () => {
 
     await openDark(page, "/");
     await expect(page.locator("main").first()).toBeVisible();
-    await expect(page.locator("body")).toContainText("Trading Pro Max");
+    await expect(page.locator("body")).toContainText("Pro Max Trading");
     await expect(page.locator("body")).toContainText("Free");
     await expect(page.locator("body")).toContainText("Pro");
     await expect(page.locator("body")).toContainText("VIP");

@@ -13,9 +13,9 @@ import { DEFAULT_THEME_MODE, THEME_MODES } from "../lib/constants/theme";
 import { PlanetaryEnvironmentProvider } from "../modules/shell/components/PlanetaryEnvironmentProvider";
 
 export const metadata: Metadata = {
-  title: "Trading Pro Max | Operator-Grade Evaluation Workstation",
+  title: "Pro Max Trading | Paper-Safe AI-Guided Trading Workspace",
   description:
-    "Commercial-grade trading workspace with TPM Assistant, truthful paper-only execution, fallback-first market context, and diagnostics-ready product trust.",
+    "Pro Max Trading is a paper-safe AI-guided trading workspace with Pro Max Assistant, fallback-first market context, and diagnostics-ready product truth.",
 };
 
 const THEME_BOOTSTRAP_SCRIPT = `

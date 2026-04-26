@@ -52,7 +52,7 @@ export function getTpmIntegrationMeshSnapshot(
     },
     publicLanguage: {
       planNames: [...publicPlanNames],
-      assistantName: "TPM Assistant",
+      assistantName: "Pro Max Assistant",
       userTerms: [
         "Trading Workspace",
         "Assistant",

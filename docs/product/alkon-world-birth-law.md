@@ -1,7 +1,7 @@
 # Alkon World Birth Law
 
 World birth requires a private World Birth Permit. The permit must include the
-world name, category, purpose, relationship to Trading Pro Max, passed gates,
+world name, category, purpose, relationship to Pro Max Trading, passed gates,
 failed gates, allowed scope, forbidden scope, required proof, Founder decision,
 and next safe action.
 

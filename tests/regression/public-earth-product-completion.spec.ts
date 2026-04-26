@@ -56,7 +56,7 @@ test.describe("public Earth product completion", () => {
   test("renders a complete public Home without private leakage", async ({ page }) => {
     await openWithTheme(page, "/", "dark");
     await expect(page.locator("main").first()).toBeVisible();
-    await expect(page.locator("body")).toContainText("Trading Pro Max");
+    await expect(page.locator("body")).toContainText("Pro Max Trading");
 
     for (const surface of requiredPublicSurfaces) {
       await expect(page.locator("body")).toContainText(surface);
@@ -119,7 +119,7 @@ test.describe("public Earth product completion", () => {
     await openWithTheme(page, "/en", "dark");
     await expect(page.locator(".tpmv2-desktop-master").first()).toBeVisible();
     await expect(page.locator(".tpmv2-chart-surface").first()).toBeVisible();
-    await expect(page.locator("body")).toContainText(/TPM Assistant|Paper-safe controls/);
+    await expect(page.locator("body")).toContainText(/Pro Max Assistant|Paper-safe controls/);
     await expectPublicSafe(page);
 
     await page.screenshot({
@@ -145,7 +145,7 @@ test.describe("public Earth product completion", () => {
       fullPage: true,
       path: path.join(ARTIFACT_DIR, "assistant-open.png"),
     });
-    await page.getByRole("button", { name: "Close TPM Assistant" }).click();
+    await page.getByRole("button", { name: "Close Pro Max Assistant" }).click();
 
     await openWithTheme(page, "/en/settings", "dark");
     await expect(page.locator("main").first()).toBeVisible();

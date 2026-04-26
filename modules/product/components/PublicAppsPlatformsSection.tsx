@@ -21,9 +21,9 @@ export default function PublicAppsPlatformsSection() {
       <div className="tpm-product-section-head">
         <div>
           <span className="tpm-product-kicker">Apps / Platforms</span>
-          <h2>Use the Web App today. Desktop and mobile stay planned.</h2>
+          <h2>Use Pro Max Web App today. Desktop and mobile stay planned.</h2>
         </div>
-        <p>No fake downloads, no store listing claim, and no native app release claim.</p>
+        <p>Pro Max Trading is web-first and paper-safe. No fake downloads, no store listing claim, and no native app release claim.</p>
       </div>
 
       <div className="tpm-public-readiness-grid tpm-device-public-grid">

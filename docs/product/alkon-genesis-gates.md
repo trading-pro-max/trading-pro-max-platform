@@ -11,6 +11,6 @@ Genesis gates decide whether a seed may continue.
 - Security Gate: secrets, auth, device trust, public/private boundary, and audit.
 - Prototype Gate: docs, mock UI, and read-only readiness only.
 - Proof Gate: no birth without proof.
-- Prime World Protection Gate: Trading Pro Max cannot be weakened.
+- Prime World Protection Gate: Pro Max Trading cannot be weakened.
 - Founder Gate: Ahmad final authority.
 - Birth Gate: no world birth without all gates.

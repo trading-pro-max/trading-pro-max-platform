@@ -19,7 +19,7 @@ const ar = {
   },
   shell: {
     foundation: "أساس i18n عالمي",
-    title: "Trading Pro Max",
+    title: "Pro Max Trading",
     subtitle: "نواة محطة التداول",
   },
   market: {

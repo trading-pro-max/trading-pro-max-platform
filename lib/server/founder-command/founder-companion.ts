@@ -1,5 +1,6 @@
 import "server-only";
 
+import { getPrivateBrandUniverse } from "@/lib/brand";
 import { getPlanEntitlementSnapshot } from "@/lib/plans/entitlements";
 import { getPrivateFounderRealm, getPublicPlanRealms } from "@/lib/plans/realms";
 import { getAlkonUniverseSnapshot } from "@/lib/server/alkon";
@@ -78,6 +79,7 @@ export type FounderPersonalCompanionSnapshot = {
   alkonContinuitySummary: string[];
   alkonRuntimeSummary: string[];
   alkonGenesisSummary: string[];
+  brandUniverseSummary: string[];
   infiniteGrowthSummary: string[];
   treasuryLifeSummary: string[];
   mediaIntelligenceSummary: string[];
@@ -144,6 +146,7 @@ export function getFounderPersonalCompanionSnapshot(
   const alkonRuntime = getAlkonRuntimeSnapshot(checkedAt);
   const alkonGenesis = getAlkonGenesisSnapshot(checkedAt);
   const infiniteGrowth = getInfiniteGrowthSnapshot(checkedAt);
+  const brandUniverse = getPrivateBrandUniverse();
   const treasuryLife = getTreasuryLifeSnapshot();
   const mediaIntelligence = getMediaIntelligenceSnapshot();
   const revelationExperience = getRevelationExperienceSnapshot(checkedAt);
@@ -263,7 +266,7 @@ export function getFounderPersonalCompanionSnapshot(
       "No automatic external Codex sending, approval execution, launch, billing, broker/feed, live execution, real money, or social publishing is active.",
     ],
     insideOutsidePlanetSummary: [
-      "Public users live on the professional Trading Pro Max platform surface.",
+      "Public users live on the professional Pro Max Trading platform surface under the Pro Max mother brand.",
       "Ahmad lives inside private Founder Command and Alkon / الكون Universe with Idea Inbox, construction governance, memory, tribunal, and next safe actions.",
       "The invisible operating layer maps internal complexity to public-safe readiness outputs.",
       "The living Earth atmosphere is code-only and local-scope; no images, external maps, GPS, or precise location tracking are used.",
@@ -316,6 +319,12 @@ export function getFounderPersonalCompanionSnapshot(
       `${alkonGenesis.delayedSeeds.length} seeds are delayed, ${alkonGenesis.prototypeAllowedSeeds.length} are prototype-allowed, and ${alkonGenesis.founderApprovalNeeded.length} need Founder approval in the readiness model.`,
       "Genesis is private, read-only, and cannot create projects, expose future worlds, launch, publish, bill, trade live, connect broker/feed, route real money, or expose Alkon.",
     ],
+    brandUniverseSummary: [
+      `${brandUniverse.motherBrand} is the public mother brand.`,
+      `${brandUniverse.primeWorld} is the Prime World and first public product.`,
+      `${brandUniverse.privateUniverse} / ${brandUniverse.privateUniverseArabic} remains the Founder-only operating universe.`,
+      `Future Pro Max Worlds remain ${brandUniverse.futureWorldsReadiness}; public exposure is ${String(brandUniverse.publicExposure)}.`,
+    ],
     infiniteGrowthSummary: [
       `${infiniteGrowth.name} is ${infiniteGrowth.visibility}; public exposure is ${String(infiniteGrowth.publicExposure)}.`,
       `${infiniteGrowth.safeCreationDomains.length} domains allow safe creation and ${infiniteGrowth.gatedRealityDomains.length} domains are reality-gated under Swiss-law gravity.`,
@@ -361,7 +370,7 @@ export function getFounderPersonalCompanionSnapshot(
     ],
     intentInterfaceSummary: [
       `Human Intent OS is ${intentInterface.status}: ${intentInterface.coreButtonsKept.length} core buttons, ${intentInterface.contextualButtons.length} contextual buttons, ${intentInterface.assistantIntents.length} Assistant intents, and ${intentInterface.blockedIntents.length} blocked intents are modeled.`,
-      "Public TPM Assistant handles user intent, explanations, settings, support, Journal/Coach guidance, and blocked-state truth.",
+      "Public Pro Max Assistant handles user intent, explanations, settings, support, Journal/Coach guidance, and blocked-state truth.",
       `Private intents public: ${String(intentInterface.privateIntentsPubliclyAvailable)}. Private command language remains Founder-only.`,
     ],
     deviceConstellationSummary: [

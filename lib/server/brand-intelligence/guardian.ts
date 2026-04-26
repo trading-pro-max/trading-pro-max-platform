@@ -103,7 +103,7 @@ export function reviewIdentityExpression(
     safeAlternative:
       outcome === "safe"
         ? "Expression can remain within current visual system."
-        : "Use public-safe Trading Pro Max language, low motion, no fake claims, and no restricted internal terms.",
+        : "Use public-safe Pro Max Trading language, low motion, no fake claims, and no restricted internal terms.",
     requiredReviews: [...requiredReviews],
   };
 }

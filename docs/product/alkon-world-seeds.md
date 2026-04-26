@@ -2,7 +2,7 @@
 
 World Seeds are private future candidates, not products. They may be evaluated,
 documented, mocked, delayed, rejected, or archived. They must not appear in the
-public Trading Pro Max world.
+public Pro Max Trading world.
 
 Seed categories include financial intelligence, media AI studio, education,
 treasury/business ops, mobile command tooling, support platform, analytics,

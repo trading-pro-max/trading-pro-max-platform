@@ -2145,7 +2145,17 @@ html[data-theme="light"] .tpm-utility-hero {
   }
 }
 
-/* Trading Pro Max brand identity system */
+/* Pro Max brand identity system */
+.tpm-shell-logo-home-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.tpm-shell-logo-home-link:focus-visible {
+  border-radius: 10px;
+  outline: 2px solid var(--tpm-accent);
+  outline-offset: 4px;
+}
 :root {
   --tpm-brand-gold: #d8a83c;
   --tpm-brand-gold-soft: #f4d37a;

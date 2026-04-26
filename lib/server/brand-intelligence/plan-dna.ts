@@ -5,7 +5,7 @@ import type { BrandPlan, BrandPlanDNA } from "./types";
 export const BRAND_PLAN_DNA: Record<BrandPlan, BrandPlanDNA> = {
   guest: {
     plan: "guest",
-    publicLabel: "Trading Pro Max",
+    publicLabel: "Pro Max Trading",
     audience: "public",
     palette: "graphite / clean blue",
     traits: ["orientation", "simple", "public-safe"],

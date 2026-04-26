@@ -148,14 +148,14 @@ test.describe("TPM Human Intent Operating System", () => {
     expect(text).toContain("how do I get support");
     expect(text).toContain("make the platform calmer");
     expect(text).toContain("bigger chart");
-    expect(text).toContain("TPM Assistant");
+    expect(text).toContain("Pro Max Assistant");
     expect(text).not.toMatch(/canExecuteTrades":true|canActivateLive":true|canActivateBilling":true/);
   });
 
   test("captures public Assistant-first home and reduced navigation clutter", async ({ page }) => {
     await openWithTheme(page, "/", "dark");
     await expectPublicSafe(page);
-    await expect(page.locator("body")).toContainText(/Tell TPM Assistant what you want/i);
+    await expect(page.locator("body")).toContainText(/Tell Pro Max Assistant what you want/i);
     await page.screenshot({
       fullPage: true,
       path: path.join(ARTIFACT_DIR, "public-home-assistant-first.png"),
@@ -174,14 +174,14 @@ test.describe("TPM Human Intent Operating System", () => {
     await screenshotLocator(page, ".tpm-workspace-shell", "workspace-assistant-first.png");
     await screenshotLocator(page, ".tpm-intent-workspace-rail", "workspace-no-button-chaos.png");
 
-    await page.getByRole("button", { name: /TPM Assistant/i }).click();
+    await page.getByRole("button", { name: /Pro Max Assistant/i }).click();
     await expect(page.locator("#tpm-companion-panel")).toBeVisible();
     await screenshotLocator(page, ".tpm-companion-prompt-row", "assistant-prompt-chips.png");
     await page.getByRole("button", { name: "Bigger chart" }).click();
     await screenshotLocator(page, "#tpm-companion-panel", "assistant-bigger-chart-intent.png");
     await page.getByRole("button", { name: "Calmer" }).click();
     await screenshotLocator(page, "#tpm-companion-panel", "assistant-calm-intent.png");
-    await page.getByLabel("Ask TPM Assistant").fill("Where is the mobile app and how do I get support?");
+    await page.getByLabel("Ask Pro Max Assistant").fill("Where is the mobile app and how do I get support?");
     await page.getByRole("button", { name: "Send" }).click();
     await screenshotLocator(page, "#tpm-companion-panel", "assistant-apps-support-intent.png");
     await page.getByRole("button", { name: "Plans" }).click();
@@ -191,7 +191,7 @@ test.describe("TPM Human Intent Operating System", () => {
   test("captures Settings backup controls and Diagnostics truth center", async ({ page }) => {
     await openWithTheme(page, "/en/settings", "dark");
     await expect(page.locator("body")).toContainText(/Intent controls and backup settings/i);
-    await expect(page.locator("body")).toContainText(/Ask TPM Assistant/i);
+    await expect(page.locator("body")).toContainText(/Ask Pro Max Assistant/i);
     await expectPublicSafe(page);
     await screenshotLocator(page, ".tpm-utility-page-settings", "settings-backup-controls.png");
 

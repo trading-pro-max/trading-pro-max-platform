@@ -1,6 +1,7 @@
 "use client";
 
 import type { CSSProperties } from "react";
+import Link from "next/link";
 import type { AccountMode } from "../types/platform-state";
 import type { WorkstationStatusTone } from "./trading-workstation-view-model";
 import ProductLogo from "../../brand/components/ProductLogo";
@@ -88,15 +89,17 @@ export default function TradingTerminalShell({
       data-shell-layer="terminal_topbar"
       data-terminal-topbar="true"
     >
-      <ProductLogo
-        className="tpm-shell-logo tpm-shell-compact-mark tpmv2-topbar-brand tpm-foundation-nav-brand"
-        animated
-        motionIntensity="low"
-        state="paper_safe"
-        surface="workstation"
-        subtitle="Trading terminal"
-        variant="topbar"
-      />
+      <Link className="tpm-shell-logo-home-link" href="/" aria-label="Pro Max home">
+        <ProductLogo
+          className="tpm-shell-logo tpm-shell-compact-mark tpmv2-topbar-brand tpm-foundation-nav-brand"
+          animated
+          motionIntensity="low"
+          state="paper_safe"
+          surface="workstation"
+          subtitle="Trading terminal"
+          variant="topbar"
+        />
+      </Link>
 
       <div className="tpmv2-topbar-market">
         <div className="tpmv2-topbar-market-main tpmv2-topbar-market-compact">

@@ -47,7 +47,7 @@ function blockedIntent(
     allowedPlans: [],
     responseStyle: "blocked_with_safe_alternative",
     safetyBoundary:
-      "TPM Assistant may explain product truth and safe alternatives, but it cannot execute, activate, bypass, publish, advise, or fake capability state.",
+      "Pro Max Assistant may explain product truth and safe alternatives, but it cannot execute, activate, bypass, publish, advise, or fake capability state.",
     blockedReason,
     safeAlternative,
   };
@@ -298,7 +298,7 @@ export const companionBlockedIntentRegistry: CompanionBlockedIntentAvailability[
   blockedIntent(
     "execute_trade",
     "Execute trade",
-    "TPM Assistant has no trading authority.",
+    "Pro Max Assistant has no trading authority.",
     "Use paper-mode reflection or ask why execution is blocked."
   ),
   blockedIntent(
@@ -334,7 +334,7 @@ export const companionBlockedIntentRegistry: CompanionBlockedIntentAvailability[
   blockedIntent(
     "provide_signal",
     "Provide trading signal",
-    "TPM Assistant cannot provide trading signals or buy/sell instructions.",
+    "Pro Max Assistant cannot provide trading signals or buy/sell instructions.",
     "Ask for paper-mode education, risk basics, or a Journal/Coach prompt."
   ),
   blockedIntent(
@@ -352,7 +352,7 @@ export const companionBlockedIntentRegistry: CompanionBlockedIntentAvailability[
   blockedIntent(
     "expose_codex",
     "Expose build internals",
-    "Build internals are private and not part of the public TPM Assistant.",
+    "Build internals are private and not part of the public Pro Max Assistant.",
     "Ask for public product readiness or a safe support path."
   ),
   blockedIntent(
@@ -406,13 +406,13 @@ export const companionBlockedIntentRegistry: CompanionBlockedIntentAvailability[
   blockedIntent(
     "provide_legal_advice",
     "Provide legal advice",
-    "TPM Assistant cannot provide legal advice.",
+    "Pro Max Assistant cannot provide legal advice.",
     "Offer general product-truth wording and recommend qualified review."
   ),
   blockedIntent(
     "provide_financial_advice",
     "Provide financial advice",
-    "TPM Assistant cannot provide financial advice.",
+    "Pro Max Assistant cannot provide financial advice.",
     "Offer educational paper-mode reflection instead."
   ),
 ];

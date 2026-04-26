@@ -164,7 +164,7 @@ export const SAMPLE_ALKON_RUNTIME_INPUTS: AlkonRuntimeInput[] = [
     description: "Draft wording for Web current, Desktop planned, Mobile planned.",
     requestedBy: "founder",
     affectedWorld: "private_alkon",
-    claimText: "Trading Pro Max Web App is current; Desktop and Mobile are planned.",
+    claimText: "Pro Max Web App is current; Desktop and Mobile are planned.",
     hasRollback: true,
   },
   {

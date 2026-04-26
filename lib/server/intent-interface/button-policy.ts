@@ -39,7 +39,7 @@ export function decideButtonPolicy(
       actionId: action.actionId,
       decision: "assistant_intent_only",
       reason:
-        "Repeated truth explanations belong in TPM Assistant and compact Diagnostics rather than duplicate buttons.",
+        "Repeated truth explanations belong in Pro Max Assistant and compact Diagnostics rather than duplicate buttons.",
       buttonAllowed: false,
       assistantPreferred: true,
     };
@@ -66,7 +66,7 @@ export function decideButtonPolicy(
         : "assistant_intent_only",
       reason: essentialContextButtons.has(actionId)
         ? "The action is immediate in its context and must stay close to the task."
-        : "The action is secondary and should be requested through TPM Assistant.",
+        : "The action is secondary and should be requested through Pro Max Assistant.",
       buttonAllowed: essentialContextButtons.has(actionId),
       assistantPreferred: !essentialContextButtons.has(actionId),
     };
@@ -77,7 +77,7 @@ export function decideButtonPolicy(
       actionId: action.actionId,
       decision: "assistant_intent_only",
       reason:
-        "This is a secondary or explanatory user intent that TPM Assistant should translate.",
+        "This is a secondary or explanatory user intent that Pro Max Assistant should translate.",
       buttonAllowed: false,
       assistantPreferred: true,
     };
@@ -112,6 +112,6 @@ export function getButtonPolicySummary() {
       .map((policy) => policy.actionId)
       .filter((actionId) => duplicateControlActions.has(actionId)),
     policy:
-      "Buttons stay for immediate essential actions. TPM Assistant owns secondary explanation, comfort, plan, support, and Personal Reality intents.",
+      "Buttons stay for immediate essential actions. Pro Max Assistant owns secondary explanation, comfort, plan, support, and Personal Reality intents.",
   };
 }

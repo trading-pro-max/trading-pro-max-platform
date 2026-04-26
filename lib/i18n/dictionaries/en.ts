@@ -19,7 +19,7 @@ const en = {
   },
   shell: {
     foundation: "Global i18n foundation",
-    title: "Trading Pro Max",
+    title: "Pro Max Trading",
     subtitle: "Trading Workstation Core",
   },
   market: {

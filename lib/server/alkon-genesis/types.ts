@@ -220,8 +220,10 @@ export type AlkonGenesisReport = {
 };
 
 export type PrimeWorldSnapshot = {
-  worldId: "trading_pro_max_prime_world";
-  name: "Trading Pro Max";
+  worldId: "pro_max_trading_prime_world";
+  name: "Pro Max Trading";
+  motherBrand: "Pro Max";
+  legacyProjectName: "Trading Pro Max";
   status: "prime_world_protected";
   localDayOneRequired: true;
   livingMarketCoreReadinessRequired: true;
@@ -266,6 +268,7 @@ export type AlkonGenesisSnapshot = {
     diagnosticsLeak: false;
   };
   productTruthStatus: {
+    proMaxTradingRemainsPrimeWorld: true;
     tradingProMaxRemainsPrimeWorld: true;
     noNewProjectLaunched: true;
     noPublicFutureWorldsExposed: true;

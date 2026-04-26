@@ -1,5 +1,6 @@
 import "server-only";
 
+import { getPrivateBrandUniverse } from "@/lib/brand";
 import { getPlanEntitlementSnapshot } from "@/lib/plans/entitlements";
 import { getPrivateFounderRealm, getPublicPlanRealms } from "@/lib/plans/realms";
 import { getAcademyReadinessSnapshot } from "@/lib/server/academy";
@@ -195,6 +196,7 @@ export function getFounderCommandAppSnapshot(
   const alkonRuntime = getAlkonRuntimeSnapshot(checkedAt);
   const alkonGenesis = getAlkonGenesisSnapshot(checkedAt);
   const infiniteGrowth = getInfiniteGrowthSnapshot(checkedAt);
+  const brandUniverse = getPrivateBrandUniverse();
   const planetaryEnvironment =
     getPlanetaryEnvironmentReadinessSnapshot(checkedAt);
   const earthReality = getEarthRealitySnapshot(checkedAt);
@@ -405,6 +407,7 @@ export function getFounderCommandAppSnapshot(
     alkonRuntime,
     alkonGenesis,
     infiniteGrowth,
+    brandUniverse,
     treasuryLife,
     mediaIntelligence,
     finalConvergence,

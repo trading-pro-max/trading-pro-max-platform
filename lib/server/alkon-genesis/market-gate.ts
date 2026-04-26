@@ -11,7 +11,7 @@ export function evaluateMarketGate(seed: AlkonWorldSeed): AlkonGenesisGateResult
       reason: "The seed risks brand confusion or separate marketing/support load before Prime World readiness.",
       evidenceNeeded: ["adjacency proof", "brand clarity proof", "support load estimate"],
       requiredReview: ["Founder review"],
-      safeAlternative: "Keep it future-only until Trading Pro Max acceptance is stable.",
+      safeAlternative: "Keep it future-only until Pro Max Trading acceptance is stable.",
     };
   }
 
@@ -20,7 +20,7 @@ export function evaluateMarketGate(seed: AlkonWorldSeed): AlkonGenesisGateResult
       gateId: "market_gate",
       status: "needs_review",
       reason: "The audience and market are unclear.",
-      evidenceNeeded: ["audience hypothesis", "market hypothesis", "relationship to Trading Pro Max"],
+      evidenceNeeded: ["audience hypothesis", "market hypothesis", "relationship to Pro Max Trading"],
       requiredReview: ["Founder review"],
       safeAlternative: "Evaluate the audience before any prototype.",
     };

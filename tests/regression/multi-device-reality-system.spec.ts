@@ -75,10 +75,10 @@ test.describe("TPM Multi-Device Reality System and Alkon Device Constellation", 
       appStoreClaims: false,
     });
     expect(publicDevices.map((device) => device.publicName)).toEqual([
-      "Trading Pro Max Web App",
-      "Trading Pro Max Desktop App",
-      "Trading Pro Max Mobile App",
-      "Trading Pro Max Tablet App",
+      "Pro Max Web App",
+      "Pro Max Desktop App",
+      "Pro Max Mobile App",
+      "Pro Max Tablet App",
     ]);
     expect(publicSnapshot.devices.map((device) => device.publicName)).toEqual(
       publicDevices.map((device) => device.publicName)
@@ -152,7 +152,7 @@ test.describe("TPM Multi-Device Reality System and Alkon Device Constellation", 
       const text = await response.text();
       expect(text, route).not.toMatch(PUBLIC_FORBIDDEN_TERMS);
       expect(text, route).not.toMatch(/privateName|production_secrets|shell_execution/);
-      expect(text, route).toMatch(/Trading Pro Max Web App/);
+      expect(text, route).toMatch(/Pro Max Web App/);
       expect(text, route).toMatch(/Desktop App/);
       expect(text, route).toMatch(/Mobile App/);
       expect(text, route).toMatch(/Tablet App/);

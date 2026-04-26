@@ -209,7 +209,7 @@ export function buildCosmicTaskGraph(
         ...validation.evidenceRequired,
       ],
       publicLanguageRule:
-        "Public users only see Trading Pro Max public product language; Alkon and cosmic terms remain Founder-only.",
+        "Public users only see Pro Max Trading public product language; Alkon and cosmic terms remain Founder-only.",
     },
     codexLicense: {
       licenseId: `${id}-codex-license`,

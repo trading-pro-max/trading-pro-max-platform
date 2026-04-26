@@ -50,7 +50,7 @@ export function getPublicBrandIntelligenceSummary(
     checkedAt,
     status: snapshot.status,
     summary:
-      "Trading Pro Max identity decisions are ready for public-safe surfaces, plan truth, state language, motion safety, and local/internal separation.",
+      "Pro Max identity decisions are ready for Pro Max Trading public-safe surfaces, plan truth, state language, motion safety, and local/internal separation.",
     readiness: {
       genome: "ready",
       planDNA: snapshot.planDNAReadiness,
@@ -60,7 +60,7 @@ export function getPublicBrandIntelligenceSummary(
       surfaceSimulation: snapshot.surfaceSimulationReadiness,
     },
     publicPlanNames: ["Free", "Pro", "VIP", "Institutional"],
-    publicAssistantName: "TPM Assistant",
+    publicAssistantName: "Pro Max Assistant",
     defaultDecision: {
       earthMarkVariant: defaultDecision.earthMarkVariant,
       earthMarkState: defaultDecision.earthMarkState,

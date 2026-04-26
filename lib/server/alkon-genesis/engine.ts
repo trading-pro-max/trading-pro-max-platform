@@ -94,8 +94,8 @@ function createRelationship(seed: AlkonWorldSeed): AlkonWorldRelationship {
     reason:
       seed.relationshipToPrime === "supports_prime_world" ||
       seed.relationshipToPrime === "extends_prime_world"
-        ? "The seed can support or extend Trading Pro Max only after gates pass."
-        : "The seed must remain delayed until it proves no harm to Trading Pro Max.",
+        ? "The seed can support or extend Pro Max Trading only after gates pass."
+        : "The seed must remain delayed until it proves no harm to Pro Max Trading.",
     primeWorldProtected:
       seed.relationshipToPrime !== "weakens_prime_world" &&
       seed.relationshipToPrime !== "forbidden",

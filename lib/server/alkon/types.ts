@@ -1,5 +1,6 @@
 import "server-only";
 
+import type { getPrivateBrandUniverse } from "@/lib/brand";
 import type { AlkonConsciousnessSnapshot } from "@/lib/server/alkon-consciousness";
 import type { AlkonContinuitySnapshot } from "@/lib/server/alkon-continuity";
 import type { AlkonCosmicPhysicsSnapshot } from "@/lib/server/alkon-physics";
@@ -116,6 +117,7 @@ export type AlkonUniverseSnapshot = {
   digitalUniverseRuntimeSnapshot: AlkonRuntimeSnapshot;
   sovereignGenesis: AlkonGenesisSnapshot;
   infiniteGrowthConstitution: InfiniteGrowthSnapshot;
+  brandUniverse: ReturnType<typeof getPrivateBrandUniverse>;
   universeMap: AlkonSubsystem[];
   nextSafeActions: string[];
   blockedActions: string[];

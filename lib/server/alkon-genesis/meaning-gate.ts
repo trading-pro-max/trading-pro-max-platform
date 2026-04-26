@@ -24,7 +24,7 @@ export function evaluateMeaningGate(seed: AlkonWorldSeed): AlkonGenesisGateResul
     return {
       gateId: "meaning_gate",
       status: "delay",
-      reason: "The seed may create distraction or weaken Trading Pro Max.",
+      reason: "The seed may create distraction or weaken Pro Max Trading.",
       evidenceNeeded: ["Prime World benefit", "scope limit"],
       requiredReview: ["Founder review"],
       safeAlternative: "Delay until the seed clearly supports the Prime World.",

@@ -276,7 +276,7 @@ test.describe("Earth Reality Constitution and Personal Operating Reality", () =>
     await screenshotLocator(page, ".tpmv2-primary", "workspace-earth-truth.png");
     await screenshotLocator(page, ".tpmv2-primary", "workspace-chart-comfort.png");
 
-    await page.getByRole("button", { name: /TPM Assistant/i }).click();
+    await page.getByRole("button", { name: /Pro Max Assistant/i }).click();
     await expect(page.locator("#tpm-companion-panel")).toBeVisible();
     await screenshotLocator(page, "#tpm-companion-panel", "assistant-calm-request.png");
     await page.getByRole("button", { name: "Bigger chart" }).click();

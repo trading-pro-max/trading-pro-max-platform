@@ -1,5 +1,6 @@
 import "server-only";
 
+import { getPrivateBrandUniverse } from "@/lib/brand";
 import { getPlanEntitlementSnapshot } from "@/lib/plans/entitlements";
 import { getPrivateFounderRealm, getPublicPlanRealms } from "@/lib/plans/realms";
 import { getAlkonConsciousnessSnapshot } from "@/lib/server/alkon-consciousness";
@@ -91,6 +92,7 @@ export function getAlkonUniverseSnapshot(
   const digitalUniverseRuntime = getAlkonRuntimeSnapshot(checkedAt);
   const sovereignGenesis = getAlkonGenesisSnapshot(checkedAt);
   const infiniteGrowthConstitution = getInfiniteGrowthSnapshot(checkedAt);
+  const brandUniverse = getPrivateBrandUniverse();
   const universeMap = buildAlkonUniverseMap();
 
   return {
@@ -102,9 +104,9 @@ export function getAlkonUniverseSnapshot(
     earthPublicWorld: {
       ...requireSubsystem(universeMap, "earth_command"),
       readiness:
-        `${publicRealms.length} public realms are modeled for Trading Pro Max; ${publicRealms.map((realm) => `${realm.publicPlanName}:${realm.activationState}`).join(", ")}.`,
+        `${publicRealms.length} public realms are modeled for Pro Max Trading; ${publicRealms.map((realm) => `${realm.publicPlanName}:${realm.activationState}`).join(", ")}.`,
       nextAction:
-        "Keep public users in Trading Pro Max surfaces only; Alkon remains hidden from plans, navigation, Assistant, Settings, and Diagnostics.",
+        "Keep public users in Pro Max Trading surfaces only; Alkon remains hidden from plans, navigation, Assistant, Settings, and Diagnostics.",
     },
     moonCycle: {
       ...requireSubsystem(universeMap, "moon_cycle"),
@@ -182,6 +184,7 @@ export function getAlkonUniverseSnapshot(
     digitalUniverseRuntimeSnapshot: digitalUniverseRuntime,
     sovereignGenesis,
     infiniteGrowthConstitution,
+    brandUniverse,
     universeMap,
     nextSafeActions: [
       "Keep Alkon and الكون private to Founder Command and founder-only readiness APIs.",
@@ -193,7 +196,7 @@ export function getAlkonUniverseSnapshot(
       "Use Alkon Digital Universe Runtime privately so every idea, risk, invoice, media message, feature, bug, decision, law, and result receives place, time, law, gravity, orbit, life, institution, consequence, memory, and next fate.",
       "Use Alkon Sovereign Genesis privately so possible future product worlds remain World Seeds until meaning, need, market, law, treasury, security, prototype, proof, Prime World protection, and Founder gates pass.",
       "Use Alkon Swiss-Law Infinite Sovereign Growth privately so safe creation can grow without limit while real users, data, money, claims, media, launch, production, and regulated activity remain gated.",
-      "Keep public users inside Trading Pro Max, Free, Pro, VIP, Institutional, TPM Assistant, workspace, settings, diagnostics, and readiness language only.",
+      "Keep public users inside Pro Max, Pro Max Trading, Free, Pro, VIP, Institutional, Pro Max Assistant, workspace, settings, diagnostics, and readiness language only.",
       "Use Founder Idea Inbox, Task Passports, manual Codex drafts, Result Tribunal, and Memory lessons as review-only systems.",
       "Add future private execution only after owner auth, device trust, step-up confirmation, audit, security, legal, and Product Truth gates exist.",
     ],

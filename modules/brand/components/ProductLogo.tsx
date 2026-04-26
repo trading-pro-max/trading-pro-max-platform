@@ -56,7 +56,7 @@ export function BrandMark({
   plan = "free",
   state = "paper_safe",
   surface,
-  title = "Trading Pro Max Earth Moon Mark",
+  title = "Pro Max Earth Mark",
   variant = "compact",
 }: BrandMarkProps) {
   return (
@@ -77,7 +77,7 @@ export function BrandMark({
 export function BrandWordmark({ className }: BrandWordmarkProps) {
   return (
     <span className={["tpm-brand-wordmark", className].filter(Boolean).join(" ")}>
-      Trading Pro <span>Max</span>
+      Pro <span>Max</span>
     </span>
   );
 }
@@ -85,7 +85,7 @@ export function BrandWordmark({ className }: BrandWordmarkProps) {
 export default function ProductLogo({
   animated,
   className,
-  markTitle = "Trading Pro Max Earth Moon Mark",
+  markTitle = "Pro Max Earth Mark",
   mode = "lockup",
   motionIntensity,
   occasionTheme,
@@ -93,7 +93,7 @@ export default function ProductLogo({
   showSubtitle,
   state,
   surface,
-  subtitle = "Swiss-inspired trading workspace",
+  subtitle = "Trading",
   variant = "nav",
 }: ProductLogoProps) {
   const showMark = mode !== "wordmark-only";

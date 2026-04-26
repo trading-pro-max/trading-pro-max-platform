@@ -218,7 +218,7 @@ export function getCompanionContextSnapshot(
       riskProfile: input.riskProfile ?? brain.skillProfile.riskProfile,
     },
     dailyUse: {
-      assistantName: "TPM Assistant",
+      assistantName: "Pro Max Assistant",
       role: "safe_daily_workspace_assistant",
       modes: [
         "orientation",
@@ -234,7 +234,7 @@ export function getCompanionContextSnapshot(
         "learning_help",
         "session_summary",
       ],
-      publicLanguage: ["Free", "Pro", "VIP", "Institutional", "TPM Assistant"],
+      publicLanguage: ["Free", "Pro", "VIP", "Institutional", "Pro Max Assistant"],
       nonAdvice: true,
       nonExecuting: true,
       nonPredictive: true,

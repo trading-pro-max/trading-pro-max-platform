@@ -62,11 +62,11 @@ export function buildRevelationChecks(): RevelationCheck[] {
       surface: "home",
       goal: "trust",
       requirement:
-        "Home immediately shows Trading Pro Max, Earth-native atmosphere, calm professional tone, and a short Product Truth line.",
+        "Home immediately shows Pro Max Trading, Earth-native atmosphere, calm professional tone, and a short Product Truth line.",
       reason:
         "The first screen should feel stable, real, and paper-safe before it explains deeper systems.",
       proof:
-        "Public hero uses LivingEarthBackground, Trading Pro Max identity, Paper-safe/Web current/Live inactive copy, and no raster assets.",
+        "Public hero uses LivingEarthBackground, Pro Max identity, Paper-safe/Web current/Live inactive copy, and no raster assets.",
     }),
     check({
       id: "above_fold_clutter_guard",
@@ -100,11 +100,11 @@ export function buildRevelationChecks(): RevelationCheck[] {
       surface: "home",
       goal: "clarity",
       requirement:
-        "Users understand that Trading Pro Max is a paper-safe web trading workspace with plans and apps clearly labeled by readiness.",
+        "Users understand that Pro Max Trading is a paper-safe web trading workspace with plans and apps clearly labeled by readiness.",
       reason:
         "Product clarity must arrive before users search through settings or diagnostics.",
       proof:
-        "Home points to Trading Workspace, Apps / Platforms, Plans, Academy, Support, and TPM Assistant.",
+        "Home points to Trading Workspace, Apps / Platforms, Plans, Academy, Support, and Pro Max Assistant.",
     }),
     check({
       id: "truth_strip_compact",
@@ -124,7 +124,7 @@ export function buildRevelationChecks(): RevelationCheck[] {
       surface: "assistant",
       goal: "guidance",
       requirement:
-        "TPM Assistant exposes short intent prompts for Start, Why blocked, Bigger chart, Calmer, Plans, Apps, Support, and Journal.",
+        "Pro Max Assistant exposes short intent prompts for Start, Why blocked, Bigger chart, Calmer, Plans, Apps, Support, and Journal.",
       reason:
         "The Assistant should become the natural path for secondary actions without burying essential navigation.",
       proof:
@@ -265,7 +265,7 @@ export function buildRevelationGates(): RevelationGate[] {
       "assistant_awakening_gate",
       "Assistant Awakening Gate",
       byId(["assistant_intents_visible", "assistant_safety_boundaries"]),
-      "TPM Assistant is visible as the path for secondary intent while staying bounded."
+      "Pro Max Assistant is visible as the path for secondary intent while staying bounded."
     ),
     gate(
       "workspace_usefulness_gate",

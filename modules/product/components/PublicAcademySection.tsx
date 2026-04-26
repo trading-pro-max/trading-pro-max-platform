@@ -25,7 +25,7 @@ const academyPaths = [
     summary: "See why live, broker/feed, billing, and external posting are inactive.",
   },
   {
-    title: "TPM Assistant",
+    title: "Pro Max Assistant",
     state: "Current",
     summary: "Use basic paper-safe guidance, platform explanations, and blocked-state answers.",
   },

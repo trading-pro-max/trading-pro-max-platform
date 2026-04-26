@@ -521,15 +521,15 @@ export default function TPMCompanionPanel({
     <aside
       id="tpm-companion-panel"
       className="tpm-companion-panel"
-      aria-label="TPM Assistant"
+      aria-label="Pro Max Assistant"
     >
       <header className="tpm-companion-head">
         <div>
-          <span>TPM Assistant</span>
+          <span>Pro Max Assistant</span>
           <h2>{context?.assistantTier.label ?? assistantSnapshot.current.label}</h2>
         </div>
         {onClose ? (
-          <button type="button" aria-label="Close TPM Assistant" onClick={onClose}>
+          <button type="button" aria-label="Close Pro Max Assistant" onClick={onClose}>
             Close
           </button>
         ) : null}

@@ -805,7 +805,7 @@ export function usePlatformState(
           buildFallbackCandles(selectedAssetSymbol, selectedTimeframe)
         );
         setMarketFeed({
-          provider: "Trading Pro Max Fallback Feed",
+          provider: "Pro Max Trading Fallback Feed",
           adapter: "fallback_simulated",
           state: "degraded",
           sourceLabel: "Local market fallback",

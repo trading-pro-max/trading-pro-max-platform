@@ -152,7 +152,7 @@ test.describe("TPM Living Earth Revelation Experience", () => {
     await screenshotLocator(page, ".tpm-workspace-shell", "workspace-first-3-minutes.png");
     await screenshotLocator(page, ".tpmv2-primary", "workspace-chart-focus.png");
 
-    await page.getByRole("button", { name: /TPM Assistant/i }).click();
+    await page.getByRole("button", { name: /Pro Max Assistant/i }).click();
     await expect(page.locator("#tpm-companion-panel")).toBeVisible();
     await screenshotLocator(page, ".tpm-companion-prompt-row", "assistant-start-intent.png");
     await page.getByRole("button", { name: "Why blocked?" }).click();

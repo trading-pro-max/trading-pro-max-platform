@@ -4,7 +4,7 @@ const primaryPublicWorldItems = [
     href: "workspace",
     title: "Trading Workspace",
     state: "Web current",
-    summary: "Open the chart-first paper workspace with TPM Assistant and Journal/Coach.",
+    summary: "Open the chart-first paper workspace with Pro Max Assistant and Journal/Coach.",
     detail: "Chart, watchlist, paper ticket, and blocked-state explanations.",
   },
   {
@@ -37,7 +37,7 @@ const primaryPublicWorldItems = [
     title: "Academy",
     state: "Learning paths",
     summary: "Getting started, paper trading basics, chart basics, and Why Blocked.",
-    detail: "Includes TPM Assistant and Journal/Coach guides without advice claims.",
+    detail: "Includes Pro Max Assistant and Journal/Coach guides without advice claims.",
   },
   {
     id: "community",

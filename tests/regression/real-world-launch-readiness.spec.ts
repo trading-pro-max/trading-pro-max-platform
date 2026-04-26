@@ -224,7 +224,7 @@ test.describe("real-world launch readiness gate", () => {
   }) => {
     await openWithTheme(page, "/", "dark");
     await expect(page.locator("main").first()).toBeVisible();
-    await expect(page.locator("body")).toContainText("Trading Pro Max");
+    await expect(page.locator("body")).toContainText("Pro Max Trading");
     expect(await page.locator("body").innerText()).not.toMatch(FAKE_LAUNCH_PATTERN);
     await screenshotLocator(page, ".tpm-product-hero", "public-entry.png");
     await screenshotLocator(page, "#apps-platforms", "apps-platforms.png");

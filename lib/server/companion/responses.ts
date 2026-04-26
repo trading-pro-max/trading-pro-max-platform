@@ -252,7 +252,7 @@ export function buildCompanionResponseTemplates(
       intent: "personal_reality_learning",
       title: "Learning Personal Reality",
       body:
-        "Learning mode keeps TPM Assistant, Academy, and Journal/Coach prompts simple, paper-first, and non-advisory. It helps you understand active, planned, future, and blocked states.",
+        "Learning mode keeps Pro Max Assistant, Academy, and Journal/Coach prompts simple, paper-first, and non-advisory. It helps you understand active, planned, future, and blocked states.",
       safeNextStep: "Ask a paper-mode learning question or open Academy.",
       state: "ready",
     },
@@ -316,7 +316,7 @@ export function buildCompanionDailyUseResponse(
       title: blocked?.label ?? "Request blocked",
       body:
         blocked?.blockedReason ??
-        "That request is blocked by TPM Assistant safety boundaries.",
+        "That request is blocked by Pro Max Assistant safety boundaries.",
       safeNextStep:
         blocked?.safeAlternative ??
         "Ask for a product-truth explanation or paper-safe learning prompt.",

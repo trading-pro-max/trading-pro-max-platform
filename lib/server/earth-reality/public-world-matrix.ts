@@ -4,7 +4,7 @@ export const publicWorldMatrix: EarthRealityMatrixPage[] = [
   {
     surface: "home",
     publicLabel: "Home",
-    whereAmI: "The public Trading Pro Max entry world.",
+    whereAmI: "The public Pro Max Trading entry world.",
     whatCanIDo: "Understand the product, enter the workspace, explore plans, apps, learning, community, and support.",
     activeNow: "Web workspace, Free Earth experience, paper-safe status, Assistant entry, public navigation.",
     plannedFuture: "Pro/VIP depth, desktop/mobile/tablet readiness, richer support/community layers.",

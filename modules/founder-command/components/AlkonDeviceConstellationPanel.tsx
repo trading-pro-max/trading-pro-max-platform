@@ -17,7 +17,7 @@ export default function AlkonDeviceConstellationPanel({
         <span>Alkon Device Constellation</span>
         <h2>Public Earth apps and private command devices stay separated</h2>
         <p>
-          Trading Pro Max public devices serve users with Web current, Desktop
+          Pro Max public devices serve users with Web current, Desktop
           planned, Mobile planned, and Tablet future truth. Alkon devices remain
           private command readiness only, with no public exposure, secrets, app
           publishing, or execution controls.

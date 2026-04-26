@@ -29,7 +29,7 @@ export default function FounderPlanetOverview({
     <section className="tpm-founder-panel tpm-founder-overview">
       <div className="tpm-founder-panel-head">
         <span>Planet Overview</span>
-        <h2>Trading Pro Max from above</h2>
+        <h2>Pro Max Trading from above</h2>
         <p>
           Private owner-only command foundation. Readiness, risk, truth, and
           next-safe-action data only.

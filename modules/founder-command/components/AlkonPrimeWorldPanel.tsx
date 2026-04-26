@@ -12,7 +12,7 @@ export default function AlkonPrimeWorldPanel({
         <h2>{snapshot.primeWorld.name} remains protected</h2>
         <p>
           No future world may move beyond seed or prototype-readiness if it
-          weakens Trading Pro Max, delays Local Day One, or distracts from the
+          weakens Pro Max Trading, delays Local Day One, or distracts from the
           Living Market Core and acceptance work.
         </p>
       </div>

@@ -310,7 +310,7 @@ export function createTradingIntelligenceViewModel(
       : "Context engine operating in degraded mode";
 
   return {
-    productLabel: "TPM Assistant",
+    productLabel: "Pro Max Assistant",
     commandKicker: "Assistant Context",
     stateLabel: "Assistant state",
     stateValue,
@@ -461,7 +461,7 @@ export function createTradingIntelligenceViewModel(
         },
       ],
       note:
-        "TPM Assistant never overrides blocked live routes, broker unavailability, or session guardrails.",
+        "Pro Max Assistant never overrides blocked live routes, broker unavailability, or session guardrails.",
       chips: ["Operator manual", "Paper-only", "Live blocked"],
     },
     chartKicker: "Assistant Context",

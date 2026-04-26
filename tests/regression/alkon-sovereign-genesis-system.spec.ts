@@ -140,9 +140,11 @@ test.describe("Alkon Sovereign Genesis System", () => {
     }
   });
 
-  test("keeps Trading Pro Max as Prime World and registers private World Seeds", () => {
+  test("keeps Pro Max Trading as Prime World and registers private World Seeds", () => {
     const primeWorld = getPrimeWorldSnapshot();
-    expect(primeWorld.name).toBe("Trading Pro Max");
+    expect(primeWorld.name).toBe("Pro Max Trading");
+    expect(primeWorld.motherBrand).toBe("Pro Max");
+    expect(primeWorld.legacyProjectName).toBe("Trading Pro Max");
     expect(primeWorld.status).toBe("prime_world_protected");
     expect(primeWorld.newWorldLimit).toBe("seed_or_prototype_readiness_only");
 
@@ -248,7 +250,7 @@ test.describe("Alkon Sovereign Genesis System", () => {
     request,
   }) => {
     const snapshot = getAlkonGenesisSnapshot("2026-04-26T10:00:00.000Z");
-    expect(snapshot.primeWorld.name).toBe("Trading Pro Max");
+    expect(snapshot.primeWorld.name).toBe("Pro Max Trading");
     expect(snapshot.worldSeedCount).toBeGreaterThanOrEqual(7);
     expect(snapshot.prototypeAllowedSeeds).toContain("academy_platform_seed");
     expect(snapshot.productTruthStatus.noNewProjectLaunched).toBe(true);

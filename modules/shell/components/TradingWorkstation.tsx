@@ -87,7 +87,7 @@ function WorkspaceDepthBar({
       <div className="tpmv2-workspace-depth-block">
         <span>Workspace focus</span>
         <strong>{focusModeLabel(focusMode)}</strong>
-        <small>Ask TPM Assistant for Chart Comfort, a calmer workspace, or Start guidance.</small>
+        <small>Ask Pro Max Assistant for Chart Comfort, a calmer workspace, or Start guidance.</small>
       </div>
 
       <div className="tpmv2-workspace-depth-block">

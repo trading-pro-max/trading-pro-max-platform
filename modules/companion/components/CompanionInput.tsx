@@ -24,11 +24,11 @@ export default function CompanionInput({
       <label className="tpm-companion-chat-field">
         <span>Ask safely</span>
         <textarea
-          aria-label="Ask TPM Assistant"
+          aria-label="Ask Pro Max Assistant"
           disabled={disabled}
           maxLength={320}
           onChange={(event) => onChange(event.target.value)}
-          placeholder="Tell TPM Assistant what you want: start, bigger chart, calmer workspace, plans, support, or why blocked."
+          placeholder="Tell Pro Max Assistant what you want: start, bigger chart, calmer workspace, plans, support, or why blocked."
           rows={2}
           value={value}
         />

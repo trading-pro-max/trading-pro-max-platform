@@ -221,7 +221,7 @@ export const PLANET_ACCESS_LAYERS: PlanPlanetAccessLayer[] = [
     ],
     visibleStates: [
       "Paper-safe market context",
-      "TPM Assistant",
+      "Pro Max Assistant",
       "Basic Academy",
       "Journal/Coach foundation",
       "Why Blocked",
@@ -229,7 +229,7 @@ export const PLANET_ACCESS_LAYERS: PlanPlanetAccessLayer[] = [
     visibleCities: [
       "Chart",
       "Paper ticket",
-      "TPM Assistant",
+      "Pro Max Assistant",
       "Academy",
       "Journal",
       "Feedback",

@@ -59,7 +59,7 @@ export default function TPMEarthMark({
   size,
   state = "ready",
   surface,
-  title = "Trading Pro Max Earth Moon Mark",
+  title = "Pro Max Earth Mark",
   variant = "compact",
 }: TPMEarthMarkProps) {
   const identity = getEarthIdentity({

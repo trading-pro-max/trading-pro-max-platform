@@ -41,7 +41,7 @@ export function getIntentInterfaceReadinessSnapshot(
       alkonHiddenPublicly: true,
     },
     publicCopy:
-      "Tell TPM Assistant what you want to do. Essential actions stay as buttons; secondary requests become safe explanations, settings, or alternatives.",
+      "Tell Pro Max Assistant what you want to do. Essential actions stay as buttons; secondary requests become safe explanations, settings, or alternatives.",
     diagnosticsSummary: {
       label: "Intent interface readiness",
       copy:
@@ -61,7 +61,7 @@ export function getIntentInterfaceDiagnosticsProbe(
     status: "ready",
     summary: "Assistant-first intent interface ready",
     detail:
-      `${snapshot.coreButtonsKept.length} core buttons remain, ${snapshot.contextualButtons.length} contextual buttons stay task-local, ${snapshot.assistantIntents.length} secondary intents route through TPM Assistant, and ${snapshot.blockedIntents.length} unsafe intents are blocked.`,
+      `${snapshot.coreButtonsKept.length} core buttons remain, ${snapshot.contextualButtons.length} contextual buttons stay task-local, ${snapshot.assistantIntents.length} secondary intents route through Pro Max Assistant, and ${snapshot.blockedIntents.length} unsafe intents are blocked.`,
     checkedAt,
   };
 }

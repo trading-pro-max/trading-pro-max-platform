@@ -1,5 +1,5 @@
 export const ALKON_GENESIS_MEMORY_LESSONS = [
-  "Trading Pro Max is the Prime World.",
+  "Pro Max Trading is the Prime World.",
   "No new world before Station 1 closure and Prime World acceptance.",
   "New worlds must not weaken the Prime World.",
   "Future worlds and World Seeds remain private.",

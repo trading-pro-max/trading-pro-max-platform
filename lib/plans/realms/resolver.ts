@@ -35,7 +35,7 @@ export const PLAN_REALMS: Record<PlanRealmId, PlanRealm> = {
     allowedFeatures: [
       realmFeature("web_workspace", "Web workspace", "active", "The browser workspace is active and chart-first."),
       realmFeature("paper_execution", "Paper execution", "active", "Paper ticket flow is active without live routing or real money."),
-      realmFeature("basic_assistant", "Basic TPM Assistant", "active", "Explains platform state, blocked states, paper mode, settings, diagnostics, and safe learning."),
+      realmFeature("basic_assistant", "Basic Pro Max Assistant", "active", "Explains platform state, blocked states, paper mode, settings, diagnostics, and safe learning."),
       realmFeature("basic_journal_coach", "Basic Journal/Coach", "active", "Session readiness, decision notes, and learning reflection are active."),
       realmFeature("basic_academy", "Basic Academy", "active", "Getting started, paper trading basics, chart basics, and Why Blocked are available."),
       realmFeature("basic_support_readiness", "Support readiness", "active", "Help, problem reporting, and security contact language are readiness-only."),
@@ -95,7 +95,7 @@ export const PLAN_REALMS: Record<PlanRealmId, PlanRealm> = {
     allowedFeatures: [],
     lockedFeatures: [
       realmFeature("professional_workspace", "Professional workspace tools", "locked", "Requires entitlement support before activation."),
-      realmFeature("pro_assistant", "Stronger TPM Assistant", "locked", "Planned professional guidance is not active without entitlement."),
+      realmFeature("pro_assistant", "Stronger Pro Max Assistant", "locked", "Planned professional guidance is not active without entitlement."),
       realmFeature("journal_depth", "Deeper Journal/Coach", "locked", "Structured session review is planned and locked."),
       realmFeature("decision_replay", "Decision Replay", "locked", "Replay is planned and does not claim alternate outcomes."),
     ],
@@ -147,7 +147,7 @@ export const PLAN_REALMS: Record<PlanRealmId, PlanRealm> = {
       "Lunar/deep orbit perspective: a premium advanced layer that remains planned or entitlement-gated.",
     allowedFeatures: [],
     lockedFeatures: [
-      realmFeature("advanced_assistant", "Advanced TPM Assistant", "locked", "VIP Assistant is not active without entitlement and safety gates."),
+      realmFeature("advanced_assistant", "Advanced Pro Max Assistant", "locked", "VIP Assistant is not active without entitlement and safety gates."),
       realmFeature("advanced_coach", "Advanced Coach", "locked", "Premium coaching remains planned/locked."),
       realmFeature("premium_reports", "Premium reports", "locked", "Premium reports are planned only."),
       realmFeature("strategy_review", "Strategy review", "locked", "Strategy review is not active and cannot promise outcomes."),

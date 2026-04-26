@@ -10,7 +10,7 @@ export function evaluatePrimeWorldProtectionGate(
     return {
       gateId: "prime_world_protection_gate",
       status: "reject",
-      reason: "The seed would weaken Trading Pro Max or expose forbidden private systems.",
+      reason: "The seed would weaken Pro Max Trading or expose forbidden private systems.",
       evidenceNeeded: ["Prime World protection proof"],
       requiredReview: ["Founder review"],
       safeAlternative: "Reject or archive the seed.",
@@ -35,7 +35,7 @@ export function evaluatePrimeWorldProtectionGate(
   return {
     gateId: "prime_world_protection_gate",
     status: "pass",
-    reason: "The seed is safe-adjacent to Trading Pro Max in private readiness scope.",
+    reason: "The seed is safe-adjacent to Pro Max Trading in private readiness scope.",
     evidenceNeeded: ["no-harm proof before birth"],
     requiredReview: [],
     safeAlternative: "Keep the seed private and scoped.",

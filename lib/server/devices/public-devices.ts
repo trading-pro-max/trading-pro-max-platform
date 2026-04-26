@@ -18,7 +18,7 @@ const PUBLIC_BLOCKS: DeviceRegistryItem["blockedCapabilities"] = [
 export const publicDeviceRegistry: DeviceRegistryItem[] = [
   {
     deviceId: "tpm_web_app",
-    publicName: "Trading Pro Max Web App",
+    publicName: "Pro Max Web App",
     privateName: "Public Earth Web App",
     world: "public_earth",
     type: "web",
@@ -52,7 +52,7 @@ export const publicDeviceRegistry: DeviceRegistryItem[] = [
   },
   {
     deviceId: "tpm_desktop_app",
-    publicName: "Trading Pro Max Desktop App",
+    publicName: "Pro Max Desktop App",
     privateName: "Public Earth Desktop App",
     world: "public_earth",
     type: "desktop",
@@ -77,7 +77,7 @@ export const publicDeviceRegistry: DeviceRegistryItem[] = [
   },
   {
     deviceId: "tpm_mobile_app",
-    publicName: "Trading Pro Max Mobile App",
+    publicName: "Pro Max Mobile App",
     privateName: "Public Earth Mobile App",
     world: "public_earth",
     type: "mobile",
@@ -101,7 +101,7 @@ export const publicDeviceRegistry: DeviceRegistryItem[] = [
   },
   {
     deviceId: "tpm_tablet_app",
-    publicName: "Trading Pro Max Tablet App",
+    publicName: "Pro Max Tablet App",
     privateName: "Public Earth Tablet App",
     world: "public_earth",
     type: "tablet",

@@ -2,8 +2,10 @@ import type { PrimeWorldSnapshot } from "./types";
 
 export function getPrimeWorldSnapshot(): PrimeWorldSnapshot {
   return {
-    worldId: "trading_pro_max_prime_world",
-    name: "Trading Pro Max",
+    worldId: "pro_max_trading_prime_world",
+    name: "Pro Max Trading",
+    motherBrand: "Pro Max",
+    legacyProjectName: "Trading Pro Max",
     status: "prime_world_protected",
     localDayOneRequired: true,
     livingMarketCoreReadinessRequired: true,
@@ -24,7 +26,7 @@ export function getPrimeWorldSnapshot(): PrimeWorldSnapshot {
     protectedPriorities: [
       "Local Day One",
       "Living Market Core readiness",
-      "TPM Assistant readiness",
+      "Pro Max Assistant readiness",
       "visual acceptance",
       "Reality Audit",
       "Safe Cleanup",

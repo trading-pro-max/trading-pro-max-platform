@@ -160,14 +160,14 @@ const blockedIntentPatterns: Array<{
     category: "blocked",
     confidence: 0.98,
     phrases: ["execute trade", "place trade", "open order"],
-    response: "TPM Assistant cannot execute trades. Use paper-safe rehearsal controls only.",
+    response: "Pro Max Assistant cannot execute trades. Use paper-safe rehearsal controls only.",
   },
   {
     actionId: "provide_signal",
     category: "blocked",
     confidence: 0.95,
     phrases: ["trading signal", "give me a signal", "what should i buy", "buy or sell"],
-    response: "TPM Assistant cannot provide trading signals. Ask for education or a Journal prompt.",
+    response: "Pro Max Assistant cannot provide trading signals. Ask for education or a Journal prompt.",
   },
   {
     actionId: "enable_live",
@@ -285,7 +285,7 @@ export function interpretUserIntent(input: string): IntentInterpretation {
       requiresSafetyCheck: true,
       requiresConfirmation: false,
       suggestedResponse:
-        "Tell TPM Assistant what you want to do, and it will route you to an allowed action, explanation, or safe alternative.",
+        "Tell Pro Max Assistant what you want to do, and it will route you to an allowed action, explanation, or safe alternative.",
       publicVisible: true,
     };
   }

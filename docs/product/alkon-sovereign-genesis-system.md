@@ -4,7 +4,7 @@ Alkon Sovereign Genesis is the private system for evaluating whether future
 product worlds may ever be born. It does not launch a project, create a company,
 publish a page, activate production, or expose future worlds.
 
-Trading Pro Max remains the Prime World. Alkon may evaluate World Seeds only
+Pro Max Trading remains the Prime World under the Pro Max mother brand. Alkon may evaluate World Seeds only
 through meaning, human need, market, law, treasury, security, prototype, proof,
 Prime World protection, Founder approval, and birth gates.
 

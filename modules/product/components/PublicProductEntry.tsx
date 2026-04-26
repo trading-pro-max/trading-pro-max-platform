@@ -173,11 +173,11 @@ export default function PublicProductEntry({
                 surface="public_entry"
                 variant="hero"
               />
-              <h1>Trading Pro Max is a calm Earth-native paper workspace.</h1>
+              <h1>Pro Max Trading is a calm Earth-native paper workspace.</h1>
               <p>
-                Trading Pro Max starts with a complete Free web workspace, keeps plan depth
+                Pro Max is the mother brand. Pro Max Trading starts with a complete Free web workspace, keeps plan depth
                 truthful, and gives you a clear way to practice, learn, and adjust the
-                experience. Tell TPM Assistant what you want to do, and it will route the safe next step.
+                experience. Tell Pro Max Assistant what you want to do, and it will route the safe next step.
               </p>
 
               <div className="tpm-product-cta-row">
@@ -185,7 +185,7 @@ export default function PublicProductEntry({
                   Enter workspace
                 </Link>
                 <Link className="tpm-product-cta tpm-product-cta-secondary" href="#tpm-assistant-guidance">
-                  Ask TPM Assistant
+                  Ask Pro Max Assistant
                 </Link>
               </div>
               <p className="tpm-intent-hero-note">
@@ -232,8 +232,8 @@ export default function PublicProductEntry({
         >
           <div className="tpm-product-section-head">
             <div>
-              <span className="tpm-product-kicker">TPM Assistant</span>
-              <h2>Tell TPM Assistant what you want to do.</h2>
+              <span className="tpm-product-kicker">Pro Max Assistant</span>
+              <h2>Tell Pro Max Assistant what you want to do.</h2>
             </div>
             <p>
               Assistant guidance handles secondary intent: product truth, plan questions,

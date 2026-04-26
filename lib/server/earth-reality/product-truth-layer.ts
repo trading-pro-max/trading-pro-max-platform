@@ -26,7 +26,7 @@ export function getEarthProductTruthLayerChecks(): EarthRealityCheck[] {
         "Private command systems and internal memory must never appear in public UI.",
       decision: "pass",
       reason:
-        "Public diagnostics are sanitized and public pages use only Trading Pro Max language.",
+        "Public diagnostics are sanitized and public pages use only Pro Max Trading language.",
       userImpact: "Users see the product world, not owner-only systems.",
       trustImpact: "Private/public boundaries are comprehensible.",
       safetyImpact: "Internal controls, secrets, and construction systems remain hidden.",

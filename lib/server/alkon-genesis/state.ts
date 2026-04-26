@@ -46,13 +46,13 @@ export function getAlkonGenesisSnapshot(
     sharedServices: ALKON_SHARED_WORLD_SERVICES,
     memoryLessons: ALKON_GENESIS_MEMORY_LESSONS,
     nextSafeActions: [
-      "Keep Trading Pro Max as Prime World until Local Day One and acceptance are established.",
+      "Keep Pro Max Trading as Prime World until Local Day One and acceptance are established.",
       "Keep all World Seeds private and seed/prototype-readiness only.",
       "Delay any seed that creates legal, treasury, support, media, data, or attention burden before Prime World readiness.",
       "Require Founder final approval before any World Birth Permit can become active.",
     ],
     primeWorldProtectionWarnings: [
-      "No new world may weaken Trading Pro Max.",
+      "No new world may weaken Pro Max Trading.",
       "No new world may distract from Living Market Core, Local Day One, or Station 1 closure.",
       "No future world may expose Alkon, Genesis, World Seeds, or private governance publicly.",
     ],
@@ -63,6 +63,7 @@ export function getAlkonGenesisSnapshot(
       diagnosticsLeak: false,
     },
     productTruthStatus: {
+      proMaxTradingRemainsPrimeWorld: true,
       tradingProMaxRemainsPrimeWorld: true,
       noNewProjectLaunched: true,
       noPublicFutureWorldsExposed: true,

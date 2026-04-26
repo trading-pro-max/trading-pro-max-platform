@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Link from "next/link";
 import { getDirection } from "../../../lib/i18n/config";
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
 import ProductLogo from "../../brand/components/ProductLogo";
@@ -52,14 +53,20 @@ export default function PublicAppShell({
       data-shell-mode="public"
     >
       <header className="tpm-foundation-nav-shell tpm-public-shell-header">
-        <nav className="tpm-foundation-nav tpm-shell-nav-row" aria-label="Trading Pro Max public navigation">
-          <ProductLogo
-            className="tpm-shell-logo tpm-foundation-nav-brand"
-            motionIntensity="low"
-            state="paper_safe"
-            subtitle={dict.shell.foundation}
-            variant="nav"
-          />
+        <nav className="tpm-foundation-nav tpm-shell-nav-row" aria-label="Pro Max Trading public navigation">
+          <Link
+            className="tpm-shell-logo-home-link"
+            href="/"
+            aria-label="Pro Max home"
+          >
+            <ProductLogo
+              className="tpm-shell-logo tpm-foundation-nav-brand"
+              motionIntensity="low"
+              state="paper_safe"
+              subtitle={dict.shell.foundation}
+              variant="nav"
+            />
+          </Link>
 
           <ShellNavigation
             items={primaryNavItems}

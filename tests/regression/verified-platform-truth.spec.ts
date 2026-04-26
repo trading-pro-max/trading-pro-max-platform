@@ -410,7 +410,7 @@ test.describe("verified platform truth", () => {
       {
         path: "/en",
         expectedUrl: /\/en$/,
-        text: /Trading Pro Max|Execution Panel|Decision/,
+        text: /Pro Max Trading|Execution Panel|Decision/,
       },
       {
         path: "/en/settings",
@@ -435,7 +435,7 @@ test.describe("verified platform truth", () => {
       await expect(page.locator("main").first()).toBeVisible();
       await expect(page.locator(".tpm-brand-mark").first()).toBeVisible();
       await expect(page.locator(".tpm-brand-wordmark").first()).toContainText(
-        "Trading Pro Max"
+        "Pro Max"
       );
       await expect(page.locator(".tpm-brand-mark svg").first()).toBeVisible();
       await expect(page.locator(".tpm-brand-mark img")).toHaveCount(0);
@@ -549,7 +549,7 @@ test.describe("verified platform truth", () => {
           /Learning|Feedback|Pro community|VIP rooms|No fake members|active rooms|signal rooms/
         );
         await expect(page.locator("body")).toContainText(
-          /TPM Assistant|Journal\/Coach|Paper-safe|Why Blocked/
+          /Pro Max Assistant|Journal\/Coach|Paper-safe|Why Blocked/
         );
         await expect(page.locator("body")).toContainText(
           /real-money routing|broker\/feed activation|billing/
@@ -579,7 +579,7 @@ test.describe("verified platform truth", () => {
         await expect(page.locator(".tpmv2-ticket-activity").first()).toBeHidden();
         await expect(page.locator(".tpmv2-execution .tpm-why-blocked-hint").first()).toBeVisible();
         await expect(page.locator("body")).toContainText(
-          /TPM Assistant|Market context|Paper-safe controls|Market depth/
+          /Pro Max Assistant|Market context|Paper-safe controls|Market depth/
         );
         await expect(page.locator("body")).toContainText(
           /Workspace focus|Watchlist|Layout-only|Market depth/
@@ -599,7 +599,7 @@ test.describe("verified platform truth", () => {
           await expect(page.locator(".tpm-companion-panel").first()).toContainText(
             /Ask safely|execute trade|enable live/
           );
-          await page.getByLabel("Ask TPM Assistant").fill("enable live and real money");
+          await page.getByLabel("Ask Pro Max Assistant").fill("enable live and real money");
           await page.getByRole("button", { name: "Send" }).click();
           await expect(page.locator(".tpm-companion-panel").first()).toContainText(
             /I cannot do that|remain blocked/
@@ -640,7 +640,7 @@ test.describe("verified platform truth", () => {
           expect(companionLayout.companionOverlapsExecution).toBe(false);
           expect(companionLayout.chartWidth).toBeGreaterThan(620);
           expect(companionLayout.chartHeight).toBeGreaterThan(420);
-          await page.getByRole("button", { name: "Close TPM Assistant" }).click();
+          await page.getByRole("button", { name: "Close Pro Max Assistant" }).click();
         }
         const emptyStateNotice = page.locator(".tpm-state-notice[data-state='empty']").first();
         if (!(await emptyStateNotice.isVisible().catch(() => false))) {
@@ -679,7 +679,7 @@ test.describe("verified platform truth", () => {
           /Product trust ledger|Commercial packaging readiness|No billing system active|Broker integration/
         );
         await expect(page.locator("body")).toContainText(
-          /TPM Assistant|Free Assistant|Pro, VIP, and Institutional assistants remain locked/
+          /Pro Max Assistant|Free Assistant|Pro, VIP, and Institutional assistants remain locked/
         );
         await expect(page.locator("body")).toContainText(
           /Plan capability truth|Paper-session guidance|No financial advice/
@@ -777,7 +777,7 @@ test.describe("verified platform truth", () => {
     await expect(page.locator("#markets")).toContainText(/Forex|Crypto|Commodities|Indices|Stocks/);
     await expect(page.locator("#apps-platforms")).toContainText(/Web App|Desktop App|Mobile App|Tablet/);
     await expect(page.locator("#apps-platforms")).not.toContainText(/Download Windows|Download Android|App Store|Play Store/);
-    await expect(page.locator("#academy")).toContainText(/Getting started|paper trading basics|Why Blocked|TPM Assistant/i);
+    await expect(page.locator("#academy")).toContainText(/Getting started|paper trading basics|Why Blocked|Pro Max Assistant/i);
     await expect(page.locator("#community")).toContainText(/Learning|Feedback|Pro community|VIP rooms|No fake members/i);
     await expect(page.locator("#support")).toContainText(/Help Center|Security Contact|Partnership Contact/);
 
@@ -852,7 +852,7 @@ test.describe("verified platform truth", () => {
     expect(earthMarkSource).toContain("tpm-earth-continent-asia");
     expect(earthMarkSource).toContain("radialGradient");
     expect(earthMarkSource).toContain("clipPath");
-    expect(earthMarkSource).toContain("Trading Pro Max Earth Moon Mark");
+    expect(earthMarkSource).toContain("Pro Max Earth Mark");
     expect(earthMarkSource).not.toContain("Celestial Swiss Trading Identity");
     expect(earthMarkSource).not.toMatch(/<image|<img|\\.png|\\.jpg|\\.gif/i);
 
@@ -860,12 +860,12 @@ test.describe("verified platform truth", () => {
       "modules/brand/components/ProductLogo.tsx",
       "utf8"
     );
-    expect(productLogoSource).toContain("Trading Pro Max Earth Moon Mark");
+    expect(productLogoSource).toContain("Pro Max Earth Mark");
     expect(productLogoSource).not.toContain("Celestial Swiss Trading Identity");
     expect(productLogoSource).not.toContain("Trading Pro Max Celestial Swiss Earth Mark");
 
     const appIconSource = fs.readFileSync("app/icon.svg", "utf8");
-    expect(appIconSource).toContain("Trading Pro Max Earth Moon Mark");
+    expect(appIconSource).toContain("Pro Max Earth Mark");
     expect(appIconSource).toContain("rx=\"28.9\"");
     expect(appIconSource).toContain("stroke=\"#f4d37a\"");
     expect(appIconSource).toContain("url(#tpm-icon-ocean)");
@@ -1013,7 +1013,7 @@ test.describe("verified platform truth", () => {
       fullPage: true,
       path: path.join(THEME_ARTIFACT_DIR, "assistant-open.png"),
     });
-    await page.getByRole("button", { name: "Close TPM Assistant" }).click();
+    await page.getByRole("button", { name: "Close Pro Max Assistant" }).click();
     await page.evaluate(() => {
       window.dispatchEvent(new KeyboardEvent("keydown", { key: "5", shiftKey: true }));
     });
@@ -1630,7 +1630,7 @@ test.describe("verified platform truth", () => {
       systemsConnected: 10,
       publicLanguageAligned: true,
       publicPlanNames: ["Free", "Pro", "VIP", "Institutional"],
-      assistantName: "TPM Assistant",
+      assistantName: "Pro Max Assistant",
       requiredBlockedStateCoverage: true,
       privateReportingReadinessOnly: true,
       truth: {
@@ -2269,7 +2269,7 @@ test.describe("verified platform truth", () => {
         founderCommand: "owner_only_private",
       },
       dailyUse: {
-        assistantName: "TPM Assistant",
+      assistantName: "Pro Max Assistant",
         role: "safe_daily_workspace_assistant",
         nonAdvice: true,
         nonExecuting: true,
@@ -2298,7 +2298,7 @@ test.describe("verified platform truth", () => {
       },
     });
     expect(companionContextPayload.snapshot.planetAccess.visibleCities).toEqual(
-      expect.arrayContaining(["Chart", "Paper ticket", "TPM Assistant"])
+      expect.arrayContaining(["Chart", "Paper ticket", "Pro Max Assistant"])
     );
     expect(companionContextPayload.snapshot.planetAccess.lockedFeatures).toEqual(
       expect.arrayContaining(["advanced Assistant"])
@@ -2307,7 +2307,7 @@ test.describe("verified platform truth", () => {
       expect.arrayContaining(["restricted controls", "revenue research"])
     );
     expect(companionContextPayload.snapshot.planAccess.visibleSurfaces).toEqual(
-      expect.arrayContaining(["Chart", "Paper ticket", "TPM Assistant"])
+      expect.arrayContaining(["Chart", "Paper ticket", "Pro Max Assistant"])
     );
     expect(JSON.stringify(companionContextPayload.snapshot.planetAccess)).not.toMatch(
       /performance fee|performance-fee/i
@@ -2369,7 +2369,7 @@ test.describe("verified platform truth", () => {
       "Pro",
       "VIP",
       "Institutional",
-      "TPM Assistant",
+      "Pro Max Assistant",
     ]);
     expect(companionContextPayload.snapshot.whyBlocked).toMatchObject({
       liveDisabled: expect.stringContaining("Live disabled"),
@@ -6418,7 +6418,7 @@ test.describe("verified platform truth", () => {
       ok: true,
       status: "ready",
       publicPlanNames: ["Free", "Pro", "VIP", "Institutional"],
-      publicAssistantName: "TPM Assistant",
+      publicAssistantName: "Pro Max Assistant",
       truth: {
         rasterAssetsUsed: false,
         externalImagesUsed: false,
@@ -6440,8 +6440,9 @@ test.describe("verified platform truth", () => {
     });
     expect(summary.defaultDecision.allowedTerminology).toEqual(
       expect.arrayContaining([
-        "Trading Pro Max",
-        "TPM Assistant",
+        "Pro Max",
+        "Pro Max Trading",
+        "Pro Max Assistant",
         "Free",
         "Pro",
         "VIP",

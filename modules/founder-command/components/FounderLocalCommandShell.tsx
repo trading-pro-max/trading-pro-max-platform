@@ -34,14 +34,14 @@ export default function FounderLocalCommandShell({
           size={72}
           state="local_only"
           surface="local_command"
-          title="Trading Pro Max local command mark"
+          title="Pro Max Trading local command mark"
           variant="command"
         />
         <div>
           <span>Founder Command Local App Shell</span>
           <h1>Local owner command center</h1>
           <p>
-            Private read-only local command surface for operating Trading Pro Max before
+            Private read-only local command surface for operating Pro Max Trading before
             any global activation. It reports readiness, queues, gaps, memory, local
             operations, and safe next actions without executing approvals.
           </p>

@@ -29,7 +29,7 @@ import type {
 } from "@/modules/shell/types/platform-state";
 
 const DEFAULT_CANDLE_COUNT = 36;
-const MARKET_PROVIDER = "Trading Pro Max Fallback Feed";
+const MARKET_PROVIDER = "Pro Max Trading Fallback Feed";
 const FALLBACK_SOURCE_LABEL = "Fallback market adapter";
 const CONFIGURED_EXTERNAL_FEED = Boolean(
   process.env.TPM_MARKET_FEED_SANDBOX_URL?.trim() ||

@@ -357,7 +357,7 @@ test.describe("Codex Sovereign Construction State", () => {
     );
 
     await assertPublicNoLeak(page, "/");
-    await expect(page.locator("body")).toContainText("Trading Pro Max");
+    await expect(page.locator("body")).toContainText("Pro Max Trading");
     await expect(page.locator("body")).toContainText("Free");
     await expect(page.locator("body")).toContainText("Pro");
     await expect(page.locator("body")).toContainText("VIP");

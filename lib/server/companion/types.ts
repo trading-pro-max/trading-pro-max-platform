@@ -245,10 +245,10 @@ export type CompanionContextSnapshot = {
     riskProfile: "learning" | "conservative" | "balanced" | "active" | "high_caution";
   };
   dailyUse: {
-    assistantName: "TPM Assistant";
+    assistantName: "Pro Max Assistant";
     role: "safe_daily_workspace_assistant";
     modes: CompanionDailyUseMode[];
-    publicLanguage: ["Free", "Pro", "VIP", "Institutional", "TPM Assistant"];
+    publicLanguage: ["Free", "Pro", "VIP", "Institutional", "Pro Max Assistant"];
     nonAdvice: true;
     nonExecuting: true;
     nonPredictive: true;

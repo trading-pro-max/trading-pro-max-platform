@@ -132,7 +132,7 @@ test.describe("Alkon internal universe closure", () => {
     expect(physics.snapshot.sampleTaskGraphs[0]).toMatchObject({
       taskPassport: {
         publicLanguageRule:
-          "Public users only see Trading Pro Max public product language; Alkon and cosmic terms remain Founder-only.",
+          "Public users only see Pro Max Trading public product language; Alkon and cosmic terms remain Founder-only.",
       },
       codexLicense: {
         noWebAppExecution: true,
@@ -275,10 +275,10 @@ test.describe("Alkon internal universe closure", () => {
     });
   });
 
-  test("captures public proof that Trading Pro Max stays clean", async ({ page }) => {
+  test("captures public proof that Pro Max Trading stays clean", async ({ page }) => {
     await openDark(page, "/");
     await expect(page.locator("main").first()).toBeVisible();
-    await expect(page.locator("body")).toContainText("Trading Pro Max");
+    await expect(page.locator("body")).toContainText("Pro Max Trading");
     await expect(page.locator("body")).toContainText("Free");
     await expect(page.locator("body")).toContainText("Pro");
     await expect(page.locator("body")).toContainText("VIP");

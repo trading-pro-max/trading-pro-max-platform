@@ -11,8 +11,9 @@ import type {
 } from "./types";
 
 const publicTerminology = [
-  "Trading Pro Max",
-  "TPM Assistant",
+  "Pro Max",
+  "Pro Max Trading",
+  "Pro Max Assistant",
   "Free",
   "Pro",
   "VIP",

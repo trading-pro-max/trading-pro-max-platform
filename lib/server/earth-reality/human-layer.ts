@@ -7,7 +7,7 @@ export function getEarthHumanLayerChecks(): EarthRealityCheck[] {
       layer: "human",
       surface: "home",
       requirement:
-        "Home explains what Trading Pro Max is and how to start without overwhelming a real person.",
+        "Home explains what Pro Max Trading is and how to start without overwhelming a real person.",
       decision: "pass",
       reason:
         "Home has public shell navigation, workspace entry, plan strip, Apps / Platforms, and safety truth.",
@@ -15,7 +15,7 @@ export function getEarthHumanLayerChecks(): EarthRealityCheck[] {
       trustImpact: "Clear public language avoids hidden-system confusion.",
       safetyImpact: "No unsafe activation is presented as a next step.",
       requiredFix: "Keep Home guided and compact during future additions.",
-      publicCopyRule: "Use Trading Pro Max and public plan names only.",
+      publicCopyRule: "Use Pro Max, Pro Max Trading, Pro Max Assistant, and public plan names only.",
       validationRule: "Public Home must show a clear next step and no private terms.",
     },
     {

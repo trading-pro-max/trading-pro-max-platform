@@ -10,7 +10,7 @@ const lessons: AcademyReadinessSnapshot["lessons"] = [
   {
     key: "platform_basics",
     label: "Platform basics",
-    purpose: "Introduce Trading Pro Max surfaces, plans, and paper-safe product truth.",
+    purpose: "Introduce Pro Max Trading surfaces, plans, and paper-safe product truth.",
     safetyRule: "Keep public language simple and do not expose internal command systems.",
   },
   {
@@ -33,7 +33,7 @@ const lessons: AcademyReadinessSnapshot["lessons"] = [
   },
   {
     key: "tpm_assistant_guide",
-    label: "TPM Assistant guide",
+    label: "Pro Max Assistant guide",
     purpose: "Show safe Assistant use for orientation, reflection, and platform state help.",
     safetyRule: "Assistant cannot trade, predict guaranteed outcomes, or bypass safeguards.",
   },

@@ -30,7 +30,7 @@ export default function FounderBuildRoom({ checkedAt }: FounderBuildRoomProps) {
           size={72}
           state="review_required"
           surface="founder_command"
-          title="Trading Pro Max build room mark"
+          title="Pro Max Trading build room mark"
           variant="command"
         />
         <div>

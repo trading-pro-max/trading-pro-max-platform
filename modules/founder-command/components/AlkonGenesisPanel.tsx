@@ -18,7 +18,7 @@ export default function AlkonGenesisPanel({
         <h2>Future worlds stay seeds until every gate is proven</h2>
         <p>
           Private governance for evaluating possible future product worlds.
-          Trading Pro Max remains the Prime World. Genesis can evaluate,
+          Pro Max Trading remains the Prime World under the Pro Max mother brand. Genesis can evaluate,
           delay, reject, or permit prototype-readiness only; it does not create
           a new product, public page, launch, billing, broker/feed, live
           execution, real-money path, or social publishing.
