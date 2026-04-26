@@ -104,6 +104,40 @@ const safetyTruth = [
   "Broker/feed not configured",
 ];
 
+const assistantRevealPrompts = [
+  "Start",
+  "Why blocked?",
+  "Bigger chart",
+  "Calmer",
+  "Plans",
+  "Apps",
+  "Support",
+  "Journal",
+];
+
+const firstDayContinuity = [
+  {
+    label: "Practice",
+    value: "Paper-safe workspace",
+    note: "Use the chart and ticket for rehearsal only.",
+  },
+  {
+    label: "Reflect",
+    value: "Journal / Coach",
+    note: "Write what you observed and what would make you pause.",
+  },
+  {
+    label: "Learn",
+    value: "Academy basics",
+    note: "Use learning paths without signals or profit promises.",
+  },
+  {
+    label: "Adjust",
+    value: "Personal Reality",
+    note: "Use Calm, Static, Low Motion, or High Contrast when needed.",
+  },
+];
+
 export default function PublicProductEntry({
   diagnosticsHref,
   settingsHref,
@@ -115,6 +149,7 @@ export default function PublicProductEntry({
         <section
           className="tpm-foundation-card tpm-product-hero"
           data-public-section="public-entry-hero"
+          data-revelation-stage="first_3_seconds"
         >
           <LivingEarthBackground surface="public_entry" plan="free" state="paper_safe" />
           <div className="tpm-product-kicker-row">
@@ -138,19 +173,19 @@ export default function PublicProductEntry({
                 surface="public_entry"
                 variant="hero"
               />
-              <h1>A familiar paper-safe trading workspace with a sharper edge.</h1>
+              <h1>Trading Pro Max is a calm Earth-native paper workspace.</h1>
               <p>
-                Trading Pro Max starts with a complete Free web workspace, then keeps Pro,
-                VIP, and Institutional depth clearly planned or future until real gates exist.
-                Tell TPM Assistant what you want to do, and it will route the safe next step.
+                Trading Pro Max starts with a complete Free web workspace, keeps plan depth
+                truthful, and gives you a clear way to practice, learn, and adjust the
+                experience. Tell TPM Assistant what you want to do, and it will route the safe next step.
               </p>
 
               <div className="tpm-product-cta-row">
                 <Link className="tpm-product-cta tpm-product-cta-primary" href={workspaceHref}>
                   Enter workspace
                 </Link>
-                <Link className="tpm-product-cta tpm-product-cta-secondary" href="#apps-platforms">
-                  View platforms
+                <Link className="tpm-product-cta tpm-product-cta-secondary" href="#tpm-assistant-guidance">
+                  Ask TPM Assistant
                 </Link>
               </div>
               <p className="tpm-intent-hero-note">
@@ -188,6 +223,31 @@ export default function PublicProductEntry({
           settingsHref={settingsHref}
           workspaceHref={workspaceHref}
         />
+
+        <section
+          id="tpm-assistant-guidance"
+          className="tpm-product-section tpm-revelation-assistant"
+          data-public-section="assistant-guidance"
+          data-revelation-stage="first_30_seconds"
+        >
+          <div className="tpm-product-section-head">
+            <div>
+              <span className="tpm-product-kicker">TPM Assistant</span>
+              <h2>Tell TPM Assistant what you want to do.</h2>
+            </div>
+            <p>
+              Assistant guidance handles secondary intent: product truth, plan questions,
+              support, apps, Journal, comfort settings, and why something is blocked.
+            </p>
+          </div>
+          <div className="tpm-revelation-prompt-row" aria-label="Assistant first-use prompts">
+            {assistantRevealPrompts.map((prompt) => (
+              <span key={prompt} className="tpm-intent-chip">
+                {prompt}
+              </span>
+            ))}
+          </div>
+        </section>
 
         <section
           id="plans"
@@ -243,6 +303,32 @@ export default function PublicProductEntry({
         <PublicAcademySection />
         <PublicCommunitySection />
         <PublicSupportSection />
+
+        <section
+          className="tpm-product-section tpm-revelation-continuity"
+          data-public-section="first-day-continuity"
+          data-revelation-stage="first_day"
+        >
+          <div className="tpm-product-section-head">
+            <div>
+              <span className="tpm-product-kicker">First-day loop</span>
+              <h2>Practice, reflect, learn, and adjust without fake activation.</h2>
+            </div>
+            <p>
+              Journal and Coach keep the first day grounded in paper-mode reflection.
+              Support, Academy, Settings, and Diagnostics stay truthful about what is active.
+            </p>
+          </div>
+          <div className="tpm-product-card-grid tpm-revelation-continuity-grid">
+            {firstDayContinuity.map((item) => (
+              <article key={item.label} className="tpm-foundation-card tpm-product-card">
+                <span className="tpm-product-kicker">{item.label}</span>
+                <strong>{item.value}</strong>
+                <p>{item.note}</p>
+              </article>
+            ))}
+          </div>
+        </section>
 
         <section className="tpm-product-section tpm-product-truth-strip">
           <div className="tpm-product-section-head">

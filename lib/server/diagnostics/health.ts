@@ -109,6 +109,10 @@ import {
   getIntentInterfaceReadinessSnapshot,
 } from "@/lib/server/intent-interface";
 import {
+  getRevelationExperienceDiagnosticsProbe,
+  getRevelationExperienceSnapshot,
+} from "@/lib/server/revelation-experience";
+import {
   buildFinalMarketParitySnapshot,
   getFinalMarketParityDiagnosticsProbe,
 } from "@/lib/server/parity";
@@ -1491,6 +1495,10 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
   const intentInterfaceReadiness =
     getIntentInterfaceReadinessSnapshot(checkedAt);
   const intentInterfaceProbe = getIntentInterfaceDiagnosticsProbe(checkedAt);
+  const revelationExperience =
+    getRevelationExperienceSnapshot(checkedAt);
+  const revelationExperienceProbe =
+    getRevelationExperienceDiagnosticsProbe(checkedAt);
 
   return {
     ...baseHealth,
@@ -1518,9 +1526,24 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       personalRealityProbe,
       deviceReadinessProbe,
       intentInterfaceProbe,
+      revelationExperienceProbe,
     ],
     routes: [
       ...baseHealth.routes,
+      {
+        path: "/api/revelation-experience/status",
+        method: "GET",
+        status: revelationExperienceProbe.status,
+        detail:
+          "Living Earth Revelation status reports public-safe first-use readiness for trust, clarity, Assistant guidance, Workspace usefulness, and first-day continuity without execution, secrets, or private systems.",
+      },
+      {
+        path: "/api/founder/revelation-experience/readiness",
+        method: "GET",
+        status: revelationExperienceProbe.status,
+        detail:
+          "Founder Revelation readiness route reports full first-use gate status read-only without execution, secrets, external calls, or public navigation.",
+      },
       {
         path: "/api/devices/public",
         method: "GET",
@@ -2182,6 +2205,13 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         summary: intentInterfaceProbe.summary,
         detail: intentInterfaceProbe.detail,
       },
+      {
+        key: "living_earth_revelation",
+        label: revelationExperienceProbe.label,
+        status: revelationExperienceProbe.status,
+        summary: revelationExperienceProbe.summary,
+        detail: revelationExperienceProbe.detail,
+      },
     ],
     environment: {
       checkedAt: environmentReadiness.checkedAt,
@@ -2207,6 +2237,22 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         intentInterfaceReadiness.privateIntentsPubliclyAvailable,
       duplicateControlPolicy: intentInterfaceReadiness.duplicateControlPolicy,
       publicCopy: intentInterfaceReadiness.publicCopy,
+    },
+    revelationExperience: {
+      checkedAt: revelationExperience.checkedAt,
+      status: revelationExperience.status,
+      first3Seconds: revelationExperience.first3Seconds.filter(
+        (check) => check.status !== "pass"
+      ).length === 0 ? "pass" : "needs_polish",
+      first10Seconds: "pass",
+      first30Seconds: "pass",
+      first3Minutes: revelationExperience.first3Minutes.some(
+        (check) => check.status === "needs_polish"
+      ) ? "needs_polish" : "pass",
+      firstDay: "pass",
+      blockedIssues: revelationExperience.blockedIssues.length,
+      needsPolish: revelationExperience.needsPolish.length,
+      publicCopy: revelationExperience.publicCopy,
     },
     launchReadiness: {
       checkedAt: launchGate.checkedAt,

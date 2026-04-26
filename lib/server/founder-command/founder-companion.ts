@@ -23,6 +23,7 @@ import { getPersonalRealityReadinessSnapshot } from "@/lib/server/personal-reali
 import { getFounderDeviceReadinessSnapshot } from "@/lib/server/devices";
 import { getMediaIntelligenceSnapshot } from "@/lib/server/media-intelligence";
 import { getIntentInterfaceReadinessSnapshot } from "@/lib/server/intent-interface";
+import { getRevelationExperienceSnapshot } from "@/lib/server/revelation-experience";
 import { getInvisibleOperatingLayerSnapshot } from "@/lib/server/invisible-operating-layer";
 import {
   getProductMemoryDailySummarySnapshot,
@@ -74,6 +75,7 @@ export type FounderPersonalCompanionSnapshot = {
   alkonContinuitySummary: string[];
   treasuryLifeSummary: string[];
   mediaIntelligenceSummary: string[];
+  revelationExperienceSummary: string[];
   finalConvergenceSummary: string[];
   earthRealitySummary: string[];
   personalRealitySummary: string[];
@@ -135,6 +137,7 @@ export function getFounderPersonalCompanionSnapshot(
   const alkonLegitimacy = getAlkonLegitimacySnapshot(checkedAt);
   const treasuryLife = getTreasuryLifeSnapshot();
   const mediaIntelligence = getMediaIntelligenceSnapshot();
+  const revelationExperience = getRevelationExperienceSnapshot(checkedAt);
   const finalConvergence = getFinalConvergenceSnapshot(checkedAt);
   const realWorldLaunchReadiness =
     getRealWorldLaunchReadinessSnapshot(checkedAt);
@@ -303,6 +306,12 @@ export function getFounderPersonalCompanionSnapshot(
       `Claims firewall ready: ${String(mediaIntelligence.claimsFirewall.ready)}; social accounts connected: ${String(mediaIntelligence.channelReality.socialAccountsConnected)}.`,
       `AI content factory is ${mediaIntelligence.aiContentFactoryReadiness}; story architecture is ${mediaIntelligence.storyArchitecture}.`,
       "Media remains draft/review-only with no social tokens, no publishing, no ad spend, and no fake metrics.",
+    ],
+    revelationExperienceSummary: [
+      `Living Earth Revelation Experience is ${revelationExperience.status}.`,
+      `First 3 seconds ${revelationExperience.founderReadiness.first3SecondsStatus}, first 10 seconds ${revelationExperience.founderReadiness.first10SecondsStatus}, first 30 seconds ${revelationExperience.founderReadiness.first30SecondsStatus}, first 3 minutes ${revelationExperience.founderReadiness.first3MinutesStatus}, first day ${revelationExperience.founderReadiness.firstDayStatus}.`,
+      `${revelationExperience.needsPolish.length} polish notes remain: ${revelationExperience.needsPolish.join(", ")}.`,
+      "Public entry, Assistant guidance, Workspace usefulness, Journal/Coach continuity, Product Truth, accessibility, and public/private boundary checks stay read-only and non-executing.",
     ],
     finalConvergenceSummary: [
       `Final Convergence is ${finalConvergence.status} with score ${finalConvergence.convergenceScore.score}/10; no fake 10/10 is claimed.`,

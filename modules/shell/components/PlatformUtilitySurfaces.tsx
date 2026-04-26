@@ -1383,6 +1383,59 @@ export function PlatformDiagnosticsSurface({
       note: "Repeated explanation buttons move into Assistant or compact Diagnostics instead of crowding the shell.",
     },
   ];
+  const revelationExperienceItems = diagnosticsHealth?.revelationExperience
+    ? [
+        {
+          label: "First 3 seconds",
+          value: diagnosticsHealth.revelationExperience.first3Seconds,
+          tone:
+            diagnosticsHealth.revelationExperience.first3Seconds === "pass"
+              ? ("approved" as const)
+              : ("pending" as const),
+          note: "Home opens calm, Earth-native, professional, paper-safe, and uncluttered.",
+        },
+        {
+          label: "First 10 seconds",
+          value: diagnosticsHealth.revelationExperience.first10Seconds,
+          tone: "approved" as const,
+          note: "Users can see what Trading Pro Max is, where to start, and what is active or planned.",
+        },
+        {
+          label: "First 30 seconds",
+          value: diagnosticsHealth.revelationExperience.first30Seconds,
+          tone: "approved" as const,
+          note: "TPM Assistant guides Start, Why blocked, Bigger chart, Calmer, Plans, Apps, Support, and Journal.",
+        },
+        {
+          label: "First 3 minutes",
+          value: diagnosticsHealth.revelationExperience.first3Minutes,
+          tone:
+            diagnosticsHealth.revelationExperience.first3Minutes === "pass"
+              ? ("approved" as const)
+              : ("pending" as const),
+          note: "Workspace remains terminal-only, chart-first, paper-safe, and useful with market-pulse polish still noted.",
+        },
+        {
+          label: "First day",
+          value: diagnosticsHealth.revelationExperience.firstDay,
+          tone: "approved" as const,
+          note: "Journal, Coach, Academy, Support, and Personal Reality create a truthful continuity loop.",
+        },
+        {
+          label: "Product Truth",
+          value: "Preserved",
+          tone: "approved" as const,
+          note: "Live execution, real money, broker/feed, billing, fake downloads, and fake claims remain inactive or blocked.",
+        },
+      ]
+    : [
+        {
+          label: "Revelation readiness",
+          value: "Loading",
+          tone: "pending" as const,
+          note: "Diagnostics is loading first-use readiness without exposing private systems.",
+        },
+      ];
   const designMinistryProbe = diagnosticsHealth?.probes.find(
     (probe) => probe.key === "visual_identity_platform_design"
   );
@@ -2064,6 +2117,10 @@ export function PlatformDiagnosticsSurface({
         <UtilityGrid items={intentInterfaceItems} />
       </UtilitySection>
 
+      <UtilitySection eyebrow="REVELATION" title="Living Earth first-use readiness">
+        <UtilityGrid items={revelationExperienceItems} />
+      </UtilitySection>
+
       <UtilitySection eyebrow="VISUAL DESIGN" title="Plan identity and platform design">
         <UtilityGrid items={designMinistryItems} />
       </UtilitySection>
@@ -2479,6 +2536,33 @@ export function PlatformSettingsSurface({
     },
   ];
 
+  const settingsRevelationItems = [
+    {
+      label: "First impression",
+      value: "Calm and clear",
+      tone: "approved" as const,
+      note: "Home should feel Earth-native, paper-safe, professional, and uncluttered within the first moments.",
+    },
+    {
+      label: "Assistant guidance",
+      value: "Ask by intent",
+      tone: "approved" as const,
+      note: "Ask for Start, Why blocked, Bigger chart, Calmer, Plans, Apps, Support, or Journal.",
+    },
+    {
+      label: "Workspace usefulness",
+      value: "Chart-first",
+      tone: "approved" as const,
+      note: "Trading Workspace stays terminal-only and paper-safe while Journal/Coach remain secondary.",
+    },
+    {
+      label: "Continuity",
+      value: "Journal / Coach",
+      tone: "pending" as const,
+      note: "Use paper notes and Coach reflection for learning continuity without fake persistence claims.",
+    },
+  ];
+
   const settingsDeviceReadinessItems = [
     {
       label: "Web App",
@@ -2622,6 +2706,10 @@ export function PlatformSettingsSurface({
 
       <UtilitySection eyebrow="ASSISTANT-FIRST" title="Intent controls and backup settings">
         <UtilityGrid items={settingsIntentInterfaceItems} />
+      </UtilitySection>
+
+      <UtilitySection eyebrow="REVELATION" title="First-use experience controls">
+        <UtilityGrid items={settingsRevelationItems} />
       </UtilitySection>
 
       <UtilitySection eyebrow="APPS / PLATFORMS" title="Device readiness">

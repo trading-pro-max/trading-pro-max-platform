@@ -40,6 +40,7 @@ import { getEarthRealitySnapshot } from "@/lib/server/earth-reality";
 import { getPersonalRealityReadinessSnapshot } from "@/lib/server/personal-reality";
 import { getFounderDeviceReadinessSnapshot } from "@/lib/server/devices";
 import { getMediaIntelligenceSnapshot } from "@/lib/server/media-intelligence";
+import { getRevelationExperienceSnapshot } from "@/lib/server/revelation-experience";
 import { getInvisibleOperatingLayerSnapshot } from "@/lib/server/invisible-operating-layer";
 import {
   getContentReviewReadinessSnapshot,
@@ -195,6 +196,7 @@ export function getFounderCommandAppSnapshot(
   const deviceConstellation = getFounderDeviceReadinessSnapshot(checkedAt);
   const treasuryLife = getTreasuryLifeSnapshot();
   const mediaIntelligence = getMediaIntelligenceSnapshot();
+  const revelationExperience = getRevelationExperienceSnapshot(checkedAt);
 
   const desktopApp: FounderCommandDeviceBlueprint = {
     platform: "desktop",
@@ -387,6 +389,20 @@ export function getFounderCommandAppSnapshot(
     treasuryLife,
     mediaIntelligence,
     finalConvergence,
+    revelationExperience: {
+      status: revelationExperience.status,
+      first3Seconds: revelationExperience.founderReadiness.first3SecondsStatus,
+      first10Seconds: revelationExperience.founderReadiness.first10SecondsStatus,
+      first30Seconds: revelationExperience.founderReadiness.first30SecondsStatus,
+      first3Minutes: revelationExperience.founderReadiness.first3MinutesStatus,
+      firstDay: revelationExperience.founderReadiness.firstDayStatus,
+      visualAcceptanceNotes:
+        revelationExperience.founderReadiness.visualAcceptanceNotes,
+      blockedIssues: revelationExperience.blockedIssues,
+      needsPolish: revelationExperience.needsPolish,
+      nextSafeActions: revelationExperience.nextSafeActions,
+      productTruth: revelationExperience.productTruth,
+    },
     earthReality: {
       status: earthReality.status,
       score: earthReality.score,
@@ -1230,6 +1246,8 @@ export function getFounderCommandAppSnapshot(
       "/api/founder/final-convergence/snapshot",
       "/api/founder/final-convergence/layers",
       "/api/founder/final-convergence/growth-proposals",
+      "/api/revelation-experience/status",
+      "/api/founder/revelation-experience/readiness",
       "/api/earth-reality/status",
       "/api/earth-reality/public-matrix",
       "/api/earth-reality/product-truth",

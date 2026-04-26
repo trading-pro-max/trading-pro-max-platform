@@ -778,20 +778,32 @@ export type DiagnosticsHealthSnapshot = {
     motionAllowed: boolean;
     publicLabel: string;
   };
-  intentInterface?: {
-    checkedAt: string;
-    status: "ready_with_notes";
-    coreButtonsKept: number;
-    contextualButtons: number;
+    intentInterface?: {
+      checkedAt: string;
+      status: "ready_with_notes";
+      coreButtonsKept: number;
+      contextualButtons: number;
     assistantIntents: number;
     blockedIntents: number;
     privateIntentsPubliclyAvailable: false;
-    duplicateControlPolicy: "remove_duplicate";
-    publicCopy: string;
-  };
-  marketParity?: {
-    checkedAt: string;
-    mode: "final_market_parity_closure";
+      duplicateControlPolicy: "remove_duplicate";
+      publicCopy: string;
+    };
+    revelationExperience?: {
+      checkedAt: string;
+      status: "ready_with_notes" | "needs_polish" | "blocked";
+      first3Seconds: "pass" | "needs_polish" | "blocked" | "future" | "not_applicable";
+      first10Seconds: "pass" | "needs_polish" | "blocked" | "future" | "not_applicable";
+      first30Seconds: "pass" | "needs_polish" | "blocked" | "future" | "not_applicable";
+      first3Minutes: "pass" | "needs_polish" | "blocked" | "future" | "not_applicable";
+      firstDay: "pass" | "needs_polish" | "blocked" | "future" | "not_applicable";
+      blockedIssues: number;
+      needsPolish: number;
+      publicCopy: string;
+    };
+    marketParity?: {
+      checkedAt: string;
+      mode: "final_market_parity_closure";
     status: "closed" | "partially_closed";
     score: number;
     guardedCapabilities: number;

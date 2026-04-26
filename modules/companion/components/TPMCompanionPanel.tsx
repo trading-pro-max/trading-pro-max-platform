@@ -365,6 +365,15 @@ export default function TPMCompanionPanel({
           "Support can guide Help Center, Contact Support readiness, Report a Problem, Security Contact, and Partnership Contact. This build does not send email or fake ticket creation.",
         safeNextStep: "Open Support or ask me to draft a safe report.",
       },
+      apps: {
+        id: "response-apps",
+        role: "companion",
+        state: "planned",
+        title: "Apps / Platforms",
+        body:
+          "Web App is current. Desktop App is planned. Mobile App is planned. Tablet App is future. No fake downloads, installers, APKs, or app-store claims are active.",
+        safeNextStep: "Use the Web App now or open Apps / Platforms for readiness truth.",
+      },
       calm: {
         id: "response-calm",
         role: "companion",
@@ -486,8 +495,9 @@ export default function TPMCompanionPanel({
     { id: "chart", label: "Bigger chart", response: promptResponses.chart },
     { id: "calm", label: "Calmer", response: promptResponses.calm },
     { id: "plan", label: "Plans", response: promptResponses.plan },
-    { id: "journal", label: "Journal", response: promptResponses.journal },
+    { id: "apps", label: "Apps", response: promptResponses.apps },
     { id: "support", label: "Support", response: promptResponses.support },
+    { id: "journal", label: "Journal", response: promptResponses.journal },
   ];
   const activePrompt = prompts.find((prompt) => prompt.id === activePromptId) ?? prompts[0];
   const messages: TPMCompanionMessage[] = [

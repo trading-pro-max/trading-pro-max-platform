@@ -69,7 +69,15 @@ function WorkspaceDepthBar({
   watchlistDensity: WatchlistDensityMode;
   shortcutHint: string;
 }) {
-  const assistantIntents = ["Bigger chart", "Calmer", "Why blocked?", "Plans"];
+  const assistantIntents = [
+    "Start",
+    "Why blocked?",
+    "Bigger chart",
+    "Calmer",
+    "Plans",
+    "Journal",
+    "Support",
+  ];
 
   return (
     <section
@@ -79,13 +87,13 @@ function WorkspaceDepthBar({
       <div className="tpmv2-workspace-depth-block">
         <span>Workspace focus</span>
         <strong>{focusModeLabel(focusMode)}</strong>
-        <small>Ask TPM Assistant for Chart Comfort or a calmer workspace.</small>
+        <small>Ask TPM Assistant for Chart Comfort, a calmer workspace, or Start guidance.</small>
       </div>
 
       <div className="tpmv2-workspace-depth-block">
         <span>Watchlist</span>
         <strong>{watchlistDensityLabel(watchlistDensity)}</strong>
-        <small>Secondary density controls stay in Settings and Assistant guidance.</small>
+        <small>Secondary density controls stay in Settings, Journal/Coach, and Assistant guidance.</small>
       </div>
 
       <div className="tpmv2-workspace-depth-status tpm-intent-assistant-card">
@@ -460,6 +468,7 @@ export default function TradingWorkstation({
       className="tpm-app-shell tpm-workspace-shell tpm-foundation-frame tpmv2-page"
       data-environment-surface="workspace"
       data-living-earth-surface="workstation"
+      data-revelation-stage="first_3_minutes"
       data-shell-mode="workspace"
       dir={dir}
       lang={locale}

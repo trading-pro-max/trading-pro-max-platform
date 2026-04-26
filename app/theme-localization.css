@@ -8040,3 +8040,48 @@ html[data-theme="light"] .tpmv2-execution {
   font-size: 12px;
   line-height: 1.45;
 }
+
+/* Living Earth Revelation Experience */
+.tpm-revelation-assistant,
+.tpm-revelation-continuity {
+  position: relative;
+}
+
+.tpm-revelation-prompt-row {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: 860px;
+}
+
+.tpm-revelation-continuity-grid .tpm-product-card {
+  min-height: 132px;
+}
+
+.tpm-revelation-continuity-grid .tpm-product-card > strong {
+  color: var(--tpm-text);
+  display: block;
+  font-size: clamp(17px, 1.4vw, 22px);
+  line-height: 1.2;
+  margin-top: 6px;
+}
+
+.tpm-product-hero[data-revelation-stage="first_3_seconds"] .tpm-product-proof-row {
+  max-width: 540px;
+}
+
+.tpm-workspace-shell[data-revelation-stage="first_3_minutes"] .tpmv2-primary {
+  min-height: min(62svh, 720px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tpm-revelation-assistant,
+  .tpm-revelation-continuity,
+  .tpm-product-hero[data-revelation-stage="first_3_seconds"],
+  .tpm-workspace-shell[data-revelation-stage="first_3_minutes"] {
+    animation: none !important;
+    scroll-behavior: auto;
+    transition: none !important;
+  }
+}
