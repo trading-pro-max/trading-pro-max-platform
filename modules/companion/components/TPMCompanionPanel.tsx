@@ -99,10 +99,10 @@ function isBlockedCompanionRequest(value: string) {
     "activate feed",
     "activate billing",
     "checkout",
-    "show secret",
-    "broker secret",
+    "show credential",
+    "broker credential",
     "api key",
-    "change secrets",
+    "change credentials",
     "bypass auth",
     "guarantee profit",
     "guaranteed profit",
@@ -268,7 +268,7 @@ export default function TPMCompanionPanel({
         state: "ready",
         title: "Feedback draft foundation",
         body:
-          "Suggested draft: I was on the workstation, noticed a blocked or fallback state, and expected a clearer safe next step. Route, theme, language, and plan context can be reviewed without secrets.",
+          "Suggested draft: I was on the workstation, noticed a blocked or fallback state, and expected a clearer safe next step. Route, theme, language, and plan context can be reviewed without restricted details.",
       },
       learning: {
         id: "response-learning",
@@ -325,7 +325,7 @@ export default function TPMCompanionPanel({
         state: "blocked",
         title: "I cannot do that",
         body:
-          "That request touches execution, live activation, real money, broker/feed, billing, secrets, launch, publishing, advice, or guaranteed performance. Those capabilities remain blocked in this build.",
+          "That request touches execution, live activation, real money, broker/feed, billing, restricted credentials, launch, publishing, advice, or guaranteed performance. Those capabilities remain blocked in this build.",
         safeNextStep:
           "Stay in paper-safe mode, review diagnostics, or ask me to explain the blocked state.",
       };
@@ -365,7 +365,7 @@ export default function TPMCompanionPanel({
       title: "Paper-safe workspace guidance",
       body: `I can explain ${formatRoute(
         context?.route ?? route
-      )}, plan status, blocked states, Journal/Coach, diagnostics, and feedback. I cannot execute trades or activate live, money, broker, feed, billing, secrets, publishing, or launch.`,
+      )}, plan status, blocked states, Journal/Coach, diagnostics, and feedback. I cannot execute trades or activate live, money, broker, feed, billing, credentials, publishing, or launch.`,
     },
     activePrompt.response,
     ...chatMessages,

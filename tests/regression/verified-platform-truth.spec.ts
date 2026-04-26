@@ -2406,7 +2406,7 @@ test.describe("verified platform truth", () => {
           state: "blocked",
         }),
         expect.objectContaining({
-          input: "show broker secret",
+            input: "show broker credentials",
           intent: "reveal_secrets",
           state: "blocked",
         }),
@@ -5394,7 +5394,7 @@ test.describe("verified platform truth", () => {
     await page.goto("/diagnostics");
     await expect(page.locator("main").first()).toBeVisible();
     await expect(page.locator("body")).toContainText("Safe note readiness");
-    await expect(page.locator("body")).toContainText("Secret storage");
+    await expect(page.locator("body")).toContainText("restricted credentials storage");
     await expect(page.locator("body")).not.toContainText(/Enterprise|TPM Companion/);
   });
 

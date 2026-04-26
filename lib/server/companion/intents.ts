@@ -324,7 +324,18 @@ type IntentMatch = {
 const intentMatches: IntentMatch[] = [
   { phrases: ["activate live", "enable live", "live trading"], intent: "enable_live", blocked: true },
   { phrases: ["real money", "real funds", "cash"], intent: "enable_real_money", blocked: true },
-  { phrases: ["broker secret", "show secret", "api key", "password"], intent: "reveal_secrets", blocked: true },
+  {
+    phrases: [
+      "broker secret",
+      "show secret",
+      "broker credential",
+      "show credential",
+      "api key",
+      "password",
+    ],
+    intent: "reveal_secrets",
+    blocked: true,
+  },
   { phrases: ["guarantee profit", "guaranteed profit"], intent: "guarantee_profit", blocked: true },
   { phrases: ["win rate", "win-rate"], intent: "provide_win_rate", blocked: true },
   { phrases: ["activate broker", "connect broker"], intent: "activate_broker", blocked: true },

@@ -1,4 +1,4 @@
-const publicWorldItems = [
+const primaryPublicWorldItems = [
   {
     id: "workspace-experience",
     href: "workspace",
@@ -29,7 +29,7 @@ const publicWorldItems = [
     title: "Apps / Platforms",
     state: "Web current",
     summary: "Use the Web App today. Desktop, Mobile, and Tablet stay planned.",
-    detail: "No fake downloads, store claims, or native installer claim.",
+    detail: "No fake downloads, store claims, or native app release claim.",
   },
   {
     id: "academy",
@@ -55,6 +55,9 @@ const publicWorldItems = [
     summary: "Help Center, Contact Support, Report a Problem, and Security Contact.",
     detail: "Partnership Contact readiness only; no fake ticket system.",
   },
+];
+
+const utilityPublicWorldItems = [
   {
     id: "settings",
     href: "settings",
@@ -69,7 +72,7 @@ const publicWorldItems = [
     title: "Diagnostics",
     state: "Readiness",
     summary: "System readiness, route truth, and blocked state checks.",
-    detail: "Public-safe readiness only; no private internal details.",
+    detail: "Public-safe readiness only; no restricted details.",
   },
 ];
 
@@ -107,7 +110,7 @@ export default function PublicWorldOverview({
       </div>
 
       <div className="tpm-public-world-nav-grid">
-        {publicWorldItems.map((item) => (
+        {primaryPublicWorldItems.map((item) => (
           <a
             key={`${item.title}-${item.href}`}
             className="tpm-public-world-nav-card"
@@ -120,6 +123,23 @@ export default function PublicWorldOverview({
             </div>
             <span>{item.summary}</span>
             <small>{item.detail}</small>
+          </a>
+        ))}
+      </div>
+
+      <div className="tpm-public-world-utility-row" aria-label="Public utility surfaces">
+        {utilityPublicWorldItems.map((item) => (
+          <a
+            key={`${item.title}-${item.href}`}
+            className="tpm-public-world-utility-card"
+            href={resolveHref(item.href)}
+            id={`public-nav-${item.id}`}
+          >
+            <div>
+              <strong>{item.title}</strong>
+              <span>{item.summary}</span>
+            </div>
+            <em>{item.state}</em>
           </a>
         ))}
       </div>

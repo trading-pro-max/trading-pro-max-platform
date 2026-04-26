@@ -138,6 +138,9 @@ export default function PublicProductEntry({
                 <Link className="tpm-product-cta tpm-product-cta-secondary" href="#apps-platforms">
                   View platforms
                 </Link>
+                <Link className="tpm-product-cta tpm-product-cta-secondary" href="#plans">
+                  Explore plans
+                </Link>
               </div>
 
               <div className="tpm-product-proof-row">

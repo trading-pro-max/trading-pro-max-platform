@@ -15,9 +15,24 @@ const academyPaths = [
     summary: "Understand chart controls, watchlist, timeframes, and blocked-state labels.",
   },
   {
+    title: "Risk Basics",
+    state: "Learning",
+    summary: "Review position sizing ideas, paper-mode discipline, and no-guarantee safety notes.",
+  },
+  {
     title: "Why Blocked",
     state: "Current",
     summary: "See why live, broker/feed, billing, and external posting are inactive.",
+  },
+  {
+    title: "TPM Assistant",
+    state: "Current",
+    summary: "Use basic paper-safe guidance, platform explanations, and blocked-state answers.",
+  },
+  {
+    title: "Journal / Coach",
+    state: "Current",
+    summary: "Capture decision notes and reflection prompts without pressure to trade.",
   },
 ];
 

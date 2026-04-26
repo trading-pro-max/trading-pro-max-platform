@@ -111,6 +111,7 @@ function publicDisplayText(value: string): string {
     .replace(/Codex/gi, "build assistant")
     .replace(/secrets authority/gi, "secret safety")
     .replace(/production secrets/gi, "restricted credentials")
+    .replace(/\bsecrets?\b/gi, "restricted credentials")
     .replace(/treasury controls/gi, "billing controls")
     .replace(/security sovereignty/gi, "safety readiness")
     .replace(/Product memory/gi, "Safe notes")

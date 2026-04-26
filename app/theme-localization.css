@@ -6685,11 +6685,19 @@ html[data-theme="light"] .tpm-living-earth-globe {
   grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
 }
 
+.tpm-public-world-utility-row {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  margin-top: 12px;
+}
+
 .tpm-public-readiness-grid {
   grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
 }
 
-.tpm-public-world-nav-card {
+.tpm-public-world-nav-card,
+.tpm-public-world-utility-card {
   min-height: 112px;
   border: 1px solid color-mix(in srgb, var(--tpm-celestial-border) 88%, transparent);
   border-radius: 14px;
@@ -6702,15 +6710,41 @@ html[data-theme="light"] .tpm-living-earth-globe {
   text-decoration: none;
 }
 
-.tpm-public-world-nav-card strong {
+.tpm-public-world-utility-card {
+  min-height: auto;
+  align-items: center;
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.tpm-public-world-utility-card div {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.tpm-public-world-nav-card strong,
+.tpm-public-world-utility-card strong {
   color: var(--tpm-celestial-gold);
   font-size: 15px;
 }
 
-.tpm-public-world-nav-card span {
+.tpm-public-world-nav-card span,
+.tpm-public-world-utility-card span {
   color: var(--tpm-text-soft);
   font-size: 12px;
   line-height: 1.6;
+}
+
+.tpm-public-world-utility-card em {
+  border: 1px solid color-mix(in srgb, var(--tpm-celestial-border-gold) 62%, transparent);
+  border-radius: 999px;
+  color: var(--tpm-text-soft);
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 1;
+  padding: 6px 8px;
+  text-transform: uppercase;
 }
 
 .tpm-public-pill-grid {

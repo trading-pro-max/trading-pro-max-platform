@@ -17,7 +17,7 @@ const supportItems = [
   {
     title: "Security Contact",
     state: "Readiness",
-    summary: "Security contact wording is prepared without exposing secrets or private channels.",
+    summary: "Security contact wording is prepared without exposing restricted credentials or private channels.",
   },
   {
     title: "Partnership Contact",

@@ -126,7 +126,7 @@ export function buildCompanionResponseTemplates(
       intent: "guide_to_diagnostics",
       title: "Go to diagnostics",
       body:
-        "Diagnostics shows public-safe readiness, blocked conditions, service availability, plan truth, Assistant readiness, Journal/Coach readiness, and Product Truth without raw secrets or private command details.",
+        "Diagnostics shows public-safe readiness, blocked conditions, service availability, plan truth, Assistant readiness, Journal/Coach readiness, and Product Truth without raw credentials or private command details.",
       safeNextStep: "Open Diagnostics to verify readiness and fallback state.",
       state: "ready",
     },
@@ -249,7 +249,7 @@ export function buildCompanionDailyUseSamples(
   return [
     "activate live trading",
     "use real money",
-    "show broker secret",
+    "show broker credentials",
     "guarantee profit",
     "what is VIP",
     "why billing inactive",

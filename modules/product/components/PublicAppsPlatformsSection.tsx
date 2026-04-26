@@ -7,7 +7,7 @@ const platforms = [
   {
     title: "Desktop App",
     state: "Planned",
-    summary: "Future desktop packaging readiness only; no public installer claim.",
+    summary: "Future desktop packaging readiness only; no native app release claim.",
   },
   {
     title: "Mobile App",
@@ -33,7 +33,7 @@ export default function PublicAppsPlatformsSection() {
           <span className="tpm-product-kicker">Apps / Platforms</span>
           <h2>Use the Web App today. Desktop and mobile stay planned.</h2>
         </div>
-        <p>No fake downloads, no store listing claim, and no native installer claim.</p>
+        <p>No fake downloads, no store listing claim, and no native app release claim.</p>
       </div>
 
       <div className="tpm-public-readiness-grid">
