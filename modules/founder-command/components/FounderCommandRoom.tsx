@@ -42,6 +42,10 @@ import AlkonDriftDetectorPanel from "./AlkonDriftDetectorPanel";
 import AlkonFounderEnergyPanel from "./AlkonFounderEnergyPanel";
 import AlkonNorthStarPanel from "./AlkonNorthStarPanel";
 import AlkonNumberOneDestinyPanel from "./AlkonNumberOneDestinyPanel";
+import AlkonOneCorrectActionPanel from "./AlkonOneCorrectActionPanel";
+import AlkonSourceDriftPanel from "./AlkonSourceDriftPanel";
+import AlkonSourceLawPanel from "./AlkonSourceLawPanel";
+import AlkonVisionCorePanel from "./AlkonVisionCorePanel";
 import AlkonGenesisPanel from "./AlkonGenesisPanel";
 import AlkonGenesisGatesPanel from "./AlkonGenesisGatesPanel";
 import AlkonPrimeWorldPanel from "./AlkonPrimeWorldPanel";
@@ -181,6 +185,14 @@ export default function FounderCommandRoom({
         <AlkonDriftDetectorPanel snapshot={appSnapshot.numberOneDestiny} />
         <AlkonAbsoluteCompletionPanel snapshot={appSnapshot.numberOneDestiny} />
         <AlkonFounderEnergyPanel snapshot={appSnapshot.numberOneDestiny} />
+      </div>
+
+      <AlkonSourceLawPanel snapshot={appSnapshot.sourceLaw} />
+
+      <div className="alkon-command-grid alkon-source-law-grid">
+        <AlkonVisionCorePanel snapshot={appSnapshot.sourceLaw} />
+        <AlkonOneCorrectActionPanel snapshot={appSnapshot.sourceLaw} />
+        <AlkonSourceDriftPanel snapshot={appSnapshot.sourceLaw} />
       </div>
 
       <AlkonGenesisPanel snapshot={appSnapshot.alkonGenesis} />

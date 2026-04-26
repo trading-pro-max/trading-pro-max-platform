@@ -22,6 +22,7 @@ import { getAlkonRuntimeSnapshot } from "@/lib/server/alkon-runtime";
 import { getAlkonGenesisSnapshot } from "@/lib/server/alkon-genesis";
 import { getInfiniteGrowthSnapshot } from "@/lib/server/infinite-growth";
 import { getNumberOneDestinySnapshot } from "@/lib/server/number-one-destiny";
+import { getSourceLawSnapshot } from "@/lib/server/source-law";
 import { getPlanetaryEnvironmentReadinessSnapshot } from "@/lib/server/environment";
 import { getEarthRealitySnapshot } from "@/lib/server/earth-reality";
 import { getPersonalRealityReadinessSnapshot } from "@/lib/server/personal-reality";
@@ -83,6 +84,7 @@ export type FounderPersonalCompanionSnapshot = {
   brandUniverseSummary: string[];
   infiniteGrowthSummary: string[];
   numberOneDestinySummary: string[];
+  sourceLawSummary: string[];
   treasuryLifeSummary: string[];
   mediaIntelligenceSummary: string[];
   revelationExperienceSummary: string[];
@@ -149,6 +151,7 @@ export function getFounderPersonalCompanionSnapshot(
   const alkonGenesis = getAlkonGenesisSnapshot(checkedAt);
   const infiniteGrowth = getInfiniteGrowthSnapshot(checkedAt);
   const numberOneDestiny = getNumberOneDestinySnapshot(checkedAt);
+  const sourceLaw = getSourceLawSnapshot(checkedAt);
   const brandUniverse = getPrivateBrandUniverse();
   const treasuryLife = getTreasuryLifeSnapshot();
   const mediaIntelligence = getMediaIntelligenceSnapshot();
@@ -340,6 +343,13 @@ export function getFounderPersonalCompanionSnapshot(
       `Next critical decision: ${numberOneDestiny.nextOneCriticalDecision}`,
       `${numberOneDestiny.topDrifts.length} drift signals are tracked and ${numberOneDestiny.standards.length} Pro Max standards are ready.`,
       "Pro Max builds by #1 standards but does not publicly claim #1, best, global, regulated, guaranteed, profit, or win-rate status.",
+    ],
+    sourceLawSummary: [
+      `${sourceLaw.name} is ${sourceLaw.visibility}; public exposure is ${String(sourceLaw.publicExposure)}.`,
+      `Source chain: ${sourceLaw.sourceLaw}`,
+      `One correct action: ${sourceLaw.oneCorrectAction.oneCorrectAction}`,
+      `${sourceLaw.driftSignals.length} drift signals are active and ${sourceLaw.memoryLessons.length} memory lessons guard future work.`,
+      "Source Law is private, read-only, and cannot execute, expose secrets, launch, bill, trade live, route real money, or expose Alkon publicly.",
     ],
     treasuryLifeSummary: [
       `Treasury Life is ${treasuryLife.status}; funding mode is ${treasuryLife.fundingMode}.`,

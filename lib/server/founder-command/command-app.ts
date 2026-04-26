@@ -40,6 +40,7 @@ import { getAlkonRuntimeSnapshot } from "@/lib/server/alkon-runtime";
 import { getAlkonGenesisSnapshot } from "@/lib/server/alkon-genesis";
 import { getInfiniteGrowthSnapshot } from "@/lib/server/infinite-growth";
 import { getNumberOneDestinySnapshot } from "@/lib/server/number-one-destiny";
+import { getSourceLawSnapshot } from "@/lib/server/source-law";
 import { getPlanetaryEnvironmentReadinessSnapshot } from "@/lib/server/environment";
 import { getEarthRealitySnapshot } from "@/lib/server/earth-reality";
 import { getPersonalRealityReadinessSnapshot } from "@/lib/server/personal-reality";
@@ -198,6 +199,7 @@ export function getFounderCommandAppSnapshot(
   const alkonGenesis = getAlkonGenesisSnapshot(checkedAt);
   const infiniteGrowth = getInfiniteGrowthSnapshot(checkedAt);
   const numberOneDestiny = getNumberOneDestinySnapshot(checkedAt);
+  const sourceLaw = getSourceLawSnapshot(checkedAt);
   const brandUniverse = getPrivateBrandUniverse();
   const planetaryEnvironment =
     getPlanetaryEnvironmentReadinessSnapshot(checkedAt);
@@ -351,6 +353,9 @@ export function getFounderCommandAppSnapshot(
           numberOneDestinyReady: numberOneDestiny.readiness === "ready",
           numberOneDestinyPublicExposure: numberOneDestiny.publicExposure,
           publicNumberOneClaimStatus: numberOneDestiny.publicClaimStatus,
+          sourceLawReady: sourceLaw.readiness === "ready",
+          sourceLawPublicExposure: sourceLaw.publicExposure,
+          sourceLawOneCorrectAction: sourceLaw.oneCorrectAction.oneCorrectAction,
         },
       },
       planRealmFunctionalExperience: {
@@ -413,6 +418,7 @@ export function getFounderCommandAppSnapshot(
     alkonGenesis,
     infiniteGrowth,
     numberOneDestiny,
+    sourceLaw,
     brandUniverse,
     treasuryLife,
     mediaIntelligence,
@@ -1283,6 +1289,10 @@ export function getFounderCommandAppSnapshot(
       "/api/founder/number-one-destiny/readiness",
       "/api/founder/number-one-destiny/snapshot",
       "/api/founder/number-one-destiny/sample-evaluation",
+      "/api/founder/source-law/readiness",
+      "/api/founder/source-law/snapshot",
+      "/api/founder/source-law/one-correct-action",
+      "/api/founder/source-law/sample-evaluation",
       "/api/founder/treasury-life/readiness",
       "/api/founder/media-intelligence/readiness",
       "/api/founder/final-convergence/readiness",

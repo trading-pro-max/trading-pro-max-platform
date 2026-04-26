@@ -1,0 +1,88 @@
+import type { SourceLawMemoryLesson } from "./types";
+
+export const SOURCE_LAW_MEMORY_LESSONS: SourceLawMemoryLesson[] = [
+  {
+    lessonId: "source_before_decision",
+    lesson: "Alkon protects the reason Pro Max exists.",
+    appliesTo: ["idea", "feature", "task", "codex_task"],
+    futureGuard: "Every decision must state its source before it can move.",
+    requiredTest: "Source Law engine returns a source-backed decision.",
+  },
+  {
+    lessonId: "human_value_before_source",
+    lesson: "No decision without source; no source without human value.",
+    appliesTo: ["idea", "feature", "page", "component", "workspace"],
+    futureGuard: "Delay or archive targets that serve no user, Founder, or product need.",
+    requiredTest: "Human Value check delays vanity targets.",
+  },
+  {
+    lessonId: "truth_before_human_value",
+    lesson: "No human value without truth.",
+    appliesTo: ["public_copy", "media_message", "assistant_behavior"],
+    futureGuard: "Block fake activation, fake claims, public number-one claims, and profit promises.",
+    requiredTest: "Truth Check blocks fake claims.",
+  },
+  {
+    lessonId: "safety_before_truth",
+    lesson: "No truth without safety.",
+    appliesTo: ["security_change", "launch_step", "treasury_action", "legal_gate"],
+    futureGuard: "Block secrets, bank/card data, shell execution, public Alkon exposure, and dangerous activation.",
+    requiredTest: "Safety Check blocks unsafe activation and private leaks.",
+  },
+  {
+    lessonId: "proof_before_safety",
+    lesson: "No safety without proof.",
+    appliesTo: ["component", "workspace", "visual_identity", "codex_task"],
+    futureGuard: "Do not close code, UI, public copy, or visual work without validation evidence.",
+    requiredTest: "Proof Check blocks closure without validation/proof.",
+  },
+  {
+    lessonId: "one_correct_action",
+    lesson: "No proof without one correct action now.",
+    appliesTo: ["task", "workspace", "assistant_behavior", "future_world"],
+    futureGuard: "Reduce next actions to the single Station 1 action that matters.",
+    requiredTest: "One Correct Action prioritizes Living Market Core while Station 1 is open.",
+  },
+  {
+    lessonId: "chart_is_king",
+    lesson: "Chart is king.",
+    appliesTo: ["workspace", "component", "visual_identity"],
+    futureGuard: "Reject UI beauty or theory that weakens chart/workspace usefulness.",
+    requiredTest: "Source Drift flags Assistant or chart work that does not improve the heart.",
+  },
+  {
+    lessonId: "assistant_user_language",
+    lesson: "Assistant is user language.",
+    appliesTo: ["assistant_behavior", "public_copy"],
+    futureGuard: "Assistant must guide users without signals, fake claims, or private doctrine.",
+    requiredTest: "Public UI and Assistant copy stay free of Source Law and Alkon terms.",
+  },
+  {
+    lessonId: "alkon_private",
+    lesson: "Alkon is private.",
+    appliesTo: ["page", "component", "assistant_behavior", "public_copy"],
+    futureGuard: "Never expose Alkon, Source Law, Founder Command, or internal governance to public users.",
+    requiredTest: "Public leak test scans public Home and Diagnostics.",
+  },
+  {
+    lessonId: "no_images_unless_explicit",
+    lesson: "No images unless explicit.",
+    appliesTo: ["visual_identity", "component", "page"],
+    futureGuard: "Do not generate or add raster assets unless Ahmad explicitly requests them.",
+    requiredTest: "Implementation source contains no raster asset references.",
+  },
+  {
+    lessonId: "no_future_expansion_before_station_1",
+    lesson: "No future expansion before Station 1 if it delays the heart.",
+    appliesTo: ["future_world", "idea", "codex_task"],
+    futureGuard: "Future worlds and extra layers remain memory/readiness unless they protect the Prime World.",
+    requiredTest: "Drift Detector flags expansion before Prime World closure.",
+  },
+  {
+    lessonId: "infinity_gated_by_source",
+    lesson: "Infinity is gated by source, not excitement.",
+    appliesTo: ["idea", "future_world", "codex_task"],
+    futureGuard: "Safe creation can grow only when it remains tied to one correct action now.",
+    requiredTest: "Source Law snapshot returns delayed and blocked actions.",
+  },
+];
