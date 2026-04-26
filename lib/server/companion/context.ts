@@ -281,7 +281,7 @@ export function getCompanionContextSnapshot(
       "Explain platform state and safe next steps.",
       "Do not execute trades or enable live execution.",
       "Do not activate broker/feed or billing.",
-      "Do not claim guaranteed signals, win rates, or financial advice.",
+      "Do not claim signal certainty, performance rates, or financial advice.",
       "Do not bypass auth, entitlement, or safety boundaries.",
       "Keep restricted controls and internal governance terms out of normal user guidance.",
     ],

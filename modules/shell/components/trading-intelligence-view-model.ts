@@ -439,7 +439,7 @@ export function createTradingIntelligenceViewModel(
       badgeTone: truth.state === "active" ? "approved" : truth.state === "limited" ? "pending" : "restricted",
       headline: truthHeadline,
       summary:
-        "Confidence describes context quality and data trust, not guaranteed outcome or automated profit expectation.",
+        "Confidence describes context quality and data trust, not result certainty or automated performance expectation.",
       metrics: [
         { label: "Predictive scope", value: "Interpretive only" },
         { label: "Execution authority", value: "Operator manual", tone: "restricted" },

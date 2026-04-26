@@ -158,7 +158,7 @@ export const PLAN_REALMS: Record<PlanRealmId, PlanRealm> = {
     ],
     hiddenFeatures: [privateFounderFeature],
     assistantBehavior:
-      "Explains advanced and premium tools as planned/locked, with no profit promises, signal guarantees, or fake VIP activation.",
+      "Explains advanced and premium tools as planned/locked, with no performance promises, signal guarantees, or fake VIP activation.",
     journalCoachDepth:
       "Advanced coaching, premium review, and report-grade reflection are planned/locked.",
     workspaceBehavior:
@@ -169,9 +169,9 @@ export const PLAN_REALMS: Record<PlanRealmId, PlanRealm> = {
     appsPlatformsAccess: "No premium app activation; Web remains current.",
     supportAccess: "Priority support planned only.",
     safetyBoundaries: [
-      "no guaranteed signals",
-      "no win-rate claims",
-      "no profit promises",
+      "no signal certainty claims",
+      "no performance-rate claims",
+      "no performance promises",
       "no VIP active claim",
       "billing inactive",
     ],
@@ -179,7 +179,7 @@ export const PLAN_REALMS: Record<PlanRealmId, PlanRealm> = {
       "VIP cannot activate until entitlement, billing, safety, support, and review gates exist.",
     productTruthRequirements: [
       "Premium identity may use gold, but must not imply active premium capability.",
-      "No signal rooms, copy trading, profit promises, or fake VIP activation.",
+      "No signal rooms, copy trading, performance promises, or fake VIP activation.",
     ],
   },
   institutional_station: {

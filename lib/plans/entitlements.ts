@@ -141,8 +141,8 @@ export const PLAN_ENTITLEMENTS: PlanEntitlementContract[] = [
     hiddenFeatures: [founderCommandHidden],
     upgradeExplanation: "VIP is planned only; no paid access, premium activation, or VIP results claim exists.",
     safetyRules: [
-      "no guaranteed signals",
-      "no win-rate claims",
+      "no signal certainty claims",
+      "no performance-rate claims",
       "no fake premium capability",
       "no VIP private room active claim",
     ],
@@ -299,8 +299,8 @@ export const PLANET_ACCESS_LAYERS: PlanPlanetAccessLayer[] = [
     plannedFeatures: ["advanced journal analytics", "strategy review", "priority support"],
     hiddenFeatures: ["restricted controls", "revenue research", "revenue controls"],
     upgradeExplanation: "VIP remains planned; no premium access or VIP activation exists.",
-    safetyBoundaries: ["no guaranteed signals", "no win-rate claims", "no fake VIP active state"],
-    mustNotShow: ["VIP active", "guaranteed results", "private revenue model", "restricted controls"],
+    safetyBoundaries: ["no signal certainty claims", "no performance-rate claims", "no fake VIP active state"],
+    mustNotShow: ["VIP active", "result certainty", "private revenue model", "restricted controls"],
   },
   {
     citizenClass: "enterprise",

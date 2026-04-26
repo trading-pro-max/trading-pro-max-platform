@@ -1983,7 +1983,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         method: "GET",
         status: learningCommunityProbe.status,
         detail:
-          "VIP Rooms readiness route reports planned premium capabilities without fake VIP access, signal rooms, copy trading, profit promises, or billing.",
+          "VIP Rooms readiness route reports planned premium capabilities without fake VIP access, signal rooms, copy trading, performance promises, or billing.",
       },
       {
         path: "/api/media-office/readiness",

@@ -97,7 +97,7 @@ export function buildCompanionResponseTemplates(
     {
       intent: "explain_market_context",
       title: "Market context",
-      body: `${context.selectedAsset} on ${context.timeframe} is shown for bounded paper decision support only. The Assistant can explain context quality and fallback truth, but it cannot produce guaranteed signals or predictive certainty.`,
+      body: `${context.selectedAsset} on ${context.timeframe} is shown for bounded paper decision support only. The Assistant can explain context quality and fallback truth, but it cannot produce signal certainty or predictive certainty.`,
       safeNextStep: "Treat market context as education and rehearsal support.",
       state: "fallback",
     },

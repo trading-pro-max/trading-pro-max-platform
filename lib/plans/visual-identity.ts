@@ -183,8 +183,8 @@ export const PLAN_VISUAL_IDENTITIES: Record<PlanVisualKey, PlanVisualIdentity> =
     upgradeState: "VIP upgrade cannot be activated because billing and checkout remain inactive.",
     comingLaterState: "Early access is only shown where explicitly configured.",
     truthRules: [
-      "No guaranteed signals.",
-      "No win-rate claims.",
+      "No signal certainty claims.",
+      "No performance-rate claims.",
       "No fake premium capability without entitlement.",
     ],
   },

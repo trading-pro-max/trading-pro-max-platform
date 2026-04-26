@@ -1702,7 +1702,7 @@ export function PlatformDiagnosticsSurface({
       label: "Skill profile",
       value: "Beginner-safe default",
       tone: "approved" as const,
-      note: "Guidance adapts explanation depth without overtrading pressure or profit promises.",
+      note: "Guidance adapts explanation depth without overtrading pressure or performance promises.",
     },
     {
       label: "Assistant intents",

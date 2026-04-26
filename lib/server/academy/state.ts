@@ -35,7 +35,7 @@ const lessons: AcademyReadinessSnapshot["lessons"] = [
     key: "tpm_assistant_guide",
     label: "Pro Max Assistant guide",
     purpose: "Show safe Assistant use for orientation, reflection, and platform state help.",
-    safetyRule: "Assistant cannot trade, predict guaranteed outcomes, or bypass safeguards.",
+    safetyRule: "Assistant cannot trade, promise outcomes, or bypass safeguards.",
   },
   {
     key: "journal_coach_guide",
@@ -47,7 +47,7 @@ const lessons: AcademyReadinessSnapshot["lessons"] = [
     key: "risk_safety_lessons",
     label: "Risk and safety lessons",
     purpose: "Teach trust, scam awareness, plan truth, and local-only readiness boundaries.",
-    safetyRule: "No guaranteed win-rate, fake screenshots, or performance claims.",
+    safetyRule: "No performance-rate certainty, fake screenshots, or performance claims.",
   },
 ];
 
@@ -97,7 +97,7 @@ const learningPaths: AcademyLearningPath[] = [
     lessons: ["chart_basics", "journal_coach_guide", "risk_safety_lessons"],
     visibleToUser: true,
     accessTruth: "VIP learning is planned and has no fake room or premium activation.",
-    mustNotClaim: ["VIP active", "private room active", "guaranteed profit", "win-rate"],
+    mustNotClaim: ["VIP active", "private room active", "result certainty", "performance-rate claim"],
   }),
   path({
     id: "institutional-learning-path",

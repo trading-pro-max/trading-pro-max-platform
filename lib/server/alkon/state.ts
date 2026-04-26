@@ -11,6 +11,7 @@ import { getAlkonOntologySnapshot } from "@/lib/server/alkon-ontology";
 import { getAlkonRuntimeSnapshot } from "@/lib/server/alkon-runtime";
 import { getAlkonGenesisSnapshot } from "@/lib/server/alkon-genesis";
 import { getInfiniteGrowthSnapshot } from "@/lib/server/infinite-growth";
+import { getNumberOneDestinySnapshot } from "@/lib/server/number-one-destiny";
 import { getInvisibleOperatingLayerSnapshot } from "@/lib/server/invisible-operating-layer";
 import {
   getLocalDailyOperationsLoopSnapshot,
@@ -92,6 +93,7 @@ export function getAlkonUniverseSnapshot(
   const digitalUniverseRuntime = getAlkonRuntimeSnapshot(checkedAt);
   const sovereignGenesis = getAlkonGenesisSnapshot(checkedAt);
   const infiniteGrowthConstitution = getInfiniteGrowthSnapshot(checkedAt);
+  const numberOneDestinyAlignment = getNumberOneDestinySnapshot(checkedAt);
   const brandUniverse = getPrivateBrandUniverse();
   const universeMap = buildAlkonUniverseMap();
 
@@ -184,6 +186,7 @@ export function getAlkonUniverseSnapshot(
     digitalUniverseRuntimeSnapshot: digitalUniverseRuntime,
     sovereignGenesis,
     infiniteGrowthConstitution,
+    numberOneDestinyAlignment,
     brandUniverse,
     universeMap,
     nextSafeActions: [
@@ -196,6 +199,7 @@ export function getAlkonUniverseSnapshot(
       "Use Alkon Digital Universe Runtime privately so every idea, risk, invoice, media message, feature, bug, decision, law, and result receives place, time, law, gravity, orbit, life, institution, consequence, memory, and next fate.",
       "Use Alkon Sovereign Genesis privately so possible future product worlds remain World Seeds until meaning, need, market, law, treasury, security, prototype, proof, Prime World protection, and Founder gates pass.",
       "Use Alkon Swiss-Law Infinite Sovereign Growth privately so safe creation can grow without limit while real users, data, money, claims, media, launch, production, and regulated activity remain gated.",
+      "Use Pro Max Number One Destiny Alignment privately so #1 is enforced as an internal quality standard while public #1, best, global, regulated, guaranteed, profit, and win-rate claims remain blocked.",
       "Keep public users inside Pro Max, Pro Max Trading, Free, Pro, VIP, Institutional, Pro Max Assistant, workspace, settings, diagnostics, and readiness language only.",
       "Use Founder Idea Inbox, Task Passports, manual Codex drafts, Result Tribunal, and Memory lessons as review-only systems.",
       "Add future private execution only after owner auth, device trust, step-up confirmation, audit, security, legal, and Product Truth gates exist.",
@@ -232,6 +236,10 @@ export function getAlkonUniverseSnapshot(
         "/api/founder/infinite-growth/readiness",
       founderInfiniteGrowthSnapshotRoute:
         "/api/founder/infinite-growth/snapshot",
+      founderNumberOneDestinyReadinessRoute:
+        "/api/founder/number-one-destiny/readiness",
+      founderNumberOneDestinySnapshotRoute:
+        "/api/founder/number-one-destiny/snapshot",
       publicRouteDecision:
         "Non-founder /api/alkon/* and /api/alkon/physics/* routes were not created because Alkon and Cosmic Operating Physics are not public product surfaces.",
       routeMode: "read_only_status_only",

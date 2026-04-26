@@ -36,6 +36,12 @@ import AlkonGrowthGatesPanel from "./AlkonGrowthGatesPanel";
 import AlkonGrowthPermitPanel from "./AlkonGrowthPermitPanel";
 import AlkonInfiniteGrowthPanel from "./AlkonInfiniteGrowthPanel";
 import AlkonSwissLawGravityPanel from "./AlkonSwissLawGravityPanel";
+import AlkonAbsoluteCompletionPanel from "./AlkonAbsoluteCompletionPanel";
+import AlkonDestinyScorePanel from "./AlkonDestinyScorePanel";
+import AlkonDriftDetectorPanel from "./AlkonDriftDetectorPanel";
+import AlkonFounderEnergyPanel from "./AlkonFounderEnergyPanel";
+import AlkonNorthStarPanel from "./AlkonNorthStarPanel";
+import AlkonNumberOneDestinyPanel from "./AlkonNumberOneDestinyPanel";
 import AlkonGenesisPanel from "./AlkonGenesisPanel";
 import AlkonGenesisGatesPanel from "./AlkonGenesisGatesPanel";
 import AlkonPrimeWorldPanel from "./AlkonPrimeWorldPanel";
@@ -165,6 +171,16 @@ export default function FounderCommandRoom({
         <AlkonSwissLawGravityPanel snapshot={appSnapshot.infiniteGrowth} />
         <AlkonGrowthGatesPanel snapshot={appSnapshot.infiniteGrowth} />
         <AlkonGrowthPermitPanel snapshot={appSnapshot.infiniteGrowth} />
+      </div>
+
+      <AlkonNumberOneDestinyPanel snapshot={appSnapshot.numberOneDestiny} />
+
+      <div className="alkon-command-grid alkon-number-one-destiny-grid">
+        <AlkonNorthStarPanel snapshot={appSnapshot.numberOneDestiny} />
+        <AlkonDestinyScorePanel snapshot={appSnapshot.numberOneDestiny} />
+        <AlkonDriftDetectorPanel snapshot={appSnapshot.numberOneDestiny} />
+        <AlkonAbsoluteCompletionPanel snapshot={appSnapshot.numberOneDestiny} />
+        <AlkonFounderEnergyPanel snapshot={appSnapshot.numberOneDestiny} />
       </div>
 
       <AlkonGenesisPanel snapshot={appSnapshot.alkonGenesis} />

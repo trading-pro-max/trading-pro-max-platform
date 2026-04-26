@@ -105,8 +105,8 @@ function isBlockedCompanionRequest(value: string) {
     "change credentials",
     "bypass auth",
     "guarantee profit",
-    "guaranteed profit",
-    "win rate",
+    "result certainty",
+    "performance rate",
     "activate vip",
     "activate institutional",
     "fake institutional",
@@ -464,7 +464,7 @@ export default function TPMCompanionPanel({
         state: "blocked",
         title: "I cannot do that",
         body:
-          "That request touches execution, live activation, real money, broker/feed, billing, restricted credentials, launch, publishing, advice, or guaranteed performance. Those capabilities remain blocked in this build.",
+          "That request touches execution, live activation, real money, broker/feed, billing, restricted credentials, launch, publishing, advice, or performance certainty. Those capabilities remain blocked in this build.",
         safeNextStep:
           "Stay in paper-safe mode, review diagnostics, or ask me to explain the blocked state.",
       };

@@ -129,7 +129,7 @@ const firstDayContinuity = [
   {
     label: "Learn",
     value: "Academy basics",
-    note: "Use learning paths without signals or profit promises.",
+    note: "Use learning paths without signals or performance promises.",
   },
   {
     label: "Adjust",

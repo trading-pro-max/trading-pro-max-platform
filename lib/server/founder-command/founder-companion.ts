@@ -21,6 +21,7 @@ import { getAlkonLegitimacySnapshot } from "@/lib/server/alkon-legitimacy";
 import { getAlkonRuntimeSnapshot } from "@/lib/server/alkon-runtime";
 import { getAlkonGenesisSnapshot } from "@/lib/server/alkon-genesis";
 import { getInfiniteGrowthSnapshot } from "@/lib/server/infinite-growth";
+import { getNumberOneDestinySnapshot } from "@/lib/server/number-one-destiny";
 import { getPlanetaryEnvironmentReadinessSnapshot } from "@/lib/server/environment";
 import { getEarthRealitySnapshot } from "@/lib/server/earth-reality";
 import { getPersonalRealityReadinessSnapshot } from "@/lib/server/personal-reality";
@@ -81,6 +82,7 @@ export type FounderPersonalCompanionSnapshot = {
   alkonGenesisSummary: string[];
   brandUniverseSummary: string[];
   infiniteGrowthSummary: string[];
+  numberOneDestinySummary: string[];
   treasuryLifeSummary: string[];
   mediaIntelligenceSummary: string[];
   revelationExperienceSummary: string[];
@@ -146,6 +148,7 @@ export function getFounderPersonalCompanionSnapshot(
   const alkonRuntime = getAlkonRuntimeSnapshot(checkedAt);
   const alkonGenesis = getAlkonGenesisSnapshot(checkedAt);
   const infiniteGrowth = getInfiniteGrowthSnapshot(checkedAt);
+  const numberOneDestiny = getNumberOneDestinySnapshot(checkedAt);
   const brandUniverse = getPrivateBrandUniverse();
   const treasuryLife = getTreasuryLifeSnapshot();
   const mediaIntelligence = getMediaIntelligenceSnapshot();
@@ -330,6 +333,13 @@ export function getFounderPersonalCompanionSnapshot(
       `${infiniteGrowth.safeCreationDomains.length} domains allow safe creation and ${infiniteGrowth.gatedRealityDomains.length} domains are reality-gated under Swiss-law gravity.`,
       `${infiniteGrowth.blockedDomains.length} domains remain blocked/readiness-only and ${infiniteGrowth.blackHoleDomains.length} domains are black-holed in local scope.`,
       "Infinite Growth permits ideas, planning, design, docs, tests, audits, memory, and local build while gating users, data, money, claims, media, launch, production, and regulated activity.",
+    ],
+    numberOneDestinySummary: [
+      `${numberOneDestiny.name} is ${numberOneDestiny.visibility}; public exposure is ${String(numberOneDestiny.publicExposure)}.`,
+      `Internal mission is private and public claim status is ${numberOneDestiny.publicClaimStatus}.`,
+      `Next critical decision: ${numberOneDestiny.nextOneCriticalDecision}`,
+      `${numberOneDestiny.topDrifts.length} drift signals are tracked and ${numberOneDestiny.standards.length} Pro Max standards are ready.`,
+      "Pro Max builds by #1 standards but does not publicly claim #1, best, global, regulated, guaranteed, profit, or win-rate status.",
     ],
     treasuryLifeSummary: [
       `Treasury Life is ${treasuryLife.status}; funding mode is ${treasuryLife.fundingMode}.`,

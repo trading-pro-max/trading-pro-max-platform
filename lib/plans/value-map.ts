@@ -67,7 +67,7 @@ export const PLAN_VALUE_MAP: PlanValueMapEntry[] = [
     supportLevel: "Feedback readiness",
     reportingLevel: "Local/session readiness",
     upgradeTrigger: "No upgrade flow is active because billing is inactive.",
-    mustNotClaim: ["live execution", "paid access", "guaranteed outcome"],
+    mustNotClaim: ["live execution", "paid access", "result certainty"],
   },
   {
     planId: "pro",
@@ -101,7 +101,7 @@ export const PLAN_VALUE_MAP: PlanValueMapEntry[] = [
     supportLevel: "Priority support concept only.",
     reportingLevel: "Premium reports planned.",
     upgradeTrigger: "VIP requires entitlement, billing, safety, and Founder approval gates.",
-    mustNotClaim: ["VIP active", "guaranteed returns", "win-rate", "priority support active"],
+    mustNotClaim: ["VIP active", "result certainty", "performance-rate claim", "priority support active"],
   },
   {
     planId: "enterprise",

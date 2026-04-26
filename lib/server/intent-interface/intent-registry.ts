@@ -169,7 +169,7 @@ export const publicIntentRegistry: IntentDefinition[] = [
     publicVisible: true,
     privateOnly: false,
     examplePhrases: ["explain vip", "vip theme"],
-    responseRule: "Explain VIP as planned premium depth without profit promises.",
+    responseRule: "Explain VIP as planned premium depth without performance promises.",
   },
   {
     intentId: "explain_institutional_request",

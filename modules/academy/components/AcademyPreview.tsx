@@ -24,7 +24,7 @@ export default function AcademyPreview() {
         {learningPaths.map((path) => (
           <article key={path}>
             <strong>{path}</strong>
-            <small>No financial advice. No guaranteed signal.</small>
+            <small>No financial advice. No signal certainty.</small>
           </article>
         ))}
       </div>

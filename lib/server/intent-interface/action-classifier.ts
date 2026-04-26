@@ -174,7 +174,7 @@ export const intentActionCatalog: IntentActionDefinition[] = [
   assistantIntent("explain_pro", "Explain Pro", "plans", "Explain Pro as planned professional depth unless entitlement exists.", {
     requiresEntitlement: true,
   }),
-  assistantIntent("explain_vip", "Explain VIP", "plans", "Explain VIP as planned premium depth without profit promises.", {
+  assistantIntent("explain_vip", "Explain VIP", "plans", "Explain VIP as planned premium depth without performance promises.", {
     requiresEntitlement: true,
   }),
   assistantIntent("explain_institutional", "Explain Institutional", "plans", "Explain Institutional as future team readiness."),

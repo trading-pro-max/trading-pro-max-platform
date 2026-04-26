@@ -39,6 +39,7 @@ import { getAlkonLegitimacySnapshot } from "@/lib/server/alkon-legitimacy";
 import { getAlkonRuntimeSnapshot } from "@/lib/server/alkon-runtime";
 import { getAlkonGenesisSnapshot } from "@/lib/server/alkon-genesis";
 import { getInfiniteGrowthSnapshot } from "@/lib/server/infinite-growth";
+import { getNumberOneDestinySnapshot } from "@/lib/server/number-one-destiny";
 import { getPlanetaryEnvironmentReadinessSnapshot } from "@/lib/server/environment";
 import { getEarthRealitySnapshot } from "@/lib/server/earth-reality";
 import { getPersonalRealityReadinessSnapshot } from "@/lib/server/personal-reality";
@@ -196,6 +197,7 @@ export function getFounderCommandAppSnapshot(
   const alkonRuntime = getAlkonRuntimeSnapshot(checkedAt);
   const alkonGenesis = getAlkonGenesisSnapshot(checkedAt);
   const infiniteGrowth = getInfiniteGrowthSnapshot(checkedAt);
+  const numberOneDestiny = getNumberOneDestinySnapshot(checkedAt);
   const brandUniverse = getPrivateBrandUniverse();
   const planetaryEnvironment =
     getPlanetaryEnvironmentReadinessSnapshot(checkedAt);
@@ -346,6 +348,9 @@ export function getFounderCommandAppSnapshot(
             alkonCommandUniverse.sovereignGenesis.publicExposure,
           infiniteGrowthReady: infiniteGrowth.readiness === "ready",
           infiniteGrowthPublicExposure: infiniteGrowth.publicExposure,
+          numberOneDestinyReady: numberOneDestiny.readiness === "ready",
+          numberOneDestinyPublicExposure: numberOneDestiny.publicExposure,
+          publicNumberOneClaimStatus: numberOneDestiny.publicClaimStatus,
         },
       },
       planRealmFunctionalExperience: {
@@ -407,6 +412,7 @@ export function getFounderCommandAppSnapshot(
     alkonRuntime,
     alkonGenesis,
     infiniteGrowth,
+    numberOneDestiny,
     brandUniverse,
     treasuryLife,
     mediaIntelligence,
@@ -1274,6 +1280,9 @@ export function getFounderCommandAppSnapshot(
       "/api/founder/infinite-growth/snapshot",
       "/api/founder/infinite-growth/sample-decision",
       "/api/founder/infinite-growth/gates",
+      "/api/founder/number-one-destiny/readiness",
+      "/api/founder/number-one-destiny/snapshot",
+      "/api/founder/number-one-destiny/sample-evaluation",
       "/api/founder/treasury-life/readiness",
       "/api/founder/media-intelligence/readiness",
       "/api/founder/final-convergence/readiness",

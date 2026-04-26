@@ -151,7 +151,7 @@ export const personalRealitySettings: PersonalRealitySetting[] = [
     requiresConfirmation: true,
     publicVisible: true,
     founderVisible: true,
-    safetyNotes: ["No profit promise", "No signal guarantee"],
+    safetyNotes: ["No performance promise", "No signal guarantee"],
     productTruthNotes: ["VIP remains planned unless entitled"],
   },
   {
@@ -321,7 +321,7 @@ export const personalRealityProfiles: PersonalRealityProfile[] = [
     assistantSettings: ["premium_reports_planned"],
     environmentSettings: ["gold_platinum_depth"],
     accessibilitySettings: ["low_motion"],
-    safetyBoundaries: ["Planned unless entitled", "No profit promise"],
+    safetyBoundaries: ["Planned unless entitled", "No performance promise"],
     upgradeExplanation: "VIP controls are planned or entitlement-gated.",
     availability: "planned",
     allowedPlans: ["vip"],

@@ -150,8 +150,8 @@ export const PLAN_INTERFACE_LAYERS: PlanInterfaceLayer[] = [
     ],
     hiddenFromThisLayer: ["private controls", "critical control gates", "revenue controls"],
     safeCopy:
-      "VIP is a planned elite layer. It never implies guaranteed signals, win rates, or active premium access.",
-    mustNotClaim: ["VIP active", "guaranteed signals", "win-rate", "priority support active"],
+      "VIP is a planned elite layer. It never implies signal certainty, performance-rate claims, or active premium access.",
+    mustNotClaim: ["VIP active", "signal certainty", "performance-rate claim", "priority support active"],
   },
   {
     id: "enterprise",

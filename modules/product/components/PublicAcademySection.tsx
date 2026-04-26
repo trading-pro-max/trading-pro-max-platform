@@ -48,7 +48,7 @@ export default function PublicAcademySection() {
           <span className="tpm-product-kicker">Academy</span>
           <h2>Learning paths focus on product use and safety.</h2>
         </div>
-        <p>No advice claim, signal claim, or guaranteed outcome appears.</p>
+        <p>No advice claim, signal claim, or result certainty appears.</p>
       </div>
 
       <div className="tpm-public-readiness-grid">
