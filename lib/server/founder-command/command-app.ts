@@ -307,6 +307,10 @@ export function getFounderCommandAppSnapshot(
             alkonCommandUniverse.cosmicPhysics.taskGraphStatus === "ready",
           cosmicPhysicsPublicExposure:
             alkonCommandUniverse.cosmicPhysics.publicExposure,
+          consciousnessReady:
+            alkonCommandUniverse.sovereignOperatingConsciousness.status === "ready",
+          consciousnessPublicExposure:
+            alkonCommandUniverse.sovereignOperatingConsciousness.publicExposure,
         },
       },
       planRealmFunctionalExperience: {
@@ -360,6 +364,8 @@ export function getFounderCommandAppSnapshot(
     },
     alkonUniverse: alkonCommandUniverse,
     alkonCosmicPhysics: alkonCommandUniverse.cosmicPhysics,
+    alkonSovereignConsciousness:
+      alkonCommandUniverse.sovereignOperatingConsciousness,
     finalConvergence,
     earthReality: {
       status: earthReality.status,
@@ -1183,6 +1189,9 @@ export function getFounderCommandAppSnapshot(
       "/api/founder/build-room/readiness",
       "/api/founder/alkon/readiness",
       "/api/founder/alkon-physics/readiness",
+      "/api/founder/alkon-consciousness/readiness",
+      "/api/founder/alkon-consciousness/snapshot",
+      "/api/founder/alkon-consciousness/sample-signal",
       "/api/founder/final-convergence/readiness",
       "/api/founder/final-convergence/snapshot",
       "/api/founder/final-convergence/layers",

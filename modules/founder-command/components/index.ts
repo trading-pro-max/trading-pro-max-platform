@@ -1,4 +1,6 @@
 export { default as AlkonCommandUniverse } from "./AlkonCommandUniverse";
+export { default as AlkonActionJudgmentPanel } from "./AlkonActionJudgmentPanel";
+export { default as AlkonConsciousnessPanel } from "./AlkonConsciousnessPanel";
 export { default as AlkonConstructionUniversePanel } from "./AlkonConstructionUniversePanel";
 export { default as AlkonCosmicPhysicsPanel } from "./AlkonCosmicPhysicsPanel";
 export { default as AlkonCosmicTaskGraphPanel } from "./AlkonCosmicTaskGraphPanel";
@@ -11,8 +13,11 @@ export { default as AlkonAutomationGovernorPanel } from "./AlkonAutomationGovern
 export { default as AlkonConvergenceScorePanel } from "./AlkonConvergenceScorePanel";
 export { default as AlkonFinalConvergencePanel } from "./AlkonFinalConvergencePanel";
 export { default as AlkonGravityOrbitPanel } from "./AlkonGravityOrbitPanel";
+export { default as AlkonGravityRoutePanel } from "./AlkonGravityRoutePanel";
 export { default as AlkonLayerGrowthPanel } from "./AlkonLayerGrowthPanel";
+export { default as AlkonMeaningLawPanel } from "./AlkonMeaningLawPanel";
 export { default as AlkonMemoryUniversePanel } from "./AlkonMemoryUniversePanel";
+export { default as AlkonMemoryEvolutionPanel } from "./AlkonMemoryEvolutionPanel";
 export { default as AlkonMoonCyclePanel } from "./AlkonMoonCyclePanel";
 export { default as AlkonNextActionsPanel } from "./AlkonNextActionsPanel";
 export { default as AlkonNextSafeLayersPanel } from "./AlkonNextSafeLayersPanel";
@@ -20,6 +25,7 @@ export { default as AlkonOrbitCommandPanel } from "./AlkonOrbitCommandPanel";
 export { default as AlkonPlanetarySystemsPanel } from "./AlkonPlanetarySystemsPanel";
 export { default as AlkonPocketUniversePanel } from "./AlkonPocketUniversePanel";
 export { default as AlkonRiskBeltPanel } from "./AlkonRiskBeltPanel";
+export { default as AlkonSignalSensePanel } from "./AlkonSignalSensePanel";
 export { default as AlkonSolarCommandPanel } from "./AlkonSolarCommandPanel";
 export { default as AlkonUniverseMap } from "./AlkonUniverseMap";
 export { default as AlkonWorkersStationsPanel } from "./AlkonWorkersStationsPanel";

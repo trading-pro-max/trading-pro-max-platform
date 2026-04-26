@@ -64,6 +64,7 @@ export type FounderPersonalCompanionSnapshot = {
   insideOutsidePlanetSummary: string[];
   alkonUniverseSummary: string[];
   alkonCosmicPhysicsSummary: string[];
+  alkonSovereignConsciousnessSummary: string[];
   finalConvergenceSummary: string[];
   earthRealitySummary: string[];
   personalRealitySummary: string[];
@@ -253,6 +254,12 @@ export function getFounderPersonalCompanionSnapshot(
       `${alkonUniverse.cosmicPhysics.registrySummary.planetOwners} planet/system owners, ${alkonUniverse.cosmicPhysics.registrySummary.satellites} satellites, ${alkonUniverse.cosmicPhysics.registrySummary.stations} stations, and ${alkonUniverse.cosmicPhysics.registrySummary.workers} workers are registered.`,
       `${alkonUniverse.cosmicPhysics.sampleTaskGraphs.length} sample task graphs prove source, energy, gravity, orbit, owner, satellite, station, worker, passport, Codex License, validation, tribunal, memory, and Founder report.`,
       "Cosmic Operating Physics remains private, read-only, status-only, and cannot execute shell commands, call Codex, expose secrets, activate billing, trade live, route real money, or publish.",
+    ],
+    alkonSovereignConsciousnessSummary: [
+      `${alkonUniverse.sovereignOperatingConsciousness.name} is ${alkonUniverse.sovereignOperatingConsciousness.visibility}; public exposure is ${String(alkonUniverse.sovereignOperatingConsciousness.publicExposure)}.`,
+      `Flow is ${alkonUniverse.sovereignOperatingConsciousness.flow.join(" -> ")} with ${alkonUniverse.sovereignOperatingConsciousness.latestSignals.length} sample signals and ${alkonUniverse.sovereignOperatingConsciousness.preparedActions.length} prepared safe actions.`,
+      `${alkonUniverse.sovereignOperatingConsciousness.memoryLessons.length} memory lessons and ${alkonUniverse.sovereignOperatingConsciousness.evolutionRules.length} evolution guards keep repeated mistakes from returning.`,
+      "Alkon consciousness prepares reports, passports, review requests, blocks, memory, and evolution rules only; it cannot execute, call Codex, expose secrets, activate real-world systems, or become public.",
     ],
     finalConvergenceSummary: [
       `Final Convergence is ${finalConvergence.status} with score ${finalConvergence.convergenceScore.score}/10; no fake 10/10 is claimed.`,

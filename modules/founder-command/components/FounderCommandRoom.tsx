@@ -10,11 +10,17 @@ import { PlanetMapPreview } from "@/modules/planet-map/components";
 import PrivateFounderShell from "@/modules/shell/components/PrivateFounderShell";
 import type { FounderCommandRoomProps } from "../types";
 import AlkonCommandUniverse from "./AlkonCommandUniverse";
+import AlkonActionJudgmentPanel from "./AlkonActionJudgmentPanel";
 import AlkonAutomationGovernorPanel from "./AlkonAutomationGovernorPanel";
+import AlkonConsciousnessPanel from "./AlkonConsciousnessPanel";
 import AlkonConvergenceScorePanel from "./AlkonConvergenceScorePanel";
 import AlkonFinalConvergencePanel from "./AlkonFinalConvergencePanel";
 import AlkonLayerGrowthPanel from "./AlkonLayerGrowthPanel";
+import AlkonGravityRoutePanel from "./AlkonGravityRoutePanel";
+import AlkonMeaningLawPanel from "./AlkonMeaningLawPanel";
+import AlkonMemoryEvolutionPanel from "./AlkonMemoryEvolutionPanel";
 import AlkonNextSafeLayersPanel from "./AlkonNextSafeLayersPanel";
+import AlkonSignalSensePanel from "./AlkonSignalSensePanel";
 import AlkonDeviceConstellationPanel from "./AlkonDeviceConstellationPanel";
 import AlkonPocketUniversePanel from "./AlkonPocketUniversePanel";
 import AlkonDeviceSecurityPanel from "./AlkonDeviceSecurityPanel";
@@ -95,6 +101,16 @@ export default function FounderCommandRoom({
       <FounderPlanetCommandWorld checkedAt={commandSnapshot.checkedAt} />
 
       <AlkonCommandUniverse checkedAt={commandSnapshot.checkedAt} />
+
+      <AlkonConsciousnessPanel snapshot={appSnapshot.alkonSovereignConsciousness} />
+
+      <div className="alkon-command-grid alkon-consciousness-grid">
+        <AlkonSignalSensePanel snapshot={appSnapshot.alkonSovereignConsciousness} />
+        <AlkonMeaningLawPanel snapshot={appSnapshot.alkonSovereignConsciousness} />
+        <AlkonGravityRoutePanel snapshot={appSnapshot.alkonSovereignConsciousness} />
+        <AlkonActionJudgmentPanel snapshot={appSnapshot.alkonSovereignConsciousness} />
+        <AlkonMemoryEvolutionPanel snapshot={appSnapshot.alkonSovereignConsciousness} />
+      </div>
 
       <AlkonFinalConvergencePanel snapshot={appSnapshot.finalConvergence} />
 
