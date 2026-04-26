@@ -19,6 +19,7 @@ import { getPlanetaryEnvironmentReadinessSnapshot } from "@/lib/server/environme
 import { getEarthRealitySnapshot } from "@/lib/server/earth-reality";
 import { getPersonalRealityReadinessSnapshot } from "@/lib/server/personal-reality";
 import { getFounderDeviceReadinessSnapshot } from "@/lib/server/devices";
+import { getIntentInterfaceReadinessSnapshot } from "@/lib/server/intent-interface";
 import { getInvisibleOperatingLayerSnapshot } from "@/lib/server/invisible-operating-layer";
 import {
   getProductMemoryDailySummarySnapshot,
@@ -66,6 +67,7 @@ export type FounderPersonalCompanionSnapshot = {
   finalConvergenceSummary: string[];
   earthRealitySummary: string[];
   personalRealitySummary: string[];
+  intentInterfaceSummary: string[];
   deviceConstellationSummary: string[];
   realWorldLaunchReadinessSummary: string[];
   planetaryEnvironmentSummary: string[];
@@ -126,6 +128,7 @@ export function getFounderPersonalCompanionSnapshot(
     getPlanetaryEnvironmentReadinessSnapshot(checkedAt);
   const earthReality = getEarthRealitySnapshot(checkedAt);
   const personalReality = getPersonalRealityReadinessSnapshot(checkedAt);
+  const intentInterface = getIntentInterfaceReadinessSnapshot(checkedAt);
   const deviceConstellation = getFounderDeviceReadinessSnapshot(checkedAt);
   const publicRealms = getPublicPlanRealms();
   const privateRealm = getPrivateFounderRealm();
@@ -269,6 +272,11 @@ export function getFounderPersonalCompanionSnapshot(
       `${personalReality.plannedControls.length} professional/premium controls are planned and ${personalReality.futureControls.length} institutional controls are future.`,
       `Assistant-controlled: ${String(personalReality.assistantControlled)}; plan-aware: ${String(personalReality.planAware)}; Product Truth guarded: ${String(personalReality.productTruthGuarded)}.`,
       "Personal Reality previews and explains allowed settings only; it cannot unlock paid plans, activate live execution, expose private systems, or use weather/session as trading advice.",
+    ],
+    intentInterfaceSummary: [
+      `Human Intent OS is ${intentInterface.status}: ${intentInterface.coreButtonsKept.length} core buttons, ${intentInterface.contextualButtons.length} contextual buttons, ${intentInterface.assistantIntents.length} Assistant intents, and ${intentInterface.blockedIntents.length} blocked intents are modeled.`,
+      "Public TPM Assistant handles user intent, explanations, settings, support, Journal/Coach guidance, and blocked-state truth.",
+      `Private intents public: ${String(intentInterface.privateIntentsPubliclyAvailable)}. Private command language remains Founder-only.`,
     ],
     deviceConstellationSummary: [
       `Multi-device readiness is ${deviceConstellation.status}: ${deviceConstellation.publicDevices.length} public apps and ${deviceConstellation.privateDevices.length} private command devices are modeled.`,

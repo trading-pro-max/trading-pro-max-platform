@@ -778,6 +778,17 @@ export type DiagnosticsHealthSnapshot = {
     motionAllowed: boolean;
     publicLabel: string;
   };
+  intentInterface?: {
+    checkedAt: string;
+    status: "ready_with_notes";
+    coreButtonsKept: number;
+    contextualButtons: number;
+    assistantIntents: number;
+    blockedIntents: number;
+    privateIntentsPubliclyAvailable: false;
+    duplicateControlPolicy: "remove_duplicate";
+    publicCopy: string;
+  };
   marketParity?: {
     checkedAt: string;
     mode: "final_market_parity_closure";

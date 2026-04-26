@@ -62,60 +62,43 @@ type WorkflowPreflightState = {
 
 function WorkspaceDepthBar({
   focusMode,
-  onSelectFocusMode,
   watchlistDensity,
-  onSelectWatchlistDensity,
   shortcutHint,
 }: {
   focusMode: WorkspaceFocusMode;
-  onSelectFocusMode: (mode: WorkspaceFocusMode) => void;
   watchlistDensity: WatchlistDensityMode;
-  onSelectWatchlistDensity: (density: WatchlistDensityMode) => void;
   shortcutHint: string;
 }) {
+  const assistantIntents = ["Bigger chart", "Calmer", "Why blocked?", "Plans"];
+
   return (
     <section
-      className="tpmv2-card tpmv2-workspace-depth-bar tpmv2-workspace-depth-bar-compact"
+      className="tpmv2-card tpmv2-workspace-depth-bar tpmv2-workspace-depth-bar-compact tpm-intent-workspace-rail"
       aria-label="Workspace controls"
     >
       <div className="tpmv2-workspace-depth-block">
         <span>Workspace focus</span>
-        <div className="tpmv2-workspace-depth-buttons" role="toolbar" aria-label="Workstation focus">
-          {(["balanced", "chart_focus", "execution_focus"] as const).map((mode) => (
-            <button
-              key={mode}
-              type="button"
-              className={focusMode === mode ? "active" : ""}
-              aria-pressed={focusMode === mode}
-              onClick={() => onSelectFocusMode(mode)}
-            >
-              {focusModeLabel(mode)}
-            </button>
-          ))}
-        </div>
+        <strong>{focusModeLabel(focusMode)}</strong>
+        <small>Ask TPM Assistant for Chart Comfort or a calmer workspace.</small>
       </div>
 
       <div className="tpmv2-workspace-depth-block">
         <span>Watchlist</span>
-        <div className="tpmv2-workspace-depth-buttons" role="toolbar" aria-label="Watchlist density">
-          {(["standard", "dense"] as const).map((density) => (
-            <button
-              key={density}
-              type="button"
-              className={watchlistDensity === density ? "active" : ""}
-              aria-pressed={watchlistDensity === density}
-              onClick={() => onSelectWatchlistDensity(density)}
-            >
-              {watchlistDensityLabel(density)}
-            </button>
-          ))}
-        </div>
+        <strong>{watchlistDensityLabel(watchlistDensity)}</strong>
+        <small>Secondary density controls stay in Settings and Assistant guidance.</small>
       </div>
 
-      <div className="tpmv2-workspace-depth-status">
+      <div className="tpmv2-workspace-depth-status tpm-intent-assistant-card">
         <span>Paper-safe controls</span>
         <strong>Layout-only</strong>
         <small>{shortcutHint} No order-entry hotkeys are armed.</small>
+        <div className="tpm-intent-chip-row" aria-label="Assistant workspace intents">
+          {assistantIntents.map((intent) => (
+            <span key={intent} className="tpm-intent-chip">
+              {intent}
+            </span>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -633,15 +616,7 @@ export default function TradingWorkstation({
 
           <WorkspaceDepthBar
             focusMode={focusMode}
-            onSelectFocusMode={(nextMode) => {
-              platformState.setWorkspaceFocusMode(nextMode);
-              showShortcutHint(`${focusModeLabel(nextMode)} workspace focus engaged.`);
-            }}
             watchlistDensity={watchlistDensity}
-            onSelectWatchlistDensity={(nextDensity) => {
-              platformState.setWatchlistDensity(nextDensity);
-              showShortcutHint(`${watchlistDensityLabel(nextDensity)} watchlist density engaged.`);
-            }}
             shortcutHint={shortcutHint}
           />
 
@@ -817,15 +792,7 @@ export default function TradingWorkstation({
 
         <WorkspaceDepthBar
           focusMode={focusMode}
-          onSelectFocusMode={(nextMode) => {
-            platformState.setWorkspaceFocusMode(nextMode);
-            showShortcutHint(`${focusModeLabel(nextMode)} workspace focus engaged.`);
-          }}
           watchlistDensity={watchlistDensity}
-          onSelectWatchlistDensity={(nextDensity) => {
-            platformState.setWatchlistDensity(nextDensity);
-            showShortcutHint(`${watchlistDensityLabel(nextDensity)} watchlist density engaged.`);
-          }}
           shortcutHint={shortcutHint}
         />
 

@@ -281,7 +281,7 @@ test.describe("Earth Reality Constitution and Personal Operating Reality", () =>
     await screenshotLocator(page, "#tpm-companion-panel", "assistant-calm-request.png");
     await page.getByRole("button", { name: "Bigger chart" }).click();
     await screenshotLocator(page, "#tpm-companion-panel", "assistant-chart-comfort-request.png");
-    await page.getByRole("button", { name: "Why locked?" }).click();
+    await page.getByRole("button", { name: "Why blocked?" }).click();
     await screenshotLocator(page, "#tpm-companion-panel", "assistant-vip-locked-explanation.png");
 
     await openWithTheme(page, "/en", "dark", "static");

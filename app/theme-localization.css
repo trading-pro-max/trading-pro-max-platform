@@ -7918,6 +7918,55 @@ html[data-theme="light"] .tpmv2-execution {
   opacity: 0.82;
 }
 
+/* Intent-driven interface */
+.tpm-intent-hero-note {
+  color: var(--tpm-text-soft);
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 10px 0 0;
+  max-width: 620px;
+}
+
+.tpm-intent-workspace-rail .tpmv2-workspace-depth-block strong {
+  color: var(--tpm-text);
+  display: block;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.tpm-intent-workspace-rail .tpmv2-workspace-depth-block small {
+  color: var(--tpm-text-soft);
+  display: block;
+  line-height: 1.45;
+  margin-top: 4px;
+}
+
+.tpm-intent-assistant-card {
+  min-width: min(100%, 280px);
+}
+
+.tpm-intent-chip-row {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.tpm-intent-chip {
+  background: color-mix(in srgb, var(--tpm-accent) 9%, transparent);
+  border: 1px solid color-mix(in srgb, var(--tpm-accent) 18%, var(--tpm-border));
+  border-radius: 999px;
+  color: var(--tpm-text);
+  display: inline-flex;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 1;
+  padding: 6px 8px;
+  white-space: nowrap;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .tpm-personal-reality,
   .tpm-earth-reality,

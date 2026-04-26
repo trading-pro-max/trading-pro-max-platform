@@ -142,6 +142,7 @@ export default function PublicProductEntry({
               <p>
                 Trading Pro Max starts with a complete Free web workspace, then keeps Pro,
                 VIP, and Institutional depth clearly planned or future until real gates exist.
+                Tell TPM Assistant what you want to do, and it will route the safe next step.
               </p>
 
               <div className="tpm-product-cta-row">
@@ -151,10 +152,10 @@ export default function PublicProductEntry({
                 <Link className="tpm-product-cta tpm-product-cta-secondary" href="#apps-platforms">
                   View platforms
                 </Link>
-                <Link className="tpm-product-cta tpm-product-cta-secondary" href="#plans">
-                  Explore plans
-                </Link>
               </div>
+              <p className="tpm-intent-hero-note">
+                Ask for a calmer workspace, bigger chart, plans, apps, support, or why something is blocked.
+              </p>
 
               <div className="tpm-product-proof-row">
                 {trustStates.map((item) => (

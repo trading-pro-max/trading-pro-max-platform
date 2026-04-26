@@ -28,7 +28,7 @@ export default function CompanionInput({
           disabled={disabled}
           maxLength={320}
           onChange={(event) => onChange(event.target.value)}
-          placeholder="Ask why something is blocked, summarize this session, or draft feedback."
+          placeholder="Tell TPM Assistant what you want: start, bigger chart, calmer workspace, plans, support, or why blocked."
           rows={2}
           value={value}
         />

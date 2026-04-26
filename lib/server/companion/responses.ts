@@ -102,6 +102,30 @@ export function buildCompanionResponseTemplates(
       state: "fallback",
     },
     {
+      intent: "open_workspace_request",
+      title: "Open workspace",
+      body:
+        "Use Trading Workspace to enter the chart-first web terminal. It is paper-safe: live execution, real money, broker/feed activation, billing, and launch remain inactive.",
+      safeNextStep: "Open Trading Workspace and keep using paper controls only.",
+      state: "ready",
+    },
+    {
+      intent: "guide_to_apps_platforms",
+      title: "Apps / Platforms",
+      body:
+        "Web App is current. Desktop App is planned. Mobile App is planned. Tablet App is future. There are no fake download buttons, app-store claims, APKs, or installers in this build.",
+      safeNextStep: "Use the Web App now or review Apps / Platforms for readiness truth.",
+      state: "planned",
+    },
+    {
+      intent: "guide_to_support",
+      title: "Support path",
+      body:
+        "Support is a public-safe readiness path: Help Center, Contact Support readiness, Report a Problem, Security Contact, and Partnership Contact. No email is sent and no fake ticket backend is claimed here.",
+      safeNextStep: "Open Support or ask me to draft a safe problem report.",
+      state: "ready",
+    },
+    {
       intent: "explain_plan_access",
       title: "Plan access",
       body: `${context.planAccess?.activeLayer ?? context.planetAccess.activeLayer}. Free is the active complete paper-safe web workspace. Pro is the planned professional workspace layer, VIP is the planned premium advanced layer, and Institutional remains future team readiness. Current ${realm.publicPlanName} behavior: ${realm.assistantBehavior} ${pro.userCopy} ${vip.userCopy} ${institutional.userCopy}`,
@@ -241,6 +265,14 @@ export function buildCompanionResponseTemplates(
       state: "planned",
     },
     {
+      intent: "reset_experience",
+      title: "Reset experience",
+      body:
+        "Reset returns the experience to Clean Earth defaults: paper-safe Free controls, calm chart surroundings, normal motion preference, and public-safe Assistant guidance. It does not activate paid plans, billing, live execution, broker/feed, real money, or private systems.",
+      safeNextStep: "Open Settings and choose the defaults you want restored.",
+      state: "ready",
+    },
+    {
       intent: "explain_upgrade_path_without_billing",
       title: "Plan ladder",
       body:
@@ -318,6 +350,9 @@ export function buildCompanionDailyUseSamples(
     "what is VIP",
     "why billing inactive",
     "why Institutional future",
+    "start me",
+    "where is the mobile app",
+    "how do I get support",
     "make the platform calmer",
     "bigger chart",
     "why locked",

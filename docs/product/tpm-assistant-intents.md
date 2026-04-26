@@ -14,6 +14,9 @@ The Assistant intent registry is defined in `lib/server/companion/intents.ts`. I
 - `explain_live_disabled`
 - `explain_real_money_blocked`
 - `explain_market_context`
+- `open_workspace_request`
+- `guide_to_apps_platforms`
+- `guide_to_support`
 - `guide_to_settings`
 - `guide_to_diagnostics`
 - `guide_to_feedback`
@@ -22,6 +25,15 @@ The Assistant intent registry is defined in `lib/server/companion/intents.ts`. I
 - `coach_prompt`
 - `session_summary`
 - `learning_help`
+- `personal_reality_calm`
+- `personal_reality_focus`
+- `personal_reality_chart_comfort`
+- `personal_reality_low_motion`
+- `personal_reality_static`
+- `personal_reality_high_contrast`
+- `personal_reality_learning`
+- `personal_reality_explain_locked`
+- `reset_experience`
 - `explain_upgrade_path_without_billing`
 
 Compatibility alias:
@@ -36,7 +48,10 @@ Compatibility alias:
 - `activate_broker`
 - `activate_feed`
 - `activate_billing`
+- `provide_signal`
 - `reveal_secrets`
+- `expose_alkon`
+- `expose_codex`
 - `bypass_auth`
 - `guarantee_profit`
 - `provide_win_rate`
@@ -70,7 +85,14 @@ Every blocked intent returns:
 - what is VIP
 - why billing inactive
 - why Institutional future
-- why Founder Command private
+- start me
+- where is the mobile app
+- how do I get support
+- make the platform calmer
+- bigger chart
+- why locked
+- low motion
+- why is that area separate
 - help me journal
 - explain paper mode
 - draft feedback

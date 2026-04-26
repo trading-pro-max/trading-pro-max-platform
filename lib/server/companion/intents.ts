@@ -126,6 +126,27 @@ export const companionAllowedIntents: CompanionIntentAvailability[] = [
     { demoFree: "allowed", pro: "planned", vip: "planned", enterprise: "future" }
   ),
   allowedIntent(
+    "open_workspace_request",
+    "Open workspace",
+    "Route to the Trading Workspace and keep paper-safe truth visible.",
+    "short route guidance plus paper-safe reminder",
+    ["live workspace", "broker connected", "real-money terminal"]
+  ),
+  allowedIntent(
+    "guide_to_apps_platforms",
+    "Guide to apps and platforms",
+    "Explain Web current, Desktop planned, Mobile planned, and Tablet future without fake downloads.",
+    "truthful availability summary",
+    ["download now", "app store active", "APK available", "desktop installer"]
+  ),
+  allowedIntent(
+    "guide_to_support",
+    "Guide to support",
+    "Route to public-safe support paths without fake ticketing or email sending claims.",
+    "help route with readiness truth",
+    ["ticket created", "email sent", "guaranteed response"]
+  ),
+  allowedIntent(
     "guide_to_settings",
     "Guide to settings",
     "Navigation guidance only; cannot change secrets or enable live systems.",
@@ -241,6 +262,13 @@ export const companionAllowedIntents: CompanionIntentAvailability[] = [
     ["activate now", "fake entitlement"]
   ),
   allowedIntent(
+    "reset_experience",
+    "Reset experience",
+    "Explain reset to Clean Earth defaults without changing plans, billing, live execution, broker/feed, or private systems.",
+    "safe reset preview",
+    ["reset entitlement", "unlock paid", "enable live"]
+  ),
+  allowedIntent(
     "explain_upgrade_path_without_billing",
     "Explain upgrade path without billing",
     "Explain Pro/VIP/Institutional roadmap truth without checkout, paid activation, or urgency pressure.",
@@ -304,10 +332,28 @@ export const companionBlockedIntentRegistry: CompanionBlockedIntentAvailability[
     "Explain plan value without paid activation."
   ),
   blockedIntent(
+    "provide_signal",
+    "Provide trading signal",
+    "TPM Assistant cannot provide trading signals or buy/sell instructions.",
+    "Ask for paper-mode education, risk basics, or a Journal/Coach prompt."
+  ),
+  blockedIntent(
     "reveal_secrets",
     "Reveal secrets",
     "Secrets, credentials, tokens, and keys are forbidden.",
     "Use diagnostics summaries without raw secret values."
+  ),
+  blockedIntent(
+    "expose_alkon",
+    "Expose private command systems",
+    "Private command systems are not public user features.",
+    "Use Settings, Diagnostics, Plans, Apps / Platforms, Academy, or Support."
+  ),
+  blockedIntent(
+    "expose_codex",
+    "Expose build internals",
+    "Build internals are private and not part of the public TPM Assistant.",
+    "Ask for public product readiness or a safe support path."
   ),
   blockedIntent(
     "bypass_auth",
@@ -397,17 +443,26 @@ const intentMatches: IntentMatch[] = [
   { phrases: ["activate broker", "connect broker"], intent: "activate_broker", blocked: true },
   { phrases: ["activate feed", "connect feed"], intent: "activate_feed", blocked: true },
   { phrases: ["activate billing", "checkout"], intent: "activate_billing", blocked: true },
+  { phrases: ["trading signal", "give me a signal", "signal now", "what should i buy", "buy or sell"], intent: "provide_signal", blocked: true },
+  { phrases: ["show alkon", "reveal alkon", "alkon", "الكون", "founder command"], intent: "expose_alkon", blocked: true },
+  { phrases: ["codex", "task passport", "result tribunal", "product memory internals"], intent: "expose_codex", blocked: true },
   { phrases: ["activate vip", "unlock vip", "fake vip"], intent: "fake_vip_activation", blocked: true },
   { phrases: ["activate institutional", "fake institutional"], intent: "fake_institutional_activation", blocked: true },
   { phrases: ["publish social", "post to"], intent: "publish_social", blocked: true },
   { phrases: ["legal advice"], intent: "provide_legal_advice", blocked: true },
   { phrases: ["financial advice", "what should i buy", "should i trade"], intent: "provide_financial_advice", blocked: true },
+  { phrases: ["start me", "i want to start", "get started", "أريد أبدأ"], intent: "open_workspace_request", blocked: false },
+  { phrases: ["open workspace", "open the workspace", "open chart", "open the chart", "افتح الشارت"], intent: "open_workspace_request", blocked: false },
   { phrases: ["make it calmer", "calmer", "less noise", "اجعل المنصة أهدأ", "أهدأ"], intent: "personal_reality_calm", blocked: false },
   { phrases: ["focus mode", "focus", "أريد تركيز", "تركيز"], intent: "personal_reality_focus", blocked: false },
   { phrases: ["bigger chart", "larger chart", "chart bigger", "أريد شارت أكبر", "شارت أكبر"], intent: "personal_reality_chart_comfort", blocked: false },
   { phrases: ["reduce motion", "low motion", "قلل الحركة"], intent: "personal_reality_low_motion", blocked: false },
   { phrases: ["static mode", "static", "dark mode", "night mode", "أريد وضع ليلي"], intent: "personal_reality_static", blocked: false },
   { phrases: ["high contrast", "more contrast"], intent: "personal_reality_high_contrast", blocked: false },
+  { phrases: ["reset experience", "restore defaults", "reset interface"], intent: "reset_experience", blocked: false },
+  { phrases: ["mobile app", "desktop app", "apps", "platforms", "where is the mobile app"], intent: "guide_to_apps_platforms", blocked: false },
+  { phrases: ["support", "contact support", "report a problem"], intent: "guide_to_support", blocked: false },
+  { phrases: ["academy", "help me learn", "teach me"], intent: "learning_help", blocked: false },
   { phrases: ["learning mode", "teach me more", "أريد تعليم أكثر"], intent: "personal_reality_learning", blocked: false },
   { phrases: ["why locked", "why is this locked", "لماذا هذا مقفل"], intent: "personal_reality_explain_locked", blocked: false },
   { phrases: ["vip"], intent: "explain_plan_access", blocked: false },

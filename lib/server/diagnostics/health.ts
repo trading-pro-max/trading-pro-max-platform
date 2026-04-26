@@ -105,6 +105,10 @@ import { getEarthRealityDiagnosticsProbe } from "@/lib/server/earth-reality";
 import { getPersonalRealityDiagnosticsProbe } from "@/lib/server/personal-reality";
 import { getDeviceDiagnosticsProbe } from "@/lib/server/devices";
 import {
+  getIntentInterfaceDiagnosticsProbe,
+  getIntentInterfaceReadinessSnapshot,
+} from "@/lib/server/intent-interface";
+import {
   buildFinalMarketParitySnapshot,
   getFinalMarketParityDiagnosticsProbe,
 } from "@/lib/server/parity";
@@ -1484,6 +1488,9 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
   const earthRealityProbe = getEarthRealityDiagnosticsProbe(checkedAt);
   const personalRealityProbe = getPersonalRealityDiagnosticsProbe(checkedAt);
   const deviceReadinessProbe = getDeviceDiagnosticsProbe(checkedAt);
+  const intentInterfaceReadiness =
+    getIntentInterfaceReadinessSnapshot(checkedAt);
+  const intentInterfaceProbe = getIntentInterfaceDiagnosticsProbe(checkedAt);
 
   return {
     ...baseHealth,
@@ -1510,6 +1517,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       earthRealityProbe,
       personalRealityProbe,
       deviceReadinessProbe,
+      intentInterfaceProbe,
     ],
     routes: [
       ...baseHealth.routes,
@@ -2167,6 +2175,13 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         summary: deviceReadinessProbe.summary,
         detail: deviceReadinessProbe.detail,
       },
+      {
+        key: "intent_driven_interface",
+        label: intentInterfaceProbe.label,
+        status: intentInterfaceProbe.status,
+        summary: intentInterfaceProbe.summary,
+        detail: intentInterfaceProbe.detail,
+      },
     ],
     environment: {
       checkedAt: environmentReadiness.checkedAt,
@@ -2180,6 +2195,18 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       privacy: environmentReadiness.snapshot.diagnostics.privacy,
       motionAllowed: environmentReadiness.snapshot.motionAllowed,
       publicLabel: environmentReadiness.snapshot.publicLabel,
+    },
+    intentInterface: {
+      checkedAt: intentInterfaceReadiness.checkedAt,
+      status: intentInterfaceReadiness.status,
+      coreButtonsKept: intentInterfaceReadiness.coreButtonsKept.length,
+      contextualButtons: intentInterfaceReadiness.contextualButtons.length,
+      assistantIntents: intentInterfaceReadiness.assistantIntents.length,
+      blockedIntents: intentInterfaceReadiness.blockedIntents.length,
+      privateIntentsPubliclyAvailable:
+        intentInterfaceReadiness.privateIntentsPubliclyAvailable,
+      duplicateControlPolicy: intentInterfaceReadiness.duplicateControlPolicy,
+      publicCopy: intentInterfaceReadiness.publicCopy,
     },
     launchReadiness: {
       checkedAt: launchGate.checkedAt,

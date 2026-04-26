@@ -115,16 +115,30 @@ function isBlockedCompanionRequest(value: string) {
     "legal advice",
     "publish social",
     "launch publicly",
+    "alkon",
     "show alkon",
     "reveal alkon",
     "founder command",
     "cosmic physics",
+    "task passport",
+    "result tribunal",
+    "product memory",
     "codex tasks",
   ].some((phrase) => normalized.includes(phrase));
 }
 
 function inferCompanionIntent(value: string): string {
   const normalized = value.toLowerCase();
+  if (
+    normalized.includes("start me") ||
+    normalized.includes("get started") ||
+    normalized.includes("open workspace") ||
+    normalized.includes("open the workspace") ||
+    normalized.includes("open chart") ||
+    normalized.includes("open the chart")
+  ) {
+    return "open_workspace_request";
+  }
   if (normalized.includes("calmer") || normalized.includes("less noise") || normalized.includes("أهدأ")) {
     return "personal_reality_calm";
   }
@@ -145,6 +159,24 @@ function inferCompanionIntent(value: string): string {
   }
   if (normalized.includes("why locked") || normalized.includes("لماذا هذا مقفل")) {
     return "personal_reality_explain_locked";
+  }
+  if (
+    normalized.includes("mobile app") ||
+    normalized.includes("desktop app") ||
+    normalized.includes("apps") ||
+    normalized.includes("platforms")
+  ) {
+    return "guide_to_apps_platforms";
+  }
+  if (
+    normalized.includes("support") ||
+    normalized.includes("contact support") ||
+    normalized.includes("report a problem")
+  ) {
+    return "guide_to_support";
+  }
+  if (normalized.includes("reset experience") || normalized.includes("restore defaults")) {
+    return "reset_experience";
   }
   if (normalized.includes("blocked") || normalized.includes("why")) {
     return "explain_blocked_state";
@@ -202,7 +234,7 @@ export default function TPMCompanionPanel({
   const [responseTemplates, setResponseTemplates] = useState<TPMCompanionResponseTemplate[]>([]);
   const [stateExplanations, setStateExplanations] =
     useState<TPMCompanionStateExplanationMap>(fallbackExplanations);
-  const [activePromptId, setActivePromptId] = useState("calm");
+  const [activePromptId, setActivePromptId] = useState("start");
   const [loadState, setLoadState] = useState<"loading" | "ready" | "fallback">("loading");
   const assistantSnapshot = getAssistantTierSnapshot("evaluation");
   const planSnapshot = getPlanEntitlementSnapshot("demo_free");
@@ -270,6 +302,15 @@ export default function TPMCompanionPanel({
             ? "This workspace is paper-safe. Live execution, real money, broker activation, billing, launch, and social publishing remain blocked or inactive."
             : "This surface is using bounded readiness context. Check diagnostics before trusting any operational state.",
       },
+      start: {
+        id: "response-start",
+        role: "companion",
+        state: "ready",
+        title: "Start with the workspace",
+        body:
+          "Use Trading Workspace to start in the chart-first web terminal. It is paper-safe: live execution, real money, broker/feed activation, billing, and launch remain inactive.",
+        safeNextStep: "Enter the workspace, then ask me for Bigger chart, Calmer, Journal, or Why blocked.",
+      },
       blocked: {
         id: "response-blocked",
         role: "companion",
@@ -314,6 +355,15 @@ export default function TPMCompanionPanel({
         body:
           "Write what you are rehearsing in paper mode, what would make you pause, and one thing you want to learn. Keep it educational and non-advisory.",
         safeNextStep: "Use Journal/Coach for reflection, not outcome promises.",
+      },
+      support: {
+        id: "response-support",
+        role: "companion",
+        state: "ready",
+        title: "Support path",
+        body:
+          "Support can guide Help Center, Contact Support readiness, Report a Problem, Security Contact, and Partnership Contact. This build does not send email or fake ticket creation.",
+        safeNextStep: "Open Support or ask me to draft a safe report.",
       },
       calm: {
         id: "response-calm",
@@ -431,13 +481,13 @@ export default function TPMCompanionPanel({
   };
 
   const prompts: TPMCompanionPrompt[] = [
-    { id: "calm", label: "Calmer", response: promptResponses.calm },
-    { id: "focus", label: "Focus", response: promptResponses.focus },
+    { id: "start", label: "Start", response: promptResponses.start },
+    { id: "blocked", label: "Why blocked?", response: promptResponses.blocked },
     { id: "chart", label: "Bigger chart", response: promptResponses.chart },
-    { id: "lowMotion", label: "Low motion", response: promptResponses.lowMotion },
-    { id: "static", label: "Static", response: promptResponses.static },
+    { id: "calm", label: "Calmer", response: promptResponses.calm },
     { id: "plan", label: "Plans", response: promptResponses.plan },
-    { id: "locked", label: "Why locked?", response: promptResponses.locked },
+    { id: "journal", label: "Journal", response: promptResponses.journal },
+    { id: "support", label: "Support", response: promptResponses.support },
   ];
   const activePrompt = prompts.find((prompt) => prompt.id === activePromptId) ?? prompts[0];
   const messages: TPMCompanionMessage[] = [
@@ -448,7 +498,7 @@ export default function TPMCompanionPanel({
       title: "Paper-safe workspace guidance",
       body: `I can explain ${formatRoute(
         context?.route ?? route
-      )}, plan status, blocked states, Journal/Coach, diagnostics, and feedback. I cannot execute trades or activate live, money, broker, feed, billing, credentials, publishing, or launch.`,
+      )}, plan status, blocked states, Journal/Coach, apps, support, diagnostics, and safe experience settings. I cannot execute trades or activate live, money, broker, feed, billing, credentials, publishing, or launch.`,
     },
     activePrompt.response,
     ...chatMessages,

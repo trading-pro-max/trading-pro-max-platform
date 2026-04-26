@@ -1357,6 +1357,32 @@ export function PlatformDiagnosticsSurface({
       note: "The assistant cannot execute trades, activate live mode, configure broker/feed, or unlock billing.",
     },
   ];
+  const intentInterfaceItems = [
+    {
+      label: "Core buttons",
+      value: "Kept",
+      tone: "approved" as const,
+      note: "Home, Trading Workspace, Markets, Plans, Apps / Platforms, Academy, Support, Settings, Diagnostics, and Sign in remain direct.",
+    },
+    {
+      label: "Assistant intents",
+      value: "Secondary controls",
+      tone: "approved" as const,
+      note: "Calmer, Bigger chart, Plans, Apps, Support, Journal, and Why blocked route through TPM Assistant.",
+    },
+    {
+      label: "Blocked intents",
+      value: "Guarded",
+      tone: "blocked" as const,
+      note: "Signals, live activation, real money, billing, broker/feed, secrets, social publishing, and private systems stay blocked.",
+    },
+    {
+      label: "Duplicate controls",
+      value: "Reduced",
+      tone: "approved" as const,
+      note: "Repeated explanation buttons move into Assistant or compact Diagnostics instead of crowding the shell.",
+    },
+  ];
   const designMinistryProbe = diagnosticsHealth?.probes.find(
     (probe) => probe.key === "visual_identity_platform_design"
   );
@@ -2034,6 +2060,10 @@ export function PlatformDiagnosticsSurface({
         <UtilityGrid items={companionReadinessItems} />
       </UtilitySection>
 
+      <UtilitySection eyebrow="INTENT INTERFACE" title="Assistant-first interface readiness">
+        <UtilityGrid items={intentInterfaceItems} />
+      </UtilitySection>
+
       <UtilitySection eyebrow="VISUAL DESIGN" title="Plan identity and platform design">
         <UtilityGrid items={designMinistryItems} />
       </UtilitySection>
@@ -2428,6 +2458,27 @@ export function PlatformSettingsSurface({
     },
   ];
 
+  const settingsIntentInterfaceItems = [
+    {
+      label: "Essential buttons",
+      value: "Direct",
+      tone: "approved" as const,
+      note: "Navigation, sign-in, paper execution, Settings, and Diagnostics stay visible for fast access.",
+    },
+    {
+      label: "Ask TPM Assistant",
+      value: "Intent-first",
+      tone: "approved" as const,
+      note: "Use Assistant for calmer workspace, bigger chart, plan questions, apps, support, Journal/Coach guidance, and blocked-state explanations.",
+    },
+    {
+      label: "Manual backup",
+      value: "Settings remain",
+      tone: "pending" as const,
+      note: "Settings stays the backup control center for environment, accessibility, Personal Reality, Assistant, and Product Truth.",
+    },
+  ];
+
   const settingsDeviceReadinessItems = [
     {
       label: "Web App",
@@ -2567,6 +2618,10 @@ export function PlatformSettingsSurface({
 
       <UtilitySection eyebrow="PERSONAL REALITY" title="Personal Reality / Experience">
         <UtilityGrid items={settingsPersonalRealityItems} />
+      </UtilitySection>
+
+      <UtilitySection eyebrow="ASSISTANT-FIRST" title="Intent controls and backup settings">
+        <UtilityGrid items={settingsIntentInterfaceItems} />
       </UtilitySection>
 
       <UtilitySection eyebrow="APPS / PLATFORMS" title="Device readiness">
