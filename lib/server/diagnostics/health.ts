@@ -103,6 +103,7 @@ import {
 } from "@/lib/server/environment";
 import { getEarthRealityDiagnosticsProbe } from "@/lib/server/earth-reality";
 import { getPersonalRealityDiagnosticsProbe } from "@/lib/server/personal-reality";
+import { getDeviceDiagnosticsProbe } from "@/lib/server/devices";
 import {
   buildFinalMarketParitySnapshot,
   getFinalMarketParityDiagnosticsProbe,
@@ -1482,6 +1483,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     getPlanetaryEnvironmentDiagnosticsProbe(checkedAt);
   const earthRealityProbe = getEarthRealityDiagnosticsProbe(checkedAt);
   const personalRealityProbe = getPersonalRealityDiagnosticsProbe(checkedAt);
+  const deviceReadinessProbe = getDeviceDiagnosticsProbe(checkedAt);
 
   return {
     ...baseHealth,
@@ -1507,9 +1509,31 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       essentialIntegrationsProbe,
       earthRealityProbe,
       personalRealityProbe,
+      deviceReadinessProbe,
     ],
     routes: [
       ...baseHealth.routes,
+      {
+        path: "/api/devices/public",
+        method: "GET",
+        status: deviceReadinessProbe.status,
+        detail:
+          "Public device registry reports Web current, Desktop planned, Mobile planned, and Tablet future without private device names, fake downloads, or store claims.",
+      },
+      {
+        path: "/api/devices/readiness",
+        method: "GET",
+        status: deviceReadinessProbe.status,
+        detail:
+          "Device readiness route reports public-safe Apps / Platforms truth without app publishing, installers, secrets, or execution.",
+      },
+      {
+        path: "/api/founder/devices/readiness",
+        method: "GET",
+        status: deviceReadinessProbe.status,
+        detail:
+          "Founder device readiness route reports public and private device constellation status read-only without secrets or execution.",
+      },
       {
         path: "/api/earth-reality/status",
         method: "GET",
@@ -2135,6 +2159,13 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         status: personalRealityProbe.status,
         summary: personalRealityProbe.summary,
         detail: personalRealityProbe.detail,
+      },
+      {
+        key: "multi_device_reality",
+        label: deviceReadinessProbe.label,
+        status: deviceReadinessProbe.status,
+        summary: deviceReadinessProbe.summary,
+        detail: deviceReadinessProbe.detail,
       },
     ],
     environment: {

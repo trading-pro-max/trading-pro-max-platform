@@ -30,6 +30,11 @@ const heroSignals = [
     note: "Use the browser app for workspace, settings, and diagnostics.",
   },
   {
+    label: "Devices",
+    value: "Web now",
+    note: "Desktop and Mobile are planned; Tablet is future. No fake downloads.",
+  },
+  {
     label: "Live inactive",
     value: "Blocked",
     note: "No broker, billing, or real-money activation is enabled.",

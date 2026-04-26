@@ -7927,3 +7927,67 @@ html[data-theme="light"] .tpmv2-execution {
     transition: none !important;
   }
 }
+
+/* Multi-device reality */
+.tpm-device-public-grid .tpm-device-card {
+  display: grid;
+  gap: 10px;
+}
+
+.tpm-device-truth-row {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tpm-device-truth-row span {
+  background: color-mix(in srgb, var(--tpm-accent) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--tpm-accent) 20%, var(--tpm-border));
+  border-radius: 999px;
+  color: var(--tpm-text);
+  font-size: 10px;
+  padding: 4px 8px;
+  text-transform: capitalize;
+}
+
+.tpm-device-card small {
+  color: var(--tpm-text-soft);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.tpm-device-cta-row {
+  margin-top: 14px;
+}
+
+.tpm-device-cta-row [aria-disabled="true"] {
+  cursor: default;
+  opacity: 0.72;
+}
+
+.alkon-device-constellation,
+.alkon-device-constellation .tpm-founder-subpanel,
+.alkon-pocket-universe-panel,
+.alkon-device-security-panel,
+.alkon-device-continuity-panel {
+  border-color: color-mix(in srgb, var(--tpm-brand-gold) 20%, var(--tpm-border));
+}
+
+.alkon-device-grid,
+.alkon-device-constellation-grid {
+  margin-top: 14px;
+}
+
+.alkon-device-list {
+  display: grid;
+  gap: 7px;
+  margin: 12px 0 0;
+  padding-inline-start: 18px;
+}
+
+.alkon-device-list li {
+  color: var(--tpm-text-soft);
+  font-size: 12px;
+  line-height: 1.45;
+}

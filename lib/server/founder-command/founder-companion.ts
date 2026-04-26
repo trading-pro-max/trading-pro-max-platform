@@ -18,6 +18,7 @@ import { getFinalConvergenceSnapshot } from "@/lib/server/final-convergence";
 import { getPlanetaryEnvironmentReadinessSnapshot } from "@/lib/server/environment";
 import { getEarthRealitySnapshot } from "@/lib/server/earth-reality";
 import { getPersonalRealityReadinessSnapshot } from "@/lib/server/personal-reality";
+import { getFounderDeviceReadinessSnapshot } from "@/lib/server/devices";
 import { getInvisibleOperatingLayerSnapshot } from "@/lib/server/invisible-operating-layer";
 import {
   getProductMemoryDailySummarySnapshot,
@@ -65,6 +66,7 @@ export type FounderPersonalCompanionSnapshot = {
   finalConvergenceSummary: string[];
   earthRealitySummary: string[];
   personalRealitySummary: string[];
+  deviceConstellationSummary: string[];
   realWorldLaunchReadinessSummary: string[];
   planetaryEnvironmentSummary: string[];
   invisibleOperatingLayerSummary: string[];
@@ -124,6 +126,7 @@ export function getFounderPersonalCompanionSnapshot(
     getPlanetaryEnvironmentReadinessSnapshot(checkedAt);
   const earthReality = getEarthRealitySnapshot(checkedAt);
   const personalReality = getPersonalRealityReadinessSnapshot(checkedAt);
+  const deviceConstellation = getFounderDeviceReadinessSnapshot(checkedAt);
   const publicRealms = getPublicPlanRealms();
   const privateRealm = getPrivateFounderRealm();
   const decisionMinistries = reporting.ministries.filter(
@@ -266,6 +269,12 @@ export function getFounderPersonalCompanionSnapshot(
       `${personalReality.plannedControls.length} professional/premium controls are planned and ${personalReality.futureControls.length} institutional controls are future.`,
       `Assistant-controlled: ${String(personalReality.assistantControlled)}; plan-aware: ${String(personalReality.planAware)}; Product Truth guarded: ${String(personalReality.productTruthGuarded)}.`,
       "Personal Reality previews and explains allowed settings only; it cannot unlock paid plans, activate live execution, expose private systems, or use weather/session as trading advice.",
+    ],
+    deviceConstellationSummary: [
+      `Multi-device readiness is ${deviceConstellation.status}: ${deviceConstellation.publicDevices.length} public apps and ${deviceConstellation.privateDevices.length} private command devices are modeled.`,
+      "Public Apps / Platforms truth remains Web current, Desktop planned, Mobile planned, and Tablet future with no fake downloads or store claims.",
+      "Private Alkon devices are internal-only, read-only, secret-free, and non-executing.",
+      `${deviceConstellation.blockedActions.length} hard-blocked actions apply across every device, including billing, broker/feed, live execution, real money, social publishing, secrets, and shell execution.`,
     ],
     realWorldLaunchReadinessSummary: [
       `Real-world readiness is ${realWorldLaunchReadiness.status}; launch gate is ${realWorldLaunchReadiness.gate.status}.`,

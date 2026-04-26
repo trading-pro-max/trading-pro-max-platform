@@ -2,6 +2,7 @@ import {
   getFounderCommandAppSnapshot,
   getFounderCommandRoomFoundationSnapshot,
 } from "@/lib/server/founder-command";
+import { getFounderDeviceReadinessSnapshot } from "@/lib/server/devices";
 import { getFounderIdeaInboxReadiness } from "@/lib/server/sovereign-autonomy";
 import TPMEarthMark from "@/modules/brand/components/TPMEarthMark";
 import ProductLogo from "@/modules/brand/components/ProductLogo";
@@ -14,6 +15,10 @@ import AlkonConvergenceScorePanel from "./AlkonConvergenceScorePanel";
 import AlkonFinalConvergencePanel from "./AlkonFinalConvergencePanel";
 import AlkonLayerGrowthPanel from "./AlkonLayerGrowthPanel";
 import AlkonNextSafeLayersPanel from "./AlkonNextSafeLayersPanel";
+import AlkonDeviceConstellationPanel from "./AlkonDeviceConstellationPanel";
+import AlkonPocketUniversePanel from "./AlkonPocketUniversePanel";
+import AlkonDeviceSecurityPanel from "./AlkonDeviceSecurityPanel";
+import AlkonDeviceContinuityPanel from "./AlkonDeviceContinuityPanel";
 import FounderApprovalQueue from "./FounderApprovalQueue";
 import FounderCommandAppShell from "./FounderCommandAppShell";
 import FounderIdeaInbox from "./FounderIdeaInbox";
@@ -40,6 +45,7 @@ export default function FounderCommandRoom({
   const commandSnapshot = snapshot ?? getFounderCommandRoomFoundationSnapshot();
   const appSnapshot = getFounderCommandAppSnapshot(commandSnapshot.checkedAt);
   const ideaInboxReadiness = getFounderIdeaInboxReadiness(commandSnapshot.checkedAt);
+  const deviceSnapshot = getFounderDeviceReadinessSnapshot(commandSnapshot.checkedAt);
 
   return (
     <PrivateFounderShell checkedAt={commandSnapshot.checkedAt}>
@@ -170,6 +176,14 @@ export default function FounderCommandRoom({
           </div>
         </div>
       </section>
+
+      <AlkonDeviceConstellationPanel snapshot={deviceSnapshot} />
+
+      <div className="alkon-command-grid alkon-device-constellation-grid">
+        <AlkonPocketUniversePanel snapshot={deviceSnapshot} />
+        <AlkonDeviceSecurityPanel snapshot={deviceSnapshot} />
+        <AlkonDeviceContinuityPanel snapshot={deviceSnapshot} />
+      </div>
 
       <FounderPlanetStatusMap checkedAt={commandSnapshot.checkedAt} />
 

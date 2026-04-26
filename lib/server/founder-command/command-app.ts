@@ -36,6 +36,7 @@ import { getFinalConvergenceSnapshot } from "@/lib/server/final-convergence";
 import { getPlanetaryEnvironmentReadinessSnapshot } from "@/lib/server/environment";
 import { getEarthRealitySnapshot } from "@/lib/server/earth-reality";
 import { getPersonalRealityReadinessSnapshot } from "@/lib/server/personal-reality";
+import { getFounderDeviceReadinessSnapshot } from "@/lib/server/devices";
 import { getInvisibleOperatingLayerSnapshot } from "@/lib/server/invisible-operating-layer";
 import {
   getContentReviewReadinessSnapshot,
@@ -185,6 +186,7 @@ export function getFounderCommandAppSnapshot(
     getPlanetaryEnvironmentReadinessSnapshot(checkedAt);
   const earthReality = getEarthRealitySnapshot(checkedAt);
   const personalReality = getPersonalRealityReadinessSnapshot(checkedAt);
+  const deviceConstellation = getFounderDeviceReadinessSnapshot(checkedAt);
 
   const desktopApp: FounderCommandDeviceBlueprint = {
     platform: "desktop",
@@ -380,6 +382,38 @@ export function getFounderCommandAppSnapshot(
       planAware: personalReality.planAware,
       productTruthGuarded: personalReality.productTruthGuarded,
       publicPrivateBoundaryStatus: personalReality.publicPrivateBoundaryStatus,
+    },
+    deviceConstellation: {
+      status: deviceConstellation.status,
+      publicDeviceCount: deviceConstellation.publicDevices.length,
+      privateDeviceCount: deviceConstellation.privateDevices.length,
+      publicDevices: deviceConstellation.publicDevices.map((device) => ({
+        deviceId: device.deviceId,
+        publicName: device.publicName,
+        availability: device.availability,
+        permissionLevel: device.permissionLevel,
+        installStatus: device.installStatus,
+        publicVisible: device.publicVisible,
+      })),
+      privateDevices: deviceConstellation.privateDevices.map((device) => ({
+        deviceId: device.deviceId,
+        publicName: device.publicName,
+        privateName: device.privateName,
+        availability: device.availability,
+        permissionLevel: device.permissionLevel,
+        securityPosture: device.securityPosture,
+        founderVisible: device.founderVisible,
+        publicVisible: device.publicVisible,
+        nextSafeAction: device.nextSafeAction,
+      })),
+      permissionRules: deviceConstellation.permissionRules,
+      securityReadiness: deviceConstellation.securityReadiness,
+      continuity: deviceConstellation.continuity,
+      publicExposure: deviceConstellation.publicExposure,
+      noExecution: deviceConstellation.noExecution,
+      noSecrets: deviceConstellation.noSecrets,
+      blockedActions: deviceConstellation.blockedActions,
+      nextSafeActions: deviceConstellation.nextSafeActions,
     },
     planetaryEnvironment: {
       status: planetaryEnvironment.status,

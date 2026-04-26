@@ -1254,6 +1254,33 @@ export function PlatformDiagnosticsSurface({
     },
   ];
 
+  const deviceReadinessItems = [
+    {
+      label: "Web App",
+      value: "Current",
+      tone: "approved" as const,
+      note: "Public entry and paper-safe Trading Workspace are available in the browser.",
+    },
+    {
+      label: "Desktop App",
+      value: "Planned",
+      tone: "pending" as const,
+      note: "Future desktop terminal readiness only; no installer or download claim.",
+    },
+    {
+      label: "Mobile App",
+      value: "Planned",
+      tone: "pending" as const,
+      note: "Future mobile companion readiness only; no store release, install package, or push claim.",
+    },
+    {
+      label: "Tablet App",
+      value: "Future",
+      tone: "pending" as const,
+      note: "Future learning and review surface; no separate tablet app is active.",
+    },
+  ];
+
   const planRealmItems = publicPlanRealms.map((realm) => ({
     label: `${realm.publicPlanName} experience`,
     value: realm.activationState,
@@ -1953,6 +1980,10 @@ export function PlatformDiagnosticsSurface({
         <UtilityGrid items={personalRealityItems} />
       </UtilitySection>
 
+      <UtilitySection eyebrow="DEVICES" title="Apps / Platforms device readiness">
+        <UtilityGrid items={deviceReadinessItems} />
+      </UtilitySection>
+
       <UtilitySection eyebrow="PLAN INTERFACE" title="Plan-based interface architecture">
         <PlanInterfaceSummary compact currentLayer="demo_free" />
       </UtilitySection>
@@ -2397,6 +2428,33 @@ export function PlatformSettingsSurface({
     },
   ];
 
+  const settingsDeviceReadinessItems = [
+    {
+      label: "Web App",
+      value: "Current",
+      tone: "approved" as const,
+      note: "Use the browser app today for the public product world and paper-safe workspace.",
+    },
+    {
+      label: "Desktop App",
+      value: "Planned",
+      tone: "pending" as const,
+      note: "Future desktop packaging only; no native installer or download button is active.",
+    },
+    {
+      label: "Mobile App",
+      value: "Planned",
+      tone: "pending" as const,
+      note: "Future mobile companion only; no store release, install package, or push activation is claimed.",
+    },
+    {
+      label: "Tablet App",
+      value: "Future",
+      tone: "pending" as const,
+      note: "Future review and learning surface; no separate tablet app is active.",
+    },
+  ];
+
   const onboardingItems = [
     {
       label: "Workspace orientation",
@@ -2509,6 +2567,10 @@ export function PlatformSettingsSurface({
 
       <UtilitySection eyebrow="PERSONAL REALITY" title="Personal Reality / Experience">
         <UtilityGrid items={settingsPersonalRealityItems} />
+      </UtilitySection>
+
+      <UtilitySection eyebrow="APPS / PLATFORMS" title="Device readiness">
+        <UtilityGrid items={settingsDeviceReadinessItems} />
       </UtilitySection>
 
       <UtilitySection eyebrow="ACCOUNT" title="Mode and persistence">
