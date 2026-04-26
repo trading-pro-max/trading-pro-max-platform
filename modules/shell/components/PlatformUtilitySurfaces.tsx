@@ -1167,6 +1167,49 @@ export function PlatformDiagnosticsSurface({
     note: `${realm.workspaceBehavior} ${realm.journalCoachDepth}`,
   }));
 
+  const realWorldLaunch = diagnosticsHealth?.realWorldLaunchReadiness;
+  const realWorldLaunchItems = realWorldLaunch
+    ? [
+        {
+          label: "Budget cap",
+          value: `${realWorldLaunch.monthlyTargetChf}/${realWorldLaunch.budgetCapChf} CHF`,
+          tone: "pending" as const,
+          note: "Future economical launch planning only; no purchase or account creation is active.",
+        },
+        {
+          label: "Waitlist",
+          value: "Planned",
+          tone: "pending" as const,
+          note: "Email capture requires privacy notice and provider review; no fake signup count.",
+        },
+        {
+          label: "Legal / support",
+          value: "Partial",
+          tone: "pending" as const,
+          note: "Risk, terms, support, and escalation policies need review before any beta or launch.",
+        },
+        {
+          label: "Billing",
+          value: "Inactive",
+          tone: "blocked" as const,
+          note: "No checkout, subscriptions, invoices, payment credentials, or paid entitlement activation.",
+        },
+        {
+          label: "Launch gate",
+          value: realWorldLaunch.gate,
+          tone: "blocked" as const,
+          note: "Final approval is required later; production and public launch stay inactive.",
+        },
+      ]
+    : [
+        {
+          label: "Real-world readiness",
+          value: "Loading",
+          tone: "pending" as const,
+          note: "Diagnostics is loading launch-readiness truth without activating launch.",
+        },
+      ];
+
   const companionReadinessItems = [
     {
       label: "Assistant tier",
@@ -1873,6 +1916,13 @@ export function PlatformDiagnosticsSurface({
 
       <UtilitySection eyebrow="LOCAL ONLY" title="Local-only review readiness">
         <UtilityGrid items={localDayOneItems} />
+      </UtilitySection>
+
+      <UtilitySection
+        eyebrow="REAL-WORLD READINESS"
+        title="Launch readiness gate"
+      >
+        <UtilityGrid items={realWorldLaunchItems} />
       </UtilitySection>
 
       <UtilitySection eyebrow="SERVICE MAP" title="Service readiness chain">

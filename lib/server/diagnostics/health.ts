@@ -94,6 +94,10 @@ import {
   getSoftLaunchPreparationDiagnosticsProbe,
 } from "@/lib/server/launch";
 import {
+  getRealWorldLaunchReadinessDiagnosticsProbe,
+  getRealWorldLaunchReadinessSnapshot,
+} from "@/lib/server/launch-readiness";
+import {
   buildFinalMarketParitySnapshot,
   getFinalMarketParityDiagnosticsProbe,
 } from "@/lib/server/parity";
@@ -1288,6 +1292,10 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       `Gate score ${launchGate.overall.score}/100 with ${launchGate.checklist.failedCount} failed checklist item(s), ${launchGate.overall.warnCount} warned domain(s), and ${launchGate.overall.failCount} failed domain(s).`,
     checkedAt,
   };
+  const realWorldLaunchReadiness =
+    getRealWorldLaunchReadinessSnapshot(checkedAt);
+  const realWorldLaunchProbe =
+    getRealWorldLaunchReadinessDiagnosticsProbe(checkedAt);
   const marketParitySnapshot = buildFinalMarketParitySnapshot({
     health: {
       ...baseHealth,
@@ -1464,6 +1472,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     probes: [
       ...baseHealth.probes,
       launchProbe,
+      realWorldLaunchProbe,
       marketParityProbe,
       productMemoryProbe,
       dailyOperationsProbe,
@@ -1489,6 +1498,20 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         status: launchProbe.status,
         detail:
           "Launch readiness route provides machine-checkable launch gate evidence and checklist truth.",
+      },
+      {
+        path: "/api/launch-readiness/status",
+        method: "GET",
+        status: realWorldLaunchProbe.status,
+        detail:
+          "Real-world launch readiness route reports budget, staging, waitlist, legal, support, beta, billing, rollback, and Founder decision gates without activating launch.",
+      },
+      {
+        path: "/api/founder/launch-readiness",
+        method: "GET",
+        status: realWorldLaunchProbe.status,
+        detail:
+          "Founder launch readiness route reports the same read-only gate with final decision and blocked activation truth.",
       },
       {
         path: "/api/parity/final",
@@ -1844,6 +1867,13 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         detail: launchProbe.detail,
       },
       {
+        key: "real_world_launch_readiness",
+        label: realWorldLaunchProbe.label,
+        status: realWorldLaunchProbe.status,
+        summary: realWorldLaunchProbe.summary,
+        detail: realWorldLaunchProbe.detail,
+      },
+      {
         key: "market_parity",
         label: marketParityProbe.label,
         status: marketParityProbe.status,
@@ -1977,6 +2007,24 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       score: launchGate.overall.score,
       failedChecklist: launchGate.checklist.failedCount,
       warnedDomains: launchGate.overall.warnCount,
+    },
+    realWorldLaunchReadiness: {
+      checkedAt: realWorldLaunchReadiness.checkedAt,
+      status: realWorldLaunchReadiness.status,
+      budgetCapChf: realWorldLaunchReadiness.budget.monthlyCapChf,
+      monthlyTargetChf:
+        realWorldLaunchReadiness.budget.initialOperatingTargetChf,
+      waitlist: realWorldLaunchReadiness.waitlist.status,
+      legal: realWorldLaunchReadiness.legal.status,
+      support: realWorldLaunchReadiness.support.status,
+      billing: realWorldLaunchReadiness.billing.status,
+      beta: realWorldLaunchReadiness.beta.status,
+      gate: realWorldLaunchReadiness.gate.status,
+      founderFinalDecisionRequired:
+        realWorldLaunchReadiness.gate.founderFinalDecisionRequired,
+      nextSafeAction: realWorldLaunchReadiness.gate.nextSafeAction,
+      publicLaunchActive:
+        realWorldLaunchReadiness.truth.launchActive,
     },
     marketParity: {
       checkedAt: marketParitySnapshot.checkedAt,

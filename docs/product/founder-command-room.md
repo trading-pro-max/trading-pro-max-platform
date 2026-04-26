@@ -75,6 +75,27 @@ The read-only command shell now renders more actionable briefing slices:
 
 This is still a component/contracts foundation, not a public page or native Founder app. No approval execution, public route, private data, secrets, fake users, fake revenue, fake metrics, launch action, billing action, broker/feed activation, social publishing, live execution, or real-money routing is exposed.
 
+## Real-World Launch Readiness Gate
+
+Founder Command now receives the read-only real-world launch readiness gate:
+
+- 250 CHF/month initial budget cap
+- staging readiness
+- waitlist readiness
+- legal readiness
+- support readiness
+- billing readiness blocked/planned
+- beta readiness
+- rollback readiness
+- launch gate status
+- blocked activations
+- next safe action
+- Founder final decision required
+
+This does not activate launch, production, billing, broker/feed, live execution,
+real money, social publishing, email sending, external accounts, payment
+credentials, or production secrets.
+
 ## Still Planned
 
 - private desktop Founder Command app

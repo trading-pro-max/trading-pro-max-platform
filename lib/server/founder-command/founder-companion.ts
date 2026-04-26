@@ -13,6 +13,7 @@ import {
   getLocalOperationsFinalReportSnapshot,
   getLocalOperationsReadinessSnapshot,
 } from "@/lib/server/local-ops";
+import { getRealWorldLaunchReadinessSnapshot } from "@/lib/server/launch-readiness";
 import { getInvisibleOperatingLayerSnapshot } from "@/lib/server/invisible-operating-layer";
 import {
   getProductMemoryDailySummarySnapshot,
@@ -57,6 +58,7 @@ export type FounderPersonalCompanionSnapshot = {
   insideOutsidePlanetSummary: string[];
   alkonUniverseSummary: string[];
   alkonCosmicPhysicsSummary: string[];
+  realWorldLaunchReadinessSummary: string[];
   invisibleOperatingLayerSummary: string[];
   localLivingDayLoopSummary: string[];
   founderIdeaInboxSummary: string[];
@@ -107,6 +109,8 @@ export function getFounderPersonalCompanionSnapshot(
   const founderIdeaInbox = getFounderIdeaInboxReadiness(checkedAt);
   const codexSovereignty = getCodexPresidencyReport(checkedAt);
   const alkonUniverse = getAlkonUniverseSnapshot(checkedAt);
+  const realWorldLaunchReadiness =
+    getRealWorldLaunchReadinessSnapshot(checkedAt);
   const publicRealms = getPublicPlanRealms();
   const privateRealm = getPrivateFounderRealm();
   const decisionMinistries = reporting.ministries.filter(
@@ -230,6 +234,13 @@ export function getFounderPersonalCompanionSnapshot(
       `${alkonUniverse.cosmicPhysics.registrySummary.planetOwners} planet/system owners, ${alkonUniverse.cosmicPhysics.registrySummary.satellites} satellites, ${alkonUniverse.cosmicPhysics.registrySummary.stations} stations, and ${alkonUniverse.cosmicPhysics.registrySummary.workers} workers are registered.`,
       `${alkonUniverse.cosmicPhysics.sampleTaskGraphs.length} sample task graphs prove source, energy, gravity, orbit, owner, satellite, station, worker, passport, Codex License, validation, tribunal, memory, and Founder report.`,
       "Cosmic Operating Physics remains private, read-only, status-only, and cannot execute shell commands, call Codex, expose secrets, activate billing, trade live, route real money, or publish.",
+    ],
+    realWorldLaunchReadinessSummary: [
+      `Real-world readiness is ${realWorldLaunchReadiness.status}; launch gate is ${realWorldLaunchReadiness.gate.status}.`,
+      `Initial budget target is ${realWorldLaunchReadiness.budget.initialOperatingTargetChf}/${realWorldLaunchReadiness.budget.monthlyCapChf} CHF per month.`,
+      `Waitlist ${realWorldLaunchReadiness.waitlist.status}, staging ${realWorldLaunchReadiness.infrastructure.status}, legal ${realWorldLaunchReadiness.legal.status}, support ${realWorldLaunchReadiness.support.status}, billing ${realWorldLaunchReadiness.billing.status}.`,
+      `Blocked activations: ${realWorldLaunchReadiness.founderCommand.blockedActivations.join(", ")}.`,
+      realWorldLaunchReadiness.gate.nextSafeAction,
     ],
     invisibleOperatingLayerSummary: [
       `${invisibleLayer.systems.length} invisible operating systems are mapped.`,

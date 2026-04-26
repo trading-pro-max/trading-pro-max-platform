@@ -699,6 +699,27 @@ export type DiagnosticsHealthSnapshot = {
     failedChecklist: number;
     warnedDomains: number;
   };
+  realWorldLaunchReadiness?: {
+    checkedAt: string;
+    status:
+      | "not_ready"
+      | "partial"
+      | "ready_for_waitlist"
+      | "ready_for_private_beta"
+      | "ready_for_soft_launch"
+      | "blocked";
+    budgetCapChf: 250;
+    monthlyTargetChf: number;
+    waitlist: "partial";
+    legal: "partial";
+    support: "partial";
+    billing: "blocked";
+    beta: "not_ready";
+    gate: "not_ready" | "partial" | "ready_for_waitlist" | "ready_for_private_beta" | "ready_for_soft_launch" | "blocked";
+    founderFinalDecisionRequired: true;
+    nextSafeAction: string;
+    publicLaunchActive: false;
+  };
   marketParity?: {
     checkedAt: string;
     mode: "final_market_parity_closure";

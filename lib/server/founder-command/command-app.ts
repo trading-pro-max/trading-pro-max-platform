@@ -31,6 +31,7 @@ import {
   getLocalOperationsFinalReportSnapshot,
   getLocalOperationsReadinessSnapshot,
 } from "@/lib/server/local-ops";
+import { getRealWorldLaunchReadinessSnapshot } from "@/lib/server/launch-readiness";
 import { getInvisibleOperatingLayerSnapshot } from "@/lib/server/invisible-operating-layer";
 import {
   getContentReviewReadinessSnapshot,
@@ -173,6 +174,8 @@ export function getFounderCommandAppSnapshot(
   const publicRealms = getPublicPlanRealms();
   const privateAlkonRealm = getPrivateFounderRealm();
   const alkonCommandUniverse = getAlkonUniverseSnapshot(checkedAt);
+  const realWorldLaunchReadiness =
+    getRealWorldLaunchReadinessSnapshot(checkedAt);
 
   const desktopApp: FounderCommandDeviceBlueprint = {
     platform: "desktop",
@@ -614,6 +617,25 @@ export function getFounderCommandAppSnapshot(
       recommendation: economyGrowth.finalAcceptance.recommendation,
       gapChecklist: economyGrowth.finalGapChecklist,
       nonLaunchRoadmap: economyGrowth.nonLaunchRoadmap,
+    },
+    realWorldLaunchReadiness: {
+      status: realWorldLaunchReadiness.status,
+      budgetCapChf: realWorldLaunchReadiness.budget.monthlyCapChf,
+      monthlyTargetChf:
+        realWorldLaunchReadiness.budget.initialOperatingTargetChf,
+      stagingReadiness: realWorldLaunchReadiness.infrastructure.status,
+      waitlistReadiness: realWorldLaunchReadiness.waitlist.status,
+      legalReadiness: realWorldLaunchReadiness.legal.status,
+      supportReadiness: realWorldLaunchReadiness.support.status,
+      billingReadiness: realWorldLaunchReadiness.billing.status,
+      betaReadiness: realWorldLaunchReadiness.beta.status,
+      launchGateStatus: realWorldLaunchReadiness.gate.status,
+      founderFinalDecisionRequired:
+        realWorldLaunchReadiness.gate.founderFinalDecisionRequired,
+      blockedActivations:
+        realWorldLaunchReadiness.founderCommand.blockedActivations,
+      nextSafeAction: realWorldLaunchReadiness.gate.nextSafeAction,
+      truth: realWorldLaunchReadiness.truth,
     },
     autonomousConstructionIntelligence: {
       readiness: "readiness_only" as const,
@@ -1076,6 +1098,15 @@ export function getFounderCommandAppSnapshot(
       "/api/founder/alkon-physics/readiness",
       "/api/founder/ideas/readiness",
       "/api/founder/ideas/preview",
+      "/api/founder/launch-readiness",
+      "/api/launch-readiness/status",
+      "/api/launch-readiness/budget",
+      "/api/launch-readiness/waitlist",
+      "/api/launch-readiness/legal",
+      "/api/launch-readiness/support",
+      "/api/launch-readiness/billing",
+      "/api/launch-readiness/beta",
+      "/api/launch-readiness/gate",
       "/api/invisible-operating-layer/readiness",
       "/api/founder/sovereign-autonomy/readiness",
       "/api/founder/codex-sovereignty/readiness",
