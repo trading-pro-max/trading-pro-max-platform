@@ -57,3 +57,31 @@ Safety:
 
 - No live execution, real money, broker/feed, billing, production, shell execution, direct Codex execution, public Alkon exposure, generated images, or raster app assets were introduced.
 - Local Day One was not started; visual acceptance remains required.
+
+## 2026-04-26 - Public Shell Topbar Cleanup + Earth Presence Visual Correction
+
+Mission executed locally in code/CSS/tests/reports only.
+
+Actions:
+
+- Audited public header crowding across PublicAppShell, ShellNavigation, ShellControls, ShellStatusBadges, PublicProductEntry, PlatformUtilitySurfaces, and theme-localization CSS.
+- Removed public header language, theme, adaptive atmosphere, Settings/Diagnostics utility links, readiness badge cluster, clock, and pulse.
+- Kept the public topbar as orientation only: compact Pro Max logo, Home, Trading Workspace, Markets, Plans, Apps / Platforms, Academy, Support, and Sign in.
+- Preserved Settings as the control home for language, theme, adaptive atmosphere, weather theme, privacy, and environment controls.
+- Simplified Home hero to Pro Max Trading, calm Earth-native paper-safe copy, Enter workspace, and Ask Pro Max Assistant.
+- Moved Product Truth below the hero and strengthened Home's CSS-only Earth horizon, atmosphere, depth, terminator, and city-light layers.
+- Added regression proof and required screenshots under `test-results/public-shell-earth-visual-correction/`.
+
+Validation:
+
+- TypeScript passed.
+- ESLint passed.
+- Build passed.
+- Prisma validate passed.
+- Regression passed with 187 tests.
+- Route smoke passed.
+- Diff check passed.
+
+Safety:
+
+- No live execution, real money, broker/feed, billing, production activation, social publishing, generated images, raster assets, public Alkon exposure, fake claims, public number-one/global/regulated claims, or restricted control exposure were introduced.

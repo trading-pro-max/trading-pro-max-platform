@@ -14,6 +14,7 @@ type ShellControlsProps = {
   settingsHref: string;
   settingsLabel?: string;
   showAuth?: boolean;
+  showExperienceControls?: boolean;
   showUtilities?: boolean;
   variant: "public" | "workspace";
 };
@@ -26,6 +27,7 @@ export default function ShellControls({
   settingsHref,
   settingsLabel = "Settings",
   showAuth = true,
+  showExperienceControls = true,
   showUtilities = true,
   variant,
 }: ShellControlsProps) {
@@ -54,9 +56,13 @@ export default function ShellControls({
         />
       ) : null}
 
-      <ThemeSwitcher label="Theme" />
-      <EnvironmentModeControl label="Adaptive Atmosphere" />
-      <LanguageSwitcher locale={locale} label="Language" />
+      {showExperienceControls ? (
+        <>
+          <ThemeSwitcher label="Theme" />
+          <EnvironmentModeControl label="Adaptive Atmosphere" />
+          <LanguageSwitcher locale={locale} label="Language" />
+        </>
+      ) : null}
     </div>
   );
 }

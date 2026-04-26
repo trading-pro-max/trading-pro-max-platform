@@ -75,7 +75,10 @@ export default function LivingEarthBackground({
       <div className="tpm-living-earth-realm-atmosphere" data-earth-realm={realmId} />
       <div className="tpm-living-earth-realm-orbit" data-earth-realm={realmId} />
       <div className="tpm-living-earth-horizon">
+        <div className="tpm-living-earth-atmosphere-arc" />
         <div className="tpm-living-earth-globe" />
+        <div className="tpm-living-earth-terminator" />
+        <div className="tpm-living-earth-city-lights" />
         <div className="tpm-living-earth-continent tpm-living-earth-continent-a" />
         <div className="tpm-living-earth-continent tpm-living-earth-continent-b" />
         <div className="tpm-living-earth-continent tpm-living-earth-continent-c" />

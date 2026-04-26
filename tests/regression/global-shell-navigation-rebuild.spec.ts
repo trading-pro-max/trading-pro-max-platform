@@ -34,7 +34,21 @@ async function screenshotLocator(page: Page, selector: string, fileName: string)
   }
 }
 
-async function expectSharedControlsOnce(page: Page, shellSelector: string) {
+async function expectPublicHeaderMinimal(page: Page, shellSelector: string) {
+  const shell = page.locator(shellSelector).first();
+  const shellControls = shell.locator(".tpm-shell-controls").first();
+  const header = shell.locator(".tpm-foundation-nav-shell").first();
+
+  await expect(shellControls).toHaveCount(1);
+  await expect(shellControls.locator(".tpm-auth-panel-nav")).toHaveCount(1);
+  await expect(header.locator(".tpm-locale-select")).toHaveCount(0);
+  await expect(header.locator(".tpm-theme-switcher")).toHaveCount(0);
+  await expect(header.locator(".tpm-environment-control")).toHaveCount(0);
+  await expect(header.locator(".tpm-shell-utility-link")).toHaveCount(0);
+  await expect(header.locator(".tpm-shell-status-badge")).toHaveCount(0);
+}
+
+async function expectWorkspaceControlsOnce(page: Page, shellSelector: string) {
   const shellControls = page.locator(shellSelector).first().locator(".tpm-shell-controls").first();
 
   await expect(shellControls).toHaveCount(1);
@@ -59,15 +73,16 @@ test.describe("global shell and navigation rebuild", () => {
     await expect(page.locator(".tpm-terminal-topbar")).toHaveCount(0);
     await expect(page.locator(".tpm-public-nav")).toHaveCount(1);
     await expect(page.locator("body")).not.toContainText(PUBLIC_FORBIDDEN_TERMS);
-    await expectSharedControlsOnce(page, ".tpm-public-shell");
+    await expectPublicHeaderMinimal(page, ".tpm-public-shell");
 
     const publicNav = await page.locator(".tpm-foundation-nav-shell").innerText();
     expect(publicNav).toMatch(
-      /Home|Trading Workspace|Markets|Plans|Apps \/ Platforms|Academy|Community|Support|Settings|Diagnostics/
+      /Home|Trading Workspace|Markets|Plans|Apps \/ Platforms|Academy|Support|Sign in/
     );
+    expect(publicNav).not.toMatch(/Community|Settings|Diagnostics|Language|Theme|Adaptive Atmosphere|Paper-safe|Web current|Live inactive/);
     await expect(page.locator(".tpm-foundation-nav-brand")).toHaveCount(1);
     await expect(page.locator(".tpm-foundation-nav-brand .tpm-earth-mark-compact")).toHaveCount(1);
-    await expect(page.locator(".tpm-shell-status-public .tpm-shell-status-badge")).toHaveCount(3);
+    await expect(page.locator(".tpm-shell-status-public .tpm-shell-status-badge")).toHaveCount(0);
 
     await page.screenshot({
       fullPage: true,
@@ -98,7 +113,7 @@ test.describe("global shell and navigation rebuild", () => {
     await expect(page.locator(".tpm-terminal-topbar .tpm-foundation-nav-brand")).toHaveCount(1);
     await expect(page.locator(".tpm-terminal-topbar .tpm-brand-lockup")).toHaveCount(1);
     await expect(page.locator(".tpm-terminal-topbar .tpm-shell-status-badge", { hasText: "Paper-safe" })).toHaveCount(1);
-    await expectSharedControlsOnce(page, ".tpm-terminal-topbar");
+    await expectWorkspaceControlsOnce(page, ".tpm-terminal-topbar");
     await expect(page.locator("body")).not.toContainText(PUBLIC_FORBIDDEN_TERMS);
 
     const terminalBox = await page.locator(".tpm-terminal-topbar").boundingBox();
@@ -127,13 +142,16 @@ test.describe("global shell and navigation rebuild", () => {
     await openWithTheme(page, "/en/settings", "dark");
     await expect(page.locator('[data-shell-mode="public"]')).toHaveCount(1);
     await expect(page.locator(".tpm-terminal-topbar")).toHaveCount(0);
-    await expectSharedControlsOnce(page, ".tpm-public-shell");
+    await expectPublicHeaderMinimal(page, ".tpm-public-shell");
+    await expect(page.locator(".tpm-utility-page-settings .tpm-theme-switcher")).toHaveCount(1);
+    await expect(page.locator(".tpm-utility-page-settings .tpm-locale-select")).toHaveCount(1);
+    await expect(page.locator(".tpm-utility-page-settings .tpm-environment-control")).toHaveCount(1);
     await screenshotLocator(page, ".tpm-public-shell", "settings-shell.png");
 
     await openWithTheme(page, "/en/diagnostics", "dark");
     await expect(page.locator('[data-shell-mode="public"]')).toHaveCount(1);
     await expect(page.locator(".tpm-terminal-topbar")).toHaveCount(0);
-    await expectSharedControlsOnce(page, ".tpm-public-shell");
+    await expectPublicHeaderMinimal(page, ".tpm-public-shell");
     await screenshotLocator(page, ".tpm-public-shell", "diagnostics-shell.png");
 
     await openWithTheme(page, "/ar", "dark");

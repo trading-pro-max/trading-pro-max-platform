@@ -2,19 +2,30 @@
 
 Recommended next command:
 
-Run Ahmad visual acceptance for Living Market Core and Local Day One readiness.
+Run Ahmad visual acceptance for Public Shell Topbar Cleanup + Earth Presence Visual Correction.
 
 Reason:
 
-The workspace is now chart-first, paper-safe, terminal-only, and visually proven across dark, light, ultrawide, RTL, static, and high-contrast modes. Station 1 still needs human visual acceptance before Local Day One can be treated as accepted.
+The public Home topbar is now orientation-only, language/theme/environment controls live in Settings, Product Truth is below the hero, and the Home hero has stronger CSS-only Earth presence across dark, light, and RTL proof.
+
+Review:
+
+- `test-results/public-shell-earth-visual-correction/public-topbar-clean.png`
+- `test-results/public-shell-earth-visual-correction/public-topbar-no-language.png`
+- `test-results/public-shell-earth-visual-correction/home-dark-earth-presence.png`
+- `test-results/public-shell-earth-visual-correction/home-light-earth-presence.png`
+- `test-results/public-shell-earth-visual-correction/hero-essential-ctas.png`
+- `test-results/public-shell-earth-visual-correction/settings-language-theme-controls.png`
+- `test-results/public-shell-earth-visual-correction/rtl-public-home.png`
+- `test-results/public-shell-earth-visual-correction/no-alkon-public-leak.png`
 
 Next safe scope:
 
-- review `test-results/living-market-core-rebuild/workspace-dark.png`
-- review chart focus and execution rail proof
-- confirm Assistant dock and Journal/Coach dock feel secondary
-- record Ahmad acceptance or specific polish notes
-- keep Product Truth and public/private boundaries unchanged
+- record Ahmad acceptance or exact remaining visual blockers
+- keep public topbar minimal
+- keep Settings as the secondary control surface
+- keep Home calm, paper-safe, and Earth-native
+- keep Alkon private
 
 Blocked:
 

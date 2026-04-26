@@ -4,7 +4,6 @@ import LivingEarthBackground from "../../brand/components/LivingEarthBackground"
 import LocalizedEarthFocus from "../../brand/components/LocalizedEarthFocus";
 import ProductLogo from "../../brand/components/ProductLogo";
 import TPMEarthMark from "../../brand/components/TPMEarthMark";
-import EnvironmentStatusBadge from "../../shell/components/EnvironmentStatusBadge";
 import PublicAcademySection from "./PublicAcademySection";
 import PublicAppsPlatformsSection from "./PublicAppsPlatformsSection";
 import PublicCommunitySection from "./PublicCommunitySection";
@@ -20,39 +19,29 @@ type PublicProductEntryProps = {
 
 const heroSignals = [
   {
-    label: "Paper-safe",
-    value: "Current",
-    note: "Start in the web workspace without live routing.",
+    label: "Earth reference",
+    value: "Human scale",
+    note: "The public experience uses time, place, motion, and privacy without precise location tracking.",
   },
   {
-    label: "Web available",
-    value: "Now",
-    note: "Use the browser app for workspace, settings, and diagnostics.",
+    label: "Paper mode",
+    value: "Safe start",
+    note: "Use the chart-first workspace for rehearsal, learning, and review.",
   },
   {
-    label: "Devices",
-    value: "Web now",
-    note: "Desktop and Mobile are planned; Tablet is future. No fake downloads.",
-  },
-  {
-    label: "Live inactive",
-    value: "Blocked",
-    note: "No broker, billing, or real-money activation is enabled.",
-  },
-  {
-    label: "Personal Reality",
-    value: "User controlled",
-    note: "Calm, chart comfort, low motion, static, and high contrast are plan-aware.",
+    label: "Live routing",
+    value: "Inactive",
+    note: "No broker, feed activation, billing, or real-money path is enabled.",
   },
 ];
 
 const trustStates = [
   {
-    label: "Free",
+    label: "Mode",
     value: "Paper-safe",
   },
   {
-    label: "Apps",
+    label: "Platform",
     value: "Web current",
   },
   {
@@ -153,14 +142,8 @@ export default function PublicProductEntry({
         >
           <LivingEarthBackground surface="public_entry" plan="free" state="paper_safe" />
           <div className="tpm-product-kicker-row">
-            <span className="tpm-product-kicker">Trading workspace</span>
-            <div className="tpm-product-chip-row">
-              <span className="tpm-product-chip">Paper-safe</span>
-              <span className="tpm-product-chip">Adaptive Atmosphere</span>
-              <span className="tpm-product-chip">Personal Reality</span>
-              <span className="tpm-product-chip">Web available</span>
-              <span className="tpm-product-chip">Live inactive</span>
-            </div>
+            <span className="tpm-product-kicker">Pro Max public home</span>
+            <LocalizedEarthFocus locale="en" surface="public_entry" />
           </div>
 
           <div className="tpm-product-hero-layout">
@@ -173,11 +156,11 @@ export default function PublicProductEntry({
                 surface="public_entry"
                 variant="hero"
               />
-              <h1>Pro Max Trading is a calm Earth-native paper workspace.</h1>
+              <h1>Pro Max Trading</h1>
               <p>
-                Pro Max is the mother brand. Pro Max Trading starts with a complete Free web workspace, keeps plan depth
-                truthful, and gives you a clear way to practice, learn, and adjust the
-                experience. Tell Pro Max Assistant what you want to do, and it will route the safe next step.
+                The first Pro Max product is a calm Earth-native paper workspace:
+                web current, truthful about limits, and ready for practice without
+                live execution or real-money routing.
               </p>
 
               <div className="tpm-product-cta-row">
@@ -189,7 +172,7 @@ export default function PublicProductEntry({
                 </Link>
               </div>
               <p className="tpm-intent-hero-note">
-                Ask for a calmer workspace, bigger chart, plans, apps, support, or why something is blocked.
+                Ask for a calmer workspace, a bigger chart, or why something is blocked.
               </p>
 
               <div className="tpm-product-proof-row">
@@ -200,8 +183,6 @@ export default function PublicProductEntry({
                   </div>
                 ))}
               </div>
-              <LocalizedEarthFocus locale="en" surface="public_entry" />
-              <EnvironmentStatusBadge compact />
             </div>
 
             <div className="tpm-product-hero-side">
@@ -215,6 +196,27 @@ export default function PublicProductEntry({
                 ))}
               </div>
             </div>
+          </div>
+        </section>
+
+        <section
+          className="tpm-product-section tpm-product-truth-strip"
+          data-public-section="product-truth-strip"
+        >
+          <div className="tpm-product-section-head">
+            <div>
+              <span className="tpm-product-kicker">Product Truth</span>
+              <h2>Paper-safe now. Live, billing, and broker routing stay inactive.</h2>
+            </div>
+            <p>
+              The Home page keeps trust visible without turning the topbar into a
+              control panel.
+            </p>
+          </div>
+          <div className="tpm-product-truth-grid">
+            {safetyTruth.map((item) => (
+              <span key={item}>{item}</span>
+            ))}
           </div>
         </section>
 
@@ -326,24 +328,6 @@ export default function PublicProductEntry({
                 <strong>{item.value}</strong>
                 <p>{item.note}</p>
               </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="tpm-product-section tpm-product-truth-strip">
-          <div className="tpm-product-section-head">
-            <div>
-              <span className="tpm-product-kicker">Readiness stays honest</span>
-              <h2>Paper-safe now. Live, billing, and broker routing stay inactive.</h2>
-            </div>
-            <p>
-              Live execution, real-money routing, broker/feed activation, billing, social
-              publishing, and public launch remain inactive.
-            </p>
-          </div>
-          <div className="tpm-product-truth-grid">
-            {safetyTruth.map((item) => (
-              <span key={item}>{item}</span>
             ))}
           </div>
         </section>

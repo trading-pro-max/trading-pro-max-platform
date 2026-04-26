@@ -405,7 +405,7 @@ test.describe("verified platform truth", () => {
       {
         path: "/",
         expectedUrl: /\/$/,
-        text: /Trading workspace|Plans at a glance|Readiness stays honest/,
+        text: /Pro Max Trading|Plans at a glance|Product Truth/,
       },
       {
         path: "/en",
@@ -442,12 +442,12 @@ test.describe("verified platform truth", () => {
       const compactNavMark = page.locator(".tpm-foundation-nav-brand .tpm-earth-mark-compact").first();
       await expect(compactNavMark).toBeVisible();
       await expect(compactNavMark).toHaveAttribute("data-variant", "compact");
-      if (route.path === "/") {
-        await expect(page.locator(".tpm-precision-clock").first()).toBeHidden();
-        await expect(page.locator(".tpm-platform-pulse").first()).toBeHidden();
-      } else {
+      if (route.path === "/en") {
         await expect(page.locator(".tpm-precision-clock")).toHaveCount(1);
         await expect(page.locator(".tpm-platform-pulse")).toHaveCount(1);
+      } else {
+        await expect(page.locator(".tpm-precision-clock")).toHaveCount(0);
+        await expect(page.locator(".tpm-platform-pulse")).toHaveCount(0);
       }
       await expect(page.locator(".tpm-companion-launcher").first()).toBeVisible();
       await expect(page.locator("body")).toContainText(route.text);
@@ -470,8 +470,9 @@ test.describe("verified platform truth", () => {
       if (route.path === "/") {
         const publicNavText = await page.locator(".tpm-foundation-nav-shell").innerText();
         expect(publicNavText).toMatch(
-          /Home|Trading Workspace|Markets|Plans|Apps \/ Platforms|Academy|Community|Support|Settings|Diagnostics/
+          /Home|Trading Workspace|Markets|Plans|Apps \/ Platforms|Academy|Support|Sign in/
         );
+        expect(publicNavText).not.toMatch(/Community|Settings|Diagnostics|Language|Theme|Adaptive Atmosphere|Paper-safe|Web current|Live inactive/);
         await expect(page.locator(".tpm-product-entry").first()).toBeVisible();
         await expect(page.locator(".tpm-product-hero").first()).toBeVisible();
         await expect(page.locator(".tpm-product-workstation-shell")).toHaveCount(0);
@@ -766,12 +767,15 @@ test.describe("verified platform truth", () => {
       "Plans",
       "Apps / Platforms",
       "Academy",
-      "Community",
       "Support",
-      "Settings",
-      "Diagnostics",
+      "Sign in",
     ]) {
       expect(navText).toContain(label);
+    }
+    expect(navText).not.toMatch(/Community|Settings|Diagnostics|Language|Theme|Adaptive Atmosphere|Paper-safe|Web current|Live inactive/);
+    const bodyText = await page.locator("body").innerText();
+    for (const label of ["Community", "Settings", "Diagnostics"]) {
+      expect(bodyText).toContain(label);
     }
 
     await expect(page.locator("#markets")).toContainText(/Forex|Crypto|Commodities|Indices|Stocks/);
@@ -956,9 +960,10 @@ test.describe("verified platform truth", () => {
 
     await openWithTheme(page, "/", "dark");
     await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
-    await expect(page.locator(".tpm-theme-switcher").first()).toBeVisible();
-    await expect(page.locator(".tpm-locale-select").first()).toBeVisible();
-    await expect(page.locator("body")).toContainText("Trading workspace");
+    await expect(page.locator(".tpm-foundation-nav-shell .tpm-theme-switcher")).toHaveCount(0);
+    await expect(page.locator(".tpm-foundation-nav-shell .tpm-locale-select")).toHaveCount(0);
+    await expect(page.locator(".tpm-foundation-nav-shell .tpm-environment-control")).toHaveCount(0);
+    await expect(page.locator("body")).toContainText(/Pro Max Trading|Trading Workspace/);
     await expectRuntimeCssApplied(page, "entry");
     await page.screenshot({
       fullPage: true,
@@ -1090,6 +1095,9 @@ test.describe("verified platform truth", () => {
     await expect(page.locator(".tpm-foundation-frame")).toHaveAttribute("lang", "en");
     await expect(page.locator(".tpm-foundation-frame")).toHaveAttribute("dir", "ltr");
     await expect(page.locator("body")).toContainText("Settings");
+    await expect(page.locator(".tpm-utility-page-settings .tpm-theme-switcher")).toHaveCount(1);
+    await expect(page.locator(".tpm-utility-page-settings .tpm-locale-select")).toHaveCount(1);
+    await expect(page.locator(".tpm-utility-page-settings .tpm-environment-control")).toHaveCount(1);
     await expectRuntimeCssApplied(page, "utility");
     await page.screenshot({
       fullPage: true,

@@ -6,9 +6,6 @@ import ProductLogo from "../../brand/components/ProductLogo";
 import { CompanionLauncher } from "../../companion/components";
 import ShellControls from "./ShellControls";
 import ShellNavigation, { type ShellNavigationItem } from "./ShellNavigation";
-import ShellStatusBadges, { PUBLIC_SHELL_STATUS_BADGES } from "./ShellStatusBadges";
-import SwissPrecisionClock from "./SwissPrecisionClock";
-import PlatformPulse from "./PlatformPulse";
 
 type PublicAppShellProps = {
   children: ReactNode;
@@ -41,7 +38,6 @@ export default function PublicAppShell({
     { href: publicSectionHref(routeMode, "#plans"), label: "Plans" },
     { href: publicSectionHref(routeMode, "#apps-platforms"), label: "Apps / Platforms" },
     { href: publicSectionHref(routeMode, "#academy"), label: "Academy" },
-    { href: publicSectionHref(routeMode, "#community"), label: "Community" },
     { href: publicSectionHref(routeMode, "#support"), label: "Support" },
   ];
 
@@ -81,17 +77,11 @@ export default function PublicAppShell({
             locale={locale}
             settingsHref={settingsHref}
             settingsLabel={dict.nav.settings}
+            showExperienceControls={false}
+            showUtilities={false}
             variant="public"
           />
         </nav>
-
-        <div className="tpm-public-shell-status-row">
-          <ShellStatusBadges items={PUBLIC_SHELL_STATUS_BADGES} variant="public" />
-          <div className="tpm-shell-runtime-status">
-            <SwissPrecisionClock compact />
-            <PlatformPulse />
-          </div>
-        </div>
       </header>
 
       <main className="tpm-foundation-body">{children}</main>

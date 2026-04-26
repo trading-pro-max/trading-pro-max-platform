@@ -8511,3 +8511,381 @@ html[data-tpm-environment-mode="static"] .tpm-living-chart-surface .tpmv2-chart-
     transition: none !important;
   }
 }
+
+/* Public Shell Topbar Cleanup + Earth Presence Visual Correction */
+.tpm-public-shell .tpm-foundation-nav-shell {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--tpm-nav-bg) 94%, transparent), color-mix(in srgb, var(--tpm-nav-bg) 86%, transparent));
+  padding: 8px clamp(14px, 2vw, 24px);
+}
+
+.tpm-public-shell .tpm-shell-nav-row {
+  gap: clamp(10px, 1.2vw, 18px);
+  grid-template-columns: minmax(132px, max-content) minmax(0, 1fr) max-content;
+  min-height: 52px;
+}
+
+.tpm-public-shell .tpm-shell-logo-home-link {
+  align-items: center;
+  display: inline-flex;
+  min-width: 0;
+  text-decoration: none;
+}
+
+.tpm-public-shell .tpm-brand-lockup-nav {
+  gap: 8px;
+}
+
+.tpm-public-shell .tpm-brand-lockup-nav .tpm-earth-mark {
+  --tpm-earth-size: 34px;
+}
+
+.tpm-public-shell .tpm-public-nav {
+  flex-wrap: nowrap;
+  gap: 4px;
+  justify-content: center;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.tpm-public-shell .tpm-public-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.tpm-public-shell .tpm-public-nav .tpm-foundation-link {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  color: color-mix(in srgb, var(--tpm-text) 88%, var(--tpm-text-soft));
+  font-size: 12px;
+  font-weight: 780;
+  min-height: 32px;
+  padding: 7px 8px;
+}
+
+.tpm-public-shell .tpm-public-nav .tpm-foundation-link:hover,
+.tpm-public-shell .tpm-public-nav .tpm-foundation-link:focus-visible {
+  background: color-mix(in srgb, var(--tpm-accent) 8%, transparent);
+  border-color: color-mix(in srgb, var(--tpm-accent) 18%, transparent);
+}
+
+.tpm-public-shell .tpm-shell-controls {
+  flex: 0 0 auto;
+  gap: 0;
+}
+
+.tpm-public-shell .tpm-foundation-nav-shell .tpm-shell-utility-links,
+.tpm-public-shell .tpm-foundation-nav-shell .tpm-theme-switcher,
+.tpm-public-shell .tpm-foundation-nav-shell .tpm-environment-control,
+.tpm-public-shell .tpm-foundation-nav-shell .tpm-locale-switcher,
+.tpm-public-shell .tpm-foundation-nav-shell .tpm-public-shell-status-row,
+.tpm-public-shell .tpm-foundation-nav-shell .tpm-shell-status-public,
+.tpm-public-shell .tpm-foundation-nav-shell .tpm-shell-runtime-status {
+  display: none !important;
+}
+
+.tpm-public-shell .tpm-auth-panel-nav {
+  margin: 0;
+}
+
+.tpm-public-shell .tpm-auth-popover summary {
+  min-height: 32px;
+  padding: 6px 11px;
+}
+
+.tpm-living-earth-atmosphere-arc,
+.tpm-living-earth-terminator,
+.tpm-living-earth-city-lights {
+  pointer-events: none;
+  position: absolute;
+}
+
+.tpm-living-earth-background[data-earth-surface="public_entry"] {
+  --tpm-living-earth-opacity: 0.94;
+  --tpm-env-motion-opacity: 0.62;
+  --tpm-env-horizon: rgba(90, 204, 255, 0.26);
+  --tpm-env-glow: rgba(78, 196, 255, 0.2);
+}
+
+.tpm-living-earth-background[data-earth-surface="public_entry"] .tpm-living-earth-stars {
+  background:
+    radial-gradient(circle at 9% 15%, rgba(255, 255, 255, 0.36) 0 1px, transparent 1.4px),
+    radial-gradient(circle at 20% 68%, rgba(255, 255, 255, 0.2) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 46% 20%, rgba(255, 255, 255, 0.22) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 72% 22%, rgba(255, 255, 255, 0.28) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 88% 62%, rgba(255, 255, 255, 0.18) 0 1px, transparent 1.5px);
+  opacity: calc(var(--tpm-living-earth-opacity) * 0.42);
+}
+
+.tpm-living-earth-background[data-earth-surface="public_entry"] .tpm-living-earth-weather {
+  background:
+    radial-gradient(circle at 28% 22%, var(--tpm-env-glow), transparent 24rem),
+    radial-gradient(ellipse at 50% 78%, var(--tpm-env-horizon), transparent 40rem),
+    linear-gradient(110deg, transparent 0 44%, color-mix(in srgb, var(--tpm-env-muted) 10%, transparent) 51%, transparent 60%);
+  opacity: calc(var(--tpm-living-earth-opacity) * 0.28 * var(--tpm-env-motion-opacity));
+}
+
+.tpm-living-earth-background[data-earth-surface="public_entry"] .tpm-living-earth-orbital-grid {
+  mask-image: radial-gradient(ellipse at 50% 76%, black 0 30%, transparent 58%);
+  opacity: calc(var(--tpm-living-earth-opacity) * 0.16);
+}
+
+.tpm-living-earth-background[data-earth-surface="public_entry"] .tpm-living-earth-moon-layer {
+  opacity: calc(var(--tpm-living-earth-opacity) * 0.24);
+}
+
+.tpm-living-earth-atmosphere-arc {
+  border-radius: 50%;
+  border-top: 2px solid color-mix(in srgb, #81d8ff 64%, transparent);
+  bottom: clamp(88px, 12vw, 156px);
+  box-shadow:
+    0 -16px 42px color-mix(in srgb, #5ac8ff 18%, transparent),
+    0 -2px 10px color-mix(in srgb, #ffffff 14%, transparent);
+  height: min(330px, 36vw);
+  inset-inline-start: 50%;
+  opacity: calc(var(--tpm-living-earth-opacity) * 0.92);
+  transform: translateX(-50%);
+  width: min(1180px, 126vw);
+}
+
+.tpm-living-earth-background[data-earth-surface="public_entry"] .tpm-living-earth-globe {
+  background:
+    radial-gradient(circle at 48% 13%, rgba(229, 247, 255, 0.18), transparent 24%),
+    radial-gradient(ellipse at 36% 26%, color-mix(in srgb, #8fcda5 18%, transparent), transparent 32%),
+    radial-gradient(ellipse at 62% 30%, color-mix(in srgb, #d0b36f 12%, transparent), transparent 36%),
+    linear-gradient(180deg, color-mix(in srgb, #1c5f86 64%, var(--tpm-living-earth-accent) 22%), #04182a 48%, #010815 78%);
+  box-shadow:
+    0 -34px 110px color-mix(in srgb, #6fd5ff 20%, transparent),
+    0 -5px 18px color-mix(in srgb, #dff7ff 12%, transparent),
+    inset 0 24px 58px rgba(255, 255, 255, 0.13),
+    inset 34px -110px 150px rgba(0, 0, 0, 0.54),
+    inset -60px -90px 140px rgba(0, 0, 0, 0.34);
+  margin-bottom: clamp(-520px, -30vw, -310px);
+  width: min(1180px, 126vw);
+}
+
+.tpm-living-earth-background[data-earth-surface="public_entry"] .tpm-living-earth-globe::before {
+  border-top: 1px solid color-mix(in srgb, #a9e7ff 62%, transparent);
+  box-shadow:
+    0 -12px 38px color-mix(in srgb, #72d3ff 26%, transparent),
+    0 -1px 8px color-mix(in srgb, #ffffff 18%, transparent);
+  width: min(1180px, 126vw);
+}
+
+.tpm-living-earth-terminator {
+  background: linear-gradient(105deg, rgba(0, 0, 0, 0.52), transparent 48%, rgba(255, 255, 255, 0.06) 76%, transparent);
+  border-radius: 50%;
+  bottom: clamp(-520px, -30vw, -310px);
+  height: min(1180px, 126vw);
+  inset-inline-start: 50%;
+  mix-blend-mode: multiply;
+  opacity: calc(var(--tpm-living-earth-opacity) * 0.44);
+  transform: translateX(-50%);
+  width: min(1180px, 126vw);
+}
+
+.tpm-living-earth-city-lights {
+  background:
+    radial-gradient(circle at 38% 34%, rgba(255, 211, 123, 0.42) 0 1px, transparent 1.7px),
+    radial-gradient(circle at 42% 38%, rgba(255, 211, 123, 0.3) 0 1px, transparent 1.8px),
+    radial-gradient(circle at 57% 32%, rgba(255, 211, 123, 0.28) 0 1px, transparent 1.8px),
+    radial-gradient(circle at 64% 40%, rgba(255, 211, 123, 0.22) 0 1px, transparent 1.8px);
+  border-radius: 50%;
+  bottom: clamp(-520px, -30vw, -310px);
+  height: min(1180px, 126vw);
+  inset-inline-start: 50%;
+  opacity: calc(var(--tpm-living-earth-opacity) * 0.26);
+  transform: translateX(-50%);
+  width: min(1180px, 126vw);
+}
+
+.tpm-living-earth-background[data-earth-surface="public_entry"] .tpm-living-earth-continent {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, #91c99a 34%, rgba(255, 255, 255, 0.06)), color-mix(in srgb, #a58b55 20%, transparent));
+  filter: blur(0.55px);
+  opacity: calc(var(--tpm-living-earth-opacity) * 0.32);
+}
+
+.tpm-product-hero[data-public-section="public-entry-hero"] {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--tpm-surface-strong) 74%, transparent), color-mix(in srgb, var(--tpm-surface) 58%, transparent)),
+    radial-gradient(ellipse at 50% 108%, color-mix(in srgb, #4fbfff 16%, transparent), transparent 46%);
+  border-color: color-mix(in srgb, #8bdcff 18%, var(--tpm-border));
+  min-height: min(620px, calc(100svh - 78px));
+}
+
+.tpm-product-hero[data-public-section="public-entry-hero"] .tpm-product-kicker-row {
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tpm-product-hero[data-public-section="public-entry-hero"] .tpm-localized-earth-focus {
+  background: color-mix(in srgb, var(--tpm-surface-strong) 36%, transparent);
+}
+
+.tpm-product-hero[data-public-section="public-entry-hero"] .tpm-product-hero-layout {
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 320px);
+}
+
+.tpm-product-hero[data-public-section="public-entry-hero"] .tpm-product-hero-copy h1 {
+  font-size: clamp(48px, 6vw, 82px);
+  line-height: 0.94;
+  max-width: 720px;
+}
+
+.tpm-product-hero[data-public-section="public-entry-hero"] .tpm-product-hero-copy > p {
+  color: color-mix(in srgb, var(--tpm-text-muted) 92%, var(--tpm-text));
+  font-size: clamp(15px, 1.2vw, 18px);
+  max-width: 670px;
+}
+
+.tpm-product-hero[data-public-section="public-entry-hero"] .tpm-product-proof-row {
+  background: transparent;
+  border: 0;
+  gap: 14px;
+  margin-top: 18px;
+  padding: 0;
+}
+
+.tpm-product-hero[data-public-section="public-entry-hero"] .tpm-product-proof-row > div {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+}
+
+.tpm-product-hero[data-public-section="public-entry-hero"] .tpm-product-hero-side {
+  border-inline-start: 1px solid color-mix(in srgb, var(--tpm-border) 56%, transparent);
+  padding-inline-start: clamp(16px, 2vw, 26px);
+}
+
+.tpm-product-hero[data-public-section="public-entry-hero"] .tpm-product-signal-card {
+  background: color-mix(in srgb, var(--tpm-surface-strong) 34%, transparent);
+  border-color: color-mix(in srgb, var(--tpm-border) 34%, transparent);
+  border-radius: 8px;
+}
+
+.tpm-product-hero[data-public-section="public-entry-hero"] .tpm-product-signal-card p {
+  -webkit-line-clamp: unset;
+}
+
+.tpm-product-truth-strip[data-public-section="product-truth-strip"] {
+  border-block: 1px solid color-mix(in srgb, var(--tpm-border) 34%, transparent);
+  padding-block: 12px;
+}
+
+.tpm-product-truth-strip[data-public-section="product-truth-strip"] .tpm-product-section-head {
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+}
+
+.tpm-product-truth-strip[data-public-section="product-truth-strip"] .tpm-product-truth-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+html[data-theme="light"] .tpm-living-earth-background[data-earth-surface="public_entry"] {
+  --tpm-living-earth-opacity: 0.68;
+  --tpm-env-horizon: rgba(16, 126, 184, 0.2);
+  --tpm-env-glow: rgba(32, 148, 198, 0.16);
+}
+
+html[data-theme="light"] .tpm-living-earth-background[data-earth-surface="public_entry"] .tpm-living-earth-globe {
+  background:
+    radial-gradient(circle at 48% 13%, rgba(255, 255, 255, 0.56), transparent 24%),
+    radial-gradient(ellipse at 36% 26%, rgba(84, 156, 112, 0.2), transparent 32%),
+    radial-gradient(ellipse at 62% 30%, rgba(164, 132, 76, 0.12), transparent 36%),
+    linear-gradient(180deg, #c7e9f5, #7fb9d2 46%, #dbeaf2 78%);
+  box-shadow:
+    0 -26px 78px rgba(40, 143, 194, 0.18),
+    inset 0 24px 58px rgba(255, 255, 255, 0.56),
+    inset 36px -110px 150px rgba(55, 84, 110, 0.18);
+}
+
+html[data-theme="light"] .tpm-product-hero[data-public-section="public-entry-hero"] {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(239, 247, 252, 0.62)),
+    radial-gradient(ellipse at 50% 108%, rgba(59, 150, 198, 0.12), transparent 46%);
+}
+
+[dir="rtl"] .tpm-product-hero[data-public-section="public-entry-hero"] .tpm-product-hero-side {
+  border-inline-end: 1px solid color-mix(in srgb, var(--tpm-border) 56%, transparent);
+  border-inline-start: 0;
+  padding-inline-end: clamp(16px, 2vw, 26px);
+  padding-inline-start: 0;
+}
+
+[dir="rtl"] .tpm-living-earth-atmosphere-arc,
+[dir="rtl"] .tpm-living-earth-terminator,
+[dir="rtl"] .tpm-living-earth-city-lights {
+  transform: translateX(-50%);
+}
+
+@media (max-width: 1240px) {
+  .tpm-public-shell .tpm-shell-nav-row {
+    grid-template-columns: minmax(132px, max-content) minmax(0, 1fr) max-content;
+  }
+
+  .tpm-public-shell .tpm-public-nav {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 860px) {
+  .tpm-public-shell .tpm-shell-nav-row {
+    grid-template-columns: minmax(126px, 1fr) max-content;
+  }
+
+  .tpm-public-shell .tpm-public-nav {
+    grid-column: 1 / -1;
+    order: 3;
+  }
+
+  .tpm-public-nav .tpm-foundation-link:nth-of-type(n + 5) {
+    display: inline-flex;
+  }
+
+  .tpm-product-hero[data-public-section="public-entry-hero"] .tpm-product-hero-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .tpm-product-hero[data-public-section="public-entry-hero"] .tpm-product-hero-side {
+    border-inline-start: 0;
+    padding-inline-start: 0;
+  }
+
+  .tpm-product-truth-strip[data-public-section="product-truth-strip"] .tpm-product-truth-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .tpm-public-shell .tpm-foundation-nav-shell {
+    padding-inline: 10px;
+  }
+
+  .tpm-public-shell .tpm-public-nav .tpm-foundation-link {
+    font-size: 11px;
+    padding-inline: 7px;
+  }
+
+  .tpm-product-hero[data-public-section="public-entry-hero"] {
+    min-height: 560px;
+  }
+
+  .tpm-product-hero[data-public-section="public-entry-hero"] .tpm-product-kicker-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .tpm-product-truth-strip[data-public-section="product-truth-strip"] .tpm-product-truth-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tpm-living-earth-atmosphere-arc,
+  .tpm-living-earth-terminator,
+  .tpm-living-earth-city-lights {
+    transition: none !important;
+  }
+}

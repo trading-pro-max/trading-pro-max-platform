@@ -172,7 +172,10 @@ test.describe("TPM Planetary Environment Engine", () => {
       weather: "clear",
     });
     await expect(page.locator("html")).toHaveAttribute("data-tpm-solar-phase", "day");
-    await expect(page.locator("body")).toContainText(/Adaptive Atmosphere|Solar \/ Weather Theme/);
+    await expect(
+      page.locator(".tpm-living-earth-background[data-earth-surface='public_entry']")
+    ).toHaveAttribute("data-environment-engine", "adaptive_atmosphere");
+    await expect(page.locator("body")).toContainText(/Earth reference|Human scale/);
     await expectPublicSafe(page);
     await screenshotLocator(page, ".tpm-product-hero", "public-entry-adaptive-day.png");
 

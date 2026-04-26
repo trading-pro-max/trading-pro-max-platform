@@ -1,11 +1,11 @@
 WAKE REPORT
 Status: closed
-Mission: Living Market Core / Trading Workspace Rebuild
-Done: chart-first workspace, one terminal topbar, one compact logo, paper Execution Rail, collapsed Assistant dock, secondary Journal/Coach dock, visual proof, tests
-Not done: Ahmad visual acceptance remains needed before Local Day One is fully accepted
+Mission: Public Shell Topbar Cleanup + Earth Presence Visual Correction
+Done: public topbar reduced to Pro Max logo, primary nav, and Sign in; language/theme/environment/status clusters removed from header; Settings keeps language/theme/environment controls; Home hero simplified to two CTAs; Product Truth strip moved below hero; CSS-only Earth atmosphere, horizon, depth, terminator, and city-light layers strengthened; regression proof and screenshots added
+Not done: Ahmad final visual acceptance remains the human gate
 Validation: passed
-Tests: 185 regression tests passed
-Commit: rebuild living market core workspace
-Pushed: pending
-Clean: pending
-Next: Ahmad visual acceptance for Living Market Core and Local Day One review
+Tests: 187 regression tests passed
+Commit: clean public topbar and strengthen earth presence
+Pushed: pending until git push completes
+Clean: pending commit
+Next: Ahmad visual acceptance of `test-results/public-shell-earth-visual-correction/`
