@@ -1,5 +1,6 @@
 import { resolveLocale } from "../../../lib/i18n/config";
 import { getDictionary } from "../../../lib/i18n/get-dictionary";
+import ProductExperienceFrame from "../../../modules/product/components/ProductExperienceFrame";
 import { PlatformDiagnosticsSurface } from "../../../modules/shell/components/PlatformUtilitySurfaces";
 
 export default async function DiagnosticsPage({
@@ -11,5 +12,13 @@ export default async function DiagnosticsPage({
   const resolvedLocale = resolveLocale(locale);
   const dict = getDictionary(resolvedLocale);
 
-  return <PlatformDiagnosticsSurface locale={resolvedLocale} dict={dict} />;
+  return (
+    <ProductExperienceFrame
+      locale={resolvedLocale}
+      dict={dict}
+      routeMode="localized"
+    >
+      <PlatformDiagnosticsSurface locale={resolvedLocale} dict={dict} />
+    </ProductExperienceFrame>
+  );
 }

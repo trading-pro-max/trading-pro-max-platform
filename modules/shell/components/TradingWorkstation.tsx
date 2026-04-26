@@ -2,8 +2,10 @@
 
 import { useEffect, useEffectEvent, useMemo, useState } from "react";
 import { PLATFORM_LIMITS } from "../../../lib/constants/platform";
+import { getDirection } from "../../../lib/i18n/config";
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
 import LivingEarthBackground from "../../brand/components/LivingEarthBackground";
+import { CompanionLauncher } from "../../companion/components";
 import OperatorIntelligenceDeck from "../../intelligence/components/OperatorIntelligenceDeck";
 import type {
   WorkspaceFocusMode,
@@ -160,8 +162,10 @@ export default function TradingWorkstation({
     note: "Loading workflow automation truth.",
   });
   const localePrefix = locale ? `/${locale}` : "";
+  const dir = getDirection(locale);
   const diagnosticsHref = `${localePrefix}/diagnostics`;
   const settingsHref = `${localePrefix}/settings`;
+  const feedbackHref = `${diagnosticsHref}#feedback`;
   const marketDepthItems = useMemo(
     () => [
       {
@@ -469,8 +473,36 @@ export default function TradingWorkstation({
     .join(" ");
 
   return (
-    <main className="tpmv2-page" data-living-earth-surface="workstation">
+    <main
+      className="tpm-app-shell tpm-workspace-shell tpm-foundation-frame tpmv2-page"
+      data-living-earth-surface="workstation"
+      data-shell-mode="workspace"
+      dir={dir}
+      lang={locale}
+    >
       <LivingEarthBackground surface="workstation" plan="free" state="paper_safe" />
+
+      <TradingTopbar
+        balance={platformState.balance}
+        accountMode={platformState.accountMode}
+        onModeChange={platformState.switchAccountMode}
+        modeLabel={viewModel.modeLabel}
+        demoLabel={viewModel.demoLabel}
+        realLabel={viewModel.realLabel}
+        selectedAssetSymbol={platformState.selectedAsset.symbol}
+        selectedAssetPrice={platformState.selectedAsset.price}
+        selectedAssetChange={platformState.selectedAsset.change}
+        marketStatus={platformState.selectedAsset.status}
+        paperAccessLabel={viewModel.paperAccessLabel}
+        paperAccessValue={viewModel.paperAccessValue}
+        paperAccessTone={viewModel.paperAccessTone}
+        diagnosticsHref={diagnosticsHref}
+        diagnosticsLabel={dict.nav.diagnostics}
+        settingsHref={settingsHref}
+        settingsLabel={dict.nav.settings}
+        locale={locale}
+      />
+
       <section
         className={
           desktopWatchlistVisible
@@ -493,44 +525,6 @@ export default function TradingWorkstation({
         ) : null}
 
         <section className="tpmv2-main">
-          <TradingTopbar
-            dict={dict}
-            balance={platformState.balance}
-            accountMode={platformState.accountMode}
-            onModeChange={platformState.switchAccountMode}
-            modeLabel={viewModel.modeLabel}
-            demoLabel={viewModel.demoLabel}
-            realLabel={viewModel.realLabel}
-            selectedAssetSymbol={platformState.selectedAsset.symbol}
-            selectedAssetPrice={platformState.selectedAsset.price}
-            selectedAssetChange={platformState.selectedAsset.change}
-            marketStatus={platformState.selectedAsset.status}
-            paperAccessLabel={viewModel.paperAccessLabel}
-            paperAccessValue={viewModel.paperAccessValue}
-            paperAccessTone={viewModel.paperAccessTone}
-            diagnosticsHref={diagnosticsHref}
-            diagnosticsLabel={dict.nav.diagnostics}
-            settingsHref={settingsHref}
-            settingsLabel={dict.nav.settings}
-          />
-
-          <WorkstationCommandCenter
-            dict={dict}
-            selectedAssetSymbol={platformState.selectedAsset.symbol}
-            selectedTimeframe={platformState.selectedTimeframe}
-            signalLabel={viewModel.signalLabel}
-            decision={platformState.decision}
-            openTradesCount={platformState.openTrades.length}
-            historyCount={platformState.history.length}
-            sessionPnLText={viewModel.sessionPnLText}
-            ticketReadinessLabel={viewModel.ticketReadinessLabel}
-            ticketReadinessValue={viewModel.ticketReadinessValue}
-            ticketReadinessTone={viewModel.ticketReadinessTone}
-            paperAccessLabel={viewModel.paperAccessLabel}
-            paperAccessValue={viewModel.paperAccessValue}
-            paperAccessTone={viewModel.paperAccessTone}
-          />
-
           <section className={desktopMasterClass}>
             <section className="tpmv2-primary">
               <ChartCard
@@ -619,6 +613,23 @@ export default function TradingWorkstation({
             ) : null}
           </section>
 
+          <WorkstationCommandCenter
+            dict={dict}
+            selectedAssetSymbol={platformState.selectedAsset.symbol}
+            selectedTimeframe={platformState.selectedTimeframe}
+            signalLabel={viewModel.signalLabel}
+            decision={platformState.decision}
+            openTradesCount={platformState.openTrades.length}
+            historyCount={platformState.history.length}
+            sessionPnLText={viewModel.sessionPnLText}
+            ticketReadinessLabel={viewModel.ticketReadinessLabel}
+            ticketReadinessValue={viewModel.ticketReadinessValue}
+            ticketReadinessTone={viewModel.ticketReadinessTone}
+            paperAccessLabel={viewModel.paperAccessLabel}
+            paperAccessValue={viewModel.paperAccessValue}
+            paperAccessTone={viewModel.paperAccessTone}
+          />
+
           <WorkspaceDepthBar
             focusMode={focusMode}
             onSelectFocusMode={(nextMode) => {
@@ -700,49 +711,11 @@ export default function TradingWorkstation({
       </section>
 
       <section className="tpmv2-shell-narrow">
-        <TradingTopbar
-          dict={dict}
-          balance={platformState.balance}
-          accountMode={platformState.accountMode}
-          onModeChange={platformState.switchAccountMode}
-          modeLabel={viewModel.modeLabel}
-          demoLabel={viewModel.demoLabel}
-          realLabel={viewModel.realLabel}
-          selectedAssetSymbol={platformState.selectedAsset.symbol}
-          selectedAssetPrice={platformState.selectedAsset.price}
-          selectedAssetChange={platformState.selectedAsset.change}
-          marketStatus={platformState.selectedAsset.status}
-          paperAccessLabel={viewModel.paperAccessLabel}
-          paperAccessValue={viewModel.paperAccessValue}
-          paperAccessTone={viewModel.paperAccessTone}
-          diagnosticsHref={diagnosticsHref}
-          diagnosticsLabel={dict.nav.diagnostics}
-          settingsHref={settingsHref}
-          settingsLabel={dict.nav.settings}
-        />
-
         <NarrowStrip
           dict={dict}
           assets={platformState.marketAssets}
           selectedAssetIndex={platformState.selectedAssetIndex}
           onSelectAsset={platformState.setSelectedAssetIndex}
-        />
-
-        <WorkstationCommandCenter
-          dict={dict}
-          selectedAssetSymbol={platformState.selectedAsset.symbol}
-          selectedTimeframe={platformState.selectedTimeframe}
-          signalLabel={viewModel.signalLabel}
-          decision={platformState.decision}
-          openTradesCount={platformState.openTrades.length}
-          historyCount={platformState.history.length}
-          sessionPnLText={viewModel.sessionPnLText}
-          ticketReadinessLabel={viewModel.ticketReadinessLabel}
-          ticketReadinessValue={viewModel.ticketReadinessValue}
-          ticketReadinessTone={viewModel.ticketReadinessTone}
-          paperAccessLabel={viewModel.paperAccessLabel}
-          paperAccessValue={viewModel.paperAccessValue}
-          paperAccessTone={viewModel.paperAccessTone}
         />
 
         <ChartCard
@@ -778,6 +751,23 @@ export default function TradingWorkstation({
             focusMode
           )} composition.`}
           focusMode={focusMode}
+        />
+
+        <WorkstationCommandCenter
+          dict={dict}
+          selectedAssetSymbol={platformState.selectedAsset.symbol}
+          selectedTimeframe={platformState.selectedTimeframe}
+          signalLabel={viewModel.signalLabel}
+          decision={platformState.decision}
+          openTradesCount={platformState.openTrades.length}
+          historyCount={platformState.history.length}
+          sessionPnLText={viewModel.sessionPnLText}
+          ticketReadinessLabel={viewModel.ticketReadinessLabel}
+          ticketReadinessValue={viewModel.ticketReadinessValue}
+          ticketReadinessTone={viewModel.ticketReadinessTone}
+          paperAccessLabel={viewModel.paperAccessLabel}
+          paperAccessValue={viewModel.paperAccessValue}
+          paperAccessTone={viewModel.paperAccessTone}
         />
 
         <ExecutionCard
@@ -855,6 +845,13 @@ export default function TradingWorkstation({
 
         <OperatorIntelligenceDeck intelligence={viewModel.intelligence} />
       </section>
+
+      <CompanionLauncher
+        diagnosticsHref={diagnosticsHref}
+        feedbackHref={feedbackHref}
+        locale={locale}
+        settingsHref={settingsHref}
+      />
     </main>
   );
 }

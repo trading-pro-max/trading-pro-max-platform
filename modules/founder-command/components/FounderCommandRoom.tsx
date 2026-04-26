@@ -6,6 +6,7 @@ import { getFounderIdeaInboxReadiness } from "@/lib/server/sovereign-autonomy";
 import TPMEarthMark from "@/modules/brand/components/TPMEarthMark";
 import ProductLogo from "@/modules/brand/components/ProductLogo";
 import { PlanetMapPreview } from "@/modules/planet-map/components";
+import PrivateFounderShell from "@/modules/shell/components/PrivateFounderShell";
 import type { FounderCommandRoomProps } from "../types";
 import AlkonCommandUniverse from "./AlkonCommandUniverse";
 import FounderApprovalQueue from "./FounderApprovalQueue";
@@ -36,13 +37,14 @@ export default function FounderCommandRoom({
   const ideaInboxReadiness = getFounderIdeaInboxReadiness(commandSnapshot.checkedAt);
 
   return (
-    <main
-      className={classNames("tpm-founder-command-room", className)}
-      data-owner-only="true"
-      data-public-route-exposed="false"
-      data-read-only="true"
-      aria-label="Founder Command Room foundation"
-    >
+    <PrivateFounderShell checkedAt={commandSnapshot.checkedAt}>
+      <main
+        className={classNames("tpm-founder-command-room", className)}
+        data-owner-only="true"
+        data-public-route-exposed="false"
+        data-read-only="true"
+        aria-label="Founder Command Room foundation"
+      >
       <header className="tpm-founder-hero">
         <div className="tpm-founder-logo-stack">
           <TPMEarthMark
@@ -233,6 +235,7 @@ export default function FounderCommandRoom({
 
       <FounderApprovalQueue approvalQueue={commandSnapshot.approvalQueue} />
       <FounderRiskPanel snapshot={commandSnapshot} />
-    </main>
+      </main>
+    </PrivateFounderShell>
   );
 }

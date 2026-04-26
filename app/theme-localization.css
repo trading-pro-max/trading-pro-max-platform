@@ -7311,3 +7311,280 @@ html[data-theme="light"] .tpmv2-execution {
   font-size: 11px;
   line-height: 1.45;
 }
+
+/* Global shell + navigation rebuild. */
+.tpm-app-shell {
+  isolation: isolate;
+}
+
+.tpm-public-shell .tpm-foundation-nav-shell {
+  border-bottom: 1px solid color-mix(in srgb, var(--tpm-celestial-border) 72%, transparent);
+  padding: 10px clamp(14px, 2vw, 24px);
+}
+
+.tpm-shell-nav-row {
+  align-items: center;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(180px, auto) minmax(0, 1fr) auto;
+}
+
+.tpm-shell-logo {
+  min-width: 0;
+}
+
+.tpm-shell-logo.tpm-brand-lockup {
+  gap: 9px;
+}
+
+.tpm-shell-nav {
+  align-items: center;
+  display: flex;
+  gap: 6px;
+  min-width: 0;
+}
+
+.tpm-public-nav {
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.tpm-public-nav .tpm-foundation-link,
+.tpm-shell-utility-link {
+  border-radius: 999px;
+  min-height: 34px;
+  padding: 8px 10px;
+  white-space: nowrap;
+}
+
+.tpm-shell-controls {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  min-width: 0;
+}
+
+.tpm-shell-controls .tpm-theme-switcher,
+.tpm-shell-controls .tpm-locale-switcher,
+.tpm-shell-controls .tpm-auth-panel-nav,
+.tpm-shell-controls .tpm-auth-panel-topbar {
+  margin: 0;
+}
+
+.tpm-shell-controls .tpm-theme-switcher {
+  padding: 0;
+}
+
+.tpm-shell-controls .tpm-theme-switcher-label {
+  position: absolute;
+  transform: translateY(-200vh);
+}
+
+.tpm-shell-controls .tpm-theme-segments {
+  gap: 2px;
+}
+
+.tpm-shell-controls .tpm-theme-segments button,
+.tpm-shell-controls .tpm-locale-select,
+.tpm-shell-controls .tpm-auth-popover summary {
+  min-height: 32px;
+  padding: 6px 9px;
+}
+
+.tpm-shell-controls .tpm-auth-popover summary {
+  white-space: nowrap;
+}
+
+.tpm-shell-utility-links {
+  align-items: center;
+  display: flex;
+  gap: 5px;
+}
+
+.tpm-public-shell-status-row {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  min-height: 34px;
+  padding-top: 8px;
+}
+
+.tpm-shell-runtime-status {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+}
+
+.tpm-public-shell-root .tpm-shell-runtime-status {
+  display: none;
+}
+
+.tpm-shell-status {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tpm-shell-status-badge {
+  border: 1px solid color-mix(in srgb, var(--tpm-celestial-border) 76%, transparent);
+  border-radius: 999px;
+  color: var(--tpm-text-soft);
+  font-size: 11px;
+  font-weight: 850;
+  line-height: 1;
+  padding: 7px 9px;
+  white-space: nowrap;
+}
+
+.tpm-shell-status-badge.ready {
+  border-color: color-mix(in srgb, var(--tpm-success) 38%, var(--tpm-celestial-border));
+  color: var(--tpm-success);
+}
+
+.tpm-shell-status-badge.inactive,
+.tpm-shell-status-badge.blocked {
+  border-color: color-mix(in srgb, var(--tpm-danger) 34%, var(--tpm-celestial-border));
+  color: var(--tpm-danger);
+}
+
+.tpm-shell-status-badge.planned {
+  border-color: color-mix(in srgb, var(--tpm-celestial-gold) 40%, var(--tpm-celestial-border));
+  color: var(--tpm-celestial-gold);
+}
+
+.tpm-workspace-shell.tpmv2-page {
+  display: grid;
+  gap: 10px;
+  padding-top: clamp(10px, 1.6vw, 16px);
+}
+
+.tpm-terminal-topbar {
+  align-items: center;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: minmax(158px, auto) minmax(220px, 0.75fr) auto auto minmax(340px, 1.1fr);
+  margin: 0;
+  min-height: 58px;
+  padding: 8px 10px;
+  position: sticky;
+  top: 8px;
+  z-index: 14;
+}
+
+.tpm-terminal-topbar .tpmv2-topbar-brand {
+  min-width: 0;
+}
+
+.tpm-terminal-topbar .tpm-brand-subline {
+  display: none;
+}
+
+.tpm-terminal-topbar .tpm-shell-status-workspace {
+  justify-content: flex-start;
+}
+
+.tpm-terminal-runtime {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+  min-width: 0;
+}
+
+.tpm-terminal-runtime .tpm-platform-pulse {
+  max-width: 188px;
+}
+
+.tpm-workspace-shell .tpmv2-shell-desktop {
+  margin-top: 0;
+}
+
+.tpm-workspace-shell .tpmv2-main {
+  gap: 10px;
+}
+
+.tpm-workspace-shell .tpmv2-desktop-master {
+  order: 1;
+}
+
+.tpm-workspace-shell .tpmv2-command-center {
+  order: 2;
+}
+
+.tpm-workspace-shell .tpmv2-shell-narrow {
+  margin-top: 0;
+}
+
+.tpm-workspace-shell .tpm-companion-shell {
+  position: relative;
+  z-index: 20;
+}
+
+.tpm-founder-shell {
+  background:
+    radial-gradient(circle at 10% 0%, rgba(241, 201, 107, 0.12), transparent 30%),
+    linear-gradient(180deg, #05070b, #0d1219);
+  color: #f6f1df;
+  min-height: 100vh;
+}
+
+.tpm-founder-shell-header {
+  align-items: center;
+  border-bottom: 1px solid rgba(241, 201, 107, 0.22);
+  display: grid;
+  gap: 14px;
+  grid-template-columns: minmax(220px, auto) minmax(0, 1fr) auto;
+  padding: 14px clamp(16px, 2.4vw, 28px);
+}
+
+.tpm-shell-nav-founder {
+  justify-content: center;
+}
+
+.tpm-shell-nav-founder span {
+  border: 1px solid rgba(241, 201, 107, 0.22);
+  border-radius: 999px;
+  color: rgba(246, 241, 223, 0.82);
+  font-size: 11px;
+  font-weight: 850;
+  padding: 7px 10px;
+  white-space: nowrap;
+}
+
+@media (max-width: 1240px) {
+  .tpm-shell-nav-row,
+  .tpm-terminal-topbar,
+  .tpm-founder-shell-header {
+    grid-template-columns: 1fr;
+  }
+
+  .tpm-public-nav,
+  .tpm-shell-controls,
+  .tpm-public-shell-status-row,
+  .tpm-terminal-runtime,
+  .tpm-terminal-topbar .tpm-shell-status-workspace {
+    justify-content: flex-start;
+  }
+
+  .tpm-terminal-topbar {
+    position: static;
+  }
+}
+
+@media (max-width: 760px) {
+  .tpm-public-nav .tpm-foundation-link:nth-of-type(n + 5) {
+    display: none;
+  }
+
+  .tpm-shell-controls {
+    align-items: stretch;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .tpm-terminal-runtime {
+    display: none;
+  }
+}

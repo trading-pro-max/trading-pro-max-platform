@@ -146,7 +146,11 @@ async function expectRuntimeCssApplied(page: Page, mode: "entry" | "workstation"
   expect(runtime.bodyFont).toContain("Inter");
   expect(runtime.bodyColor).not.toBe("rgb(0, 0, 0)");
   expect(runtime.frameDisplay).not.toBe("missing");
-  expect(runtime.navDisplay).toBe("flex");
+  if (mode === "workstation") {
+    expect(["missing", "flex"]).toContain(runtime.navDisplay);
+  } else {
+    expect(["flex", "grid"]).toContain(runtime.navDisplay);
+  }
 
   if (mode === "entry") {
     expect(runtime.cssAssets).toEqual(

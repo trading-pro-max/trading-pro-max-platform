@@ -8,8 +8,6 @@ import {
   type PlatformTimeframe,
 } from "../../../lib/constants/platform";
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
-import AuthSessionPanel from "../../auth/components/AuthSessionPanel";
-import ProductLogo from "../../brand/components/ProductLogo";
 import { WhyBlockedHint } from "../../state-explanations/components";
 import type { StateExplanationView } from "../../state-explanations/types";
 import type {
@@ -28,17 +26,8 @@ import type {
   ComplianceMetaView,
   WorkstationStatusTone,
 } from "./trading-workstation-view-model";
+import TradingTerminalShell from "./TradingTerminalShell";
 import { ProductStateNotice } from "./UiStates";
-
-function modeButtonStyle(active: boolean): CSSProperties {
-  if (!active) return {};
-
-  return {
-    background: "linear-gradient(180deg, var(--tpm-accent), var(--tpm-accent-strong))",
-    color: "#041412",
-    borderColor: "transparent",
-  };
-}
 
 function toneClassFromValue(value: string) {
   const normalized = value.trim();
@@ -485,7 +474,6 @@ export function DesktopRail({
 }
 
 export function TradingTopbar({
-  dict,
   balance,
   accountMode,
   onModeChange,
@@ -503,8 +491,8 @@ export function TradingTopbar({
   diagnosticsLabel,
   settingsHref,
   settingsLabel,
+  locale,
 }: {
-  dict: Dictionary;
   balance: string;
   accountMode: AccountMode;
   onModeChange: (mode: AccountMode) => void;
@@ -522,77 +510,29 @@ export function TradingTopbar({
   diagnosticsLabel: string;
   settingsHref: string;
   settingsLabel: string;
+  locale: string;
 }) {
   return (
-    <header className="tpmv2-card tpmv2-topbar">
-      <ProductLogo
-        className="tpmv2-topbar-brand"
-        animated
-        motionIntensity="low"
-        state="paper_safe"
-        surface="workstation"
-        subtitle={dict.shell.subtitle}
-        variant="topbar"
-      />
-
-      <div className="tpmv2-topbar-market">
-        <div className="tpmv2-topbar-market-main tpmv2-topbar-market-compact">
-          <div className="tpmv2-topbar-market-strip">
-            <div className="tpmv2-topbar-market-symbol">{selectedAssetSymbol}</div>
-            <div className="tpmv2-topbar-market-price">{selectedAssetPrice}</div>
-            <div
-              className={`tpmv2-topbar-market-change ${toneClassFromValue(
-                selectedAssetChange,
-              )}`}
-            >
-              {selectedAssetChange}
-            </div>
-            <span className="tpmv2-topbar-market-state">{marketStatus}</span>
-          </div>
-        </div>
-      </div>
-
-      <div className="tpmv2-topbar-controls">
-        <div className="tpmv2-topbar-links">
-          <a className="tpmv2-topbar-link" href={diagnosticsHref}>
-            {diagnosticsLabel}
-          </a>
-          <a className="tpmv2-topbar-link" href={settingsHref}>
-            {settingsLabel}
-          </a>
-        </div>
-
-        <AuthSessionPanel variant="topbar" title="Workspace session" />
-
-        <div className="tpmv2-topbar-toggle">
-          <StatusTag
-            text={`${paperAccessLabel}: ${paperAccessValue}`}
-            tone={paperAccessTone}
-          />
-          <span className="tpmv2-mode-label">{modeLabel}</span>
-
-          <button
-            type="button"
-            className="tpmv2-badge"
-            style={modeButtonStyle(accountMode === "demo")}
-            onClick={() => onModeChange("demo")}
-          >
-            {demoLabel}
-          </button>
-
-          <button
-            type="button"
-            className="tpmv2-badge"
-            style={modeButtonStyle(accountMode === "real")}
-            onClick={() => onModeChange("real")}
-          >
-            {realLabel}
-          </button>
-
-          <span className="tpmv2-badge tpmv2-topbar-balance">{balance}$</span>
-        </div>
-      </div>
-    </header>
+    <TradingTerminalShell
+      accountMode={accountMode}
+      balance={balance}
+      demoLabel={demoLabel}
+      diagnosticsHref={diagnosticsHref}
+      diagnosticsLabel={diagnosticsLabel}
+      locale={locale}
+      marketStatus={marketStatus}
+      modeLabel={modeLabel}
+      onModeChange={onModeChange}
+      paperAccessLabel={paperAccessLabel}
+      paperAccessTone={paperAccessTone}
+      paperAccessValue={paperAccessValue}
+      realLabel={realLabel}
+      selectedAssetChange={selectedAssetChange}
+      selectedAssetPrice={selectedAssetPrice}
+      selectedAssetSymbol={selectedAssetSymbol}
+      settingsHref={settingsHref}
+      settingsLabel={settingsLabel}
+    />
   );
 }
 
