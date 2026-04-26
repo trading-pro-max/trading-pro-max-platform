@@ -470,9 +470,9 @@ test.describe("verified platform truth", () => {
       if (route.path === "/") {
         const publicNavText = await page.locator(".tpm-foundation-nav-shell").innerText();
         expect(publicNavText).toMatch(
-          /Home|Trading Workspace|Markets|Plans|Apps \/ Platforms|Academy|Support|Sign in/
+          /Home|Trading Workspace|Markets|Plans|Apps \/ Platforms|Support|Sign in/
         );
-        expect(publicNavText).not.toMatch(/Community|Settings|Diagnostics|Language|Theme|Adaptive Atmosphere|Paper-safe|Web current|Live inactive/);
+        expect(publicNavText).not.toMatch(/Academy|Community|Settings|Diagnostics|Language|Theme|Adaptive Atmosphere|Paper-safe|Web current|Live inactive/);
         await expect(page.locator(".tpm-product-entry").first()).toBeVisible();
         await expect(page.locator(".tpm-product-hero").first()).toBeVisible();
         await expect(page.locator(".tpm-product-workstation-shell")).toHaveCount(0);
@@ -766,13 +766,12 @@ test.describe("verified platform truth", () => {
       "Markets",
       "Plans",
       "Apps / Platforms",
-      "Academy",
       "Support",
       "Sign in",
     ]) {
       expect(navText).toContain(label);
     }
-    expect(navText).not.toMatch(/Community|Settings|Diagnostics|Language|Theme|Adaptive Atmosphere|Paper-safe|Web current|Live inactive/);
+    expect(navText).not.toMatch(/Academy|Community|Settings|Diagnostics|Language|Theme|Adaptive Atmosphere|Paper-safe|Web current|Live inactive/);
     const bodyText = await page.locator("body").innerText();
     for (const label of ["Community", "Settings", "Diagnostics"]) {
       expect(bodyText).toContain(label);
@@ -798,7 +797,7 @@ test.describe("verified platform truth", () => {
     expect(await page.locator("body").innerText()).not.toMatch(
       /Cosmic Operating Physics|Gravity Priority|Orbit Path|Risk Belt|Black Hole Zone|Satellites|Stations|Workers|Task Graph|Task Passport|Codex License/i
     );
-    await expect(page.locator("body")).toContainText(/Account session|Theme and language|Plan capability truth|Paper-session guidance/);
+    await expect(page.locator("body")).toContainText(/Account session|Theme and interface|Plan capability truth|Paper-session guidance/);
 
     await page.goto("/diagnostics");
     expect(await page.locator("body").innerText()).not.toMatch(forbiddenPublicTerms);
@@ -952,7 +951,7 @@ test.describe("verified platform truth", () => {
     expect(brandIntelligenceDoc).toContain("Institutional");
   });
 
-  test("renders global theme modes, language fallback, and RTL/LTR surfaces", async ({
+  test("renders global theme modes, disabled language controls, and RTL/LTR surfaces", async ({
     page,
   }) => {
     test.setTimeout(120000);
@@ -1096,7 +1095,10 @@ test.describe("verified platform truth", () => {
     await expect(page.locator(".tpm-foundation-frame")).toHaveAttribute("dir", "ltr");
     await expect(page.locator("body")).toContainText("Settings");
     await expect(page.locator(".tpm-utility-page-settings .tpm-theme-switcher")).toHaveCount(1);
-    await expect(page.locator(".tpm-utility-page-settings .tpm-locale-select")).toHaveCount(1);
+    await expect(page.locator(".tpm-utility-page-settings .tpm-locale-select")).toHaveCount(0);
+    await expect(page.locator(".tpm-language-disabled-note")).toContainText(
+      /English only for now|Language switching is being rebuilt/
+    );
     await expect(page.locator(".tpm-utility-page-settings .tpm-environment-control")).toHaveCount(1);
     await expectRuntimeCssApplied(page, "utility");
     await page.screenshot({
@@ -1114,11 +1116,11 @@ test.describe("verified platform truth", () => {
     await expect(page.locator(".tpm-foundation-frame")).toHaveAttribute("lang", "de");
     await expect(page.locator(".tpm-foundation-frame")).toHaveAttribute("dir", "ltr");
     await expect(page.locator("body")).toContainText(
-      "English fallback until German pack is reviewed"
+      "Language switching is being rebuilt"
     );
     await page.screenshot({
       fullPage: true,
-      path: path.join(THEME_ARTIFACT_DIR, "language-fallback-coverage.png"),
+      path: path.join(THEME_ARTIFACT_DIR, "language-switching-disabled.png"),
     });
 
     await openWithTheme(page, "/ar/settings", "dark");
@@ -1126,7 +1128,8 @@ test.describe("verified platform truth", () => {
     await expect(page.locator("main").first()).toBeVisible();
 
     await openWithTheme(page, "/en/diagnostics", "dark");
-    await expect(page.locator("body")).toContainText("Language coverage");
+    await expect(page.locator("body")).toContainText("Public language");
+    await expect(page.locator("body")).toContainText("Language switching is disabled");
     await expect(page.locator("body")).toContainText("Feedback and recovery state");
     await expectRuntimeCssApplied(page, "utility");
     await page.screenshot({

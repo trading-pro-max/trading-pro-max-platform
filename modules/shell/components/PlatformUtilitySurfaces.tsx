@@ -9,7 +9,6 @@ import {
 import { getAssistantTierSnapshot } from "../../../lib/assistant/tiers";
 import { getPlanEntitlementSnapshot } from "../../../lib/plans/entitlements";
 import { getPublicPlanRealms } from "../../../lib/plans/realms";
-import { getLocaleEntry } from "../../../lib/i18n/config";
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
 import type { PlanVisualIdentity, PlanVisualKey } from "../../../lib/plans/visual-identity";
 import { getPlanVisualIdentities } from "../../../lib/plans/visual-identity";
@@ -42,7 +41,6 @@ import type {
 } from "../types/platform-state";
 import type { WorkstationStatusTone } from "./trading-workstation-view-model";
 import { createTradingWorkstationViewModel } from "./trading-workstation-view-model";
-import { LanguageSwitcher } from "./LanguageSwitcher";
 import EnvironmentModeControl from "./EnvironmentModeControl";
 import EnvironmentStatusBadge from "./EnvironmentStatusBadge";
 import {
@@ -283,16 +281,6 @@ function ToggleButton({
       {label}
     </button>
   );
-}
-
-function localeCoverageText(locale: string) {
-  const localeEntry = getLocaleEntry(locale);
-
-  if (localeEntry.coverage === "complete") {
-    return localeEntry.coverageLabel;
-  }
-
-  return `${localeEntry.coverageLabel}. Missing strings use ${localeEntry.dictionaryLocale.toUpperCase()} fallback.`;
 }
 
 function useUtilityPlatformViewModel(locale: string, dict: Dictionary) {
@@ -909,17 +897,12 @@ export function PlatformDiagnosticsSurface({
   const currentPlanetLayer = planEntitlementSnapshot.citizenAccess.currentLayer;
   const publicPlanRealms = getPublicPlanRealms();
   const localePrefix = locale ? `/${locale}` : "";
-  const localeEntry = getLocaleEntry(locale);
-
   const systemItems = [
     {
-      label: dict.settings.languageCoverage,
-      value:
-        localeEntry.coverage === "complete"
-          ? localeEntry.name
-          : `${localeEntry.name} fallback`,
-      tone: localeEntry.coverage === "complete" ? ("approved" as const) : ("pending" as const),
-      note: localeCoverageText(locale),
+      label: "Public language",
+      value: "English only",
+      tone: "pending" as const,
+      note: "Language switching is disabled while the public language system is rebuilt.",
     },
     {
       label: dict.diagnostics.runtime,
@@ -2393,7 +2376,6 @@ export function PlatformSettingsSurface({
   const { platformState, viewModel } = useUtilityPlatformViewModel(locale, dict);
   const preferences = platformState.workspacePreferences;
   const localePrefix = locale ? `/${locale}` : "";
-  const localeEntry = getLocaleEntry(locale);
   const accountTypeIdentity = getDefaultAccountTypeIdentity();
   const assistantTier = getAssistantTierSnapshot("evaluation").current;
   const planVisualIdentities = getPlanVisualIdentities();
@@ -2639,7 +2621,7 @@ export function PlatformSettingsSurface({
         </div>
       </UtilitySection>
 
-      <UtilitySection eyebrow="GLOBAL" title="Theme and language">
+      <UtilitySection eyebrow="GLOBAL" title="Theme and interface">
         <div className="tpm-utility-control-grid">
           <div className="tpm-utility-control">
             <span>{dict.settings.theme}</span>
@@ -2647,21 +2629,17 @@ export function PlatformSettingsSurface({
             <small>{dict.settings.currentTheme}</small>
           </div>
 
-          <div className="tpm-utility-control">
-            <span>{dict.settings.language}</span>
-            <LanguageSwitcher locale={locale} label={dict.nav.language} />
-            <small>{localeCoverageText(locale)}</small>
-          </div>
-
-          <div className="tpm-utility-control">
-            <span>{dict.settings.languageCoverage}</span>
-            <strong>
-              {localeEntry.coverage === "complete"
-                ? localeEntry.name
-                : dict.settings.fallbackLanguage}
-            </strong>
+          <div
+            className="tpm-utility-control tpm-language-disabled-note"
+            data-language-readiness="multilingual_rebuild_needed"
+            data-public-language-switching="disabled"
+            data-language-switching-note="public_language_switching_disabled"
+          >
+            <span>Language</span>
+            <strong>English only for now</strong>
             <small>
-              {localeEntry.nativeName} / {localeEntry.direction.toUpperCase()}
+              Language switching is being rebuilt. No public language selector
+              is active in this build.
             </small>
           </div>
         </div>

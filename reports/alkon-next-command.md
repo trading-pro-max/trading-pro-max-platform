@@ -2,29 +2,31 @@
 
 Recommended next command:
 
-Run Ahmad visual acceptance for Public Shell Topbar Cleanup + Earth Presence Visual Correction.
+Run Ahmad visual acceptance for Public Header Hard Cleanup + Language System Disable + Trading Workspace Route Repair.
 
 Reason:
 
-The public Home topbar is now orientation-only, language/theme/environment controls live in Settings, Product Truth is below the hero, and the Home hero has stronger CSS-only Earth presence across dark, light, and RTL proof.
+The public header is now orientation-only, broken language controls are disabled from public UI, Theme/Adaptive Atmosphere controls live in Settings, and Trading Workspace opens reliably from nav and hero.
 
 Review:
 
-- `test-results/public-shell-earth-visual-correction/public-topbar-clean.png`
-- `test-results/public-shell-earth-visual-correction/public-topbar-no-language.png`
-- `test-results/public-shell-earth-visual-correction/home-dark-earth-presence.png`
-- `test-results/public-shell-earth-visual-correction/home-light-earth-presence.png`
-- `test-results/public-shell-earth-visual-correction/hero-essential-ctas.png`
-- `test-results/public-shell-earth-visual-correction/settings-language-theme-controls.png`
-- `test-results/public-shell-earth-visual-correction/rtl-public-home.png`
-- `test-results/public-shell-earth-visual-correction/no-alkon-public-leak.png`
+- `test-results/public-header-language-disable-route-repair/public-header-clean.png`
+- `test-results/public-header-language-disable-route-repair/public-header-no-language.png`
+- `test-results/public-header-language-disable-route-repair/public-header-no-theme-controls.png`
+- `test-results/public-header-language-disable-route-repair/home-clean-header-dark.png`
+- `test-results/public-header-language-disable-route-repair/home-clean-header-light.png`
+- `test-results/public-header-language-disable-route-repair/settings-no-broken-language.png`
+- `test-results/public-header-language-disable-route-repair/trading-workspace-route-open.png`
+- `test-results/public-header-language-disable-route-repair/workspace-no-public-nav.png`
+- `test-results/public-header-language-disable-route-repair/no-alkon-public-leak.png`
 
 Next safe scope:
 
-- record Ahmad acceptance or exact remaining visual blockers
+- record Ahmad acceptance or exact remaining visual/route blockers
 - keep public topbar minimal
 - keep Settings as the secondary control surface
-- keep Home calm, paper-safe, and Earth-native
+- keep public language switching disabled until rebuilt
+- keep Trading Workspace chart-first and public-nav-free
 - keep Alkon private
 
 Blocked:

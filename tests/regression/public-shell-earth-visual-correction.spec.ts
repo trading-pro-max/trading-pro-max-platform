@@ -36,7 +36,6 @@ async function expectPublicTopbarClean(page: Page) {
     "Markets",
     "Plans",
     "Apps / Platforms",
-    "Academy",
     "Support",
   ];
 
@@ -49,8 +48,8 @@ async function expectPublicTopbarClean(page: Page) {
   for (const linkName of primaryLinks) {
     await expect(header.getByRole("link", { exact: true, name: linkName })).toBeVisible();
   }
-  expect(navText).toMatch(/Home|Trading Workspace|Markets|Plans|Apps \/ Platforms|Academy|Support|Sign in/);
-  expect(navText).not.toMatch(/Language|Theme|Adaptive Atmosphere|Settings|Diagnostics|Paper-safe|Web current|Live inactive/);
+  expect(navText).toMatch(/Home|Trading Workspace|Markets|Plans|Apps \/ Platforms|Support|Sign in/);
+  expect(navText).not.toMatch(/Academy|Community|Language|Theme|Adaptive Atmosphere|Settings|Diagnostics|Paper-safe|Web current|Live inactive/);
 }
 
 test.describe("public shell topbar cleanup and Earth visual correction", () => {
@@ -113,7 +112,10 @@ test.describe("public shell topbar cleanup and Earth visual correction", () => {
 
     await openWithTheme(page, "/settings", "light");
     await expect(page.locator(".tpm-foundation-nav-shell .tpm-locale-select")).toHaveCount(0);
-    await expect(page.locator(".tpm-utility-page-settings .tpm-locale-select")).toBeVisible();
+    await expect(page.locator(".tpm-utility-page-settings .tpm-locale-select")).toHaveCount(0);
+    await expect(page.locator(".tpm-language-disabled-note")).toContainText(
+      /English only for now|Language switching is being rebuilt/
+    );
     await expect(page.locator(".tpm-utility-page-settings .tpm-theme-switcher")).toBeVisible();
     await expect(page.locator(".tpm-utility-page-settings .tpm-environment-control")).toBeVisible();
     await screenshotLocator(

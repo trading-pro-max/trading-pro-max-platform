@@ -54,7 +54,7 @@ async function expectWorkspaceControlsOnce(page: Page, shellSelector: string) {
   await expect(shellControls).toHaveCount(1);
   await expect(shellControls.locator(".tpm-auth-panel-nav, .tpm-auth-panel-topbar")).toHaveCount(1);
   await expect(shellControls.locator(".tpm-theme-switcher")).toHaveCount(1);
-  await expect(shellControls.locator(".tpm-locale-select")).toHaveCount(1);
+  await expect(shellControls.locator(".tpm-locale-select")).toHaveCount(0);
   await expect(shellControls.locator(".tpm-shell-utility-link", { hasText: "Settings" })).toHaveCount(1);
   await expect(shellControls.locator(".tpm-shell-utility-link", { hasText: "Diagnostics" })).toHaveCount(1);
 }
@@ -77,9 +77,9 @@ test.describe("global shell and navigation rebuild", () => {
 
     const publicNav = await page.locator(".tpm-foundation-nav-shell").innerText();
     expect(publicNav).toMatch(
-      /Home|Trading Workspace|Markets|Plans|Apps \/ Platforms|Academy|Support|Sign in/
+      /Home|Trading Workspace|Markets|Plans|Apps \/ Platforms|Support|Sign in/
     );
-    expect(publicNav).not.toMatch(/Community|Settings|Diagnostics|Language|Theme|Adaptive Atmosphere|Paper-safe|Web current|Live inactive/);
+    expect(publicNav).not.toMatch(/Academy|Community|Settings|Diagnostics|Language|Theme|Adaptive Atmosphere|Paper-safe|Web current|Live inactive/);
     await expect(page.locator(".tpm-foundation-nav-brand")).toHaveCount(1);
     await expect(page.locator(".tpm-foundation-nav-brand .tpm-earth-mark-compact")).toHaveCount(1);
     await expect(page.locator(".tpm-shell-status-public .tpm-shell-status-badge")).toHaveCount(0);
@@ -144,7 +144,10 @@ test.describe("global shell and navigation rebuild", () => {
     await expect(page.locator(".tpm-terminal-topbar")).toHaveCount(0);
     await expectPublicHeaderMinimal(page, ".tpm-public-shell");
     await expect(page.locator(".tpm-utility-page-settings .tpm-theme-switcher")).toHaveCount(1);
-    await expect(page.locator(".tpm-utility-page-settings .tpm-locale-select")).toHaveCount(1);
+    await expect(page.locator(".tpm-utility-page-settings .tpm-locale-select")).toHaveCount(0);
+    await expect(page.locator(".tpm-language-disabled-note")).toContainText(
+      /English only for now|Language switching is being rebuilt/
+    );
     await expect(page.locator(".tpm-utility-page-settings .tpm-environment-control")).toHaveCount(1);
     await screenshotLocator(page, ".tpm-public-shell", "settings-shell.png");
 

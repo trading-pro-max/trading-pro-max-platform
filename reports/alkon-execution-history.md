@@ -85,3 +85,34 @@ Validation:
 Safety:
 
 - No live execution, real money, broker/feed, billing, production activation, social publishing, generated images, raster assets, public Alkon exposure, fake claims, public number-one/global/regulated claims, or restricted control exposure were introduced.
+
+## 2026-04-26 - Public Header Hard Cleanup + Language System Disable + Trading Workspace Route Repair
+
+Mission executed locally in code/tests/reports only.
+
+Actions:
+
+- Audited public header, language controls, Settings controls, and Trading Workspace route wiring.
+- Reduced the public header to Pro Max logo, Home, Trading Workspace, Markets, Plans, Apps / Platforms, Support, and Sign in.
+- Removed Academy from the primary header and kept secondary public surfaces in Home body content.
+- Removed the language switcher from public ShellControls and Settings.
+- Preserved locale infrastructure while disabling public language switching.
+- Added Settings English-only rebuild note with `multilingual_rebuild_needed` and `public_language_switching_disabled`.
+- Kept Theme and Adaptive Atmosphere / Weather controls inside Settings instead of the public header.
+- Verified Trading Workspace opens from nav and hero and renders terminal shell, chart, execution rail, and no public nav.
+- Added focused regression coverage and screenshots under `test-results/public-header-language-disable-route-repair/`.
+
+Validation:
+
+- TypeScript passed.
+- ESLint passed.
+- Build passed.
+- Prisma validate passed.
+- Focused Playwright proof passed with 4 tests.
+- Regression passed with 191 tests.
+- Route smoke passed.
+
+Safety:
+
+- Public language switching remains disabled until rebuilt.
+- No live execution, real money, broker/feed, billing, production activation, social publishing, generated images, raster assets, public Alkon exposure, fake claims, public number-one/global/regulated claims, or restricted control exposure were introduced.

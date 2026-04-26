@@ -37,7 +37,6 @@ export default function PublicAppShell({
     { href: publicSectionHref(routeMode, "#markets"), label: "Markets" },
     { href: publicSectionHref(routeMode, "#plans"), label: "Plans" },
     { href: publicSectionHref(routeMode, "#apps-platforms"), label: "Apps / Platforms" },
-    { href: publicSectionHref(routeMode, "#academy"), label: "Academy" },
     { href: publicSectionHref(routeMode, "#support"), label: "Support" },
   ];
 

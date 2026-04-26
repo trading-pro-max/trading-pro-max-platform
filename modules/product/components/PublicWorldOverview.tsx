@@ -63,7 +63,7 @@ const utilityPublicWorldItems = [
     href: "settings",
     title: "Settings",
     state: "Public-safe",
-    summary: "Theme, language, paper ticket defaults, and plan truth controls.",
+    summary: "Theme, environment, paper ticket defaults, and plan truth controls.",
     detail: "No real-money, billing, broker, or restricted control surfaces.",
   },
   {
