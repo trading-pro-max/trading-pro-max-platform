@@ -2,6 +2,7 @@ import "server-only";
 
 import { getPlanEntitlementSnapshot } from "@/lib/plans/entitlements";
 import { getConstructionQueueSnapshot } from "@/lib/server/codex-construction";
+import { getCodexPresidencyReport } from "@/lib/server/codex-sovereignty";
 import {
   getLocalDayOneReadinessSnapshot,
   getLocalDailyOperationsLoopSnapshot,
@@ -46,6 +47,7 @@ export type FounderPersonalCompanionSnapshot = {
   productMemorySummary: string[];
   buildRoomSummary: string[];
   sovereignAutonomySummary: string[];
+  codexSovereigntySummary: string[];
   toolingSummary: string[];
   whatNotToApprove: string[];
   nextSafeDecisions: string[];
@@ -86,6 +88,7 @@ export function getFounderPersonalCompanionSnapshot(
   const buildRoom = getFounderBuildRoomSnapshot(checkedAt);
   const tooling = getFounderToolingReadinessSnapshot(checkedAt);
   const sovereignAutonomy = getSovereignAutonomyReadinessSnapshot(checkedAt);
+  const codexSovereignty = getCodexPresidencyReport(checkedAt);
   const decisionMinistries = reporting.ministries.filter(
     (report) => report.founderDecisionNeeded
   );
@@ -189,6 +192,13 @@ export function getFounderPersonalCompanionSnapshot(
       `${sovereignAutonomy.taskPassports.filter((passport) => passport.valid).length} Task Passports and ${sovereignAutonomy.codexSubmitReadiness.drafts.length} Codex-ready drafts are available for review.`,
       `Result Tribunal sample decision is ${sovereignAutonomy.tribunalReports[0]?.decision ?? "needs_fix"}.`,
       "The web app cannot execute shell commands, call Codex directly, send secrets, publish, launch, bill, trade live, or route real money.",
+    ],
+    codexSovereigntySummary: [
+      `Codex Sovereign Construction State is ${codexSovereignty.readiness}.`,
+      `${codexSovereignty.taskPassportsReady} valid Task Passports are ready for governed drafting.`,
+      `${codexSovereignty.tasksWaitingFounderApproval.length} tasks are waiting Founder approval.`,
+      `Level 3.0 draft-only is ${codexSovereignty.level3Status.level30DraftOnly ? "ready" : "blocked"} and Level 3.1 remains readiness-only.`,
+      "The web app cannot execute shell commands, call Codex directly, send secrets, activate billing, connect brokers/feeds, launch publicly, publish socially, or enable real money.",
     ],
     toolingSummary: [
       `Essential tooling hub is ${tooling.status}.`,

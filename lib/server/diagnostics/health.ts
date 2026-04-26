@@ -55,6 +55,7 @@ import { getCommunityReadinessSnapshot } from "@/lib/server/community";
 import { getSecuritySovereigntySnapshot } from "@/lib/server/security-sovereignty";
 import { getSecretsAuthoritySnapshot } from "@/lib/server/secrets-authority";
 import { getSovereignAutonomyPublicSafeReadiness } from "@/lib/server/sovereign-autonomy";
+import { getCodexSovereigntyPublicSafeReadiness } from "@/lib/server/codex-sovereignty";
 import { getSurfaceBoundarySnapshot } from "@/lib/server/surface-boundaries";
 import { getVipRoomsReadinessSnapshot } from "@/lib/server/vip-rooms";
 import { getWorldInterfaceSnapshot } from "@/lib/server/world-interface";
@@ -1356,6 +1357,8 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
   };
   const sovereignAutonomyPublicProbe =
     getSovereignAutonomyPublicSafeReadiness(checkedAt);
+  const codexSovereigntyPublicProbe =
+    getCodexSovereigntyPublicSafeReadiness(checkedAt);
   const brandIntelligenceSummary = getPublicBrandIntelligenceSummary(checkedAt);
   const brandIntelligenceProbe: DiagnosticsProbe = {
     key: "living_brand_intelligence",
@@ -1445,6 +1448,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       localDayOneProbe,
       founderBuildRoomProbe,
       sovereignAutonomyPublicProbe,
+      codexSovereigntyPublicProbe,
       brandIntelligenceProbe,
       surfaceBoundaryProbe,
       securitySovereigntyProbe,
@@ -1581,6 +1585,48 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         status: sovereignAutonomyPublicProbe.status,
         detail:
           "Internal draft route returns task drafts and submission readiness only; the web app cannot run shell commands or call Codex.",
+      },
+      {
+        path: "/api/founder/codex-sovereignty/readiness",
+        method: "GET",
+        status: codexSovereigntyPublicProbe.status,
+        detail:
+          "Private construction readiness route reports scoped build control, permits, validation, and lessons without public navigation, shell execution, external calls, secrets, or activation authority.",
+      },
+      {
+        path: "/api/codex-sovereignty/status",
+        method: "GET",
+        status: codexSovereigntyPublicProbe.status,
+        detail:
+          "Internal construction status route reports read-only build governance readiness without shell execution, external calls, secrets, launch, billing, broker/feed, live execution, real money, or social publishing.",
+      },
+      {
+        path: "/api/codex-sovereignty/constitution",
+        method: "GET",
+        status: codexSovereigntyPublicProbe.status,
+        detail:
+          "Internal construction rule route reports status-only blocked and review-required categories.",
+      },
+      {
+        path: "/api/codex-sovereignty/passport/sample",
+        method: "GET",
+        status: codexSovereigntyPublicProbe.status,
+        detail:
+          "Internal build packet sample route reports scoped allowed/forbidden files and validation requirements only.",
+      },
+      {
+        path: "/api/codex-sovereignty/permit/sample",
+        method: "GET",
+        status: codexSovereigntyPublicProbe.status,
+        detail:
+          "Internal permit sample route reports draft, review, readiness-only, and blocked outcomes without executing anything.",
+      },
+      {
+        path: "/api/codex-sovereignty/tribunal/sample",
+        method: "GET",
+        status: codexSovereigntyPublicProbe.status,
+        detail:
+          "Internal result review sample route reports validation outcomes and lessons without raw logs or sensitive data.",
       },
       {
         path: "/api/local-ops/day-one",
@@ -1829,6 +1875,13 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         status: sovereignAutonomyPublicProbe.status,
         summary: sovereignAutonomyPublicProbe.summary,
         detail: sovereignAutonomyPublicProbe.detail,
+      },
+      {
+        key: codexSovereigntyPublicProbe.key,
+        label: codexSovereigntyPublicProbe.label,
+        status: codexSovereigntyPublicProbe.status,
+        summary: codexSovereigntyPublicProbe.summary,
+        detail: codexSovereigntyPublicProbe.detail,
       },
       {
         key: "living_brand_intelligence",

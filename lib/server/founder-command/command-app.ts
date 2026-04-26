@@ -11,6 +11,10 @@ import {
   getSelfHealingPipelineSnapshot,
   getValidationInterpreterReadinessSnapshot,
 } from "@/lib/server/codex-construction";
+import {
+  getCodexPresidencyReport,
+  getCodexSovereigntySnapshot,
+} from "@/lib/server/codex-sovereignty";
 import { getDesignMinistrySnapshot } from "@/lib/server/design-ministry";
 import { getPlanetEconomyGrowthReadinessSnapshot } from "@/lib/server/economy-growth";
 import { getTpmBrainContextSnapshot } from "@/lib/server/brain";
@@ -156,6 +160,8 @@ export function getFounderCommandAppSnapshot(
   const sovereignAutonomy = getSovereignAutonomyReadinessSnapshot(checkedAt);
   const sovereignAutonomyRoom =
     getFounderSovereignAutonomyRoomSnapshot(checkedAt);
+  const codexSovereignty = getCodexSovereigntySnapshot(checkedAt);
+  const codexPresidencyReport = getCodexPresidencyReport(checkedAt);
 
   const desktopApp: FounderCommandDeviceBlueprint = {
     platform: "desktop",
@@ -904,6 +910,27 @@ export function getFounderCommandAppSnapshot(
         whatNotToAutomate: sovereignAutonomy.blockedSystems,
         truth: sovereignAutonomy.truth,
       },
+      codexSovereignty: {
+        status: codexSovereignty.status,
+        mode: codexSovereignty.mode,
+        constitutionStatus: codexPresidencyReport.constitutionStatus,
+        parliamentReady: codexSovereignty.parliamentReady,
+        jurisdictionReady: codexSovereignty.jurisdictionReady,
+        taskPassportsReady: codexPresidencyReport.taskPassportsReady,
+        executionPermits: codexPresidencyReport.permits,
+        blockedTaskCategories: codexPresidencyReport.blockedTaskCategories,
+        level3Status: codexPresidencyReport.level3Status,
+        resultTribunalStatus: codexPresidencyReport.resultTribunalStatus,
+        lessonsLearned: codexPresidencyReport.lessonsLearned,
+        tasksWaitingFounderApproval:
+          codexPresidencyReport.tasksWaitingFounderApproval,
+        autoSubmitEligibleCategories:
+          codexPresidencyReport.autoSubmitEligibleCategories,
+        promptCompilerReady: codexSovereignty.promptCompilerReady,
+        autoSubmitReady: codexSovereignty.autoSubmitReady,
+        whatNotToAutomate: codexPresidencyReport.whatNotToAutomate,
+        truth: codexSovereignty.truth,
+      },
       visualAcceptance: {
         status: visualAcceptance.status,
         averageScoreEstimate: visualAcceptance.averageScoreEstimate,
@@ -926,10 +953,16 @@ export function getFounderCommandAppSnapshot(
       "/api/founder/local-command/readiness",
       "/api/founder/build-room/readiness",
       "/api/founder/sovereign-autonomy/readiness",
+      "/api/founder/codex-sovereignty/readiness",
       "/api/sovereign-autonomy/status",
       "/api/sovereign-autonomy/founder-ideas",
       "/api/sovereign-autonomy/events",
       "/api/sovereign-autonomy/codex-drafts",
+      "/api/codex-sovereignty/status",
+      "/api/codex-sovereignty/constitution",
+      "/api/codex-sovereignty/passport/sample",
+      "/api/codex-sovereignty/permit/sample",
+      "/api/codex-sovereignty/tribunal/sample",
       "/api/planet/economy/readiness",
       "/api/planet/media/readiness",
       "/api/planet/consciousness",

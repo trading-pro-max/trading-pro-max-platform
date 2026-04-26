@@ -77,11 +77,19 @@ function publicDisplayText(value: string): string {
     .replace(/Founder King/gi, "Advanced controls")
     .replace(/Founder-only/gi, "Private")
     .replace(/Owner command/gi, "Advanced controls")
+    .replace(/Construction governance readiness/gi, "Construction build readiness")
+    .replace(/Codex Sovereign Construction State/gi, "Construction build readiness")
+    .replace(/codex-sovereignty/gi, "construction-readiness")
+    .replace(/Task Constitution/gi, "build rules")
+    .replace(/Task Parliament/gi, "build review")
+    .replace(/Jurisdiction Office/gi, "scope review")
     .replace(/Sovereign Autonomy/gi, "Operating readiness")
     .replace(/sovereign-autonomy/gi, "operating-readiness")
     .replace(/Task Passport/gi, "review packet")
+    .replace(/Execution Permit/gi, "build permission")
     .replace(/Codex License/gi, "build permission")
     .replace(/Result Tribunal/gi, "validation review")
+    .replace(/Memory & Lessons/gi, "safe notes")
     .replace(/Product Memory/gi, "Safe notes")
     .replace(/Owner-only/gi, "Private")
     .replace(/owner-only/gi, "restricted")
@@ -1262,6 +1270,13 @@ export function PlatformDiagnosticsSurface({
     diagnosticsHealth?.probes.find(
       (probe) => probe.key === "essential_integrations_tooling"
     );
+  const constructionGovernanceProbe =
+    diagnosticsHealth?.subsystems?.find(
+      (subsystem) => subsystem.key === "construction_governance"
+    ) ??
+    diagnosticsHealth?.probes.find(
+      (probe) => probe.key === "construction_governance"
+    );
   const essentialToolingItems = [
     {
       label: "Tooling readiness",
@@ -1272,6 +1287,18 @@ export function PlatformDiagnosticsSurface({
       note:
         essentialToolingProbe?.detail ??
         "Local runtime, validation, safe notes, and external-service planning are classified without activation.",
+    },
+    {
+      label: constructionGovernanceProbe?.label ?? "Construction governance readiness",
+      value:
+        constructionGovernanceProbe?.summary ??
+        "Internal build review, scoped permissions, validation, and lessons are ready",
+      tone: constructionGovernanceProbe
+        ? toneFromProbeStatus(constructionGovernanceProbe.status)
+        : ("approved" as const),
+      note:
+        constructionGovernanceProbe?.detail ??
+        "Build review is readiness-only; no shell execution, external calls, secrets, or activation authority exists.",
     },
     {
       label: "Build workflow",

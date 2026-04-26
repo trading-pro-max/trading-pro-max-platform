@@ -227,3 +227,24 @@ Founder Command receives a private readiness summary for learning and community 
 - no fake Pro/VIP activation
 
 The signal is read-only and readiness-only. It does not activate rooms, billing, paid access, social accounts, live chat, copy trading, or external publishing.
+
+## Codex Sovereign Construction State
+
+Founder Command receives the private Codex Sovereign Construction State report:
+
+- task constitution status
+- Task Parliament decisions
+- Jurisdiction Office scope
+- Task Passports ready
+- Execution Permit outcomes
+- blocked task categories
+- Level 3.0 draft-only status
+- Level 3.1 readiness-only status
+- Codex prompt compiler readiness
+- auto-submit eligible docs/tests categories
+- Result Tribunal outcomes
+- Memory & Lessons rules
+- tasks waiting Founder approval
+- what not to automate
+
+This layer is internal-only and read-only. It does not execute shell commands, call Codex directly, send secrets to Codex, activate billing, connect brokers/feeds, enable live execution, route real money, publish socially, launch publicly, or expose Founder Command to normal users.
