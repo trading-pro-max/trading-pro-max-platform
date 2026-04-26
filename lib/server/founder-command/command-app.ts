@@ -35,6 +35,7 @@ import { getRealWorldLaunchReadinessSnapshot } from "@/lib/server/launch-readine
 import { getFinalConvergenceSnapshot } from "@/lib/server/final-convergence";
 import { getAlkonContinuitySnapshot } from "@/lib/server/alkon-continuity";
 import { getAlkonLegitimacySnapshot } from "@/lib/server/alkon-legitimacy";
+import { getAlkonRuntimeSnapshot } from "@/lib/server/alkon-runtime";
 import { getPlanetaryEnvironmentReadinessSnapshot } from "@/lib/server/environment";
 import { getEarthRealitySnapshot } from "@/lib/server/earth-reality";
 import { getPersonalRealityReadinessSnapshot } from "@/lib/server/personal-reality";
@@ -189,6 +190,7 @@ export function getFounderCommandAppSnapshot(
   const finalConvergence = getFinalConvergenceSnapshot(checkedAt);
   const alkonContinuity = getAlkonContinuitySnapshot(checkedAt);
   const alkonLegitimacy = getAlkonLegitimacySnapshot(checkedAt);
+  const alkonRuntime = getAlkonRuntimeSnapshot(checkedAt);
   const planetaryEnvironment =
     getPlanetaryEnvironmentReadinessSnapshot(checkedAt);
   const earthReality = getEarthRealitySnapshot(checkedAt);
@@ -328,6 +330,10 @@ export function getFounderCommandAppSnapshot(
             alkonCommandUniverse.sovereignLegitimacy.readiness === "ready",
           legitimacyPublicExposure:
             alkonCommandUniverse.sovereignLegitimacy.publicExposure,
+          runtimeReady:
+            alkonCommandUniverse.digitalUniverseRuntimeSnapshot.readiness === "ready",
+          runtimePublicExposure:
+            alkonCommandUniverse.digitalUniverseRuntimeSnapshot.publicExposure,
         },
       },
       planRealmFunctionalExperience: {
@@ -386,6 +392,7 @@ export function getFounderCommandAppSnapshot(
     alkonOntology: alkonCommandUniverse.ontology,
     alkonLegitimacy,
     alkonContinuity,
+    alkonRuntime,
     treasuryLife,
     mediaIntelligence,
     finalConvergence,
@@ -1240,6 +1247,10 @@ export function getFounderCommandAppSnapshot(
       "/api/founder/alkon-continuity/snapshot",
       "/api/founder/alkon-continuity/sample-birth",
       "/api/founder/alkon-continuity/cleanup-candidates",
+      "/api/founder/alkon-runtime/readiness",
+      "/api/founder/alkon-runtime/snapshot",
+      "/api/founder/alkon-runtime/sample-input",
+      "/api/founder/alkon-runtime/next-fate",
       "/api/founder/treasury-life/readiness",
       "/api/founder/media-intelligence/readiness",
       "/api/founder/final-convergence/readiness",

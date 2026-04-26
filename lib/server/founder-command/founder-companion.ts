@@ -17,6 +17,7 @@ import { getRealWorldLaunchReadinessSnapshot } from "@/lib/server/launch-readine
 import { getFinalConvergenceSnapshot } from "@/lib/server/final-convergence";
 import { getAlkonContinuitySnapshot } from "@/lib/server/alkon-continuity";
 import { getAlkonLegitimacySnapshot } from "@/lib/server/alkon-legitimacy";
+import { getAlkonRuntimeSnapshot } from "@/lib/server/alkon-runtime";
 import { getPlanetaryEnvironmentReadinessSnapshot } from "@/lib/server/environment";
 import { getEarthRealitySnapshot } from "@/lib/server/earth-reality";
 import { getPersonalRealityReadinessSnapshot } from "@/lib/server/personal-reality";
@@ -73,6 +74,7 @@ export type FounderPersonalCompanionSnapshot = {
   alkonOntologySummary: string[];
   alkonLegitimacySummary: string[];
   alkonContinuitySummary: string[];
+  alkonRuntimeSummary: string[];
   treasuryLifeSummary: string[];
   mediaIntelligenceSummary: string[];
   revelationExperienceSummary: string[];
@@ -135,6 +137,7 @@ export function getFounderPersonalCompanionSnapshot(
   const alkonUniverse = getAlkonUniverseSnapshot(checkedAt);
   const alkonContinuity = getAlkonContinuitySnapshot(checkedAt);
   const alkonLegitimacy = getAlkonLegitimacySnapshot(checkedAt);
+  const alkonRuntime = getAlkonRuntimeSnapshot(checkedAt);
   const treasuryLife = getTreasuryLifeSnapshot();
   const mediaIntelligence = getMediaIntelligenceSnapshot();
   const revelationExperience = getRevelationExperienceSnapshot(checkedAt);
@@ -294,6 +297,12 @@ export function getFounderPersonalCompanionSnapshot(
       `${alkonContinuity.sampleReports.length} sample reports cover birth, identity, law, function, integration, proof, life, evolution, deprecation, removal, and memory.`,
       `${alkonContinuity.blackHoled.length} births are black-holed and ${alkonContinuity.deprecationCandidates.length} entities are deprecation candidates in the sample model.`,
       "Continuity is private, read-only, non-deleting, and cannot expose Alkon, execute shell commands, call Codex, activate real-world systems, or create raster assets.",
+    ],
+    alkonRuntimeSummary: [
+      `${alkonRuntime.name} is ${alkonRuntime.visibility}; public exposure is ${String(alkonRuntime.publicExposure)}.`,
+      `${alkonRuntime.sampleReports.length} sample runtime reports cover place, time, law, gravity, orbit, life, economy, defense, communication, reality, consequence, memory, and next fate.`,
+      `${alkonRuntime.blackHoleCategories.length} categories are black-holed and ${alkonRuntime.nextSafeFates.length} next fates are readiness-only recommendations.`,
+      "Runtime is private, read-only, non-paying, non-deleting, non-executing, and cannot expose secrets, call Codex, publish, launch, activate billing, broker/feed, live execution, or real money.",
     ],
     treasuryLifeSummary: [
       `Treasury Life is ${treasuryLife.status}; funding mode is ${treasuryLife.fundingMode}.`,

@@ -1,12 +1,5 @@
 # Alkon Gravity Layer
 
-Gravity assigns private priority after Law.
+Gravity assigns importance: P0 critical, P1 high, P2 standard, P3 future, blocked, or black hole.
 
-Priorities:
-- P0 critical: public/private leak, secrets risk, Product Truth violation, build failure, severe visual rejection, chart unusable, duplicate shell breaking workspace
-- P1 high: rejected logo, annoying chart, Home crowded, Assistant unsafe or confusing, Apps/Support missing
-- P2 standard: polish, docs, tests, UI cleanup, environment refinement
-- P3 future: future mobile apps, social readiness, advanced CRM, distant readiness
-- blocked / black hole: hard-forbidden activations and unsafe actions
-
-Gravity decides what must be routed, reviewed, blocked, or reported first.
+P0 covers leaks, secrets, Product Truth violations, build/validation failures, unusable chart, security risk, payment/bank secret exposure, and fake claims. Black-hole gravity isolates forbidden activation and secret/payment/public-Alkon exposure.

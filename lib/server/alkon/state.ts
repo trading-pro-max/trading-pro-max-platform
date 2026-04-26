@@ -7,6 +7,7 @@ import { getAlkonContinuitySnapshot } from "@/lib/server/alkon-continuity";
 import { getAlkonCosmicPhysicsSnapshot } from "@/lib/server/alkon-physics";
 import { getAlkonLegitimacySnapshot } from "@/lib/server/alkon-legitimacy";
 import { getAlkonOntologySnapshot } from "@/lib/server/alkon-ontology";
+import { getAlkonRuntimeSnapshot } from "@/lib/server/alkon-runtime";
 import { getInvisibleOperatingLayerSnapshot } from "@/lib/server/invisible-operating-layer";
 import {
   getLocalDailyOperationsLoopSnapshot,
@@ -85,6 +86,7 @@ export function getAlkonUniverseSnapshot(
   const ontology = getAlkonOntologySnapshot(checkedAt);
   const sovereignLegitimacy = getAlkonLegitimacySnapshot(checkedAt);
   const sovereignContinuity = getAlkonContinuitySnapshot(checkedAt);
+  const digitalUniverseRuntime = getAlkonRuntimeSnapshot(checkedAt);
   const universeMap = buildAlkonUniverseMap();
 
   return {
@@ -140,6 +142,13 @@ export function getAlkonUniverseSnapshot(
       nextAction:
         "Use Task Passports and Result Tribunal before accepting any work; the web app never executes shell commands or calls Codex directly.",
     },
+    digitalUniverseRuntime: {
+      ...requireSubsystem(universeMap, "digital_universe_runtime"),
+      readiness:
+        `${digitalUniverseRuntime.sampleReports.length} sample runtime reports are ready; ${digitalUniverseRuntime.blackHoleCategories.length} categories are black-holed and ${digitalUniverseRuntime.nextSafeFates.length} next fates are classified.`,
+      nextAction:
+        "Use runtime reports as private readiness and fate recommendations only; no payment, deletion, shell, Codex, launch, billing, broker/feed, live, real-money, or publishing execution.",
+    },
     memoryUniverse: {
       ...requireSubsystem(universeMap, "memory_universe"),
       readiness:
@@ -166,6 +175,7 @@ export function getAlkonUniverseSnapshot(
     ontology,
     sovereignLegitimacy,
     sovereignContinuity,
+    digitalUniverseRuntimeSnapshot: digitalUniverseRuntime,
     universeMap,
     nextSafeActions: [
       "Keep Alkon and الكون private to Founder Command and founder-only readiness APIs.",
@@ -174,6 +184,7 @@ export function getAlkonUniverseSnapshot(
       "Use Alkon Ontology privately so every entity has meaning, owner, lifecycle, relationships, risk, validation, report target, memory, and stay/removal law.",
       "Use Alkon Sovereign Legitimacy privately before sensitive authority, treasury, media, launch, security, cleanup, or public-claim decisions.",
       "Use Alkon Sovereign Creation & Continuity privately so every entity has governed birth, identity, law, function, integration, proof, monitoring, evolution, deprecation/removal, memory, and report.",
+      "Use Alkon Digital Universe Runtime privately so every idea, risk, invoice, media message, feature, bug, decision, law, and result receives place, time, law, gravity, orbit, life, institution, consequence, memory, and next fate.",
       "Keep public users inside Trading Pro Max, Free, Pro, VIP, Institutional, TPM Assistant, workspace, settings, diagnostics, and readiness language only.",
       "Use Founder Idea Inbox, Task Passports, manual Codex drafts, Result Tribunal, and Memory lessons as review-only systems.",
       "Add future private execution only after owner auth, device trust, step-up confirmation, audit, security, legal, and Product Truth gates exist.",
@@ -202,6 +213,8 @@ export function getAlkonUniverseSnapshot(
         "/api/founder/alkon-legitimacy/readiness",
       founderContinuityReadinessRoute:
         "/api/founder/alkon-continuity/readiness",
+      founderRuntimeReadinessRoute: "/api/founder/alkon-runtime/readiness",
+      founderRuntimeSnapshotRoute: "/api/founder/alkon-runtime/snapshot",
       publicRouteDecision:
         "Non-founder /api/alkon/* and /api/alkon/physics/* routes were not created because Alkon and Cosmic Operating Physics are not public product surfaces.",
       routeMode: "read_only_status_only",

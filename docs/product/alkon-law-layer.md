@@ -1,31 +1,5 @@
 # Alkon Law Layer
 
-Law applies the non-negotiable operating boundaries.
+The Law Layer checks Product Truth, Earth Reality, public/private boundaries, security, secrets, Legal/Guardian, Treasury, media claims, Founder preferences, no-images, no-fake-claims, no-payment-execution, and no-public-Alkon rules.
 
-Law checks:
-- Product Truth
-- plan entitlements
-- public/private boundaries
-- Guardian
-- Legal
-- Trust Governor
-- Security Sovereignty
-- Secrets Authority
-- Founder preferences
-- no-images rule
-- no-fake-claims rule
-
-Hard-blocked categories:
-- live execution
-- real money
-- broker/feed activation
-- billing activation now
-- production secrets
-- social publishing automation
-- public launch activation
-- fake users, revenue, metrics, plan activation, legal status, Sharia certification, or partnerships
-- guaranteed profit or win-rate claims
-- secrets exposure
-- external offensive action
-- Alkon public exposure
-- generated/raster images unless Ahmad explicitly requests them
+Hard black-hole requests include live execution, real money, broker/feed, billing now, production secrets, social publishing automation, raw secrets, bank/card data, shell execution, direct Codex execution, public Alkon exposure, unapproved image generation, and fake legal/financial/product claims.

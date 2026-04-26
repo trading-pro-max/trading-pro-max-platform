@@ -81,6 +81,7 @@ test.describe("Alkon internal universe closure", () => {
       "planetary_systems",
       "defense_universe",
       "construction_universe",
+      "digital_universe_runtime",
       "memory_universe",
       "world_interface",
       "invisible_operating_layer",

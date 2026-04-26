@@ -5,6 +5,7 @@ import type { AlkonContinuitySnapshot } from "@/lib/server/alkon-continuity";
 import type { AlkonCosmicPhysicsSnapshot } from "@/lib/server/alkon-physics";
 import type { AlkonLegitimacySnapshot } from "@/lib/server/alkon-legitimacy";
 import type { AlkonOntologySnapshot } from "@/lib/server/alkon-ontology";
+import type { AlkonRuntimeSnapshot } from "@/lib/server/alkon-runtime";
 
 export type AlkonUniverseVisibility = "private_founder_only";
 
@@ -26,6 +27,7 @@ export type AlkonSubsystemId =
   | "planetary_systems"
   | "defense_universe"
   | "construction_universe"
+  | "digital_universe_runtime"
   | "memory_universe"
   | "world_interface"
   | "invisible_operating_layer";
@@ -74,6 +76,8 @@ export type AlkonApiExposure = {
   founderOntologyReadinessRoute: "/api/founder/alkon-ontology/readiness";
   founderLegitimacyReadinessRoute: "/api/founder/alkon-legitimacy/readiness";
   founderContinuityReadinessRoute: "/api/founder/alkon-continuity/readiness";
+  founderRuntimeReadinessRoute: "/api/founder/alkon-runtime/readiness";
+  founderRuntimeSnapshotRoute: "/api/founder/alkon-runtime/snapshot";
   publicRouteDecision: string;
   routeMode: "read_only_status_only";
   secretsExposed: false;
@@ -94,6 +98,7 @@ export type AlkonUniverseSnapshot = {
   planetarySystems: AlkonSubsystem;
   defenseUniverse: AlkonSubsystem;
   constructionUniverse: AlkonSubsystem;
+  digitalUniverseRuntime: AlkonSubsystem;
   memoryUniverse: AlkonSubsystem;
   worldInterface: AlkonSubsystem;
   invisibleOperatingLayer: AlkonSubsystem;
@@ -102,6 +107,7 @@ export type AlkonUniverseSnapshot = {
   ontology: AlkonOntologySnapshot;
   sovereignLegitimacy: AlkonLegitimacySnapshot;
   sovereignContinuity: AlkonContinuitySnapshot;
+  digitalUniverseRuntimeSnapshot: AlkonRuntimeSnapshot;
   universeMap: AlkonSubsystem[];
   nextSafeActions: string[];
   blockedActions: string[];
