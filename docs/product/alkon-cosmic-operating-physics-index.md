@@ -1,6 +1,7 @@
 # Alkon Cosmic Operating Physics Index
 
 - [Doctrine](./alkon-cosmic-operating-physics.md)
+- [Alkon Work Distribution System](./alkon-work-distribution-system.md)
 - [Cosmic Task Distribution](./cosmic-task-distribution.md)
 - [Gravity Priority System](./gravity-priority-system.md)
 - [Orbit Path System](./orbit-path-system.md)

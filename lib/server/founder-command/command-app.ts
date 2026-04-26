@@ -340,6 +340,7 @@ export function getFounderCommandAppSnapshot(
         blockedRequests: localLivingDayLoop.today.blockedRequests,
         visualReviewNeeds: localLivingDayLoop.today.visualReviewNeeds,
         nextSafeAction: localLivingDayLoop.today.nextSafeAction,
+        codebaseRealityAudit: localLivingDayLoop.codebaseRealityAudit,
         truth: localLivingDayLoop.truth,
       },
     },

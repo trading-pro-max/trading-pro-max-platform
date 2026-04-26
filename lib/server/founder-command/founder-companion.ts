@@ -240,6 +240,7 @@ export function getFounderPersonalCompanionSnapshot(
       `${localLivingDayLoop.loop.length} Local Day One living stages are ready.`,
       localLivingDayLoop.today.ideaIntake,
       `${localLivingDayLoop.today.openGaps.length} open gaps and ${localLivingDayLoop.today.blockedRequests.length} blocked requests are visible to Founder Command.`,
+      `Codebase Reality Audit is ${localLivingDayLoop.codebaseRealityAudit.status}; cleanup execution active: ${String(localLivingDayLoop.codebaseRealityAudit.cleanupExecutionActive)}.`,
       localLivingDayLoop.today.nextSafeAction,
     ],
     founderIdeaInboxSummary: [

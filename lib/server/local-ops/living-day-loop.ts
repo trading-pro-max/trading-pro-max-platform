@@ -16,6 +16,16 @@ export type LocalLivingDayLoopSnapshot = {
     visualReviewNeeds: string[];
     nextSafeAction: string;
   };
+  codebaseRealityAudit: {
+    status: "ready";
+    auditNeeded: true;
+    cleanupNeeded: true;
+    p0CleanupRoute: string[];
+    p1CleanupRoute: string[];
+    cleanupExecutionActive: false;
+    deletionAllowedWithoutProof: false;
+    nextSafeAction: string;
+  };
   truth: {
     publicLaunchActive: false;
     productionActive: false;
@@ -61,6 +71,16 @@ export function getLocalLivingDayLoopSnapshot(
         step: "Capture Founder ideas",
         status: "ready",
         output: "Founder Idea Inbox previews classification, routing, gates, passport, and draft.",
+      },
+      {
+        step: "Classify into events",
+        status: "ready",
+        output: "Ideas become governed events with owner routing and policy gates.",
+      },
+      {
+        step: "Generate task passports",
+        status: "ready",
+        output: "Task Passport previews define scope, forbidden actions, validation, and public language rules.",
       },
       {
         step: "Draft Codex prompts",
@@ -115,6 +135,28 @@ export function getLocalLivingDayLoopSnapshot(
       ],
       nextSafeAction:
         "Enter one Founder idea, inspect the Task Passport and Codex draft, then decide whether to run external manual work.",
+    },
+    codebaseRealityAudit: {
+      status: "ready",
+      auditNeeded: true,
+      cleanupNeeded: true,
+      p0CleanupRoute: [
+        "build failure",
+        "public/private terminology leak",
+        "security or secrets risk",
+        "Product Truth violation",
+        "chart-blocking usability issue",
+      ],
+      p1CleanupRoute: [
+        "important visual cleanup",
+        "public navigation cleanup",
+        "Apps or Support readiness cleanup",
+        "regression or smoke route cleanup",
+      ],
+      cleanupExecutionActive: false,
+      deletionAllowedWithoutProof: false,
+      nextSafeAction:
+        "Create an explicit cleanup Task Passport before changing or deleting files; do not delete modified or untracked files without proof of broken duplication.",
     },
     truth: {
       publicLaunchActive: false,

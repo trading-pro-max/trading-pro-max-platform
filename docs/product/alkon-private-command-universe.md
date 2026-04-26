@@ -18,6 +18,9 @@ Alkon contains:
 - Construction Universe / Codex governance
 - Memory Universe / lessons and Product Truth
 - World Interface readiness
+- Cosmic Work Distribution
+- Task Graph
+- Founder Idea Inbox
 - Result Tribunal and next safe actions
 
 ## Boundaries
@@ -25,3 +28,7 @@ Alkon contains:
 Alkon is local/laptop scope only. It does not activate production, billing, broker/feed, live execution, real money, social publishing, email sending, external accounts, shell commands, direct Codex calls, or production secrets.
 
 The invisible operating layer may connect public and private worlds, but it must translate private complexity into public-safe terms.
+
+## Closure State
+
+For local daily command use, Alkon is closed when Earth, Moon, Orbit, Solar, Planetary Systems, Defense, Construction, Memory, World Interface, the Invisible Operating Layer, Cosmic Work Distribution, Founder Idea Inbox, Result Tribunal, next safe actions, and blocked actions are all visible inside private Founder Command readiness while remaining absent from public Trading Pro Max surfaces.

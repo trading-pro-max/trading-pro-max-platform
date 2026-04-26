@@ -94,7 +94,7 @@ export function getAlkonUniverseSnapshot(
     moonCycle: {
       ...requireSubsystem(universeMap, "moon_cycle"),
       readiness:
-        `${localDailyLoop.summary.totalStages} daily loop stages and local day ${localDailyReport.dayNumber} are summarized for closed laptop review.`,
+        `${localDailyLoop.summary.totalStages} daily loop stages, local day ${localDailyReport.dayNumber}, and Codebase Reality Audit ${localLivingDayLoop.codebaseRealityAudit.status} are summarized for closed laptop review.`,
       nextAction: localLivingDayLoop.today.nextSafeAction,
     },
     orbitCommand: {

@@ -26,6 +26,15 @@ Founder Command shows:
 - visual review needs
 - next safe action
 
+Codebase Reality Audit readiness:
+
+- audit needed before cleanup execution
+- cleanup needed is treated as readiness, not automatic deletion
+- P0 cleanup route is for build failure, public/private leaks, security/secrets risk, Product Truth violation, or chart-blocking usability
+- P1 cleanup route is for important visual, navigation, support, or regression cleanup
+- cleanup execution requires an explicit future task passport
+- no modified or untracked files are deleted without proof they are broken duplicates and an explanation
+
 Forbidden:
 
 - public launch

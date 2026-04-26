@@ -13,6 +13,7 @@ Those terms remain private. Public users see only Trading Pro Max language.
 - Founder review does not override Product Truth, Guardian, Legal, security, or secrets boundaries.
 - No public user receives Alkon access through Free, Pro, VIP, or Institutional.
 - No live execution, real money, broker/feed, billing, social publishing, email sending, production launch, shell execution, or direct Codex execution exists.
+- No task is random; every task needs source, gravity, orbit, owner, worker, task passport, validation, tribunal, memory, and Founder report.
 
 ## Alkon Output
 
