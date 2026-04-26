@@ -98,6 +98,10 @@ import {
   getRealWorldLaunchReadinessSnapshot,
 } from "@/lib/server/launch-readiness";
 import {
+  getPlanetaryEnvironmentDiagnosticsProbe,
+  getPlanetaryEnvironmentReadinessSnapshot,
+} from "@/lib/server/environment";
+import {
   buildFinalMarketParitySnapshot,
   getFinalMarketParityDiagnosticsProbe,
 } from "@/lib/server/parity";
@@ -1077,6 +1081,8 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         .join(" "),
     checkedAt,
   };
+  const planetaryEnvironmentProbe =
+    getPlanetaryEnvironmentDiagnosticsProbe(checkedAt);
 
   const readiness = buildAggregateReadiness({
     checkedAt,
@@ -1117,6 +1123,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       localOperations,
       designMinistry,
       planRealmFunctionalExperience,
+      planetaryEnvironmentProbe,
     ],
   });
 
@@ -1155,6 +1162,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     localOperations,
     designMinistry,
     planRealmFunctionalExperience,
+    planetaryEnvironmentProbe,
   ];
   const routes = buildRouteProbes({
     readiness,
@@ -1466,6 +1474,10 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
   };
   const essentialIntegrationsProbe =
     getEssentialIntegrationsDiagnosticsProbe(checkedAt);
+  const environmentReadiness =
+    getPlanetaryEnvironmentReadinessSnapshot(checkedAt);
+  const finalPlanetaryEnvironmentProbe =
+    getPlanetaryEnvironmentDiagnosticsProbe(checkedAt);
 
   return {
     ...baseHealth,
@@ -1492,6 +1504,41 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     ],
     routes: [
       ...baseHealth.routes,
+      {
+        path: "/api/environment/status",
+        method: "GET",
+        status: finalPlanetaryEnvironmentProbe.status,
+        detail:
+          "Adaptive Atmosphere status reports time, solar, weather, market-session, system weather, plan realm, and motion truth without GPS, precise tracking, external weather calls, or trading advice.",
+      },
+      {
+        path: "/api/environment/preview",
+        method: "GET",
+        status: finalPlanetaryEnvironmentProbe.status,
+        detail:
+          "Environment preview route accepts deterministic query parameters only; it performs no external calls and cannot affect trading decisions.",
+      },
+      {
+        path: "/api/environment/market-session",
+        method: "GET",
+        status: finalPlanetaryEnvironmentProbe.status,
+        detail:
+          "Market-session atmosphere route reports deterministic UTC session awareness without live feed or broker connectivity.",
+      },
+      {
+        path: "/api/environment/privacy",
+        method: "GET",
+        status: finalPlanetaryEnvironmentProbe.status,
+        detail:
+          "Environment privacy route documents no GPS, no precise location tracking, no hidden tracking, and no weather-based trading advice.",
+      },
+      {
+        path: "/api/founder/environment/readiness",
+        method: "GET",
+        status: finalPlanetaryEnvironmentProbe.status,
+        detail:
+          "Founder environment readiness route reports internal engine status only, without secrets, execution, external calls, or public navigation.",
+      },
       {
         path: "/api/launch/readiness",
         method: "GET",
@@ -1999,7 +2046,27 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         summary: essentialIntegrationsProbe.summary,
         detail: essentialIntegrationsProbe.detail,
       },
+      {
+        key: "planetary_environment_engine",
+        label: finalPlanetaryEnvironmentProbe.label,
+        status: finalPlanetaryEnvironmentProbe.status,
+        summary: finalPlanetaryEnvironmentProbe.summary,
+        detail: finalPlanetaryEnvironmentProbe.detail,
+      },
     ],
+    environment: {
+      checkedAt: environmentReadiness.checkedAt,
+      status: environmentReadiness.status,
+      mode: environmentReadiness.snapshot.mode,
+      solarPhase: environmentReadiness.snapshot.solarPhase,
+      weatherState: environmentReadiness.snapshot.weatherState,
+      marketSession: environmentReadiness.snapshot.marketSession,
+      systemWeather: environmentReadiness.snapshot.systemWeather,
+      surfaceIntensity: environmentReadiness.snapshot.surfaceIntensity,
+      privacy: environmentReadiness.snapshot.diagnostics.privacy,
+      motionAllowed: environmentReadiness.snapshot.motionAllowed,
+      publicLabel: environmentReadiness.snapshot.publicLabel,
+    },
     launchReadiness: {
       checkedAt: launchGate.checkedAt,
       mode: launchGate.mode,

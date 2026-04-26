@@ -43,6 +43,8 @@ import type {
 import type { WorkstationStatusTone } from "./trading-workstation-view-model";
 import { createTradingWorkstationViewModel } from "./trading-workstation-view-model";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import EnvironmentModeControl from "./EnvironmentModeControl";
+import EnvironmentStatusBadge from "./EnvironmentStatusBadge";
 import {
   CHART_TYPES,
   DRAWING_TOOLS,
@@ -1159,6 +1161,56 @@ export function PlatformDiagnosticsSurface({
       note: "No checkout, paid access, or private treasury fee UI is user-visible.",
     },
   ];
+  const environmentItems = diagnosticsHealth?.environment
+    ? [
+        {
+          label: "Environment mode",
+          value: diagnosticsHealth.environment.publicLabel,
+          tone: "approved" as const,
+          note: `Mode ${diagnosticsHealth.environment.mode}; motion ${diagnosticsHealth.environment.motionAllowed ? "allowed" : "static"}.`,
+        },
+        {
+          label: "Solar phase",
+          value: diagnosticsHealth.environment.solarPhase,
+          tone: "approved" as const,
+          note: "Time is used for atmosphere only.",
+        },
+        {
+          label: "Weather state source",
+          value: diagnosticsHealth.environment.weatherState,
+          tone: "pending" as const,
+          note: "Manual or unavailable only; no external weather provider call is active.",
+        },
+        {
+          label: "Market session awareness",
+          value: diagnosticsHealth.environment.marketSession,
+          tone: "pending" as const,
+          note: "Atmosphere only; no live feed, broker connection, or trading advice.",
+        },
+        {
+          label: "System weather",
+          value: diagnosticsHealth.environment.systemWeather,
+          tone:
+            diagnosticsHealth.environment.systemWeather === "ready_clear"
+              ? ("approved" as const)
+              : ("pending" as const),
+          note: "Compact readiness mood, not an alerting or execution system.",
+        },
+        {
+          label: "Privacy",
+          value: diagnosticsHealth.environment.privacy,
+          tone: "approved" as const,
+          note: "No GPS, no precise location tracking, no hidden tracking.",
+        },
+      ]
+    : [
+        {
+          label: "Environment mode",
+          value: "Loading",
+          tone: "pending" as const,
+          note: "Diagnostics is loading public-safe Adaptive Atmosphere readiness.",
+        },
+      ];
 
   const planRealmItems = publicPlanRealms.map((realm) => ({
     label: `${realm.publicPlanName} experience`,
@@ -1844,6 +1896,13 @@ export function PlatformDiagnosticsSurface({
         <UtilityGrid items={systemItems} />
       </UtilitySection>
 
+      <UtilitySection eyebrow="ENVIRONMENT" title="Adaptive Atmosphere readiness">
+        <div className="tpm-utility-environment-row">
+          <EnvironmentStatusBadge />
+          <UtilityGrid items={environmentItems} />
+        </div>
+      </UtilitySection>
+
       <UtilitySection eyebrow="PLAN INTERFACE" title="Plan-based interface architecture">
         <PlanInterfaceSummary compact currentLayer="demo_free" />
       </UtilitySection>
@@ -2317,6 +2376,37 @@ export function PlatformSettingsSurface({
             <small>
               {localeEntry.nativeName} / {localeEntry.direction.toUpperCase()}
             </small>
+          </div>
+        </div>
+      </UtilitySection>
+
+      <UtilitySection eyebrow="ENVIRONMENT" title="Environment / Atmosphere">
+        <div className="tpm-utility-control-grid">
+          <div className="tpm-utility-control tpm-utility-environment-control">
+            <span>Adaptive Atmosphere</span>
+            <EnvironmentModeControl
+              label="Solar / Weather Theme"
+              showWeather
+            />
+            <small>
+              Adaptive Atmosphere adjusts the platform visual mood by time,
+              selected region, system state, and motion preference. It does not
+              use precise location and does not affect trading decisions.
+            </small>
+          </div>
+
+          <div className="tpm-utility-control">
+            <span>Privacy</span>
+            <strong>No precise location tracking</strong>
+            <small>
+              No GPS prompt, no hidden tracking, no external weather provider
+              calls, and no weather-based trading advice.
+            </small>
+          </div>
+
+          <div className="tpm-utility-control">
+            <span>Current atmosphere</span>
+            <EnvironmentStatusBadge />
           </div>
         </div>
       </UtilitySection>

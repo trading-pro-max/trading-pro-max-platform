@@ -10,6 +10,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { THEME_STORAGE_KEY } from "../lib/constants/storage";
 import { DEFAULT_THEME_MODE, THEME_MODES } from "../lib/constants/theme";
+import { PlanetaryEnvironmentProvider } from "../modules/shell/components/PlanetaryEnvironmentProvider";
 
 export const metadata: Metadata = {
   title: "Trading Pro Max | Operator-Grade Evaluation Workstation",
@@ -49,7 +50,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP_SCRIPT }} />
       </head>
-      <body className="tpm-app-body">{children}</body>
+      <body className="tpm-app-body">
+        <PlanetaryEnvironmentProvider>{children}</PlanetaryEnvironmentProvider>
+      </body>
     </html>
   );
 }

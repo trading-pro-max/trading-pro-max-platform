@@ -5,6 +5,10 @@ import type {
   LivingEarthSurface,
 } from "@/lib/brand/earth-background-types";
 import { resolveLivingEarthFocus } from "@/lib/brand/earth-focus";
+import type {
+  SolarPhase,
+  WeatherState,
+} from "@/lib/environment/client-types";
 import type { PlanRealmId } from "@/lib/plans/realms/types";
 
 type LivingEarthBackgroundProps = {
@@ -15,6 +19,8 @@ type LivingEarthBackgroundProps = {
   state?: LivingEarthState;
   surface?: LivingEarthSurface;
   timeZone?: string;
+  solarPhase?: SolarPhase;
+  weatherState?: WeatherState;
 };
 
 const planRealmIds: Record<LivingEarthPlan, PlanRealmId> = {
@@ -33,6 +39,8 @@ export default function LivingEarthBackground({
   state = "paper_safe",
   surface = "public_entry",
   timeZone,
+  solarPhase = "day",
+  weatherState = "unknown",
 }: LivingEarthBackgroundProps) {
   const focus = resolveLivingEarthFocus({
     locale,
@@ -55,9 +63,14 @@ export default function LivingEarthBackground({
       data-earth-realm={realmId}
       data-earth-state={state}
       data-earth-surface={surface}
+      data-env-solar-phase={solarPhase}
+      data-env-weather-state={weatherState}
+      data-environment-engine="adaptive_atmosphere"
       data-reduced-motion-supported="true"
     >
       <div className="tpm-living-earth-stars" />
+      <div className="tpm-living-earth-weather" />
+      <div className="tpm-living-earth-moon-layer" />
       <div className="tpm-living-earth-orbital-grid" />
       <div className="tpm-living-earth-realm-atmosphere" data-earth-realm={realmId} />
       <div className="tpm-living-earth-realm-orbit" data-earth-realm={realmId} />

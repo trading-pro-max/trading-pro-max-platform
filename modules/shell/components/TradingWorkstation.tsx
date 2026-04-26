@@ -475,6 +475,7 @@ export default function TradingWorkstation({
   return (
     <main
       className="tpm-app-shell tpm-workspace-shell tpm-foundation-frame tpmv2-page"
+      data-environment-surface="workspace"
       data-living-earth-surface="workstation"
       data-shell-mode="workspace"
       dir={dir}

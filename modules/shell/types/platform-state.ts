@@ -720,6 +720,64 @@ export type DiagnosticsHealthSnapshot = {
     nextSafeAction: string;
     publicLaunchActive: false;
   };
+  environment?: {
+    checkedAt: string;
+    status: "ready";
+    mode:
+      | "system"
+      | "adaptive"
+      | "solar_only"
+      | "weather_only"
+      | "light"
+      | "dark"
+      | "high_contrast"
+      | "static";
+    solarPhase:
+      | "dawn"
+      | "sunrise"
+      | "morning"
+      | "day"
+      | "golden_hour"
+      | "sunset"
+      | "night"
+      | "deep_night";
+    weatherState:
+      | "unknown"
+      | "clear"
+      | "cloudy"
+      | "rain"
+      | "storm"
+      | "snow"
+      | "fog"
+      | "heat"
+      | "wind"
+      | "manual";
+    marketSession:
+      | "asia"
+      | "europe"
+      | "us"
+      | "after_hours"
+      | "weekend"
+      | "closed"
+      | "unknown";
+    systemWeather:
+      | "ready_clear"
+      | "fallback_fog"
+      | "blocked_red_signal"
+      | "review_clouds"
+      | "maintenance_cold"
+      | "degraded_dim"
+      | "build_failed_storm";
+    surfaceIntensity:
+      | "none"
+      | "subtle"
+      | "standard"
+      | "expressive"
+      | "command_private";
+    privacy: "no_gps_no_precise_location_no_hidden_tracking";
+    motionAllowed: boolean;
+    publicLabel: string;
+  };
   marketParity?: {
     checkedAt: string;
     mode: "final_market_parity_closure";

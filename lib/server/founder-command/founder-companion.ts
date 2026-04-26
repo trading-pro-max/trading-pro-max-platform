@@ -14,6 +14,7 @@ import {
   getLocalOperationsReadinessSnapshot,
 } from "@/lib/server/local-ops";
 import { getRealWorldLaunchReadinessSnapshot } from "@/lib/server/launch-readiness";
+import { getPlanetaryEnvironmentReadinessSnapshot } from "@/lib/server/environment";
 import { getInvisibleOperatingLayerSnapshot } from "@/lib/server/invisible-operating-layer";
 import {
   getProductMemoryDailySummarySnapshot,
@@ -59,6 +60,7 @@ export type FounderPersonalCompanionSnapshot = {
   alkonUniverseSummary: string[];
   alkonCosmicPhysicsSummary: string[];
   realWorldLaunchReadinessSummary: string[];
+  planetaryEnvironmentSummary: string[];
   invisibleOperatingLayerSummary: string[];
   localLivingDayLoopSummary: string[];
   founderIdeaInboxSummary: string[];
@@ -111,6 +113,8 @@ export function getFounderPersonalCompanionSnapshot(
   const alkonUniverse = getAlkonUniverseSnapshot(checkedAt);
   const realWorldLaunchReadiness =
     getRealWorldLaunchReadinessSnapshot(checkedAt);
+  const planetaryEnvironment =
+    getPlanetaryEnvironmentReadinessSnapshot(checkedAt);
   const publicRealms = getPublicPlanRealms();
   const privateRealm = getPrivateFounderRealm();
   const decisionMinistries = reporting.ministries.filter(
@@ -241,6 +245,12 @@ export function getFounderPersonalCompanionSnapshot(
       `Waitlist ${realWorldLaunchReadiness.waitlist.status}, staging ${realWorldLaunchReadiness.infrastructure.status}, legal ${realWorldLaunchReadiness.legal.status}, support ${realWorldLaunchReadiness.support.status}, billing ${realWorldLaunchReadiness.billing.status}.`,
       `Blocked activations: ${realWorldLaunchReadiness.founderCommand.blockedActivations.join(", ")}.`,
       realWorldLaunchReadiness.gate.nextSafeAction,
+    ],
+    planetaryEnvironmentSummary: [
+      `${planetaryEnvironment.internalName} is ${planetaryEnvironment.status} and public-facing as ${planetaryEnvironment.publicName}.`,
+      `Current deterministic snapshot resolves ${planetaryEnvironment.snapshot.solarPhase}, ${planetaryEnvironment.snapshot.weatherState}, ${planetaryEnvironment.snapshot.marketSession}, and ${planetaryEnvironment.snapshot.systemWeather}.`,
+      "Public and workspace atmospheres stay code-only, privacy-safe, user-controlled, and chart-safe.",
+      "No GPS, precise location tracking, external weather calls, weather trading advice, images, or raster assets are used.",
     ],
     invisibleOperatingLayerSummary: [
       `${invisibleLayer.systems.length} invisible operating systems are mapped.`,

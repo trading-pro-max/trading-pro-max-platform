@@ -299,3 +299,21 @@ It may summarize:
 - Next safe actions.
 
 It must keep Alkon owner-only, read-only by default, hidden from public navigation, and separate from public user plans. It must not activate approval execution, billing, broker/feed, live execution, real money, social publishing, public launch, or production secrets.
+
+## Planetary Environment Addendum
+
+Founder Command may show TPM Planetary Environment Engine readiness:
+
+- Adaptive Atmosphere public status.
+- Solar phase.
+- Moon layer readiness.
+- Manual or unavailable weather readiness.
+- Market-session awareness.
+- System weather.
+- Public/workspace/chart surface intensity.
+- Privacy status.
+- What not to automate.
+
+This layer is read-only atmosphere and reporting. It must not request GPS, store
+precise location, call external weather providers, generate trading advice,
+activate execution, connect feeds, or make the chart visually noisy.

@@ -4,6 +4,7 @@ import LivingEarthBackground from "../../brand/components/LivingEarthBackground"
 import LocalizedEarthFocus from "../../brand/components/LocalizedEarthFocus";
 import ProductLogo from "../../brand/components/ProductLogo";
 import TPMEarthMark from "../../brand/components/TPMEarthMark";
+import EnvironmentStatusBadge from "../../shell/components/EnvironmentStatusBadge";
 import PublicAcademySection from "./PublicAcademySection";
 import PublicAppsPlatformsSection from "./PublicAppsPlatformsSection";
 import PublicCommunitySection from "./PublicCommunitySection";
@@ -110,6 +111,7 @@ export default function PublicProductEntry({
             <span className="tpm-product-kicker">Trading workspace</span>
             <div className="tpm-product-chip-row">
               <span className="tpm-product-chip">Paper-safe</span>
+              <span className="tpm-product-chip">Adaptive Atmosphere</span>
               <span className="tpm-product-chip">Web available</span>
               <span className="tpm-product-chip">Live inactive</span>
             </div>
@@ -152,6 +154,7 @@ export default function PublicProductEntry({
                 ))}
               </div>
               <LocalizedEarthFocus locale="en" surface="public_entry" />
+              <EnvironmentStatusBadge compact />
             </div>
 
             <div className="tpm-product-hero-side">

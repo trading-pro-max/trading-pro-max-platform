@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import AuthSessionPanel from "../../auth/components/AuthSessionPanel";
+import EnvironmentModeControl from "./EnvironmentModeControl";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { ThemeSwitcher } from "./ThemeSwitcher";
 
@@ -54,6 +55,7 @@ export default function ShellControls({
       ) : null}
 
       <ThemeSwitcher label="Theme" />
+      <EnvironmentModeControl label="Adaptive Atmosphere" />
       <LanguageSwitcher locale={locale} label="Language" />
     </div>
   );

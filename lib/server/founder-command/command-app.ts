@@ -32,6 +32,7 @@ import {
   getLocalOperationsReadinessSnapshot,
 } from "@/lib/server/local-ops";
 import { getRealWorldLaunchReadinessSnapshot } from "@/lib/server/launch-readiness";
+import { getPlanetaryEnvironmentReadinessSnapshot } from "@/lib/server/environment";
 import { getInvisibleOperatingLayerSnapshot } from "@/lib/server/invisible-operating-layer";
 import {
   getContentReviewReadinessSnapshot,
@@ -176,6 +177,8 @@ export function getFounderCommandAppSnapshot(
   const alkonCommandUniverse = getAlkonUniverseSnapshot(checkedAt);
   const realWorldLaunchReadiness =
     getRealWorldLaunchReadinessSnapshot(checkedAt);
+  const planetaryEnvironment =
+    getPlanetaryEnvironmentReadinessSnapshot(checkedAt);
 
   const desktopApp: FounderCommandDeviceBlueprint = {
     platform: "desktop",
@@ -349,6 +352,27 @@ export function getFounderCommandAppSnapshot(
     },
     alkonUniverse: alkonCommandUniverse,
     alkonCosmicPhysics: alkonCommandUniverse.cosmicPhysics,
+    planetaryEnvironment: {
+      status: planetaryEnvironment.status,
+      publicName: planetaryEnvironment.publicName,
+      internalName: planetaryEnvironment.internalName,
+      solarPhase: planetaryEnvironment.snapshot.solarPhase,
+      lunarLayer: planetaryEnvironment.snapshot.lunarLayer,
+      weatherReadiness: planetaryEnvironment.snapshot.weatherState,
+      marketSession: planetaryEnvironment.snapshot.marketSession,
+      systemWeather: planetaryEnvironment.snapshot.systemWeather,
+      publicIntensity: "expressive",
+      workspaceIntensity: "subtle",
+      chartIntensity: "none",
+      privacy: planetaryEnvironment.snapshot.diagnostics.privacy,
+      whatNotToAutomate: [
+        "Do not request GPS or precise location.",
+        "Do not use weather, lunar, solar, or market-session state as trading advice.",
+        "Do not connect external weather providers until a reviewed consent model exists.",
+        "Do not increase workspace atmosphere enough to harm chart readability.",
+      ],
+      truth: planetaryEnvironment.snapshot.truth,
+    },
     modules: command.modules,
     moduleSummary,
     approvalCenter: {
@@ -1099,6 +1123,11 @@ export function getFounderCommandAppSnapshot(
       "/api/founder/ideas/readiness",
       "/api/founder/ideas/preview",
       "/api/founder/launch-readiness",
+      "/api/environment/status",
+      "/api/environment/preview",
+      "/api/environment/market-session",
+      "/api/environment/privacy",
+      "/api/founder/environment/readiness",
       "/api/launch-readiness/status",
       "/api/launch-readiness/budget",
       "/api/launch-readiness/waitlist",

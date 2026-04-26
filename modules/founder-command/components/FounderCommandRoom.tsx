@@ -85,6 +85,41 @@ export default function FounderCommandRoom({
 
       <AlkonCommandUniverse checkedAt={commandSnapshot.checkedAt} />
 
+      <section className="tpm-founder-panel" data-private-environment-readiness="true">
+        <div className="tpm-founder-panel-head">
+          <span>TPM Planetary Environment Engine</span>
+          <h2>Private environment readiness</h2>
+          <p>
+            Solar phase, Moon layer, weather readiness, market-session awareness,
+            system weather, and surface intensity are read-only atmosphere signals.
+            They do not execute trades, connect weather providers, or request
+            precise location.
+          </p>
+        </div>
+        <div className="tpm-founder-metrics">
+          <div className="tpm-founder-metric">
+            <span>Solar phase</span>
+            <strong>{appSnapshot.planetaryEnvironment.solarPhase}</strong>
+            <small>{appSnapshot.planetaryEnvironment.lunarLayer.readiness}</small>
+          </div>
+          <div className="tpm-founder-metric">
+            <span>Weather readiness</span>
+            <strong>{appSnapshot.planetaryEnvironment.weatherReadiness}</strong>
+            <small>No external weather calls</small>
+          </div>
+          <div className="tpm-founder-metric">
+            <span>Workspace intensity</span>
+            <strong>{appSnapshot.planetaryEnvironment.workspaceIntensity}</strong>
+            <small>Chart remains first</small>
+          </div>
+          <div className="tpm-founder-metric">
+            <span>Privacy</span>
+            <strong>No GPS</strong>
+            <small>{appSnapshot.planetaryEnvironment.privacy}</small>
+          </div>
+        </div>
+      </section>
+
       <FounderPlanetStatusMap checkedAt={commandSnapshot.checkedAt} />
 
       <FounderCommandAppShell checkedAt={commandSnapshot.checkedAt} />

@@ -6416,6 +6416,14 @@ html[data-theme="light"] {
   --tpm-living-earth-warm: var(--tpm-celestial-gold);
   --tpm-living-earth-opacity: 0.82;
   --tpm-living-earth-motion: 42s;
+  --tpm-env-bg: #06101c;
+  --tpm-env-surface: rgba(10, 20, 32, 0.86);
+  --tpm-env-horizon: rgba(77, 214, 205, 0.18);
+  --tpm-env-glow: rgba(96, 205, 255, 0.18);
+  --tpm-env-accent: var(--tpm-living-earth-accent);
+  --tpm-env-muted: rgba(176, 195, 214, 0.62);
+  --tpm-env-warning: rgba(255, 202, 112, 0.48);
+  --tpm-env-motion-opacity: 0.82;
   position: absolute;
   inset: 0;
   overflow: hidden;
@@ -6451,6 +6459,8 @@ html[data-theme="light"] {
 }
 
 .tpm-living-earth-stars,
+.tpm-living-earth-weather,
+.tpm-living-earth-moon-layer,
 .tpm-living-earth-orbital-grid,
 .tpm-living-earth-horizon {
   position: absolute;
@@ -6474,6 +6484,21 @@ html[data-theme="light"] {
   opacity: calc(var(--tpm-living-earth-opacity) * 0.34);
   transform-origin: 50% 80%;
   animation: tpm-living-earth-grid-drift var(--tpm-living-earth-motion) linear infinite;
+}
+
+.tpm-living-earth-weather {
+  background:
+    radial-gradient(circle at 24% 18%, var(--tpm-env-glow), transparent 26rem),
+    linear-gradient(105deg, transparent 0 42%, color-mix(in srgb, var(--tpm-env-muted) 18%, transparent) 50%, transparent 58%);
+  opacity: calc(var(--tpm-living-earth-opacity) * 0.22 * var(--tpm-env-motion-opacity));
+  mix-blend-mode: screen;
+}
+
+.tpm-living-earth-moon-layer {
+  background:
+    radial-gradient(circle at 78% 20%, rgba(236, 243, 255, 0.62) 0 18px, rgba(236, 243, 255, 0.12) 19px 42px, transparent 44px),
+    radial-gradient(circle at 77% 21%, rgba(0, 0, 0, 0.22) 0 9px, transparent 10px);
+  opacity: calc(var(--tpm-living-earth-opacity) * 0.42);
 }
 
 .tpm-living-earth-horizon {
@@ -6609,9 +6634,247 @@ html[data-theme="light"] .tpm-living-earth-globe {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tpm-living-earth-orbital-grid {
+  .tpm-living-earth-orbital-grid,
+  .tpm-living-earth-weather {
     animation: none;
   }
+}
+
+html[data-tpm-solar-phase="dawn"] .tpm-living-earth-background,
+.tpm-env-dawn .tpm-living-earth-background {
+  --tpm-env-bg: #101827;
+  --tpm-env-horizon: rgba(255, 182, 123, 0.24);
+  --tpm-env-glow: rgba(255, 190, 140, 0.2);
+  --tpm-living-earth-accent: #89d5ff;
+  --tpm-living-earth-warm: #f3b57d;
+}
+
+html[data-tpm-solar-phase="sunrise"] .tpm-living-earth-background,
+.tpm-env-sunrise .tpm-living-earth-background {
+  --tpm-env-horizon: rgba(255, 195, 118, 0.32);
+  --tpm-env-glow: rgba(255, 218, 150, 0.24);
+  --tpm-living-earth-accent: #8fe7df;
+  --tpm-living-earth-warm: #ffd087;
+}
+
+html[data-tpm-solar-phase="morning"] .tpm-living-earth-background,
+.tpm-env-morning .tpm-living-earth-background,
+html[data-tpm-solar-phase="day"] .tpm-living-earth-background,
+.tpm-env-day .tpm-living-earth-background {
+  --tpm-env-horizon: rgba(117, 220, 255, 0.22);
+  --tpm-env-glow: rgba(94, 214, 255, 0.2);
+  --tpm-living-earth-accent: #69d7e7;
+  --tpm-living-earth-warm: #a9e9d6;
+}
+
+html[data-tpm-solar-phase="golden_hour"] .tpm-living-earth-background,
+.tpm-env-golden-hour .tpm-living-earth-background {
+  --tpm-env-horizon: rgba(249, 201, 107, 0.32);
+  --tpm-env-glow: rgba(245, 202, 121, 0.24);
+  --tpm-living-earth-accent: #72d9d0;
+  --tpm-living-earth-warm: #f1c96b;
+}
+
+html[data-tpm-solar-phase="sunset"] .tpm-living-earth-background,
+.tpm-env-sunset .tpm-living-earth-background {
+  --tpm-env-horizon: rgba(244, 124, 102, 0.28);
+  --tpm-env-glow: rgba(245, 168, 128, 0.22);
+  --tpm-living-earth-accent: #7bd2df;
+  --tpm-living-earth-warm: #f19a75;
+}
+
+html[data-tpm-solar-phase="night"] .tpm-living-earth-background,
+.tpm-env-night .tpm-living-earth-background,
+html[data-tpm-solar-phase="deep_night"] .tpm-living-earth-background,
+.tpm-env-deep-night .tpm-living-earth-background {
+  --tpm-env-bg: #020817;
+  --tpm-env-horizon: rgba(105, 142, 255, 0.18);
+  --tpm-env-glow: rgba(120, 146, 255, 0.2);
+  --tpm-living-earth-accent: #83a6ff;
+  --tpm-living-earth-warm: #d4ddff;
+}
+
+html[data-tpm-weather-state="clear"] .tpm-living-earth-background,
+.tpm-weather-clear .tpm-living-earth-background {
+  --tpm-env-motion-opacity: 0.76;
+}
+
+html[data-tpm-weather-state="cloudy"] .tpm-living-earth-background,
+.tpm-weather-cloudy .tpm-living-earth-background {
+  --tpm-env-muted: rgba(201, 214, 226, 0.72);
+  --tpm-env-motion-opacity: 0.62;
+}
+
+html[data-tpm-weather-state="rain"] .tpm-living-earth-background,
+.tpm-weather-rain .tpm-living-earth-background {
+  --tpm-env-glow: rgba(99, 173, 255, 0.18);
+  --tpm-env-motion-opacity: 0.48;
+}
+
+html[data-tpm-weather-state="storm"] .tpm-living-earth-background,
+.tpm-weather-storm .tpm-living-earth-background {
+  --tpm-env-glow: rgba(255, 183, 95, 0.18);
+  --tpm-env-warning: rgba(255, 116, 116, 0.42);
+  --tpm-env-motion-opacity: 0.42;
+}
+
+html[data-tpm-weather-state="snow"] .tpm-living-earth-background,
+.tpm-weather-snow .tpm-living-earth-background {
+  --tpm-env-glow: rgba(232, 244, 255, 0.26);
+  --tpm-env-muted: rgba(232, 244, 255, 0.78);
+}
+
+html[data-tpm-weather-state="fog"] .tpm-living-earth-background,
+.tpm-weather-fog .tpm-living-earth-background {
+  --tpm-env-motion-opacity: 0.36;
+  filter: saturate(0.84);
+}
+
+html[data-tpm-weather-state="heat"] .tpm-living-earth-background,
+.tpm-weather-heat .tpm-living-earth-background {
+  --tpm-env-glow: rgba(255, 169, 98, 0.24);
+  --tpm-living-earth-warm: #f0a162;
+}
+
+html[data-tpm-weather-state="wind"] .tpm-living-earth-background,
+.tpm-weather-wind .tpm-living-earth-background {
+  --tpm-env-motion-opacity: 0.68;
+}
+
+.tpm-system-ready-clear {
+  --tpm-env-warning: rgba(109, 231, 190, 0.24);
+}
+
+.tpm-system-fallback-fog {
+  --tpm-env-muted: rgba(209, 218, 226, 0.72);
+}
+
+.tpm-system-blocked-red-signal,
+.tpm-system-build-failed-storm {
+  --tpm-env-warning: rgba(255, 103, 103, 0.46);
+}
+
+.tpm-system-review-clouds,
+.tpm-system-maintenance-cold,
+.tpm-system-degraded-dim {
+  --tpm-env-muted: rgba(188, 205, 224, 0.68);
+}
+
+.tpm-realm-free-earth-env {
+  --tpm-env-accent: #64d6d1;
+}
+
+.tpm-realm-pro-orbit-env {
+  --tpm-env-accent: #4fe0a0;
+}
+
+.tpm-realm-vip-lunar-env {
+  --tpm-env-accent: #f1c96b;
+}
+
+.tpm-realm-institutional-station-env {
+  --tpm-env-accent: #91d8ff;
+}
+
+.tpm-realm-alkon-universe-env {
+  --tpm-env-accent: #f4c86b;
+}
+
+html[data-tpm-environment-mode="static"] .tpm-living-earth-orbital-grid,
+html[data-tpm-environment-mode="static"] .tpm-living-earth-weather,
+html[data-tpm-motion-allowed="false"] .tpm-living-earth-orbital-grid,
+html[data-tpm-motion-allowed="false"] .tpm-living-earth-weather,
+.tpm-env-static .tpm-living-earth-orbital-grid,
+.tpm-env-static .tpm-living-earth-weather {
+  animation: none;
+}
+
+html[data-tpm-environment-mode="static"] .tpm-living-earth-background,
+.tpm-env-static .tpm-living-earth-background {
+  --tpm-env-motion-opacity: 0.22;
+}
+
+html[data-tpm-environment-mode="high_contrast"] .tpm-living-earth-background,
+.tpm-env-high-contrast .tpm-living-earth-background {
+  --tpm-living-earth-opacity: 0.18;
+  filter: contrast(1.15) saturate(0.72);
+}
+
+.tpm-workspace-shell .tpm-living-earth-background {
+  --tpm-living-earth-opacity: 0.16;
+  --tpm-env-motion-opacity: 0.18;
+}
+
+.tpmv2-chart-surface .tpm-living-earth-background {
+  display: none;
+}
+
+.tpm-environment-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+}
+
+.tpm-environment-control label {
+  align-items: center;
+  display: inline-flex;
+  gap: 6px;
+  min-width: 0;
+}
+
+.tpm-environment-control span {
+  color: var(--tpm-text-soft);
+  font-size: 10px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.tpm-environment-control select {
+  border: 1px solid color-mix(in srgb, var(--tpm-border) 84%, transparent);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--tpm-panel) 86%, transparent);
+  color: var(--tpm-text);
+  font: inherit;
+  font-size: 11px;
+  font-weight: 800;
+  min-height: 28px;
+  padding: 0 8px;
+}
+
+.tpm-environment-status-badge {
+  border: 1px solid color-mix(in srgb, var(--tpm-env-accent, var(--tpm-celestial-cyan)) 26%, transparent);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--tpm-env-accent, var(--tpm-celestial-cyan)) 9%, transparent), transparent),
+    color-mix(in srgb, var(--tpm-panel) 82%, transparent);
+  display: inline-grid;
+  gap: 2px;
+  min-width: 148px;
+  padding: 7px 9px;
+}
+
+.tpm-environment-status-badge span,
+.tpm-environment-status-badge small {
+  color: var(--tpm-text-soft);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.tpm-environment-status-badge strong {
+  color: var(--tpm-text);
+  font-size: 12px;
+  text-transform: capitalize;
+}
+
+.tpm-utility-environment-row {
+  display: grid;
+  gap: 14px;
+}
+
+.tpm-utility-environment-control .tpm-environment-control {
+  align-items: flex-start;
+  flex-direction: column;
 }
 
 .tpm-brand-wordmark {
