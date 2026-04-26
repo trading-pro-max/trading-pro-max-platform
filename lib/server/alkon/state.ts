@@ -8,6 +8,7 @@ import { getAlkonCosmicPhysicsSnapshot } from "@/lib/server/alkon-physics";
 import { getAlkonLegitimacySnapshot } from "@/lib/server/alkon-legitimacy";
 import { getAlkonOntologySnapshot } from "@/lib/server/alkon-ontology";
 import { getAlkonRuntimeSnapshot } from "@/lib/server/alkon-runtime";
+import { getInfiniteGrowthSnapshot } from "@/lib/server/infinite-growth";
 import { getInvisibleOperatingLayerSnapshot } from "@/lib/server/invisible-operating-layer";
 import {
   getLocalDailyOperationsLoopSnapshot,
@@ -87,6 +88,7 @@ export function getAlkonUniverseSnapshot(
   const sovereignLegitimacy = getAlkonLegitimacySnapshot(checkedAt);
   const sovereignContinuity = getAlkonContinuitySnapshot(checkedAt);
   const digitalUniverseRuntime = getAlkonRuntimeSnapshot(checkedAt);
+  const infiniteGrowthConstitution = getInfiniteGrowthSnapshot(checkedAt);
   const universeMap = buildAlkonUniverseMap();
 
   return {
@@ -176,6 +178,7 @@ export function getAlkonUniverseSnapshot(
     sovereignLegitimacy,
     sovereignContinuity,
     digitalUniverseRuntimeSnapshot: digitalUniverseRuntime,
+    infiniteGrowthConstitution,
     universeMap,
     nextSafeActions: [
       "Keep Alkon and الكون private to Founder Command and founder-only readiness APIs.",
@@ -185,6 +188,7 @@ export function getAlkonUniverseSnapshot(
       "Use Alkon Sovereign Legitimacy privately before sensitive authority, treasury, media, launch, security, cleanup, or public-claim decisions.",
       "Use Alkon Sovereign Creation & Continuity privately so every entity has governed birth, identity, law, function, integration, proof, monitoring, evolution, deprecation/removal, memory, and report.",
       "Use Alkon Digital Universe Runtime privately so every idea, risk, invoice, media message, feature, bug, decision, law, and result receives place, time, law, gravity, orbit, life, institution, consequence, memory, and next fate.",
+      "Use Alkon Swiss-Law Infinite Sovereign Growth privately so safe creation can grow without limit while real users, data, money, claims, media, launch, production, and regulated activity remain gated.",
       "Keep public users inside Trading Pro Max, Free, Pro, VIP, Institutional, TPM Assistant, workspace, settings, diagnostics, and readiness language only.",
       "Use Founder Idea Inbox, Task Passports, manual Codex drafts, Result Tribunal, and Memory lessons as review-only systems.",
       "Add future private execution only after owner auth, device trust, step-up confirmation, audit, security, legal, and Product Truth gates exist.",
@@ -215,6 +219,10 @@ export function getAlkonUniverseSnapshot(
         "/api/founder/alkon-continuity/readiness",
       founderRuntimeReadinessRoute: "/api/founder/alkon-runtime/readiness",
       founderRuntimeSnapshotRoute: "/api/founder/alkon-runtime/snapshot",
+      founderInfiniteGrowthReadinessRoute:
+        "/api/founder/infinite-growth/readiness",
+      founderInfiniteGrowthSnapshotRoute:
+        "/api/founder/infinite-growth/snapshot",
       publicRouteDecision:
         "Non-founder /api/alkon/* and /api/alkon/physics/* routes were not created because Alkon and Cosmic Operating Physics are not public product surfaces.",
       routeMode: "read_only_status_only",

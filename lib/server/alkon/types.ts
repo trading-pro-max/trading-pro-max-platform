@@ -6,6 +6,7 @@ import type { AlkonCosmicPhysicsSnapshot } from "@/lib/server/alkon-physics";
 import type { AlkonLegitimacySnapshot } from "@/lib/server/alkon-legitimacy";
 import type { AlkonOntologySnapshot } from "@/lib/server/alkon-ontology";
 import type { AlkonRuntimeSnapshot } from "@/lib/server/alkon-runtime";
+import type { InfiniteGrowthSnapshot } from "@/lib/server/infinite-growth";
 
 export type AlkonUniverseVisibility = "private_founder_only";
 
@@ -78,6 +79,8 @@ export type AlkonApiExposure = {
   founderContinuityReadinessRoute: "/api/founder/alkon-continuity/readiness";
   founderRuntimeReadinessRoute: "/api/founder/alkon-runtime/readiness";
   founderRuntimeSnapshotRoute: "/api/founder/alkon-runtime/snapshot";
+  founderInfiniteGrowthReadinessRoute: "/api/founder/infinite-growth/readiness";
+  founderInfiniteGrowthSnapshotRoute: "/api/founder/infinite-growth/snapshot";
   publicRouteDecision: string;
   routeMode: "read_only_status_only";
   secretsExposed: false;
@@ -108,6 +111,7 @@ export type AlkonUniverseSnapshot = {
   sovereignLegitimacy: AlkonLegitimacySnapshot;
   sovereignContinuity: AlkonContinuitySnapshot;
   digitalUniverseRuntimeSnapshot: AlkonRuntimeSnapshot;
+  infiniteGrowthConstitution: InfiniteGrowthSnapshot;
   universeMap: AlkonSubsystem[];
   nextSafeActions: string[];
   blockedActions: string[];

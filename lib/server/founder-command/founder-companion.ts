@@ -18,6 +18,7 @@ import { getFinalConvergenceSnapshot } from "@/lib/server/final-convergence";
 import { getAlkonContinuitySnapshot } from "@/lib/server/alkon-continuity";
 import { getAlkonLegitimacySnapshot } from "@/lib/server/alkon-legitimacy";
 import { getAlkonRuntimeSnapshot } from "@/lib/server/alkon-runtime";
+import { getInfiniteGrowthSnapshot } from "@/lib/server/infinite-growth";
 import { getPlanetaryEnvironmentReadinessSnapshot } from "@/lib/server/environment";
 import { getEarthRealitySnapshot } from "@/lib/server/earth-reality";
 import { getPersonalRealityReadinessSnapshot } from "@/lib/server/personal-reality";
@@ -75,6 +76,7 @@ export type FounderPersonalCompanionSnapshot = {
   alkonLegitimacySummary: string[];
   alkonContinuitySummary: string[];
   alkonRuntimeSummary: string[];
+  infiniteGrowthSummary: string[];
   treasuryLifeSummary: string[];
   mediaIntelligenceSummary: string[];
   revelationExperienceSummary: string[];
@@ -138,6 +140,7 @@ export function getFounderPersonalCompanionSnapshot(
   const alkonContinuity = getAlkonContinuitySnapshot(checkedAt);
   const alkonLegitimacy = getAlkonLegitimacySnapshot(checkedAt);
   const alkonRuntime = getAlkonRuntimeSnapshot(checkedAt);
+  const infiniteGrowth = getInfiniteGrowthSnapshot(checkedAt);
   const treasuryLife = getTreasuryLifeSnapshot();
   const mediaIntelligence = getMediaIntelligenceSnapshot();
   const revelationExperience = getRevelationExperienceSnapshot(checkedAt);
@@ -303,6 +306,12 @@ export function getFounderPersonalCompanionSnapshot(
       `${alkonRuntime.sampleReports.length} sample runtime reports cover place, time, law, gravity, orbit, life, economy, defense, communication, reality, consequence, memory, and next fate.`,
       `${alkonRuntime.blackHoleCategories.length} categories are black-holed and ${alkonRuntime.nextSafeFates.length} next fates are readiness-only recommendations.`,
       "Runtime is private, read-only, non-paying, non-deleting, non-executing, and cannot expose secrets, call Codex, publish, launch, activate billing, broker/feed, live execution, or real money.",
+    ],
+    infiniteGrowthSummary: [
+      `${infiniteGrowth.name} is ${infiniteGrowth.visibility}; public exposure is ${String(infiniteGrowth.publicExposure)}.`,
+      `${infiniteGrowth.safeCreationDomains.length} domains allow safe creation and ${infiniteGrowth.gatedRealityDomains.length} domains are reality-gated under Swiss-law gravity.`,
+      `${infiniteGrowth.blockedDomains.length} domains remain blocked/readiness-only and ${infiniteGrowth.blackHoleDomains.length} domains are black-holed in local scope.`,
+      "Infinite Growth permits ideas, planning, design, docs, tests, audits, memory, and local build while gating users, data, money, claims, media, launch, production, and regulated activity.",
     ],
     treasuryLifeSummary: [
       `Treasury Life is ${treasuryLife.status}; funding mode is ${treasuryLife.fundingMode}.`,

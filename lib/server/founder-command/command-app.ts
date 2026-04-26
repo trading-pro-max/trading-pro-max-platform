@@ -36,6 +36,7 @@ import { getFinalConvergenceSnapshot } from "@/lib/server/final-convergence";
 import { getAlkonContinuitySnapshot } from "@/lib/server/alkon-continuity";
 import { getAlkonLegitimacySnapshot } from "@/lib/server/alkon-legitimacy";
 import { getAlkonRuntimeSnapshot } from "@/lib/server/alkon-runtime";
+import { getInfiniteGrowthSnapshot } from "@/lib/server/infinite-growth";
 import { getPlanetaryEnvironmentReadinessSnapshot } from "@/lib/server/environment";
 import { getEarthRealitySnapshot } from "@/lib/server/earth-reality";
 import { getPersonalRealityReadinessSnapshot } from "@/lib/server/personal-reality";
@@ -191,6 +192,7 @@ export function getFounderCommandAppSnapshot(
   const alkonContinuity = getAlkonContinuitySnapshot(checkedAt);
   const alkonLegitimacy = getAlkonLegitimacySnapshot(checkedAt);
   const alkonRuntime = getAlkonRuntimeSnapshot(checkedAt);
+  const infiniteGrowth = getInfiniteGrowthSnapshot(checkedAt);
   const planetaryEnvironment =
     getPlanetaryEnvironmentReadinessSnapshot(checkedAt);
   const earthReality = getEarthRealitySnapshot(checkedAt);
@@ -334,6 +336,8 @@ export function getFounderCommandAppSnapshot(
             alkonCommandUniverse.digitalUniverseRuntimeSnapshot.readiness === "ready",
           runtimePublicExposure:
             alkonCommandUniverse.digitalUniverseRuntimeSnapshot.publicExposure,
+          infiniteGrowthReady: infiniteGrowth.readiness === "ready",
+          infiniteGrowthPublicExposure: infiniteGrowth.publicExposure,
         },
       },
       planRealmFunctionalExperience: {
@@ -393,6 +397,7 @@ export function getFounderCommandAppSnapshot(
     alkonLegitimacy,
     alkonContinuity,
     alkonRuntime,
+    infiniteGrowth,
     treasuryLife,
     mediaIntelligence,
     finalConvergence,
@@ -1251,6 +1256,10 @@ export function getFounderCommandAppSnapshot(
       "/api/founder/alkon-runtime/snapshot",
       "/api/founder/alkon-runtime/sample-input",
       "/api/founder/alkon-runtime/next-fate",
+      "/api/founder/infinite-growth/readiness",
+      "/api/founder/infinite-growth/snapshot",
+      "/api/founder/infinite-growth/sample-decision",
+      "/api/founder/infinite-growth/gates",
       "/api/founder/treasury-life/readiness",
       "/api/founder/media-intelligence/readiness",
       "/api/founder/final-convergence/readiness",
