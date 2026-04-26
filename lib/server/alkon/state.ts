@@ -2,6 +2,7 @@ import "server-only";
 
 import { getPlanEntitlementSnapshot } from "@/lib/plans/entitlements";
 import { getPrivateFounderRealm, getPublicPlanRealms } from "@/lib/plans/realms";
+import { getAlkonCosmicPhysicsSnapshot } from "@/lib/server/alkon-physics";
 import { getInvisibleOperatingLayerSnapshot } from "@/lib/server/invisible-operating-layer";
 import {
   getLocalDailyOperationsLoopSnapshot,
@@ -74,6 +75,7 @@ export function getAlkonUniverseSnapshot(
   const secrets = getSecretsAuthoritySnapshot(checkedAt);
   const worldInterface = getWorldInterfaceSnapshot(checkedAt);
   const invisibleLayer = getInvisibleOperatingLayerSnapshot(checkedAt);
+  const cosmicPhysics = getAlkonCosmicPhysicsSnapshot(checkedAt);
   const universeMap = buildAlkonUniverseMap();
 
   return {
@@ -150,9 +152,11 @@ export function getAlkonUniverseSnapshot(
       nextAction:
         "Translate private readiness into public-safe state labels while keeping internal systems invisible.",
     },
+    cosmicPhysics,
     universeMap,
     nextSafeActions: [
       "Keep Alkon and الكون private to Founder Command and founder-only readiness APIs.",
+      "Use Alkon Cosmic Operating Physics privately so every idea, error, risk, feature, or task receives source, energy, gravity, orbit, owner, satellite, station, worker, passport, Codex License, validation, tribunal, memory, and Founder report.",
       "Keep public users inside Trading Pro Max, Free, Pro, VIP, Institutional, TPM Assistant, workspace, settings, diagnostics, and readiness language only.",
       "Use Founder Idea Inbox, Task Passports, manual Codex drafts, Result Tribunal, and Memory lessons as review-only systems.",
       "Add future private execution only after owner auth, device trust, step-up confirmation, audit, security, legal, and Product Truth gates exist.",
@@ -173,8 +177,9 @@ export function getAlkonUniverseSnapshot(
     apiExposure: {
       publicAlkonRoutesExposed: false,
       founderReadinessRoute: "/api/founder/alkon/readiness",
+      founderPhysicsReadinessRoute: "/api/founder/alkon-physics/readiness",
       publicRouteDecision:
-        "Non-founder /api/alkon/* routes were not created because Alkon is not a public product surface.",
+        "Non-founder /api/alkon/* and /api/alkon/physics/* routes were not created because Alkon and Cosmic Operating Physics are not public product surfaces.",
       routeMode: "read_only_status_only",
       secretsExposed: false,
       privateSensitiveDataExposed: false,

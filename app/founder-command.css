@@ -574,6 +574,12 @@
   gap: 12px;
 }
 
+.alkon-physics-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+
 .alkon-earth-command,
 .alkon-moon-cycle,
 .alkon-orbit-command,
@@ -583,9 +589,36 @@
 .alkon-construction-universe,
 .alkon-memory-universe,
 .alkon-world-interface,
-.alkon-invisible-operating-layer {
+.alkon-invisible-operating-layer,
+.alkon-cosmic-physics,
+.alkon-cosmic-task-graph,
+.alkon-gravity-orbit,
+.alkon-workers-stations,
+.alkon-risk-belt {
   min-height: 260px;
   border-color: color-mix(in srgb, var(--alkon-gold) 22%, var(--tpm-border));
+}
+
+.alkon-cosmic-physics {
+  background:
+    radial-gradient(circle at 20% 0%, color-mix(in srgb, var(--alkon-cyan) 18%, transparent), transparent 34%),
+    linear-gradient(180deg, color-mix(in srgb, #07080d 50%, var(--tpm-founder-panel)), var(--tpm-founder-surface));
+}
+
+.alkon-cosmic-task-graph {
+  border-color: color-mix(in srgb, var(--alkon-cyan) 34%, var(--tpm-border));
+}
+
+.alkon-gravity-orbit {
+  border-color: color-mix(in srgb, #b8a4ff 34%, var(--tpm-border));
+}
+
+.alkon-workers-stations {
+  border-color: color-mix(in srgb, var(--alkon-platinum) 32%, var(--tpm-border));
+}
+
+.alkon-risk-belt {
+  border-color: color-mix(in srgb, var(--alkon-red) 46%, var(--tpm-border));
 }
 
 .alkon-earth-command {
@@ -684,6 +717,20 @@
   padding: 6px 8px;
 }
 
+.alkon-physics-chain,
+.alkon-physics-block-list {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--tpm-text-soft);
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.alkon-physics-chain li,
+.alkon-physics-block-list li {
+  margin: 0 0 5px;
+}
+
 .alkon-next-action {
   border-left: 2px solid var(--alkon-gold);
   padding-left: 10px;
@@ -719,6 +766,7 @@
   .tpm-founder-living-room-grid,
   .tpm-founder-risk-grid,
   .alkon-universe-map,
+  .alkon-physics-grid,
   .alkon-command-grid,
   .alkon-decision-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -743,6 +791,7 @@
   .tpm-founder-approval-list,
   .tpm-founder-risk-grid,
   .alkon-universe-map,
+  .alkon-physics-grid,
   .alkon-command-grid,
   .alkon-decision-grid,
   .alkon-command-facts {

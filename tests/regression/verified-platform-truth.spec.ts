@@ -457,6 +457,9 @@ test.describe("verified platform truth", () => {
       expect(publicNavText).not.toMatch(/Founder Command|Command Room/);
       const publicBodyText = await page.locator("body").innerText();
       expect(publicBodyText).not.toMatch(
+        /Cosmic Operating Physics|Gravity Priority|Orbit Path|Risk Belt|Black Hole Zone|Satellites|Stations|Workers|Task Graph|Task Passport|Codex License/i
+      );
+      expect(publicBodyText).not.toMatch(
         /Alkon|الكون|Founder Command|Founder King|Kingdom|\bministries\b|\bcouncils\b|Presidency|government model|Planet OS|Planet governance|\bPlanet\b|\bEnterprise\b|Owner command|Owner-only|owner-only|private command|internal governance|ruler|construction queue|Codex task|secrets authority|treasury controls|security sovereignty|product memory internals|local operations|local universe|TPM Companion|Demo \/ Paper/i
       );
 
@@ -778,17 +781,29 @@ test.describe("verified platform truth", () => {
       /Alkon|الكون|Founder Command|Founder King|Kingdom|\bministries\b|\bcouncils\b|Presidency|government model|Planet OS|Planet governance|\bPlanet\b|\bEnterprise\b|Owner command|Owner-only|owner-only|private command|internal governance|ruler|construction queue|Codex task|secrets authority|treasury controls|security sovereignty|product memory internals|local operations|local universe/i;
 
     expect(await page.locator("body").innerText()).not.toMatch(forbiddenPublicTerms);
+    expect(await page.locator("body").innerText()).not.toMatch(
+      /Cosmic Operating Physics|Gravity Priority|Orbit Path|Risk Belt|Black Hole Zone|Satellites|Stations|Workers|Task Graph|Task Passport|Codex License/i
+    );
 
     await page.goto("/settings");
     expect(await page.locator("body").innerText()).not.toMatch(forbiddenPublicTerms);
+    expect(await page.locator("body").innerText()).not.toMatch(
+      /Cosmic Operating Physics|Gravity Priority|Orbit Path|Risk Belt|Black Hole Zone|Satellites|Stations|Workers|Task Graph|Task Passport|Codex License/i
+    );
     await expect(page.locator("body")).toContainText(/Account session|Theme and language|Plan capability truth|Paper-session guidance/);
 
     await page.goto("/diagnostics");
     expect(await page.locator("body").innerText()).not.toMatch(forbiddenPublicTerms);
+    expect(await page.locator("body").innerText()).not.toMatch(
+      /Cosmic Operating Physics|Gravity Priority|Orbit Path|Risk Belt|Black Hole Zone|Satellites|Stations|Workers|Task Graph|Task Passport|Codex License/i
+    );
     await expect(page.locator("body")).toContainText(/System readiness|Assistant readiness|Service readiness chain|Product trust ledger/);
 
     const companionContext = await (await request.get("/api/companion/context")).json();
     expect(JSON.stringify(companionContext.samples)).not.toMatch(forbiddenPublicTerms);
+    expect(JSON.stringify(companionContext.samples)).not.toMatch(
+      /Cosmic Operating Physics|Gravity Priority|Orbit Path|Risk Belt|Black Hole Zone|Satellites|Stations|Workers|Task Graph|Task Passport|Codex License/i
+    );
 
     const diagnostics = await (await request.get("/api/diagnostics/probes")).json();
     expect(diagnostics.health.subsystems).toEqual(
@@ -2442,6 +2457,9 @@ test.describe("verified platform truth", () => {
     );
     expect(JSON.stringify(companionContextPayload.samples)).not.toMatch(
       /Founder Command|Founder King|Kingdom|\bministries\b|\bcouncils\b|presidency|construction queue|Codex task|secrets authority|treasury controls/i
+    );
+    expect(JSON.stringify(companionContextPayload.samples)).not.toMatch(
+      /Cosmic Operating Physics|Gravity Priority|Orbit Path|Risk Belt|Black Hole Zone|Satellites|Stations|Workers|Task Graph|Task Passport|Codex License/i
     );
     expect(JSON.stringify(companionContextPayload)).not.toMatch(
       /execute trade now|activate live now|DATABASE_URL/i

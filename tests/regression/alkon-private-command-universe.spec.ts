@@ -12,6 +12,8 @@ const PUBLIC_FORBIDDEN_TERMS =
   /Alkon|الكون|Universal Command|Earth Command|Moon Command|Orbit Command|Solar Command|Planetary Systems|Defense Universe|Construction Universe|Memory Universe|World Interface|Result Tribunal|Codex Government|Security Sovereignty|Secrets Authority|Founder Command|Founder King|Owner controls|Founder Idea Inbox|Local Operations|\bministries\b|\bcouncils\b|\bgovernance\b|construction queue|Codex tasks|treasury controls|product memory internals|local operations internals/i;
 const SECRET_PATTERN =
   /sk-[A-Za-z0-9]{20,}|ghp_[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}|api[_-]?key|secret token value|password value/i;
+const PUBLIC_COSMIC_FORBIDDEN_TERMS =
+  /Cosmic Operating Physics|Gravity Priority|Orbit Path|Risk Belt|Black Hole Zone|Satellites|Stations|Workers|Task Graph|Task Passport|Codex License/i;
 
 async function openDark(page: Page, route: string) {
   await page.goto(route);
@@ -166,8 +168,14 @@ test.describe("Alkon private command universe", () => {
     expect(await page.locator("body").innerText()).not.toMatch(
       PUBLIC_FORBIDDEN_TERMS
     );
+    expect(await page.locator("body").innerText()).not.toMatch(
+      PUBLIC_COSMIC_FORBIDDEN_TERMS
+    );
     expect(await page.locator(".tpm-foundation-nav-shell").innerText()).not.toMatch(
       PUBLIC_FORBIDDEN_TERMS
+    );
+    expect(await page.locator(".tpm-foundation-nav-shell").innerText()).not.toMatch(
+      PUBLIC_COSMIC_FORBIDDEN_TERMS
     );
     await page.screenshot({
       path: path.join(ARTIFACT_DIR, "public-entry-dark.png"),
@@ -189,6 +197,9 @@ test.describe("Alkon private command universe", () => {
     expect(await page.locator("body").innerText()).not.toMatch(
       PUBLIC_FORBIDDEN_TERMS
     );
+    expect(await page.locator("body").innerText()).not.toMatch(
+      PUBLIC_COSMIC_FORBIDDEN_TERMS
+    );
     await page.screenshot({
       path: path.join(ARTIFACT_DIR, "diagnostics-public-safe.png"),
       fullPage: true,
@@ -198,6 +209,11 @@ test.describe("Alkon private command universe", () => {
   test("keeps Alkon implementation code-only and non-executing", () => {
     const sources = [
       "modules/founder-command/components/AlkonCommandUniverse.tsx",
+      "modules/founder-command/components/AlkonCosmicPhysicsPanel.tsx",
+      "modules/founder-command/components/AlkonCosmicTaskGraphPanel.tsx",
+      "modules/founder-command/components/AlkonGravityOrbitPanel.tsx",
+      "modules/founder-command/components/AlkonWorkersStationsPanel.tsx",
+      "modules/founder-command/components/AlkonRiskBeltPanel.tsx",
       "modules/founder-command/components/AlkonUniverseMap.tsx",
       "modules/founder-command/components/AlkonEarthCommandPanel.tsx",
       "modules/founder-command/components/AlkonConstructionUniversePanel.tsx",
@@ -205,6 +221,9 @@ test.describe("Alkon private command universe", () => {
       "app/founder-command.css",
       "lib/server/alkon/state.ts",
       "lib/server/alkon/universe-map.ts",
+      "lib/server/alkon-physics/state.ts",
+      "lib/server/alkon-physics/task-graph.ts",
+      "lib/server/alkon-physics/risk-zones.ts",
     ]
       .map((filePath) =>
         fs.readFileSync(path.join(process.cwd(), filePath), "utf8")

@@ -1,14 +1,19 @@
 import { getAlkonUniverseSnapshot } from "@/lib/server/alkon";
 import AlkonConstructionUniversePanel from "./AlkonConstructionUniversePanel";
+import AlkonCosmicPhysicsPanel from "./AlkonCosmicPhysicsPanel";
+import AlkonCosmicTaskGraphPanel from "./AlkonCosmicTaskGraphPanel";
 import AlkonDefenseUniversePanel from "./AlkonDefenseUniversePanel";
 import AlkonEarthCommandPanel from "./AlkonEarthCommandPanel";
+import AlkonGravityOrbitPanel from "./AlkonGravityOrbitPanel";
 import AlkonMemoryUniversePanel from "./AlkonMemoryUniversePanel";
 import AlkonMoonCyclePanel from "./AlkonMoonCyclePanel";
 import AlkonNextActionsPanel from "./AlkonNextActionsPanel";
 import AlkonOrbitCommandPanel from "./AlkonOrbitCommandPanel";
 import AlkonPlanetarySystemsPanel from "./AlkonPlanetarySystemsPanel";
+import AlkonRiskBeltPanel from "./AlkonRiskBeltPanel";
 import AlkonSolarCommandPanel from "./AlkonSolarCommandPanel";
 import AlkonUniverseMap from "./AlkonUniverseMap";
+import AlkonWorkersStationsPanel from "./AlkonWorkersStationsPanel";
 import AlkonWorldInterfacePanel from "./AlkonWorldInterfacePanel";
 
 export default function AlkonCommandUniverse({
@@ -61,6 +66,14 @@ export default function AlkonCommandUniverse({
       </div>
 
       <AlkonUniverseMap snapshot={snapshot} />
+
+      <div className="alkon-physics-grid">
+        <AlkonCosmicPhysicsPanel snapshot={snapshot} />
+        <AlkonGravityOrbitPanel snapshot={snapshot} />
+        <AlkonCosmicTaskGraphPanel snapshot={snapshot} />
+        <AlkonWorkersStationsPanel snapshot={snapshot} />
+        <AlkonRiskBeltPanel snapshot={snapshot} />
+      </div>
 
       <div className="alkon-command-grid">
         <AlkonEarthCommandPanel snapshot={snapshot} />

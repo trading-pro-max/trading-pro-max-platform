@@ -56,6 +56,7 @@ export type FounderPersonalCompanionSnapshot = {
   buildRoomSummary: string[];
   insideOutsidePlanetSummary: string[];
   alkonUniverseSummary: string[];
+  alkonCosmicPhysicsSummary: string[];
   invisibleOperatingLayerSummary: string[];
   localLivingDayLoopSummary: string[];
   founderIdeaInboxSummary: string[];
@@ -223,6 +224,12 @@ export function getFounderPersonalCompanionSnapshot(
       `${alkonUniverse.universeMap.length} command subsystems cover Earth, Moon, Orbit, Solar Command, Planetary Systems, Defense, Construction, Memory, World Interface, and the Invisible Operating Layer.`,
       alkonUniverse.apiExposure.publicRouteDecision,
       `Product truth is ${alkonUniverse.productTruthStatus.overall}; live execution, real money, billing, broker/feed, public launch, social publishing, and shell execution remain blocked or inactive.`,
+    ],
+    alkonCosmicPhysicsSummary: [
+      `${alkonUniverse.cosmicPhysics.name} is ${alkonUniverse.cosmicPhysics.visibility}; public exposure is ${String(alkonUniverse.cosmicPhysics.publicExposure)}.`,
+      `${alkonUniverse.cosmicPhysics.registrySummary.planetOwners} planet/system owners, ${alkonUniverse.cosmicPhysics.registrySummary.satellites} satellites, ${alkonUniverse.cosmicPhysics.registrySummary.stations} stations, and ${alkonUniverse.cosmicPhysics.registrySummary.workers} workers are registered.`,
+      `${alkonUniverse.cosmicPhysics.sampleTaskGraphs.length} sample task graphs prove source, energy, gravity, orbit, owner, satellite, station, worker, passport, Codex License, validation, tribunal, memory, and Founder report.`,
+      "Cosmic Operating Physics remains private, read-only, status-only, and cannot execute shell commands, call Codex, expose secrets, activate billing, trade live, route real money, or publish.",
     ],
     invisibleOperatingLayerSummary: [
       `${invisibleLayer.systems.length} invisible operating systems are mapped.`,

@@ -289,6 +289,10 @@ export function getFounderCommandAppSnapshot(
             alkonCommandUniverse.apiExposure.founderReadinessRoute,
           productTruthStatus: alkonCommandUniverse.productTruthStatus.overall,
           publicPlanAccess: false,
+          cosmicPhysicsReady:
+            alkonCommandUniverse.cosmicPhysics.taskGraphStatus === "ready",
+          cosmicPhysicsPublicExposure:
+            alkonCommandUniverse.cosmicPhysics.publicExposure,
         },
       },
       planRealmFunctionalExperience: {
@@ -340,6 +344,7 @@ export function getFounderCommandAppSnapshot(
       },
     },
     alkonUniverse: alkonCommandUniverse,
+    alkonCosmicPhysics: alkonCommandUniverse.cosmicPhysics,
     modules: command.modules,
     moduleSummary,
     approvalCenter: {
@@ -1067,6 +1072,7 @@ export function getFounderCommandAppSnapshot(
       "/api/founder/local-command/readiness",
       "/api/founder/build-room/readiness",
       "/api/founder/alkon/readiness",
+      "/api/founder/alkon-physics/readiness",
       "/api/founder/ideas/readiness",
       "/api/founder/ideas/preview",
       "/api/invisible-operating-layer/readiness",
