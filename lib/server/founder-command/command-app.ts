@@ -311,6 +311,9 @@ export function getFounderCommandAppSnapshot(
             alkonCommandUniverse.sovereignOperatingConsciousness.status === "ready",
           consciousnessPublicExposure:
             alkonCommandUniverse.sovereignOperatingConsciousness.publicExposure,
+          ontologyReady:
+            alkonCommandUniverse.ontology.ontologyStatus === "ready",
+          ontologyPublicExposure: alkonCommandUniverse.ontology.publicExposure,
         },
       },
       planRealmFunctionalExperience: {
@@ -366,6 +369,7 @@ export function getFounderCommandAppSnapshot(
     alkonCosmicPhysics: alkonCommandUniverse.cosmicPhysics,
     alkonSovereignConsciousness:
       alkonCommandUniverse.sovereignOperatingConsciousness,
+    alkonOntology: alkonCommandUniverse.ontology,
     finalConvergence,
     earthReality: {
       status: earthReality.status,
@@ -1192,6 +1196,10 @@ export function getFounderCommandAppSnapshot(
       "/api/founder/alkon-consciousness/readiness",
       "/api/founder/alkon-consciousness/snapshot",
       "/api/founder/alkon-consciousness/sample-signal",
+      "/api/founder/alkon-ontology/readiness",
+      "/api/founder/alkon-ontology/entities",
+      "/api/founder/alkon-ontology/completeness",
+      "/api/founder/alkon-ontology/cleanup-candidates",
       "/api/founder/final-convergence/readiness",
       "/api/founder/final-convergence/snapshot",
       "/api/founder/final-convergence/layers",

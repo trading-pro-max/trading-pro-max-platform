@@ -21,6 +21,10 @@ export { default as AlkonMemoryEvolutionPanel } from "./AlkonMemoryEvolutionPane
 export { default as AlkonMoonCyclePanel } from "./AlkonMoonCyclePanel";
 export { default as AlkonNextActionsPanel } from "./AlkonNextActionsPanel";
 export { default as AlkonNextSafeLayersPanel } from "./AlkonNextSafeLayersPanel";
+export { default as AlkonOntologyPanel } from "./AlkonOntologyPanel";
+export { default as AlkonEntityGraphPanel } from "./AlkonEntityGraphPanel";
+export { default as AlkonCompletenessPanel } from "./AlkonCompletenessPanel";
+export { default as AlkonCleanupCandidatesPanel } from "./AlkonCleanupCandidatesPanel";
 export { default as AlkonOrbitCommandPanel } from "./AlkonOrbitCommandPanel";
 export { default as AlkonPlanetarySystemsPanel } from "./AlkonPlanetarySystemsPanel";
 export { default as AlkonPocketUniversePanel } from "./AlkonPocketUniversePanel";

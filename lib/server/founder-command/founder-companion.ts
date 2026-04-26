@@ -65,6 +65,7 @@ export type FounderPersonalCompanionSnapshot = {
   alkonUniverseSummary: string[];
   alkonCosmicPhysicsSummary: string[];
   alkonSovereignConsciousnessSummary: string[];
+  alkonOntologySummary: string[];
   finalConvergenceSummary: string[];
   earthRealitySummary: string[];
   personalRealitySummary: string[];
@@ -260,6 +261,12 @@ export function getFounderPersonalCompanionSnapshot(
       `Flow is ${alkonUniverse.sovereignOperatingConsciousness.flow.join(" -> ")} with ${alkonUniverse.sovereignOperatingConsciousness.latestSignals.length} sample signals and ${alkonUniverse.sovereignOperatingConsciousness.preparedActions.length} prepared safe actions.`,
       `${alkonUniverse.sovereignOperatingConsciousness.memoryLessons.length} memory lessons and ${alkonUniverse.sovereignOperatingConsciousness.evolutionRules.length} evolution guards keep repeated mistakes from returning.`,
       "Alkon consciousness prepares reports, passports, review requests, blocks, memory, and evolution rules only; it cannot execute, call Codex, expose secrets, activate real-world systems, or become public.",
+    ],
+    alkonOntologySummary: [
+      `${alkonUniverse.ontology.name} is ${alkonUniverse.ontology.visibility}; public exposure is ${String(alkonUniverse.ontology.publicExposure)}.`,
+      `${alkonUniverse.ontology.entityCount} entities are registered across ${alkonUniverse.ontology.publicEntityCount} public, ${alkonUniverse.ontology.privateEntityCount} private, and ${alkonUniverse.ontology.invisibleEntityCount} invisible entities.`,
+      `${alkonUniverse.ontology.completeEntities} entities are complete; ${alkonUniverse.ontology.partialEntities} require validation, memory, relationship, or cleanup review.`,
+      "Ontology is private, read-only, and cannot delete entities, execute shell commands, expose secrets, activate launch, or expose Alkon publicly.",
     ],
     finalConvergenceSummary: [
       `Final Convergence is ${finalConvergence.status} with score ${finalConvergence.convergenceScore.score}/10; no fake 10/10 is claimed.`,

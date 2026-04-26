@@ -20,6 +20,10 @@ import AlkonGravityRoutePanel from "./AlkonGravityRoutePanel";
 import AlkonMeaningLawPanel from "./AlkonMeaningLawPanel";
 import AlkonMemoryEvolutionPanel from "./AlkonMemoryEvolutionPanel";
 import AlkonNextSafeLayersPanel from "./AlkonNextSafeLayersPanel";
+import AlkonOntologyPanel from "./AlkonOntologyPanel";
+import AlkonEntityGraphPanel from "./AlkonEntityGraphPanel";
+import AlkonCompletenessPanel from "./AlkonCompletenessPanel";
+import AlkonCleanupCandidatesPanel from "./AlkonCleanupCandidatesPanel";
 import AlkonSignalSensePanel from "./AlkonSignalSensePanel";
 import AlkonDeviceConstellationPanel from "./AlkonDeviceConstellationPanel";
 import AlkonPocketUniversePanel from "./AlkonPocketUniversePanel";
@@ -101,6 +105,14 @@ export default function FounderCommandRoom({
       <FounderPlanetCommandWorld checkedAt={commandSnapshot.checkedAt} />
 
       <AlkonCommandUniverse checkedAt={commandSnapshot.checkedAt} />
+
+      <AlkonOntologyPanel snapshot={appSnapshot.alkonOntology} />
+
+      <div className="alkon-command-grid alkon-ontology-grid">
+        <AlkonEntityGraphPanel snapshot={appSnapshot.alkonOntology} />
+        <AlkonCompletenessPanel snapshot={appSnapshot.alkonOntology} />
+        <AlkonCleanupCandidatesPanel snapshot={appSnapshot.alkonOntology} />
+      </div>
 
       <AlkonConsciousnessPanel snapshot={appSnapshot.alkonSovereignConsciousness} />
 
