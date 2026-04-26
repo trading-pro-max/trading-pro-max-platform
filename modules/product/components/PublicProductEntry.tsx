@@ -34,6 +34,11 @@ const heroSignals = [
     value: "Blocked",
     note: "No broker, billing, or real-money activation is enabled.",
   },
+  {
+    label: "Personal Reality",
+    value: "User controlled",
+    note: "Calm, chart comfort, low motion, static, and high contrast are plan-aware.",
+  },
 ];
 
 const trustStates = [
@@ -112,6 +117,7 @@ export default function PublicProductEntry({
             <div className="tpm-product-chip-row">
               <span className="tpm-product-chip">Paper-safe</span>
               <span className="tpm-product-chip">Adaptive Atmosphere</span>
+              <span className="tpm-product-chip">Personal Reality</span>
               <span className="tpm-product-chip">Web available</span>
               <span className="tpm-product-chip">Live inactive</span>
             </div>

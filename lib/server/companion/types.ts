@@ -19,6 +19,14 @@ export type CompanionIntentCategory =
   | "coach_prompt"
   | "session_summary"
   | "learning_help"
+  | "personal_reality_calm"
+  | "personal_reality_focus"
+  | "personal_reality_chart_comfort"
+  | "personal_reality_low_motion"
+  | "personal_reality_static"
+  | "personal_reality_high_contrast"
+  | "personal_reality_learning"
+  | "personal_reality_explain_locked"
   | "explain_plan_upgrade_without_billing"
   | "explain_upgrade_path_without_billing"
   | "founder_unavailable_for_user";
@@ -51,6 +59,7 @@ export type CompanionDailyUseMode =
   | "feedback_help"
   | "settings_help"
   | "diagnostics_help"
+  | "personal_reality_help"
   | "plan_explanation"
   | "learning_help"
   | "session_summary";
@@ -162,6 +171,21 @@ export type CompanionContextSnapshot = {
     islamicCertification: "not_certified";
     performanceRevenue: "hidden_inactive";
     founderCommand: "owner_only_private";
+  };
+  earthReality: {
+    status: "not_ready" | "partial" | "ready_with_notes" | "earth_ready_local" | "blocked";
+    score: number;
+    publicPrivateBoundaryStatus: "preserved";
+    publicCopy: string;
+  };
+  personalReality: {
+    status: "ready_with_notes";
+    assistantControlled: true;
+    planAware: true;
+    productTruthGuarded: true;
+    freeControls: string[];
+    plannedControls: string[];
+    futureControls: string[];
   };
   whyBlocked: {
     liveDisabled: string;

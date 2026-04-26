@@ -1,0 +1,15 @@
+# Earth Reality Index
+
+- [TPM Earth Reality Constitution](./tpm-earth-reality-constitution.md)
+- [Earth-Native Product Law](./earth-native-product-law.md)
+- [Earth Human Layer](./earth-human-layer.md)
+- [Earth Time Layer](./earth-time-layer.md)
+- [Earth Place / Privacy Layer](./earth-place-privacy-layer.md)
+- [Earth Market Layer](./earth-market-layer.md)
+- [Earth Law / Trust Layer](./earth-law-trust-layer.md)
+- [Earth Learning / Support Layer](./earth-learning-support-layer.md)
+- [Earth Environment Layer](./earth-environment-layer.md)
+- [Earth Product Truth Layer](./earth-product-truth-layer.md)
+- [Earth / Private Command Boundary](./earth-alkon-boundary.md)
+- [Public World Completeness Matrix](./public-world-completeness-matrix.md)
+- [Public Earth Life Journey System](./public-earth-life-journey-system.md)

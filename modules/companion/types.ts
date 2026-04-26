@@ -73,6 +73,21 @@ export type TPMCompanionContextView = {
     socialPublishing: "inactive";
     founderCommand: "owner_only_private";
   };
+  earthReality: {
+    status: string;
+    score: number;
+    publicPrivateBoundaryStatus: "preserved";
+    publicCopy: string;
+  };
+  personalReality: {
+    status: "ready_with_notes";
+    assistantControlled: true;
+    planAware: true;
+    productTruthGuarded: true;
+    freeControls: string[];
+    plannedControls: string[];
+    futureControls: string[];
+  };
   whyBlocked: {
     liveDisabled: string;
     realMoneyBlocked: string;

@@ -115,11 +115,37 @@ function isBlockedCompanionRequest(value: string) {
     "legal advice",
     "publish social",
     "launch publicly",
+    "show alkon",
+    "reveal alkon",
+    "founder command",
+    "cosmic physics",
+    "codex tasks",
   ].some((phrase) => normalized.includes(phrase));
 }
 
 function inferCompanionIntent(value: string): string {
   const normalized = value.toLowerCase();
+  if (normalized.includes("calmer") || normalized.includes("less noise") || normalized.includes("أهدأ")) {
+    return "personal_reality_calm";
+  }
+  if (normalized.includes("bigger chart") || normalized.includes("larger chart") || normalized.includes("شارت أكبر")) {
+    return "personal_reality_chart_comfort";
+  }
+  if (normalized.includes("low motion") || normalized.includes("reduce motion") || normalized.includes("قلل الحركة")) {
+    return "personal_reality_low_motion";
+  }
+  if (normalized.includes("static") || normalized.includes("night mode") || normalized.includes("وضع ليلي")) {
+    return "personal_reality_static";
+  }
+  if (normalized.includes("high contrast")) {
+    return "personal_reality_high_contrast";
+  }
+  if (normalized.includes("focus") || normalized.includes("تركيز")) {
+    return "personal_reality_focus";
+  }
+  if (normalized.includes("why locked") || normalized.includes("لماذا هذا مقفل")) {
+    return "personal_reality_explain_locked";
+  }
   if (normalized.includes("blocked") || normalized.includes("why")) {
     return "explain_blocked_state";
   }
@@ -176,7 +202,7 @@ export default function TPMCompanionPanel({
   const [responseTemplates, setResponseTemplates] = useState<TPMCompanionResponseTemplate[]>([]);
   const [stateExplanations, setStateExplanations] =
     useState<TPMCompanionStateExplanationMap>(fallbackExplanations);
-  const [activePromptId, setActivePromptId] = useState("state");
+  const [activePromptId, setActivePromptId] = useState("calm");
   const [loadState, setLoadState] = useState<"loading" | "ready" | "fallback">("loading");
   const assistantSnapshot = getAssistantTierSnapshot("evaluation");
   const planSnapshot = getPlanEntitlementSnapshot("demo_free");
@@ -289,6 +315,60 @@ export default function TPMCompanionPanel({
           "Write what you are rehearsing in paper mode, what would make you pause, and one thing you want to learn. Keep it educational and non-advisory.",
         safeNextStep: "Use Journal/Coach for reflection, not outcome promises.",
       },
+      calm: {
+        id: "response-calm",
+        role: "companion",
+        state: "ready",
+        title: "Calm Personal Reality",
+        body:
+          "I can help you preview Calm Workspace, Low Motion, and cleaner chart surroundings. These are active Free controls and do not unlock paid plans, live execution, billing, broker/feed, or real money.",
+        safeNextStep: "Open Settings or ask me for Chart Comfort.",
+      },
+      focus: {
+        id: "response-focus",
+        role: "companion",
+        state: "ready",
+        title: "Focus Personal Reality",
+        body:
+          "Focus can make the chart more central and keep Assistant and Journal/Coach secondary. It is a layout preference, so I would ask before changing it.",
+        safeNextStep: "Use Chart Comfort or workspace focus controls.",
+      },
+      chart: {
+        id: "response-chart-comfort",
+        role: "companion",
+        state: "ready",
+        title: "Chart Comfort",
+        body:
+          "Chart Comfort can make the chart feel larger and calmer by reducing surrounding pressure. It is not a trading signal, order shortcut, or live feature.",
+        safeNextStep: "Preview the chart-first layout in Settings.",
+      },
+      lowMotion: {
+        id: "response-low-motion",
+        role: "companion",
+        state: "ready",
+        title: "Low Motion",
+        body:
+          "Low Motion reduces atmosphere movement and keeps the workspace steady. Static Mode goes further and turns motion off.",
+        safeNextStep: "Choose Low Motion or Static Mode in Settings.",
+      },
+      static: {
+        id: "response-static",
+        role: "companion",
+        state: "ready",
+        title: "Static Mode",
+        body:
+          "Static Mode keeps the interface steady and disables atmospheric motion. Time, weather, and market session remain visual context only, never trading advice.",
+        safeNextStep: "Use Static Mode when you want the calmest interface.",
+      },
+      locked: {
+        id: "response-why-locked",
+        role: "companion",
+        state: "planned",
+        title: "Why locked",
+        body:
+          "Planned or locked Personal Reality profiles are truthful boundaries. Free includes Clean Earth, Calm Workspace, Chart Comfort, Static, Low Motion, High Contrast, and Learning Basics now. Pro Orbit, VIP Lunar, and Institutional Station remain planned, locked, or future unless real entitlement gates exist.",
+        safeNextStep: "Use an active Free profile or review Plans.",
+      },
     }),
     [context]
   );
@@ -351,10 +431,13 @@ export default function TPMCompanionPanel({
   };
 
   const prompts: TPMCompanionPrompt[] = [
-    { id: "state", label: "State", response: promptResponses.state },
-    { id: "blocked", label: "Why blocked", response: promptResponses.blocked },
-    { id: "plan", label: "Plan", response: promptResponses.plan },
-    { id: "journal", label: "Journal", response: promptResponses.journal },
+    { id: "calm", label: "Calmer", response: promptResponses.calm },
+    { id: "focus", label: "Focus", response: promptResponses.focus },
+    { id: "chart", label: "Bigger chart", response: promptResponses.chart },
+    { id: "lowMotion", label: "Low motion", response: promptResponses.lowMotion },
+    { id: "static", label: "Static", response: promptResponses.static },
+    { id: "plan", label: "Plans", response: promptResponses.plan },
+    { id: "locked", label: "Why locked?", response: promptResponses.locked },
   ];
   const activePrompt = prompts.find((prompt) => prompt.id === activePromptId) ?? prompts[0];
   const messages: TPMCompanionMessage[] = [

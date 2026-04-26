@@ -134,6 +134,43 @@ export default function FounderCommandRoom({
         </div>
       </section>
 
+      <section className="tpm-founder-panel" data-private-earth-personal-reality="true">
+        <div className="tpm-founder-panel-head">
+          <span>Earth Reality Constitution</span>
+          <h2>Public Earth and Personal Reality readiness</h2>
+          <p>
+            Earth remains the public reference reality. Personal Operating
+            Reality lets TPM Assistant translate user intent into allowed,
+            plan-aware, Product Truth guarded settings without exposing Alkon or
+            activating real-world systems.
+          </p>
+        </div>
+        <div className="tpm-founder-metrics">
+          <div className="tpm-founder-metric">
+            <span>Earth score</span>
+            <strong>{appSnapshot.earthReality.score}/10</strong>
+            <small>{appSnapshot.earthReality.status}</small>
+          </div>
+          <div className="tpm-founder-metric">
+            <span>Earth layers</span>
+            <strong>{appSnapshot.earthReality.layerCount}</strong>
+            <small>{appSnapshot.earthReality.publicPrivateBoundaryStatus}</small>
+          </div>
+          <div className="tpm-founder-metric">
+            <span>Personal profiles</span>
+            <strong>{appSnapshot.personalReality.publicProfiles}</strong>
+            <small>
+              {appSnapshot.personalReality.internalProfilesHidden} internal hidden
+            </small>
+          </div>
+          <div className="tpm-founder-metric">
+            <span>Free controls</span>
+            <strong>{appSnapshot.personalReality.activeFreeControls.length}</strong>
+            <small>Assistant-controlled and plan-aware</small>
+          </div>
+        </div>
+      </section>
+
       <FounderPlanetStatusMap checkedAt={commandSnapshot.checkedAt} />
 
       <FounderCommandAppShell checkedAt={commandSnapshot.checkedAt} />

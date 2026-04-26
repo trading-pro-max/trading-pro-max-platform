@@ -34,6 +34,8 @@ import {
 import { getRealWorldLaunchReadinessSnapshot } from "@/lib/server/launch-readiness";
 import { getFinalConvergenceSnapshot } from "@/lib/server/final-convergence";
 import { getPlanetaryEnvironmentReadinessSnapshot } from "@/lib/server/environment";
+import { getEarthRealitySnapshot } from "@/lib/server/earth-reality";
+import { getPersonalRealityReadinessSnapshot } from "@/lib/server/personal-reality";
 import { getInvisibleOperatingLayerSnapshot } from "@/lib/server/invisible-operating-layer";
 import {
   getContentReviewReadinessSnapshot,
@@ -181,6 +183,8 @@ export function getFounderCommandAppSnapshot(
   const finalConvergence = getFinalConvergenceSnapshot(checkedAt);
   const planetaryEnvironment =
     getPlanetaryEnvironmentReadinessSnapshot(checkedAt);
+  const earthReality = getEarthRealitySnapshot(checkedAt);
+  const personalReality = getPersonalRealityReadinessSnapshot(checkedAt);
 
   const desktopApp: FounderCommandDeviceBlueprint = {
     platform: "desktop",
@@ -355,6 +359,28 @@ export function getFounderCommandAppSnapshot(
     alkonUniverse: alkonCommandUniverse,
     alkonCosmicPhysics: alkonCommandUniverse.cosmicPhysics,
     finalConvergence,
+    earthReality: {
+      status: earthReality.status,
+      score: earthReality.score,
+      layerCount: earthReality.layers.length,
+      surfaceCount: earthReality.surfaces.length,
+      publicPrivateBoundaryStatus: earthReality.publicPrivateBoundaryStatus,
+      productTruthStatus: earthReality.productTruthStatus,
+      nextSafeActions: earthReality.nextSafeActions,
+      founderReviewNeeded: earthReality.founderReviewNeeded,
+    },
+    personalReality: {
+      status: personalReality.status,
+      publicProfiles: personalReality.publicProfiles.length,
+      activeFreeControls: personalReality.freeControls,
+      plannedControls: personalReality.plannedControls,
+      futureControls: personalReality.futureControls,
+      internalProfilesHidden: personalReality.internalProfilesHidden,
+      assistantControlled: personalReality.assistantControlled,
+      planAware: personalReality.planAware,
+      productTruthGuarded: personalReality.productTruthGuarded,
+      publicPrivateBoundaryStatus: personalReality.publicPrivateBoundaryStatus,
+    },
     planetaryEnvironment: {
       status: planetaryEnvironment.status,
       publicName: planetaryEnvironment.publicName,
@@ -1127,6 +1153,15 @@ export function getFounderCommandAppSnapshot(
       "/api/founder/final-convergence/snapshot",
       "/api/founder/final-convergence/layers",
       "/api/founder/final-convergence/growth-proposals",
+      "/api/earth-reality/status",
+      "/api/earth-reality/public-matrix",
+      "/api/earth-reality/product-truth",
+      "/api/earth-reality/privacy",
+      "/api/personal-reality/status",
+      "/api/personal-reality/preview",
+      "/api/personal-reality/profiles",
+      "/api/founder/earth-reality/readiness",
+      "/api/founder/personal-reality/readiness",
       "/api/founder/ideas/readiness",
       "/api/founder/ideas/preview",
       "/api/founder/launch-readiness",

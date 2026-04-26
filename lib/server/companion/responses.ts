@@ -177,6 +177,70 @@ export function buildCompanionResponseTemplates(
       state: "ready",
     },
     {
+      intent: "personal_reality_calm",
+      title: "Calm Personal Reality",
+      body:
+        "I can make the experience calmer with allowed Free controls: Calm Workspace, Low Motion, and a cleaner chart surroundings. This changes comfort only; it does not unlock paid plans, live execution, billing, broker/feed, or real money.",
+      safeNextStep: "Preview Calm Workspace or open Settings to apply allowed controls.",
+      state: "ready",
+    },
+    {
+      intent: "personal_reality_focus",
+      title: "Focus Personal Reality",
+      body:
+        "Focus mode can emphasize the chart, reduce surrounding noise, and keep Assistant/Journal secondary. I would ask confirmation before a significant layout change, and it remains paper-safe.",
+      safeNextStep: "Use Chart Comfort or workspace focus controls in Settings.",
+      state: "ready",
+    },
+    {
+      intent: "personal_reality_chart_comfort",
+      title: "Chart Comfort",
+      body:
+        "Chart Comfort can make the chart feel larger and calmer by reducing non-essential visual pressure. It is a layout and readability preference, not a signal, order shortcut, or live execution feature.",
+      safeNextStep: "Preview the chart-first layout, then confirm before applying.",
+      state: "ready",
+    },
+    {
+      intent: "personal_reality_low_motion",
+      title: "Low Motion",
+      body:
+        "Low Motion reduces atmospheric movement and keeps the workspace steady. It respects accessibility and keeps the chart readable.",
+      safeNextStep: "Open Settings and choose Low Motion or Static Mode.",
+      state: "ready",
+    },
+    {
+      intent: "personal_reality_static",
+      title: "Static Mode",
+      body:
+        "Static Mode turns atmospheric motion off and keeps the interface steady. Time, weather, and session state remain visual context only and never trading advice.",
+      safeNextStep: "Use Static Mode when you want the calmest public experience.",
+      state: "ready",
+    },
+    {
+      intent: "personal_reality_high_contrast",
+      title: "High Contrast",
+      body:
+        "High Contrast prioritizes readable text, controls, and chart contrast over atmosphere. It is available without changing plan access.",
+      safeNextStep: "Open Settings and choose High Contrast.",
+      state: "ready",
+    },
+    {
+      intent: "personal_reality_learning",
+      title: "Learning Personal Reality",
+      body:
+        "Learning mode keeps TPM Assistant, Academy, and Journal/Coach prompts simple, paper-first, and non-advisory. It helps you understand active, planned, future, and blocked states.",
+      safeNextStep: "Ask a paper-mode learning question or open Academy.",
+      state: "ready",
+    },
+    {
+      intent: "personal_reality_explain_locked",
+      title: "Why locked",
+      body:
+        "Locked or planned Personal Reality profiles mean the platform can describe the direction without faking access. Free controls are active now; Pro Orbit, VIP Lunar, and Institutional Station profiles stay planned, locked, or future unless real entitlement gates exist.",
+      safeNextStep: "Use Clean Earth, Calm Workspace, Chart Comfort, Static Mode, Low Motion, or High Contrast now.",
+      state: "planned",
+    },
+    {
       intent: "explain_upgrade_path_without_billing",
       title: "Plan ladder",
       body:
@@ -254,6 +318,10 @@ export function buildCompanionDailyUseSamples(
     "what is VIP",
     "why billing inactive",
     "why Institutional future",
+    "make the platform calmer",
+    "bigger chart",
+    "why locked",
+    "low motion",
     "why is that area separate",
     "help me journal",
     "explain paper mode",

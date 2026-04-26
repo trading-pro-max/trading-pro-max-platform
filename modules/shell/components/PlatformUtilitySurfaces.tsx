@@ -1212,6 +1212,48 @@ export function PlatformDiagnosticsSurface({
         },
       ];
 
+  const earthRealityItems = [
+    {
+      label: "Reference reality",
+      value: "Earth-native",
+      tone: "approved" as const,
+      note: "Public visuals, plans, workspace, markets, support, privacy, and Product Truth serve a real human on Earth.",
+    },
+    {
+      label: "Product Truth",
+      value: "Preserved",
+      tone: "approved" as const,
+      note: "Paper-safe, no real money, live inactive, broker/feed inactive, billing inactive.",
+    },
+    {
+      label: "Private systems",
+      value: "Internal",
+      tone: "restricted" as const,
+      note: "Normal users only see the public Trading Pro Max product world.",
+    },
+  ];
+
+  const personalRealityItems = [
+    {
+      label: "Active Free controls",
+      value: "Clean / Calm / Chart Comfort",
+      tone: "approved" as const,
+      note: "Static Mode, Low Motion, High Contrast, and Learning Basics are also available.",
+    },
+    {
+      label: "Assistant control",
+      value: "Preview and explain",
+      tone: "approved" as const,
+      note: "TPM Assistant interprets intent, checks plan access, and explains allowed changes.",
+    },
+    {
+      label: "Pro / VIP / Institutional",
+      value: "Planned / locked / future",
+      tone: "pending" as const,
+      note: "Professional, premium, and station profiles do not fake activation.",
+    },
+  ];
+
   const planRealmItems = publicPlanRealms.map((realm) => ({
     label: `${realm.publicPlanName} experience`,
     value: realm.activationState,
@@ -1903,6 +1945,14 @@ export function PlatformDiagnosticsSurface({
         </div>
       </UtilitySection>
 
+      <UtilitySection eyebrow="EARTH REALITY" title="Earth Reality readiness">
+        <UtilityGrid items={earthRealityItems} />
+      </UtilitySection>
+
+      <UtilitySection eyebrow="PERSONAL REALITY" title="Personal Reality readiness">
+        <UtilityGrid items={personalRealityItems} />
+      </UtilitySection>
+
       <UtilitySection eyebrow="PLAN INTERFACE" title="Plan-based interface architecture">
         <PlanInterfaceSummary compact currentLayer="demo_free" />
       </UtilitySection>
@@ -2305,6 +2355,48 @@ export function PlatformSettingsSurface({
     note: `${realm.assistantBehavior} ${realm.reportsDepth}`,
   }));
 
+  const settingsEarthRealityItems = [
+    {
+      label: "Earth Reality",
+      value: "Reference reality",
+      tone: "approved" as const,
+      note: "Trading Pro Max uses Earth as the public reference for human, time, privacy, market, learning, support, environment, and Product Truth decisions.",
+    },
+    {
+      label: "Safety truth",
+      value: "Paper-safe",
+      tone: "approved" as const,
+      note: "No live execution, real money, broker/feed, billing, or public launch is activated from settings.",
+    },
+    {
+      label: "Privacy",
+      value: "No precise tracking",
+      tone: "approved" as const,
+      note: "Adaptive Atmosphere and Personal Reality do not require GPS or precise location.",
+    },
+  ];
+
+  const settingsPersonalRealityItems = [
+    {
+      label: "Free controls",
+      value: "Clean Earth / Calm / Chart Comfort",
+      tone: "approved" as const,
+      note: "Static Mode, Low Motion, High Contrast, and Learning Basics are also active.",
+    },
+    {
+      label: "TPM Assistant",
+      value: "Controls by intent",
+      tone: "approved" as const,
+      note: "Ask for calmer, focus, bigger chart, low motion, static, or why a profile is locked.",
+    },
+    {
+      label: "Plan boundaries",
+      value: "Truth guarded",
+      tone: "pending" as const,
+      note: "Pro Orbit, VIP Lunar, and Institutional Station profiles remain planned, locked, or future unless real entitlement gates exist.",
+    },
+  ];
+
   const onboardingItems = [
     {
       label: "Workspace orientation",
@@ -2409,6 +2501,14 @@ export function PlatformSettingsSurface({
             <EnvironmentStatusBadge />
           </div>
         </div>
+      </UtilitySection>
+
+      <UtilitySection eyebrow="EARTH REALITY" title="Earth Reality / Product Truth">
+        <UtilityGrid items={settingsEarthRealityItems} />
+      </UtilitySection>
+
+      <UtilitySection eyebrow="PERSONAL REALITY" title="Personal Reality / Experience">
+        <UtilityGrid items={settingsPersonalRealityItems} />
       </UtilitySection>
 
       <UtilitySection eyebrow="ACCOUNT" title="Mode and persistence">

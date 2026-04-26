@@ -101,6 +101,8 @@ import {
   getPlanetaryEnvironmentDiagnosticsProbe,
   getPlanetaryEnvironmentReadinessSnapshot,
 } from "@/lib/server/environment";
+import { getEarthRealityDiagnosticsProbe } from "@/lib/server/earth-reality";
+import { getPersonalRealityDiagnosticsProbe } from "@/lib/server/personal-reality";
 import {
   buildFinalMarketParitySnapshot,
   getFinalMarketParityDiagnosticsProbe,
@@ -1478,6 +1480,8 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     getPlanetaryEnvironmentReadinessSnapshot(checkedAt);
   const finalPlanetaryEnvironmentProbe =
     getPlanetaryEnvironmentDiagnosticsProbe(checkedAt);
+  const earthRealityProbe = getEarthRealityDiagnosticsProbe(checkedAt);
+  const personalRealityProbe = getPersonalRealityDiagnosticsProbe(checkedAt);
 
   return {
     ...baseHealth,
@@ -1501,9 +1505,74 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       learningCommunityProbe,
       mediaAiVideoWorkflowProbe,
       essentialIntegrationsProbe,
+      earthRealityProbe,
+      personalRealityProbe,
     ],
     routes: [
       ...baseHealth.routes,
+      {
+        path: "/api/earth-reality/status",
+        method: "GET",
+        status: earthRealityProbe.status,
+        detail:
+          "Earth Reality status reports public-safe human, time, privacy, market, learning/support, environment, and Product Truth readiness.",
+      },
+      {
+        path: "/api/earth-reality/public-matrix",
+        method: "GET",
+        status: earthRealityProbe.status,
+        detail:
+          "Public World Matrix reports user-facing pages with active, planned, future, blocked, and next-step truth.",
+      },
+      {
+        path: "/api/earth-reality/product-truth",
+        method: "GET",
+        status: earthRealityProbe.status,
+        detail:
+          "Earth Product Truth route reports live, real-money, broker/feed, billing, production, and social publishing as blocked or inactive.",
+      },
+      {
+        path: "/api/earth-reality/privacy",
+        method: "GET",
+        status: earthRealityProbe.status,
+        detail:
+          "Earth privacy route reports no GPS, no precise location tracking, no hidden tracking, and atmosphere-only location context.",
+      },
+      {
+        path: "/api/personal-reality/status",
+        method: "GET",
+        status: personalRealityProbe.status,
+        detail:
+          "Personal Reality status reports Assistant-controlled, plan-aware, Product Truth guarded experience controls.",
+      },
+      {
+        path: "/api/personal-reality/preview",
+        method: "GET",
+        status: personalRealityProbe.status,
+        detail:
+          "Personal Reality preview interprets user intent and returns allowed or blocked settings without writes, activation, secrets, or external calls.",
+      },
+      {
+        path: "/api/personal-reality/profiles",
+        method: "GET",
+        status: personalRealityProbe.status,
+        detail:
+          "Personal Reality profiles route exposes only public-safe profiles and hides internal-only command profiles.",
+      },
+      {
+        path: "/api/founder/earth-reality/readiness",
+        method: "GET",
+        status: earthRealityProbe.status,
+        detail:
+          "Founder Earth Reality readiness route reports full constitution checks read-only without execution or public navigation.",
+      },
+      {
+        path: "/api/founder/personal-reality/readiness",
+        method: "GET",
+        status: personalRealityProbe.status,
+        detail:
+          "Founder Personal Reality readiness route reports full profile coverage read-only without execution or public exposure.",
+      },
       {
         path: "/api/environment/status",
         method: "GET",
@@ -2052,6 +2121,20 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         status: finalPlanetaryEnvironmentProbe.status,
         summary: finalPlanetaryEnvironmentProbe.summary,
         detail: finalPlanetaryEnvironmentProbe.detail,
+      },
+      {
+        key: "earth_reality_constitution",
+        label: earthRealityProbe.label,
+        status: earthRealityProbe.status,
+        summary: earthRealityProbe.summary,
+        detail: earthRealityProbe.detail,
+      },
+      {
+        key: "personal_reality",
+        label: personalRealityProbe.label,
+        status: personalRealityProbe.status,
+        summary: personalRealityProbe.summary,
+        detail: personalRealityProbe.detail,
       },
     ],
     environment: {

@@ -7,6 +7,8 @@ import { getTpmBrainContextSnapshot } from "@/lib/server/brain";
 import { getJournalCoachSnapshot } from "@/lib/server/journal-coach";
 import { getProductTruthSnapshot } from "@/lib/server/product/truth";
 import { getStateExplanation } from "@/lib/server/state-explanations";
+import { getEarthRealitySnapshot } from "@/lib/server/earth-reality";
+import { getPersonalRealityReadinessSnapshot } from "@/lib/server/personal-reality";
 import {
   companionAllowedIntents,
   companionBlockedIntentRegistry,
@@ -35,6 +37,8 @@ export function getCompanionContextSnapshot(
   const realm = getPlanRealmForPlanId(planEntitlements.currentPlan);
   const planetAccess = planEntitlements.citizenAccess.currentLayer;
   const productTruth = getProductTruthSnapshot(checkedAt);
+  const earthReality = getEarthRealitySnapshot(checkedAt);
+  const personalReality = getPersonalRealityReadinessSnapshot(checkedAt);
   const journalCoach = getJournalCoachSnapshot(checkedAt);
   const live = getStateExplanation("live_disabled");
   const realMoney = getStateExplanation("real_money_blocked");
@@ -148,6 +152,21 @@ export function getCompanionContextSnapshot(
       performanceRevenue: productTruth.summary.performanceRevenue,
       founderCommand: productTruth.summary.founderCommand,
     },
+    earthReality: {
+      status: earthReality.status,
+      score: earthReality.score,
+      publicPrivateBoundaryStatus: earthReality.publicPrivateBoundaryStatus,
+      publicCopy: earthReality.publicDiagnosticsSummary.copy,
+    },
+    personalReality: {
+      status: personalReality.status,
+      assistantControlled: personalReality.assistantControlled,
+      planAware: personalReality.planAware,
+      productTruthGuarded: personalReality.productTruthGuarded,
+      freeControls: personalReality.freeControls,
+      plannedControls: personalReality.plannedControls,
+      futureControls: personalReality.futureControls,
+    },
     whyBlocked: {
       liveDisabled: live.userCopy,
       realMoneyBlocked: realMoney.userCopy,
@@ -210,6 +229,7 @@ export function getCompanionContextSnapshot(
         "feedback_help",
         "settings_help",
         "diagnostics_help",
+        "personal_reality_help",
         "plan_explanation",
         "learning_help",
         "session_summary",

@@ -185,6 +185,62 @@ export const companionAllowedIntents: CompanionIntentAvailability[] = [
     ["financial advice", "buy now", "sure trade"]
   ),
   allowedIntent(
+    "personal_reality_calm",
+    "Calm Personal Reality",
+    "Preview allowed visual/workspace calm controls only; no paid activation or private systems.",
+    "short Assistant-controlled experience explanation",
+    ["unlock paid", "activate VIP", "live control"]
+  ),
+  allowedIntent(
+    "personal_reality_focus",
+    "Focus Personal Reality",
+    "Preview chart-first focus and ask confirmation before significant layout changes.",
+    "calm preview plus confirmation",
+    ["execution shortcut", "order hotkey"]
+  ),
+  allowedIntent(
+    "personal_reality_chart_comfort",
+    "Chart Comfort Personal Reality",
+    "Explain chart comfort as layout-only and paper-safe.",
+    "chart-first layout guidance",
+    ["signal", "trade trigger", "live order"]
+  ),
+  allowedIntent(
+    "personal_reality_low_motion",
+    "Low Motion Personal Reality",
+    "Respect reduced motion and keep atmosphere subtle.",
+    "accessibility-first",
+    ["force animation", "ignore reduced motion"]
+  ),
+  allowedIntent(
+    "personal_reality_static",
+    "Static Personal Reality",
+    "Explain Static Mode as motion-off and product-truth preserving.",
+    "accessibility-first",
+    ["weather trading", "session signal"]
+  ),
+  allowedIntent(
+    "personal_reality_high_contrast",
+    "High Contrast Personal Reality",
+    "Prioritize readability over atmosphere.",
+    "accessibility-first",
+    ["visual clutter", "low contrast"]
+  ),
+  allowedIntent(
+    "personal_reality_learning",
+    "Learning Personal Reality",
+    "Keep learning guidance paper-safe and no-advice.",
+    "simple learning mode",
+    ["financial advice", "signals"]
+  ),
+  allowedIntent(
+    "personal_reality_explain_locked",
+    "Explain locked Personal Reality",
+    "Explain planned/locked profiles without fake entitlement, billing, or urgency pressure.",
+    "why-locked plus safe alternative",
+    ["activate now", "fake entitlement"]
+  ),
+  allowedIntent(
     "explain_upgrade_path_without_billing",
     "Explain upgrade path without billing",
     "Explain Pro/VIP/Institutional roadmap truth without checkout, paid activation, or urgency pressure.",
@@ -341,9 +397,19 @@ const intentMatches: IntentMatch[] = [
   { phrases: ["activate broker", "connect broker"], intent: "activate_broker", blocked: true },
   { phrases: ["activate feed", "connect feed"], intent: "activate_feed", blocked: true },
   { phrases: ["activate billing", "checkout"], intent: "activate_billing", blocked: true },
+  { phrases: ["activate vip", "unlock vip", "fake vip"], intent: "fake_vip_activation", blocked: true },
+  { phrases: ["activate institutional", "fake institutional"], intent: "fake_institutional_activation", blocked: true },
   { phrases: ["publish social", "post to"], intent: "publish_social", blocked: true },
   { phrases: ["legal advice"], intent: "provide_legal_advice", blocked: true },
   { phrases: ["financial advice", "what should i buy", "should i trade"], intent: "provide_financial_advice", blocked: true },
+  { phrases: ["make it calmer", "calmer", "less noise", "اجعل المنصة أهدأ", "أهدأ"], intent: "personal_reality_calm", blocked: false },
+  { phrases: ["focus mode", "focus", "أريد تركيز", "تركيز"], intent: "personal_reality_focus", blocked: false },
+  { phrases: ["bigger chart", "larger chart", "chart bigger", "أريد شارت أكبر", "شارت أكبر"], intent: "personal_reality_chart_comfort", blocked: false },
+  { phrases: ["reduce motion", "low motion", "قلل الحركة"], intent: "personal_reality_low_motion", blocked: false },
+  { phrases: ["static mode", "static", "dark mode", "night mode", "أريد وضع ليلي"], intent: "personal_reality_static", blocked: false },
+  { phrases: ["high contrast", "more contrast"], intent: "personal_reality_high_contrast", blocked: false },
+  { phrases: ["learning mode", "teach me more", "أريد تعليم أكثر"], intent: "personal_reality_learning", blocked: false },
+  { phrases: ["why locked", "why is this locked", "لماذا هذا مقفل"], intent: "personal_reality_explain_locked", blocked: false },
   { phrases: ["vip"], intent: "explain_plan_access", blocked: false },
   { phrases: ["pro orbit", "orbit tools", "professional workspace"], intent: "explain_plan_access", blocked: false },
   { phrases: ["lunar", "premium advanced"], intent: "explain_plan_access", blocked: false },

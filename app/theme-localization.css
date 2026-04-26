@@ -7851,3 +7851,79 @@ html[data-theme="light"] .tpmv2-execution {
     display: none;
   }
 }
+
+.tpm-earth-reality,
+.tpm-personal-reality {
+  --tpm-reality-accent: var(--tpm-env-accent, #55d69a);
+  --tpm-reality-surface: color-mix(in srgb, var(--tpm-env-surface, #101820) 86%, transparent);
+}
+
+.tpm-earth-human-layer,
+.tpm-earth-truth-layer {
+  border-color: color-mix(in srgb, var(--tpm-reality-accent) 32%, transparent);
+}
+
+.tpm-reality-clean,
+.tpm-reality-calm,
+.tpm-reality-focus,
+.tpm-reality-chart-first,
+.tpm-reality-low-motion,
+.tpm-reality-static,
+.tpm-reality-high-contrast,
+.tpm-reality-pro-orbit,
+.tpm-reality-vip-lunar,
+.tpm-reality-institutional-station {
+  background: var(--tpm-reality-surface);
+  color: inherit;
+}
+
+.tpm-reality-clean {
+  --tpm-reality-accent: #47d7a0;
+}
+
+.tpm-reality-calm,
+.tpm-reality-low-motion,
+.tpm-reality-static {
+  --tpm-env-motion-opacity: 0.08;
+}
+
+.tpm-reality-focus,
+.tpm-reality-chart-first {
+  --tpm-env-motion-opacity: 0.12;
+  --tpm-reality-accent: #8ed8ff;
+}
+
+.tpm-reality-high-contrast {
+  --tpm-env-bg: #000;
+  --tpm-env-surface: #050505;
+  --tpm-env-accent: #fff;
+  --tpm-env-muted: #e8e8e8;
+  color: #fff;
+}
+
+.tpm-reality-pro-orbit {
+  --tpm-reality-accent: #50e0b4;
+}
+
+.tpm-reality-vip-lunar {
+  --tpm-reality-accent: #f2c36b;
+}
+
+.tpm-reality-institutional-station {
+  --tpm-reality-accent: #80dbff;
+}
+
+.tpm-reality-locked,
+.tpm-reality-planned {
+  opacity: 0.82;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tpm-personal-reality,
+  .tpm-earth-reality,
+  .tpm-reality-low-motion,
+  .tpm-reality-static {
+    animation: none !important;
+    transition: none !important;
+  }
+}

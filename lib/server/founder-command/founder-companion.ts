@@ -16,6 +16,8 @@ import {
 import { getRealWorldLaunchReadinessSnapshot } from "@/lib/server/launch-readiness";
 import { getFinalConvergenceSnapshot } from "@/lib/server/final-convergence";
 import { getPlanetaryEnvironmentReadinessSnapshot } from "@/lib/server/environment";
+import { getEarthRealitySnapshot } from "@/lib/server/earth-reality";
+import { getPersonalRealityReadinessSnapshot } from "@/lib/server/personal-reality";
 import { getInvisibleOperatingLayerSnapshot } from "@/lib/server/invisible-operating-layer";
 import {
   getProductMemoryDailySummarySnapshot,
@@ -61,6 +63,8 @@ export type FounderPersonalCompanionSnapshot = {
   alkonUniverseSummary: string[];
   alkonCosmicPhysicsSummary: string[];
   finalConvergenceSummary: string[];
+  earthRealitySummary: string[];
+  personalRealitySummary: string[];
   realWorldLaunchReadinessSummary: string[];
   planetaryEnvironmentSummary: string[];
   invisibleOperatingLayerSummary: string[];
@@ -118,6 +122,8 @@ export function getFounderPersonalCompanionSnapshot(
     getRealWorldLaunchReadinessSnapshot(checkedAt);
   const planetaryEnvironment =
     getPlanetaryEnvironmentReadinessSnapshot(checkedAt);
+  const earthReality = getEarthRealitySnapshot(checkedAt);
+  const personalReality = getPersonalRealityReadinessSnapshot(checkedAt);
   const publicRealms = getPublicPlanRealms();
   const privateRealm = getPrivateFounderRealm();
   const decisionMinistries = reporting.ministries.filter(
@@ -248,6 +254,18 @@ export function getFounderPersonalCompanionSnapshot(
       `Automation maximum is ${finalConvergence.automationGovernor.currentMaximumLevel}; Level 4 remains disabled and Level 5 uncontrolled autopilot is forbidden.`,
       `Reality audit is ${finalConvergence.realityAuditReadiness.status}; cleanup execution active is ${String(finalConvergence.cleanupReadiness.executionActive)}; Local Day status is ${finalConvergence.localDayReadiness.status}.`,
       "Final Convergence remains Founder-only and cannot launch, bill, trade live, route real money, expose secrets, run shell commands, call Codex, or expose Alkon publicly.",
+    ],
+    earthRealitySummary: [
+      `Earth Reality is ${earthReality.status} with score ${earthReality.score}/10; no fake 10/10 or launch claim is made.`,
+      `${earthReality.layers.length} Earth layers and ${earthReality.surfaces.length} public surfaces are constitutionally mapped.`,
+      `Public/private boundary is ${earthReality.publicPrivateBoundaryStatus}; live execution, real money, broker/feed, billing, production, and social publishing remain blocked or inactive.`,
+      "Earth is the public reference reality for human orientation, time, privacy, markets, law/trust, learning/support, environment, and Product Truth.",
+    ],
+    personalRealitySummary: [
+      `Personal Reality is ${personalReality.status}; ${personalReality.freeControls.length} Free controls are active.`,
+      `${personalReality.plannedControls.length} professional/premium controls are planned and ${personalReality.futureControls.length} institutional controls are future.`,
+      `Assistant-controlled: ${String(personalReality.assistantControlled)}; plan-aware: ${String(personalReality.planAware)}; Product Truth guarded: ${String(personalReality.productTruthGuarded)}.`,
+      "Personal Reality previews and explains allowed settings only; it cannot unlock paid plans, activate live execution, expose private systems, or use weather/session as trading advice.",
     ],
     realWorldLaunchReadinessSummary: [
       `Real-world readiness is ${realWorldLaunchReadiness.status}; launch gate is ${realWorldLaunchReadiness.gate.status}.`,
