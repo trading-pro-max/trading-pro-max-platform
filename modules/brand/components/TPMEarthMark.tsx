@@ -6,6 +6,7 @@ import type {
   BrandOccasionThemeKey,
   BrandSurface,
 } from "@/lib/brand/types";
+import type { PlanRealmId } from "@/lib/plans/realms/types";
 
 export type TPMEarthMarkVariant = "public" | "compact" | "command";
 
@@ -41,6 +42,14 @@ function sizeStyle(size?: number | string): CSSProperties | undefined {
   } as CSSProperties;
 }
 
+const planRealmIds: Record<LivingEarthPlan, PlanRealmId> = {
+  free: "free_earth",
+  pro: "pro_orbit",
+  vip: "vip_lunar",
+  institutional: "institutional_station",
+  founder: "alkon_universe",
+};
+
 export default function TPMEarthMark({
   animated = false,
   className,
@@ -68,6 +77,7 @@ export default function TPMEarthMark({
   const oceanGradientId = `${markId}-tpm-earth-ocean`;
   const continentGradientId = `${markId}-tpm-earth-continent`;
   const globeClipId = `${markId}-tpm-earth-globe-clip`;
+  const realmId = planRealmIds[plan];
 
   return (
     <span
@@ -92,6 +102,7 @@ export default function TPMEarthMark({
       data-occasion-theme={occasionTheme}
       data-earth-plan={plan}
       data-earth-raster-assets="false"
+      data-earth-realm={realmId}
       data-earth-external-map-assets="false"
       data-earth-precise-location="false"
       data-state={state}
@@ -120,6 +131,38 @@ export default function TPMEarthMark({
             <circle cx="36" cy="36" r="22.8" />
           </clipPath>
         </defs>
+        <g className="tpm-earth-realm-shape" aria-hidden="true" data-earth-realm={realmId}>
+          {plan === "free" ? (
+            <circle className="tpm-earth-realm-free-shell" cx="36" cy="36" r="24.9" />
+          ) : null}
+          {plan === "pro" ? (
+            <g className="tpm-earth-realm-pro-grid">
+              <path d="M15.6 36h40.8M36 15.6v40.8" />
+              <ellipse cx="36" cy="36" rx="30.7" ry="11.4" transform="rotate(-28 36 36)" />
+            </g>
+          ) : null}
+          {plan === "vip" ? (
+            <g className="tpm-earth-realm-vip-lunar">
+              <ellipse cx="36" cy="36" rx="31.8" ry="13.2" transform="rotate(-32 36 36)" />
+              <circle cx="60.5" cy="16.2" r="2.6" />
+              <path d="M20.2 53.4c7.9 4.8 21.1 5.2 31.3-.7" />
+            </g>
+          ) : null}
+          {plan === "institutional" ? (
+            <g className="tpm-earth-realm-institutional-station">
+              <path d="M11.9 23.4h10.5M49.6 23.4h10.5M11.9 48.6h10.5M49.6 48.6h10.5" />
+              <rect x="18.8" y="18.8" width="34.4" height="34.4" rx="4.6" />
+            </g>
+          ) : null}
+          {plan === "founder" ? (
+            <g className="tpm-earth-realm-founder-universe">
+              <ellipse cx="36" cy="36" rx="33.4" ry="14.6" transform="rotate(-38 36 36)" />
+              <ellipse cx="36" cy="36" rx="31.2" ry="12.2" transform="rotate(31 36 36)" />
+              <circle cx="12.4" cy="12.9" r="1.9" />
+              <circle cx="59.4" cy="57.9" r="1.7" />
+            </g>
+          ) : null}
+        </g>
         <circle className="tpm-earth-halo" cx="36" cy="36" r="27.2" />
         <g className="tpm-earth-moon-orbit" aria-hidden="true">
           <ellipse

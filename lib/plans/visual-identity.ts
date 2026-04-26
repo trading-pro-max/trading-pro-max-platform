@@ -1,4 +1,5 @@
 import type { AssistantTierKey } from "@/lib/assistant/tiers";
+import type { PlanRealmId } from "@/lib/plans/realms";
 
 export type PlanVisualKey = "guest" | "demo_free" | "pro" | "vip" | "enterprise";
 export type PublicPlanVisualLabel = "Free" | "Pro" | "VIP" | "Institutional";
@@ -17,6 +18,7 @@ export type PlanVisualToken = {
 
 export type PlanVisualIdentity = {
   key: PlanVisualKey;
+  realmId?: PlanRealmId | "public_orientation";
   label: string;
   shortLabel: string;
   availability: PlanVisualAvailability;
@@ -31,6 +33,9 @@ export type PlanVisualIdentity = {
     metallic: PlanVisualToken;
   };
   tone: string;
+  earthPerspective: string;
+  shapeLanguage: string;
+  functionalDepth: string;
   surfaceLanguage: string;
   assistantIdentity: string;
   comparisonSummary: string;
@@ -62,6 +67,7 @@ function classes(key: PlanVisualKey) {
 export const PLAN_VISUAL_IDENTITIES: Record<PlanVisualKey, PlanVisualIdentity> = {
   guest: {
     key: "guest",
+    realmId: "public_orientation",
     label: "Guest",
     shortLabel: "Guest",
     availability: "active",
@@ -72,6 +78,9 @@ export const PLAN_VISUAL_IDENTITIES: Record<PlanVisualKey, PlanVisualIdentity> =
       metallic: token("Clean graphite", "--tpm-plan-guest-metallic", "#cbd5e1", "#64748b"),
     },
     tone: "Clean public trust identity",
+    earthPerspective: "Public orientation before plan access.",
+    shapeLanguage: "Minimal product mark and calm public trust surface.",
+    functionalDepth: "Entry, trust, and limited learning preview only.",
     surfaceLanguage:
       "Minimal brand, safety, and Academy preview cues without plan pressure.",
     assistantIdentity: "Orientation only",
@@ -88,6 +97,7 @@ export const PLAN_VISUAL_IDENTITIES: Record<PlanVisualKey, PlanVisualIdentity> =
   },
   demo_free: {
     key: "demo_free",
+    realmId: "free_earth",
     label: "Free",
     shortLabel: "Free",
     availability: "active",
@@ -98,6 +108,9 @@ export const PLAN_VISUAL_IDENTITIES: Record<PlanVisualKey, PlanVisualIdentity> =
       metallic: token("Cool graphite", "--tpm-plan-demo-metallic", "#94a3b8", "#475569"),
     },
     tone: "Familiar premium trading identity",
+    earthPerspective: "Earth-native starting workspace for paper-safe use.",
+    shapeLanguage: "Simple complete globe, realistic continents, light moon orbit, and low motion.",
+    functionalDepth: "Web workspace, paper execution, Basic Assistant, Basic Journal/Coach, Academy, Why Blocked, and support readiness.",
     surfaceLanguage:
       "Chart-first paper terminal with basic Assistant, Why Blocked, Academy, and subtle Swiss precision cues.",
     assistantIdentity: "Basic Assistant",
@@ -115,6 +128,7 @@ export const PLAN_VISUAL_IDENTITIES: Record<PlanVisualKey, PlanVisualIdentity> =
   },
   pro: {
     key: "pro",
+    realmId: "pro_orbit",
     label: "Pro",
     shortLabel: "Pro",
     availability: "locked",
@@ -125,6 +139,9 @@ export const PLAN_VISUAL_IDENTITIES: Record<PlanVisualKey, PlanVisualIdentity> =
       metallic: token("Graphite silver", "--tpm-plan-pro-metallic", "#e2e8f0", "#475569"),
     },
     tone: "Professional daily trader identity",
+    earthPerspective: "Orbital professional layer above the active Free workspace.",
+    shapeLanguage: "Emerald/silver precision grid, technical orbit, and workstation-safe motion.",
+    functionalDepth: "Professional workspace, stronger Assistant, Journal/Coach depth, Decision Replay, alerts, and workspace memory planned/locked.",
     surfaceLanguage:
       "Professional workspace direction for stronger Assistant, journal depth, decision replay, workspace memory, alerts, and workflows.",
     assistantIdentity: "Pro Assistant",
@@ -142,6 +159,7 @@ export const PLAN_VISUAL_IDENTITIES: Record<PlanVisualKey, PlanVisualIdentity> =
   },
   vip: {
     key: "vip",
+    realmId: "vip_lunar",
     label: "VIP",
     shortLabel: "VIP",
     availability: "locked",
@@ -152,6 +170,9 @@ export const PLAN_VISUAL_IDENTITIES: Record<PlanVisualKey, PlanVisualIdentity> =
       metallic: token("Black gold", "--tpm-plan-vip-metallic", "#d8a83c", "#8a5f14"),
     },
     tone: "Elite premium identity",
+    earthPerspective: "Lunar/deep orbit premium layer that remains planned/locked.",
+    shapeLanguage: "Gold continent edges, gold orbit, platinum depth, and premium moon orbit.",
+    functionalDepth: "Advanced Assistant, advanced Coach, premium reports, strategy review, VIP rooms, and priority support planned/locked.",
     surfaceLanguage:
       "Black, gold, and platinum cues for the elite premium workspace layer, advanced Assistant, advanced coaching, and premium reports without visual noise.",
     assistantIdentity: "Advanced Assistant",
@@ -169,6 +190,7 @@ export const PLAN_VISUAL_IDENTITIES: Record<PlanVisualKey, PlanVisualIdentity> =
   },
   enterprise: {
     key: "enterprise",
+    realmId: "institutional_station",
     label: "Institutional",
     shortLabel: "Inst",
     availability: "coming_later",
@@ -179,6 +201,9 @@ export const PLAN_VISUAL_IDENTITIES: Record<PlanVisualKey, PlanVisualIdentity> =
       metallic: token("Institutional platinum", "--tpm-plan-enterprise-metallic", "#dbeafe", "#64748b"),
     },
     tone: "Organization-grade control identity",
+    earthPerspective: "Station/control perspective for future institutional teams.",
+    shapeLanguage: "Navy/platinum/cyan formal grid, controlled orbit, and restrained official structure.",
+    functionalDepth: "Team/admin, audit, compliance readiness, formal reports, and runbooks future only.",
     surfaceLanguage:
       "Navy, platinum, and cyan direction for team, admin, audit, compliance, and runbook surfaces.",
     assistantIdentity: "Institutional Assistant later",

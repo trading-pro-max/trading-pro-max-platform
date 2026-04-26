@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getPublicPlanRealms } from "@/lib/plans/realms";
 import LivingEarthBackground from "../../brand/components/LivingEarthBackground";
 import LocalizedEarthFocus from "../../brand/components/LocalizedEarthFocus";
 import ProductLogo from "../../brand/components/ProductLogo";
@@ -49,32 +50,41 @@ const trustStates = [
   },
 ];
 
-const planInterfaceLadder = [
-  {
+const planCopy = {
+  free_earth: {
     title: "Free",
     badge: "Active",
-    plan: "free" as const,
-    summary: "Familiar paper-safe workspace with chart, watchlist, Assistant, and learning basics.",
+    headline: "Start on the web workspace",
   },
-  {
+  pro_orbit: {
     title: "Pro",
     badge: "Planned",
-    plan: "pro" as const,
-    summary: "Professional tools planned for deeper workspace guidance and Journal/Coach depth.",
+    headline: "Professional workspace tools",
   },
-  {
+  vip_lunar: {
     title: "VIP",
     badge: "Planned",
-    plan: "vip" as const,
-    summary: "Premium advanced layer planned for deeper coaching and Premium Reports.",
+    headline: "Premium advanced layer",
   },
-  {
+  institutional_station: {
     title: "Institutional",
     badge: "Future",
-    plan: "institutional" as const,
-    summary: "Future controlled team-ready layer for formal institutional workflows.",
+    headline: "Future team/institutional layer",
   },
-];
+} as const;
+
+const planInterfaceLadder = getPublicPlanRealms().map((realm) => ({
+  realmId: realm.realmId,
+  title: planCopy[realm.realmId as keyof typeof planCopy].title,
+  badge: planCopy[realm.realmId as keyof typeof planCopy].badge,
+  headline: planCopy[realm.realmId as keyof typeof planCopy].headline,
+  plan: realm.visualIdentity.plan,
+  summary: realm.workspaceBehavior,
+  assistant: realm.assistantBehavior,
+  journalCoach: realm.journalCoachDepth,
+  reports: realm.reportsDepth,
+  apps: realm.appsPlatformsAccess,
+}));
 
 const safetyTruth = [
   "Paper-safe",
@@ -117,9 +127,8 @@ export default function PublicProductEntry({
               />
               <h1>A familiar paper-safe trading workspace with a sharper edge.</h1>
               <p>
-                Trading Pro Max gives users a clean way into the web workspace, market
-                categories, learning paths, plan clarity, and readiness truth without extra
-                complexity.
+                Trading Pro Max starts with a complete Free web workspace, then keeps Pro,
+                VIP, and Institutional depth clearly planned or future until real gates exist.
               </p>
 
               <div className="tpm-product-cta-row">
@@ -172,7 +181,7 @@ export default function PublicProductEntry({
               <span className="tpm-product-kicker">Plans at a glance</span>
               <h2>Free starts simple. Pro and VIP add depth when available.</h2>
             </div>
-            <p>Plans stay short, truthful, and public-safe.</p>
+            <p>Plans differ by workspace, Assistant, Journal/Coach, reports, apps, and support truth.</p>
           </div>
 
           <div className="tpm-product-plan-grid">
@@ -181,6 +190,7 @@ export default function PublicProductEntry({
                 key={plan.title}
                 className="tpm-foundation-card tpm-product-card tpm-product-plan-card"
                 data-earth-plan={plan.plan}
+                data-plan-realm={plan.realmId}
               >
                 <div className="tpm-product-card-head">
                   <div className="tpm-product-plan-card-title">
@@ -190,14 +200,21 @@ export default function PublicProductEntry({
                       plan={plan.plan}
                       state={plan.plan === "free" ? "paper_safe" : "planned"}
                       surface="public_entry"
-                      title={`${plan.title} Earth identity`}
+                      title={`${plan.title} plan identity`}
                       variant="compact"
                     />
                     <strong>{plan.title}</strong>
                   </div>
                   <span className="tpm-product-chip">{plan.badge}</span>
                 </div>
+                <h3>{plan.headline}</h3>
                 <p>{plan.summary}</p>
+                <ul className="tpm-product-plan-depth-list">
+                  <li>{plan.assistant}</li>
+                  <li>{plan.journalCoach}</li>
+                  <li>{plan.reports}</li>
+                  <li>{plan.apps}</li>
+                </ul>
               </article>
             ))}
           </div>

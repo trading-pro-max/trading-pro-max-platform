@@ -35,12 +35,13 @@ export default function PlanExperienceCard({
       className={`tpm-plan-experience-card ${identity.className}`}
       data-current={active}
       data-plan={plan.planId}
+      data-plan-realm={plan.realmId}
     >
       <header>
         <div>
           <span className={identity.badgeClassName}>{identity.shortLabel}</span>
           <h3>{plan.planName}</h3>
-          <p>{identity.tone}</p>
+          <p>{identity.functionalDepth}</p>
         </div>
         <strong>{planStateLabel(plan)}</strong>
       </header>
@@ -49,11 +50,13 @@ export default function PlanExperienceCard({
         <span>Assistant: {identity.assistantIdentity}</span>
         <span>Interface: {interfaceLayer.headline}</span>
         <span>Workspace: {layer?.activeLayer ?? "Plan readiness"}</span>
+        <span>Reports: {plan.reportsDepth}</span>
         <span>Billing: {truth.billing}</span>
         <span>Paid access: {truth.paidAccess}</span>
       </div>
 
-      <p className="tpm-plan-interface-note">{interfaceLayer.surfaceDepth}</p>
+      <p className="tpm-plan-interface-note">{plan.workspaceBehavior}</p>
+      <p className="tpm-plan-interface-note">{plan.journalCoachDepth}</p>
 
       <div className="tpm-plan-experience-columns">
         <PlanCapabilityList title="Active now" features={plan.allowedFeatures.slice(0, 4)} />

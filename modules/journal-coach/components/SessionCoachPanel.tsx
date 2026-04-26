@@ -9,7 +9,11 @@ type SessionCoachPanelProps = {
 
 export default function SessionCoachPanel({ snapshot }: SessionCoachPanelProps) {
   return (
-    <section className="tpm-session-coach-panel" aria-label="Journal and session coach foundation">
+    <section
+      className="tpm-session-coach-panel"
+      aria-label="Journal and session coach foundation"
+      data-plan-realm={snapshot.currentRealm}
+    >
       <header>
         <span>Journal / Coach</span>
         <h2>Paper-session guidance foundation</h2>
@@ -17,6 +21,17 @@ export default function SessionCoachPanel({ snapshot }: SessionCoachPanelProps) 
           Basic prompts are active for Free. Pro journal depth and VIP coaching remain planned or locked.
         </p>
       </header>
+
+      <div className="tpm-session-coach-realm-grid" aria-label="Journal and Coach plan depth">
+        {snapshot.realmAccess.map((realm) => (
+          <article key={realm.realmId} data-plan-realm={realm.realmId}>
+            <span>{realm.publicPlanName}</span>
+            <strong>{realm.state}</strong>
+            <p>{realm.depth}</p>
+            <small>{realm.safetyTruth}</small>
+          </article>
+        ))}
+      </div>
 
       <div className="tpm-session-coach-grid">
         {snapshot.prompts.slice(0, 4).map((prompt) => (

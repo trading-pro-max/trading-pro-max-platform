@@ -1,5 +1,6 @@
 import "server-only";
 
+import { getPublicPlanRealms } from "@/lib/plans/realms";
 import type { DecisionReplayFoundation, JournalCoachPrompt, JournalCoachSnapshot } from "./types";
 
 const prompts: JournalCoachPrompt[] = [
@@ -91,16 +92,35 @@ export function getDecisionReplayFoundation(input: {
 export function getJournalCoachSnapshot(
   checkedAt = new Date().toISOString()
 ): JournalCoachSnapshot {
+  const realmAccess: JournalCoachSnapshot["realmAccess"] = getPublicPlanRealms().map((realm) => ({
+    realmId: realm.realmId as JournalCoachSnapshot["realmAccess"][number]["realmId"],
+    publicPlanName:
+      realm.publicPlanName as JournalCoachSnapshot["realmAccess"][number]["publicPlanName"],
+    depth: realm.journalCoachDepth,
+    state:
+      realm.activationState === "future"
+        ? "future"
+        : realm.activationState === "active"
+          ? "active"
+          : "planned",
+    safetyTruth:
+      realm.realmId === "free_earth"
+        ? "Basic reflection and decision notes are active for paper-safe use."
+        : "Depth remains planned or future unless explicit entitlement gates exist.",
+  }));
+
   return {
     checkedAt,
     mode: "journal_coach_foundation",
     currentPlan: "demo_free",
+    currentRealm: "free_earth",
     planAccess: {
       demo: "basic_safe_prompts_active",
       pro: "deeper_session_review_planned",
       vip: "advanced_coaching_planned",
       enterprise: "institutional_team_reports_future",
     },
+    realmAccess,
     prompts,
     localJournalFoundation: {
       persistence: "local_session_foundation",

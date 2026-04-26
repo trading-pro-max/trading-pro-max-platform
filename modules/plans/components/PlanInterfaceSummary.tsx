@@ -24,6 +24,7 @@ export default function PlanInterfaceSummary({
               key={layer.id}
               className={`tpm-plan-interface-card ${identity.className}`}
               data-current={active}
+              data-plan-realm={layer.realmId}
               data-status={layer.status}
             >
               <header>
@@ -33,11 +34,14 @@ export default function PlanInterfaceSummary({
               </header>
               <h3>{layer.headline}</h3>
               <p>{layer.experience}</p>
+              <small>{layer.workspaceBehavior}</small>
               {!compact ? (
                 <div className="tpm-plan-interface-list">
-                  {layer.primarySurfaces.slice(0, 4).map((surface) => (
-                    <small key={surface}>{surface}</small>
-                  ))}
+                  {[layer.assistantBehavior, layer.journalCoachDepth, layer.reportsCommunityAppsSupport, ...layer.primarySurfaces]
+                    .slice(0, 6)
+                    .map((surface) => (
+                      <small key={surface}>{surface}</small>
+                    ))}
                 </div>
               ) : null}
               <footer>{layer.safeCopy}</footer>

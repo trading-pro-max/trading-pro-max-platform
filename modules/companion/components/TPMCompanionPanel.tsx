@@ -258,8 +258,8 @@ export default function TPMCompanionPanel({
         state: "planned",
         title: "Plan access truth",
       body:
-          context?.planAccess
-            ? `${context.planAccess.activeLayer}. Free is familiar and paper-safe. Pro is planned for professional workspace depth, VIP for premium advanced guidance, and Institutional for future team support.`
+          context?.realm
+            ? `${context.realm.publicPlanName}: ${context.realm.workspaceBehavior} Pro is planned for professional workspace depth, VIP for premium advanced guidance, and Institutional for future team support.`
             : "Basic Assistant is active for Free guidance. Pro, VIP, and Institutional assistants remain locked or future-planned until real entitlement support exists.",
       },
       feedback: {
@@ -395,15 +395,15 @@ export default function TPMCompanionPanel({
       <div className="tpm-companion-status-grid">
         <div>
           <span>Plan</span>
-          <strong>{currentPlan.planName}</strong>
+          <strong>{context?.realm.publicPlanName ?? currentPlan.planName}</strong>
           <small>
-            {context?.planAccess.activeLayer ?? currentPlan.truthState.replaceAll("_", " ")}
+            {context?.realm.activationState ?? currentPlan.truthState.replaceAll("_", " ")}
           </small>
         </div>
         <div>
           <span>Context</span>
           <strong>{loadState === "ready" ? "Ready" : "Fallback"}</strong>
-          <small>Safe daily use</small>
+          <small>{context?.realm.assistantBehavior ?? "Safe daily use"}</small>
         </div>
         <div>
           <span>Authority</span>

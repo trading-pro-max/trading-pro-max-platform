@@ -12,6 +12,8 @@ Layers:
 - moonBehavior
 - motionLaw
 - planDNA
+- realmShape
+- functionalSignal
 - themeAdaptation
 - stateSignal
 - occasionSkin
@@ -41,3 +43,13 @@ Implementation:
 - `lib/brand/earth-identity-engine.ts`
 - `modules/brand/components/TPMEarthMark.tsx`
 - `modules/brand/components/ProductLogo.tsx`
+
+## Realm Shape Rules
+
+- Free Earth uses a complete simple globe shell for the active web workspace.
+- Pro Orbit adds a precision grid and technical orbit to signal planned professional tooling.
+- VIP Lunar adds lunar/deep-orbit structure and gold edge treatment for planned premium depth.
+- Institutional Station adds a station/control frame for future team/admin/audit/compliance readiness.
+- Alkon Universe is the private strongest command variant and must never render on public user surfaces.
+
+All variants remain code-only SVG/CSS. No raster assets, generated images, external maps, GPS, or precise location tracking are used.

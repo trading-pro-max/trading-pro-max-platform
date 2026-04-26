@@ -1,6 +1,7 @@
 import "server-only";
 
 import { getPlanEntitlementSnapshot } from "@/lib/plans/entitlements";
+import { getPrivateFounderRealm, getPublicPlanRealms } from "@/lib/plans/realms";
 import { getAcademyReadinessSnapshot } from "@/lib/server/academy";
 import { getBrandIntelligenceInternalReadiness } from "@/lib/server/brand-intelligence";
 import { getAiVideoStudioReadinessSnapshot } from "@/lib/server/ai-video-studio";
@@ -168,6 +169,8 @@ export function getFounderCommandAppSnapshot(
   const codexPresidencyReport = getCodexPresidencyReport(checkedAt);
   const invisibleOperatingLayer = getInvisibleOperatingLayerSnapshot(checkedAt);
   const localLivingDayLoop = getLocalLivingDayLoopSnapshot(checkedAt);
+  const publicRealms = getPublicPlanRealms();
+  const alkonUniverse = getPrivateFounderRealm();
 
   const desktopApp: FounderCommandDeviceBlueprint = {
     platform: "desktop",
@@ -271,6 +274,43 @@ export function getFounderCommandAppSnapshot(
         publicNavigationVisible: ownerAccessPolicy.publicNavigationVisible,
         approvalExecutionActive: false,
         ideaInboxReady: founderIdeaInbox.status === "ready",
+        alkonUniverse: {
+          realmId: alkonUniverse.realmId,
+          privateNames: ["Alkon", "الكون"],
+          visibility: alkonUniverse.visibility,
+          activationState: alkonUniverse.activationState,
+          publicPlanAccess: false,
+        },
+      },
+      planRealmFunctionalExperience: {
+        publicRealms: publicRealms.map((realm) => ({
+          realmId: realm.realmId,
+          publicPlanName: realm.publicPlanName,
+          activationState: realm.activationState,
+          visualIdentity: realm.visualIdentity,
+          assistantBehavior: realm.assistantBehavior,
+          journalCoachDepth: realm.journalCoachDepth,
+          workspaceBehavior: realm.workspaceBehavior,
+          reportsDepth: realm.reportsDepth,
+          featureGapCount:
+            realm.lockedFeatures.length + realm.plannedFeatures.length,
+        })),
+        realmGaps: publicRealms.map(
+          (realm) =>
+            `${realm.publicPlanName}: ${realm.activationState}; ${realm.lockedFeatures.length} locked, ${realm.plannedFeatures.length} planned.`
+        ),
+        visualAcceptance: publicRealms.map((realm) => ({
+          realmId: realm.realmId,
+          publicPlanName: realm.publicPlanName,
+          shapeLanguage: realm.visualIdentity.shapeLanguage,
+          motion: realm.visualIdentity.motion,
+        })),
+        nextSafeActions: [
+          "Keep Free complete and active for paper-safe use.",
+          "Keep Pro and VIP planned or entitlement-gated until real gates exist.",
+          "Keep Institutional future-only until team/admin/audit/compliance systems exist.",
+          "Keep Alkon / الكون private to Founder Command only.",
+        ],
       },
       invisibleOperatingLayer: {
         systems: invisibleOperatingLayer.systems.length,

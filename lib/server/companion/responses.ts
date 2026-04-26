@@ -42,12 +42,13 @@ export function buildCompanionResponseTemplates(
   const launch = getStateExplanation("launch_not_active");
   const social = getStateExplanation("social_publishing_inactive");
   const journalCoach = getJournalCoachSnapshot(context.checkedAt);
+  const realm = context.realm;
 
   return [
     {
       intent: "explain_platform_state",
       title: "Platform state",
-      body: `You are on ${context.route}. The platform is paper-safe, feed state is ${context.marketFeedState}, and live execution, real money, billing, launch, broker/feed activation, and social publishing remain blocked or inactive. ${launch.shortMessage}; ${social.shortMessage}.`,
+      body: `You are on ${context.route} in the ${realm.publicPlanName} experience. ${realm.workspaceBehavior} Feed state is ${context.marketFeedState}, and live execution, real money, billing, launch, broker/feed activation, and social publishing remain blocked or inactive. ${launch.shortMessage}; ${social.shortMessage}.`,
       safeNextStep: "Use paper mode, diagnostics, and settings for truthful state review.",
       state: "fallback",
     },
@@ -75,8 +76,7 @@ export function buildCompanionResponseTemplates(
     {
       intent: "explain_paper_mode",
       title: "Paper mode",
-      body:
-        "Paper mode is the active safe rehearsal layer. It lets you review the workspace, practice decision notes, and inspect blocked states without live execution or real-money routing.",
+      body: `${realm.publicPlanName} uses paper-safe rehearsal. It lets you review the workspace, practice decision notes, and inspect blocked states without live execution or real-money routing. ${realm.journalCoachDepth}`,
       safeNextStep: "Use paper mode for learning, journal notes, and diagnostics review.",
       state: "ready",
     },
@@ -104,7 +104,7 @@ export function buildCompanionResponseTemplates(
     {
       intent: "explain_plan_access",
       title: "Plan access",
-      body: `${context.planAccess?.activeLayer ?? context.planetAccess.activeLayer}. Free stays familiar, chart-first, paper-safe, and compact. Pro is the planned intelligent professional workspace, VIP is the planned premium advanced layer, and Institutional remains future. ${pro.userCopy} ${vip.userCopy} ${institutional.userCopy}`,
+      body: `${context.planAccess?.activeLayer ?? context.planetAccess.activeLayer}. Free is the active complete paper-safe web workspace. Pro is the planned professional workspace layer, VIP is the planned premium advanced layer, and Institutional remains future team readiness. Current ${realm.publicPlanName} behavior: ${realm.assistantBehavior} ${pro.userCopy} ${vip.userCopy} ${institutional.userCopy}`,
       safeNextStep: "Use Free paper-safe features and treat Pro/VIP/Institutional capabilities as roadmap truth until entitlement and billing gates exist.",
       state: "planned",
     },
@@ -118,7 +118,7 @@ export function buildCompanionResponseTemplates(
     {
       intent: "guide_to_settings",
       title: "Go to settings",
-      body: "Settings controls theme, language, plan access truth, paper ticket defaults, and journal/coach readiness.",
+      body: `Settings shows the current ${realm.publicPlanName} experience, what is active, what is planned or future, paper ticket defaults, and Journal/Coach readiness.`,
       safeNextStep: "Open Settings for product configuration that does not activate live systems.",
       state: "ready",
     },
@@ -148,23 +148,21 @@ export function buildCompanionResponseTemplates(
     {
       intent: "journal_prompt",
       title: "Journal prompt",
-      body: `Before the paper decision, write what condition you are rehearsing, what would make you pause, and what you want to learn. Current journal mode: ${journalCoach.localJournalFoundation.persistence}.`,
+      body: `Before the paper decision, write what condition you are rehearsing, what would make you pause, and what you want to learn. Current ${realm.publicPlanName} Journal/Coach depth: ${realm.journalCoachDepth} Current journal mode: ${journalCoach.localJournalFoundation.persistence}.`,
       safeNextStep: "Record a learning note, not a profit target or performance promise.",
       state: "ready",
     },
     {
       intent: "coach_prompt",
       title: "Coach prompt",
-      body:
-        "Before continuing, name the condition you are rehearsing, the point where you will pause, and one learning question. This is coaching for paper-mode discipline, not a trading instruction.",
+      body: `Before continuing, name the condition you are rehearsing, the point where you will pause, and one learning question. ${realm.journalCoachDepth} This is coaching for paper-mode discipline, not a trading instruction.`,
       safeNextStep: "Use the Coach panel for a calm pre/during/post-session reflection.",
       state: "ready",
     },
     {
       intent: "session_summary",
       title: "Session summary",
-      body:
-        "Summarize the paper session by context, preflight state, blocked/allowed state, what you learned, and what you would review next. Deeper Journal/Coach review remains planned for Pro and VIP; do not assume an alternate outcome.",
+      body: `Summarize the paper session by context, preflight state, blocked/allowed state, what you learned, and what you would review next. ${realm.reportsDepth} Deeper Journal/Coach review remains planned for Pro and VIP; do not assume an alternate outcome.`,
       safeNextStep: "Use the journal/coach panel for paper-session reflection.",
       state: "ready",
     },
@@ -182,7 +180,7 @@ export function buildCompanionResponseTemplates(
       intent: "explain_upgrade_path_without_billing",
       title: "Plan ladder",
       body:
-        "Free is active as the familiar paper trading layer. Pro describes an intelligent professional workspace, VIP describes a premium advanced layer, and Institutional describes future team support. Billing, checkout, paid entitlements, and VIP activation are inactive.",
+        "Free is active as the complete paper-safe web workspace. Pro describes planned professional workspace tools, VIP describes a planned premium advanced layer, and Institutional describes future team support. Billing, checkout, paid entitlements, and VIP activation are inactive.",
       safeNextStep: "Read plan value as roadmap truth, not an upgrade prompt.",
       state: "planned",
     },
@@ -190,7 +188,7 @@ export function buildCompanionResponseTemplates(
       intent: "explain_plan_upgrade_without_billing",
       title: "Plan ladder",
       body:
-        "Free is active as the familiar paper trading layer. Pro describes an intelligent professional workspace, VIP describes a premium advanced layer, and Institutional describes future team support. Billing, checkout, paid entitlements, and VIP activation are inactive.",
+        "Free is active as the complete paper-safe web workspace. Pro describes planned professional workspace tools, VIP describes a planned premium advanced layer, and Institutional describes future team support. Billing, checkout, paid entitlements, and VIP activation are inactive.",
       safeNextStep: "Read plan value as roadmap truth, not an upgrade prompt.",
       state: "planned",
     },

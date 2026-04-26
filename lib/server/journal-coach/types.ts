@@ -1,3 +1,5 @@
+import type { PlanRealmId } from "@/lib/plans/realms/types";
+
 export type JournalCoachPlanLevel = "demo_free" | "pro" | "vip" | "enterprise";
 
 export type JournalCoachPromptState = "active" | "planned" | "locked";
@@ -53,12 +55,20 @@ export type JournalCoachSnapshot = {
   checkedAt: string;
   mode: "journal_coach_foundation";
   currentPlan: "demo_free";
+  currentRealm: "free_earth";
   planAccess: {
     demo: "basic_safe_prompts_active";
     pro: "deeper_session_review_planned";
     vip: "advanced_coaching_planned";
     enterprise: "institutional_team_reports_future";
   };
+  realmAccess: Array<{
+    realmId: Exclude<PlanRealmId, "alkon_universe">;
+    publicPlanName: "Free" | "Pro" | "VIP" | "Institutional";
+    depth: string;
+    state: "active" | "planned" | "future";
+    safetyTruth: string;
+  }>;
   prompts: JournalCoachPrompt[];
   localJournalFoundation: {
     persistence: "local_session_foundation";

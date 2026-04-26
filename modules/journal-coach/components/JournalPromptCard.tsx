@@ -6,7 +6,11 @@ type JournalPromptCardProps = {
 
 export default function JournalPromptCard({ prompt }: JournalPromptCardProps) {
   return (
-    <article className="tpm-journal-prompt-card" data-state={prompt.state}>
+    <article
+      className="tpm-journal-prompt-card"
+      data-plan-level={prompt.planLevel}
+      data-state={prompt.state}
+    >
       <div>
         <span>{prompt.state}</span>
         <h3>{prompt.title}</h3>

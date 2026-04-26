@@ -78,3 +78,14 @@ The Assistant must not include secrets, production secrets, broker credentials, 
 - Institutional: future team/institutional guidance only.
 
 Founder/private assistance is separate and is not part of this public Assistant.
+# Plan-Realm Daily Use Addendum
+
+TPM Assistant daily use is realm-aware:
+
+- Free: active paper-safe guidance, blocked-state explanations, basic Journal/Coach prompts, and learning help.
+- Pro: planned professional guidance; no fake activation.
+- VIP: planned premium guidance; no signals, profit promises, or fake VIP activation.
+- Institutional: future readiness guidance only.
+- Alkon: private Founder-only context and never public Assistant output.
+
+The Assistant may explain active/planned/future states but cannot execute trades, enable live mode, route real money, activate broker/feed, activate billing, publish socially, reveal secrets, provide financial advice, provide legal advice, or guarantee outcomes.

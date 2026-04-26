@@ -253,3 +253,15 @@ Founder Command receives the private Codex Sovereign Construction State report:
 - what not to automate
 
 This layer is internal-only and read-only. It does not execute shell commands, call Codex directly, send secrets to Codex, activate billing, connect brokers/feeds, enable live execution, route real money, publish socially, launch publicly, or expose Founder Command to normal users.
+# Alkon Universe Addendum
+
+Founder Command may show Alkon / الكون as a private internal command universe.
+
+It may summarize:
+
+- Free, Pro, VIP, and Institutional realm readiness.
+- Realm gaps and feature gaps.
+- Realm visual acceptance.
+- Next safe actions.
+
+It must keep Alkon owner-only, read-only by default, hidden from public navigation, and separate from public user plans. It must not activate approval execution, billing, broker/feed, live execution, real money, social publishing, public launch, or production secrets.

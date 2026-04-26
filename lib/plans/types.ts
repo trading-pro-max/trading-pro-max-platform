@@ -1,4 +1,5 @@
 import type { AssistantTierKey } from "@/lib/assistant/tiers";
+import type { PlanRealmId } from "@/lib/plans/realms/types";
 import type { PlanVisualKey } from "@/lib/plans/visual-identity";
 
 export type PlanId = "demo_free" | "pro" | "vip" | "enterprise";
@@ -20,6 +21,8 @@ export type EntitlementTruthState =
   | "blocked";
 
 export type PlanFeatureGroup =
+  | "workspace"
+  | "paper_execution"
   | "assistant"
   | "journal"
   | "coach"
@@ -32,6 +35,11 @@ export type PlanFeatureGroup =
   | "academy"
   | "reports"
   | "desktop_mobile"
+  | "apps_platforms"
+  | "support"
+  | "strategy_review"
+  | "team_admin"
+  | "audit_compliance"
   | "media_content_tools"
   | "founder_command";
 
@@ -45,9 +53,18 @@ export type PlanFeatureState = {
 export type PlanEntitlementContract = {
   planId: PlanId;
   planName: string;
+  realmId: PlanRealmId;
+  realmName: string;
   visualIdentity: PlanVisualKey;
   companionLevel: AssistantTierKey;
   truthState: "paper_active" | "planned_locked" | "future_planned";
+  earthPerspective: string;
+  assistantBehavior: string;
+  journalCoachDepth: string;
+  workspaceBehavior: string;
+  reportsDepth: string;
+  appsPlatformsAccess: string;
+  supportAccess: string;
   allowedFeatures: PlanFeatureState[];
   lockedFeatures: PlanFeatureState[];
   comingLaterFeatures: PlanFeatureState[];
@@ -61,6 +78,8 @@ export type PlanPlanetLayerState = "active" | "planned" | "future" | "owner_only
 export type PlanPlanetAccessLayer = {
   citizenClass: CitizenClassId;
   label: string;
+  realmId?: PlanRealmId;
+  realmName?: string;
   state: PlanPlanetLayerState;
   planId: PlanId | "none" | "owner_only";
   visibleContinents: string[];
@@ -73,6 +92,8 @@ export type PlanPlanetAccessLayer = {
   mediaContentAccess: string;
   visualIdentity: PlanVisualKey | "guest";
   activeLayer: string;
+  earthPerspective: string;
+  workspaceBehavior: string;
   lockedFeatures: string[];
   plannedFeatures: string[];
   hiddenFeatures: string[];

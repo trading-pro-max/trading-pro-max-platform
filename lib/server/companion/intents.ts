@@ -9,8 +9,8 @@ import type {
 
 const allowedPlanAccess = {
   demoFree: "allowed",
-  pro: "allowed",
-  vip: "allowed",
+  pro: "planned",
+  vip: "planned",
   enterprise: "future",
 } as const;
 
@@ -71,9 +71,9 @@ export const companionAllowedIntents: CompanionIntentAvailability[] = [
   allowedIntent(
     "explain_plan_access",
     "Explain plan access",
-    "Use public plan names only and do not claim paid activation.",
-    "truthful entitlement summary",
-    ["legacy internal plan label", "paid active", "VIP enabled", "checkout available"]
+    "Use public plan names only and explain Free active, Pro/VIP planned, and Institutional future without paid activation.",
+    "truthful realm and entitlement summary",
+    ["legacy internal plan label", "paid active", "VIP enabled", "checkout available", "Pro active"]
   ),
   allowedIntent(
     "explain_account_type",
@@ -334,6 +334,8 @@ const intentMatches: IntentMatch[] = [
   { phrases: ["legal advice"], intent: "provide_legal_advice", blocked: true },
   { phrases: ["financial advice", "what should i buy", "should i trade"], intent: "provide_financial_advice", blocked: true },
   { phrases: ["vip"], intent: "explain_plan_access", blocked: false },
+  { phrases: ["pro orbit", "orbit tools", "professional workspace"], intent: "explain_plan_access", blocked: false },
+  { phrases: ["lunar", "premium advanced"], intent: "explain_plan_access", blocked: false },
   { phrases: ["billing inactive", "why billing"], intent: "explain_billing_inactive", blocked: false },
   { phrases: ["institutional"], intent: "explain_plan_access", blocked: false },
   { phrases: ["founder command", "restricted controls", "private controls", "private control", "that area separate", "area separate"], intent: "founder_unavailable_for_user", blocked: false },

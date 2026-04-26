@@ -7,6 +7,7 @@ import type {
   PlanId,
   PlanPlanetAccessLayer,
 } from "@/lib/plans/types";
+import { getPlanRealm } from "@/lib/plans/realms";
 
 function feature(
   group: PlanFeatureGroup,
@@ -24,16 +25,33 @@ const founderCommandHidden = feature(
   "Restricted controls are separate and are never part of Free, Pro, VIP, or Institutional user plans."
 );
 
+const freeRealm = getPlanRealm("free_earth");
+const proRealm = getPlanRealm("pro_orbit");
+const vipRealm = getPlanRealm("vip_lunar");
+const institutionalRealm = getPlanRealm("institutional_station");
+const alkonRealm = getPlanRealm("alkon_universe");
+
 export const PLAN_ENTITLEMENTS: PlanEntitlementContract[] = [
   {
     planId: "demo_free",
     planName: "Free",
+    realmId: freeRealm.realmId,
+    realmName: freeRealm.realmName,
     visualIdentity: "demo_free",
     companionLevel: "demo_paper",
     truthState: "paper_active",
+    earthPerspective: freeRealm.earthPerspective,
+    assistantBehavior: freeRealm.assistantBehavior,
+    journalCoachDepth: freeRealm.journalCoachDepth,
+    workspaceBehavior: freeRealm.workspaceBehavior,
+    reportsDepth: freeRealm.reportsDepth,
+    appsPlatformsAccess: freeRealm.appsPlatformsAccess,
+    supportAccess: freeRealm.supportAccess,
     allowedFeatures: [
-      feature("workspace_memory", "Familiar paper terminal", "active", "Chart-first workstation, watchlist, and paper ticket stay clean and familiar."),
+      feature("workspace", "Web Trading Workspace", "active", "Chart-first web workspace, watchlist, and paper ticket stay clean and familiar."),
+      feature("paper_execution", "Paper execution", "active", "Paper rehearsal is active while live execution and real-money routing remain blocked."),
       feature("assistant", "Basic Assistant", "active", "Basic platform, blocked-state, feedback, settings, and diagnostics guidance."),
+      feature("journal", "Basic Journal/Coach", "active", "Basic reflection, paper-mode lessons, and decision notes are active."),
       feature("academy", "Basic Academy and Why Blocked", "active", "Safe paper-first learning, glossary readiness, and compact blocked-state explanation."),
       feature("alerts", "Swiss clock / pulse", "active", "Subtle living signals are active without distracting from chart or ticket."),
     ],
@@ -60,13 +78,23 @@ export const PLAN_ENTITLEMENTS: PlanEntitlementContract[] = [
   {
     planId: "pro",
     planName: "Pro",
+    realmId: proRealm.realmId,
+    realmName: proRealm.realmName,
     visualIdentity: "pro",
     companionLevel: "pro",
     truthState: "planned_locked",
+    earthPerspective: proRealm.earthPerspective,
+    assistantBehavior: proRealm.assistantBehavior,
+    journalCoachDepth: proRealm.journalCoachDepth,
+    workspaceBehavior: proRealm.workspaceBehavior,
+    reportsDepth: proRealm.reportsDepth,
+    appsPlatformsAccess: proRealm.appsPlatformsAccess,
+    supportAccess: proRealm.supportAccess,
     allowedFeatures: [],
     lockedFeatures: [
+      feature("workspace", "Professional workspace tools", "locked", "Requires real entitlement support; no billing is active."),
       feature("assistant", "Pro Assistant", "locked", "Requires real Pro entitlement logic; no billing is active."),
-      feature("journal", "Journal suggestions", "locked", "Planned for Pro but not unlocked."),
+      feature("journal", "Deeper Journal/Coach", "locked", "Planned for Pro but not unlocked."),
       feature("alerts", "Alert/workflow guidance", "locked", "Delivery and entitlement remain unconfigured."),
       feature("decision_replay", "Decision replay basic", "locked", "Prepared as concept only."),
     ],
@@ -86,14 +114,24 @@ export const PLAN_ENTITLEMENTS: PlanEntitlementContract[] = [
   {
     planId: "vip",
     planName: "VIP",
+    realmId: vipRealm.realmId,
+    realmName: vipRealm.realmName,
     visualIdentity: "vip",
     companionLevel: "vip",
     truthState: "planned_locked",
+    earthPerspective: vipRealm.earthPerspective,
+    assistantBehavior: vipRealm.assistantBehavior,
+    journalCoachDepth: vipRealm.journalCoachDepth,
+    workspaceBehavior: vipRealm.workspaceBehavior,
+    reportsDepth: vipRealm.reportsDepth,
+    appsPlatformsAccess: vipRealm.appsPlatformsAccess,
+    supportAccess: vipRealm.supportAccess,
     allowedFeatures: [],
     lockedFeatures: [
       feature("assistant", "Advanced Assistant", "locked", "VIP entitlement is not active."),
       feature("coach", "Advanced coaching", "locked", "No premium coaching access exists."),
       feature("performance_dashboard", "Deep performance review", "locked", "No personalized deep-dive is active."),
+      feature("strategy_review", "Strategy review", "locked", "Strategy review is planned only and cannot promise outcomes."),
       feature("vip_private_rooms", "VIP private rooms", "locked", "Rooms are future planned with safety and legal review required."),
     ],
     comingLaterFeatures: [
@@ -112,13 +150,22 @@ export const PLAN_ENTITLEMENTS: PlanEntitlementContract[] = [
   {
     planId: "enterprise",
     planName: "Institutional later",
+    realmId: institutionalRealm.realmId,
+    realmName: institutionalRealm.realmName,
     visualIdentity: "enterprise",
     companionLevel: "enterprise",
     truthState: "future_planned",
+    earthPerspective: institutionalRealm.earthPerspective,
+    assistantBehavior: institutionalRealm.assistantBehavior,
+    journalCoachDepth: institutionalRealm.journalCoachDepth,
+    workspaceBehavior: institutionalRealm.workspaceBehavior,
+    reportsDepth: institutionalRealm.reportsDepth,
+    appsPlatformsAccess: institutionalRealm.appsPlatformsAccess,
+    supportAccess: institutionalRealm.supportAccess,
     allowedFeatures: [],
     lockedFeatures: [
-      feature("desktop_mobile", "Team/device administration", "locked", "Institutional product is not available."),
-      feature("reports", "Compliance/audit reports", "locked", "No legal compliance certification is claimed."),
+      feature("team_admin", "Team/device administration", "locked", "Institutional product is not available."),
+      feature("audit_compliance", "Compliance/audit reports", "locked", "No legal compliance certification is claimed."),
     ],
     comingLaterFeatures: [
       feature("assistant", "Institutional Assistant", "coming_later", "Future team/admin assistant concept only."),
@@ -137,6 +184,8 @@ export const PLANET_ACCESS_LAYERS: PlanPlanetAccessLayer[] = [
   {
     citizenClass: "guest",
     label: "Guest",
+    realmId: freeRealm.realmId,
+    realmName: "Public Orientation",
     state: "active",
     planId: "none",
     visibleContinents: ["Public Entry", "Brand Trust", "Academy Preview"],
@@ -149,6 +198,8 @@ export const PLANET_ACCESS_LAYERS: PlanPlanetAccessLayer[] = [
     mediaContentAccess: "Public-safe content only when published later",
     visualIdentity: "guest",
     activeLayer: "Public orientation layer",
+    earthPerspective: "Public-safe orientation outside the signed-in workspace.",
+    workspaceBehavior: "Can inspect public entry, trust, and Academy preview only.",
     lockedFeatures: ["Workstation depth", "Assistant panel", "Journal/Coach", "Plan diagnostics"],
     plannedFeatures: ["Basic Academy preview expansion"],
     hiddenFeatures: ["restricted controls", "revenue research", "restricted reports"],
@@ -159,6 +210,8 @@ export const PLANET_ACCESS_LAYERS: PlanPlanetAccessLayer[] = [
   {
     citizenClass: "demo_free",
     label: "Free",
+    realmId: freeRealm.realmId,
+    realmName: freeRealm.realmName,
     state: "active",
     planId: "demo_free",
     visibleContinents: [
@@ -188,6 +241,8 @@ export const PLANET_ACCESS_LAYERS: PlanPlanetAccessLayer[] = [
     mediaContentAccess: "Academy/product content only; no social publishing",
     visualIdentity: "demo_free",
     activeLayer: "Familiar paper trading layer",
+    earthPerspective: freeRealm.earthPerspective,
+    workspaceBehavior: freeRealm.workspaceBehavior,
     lockedFeatures: ["Pro alerts", "workspace memory depth", "advanced Assistant", "advanced reports", "private rooms"],
     plannedFeatures: ["community basic", "decision replay foundation", "academy paths"],
     hiddenFeatures: ["restricted controls", "revenue controls", "revenue research"],
@@ -198,6 +253,8 @@ export const PLANET_ACCESS_LAYERS: PlanPlanetAccessLayer[] = [
   {
     citizenClass: "pro",
     label: "Pro",
+    realmId: proRealm.realmId,
+    realmName: proRealm.realmName,
     state: "planned",
     planId: "pro",
     visibleContinents: ["Free layer", "Professional workspace"],
@@ -210,6 +267,8 @@ export const PLANET_ACCESS_LAYERS: PlanPlanetAccessLayer[] = [
     mediaContentAccess: "Pro education content planned",
     visualIdentity: "pro",
     activeLayer: "Professional intelligent workspace layer planned",
+    earthPerspective: proRealm.earthPerspective,
+    workspaceBehavior: proRealm.workspaceBehavior,
     lockedFeatures: ["Pro entitlement", "alerts", "decision replay", "workspace memory depth"],
     plannedFeatures: ["Pro community", "journal depth", "session guidance"],
     hiddenFeatures: ["restricted controls", "billing controls", "revenue research"],
@@ -220,6 +279,8 @@ export const PLANET_ACCESS_LAYERS: PlanPlanetAccessLayer[] = [
   {
     citizenClass: "vip",
     label: "VIP",
+    realmId: vipRealm.realmId,
+    realmName: vipRealm.realmName,
     state: "planned",
     planId: "vip",
     visibleContinents: ["Pro layer", "VIP advanced layer"],
@@ -232,6 +293,8 @@ export const PLANET_ACCESS_LAYERS: PlanPlanetAccessLayer[] = [
     mediaContentAccess: "Premium content planned",
     visualIdentity: "vip",
     activeLayer: "Elite premium workspace layer planned",
+    earthPerspective: vipRealm.earthPerspective,
+    workspaceBehavior: vipRealm.workspaceBehavior,
     lockedFeatures: ["advanced Assistant", "advanced coaching", "premium reports", "private rooms"],
     plannedFeatures: ["advanced journal analytics", "strategy review", "priority support"],
     hiddenFeatures: ["restricted controls", "revenue research", "revenue controls"],
@@ -242,6 +305,8 @@ export const PLANET_ACCESS_LAYERS: PlanPlanetAccessLayer[] = [
   {
     citizenClass: "enterprise",
     label: "Institutional",
+    realmId: institutionalRealm.realmId,
+    realmName: institutionalRealm.realmName,
     state: "future",
     planId: "enterprise",
     visibleContinents: ["Future institutional team layer"],
@@ -254,6 +319,8 @@ export const PLANET_ACCESS_LAYERS: PlanPlanetAccessLayer[] = [
     mediaContentAccess: "Institutional announcements future",
     visualIdentity: "enterprise",
     activeLayer: "Future institutional layer",
+    earthPerspective: institutionalRealm.earthPerspective,
+    workspaceBehavior: institutionalRealm.workspaceBehavior,
     lockedFeatures: ["team admin", "audit reports", "compliance overview", "custom support"],
     plannedFeatures: ["team workspaces", "admin controls", "institutional runbooks"],
     hiddenFeatures: ["restricted controls", "revenue research"],
@@ -264,6 +331,8 @@ export const PLANET_ACCESS_LAYERS: PlanPlanetAccessLayer[] = [
   {
     citizenClass: "staff_operator",
     label: "Staff / Operator",
+    realmId: institutionalRealm.realmId,
+    realmName: "Operator Readiness",
     state: "planned",
     planId: "none",
     visibleContinents: ["Operational surfaces by role"],
@@ -276,6 +345,8 @@ export const PLANET_ACCESS_LAYERS: PlanPlanetAccessLayer[] = [
     mediaContentAccess: "Draft/review only",
     visualIdentity: "enterprise",
     activeLayer: "Future operator layer",
+    earthPerspective: "Future operator perspective for support, quality, and operations readiness.",
+    workspaceBehavior: "Role-based operator surfaces are future scope and not user plans.",
     lockedFeatures: ["operator consoles", "role permissions", "audit execution"],
     plannedFeatures: ["review queues", "support triage", "quality inspection"],
     hiddenFeatures: ["private approvals", "secrets", "private user data"],
@@ -286,6 +357,8 @@ export const PLANET_ACCESS_LAYERS: PlanPlanetAccessLayer[] = [
   {
     citizenClass: "founder_king",
     label: "Restricted Controls",
+    realmId: "alkon_universe",
+    realmName: "Alkon Universe",
     state: "owner_only",
     planId: "owner_only",
     visibleContinents: ["Full restricted system"],
@@ -298,6 +371,8 @@ export const PLANET_ACCESS_LAYERS: PlanPlanetAccessLayer[] = [
     mediaContentAccess: "All media queues and approvals",
     visualIdentity: "vip",
     activeLayer: "Restricted controls layer",
+    earthPerspective: alkonRealm.earthPerspective,
+    workspaceBehavior: alkonRealm.workspaceBehavior,
     lockedFeatures: ["approval execution until audit gates exist", "native command apps"],
     plannedFeatures: ["desktop command app", "mobile command app", "step-up confirmation"],
     hiddenFeatures: [],

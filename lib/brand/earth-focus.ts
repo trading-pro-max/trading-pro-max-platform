@@ -3,6 +3,58 @@ import type {
   LivingEarthFocus,
   LivingEarthFocusInput,
 } from "./earth-background-types";
+import type { PlanRealmId } from "@/lib/plans/realms/types";
+
+export type LivingEarthRealmAtmosphere = {
+  realmId: PlanRealmId;
+  perspective:
+    | "earth_native"
+    | "orbital_professional"
+    | "lunar_deep_orbit"
+    | "station_control"
+    | "private_universe";
+  preciseLocationTracking: false;
+  rasterAssetsUsed: false;
+  motion: "none" | "low" | "medium" | "command";
+};
+
+const realmAtmospheres: Record<PlanRealmId, LivingEarthRealmAtmosphere> = {
+  free_earth: {
+    realmId: "free_earth",
+    perspective: "earth_native",
+    preciseLocationTracking: false,
+    rasterAssetsUsed: false,
+    motion: "low",
+  },
+  pro_orbit: {
+    realmId: "pro_orbit",
+    perspective: "orbital_professional",
+    preciseLocationTracking: false,
+    rasterAssetsUsed: false,
+    motion: "low",
+  },
+  vip_lunar: {
+    realmId: "vip_lunar",
+    perspective: "lunar_deep_orbit",
+    preciseLocationTracking: false,
+    rasterAssetsUsed: false,
+    motion: "medium",
+  },
+  institutional_station: {
+    realmId: "institutional_station",
+    perspective: "station_control",
+    preciseLocationTracking: false,
+    rasterAssetsUsed: false,
+    motion: "low",
+  },
+  alkon_universe: {
+    realmId: "alkon_universe",
+    perspective: "private_universe",
+    preciseLocationTracking: false,
+    rasterAssetsUsed: false,
+    motion: "command",
+  },
+};
 
 const focusLabels: Record<EarthFocusRegion, string> = {
   europe: "Europe focus",
@@ -101,4 +153,10 @@ export function resolveLivingEarthFocus(
     exactCityUsed: false,
     persisted: false,
   };
+}
+
+export function resolveLivingEarthRealmAtmosphere(
+  realmId: PlanRealmId
+): LivingEarthRealmAtmosphere {
+  return realmAtmospheres[realmId];
 }

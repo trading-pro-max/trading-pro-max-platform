@@ -1,5 +1,6 @@
 import type { BrandSurface } from "./types";
 import type { LivingEarthPlan, LivingEarthState } from "./earth-background-types";
+import type { PlanRealmId } from "@/lib/plans/realms/types";
 
 export type EarthIdentityTheme = "light" | "dark" | "auto";
 
@@ -12,12 +13,15 @@ export type EarthIdentityLayer =
   | "moonBehavior"
   | "motionLaw"
   | "planDNA"
+  | "realmShape"
+  | "functionalSignal"
   | "themeAdaptation"
   | "stateSignal"
   | "occasionSkin";
 
 export type EarthIdentity = {
   plan: LivingEarthPlan;
+  realmId: PlanRealmId;
   surface: BrandSurface | "public_entry";
   state: LivingEarthState;
   theme: EarthIdentityTheme;

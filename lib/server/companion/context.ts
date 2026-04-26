@@ -2,6 +2,7 @@ import "server-only";
 
 import { getAssistantTierSnapshot } from "@/lib/assistant/tiers";
 import { getPlanEntitlementSnapshot } from "@/lib/plans/entitlements";
+import { getPlanRealmForPlanId } from "@/lib/plans/realms";
 import { getTpmBrainContextSnapshot } from "@/lib/server/brain";
 import { getJournalCoachSnapshot } from "@/lib/server/journal-coach";
 import { getProductTruthSnapshot } from "@/lib/server/product/truth";
@@ -31,6 +32,7 @@ export function getCompanionContextSnapshot(
     planTier === "demo_free" ? "evaluation" : planTier;
   const assistantTier = getAssistantTierSnapshot(assistantPlan).current;
   const planEntitlements = getPlanEntitlementSnapshot(planTier, checkedAt);
+  const realm = getPlanRealmForPlanId(planEntitlements.currentPlan);
   const planetAccess = planEntitlements.citizenAccess.currentLayer;
   const productTruth = getProductTruthSnapshot(checkedAt);
   const journalCoach = getJournalCoachSnapshot(checkedAt);
@@ -97,6 +99,21 @@ export function getCompanionContextSnapshot(
       founderCommandAccess: planEntitlements.truth.founderCommandAccess,
       ownerCommandAccess: planEntitlements.truth.ownerCommandAccess,
       performanceFee: planEntitlements.truth.performanceFee,
+    },
+    realm: {
+      realmId:
+        realm.realmId === "alkon_universe" ? "free_earth" : realm.realmId,
+      publicPlanName: publicPlanName(planEntitlements.currentPlan),
+      activationState:
+        realm.activationState === "future" ? "future" : realm.activationState === "active" ? "active" : "planned",
+      earthPerspective: realm.earthPerspective,
+      assistantBehavior: realm.assistantBehavior,
+      journalCoachDepth: realm.journalCoachDepth,
+      workspaceBehavior: realm.workspaceBehavior,
+      reportsDepth: realm.reportsDepth,
+      appsPlatformsAccess: realm.appsPlatformsAccess,
+      supportAccess: realm.supportAccess,
+      upgradeExplanation: realm.upgradeExplanation,
     },
     planAccess: {
       planClass: planetAccess.citizenClass,

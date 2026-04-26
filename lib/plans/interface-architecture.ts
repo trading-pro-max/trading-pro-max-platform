@@ -1,4 +1,5 @@
 import type { PlanId } from "@/lib/plans/types";
+import type { PlanRealmId } from "@/lib/plans/realms";
 import type { PlanVisualKey } from "@/lib/plans/visual-identity";
 
 export type PlanInterfaceLayerId =
@@ -16,11 +17,17 @@ export type PlanInterfaceLayerStatus =
 
 export type PlanInterfaceLayer = {
   id: PlanInterfaceLayerId;
+  realmId: PlanRealmId;
   label: string;
   status: PlanInterfaceLayerStatus;
   visualIdentity: PlanVisualKey;
   headline: string;
   experience: string;
+  earthPerspective: string;
+  assistantBehavior: string;
+  journalCoachDepth: string;
+  workspaceBehavior: string;
+  reportsCommunityAppsSupport: string;
   surfaceDepth: string;
   primarySurfaces: string[];
   hiddenFromThisLayer: string[];
@@ -48,12 +55,19 @@ export type PlanInterfaceArchitectureSnapshot = {
 export const PLAN_INTERFACE_LAYERS: PlanInterfaceLayer[] = [
   {
     id: "demo_free",
+    realmId: "free_earth",
     label: "Free",
     status: "active",
     visualIdentity: "demo_free",
     headline: "Familiar premium paper platform",
     experience:
       "A clean chart-first trading terminal with paper execution, basic Assistant guidance, Why Blocked explanations, basic Academy, and subtle Swiss precision signals.",
+    earthPerspective: "Earth-native public workspace.",
+    assistantBehavior: "Basic platform, blocked-state, Journal/Coach, settings, diagnostics, and learning guidance.",
+    journalCoachDepth: "Basic reflection, paper-mode lesson, decision note, and post-session learning.",
+    workspaceBehavior: "Active web workspace with active paper execution.",
+    reportsCommunityAppsSupport:
+      "No premium reports; community planned; Web current; desktop/mobile planned; support readiness active.",
     surfaceDepth: "Moderate TPM advantage without exposing restricted operational detail.",
     primarySurfaces: [
       "chart-first workstation",
@@ -83,12 +97,19 @@ export const PLAN_INTERFACE_LAYERS: PlanInterfaceLayer[] = [
   },
   {
     id: "pro",
+    realmId: "pro_orbit",
     label: "Pro",
     status: "planned_locked",
     visualIdentity: "pro",
     headline: "Professional intelligent workspace",
     experience:
       "A planned daily-trader layer for stronger Assistant support, deeper Journal/Coach, decision replay, workspace memory, alerts, and workflow guidance.",
+    earthPerspective: "Professional orbit over the Free workspace.",
+    assistantBehavior: "Professional guidance is planned/locked unless entitlement exists.",
+    journalCoachDepth: "Deeper session structure and Decision Replay planned/locked.",
+    workspaceBehavior: "Professional workspace tools planned/locked.",
+    reportsCommunityAppsSupport:
+      "Pro reports, Pro community, workflow alerts, and app depth planned only.",
     surfaceDepth: "Deeper than Free, but only active when real entitlement and safety support exists.",
     primarySurfaces: [
       "Pro Assistant planned",
@@ -105,12 +126,19 @@ export const PLAN_INTERFACE_LAYERS: PlanInterfaceLayer[] = [
   },
   {
     id: "vip",
+    realmId: "vip_lunar",
     label: "VIP",
     status: "planned_locked",
     visualIdentity: "vip",
     headline: "Elite premium workspace layer",
     experience:
       "A planned premium layer for advanced Assistant, advanced coaching, advanced journal analytics, strategy review, premium reports, and private rooms.",
+    earthPerspective: "Lunar/deep orbit premium layer.",
+    assistantBehavior: "Advanced/premium guidance planned/locked; no signal or profit promise.",
+    journalCoachDepth: "Advanced coaching, premium review, and report depth planned/locked.",
+    workspaceBehavior: "Elite advanced layer previewed only as planned depth.",
+    reportsCommunityAppsSupport:
+      "Premium reports, VIP rooms, strategy review, and priority support planned only.",
     surfaceDepth: "Highest user-facing product depth, still separated from private controls.",
     primarySurfaces: [
       "Advanced Assistant planned",
@@ -127,12 +155,19 @@ export const PLAN_INTERFACE_LAYERS: PlanInterfaceLayer[] = [
   },
   {
     id: "enterprise",
+    realmId: "institutional_station",
     label: "Institutional",
     status: "future",
     visualIdentity: "enterprise",
     headline: "Future institutional team layer",
     experience:
       "A future organization layer for teams, admin, audit, compliance readiness, runbooks, and custom support.",
+    earthPerspective: "Formal station/control perspective.",
+    assistantBehavior: "Future team/institutional readiness explanation only.",
+    journalCoachDepth: "Team review future only.",
+    workspaceBehavior: "No team/admin workspace access is active.",
+    reportsCommunityAppsSupport:
+      "Formal reports, team spaces, app behavior, and custom support future only.",
     surfaceDepth: "Future institutional architecture only; not a public activation path.",
     primarySurfaces: [
       "team admin future",
@@ -148,12 +183,19 @@ export const PLAN_INTERFACE_LAYERS: PlanInterfaceLayer[] = [
   },
   {
     id: "founder_king",
+    realmId: "alkon_universe",
     label: "Restricted Controls",
     status: "owner_only",
     visualIdentity: "vip",
     headline: "Restricted controls",
     experience:
       "The private controls layer for readiness, risks, revenue controls, media review, approvals, and next safe actions.",
+    earthPerspective: "Private Alkon Universe view.",
+    assistantBehavior: "Founder-only private companion; never public Assistant.",
+    journalCoachDepth: "Internal management briefing only.",
+    workspaceBehavior: "Owner-only read-only command world.",
+    reportsCommunityAppsSupport:
+      "Full internal reports and readiness summaries remain private and non-executing.",
     surfaceDepth: "Private controls architecture, read-only by default, never a user-plan feature.",
     primarySurfaces: [
       "protected command room",

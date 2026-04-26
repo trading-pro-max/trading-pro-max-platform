@@ -29,6 +29,19 @@ export type TPMCompanionContextView = {
     founderCommandAccess: "owner_only_never_user_plan";
     ownerCommandAccess: "owner_only_never_user_plan";
   };
+  realm: {
+    realmId: "free_earth" | "pro_orbit" | "vip_lunar" | "institutional_station";
+    publicPlanName: "Free" | "Pro" | "VIP" | "Institutional";
+    activationState: "active" | "planned" | "future";
+    earthPerspective: string;
+    assistantBehavior: string;
+    journalCoachDepth: string;
+    workspaceBehavior: string;
+    reportsDepth: string;
+    appsPlatformsAccess: string;
+    supportAccess: string;
+    upgradeExplanation: string;
+  };
   planAccess: {
     planClass: "guest" | "demo_free" | "pro" | "vip" | "enterprise" | "staff_operator" | "founder_king";
     label: string;

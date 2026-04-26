@@ -106,6 +106,14 @@ Free has basic safe prompts active. Pro deeper session review is planned. VIP ad
 
 Journal and Coach surfaces must keep plan labels truthful and must not pressure trades, imply better outcomes, or sell premium results.
 
+## Realm-Aware Depth
+
+- Free Earth: basic reflection, paper-mode lesson, decision note, and post-session learning are active.
+- Pro Orbit: deeper journal, Decision Replay, and session structure are planned/locked.
+- VIP Lunar: advanced coaching, premium review, and report-grade reflection are planned/locked.
+- Institutional Station: team review and reports are future only.
+- Alkon Universe: private internal readiness summaries only and never a public Journal/Coach plan.
+
 ## Product Reality Journal Foundation
 
 The Product Reality pass adds a practical local/session journal composer and decision replay card.

@@ -8,6 +8,7 @@ import {
 } from "../../auth/account-type";
 import { getAssistantTierSnapshot } from "../../../lib/assistant/tiers";
 import { getPlanEntitlementSnapshot } from "../../../lib/plans/entitlements";
+import { getPublicPlanRealms } from "../../../lib/plans/realms";
 import { getLocaleEntry } from "../../../lib/i18n/config";
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
 import type { PlanVisualIdentity, PlanVisualKey } from "../../../lib/plans/visual-identity";
@@ -58,6 +59,12 @@ function toneFromProbeStatus(status: DiagnosticsProbeStatus): WorkstationStatusT
   if (status === "ready") return "approved";
   if (status === "fallback" || status === "auth_required") return "pending";
   if (status === "blocked" || status === "unconfigured") return "restricted";
+  return "blocked";
+}
+
+function toneFromRealmState(state: "active" | "planned" | "future" | "blocked" | "internal_only"): WorkstationStatusTone {
+  if (state === "active") return "approved";
+  if (state === "planned" || state === "future") return "pending";
   return "blocked";
 }
 
@@ -219,7 +226,7 @@ function PlanIdentityGrid({
 }) {
   return (
     <div className="tpm-plan-grid" aria-label="Plan visual identity comparison">
-      {identities.map((identity) => {
+      {identities.filter((identity) => identity.key !== "guest").map((identity) => {
         const active = identity.key === currentPlanKey;
         const state = active ? "active" : identity.availability;
 
@@ -237,7 +244,7 @@ function PlanIdentityGrid({
               </span>
             </div>
             <strong>{identity.label}</strong>
-            <p>{identity.tone}</p>
+            <p>{identity.functionalDepth}</p>
             <small>{identity.surfaceLanguage}</small>
             <div className="tpm-plan-card-footer">
               <span className={identity.assistantClassName}>
@@ -895,6 +902,7 @@ export function PlatformDiagnosticsSurface({
     planetOsLoadState.status === "ready" ? planetOsLoadState.integrationMeshSummary : undefined;
   const planEntitlementSnapshot = getPlanEntitlementSnapshot("demo_free");
   const currentPlanetLayer = planEntitlementSnapshot.citizenAccess.currentLayer;
+  const publicPlanRealms = getPublicPlanRealms();
   const localePrefix = locale ? `/${locale}` : "";
   const localeEntry = getLocaleEntry(locale);
 
@@ -1150,6 +1158,13 @@ export function PlatformDiagnosticsSurface({
       note: "No checkout, paid access, or private treasury fee UI is user-visible.",
     },
   ];
+
+  const planRealmItems = publicPlanRealms.map((realm) => ({
+    label: `${realm.publicPlanName} experience`,
+    value: realm.activationState,
+    tone: toneFromRealmState(realm.activationState),
+    note: `${realm.workspaceBehavior} ${realm.journalCoachDepth}`,
+  }));
 
   const companionReadinessItems = [
     {
@@ -1789,6 +1804,10 @@ export function PlatformDiagnosticsSurface({
         <PlanInterfaceSummary compact currentLayer="demo_free" />
       </UtilitySection>
 
+      <UtilitySection eyebrow="PLAN READINESS" title="Experience readiness by plan">
+        <UtilityGrid items={planRealmItems} />
+      </UtilitySection>
+
       <UtilitySection eyebrow="READINESS" title="Product readiness model">
         {planetOsLoadState.status === "ready" ? (
           <UtilityGrid items={planetOsItems} />
@@ -2100,6 +2119,7 @@ export function PlatformSettingsSurface({
   const planVisualIdentities = getPlanVisualIdentities();
   const planEntitlementSnapshot = getPlanEntitlementSnapshot("demo_free");
   const currentPlanetLayer = planEntitlementSnapshot.citizenAccess.currentLayer;
+  const publicPlanRealms = getPublicPlanRealms();
   const journalCoachLoadState = useJournalCoachReadiness();
 
   const productStructureItems = [
@@ -2167,6 +2187,13 @@ export function PlatformSettingsSurface({
       note: "No broker readiness, account funding, or live connection is implied.",
     },
   ];
+
+  const settingRealmItems = publicPlanRealms.map((realm) => ({
+    label: `${realm.publicPlanName} experience`,
+    value: realm.activationState,
+    tone: toneFromRealmState(realm.activationState),
+    note: `${realm.assistantBehavior} ${realm.reportsDepth}`,
+  }));
 
   const onboardingItems = [
     {
@@ -2496,6 +2523,10 @@ export function PlatformSettingsSurface({
 
       <UtilitySection eyebrow="PRODUCT ACCESS" title="Commercial packaging readiness">
         <UtilityGrid items={productPackagingItems} />
+      </UtilitySection>
+
+      <UtilitySection eyebrow="PLAN READINESS" title="Current and planned experiences">
+        <UtilityGrid items={settingRealmItems} />
       </UtilitySection>
 
       <UtilitySection eyebrow="PLAN INTERFACE" title="Experience layers">

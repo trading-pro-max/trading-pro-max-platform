@@ -1,7 +1,10 @@
 import type { PlanId } from "@/lib/plans/types";
+import type { PlanRealmId } from "@/lib/plans/realms";
 
 export type PlanValueMapEntry = {
   planId: PlanId | "guest" | "founder_king";
+  realmId: PlanRealmId | "public_orientation";
+  realmName: string;
   userPromise: string;
   visibleIdentity: string;
   activeCapabilities: string[];
@@ -34,6 +37,8 @@ export type PlanValueMapSnapshot = {
 export const PLAN_VALUE_MAP: PlanValueMapEntry[] = [
   {
     planId: "guest",
+    realmId: "public_orientation",
+    realmName: "Public Orientation",
     userPromise: "Understand the public product trust layer without plan pressure.",
     visibleIdentity: "Clean minimal public trust identity.",
     activeCapabilities: ["Public entry", "Brand trust", "Limited Academy preview"],
@@ -49,10 +54,12 @@ export const PLAN_VALUE_MAP: PlanValueMapEntry[] = [
   },
   {
     planId: "demo_free",
+    realmId: "free_earth",
+    realmName: "Free Earth",
     userPromise: "Trade in a familiar premium paper-safe terminal with moderate TPM advantages.",
-    visibleIdentity: "Graphite/blue familiar paper trading identity.",
+    visibleIdentity: "Clean Earth-native identity with graphite, blue, cyan, and no premium gold dominance.",
     activeCapabilities: ["Chart-first paper workstation", "Basic Assistant", "Basic Why Blocked", "Basic Academy", "Diagnostics and feedback"],
-    plannedCapabilities: ["Deeper Academy paths", "Decision replay foundation", "Community basic"],
+    plannedCapabilities: ["Desktop/mobile apps", "Deeper Academy paths", "Decision replay foundation", "Community basic"],
     lockedCapabilities: ["Pro alerts", "advanced Assistant", "Advanced reports", "Private rooms"],
     companionLevel: "Free Assistant",
     journalCoachLevel: "Basic paper prompts active",
@@ -64,6 +71,8 @@ export const PLAN_VALUE_MAP: PlanValueMapEntry[] = [
   },
   {
     planId: "pro",
+    realmId: "pro_orbit",
+    realmName: "Pro Orbit",
     userPromise: "Use an intelligent professional workspace after entitlement support exists.",
     visibleIdentity: "Graphite/emerald/silver professional identity.",
     activeCapabilities: [],
@@ -79,6 +88,8 @@ export const PLAN_VALUE_MAP: PlanValueMapEntry[] = [
   },
   {
     planId: "vip",
+    realmId: "vip_lunar",
+    realmName: "VIP Lunar",
     userPromise: "Enter the elite premium workspace layer after VIP entitlement, safety, and support gates exist.",
     visibleIdentity: "Black/gold/platinum elite identity without noise.",
     activeCapabilities: [],
@@ -94,6 +105,8 @@ export const PLAN_VALUE_MAP: PlanValueMapEntry[] = [
   },
   {
     planId: "enterprise",
+    realmId: "institutional_station",
+    realmName: "Institutional Station",
     userPromise: "Support institutional teams later with audit and compliance-ready workflows.",
     visibleIdentity: "Navy/platinum/cyan future institutional identity.",
     activeCapabilities: [],
@@ -109,6 +122,8 @@ export const PLAN_VALUE_MAP: PlanValueMapEntry[] = [
   },
   {
     planId: "founder_king",
+    realmId: "alkon_universe",
+    realmName: "Alkon Universe",
     userPromise: "Restricted administration of internal TPM readiness.",
     visibleIdentity: "Restricted controls identity, not a user plan.",
     activeCapabilities: ["Read-only restricted controls readiness", "Restricted reports", "Readiness summaries"],

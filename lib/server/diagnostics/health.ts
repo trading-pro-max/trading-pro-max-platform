@@ -26,6 +26,7 @@ import {
 } from "@/lib/server/founder-command";
 import { getPublicBrandIntelligenceSummary } from "@/lib/server/brand-intelligence";
 import { getDesignMinistrySnapshot } from "@/lib/server/design-ministry";
+import { getPublicPlanRealms } from "@/lib/plans/realms";
 import {
   getAiIqBrainDeepeningDiagnosticsProbe,
   getAiIqBrainDiagnosticsProbe,
@@ -1052,6 +1053,26 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       `${designMinistrySnapshot.authorities.length} design authorities, ${designMinistrySnapshot.planIdentities.length} plan identities, and ${designMinistrySnapshot.platformExperiences.length} platform experience rules are modeled. Public language remains Free / Pro / VIP / Institutional; restricted command visuals stay private.`,
     checkedAt,
   };
+  const publicPlanRealms = getPublicPlanRealms();
+  const planRealmFunctionalExperience: DiagnosticsProbe = {
+    key: "plan_realm_functional_experience",
+    label: "Plan experience readiness",
+    status:
+      publicPlanRealms.length === 4 &&
+      publicPlanRealms[0]?.realmId === "free_earth" &&
+      publicPlanRealms[0]?.activationState === "active"
+        ? "ready"
+        : "degraded",
+    summary: "Plan experiences resolved by function and behavior",
+    detail:
+      publicPlanRealms
+        .map(
+          (realm) =>
+            `${realm.publicPlanName}: ${realm.activationState}; ${realm.workspaceBehavior}`
+        )
+        .join(" "),
+    checkedAt,
+  };
 
   const readiness = buildAggregateReadiness({
     checkedAt,
@@ -1091,6 +1112,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       aiDeepening,
       localOperations,
       designMinistry,
+      planRealmFunctionalExperience,
     ],
   });
 
@@ -1128,6 +1150,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
     aiDeepening,
     localOperations,
     designMinistry,
+    planRealmFunctionalExperience,
   ];
   const routes = buildRouteProbes({
     readiness,
@@ -1889,6 +1912,13 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         status: brandIntelligenceProbe.status,
         summary: brandIntelligenceProbe.summary,
         detail: brandIntelligenceProbe.detail,
+      },
+      {
+        key: planRealmFunctionalExperience.key,
+        label: planRealmFunctionalExperience.label,
+        status: planRealmFunctionalExperience.status,
+        summary: planRealmFunctionalExperience.summary,
+        detail: planRealmFunctionalExperience.detail,
       },
       {
         key: "surface_boundaries",

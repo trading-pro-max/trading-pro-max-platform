@@ -5,6 +5,7 @@ import type {
   LivingEarthSurface,
 } from "@/lib/brand/earth-background-types";
 import { resolveLivingEarthFocus } from "@/lib/brand/earth-focus";
+import type { PlanRealmId } from "@/lib/plans/realms/types";
 
 type LivingEarthBackgroundProps = {
   className?: string;
@@ -14,6 +15,14 @@ type LivingEarthBackgroundProps = {
   state?: LivingEarthState;
   surface?: LivingEarthSurface;
   timeZone?: string;
+};
+
+const planRealmIds: Record<LivingEarthPlan, PlanRealmId> = {
+  free: "free_earth",
+  pro: "pro_orbit",
+  vip: "vip_lunar",
+  institutional: "institutional_station",
+  founder: "alkon_universe",
 };
 
 export default function LivingEarthBackground({
@@ -30,6 +39,7 @@ export default function LivingEarthBackground({
     selectedRegion: region,
     timeZone,
   });
+  const realmId = planRealmIds[plan];
 
   return (
     <div
@@ -42,12 +52,15 @@ export default function LivingEarthBackground({
       data-earth-gps-used="false"
       data-earth-plan={plan}
       data-earth-raster-assets="false"
+      data-earth-realm={realmId}
       data-earth-state={state}
       data-earth-surface={surface}
       data-reduced-motion-supported="true"
     >
       <div className="tpm-living-earth-stars" />
       <div className="tpm-living-earth-orbital-grid" />
+      <div className="tpm-living-earth-realm-atmosphere" data-earth-realm={realmId} />
+      <div className="tpm-living-earth-realm-orbit" data-earth-realm={realmId} />
       <div className="tpm-living-earth-horizon">
         <div className="tpm-living-earth-globe" />
         <div className="tpm-living-earth-continent tpm-living-earth-continent-a" />

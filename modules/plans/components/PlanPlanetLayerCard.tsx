@@ -22,6 +22,7 @@ export default function PlanPlanetLayerCard({
     <article
       className={`tpm-plan-planet-layer ${identity.className}`}
       data-current={current}
+      data-plan-realm={layer.realmId}
       data-state={layer.state}
     >
       <header>
@@ -33,6 +34,7 @@ export default function PlanPlanetLayerCard({
       </header>
 
       <p>{layer.activeLayer}</p>
+      <p>{layer.workspaceBehavior}</p>
 
       <dl>
         <div>

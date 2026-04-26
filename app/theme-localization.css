@@ -7101,3 +7101,179 @@ html[data-theme="light"] .tpmv2-execution {
     grid-template-columns: 1fr;
   }
 }
+
+/* Plan-Realm functional experience system. */
+.tpm-earth-realm-shape {
+  fill: none;
+  opacity: 1;
+  pointer-events: none;
+  stroke: var(--tpm-earth-gold);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.tpm-earth-realm-free-shell {
+  opacity: var(--tpm-earth-realm-ring-opacity);
+  stroke-width: 0.9;
+}
+
+.tpm-earth-realm-pro-grid path,
+.tpm-earth-realm-pro-grid ellipse {
+  opacity: var(--tpm-earth-realm-grid-opacity);
+  stroke: color-mix(in srgb, var(--tpm-earth-gold) 72%, var(--tpm-earth-state-accent));
+  stroke-width: 0.8;
+}
+
+.tpm-earth-realm-vip-lunar ellipse,
+.tpm-earth-realm-vip-lunar path {
+  opacity: var(--tpm-earth-realm-ring-opacity);
+  stroke: var(--tpm-earth-gold);
+  stroke-width: 1;
+}
+
+.tpm-earth-realm-vip-lunar circle {
+  fill: var(--tpm-earth-gold);
+  opacity: var(--tpm-earth-realm-node-opacity);
+  stroke-width: 0;
+}
+
+.tpm-earth-realm-institutional-station path,
+.tpm-earth-realm-institutional-station rect {
+  opacity: var(--tpm-earth-realm-grid-opacity);
+  stroke: color-mix(in srgb, var(--tpm-earth-gold) 68%, #ffffff 16%);
+  stroke-width: 0.85;
+}
+
+.tpm-earth-realm-founder-universe ellipse,
+.tpm-earth-realm-founder-universe circle {
+  opacity: var(--tpm-earth-realm-ring-opacity);
+  stroke: var(--tpm-earth-gold);
+  stroke-width: 0.95;
+}
+
+.tpm-earth-realm-founder-universe circle {
+  fill: var(--tpm-earth-red);
+  opacity: var(--tpm-earth-realm-node-opacity);
+}
+
+.tpm-earth-mark--plan-free .tpm-earth-continent-edge {
+  opacity: 0.26;
+}
+
+.tpm-earth-mark--plan-vip .tpm-earth-continent-edge {
+  opacity: 0.72;
+  stroke: var(--tpm-earth-gold);
+  stroke-width: 0.92;
+}
+
+.tpm-earth-mark--plan-pro .tpm-earth-moon-track {
+  stroke-dasharray: 5 4;
+}
+
+.tpm-earth-mark--plan-institutional .tpm-earth-moon-track {
+  stroke-dasharray: 2 5;
+}
+
+.tpm-living-earth-realm-atmosphere,
+.tpm-living-earth-realm-orbit {
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+.tpm-living-earth-realm-atmosphere {
+  opacity: 0.34;
+}
+
+.tpm-living-earth-realm-orbit {
+  border: 1px solid color-mix(in srgb, var(--tpm-celestial-cyan) 26%, transparent);
+  border-radius: 50%;
+  height: 58%;
+  left: 12%;
+  opacity: 0.2;
+  top: 20%;
+  transform: rotate(-12deg);
+  width: 76%;
+}
+
+.tpm-living-earth-background[data-earth-realm="free_earth"] .tpm-living-earth-realm-atmosphere {
+  background: linear-gradient(180deg, rgba(53, 214, 196, 0.08), transparent 64%);
+}
+
+.tpm-living-earth-background[data-earth-realm="pro_orbit"] .tpm-living-earth-realm-atmosphere {
+  background:
+    linear-gradient(90deg, transparent 0 47%, rgba(83, 234, 215, 0.1) 47% 48%, transparent 48%),
+    linear-gradient(180deg, rgba(83, 234, 215, 0.1), transparent 68%);
+}
+
+.tpm-living-earth-background[data-earth-realm="vip_lunar"] .tpm-living-earth-realm-atmosphere {
+  background:
+    linear-gradient(135deg, transparent 0 54%, rgba(241, 201, 107, 0.12) 54% 57%, transparent 57%),
+    linear-gradient(180deg, rgba(241, 201, 107, 0.08), transparent 72%);
+}
+
+.tpm-living-earth-background[data-earth-realm="institutional_station"] .tpm-living-earth-realm-atmosphere {
+  background:
+    linear-gradient(90deg, transparent 0 32%, rgba(145, 216, 255, 0.1) 32% 33%, transparent 33% 66%, rgba(145, 216, 255, 0.1) 66% 67%, transparent 67%),
+    linear-gradient(180deg, rgba(145, 216, 255, 0.08), transparent 70%);
+}
+
+.tpm-product-plan-depth-list,
+.tpm-session-coach-realm-grid {
+  margin: 0;
+}
+
+.tpm-product-plan-depth-list {
+  display: grid;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+}
+
+.tpm-product-plan-depth-list li {
+  border: 1px solid color-mix(in srgb, var(--tpm-celestial-border) 74%, transparent);
+  border-radius: 8px;
+  color: var(--tpm-text-soft);
+  font-size: 11px;
+  font-weight: 750;
+  line-height: 1.45;
+  padding: 8px 10px;
+}
+
+.tpm-product-plan-card[data-plan-realm="free_earth"] {
+  border-color: color-mix(in srgb, var(--tpm-celestial-cyan) 32%, var(--tpm-celestial-border));
+}
+
+.tpm-product-plan-card[data-plan-realm="vip_lunar"] {
+  border-color: color-mix(in srgb, var(--tpm-celestial-gold) 36%, var(--tpm-celestial-border));
+}
+
+.tpm-session-coach-realm-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.tpm-session-coach-realm-grid article {
+  border: 1px solid color-mix(in srgb, var(--tpm-celestial-border) 82%, transparent);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--tpm-celestial-panel-soft) 74%, transparent);
+  display: grid;
+  gap: 8px;
+  min-height: 136px;
+  padding: 14px;
+}
+
+.tpm-session-coach-realm-grid span,
+.tpm-session-coach-realm-grid strong {
+  font-size: 11px;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.tpm-session-coach-realm-grid p,
+.tpm-session-coach-realm-grid small {
+  color: var(--tpm-text-soft);
+  font-size: 11px;
+  line-height: 1.45;
+}

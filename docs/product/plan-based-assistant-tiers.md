@@ -104,3 +104,13 @@ Private command tooling and internal governance terms are not user-plan capabili
 - Institutional: future team/admin/audit/compliance guidance only.
 
 No plan tier may imply live execution, broker/feed activation, billing activation, financial advice, guaranteed signals, win-rate claims, or fake paid access.
+
+## Realm Alignment
+
+TPM Assistant now receives the public plan realm in context.
+
+- Free Earth: simple paper-safe guidance, platform state, Why Blocked, basic Journal/Coach, and learning guidance.
+- Pro Orbit: professional tools are explained as planned/locked unless entitlement exists.
+- VIP Lunar: advanced/premium tools are explained as planned/locked, with no profit promises or signal guarantees.
+- Institutional Station: future team/institutional readiness only.
+- Alkon Universe: never exposed in public Assistant.

@@ -27,3 +27,14 @@ State behavior:
 - local_only: contained command pulse
 
 The background is decorative and cannot track users, call external services, store location, or imply launch readiness.
+# Realm Atmosphere Addendum
+
+The living Earth background now follows plan-realm atmosphere rules:
+
+- Free: Earth-native, familiar, low motion.
+- Pro: orbital professional, subtle technical layer.
+- VIP: lunar/deep orbit, premium gold/platinum depth.
+- Institutional: station/control, formal and restrained.
+- Alkon: private universe command background only.
+
+The background remains code-only. It does not use images, raster assets, external map assets, GPS, precise location tracking, or public internal terminology.

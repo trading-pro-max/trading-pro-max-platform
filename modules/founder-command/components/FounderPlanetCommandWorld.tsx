@@ -12,6 +12,7 @@ export default function FounderPlanetCommandWorld({
   const app = getFounderCommandAppSnapshot(checkedAt);
   const invisibleLayer = getInvisibleOperatingLayerSnapshot(checkedAt);
   const localLoop = getLocalLivingDayLoopSnapshot(checkedAt);
+  const realmExperience = app.insideOutsidePlanet.planRealmFunctionalExperience;
 
   return (
     <section
@@ -39,7 +40,7 @@ export default function FounderPlanetCommandWorld({
             plan="founder"
             state="local_only"
             surface="founder_command"
-            subtitle="Private Planet Command"
+            subtitle="Private Alkon / الكون Command"
             variant="command"
           />
         </div>
@@ -64,7 +65,43 @@ export default function FounderPlanetCommandWorld({
             <strong>{localLoop.loop.length}</strong>
             <small>{localLoop.today.nextSafeAction}</small>
           </div>
+          <div className="tpm-founder-metric">
+            <span>Alkon / الكون</span>
+            <strong>{app.insideOutsidePlanet.privateWorld.alkonUniverse.activationState}</strong>
+            <small>Private Founder-only command universe; public plan access false</small>
+          </div>
         </div>
+      </div>
+
+      <div className="tpm-founder-living-room-grid" data-owner-only="true">
+        {realmExperience.publicRealms.map((realm) => (
+          <article key={realm.realmId} className="tpm-founder-metric">
+            <span>{realm.publicPlanName}</span>
+            <strong>{realm.activationState}</strong>
+            <small>
+              {realm.workspaceBehavior} {realm.reportsDepth}
+            </small>
+          </article>
+        ))}
+      </div>
+
+      <div className="tpm-founder-briefing-grid" data-owner-only="true">
+        <article>
+          <h3>Realm gaps</h3>
+          <ul>
+            {realmExperience.realmGaps.map((gap) => (
+              <li key={gap}>{gap}</li>
+            ))}
+          </ul>
+        </article>
+        <article>
+          <h3>Next safe actions</h3>
+          <ul>
+            {realmExperience.nextSafeActions.map((action) => (
+              <li key={action}>{action}</li>
+            ))}
+          </ul>
+        </article>
       </div>
     </section>
   );

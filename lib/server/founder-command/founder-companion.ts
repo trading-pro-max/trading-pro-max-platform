@@ -1,6 +1,7 @@
 import "server-only";
 
 import { getPlanEntitlementSnapshot } from "@/lib/plans/entitlements";
+import { getPrivateFounderRealm, getPublicPlanRealms } from "@/lib/plans/realms";
 import { getConstructionQueueSnapshot } from "@/lib/server/codex-construction";
 import { getCodexPresidencyReport } from "@/lib/server/codex-sovereignty";
 import {
@@ -43,6 +44,7 @@ export type FounderPersonalCompanionSnapshot = {
   productGapSummary: string[];
   visualGapSummary: string[];
   planReadinessSummary: string[];
+  planRealmFunctionalExperienceSummary: string[];
   userFacingRiskSummary: string[];
   treasurySummary: string[];
   engineeringPrioritySuggestions: string[];
@@ -101,6 +103,8 @@ export function getFounderPersonalCompanionSnapshot(
   const sovereignAutonomy = getSovereignAutonomyReadinessSnapshot(checkedAt);
   const founderIdeaInbox = getFounderIdeaInboxReadiness(checkedAt);
   const codexSovereignty = getCodexPresidencyReport(checkedAt);
+  const publicRealms = getPublicPlanRealms();
+  const privateRealm = getPrivateFounderRealm();
   const decisionMinistries = reporting.ministries.filter(
     (report) => report.founderDecisionNeeded
   );
@@ -148,6 +152,13 @@ export function getFounderPersonalCompanionSnapshot(
     planReadinessSummary: planEntitlements.plans.map(
       (plan) => `${plan.planName}: ${plan.truthState}`
     ),
+    planRealmFunctionalExperienceSummary: [
+      ...publicRealms.map(
+        (realm) =>
+          `${realm.publicPlanName}: ${realm.activationState}; ${realm.workspaceBehavior} ${realm.journalCoachDepth}`
+      ),
+      `${privateRealm.realmName} / الكون: ${privateRealm.activationState}; ${privateRealm.visibility}; never public plan access.`,
+    ],
     userFacingRiskSummary: [
       "Users must not see owner command as a plan feature.",
       "Assistant must not produce trading signals, profit claims, or execution instructions.",
@@ -200,7 +211,7 @@ export function getFounderPersonalCompanionSnapshot(
     ],
     insideOutsidePlanetSummary: [
       "Public users live on the professional Trading Pro Max platform surface.",
-      "Ahmad lives inside private Founder Command with Idea Inbox, construction governance, memory, tribunal, and next safe actions.",
+      "Ahmad lives inside private Founder Command and Alkon / الكون Universe with Idea Inbox, construction governance, memory, tribunal, and next safe actions.",
       "The invisible operating layer maps internal complexity to public-safe readiness outputs.",
       "The living Earth atmosphere is code-only and local-scope; no images, external maps, GPS, or precise location tracking are used.",
     ],
