@@ -36,6 +36,11 @@ import AlkonGrowthGatesPanel from "./AlkonGrowthGatesPanel";
 import AlkonGrowthPermitPanel from "./AlkonGrowthPermitPanel";
 import AlkonInfiniteGrowthPanel from "./AlkonInfiniteGrowthPanel";
 import AlkonSwissLawGravityPanel from "./AlkonSwissLawGravityPanel";
+import AlkonGenesisPanel from "./AlkonGenesisPanel";
+import AlkonGenesisGatesPanel from "./AlkonGenesisGatesPanel";
+import AlkonPrimeWorldPanel from "./AlkonPrimeWorldPanel";
+import AlkonWorldBirthPermitPanel from "./AlkonWorldBirthPermitPanel";
+import AlkonWorldSeedsPanel from "./AlkonWorldSeedsPanel";
 import AlkonCleanupContinuityPanel from "./AlkonCleanupContinuityPanel";
 import AlkonDeprecationPanel from "./AlkonDeprecationPanel";
 import AlkonEntityBirthPanel from "./AlkonEntityBirthPanel";
@@ -160,6 +165,15 @@ export default function FounderCommandRoom({
         <AlkonSwissLawGravityPanel snapshot={appSnapshot.infiniteGrowth} />
         <AlkonGrowthGatesPanel snapshot={appSnapshot.infiniteGrowth} />
         <AlkonGrowthPermitPanel snapshot={appSnapshot.infiniteGrowth} />
+      </div>
+
+      <AlkonGenesisPanel snapshot={appSnapshot.alkonGenesis} />
+
+      <div className="alkon-command-grid alkon-genesis-grid">
+        <AlkonPrimeWorldPanel snapshot={appSnapshot.alkonGenesis} />
+        <AlkonWorldSeedsPanel snapshot={appSnapshot.alkonGenesis} />
+        <AlkonGenesisGatesPanel snapshot={appSnapshot.alkonGenesis} />
+        <AlkonWorldBirthPermitPanel snapshot={appSnapshot.alkonGenesis} />
       </div>
 
       <AlkonOntologyPanel snapshot={appSnapshot.alkonOntology} />

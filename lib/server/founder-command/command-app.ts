@@ -36,6 +36,7 @@ import { getFinalConvergenceSnapshot } from "@/lib/server/final-convergence";
 import { getAlkonContinuitySnapshot } from "@/lib/server/alkon-continuity";
 import { getAlkonLegitimacySnapshot } from "@/lib/server/alkon-legitimacy";
 import { getAlkonRuntimeSnapshot } from "@/lib/server/alkon-runtime";
+import { getAlkonGenesisSnapshot } from "@/lib/server/alkon-genesis";
 import { getInfiniteGrowthSnapshot } from "@/lib/server/infinite-growth";
 import { getPlanetaryEnvironmentReadinessSnapshot } from "@/lib/server/environment";
 import { getEarthRealitySnapshot } from "@/lib/server/earth-reality";
@@ -192,6 +193,7 @@ export function getFounderCommandAppSnapshot(
   const alkonContinuity = getAlkonContinuitySnapshot(checkedAt);
   const alkonLegitimacy = getAlkonLegitimacySnapshot(checkedAt);
   const alkonRuntime = getAlkonRuntimeSnapshot(checkedAt);
+  const alkonGenesis = getAlkonGenesisSnapshot(checkedAt);
   const infiniteGrowth = getInfiniteGrowthSnapshot(checkedAt);
   const planetaryEnvironment =
     getPlanetaryEnvironmentReadinessSnapshot(checkedAt);
@@ -336,6 +338,10 @@ export function getFounderCommandAppSnapshot(
             alkonCommandUniverse.digitalUniverseRuntimeSnapshot.readiness === "ready",
           runtimePublicExposure:
             alkonCommandUniverse.digitalUniverseRuntimeSnapshot.publicExposure,
+          genesisReady:
+            alkonCommandUniverse.sovereignGenesis.readiness === "ready",
+          genesisPublicExposure:
+            alkonCommandUniverse.sovereignGenesis.publicExposure,
           infiniteGrowthReady: infiniteGrowth.readiness === "ready",
           infiniteGrowthPublicExposure: infiniteGrowth.publicExposure,
         },
@@ -397,6 +403,7 @@ export function getFounderCommandAppSnapshot(
     alkonLegitimacy,
     alkonContinuity,
     alkonRuntime,
+    alkonGenesis,
     infiniteGrowth,
     treasuryLife,
     mediaIntelligence,
@@ -1256,6 +1263,10 @@ export function getFounderCommandAppSnapshot(
       "/api/founder/alkon-runtime/snapshot",
       "/api/founder/alkon-runtime/sample-input",
       "/api/founder/alkon-runtime/next-fate",
+      "/api/founder/alkon-genesis/readiness",
+      "/api/founder/alkon-genesis/snapshot",
+      "/api/founder/alkon-genesis/world-seeds",
+      "/api/founder/alkon-genesis/sample-evaluation",
       "/api/founder/infinite-growth/readiness",
       "/api/founder/infinite-growth/snapshot",
       "/api/founder/infinite-growth/sample-decision",

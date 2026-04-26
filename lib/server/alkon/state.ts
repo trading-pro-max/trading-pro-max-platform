@@ -8,6 +8,7 @@ import { getAlkonCosmicPhysicsSnapshot } from "@/lib/server/alkon-physics";
 import { getAlkonLegitimacySnapshot } from "@/lib/server/alkon-legitimacy";
 import { getAlkonOntologySnapshot } from "@/lib/server/alkon-ontology";
 import { getAlkonRuntimeSnapshot } from "@/lib/server/alkon-runtime";
+import { getAlkonGenesisSnapshot } from "@/lib/server/alkon-genesis";
 import { getInfiniteGrowthSnapshot } from "@/lib/server/infinite-growth";
 import { getInvisibleOperatingLayerSnapshot } from "@/lib/server/invisible-operating-layer";
 import {
@@ -88,6 +89,7 @@ export function getAlkonUniverseSnapshot(
   const sovereignLegitimacy = getAlkonLegitimacySnapshot(checkedAt);
   const sovereignContinuity = getAlkonContinuitySnapshot(checkedAt);
   const digitalUniverseRuntime = getAlkonRuntimeSnapshot(checkedAt);
+  const sovereignGenesis = getAlkonGenesisSnapshot(checkedAt);
   const infiniteGrowthConstitution = getInfiniteGrowthSnapshot(checkedAt);
   const universeMap = buildAlkonUniverseMap();
 
@@ -178,6 +180,7 @@ export function getAlkonUniverseSnapshot(
     sovereignLegitimacy,
     sovereignContinuity,
     digitalUniverseRuntimeSnapshot: digitalUniverseRuntime,
+    sovereignGenesis,
     infiniteGrowthConstitution,
     universeMap,
     nextSafeActions: [
@@ -188,6 +191,7 @@ export function getAlkonUniverseSnapshot(
       "Use Alkon Sovereign Legitimacy privately before sensitive authority, treasury, media, launch, security, cleanup, or public-claim decisions.",
       "Use Alkon Sovereign Creation & Continuity privately so every entity has governed birth, identity, law, function, integration, proof, monitoring, evolution, deprecation/removal, memory, and report.",
       "Use Alkon Digital Universe Runtime privately so every idea, risk, invoice, media message, feature, bug, decision, law, and result receives place, time, law, gravity, orbit, life, institution, consequence, memory, and next fate.",
+      "Use Alkon Sovereign Genesis privately so possible future product worlds remain World Seeds until meaning, need, market, law, treasury, security, prototype, proof, Prime World protection, and Founder gates pass.",
       "Use Alkon Swiss-Law Infinite Sovereign Growth privately so safe creation can grow without limit while real users, data, money, claims, media, launch, production, and regulated activity remain gated.",
       "Keep public users inside Trading Pro Max, Free, Pro, VIP, Institutional, TPM Assistant, workspace, settings, diagnostics, and readiness language only.",
       "Use Founder Idea Inbox, Task Passports, manual Codex drafts, Result Tribunal, and Memory lessons as review-only systems.",
@@ -219,6 +223,8 @@ export function getAlkonUniverseSnapshot(
         "/api/founder/alkon-continuity/readiness",
       founderRuntimeReadinessRoute: "/api/founder/alkon-runtime/readiness",
       founderRuntimeSnapshotRoute: "/api/founder/alkon-runtime/snapshot",
+      founderGenesisReadinessRoute: "/api/founder/alkon-genesis/readiness",
+      founderGenesisSnapshotRoute: "/api/founder/alkon-genesis/snapshot",
       founderInfiniteGrowthReadinessRoute:
         "/api/founder/infinite-growth/readiness",
       founderInfiniteGrowthSnapshotRoute:

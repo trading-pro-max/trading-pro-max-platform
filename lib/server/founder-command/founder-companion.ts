@@ -18,6 +18,7 @@ import { getFinalConvergenceSnapshot } from "@/lib/server/final-convergence";
 import { getAlkonContinuitySnapshot } from "@/lib/server/alkon-continuity";
 import { getAlkonLegitimacySnapshot } from "@/lib/server/alkon-legitimacy";
 import { getAlkonRuntimeSnapshot } from "@/lib/server/alkon-runtime";
+import { getAlkonGenesisSnapshot } from "@/lib/server/alkon-genesis";
 import { getInfiniteGrowthSnapshot } from "@/lib/server/infinite-growth";
 import { getPlanetaryEnvironmentReadinessSnapshot } from "@/lib/server/environment";
 import { getEarthRealitySnapshot } from "@/lib/server/earth-reality";
@@ -76,6 +77,7 @@ export type FounderPersonalCompanionSnapshot = {
   alkonLegitimacySummary: string[];
   alkonContinuitySummary: string[];
   alkonRuntimeSummary: string[];
+  alkonGenesisSummary: string[];
   infiniteGrowthSummary: string[];
   treasuryLifeSummary: string[];
   mediaIntelligenceSummary: string[];
@@ -140,6 +142,7 @@ export function getFounderPersonalCompanionSnapshot(
   const alkonContinuity = getAlkonContinuitySnapshot(checkedAt);
   const alkonLegitimacy = getAlkonLegitimacySnapshot(checkedAt);
   const alkonRuntime = getAlkonRuntimeSnapshot(checkedAt);
+  const alkonGenesis = getAlkonGenesisSnapshot(checkedAt);
   const infiniteGrowth = getInfiniteGrowthSnapshot(checkedAt);
   const treasuryLife = getTreasuryLifeSnapshot();
   const mediaIntelligence = getMediaIntelligenceSnapshot();
@@ -306,6 +309,12 @@ export function getFounderPersonalCompanionSnapshot(
       `${alkonRuntime.sampleReports.length} sample runtime reports cover place, time, law, gravity, orbit, life, economy, defense, communication, reality, consequence, memory, and next fate.`,
       `${alkonRuntime.blackHoleCategories.length} categories are black-holed and ${alkonRuntime.nextSafeFates.length} next fates are readiness-only recommendations.`,
       "Runtime is private, read-only, non-paying, non-deleting, non-executing, and cannot expose secrets, call Codex, publish, launch, activate billing, broker/feed, live execution, or real money.",
+    ],
+    alkonGenesisSummary: [
+      `${alkonGenesis.name} is ${alkonGenesis.visibility}; public exposure is ${String(alkonGenesis.publicExposure)}.`,
+      `${alkonGenesis.primeWorld.name} remains the protected Prime World with ${alkonGenesis.worldSeedCount} private World Seeds under evaluation.`,
+      `${alkonGenesis.delayedSeeds.length} seeds are delayed, ${alkonGenesis.prototypeAllowedSeeds.length} are prototype-allowed, and ${alkonGenesis.founderApprovalNeeded.length} need Founder approval in the readiness model.`,
+      "Genesis is private, read-only, and cannot create projects, expose future worlds, launch, publish, bill, trade live, connect broker/feed, route real money, or expose Alkon.",
     ],
     infiniteGrowthSummary: [
       `${infiniteGrowth.name} is ${infiniteGrowth.visibility}; public exposure is ${String(infiniteGrowth.publicExposure)}.`,
