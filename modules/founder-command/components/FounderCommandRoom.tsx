@@ -14,6 +14,7 @@ import AlkonActionJudgmentPanel from "./AlkonActionJudgmentPanel";
 import AlkonAutomationGovernorPanel from "./AlkonAutomationGovernorPanel";
 import AlkonConsciousnessPanel from "./AlkonConsciousnessPanel";
 import AlkonConvergenceScorePanel from "./AlkonConvergenceScorePanel";
+import AlkonContinuityPanel from "./AlkonContinuityPanel";
 import AlkonFinalConvergencePanel from "./AlkonFinalConvergencePanel";
 import AlkonLayerGrowthPanel from "./AlkonLayerGrowthPanel";
 import AlkonGravityRoutePanel from "./AlkonGravityRoutePanel";
@@ -26,6 +27,11 @@ import AlkonOntologyPanel from "./AlkonOntologyPanel";
 import AlkonEntityGraphPanel from "./AlkonEntityGraphPanel";
 import AlkonCompletenessPanel from "./AlkonCompletenessPanel";
 import AlkonCleanupCandidatesPanel from "./AlkonCleanupCandidatesPanel";
+import AlkonCleanupContinuityPanel from "./AlkonCleanupContinuityPanel";
+import AlkonDeprecationPanel from "./AlkonDeprecationPanel";
+import AlkonEntityBirthPanel from "./AlkonEntityBirthPanel";
+import AlkonEvolutionPanel from "./AlkonEvolutionPanel";
+import AlkonLifecyclePanel from "./AlkonLifecyclePanel";
 import AlkonSignalSensePanel from "./AlkonSignalSensePanel";
 import AlkonDecisionPermitPanel from "./AlkonDecisionPermitPanel";
 import AlkonTreasuryLifePanel from "./AlkonTreasuryLifePanel";
@@ -118,6 +124,16 @@ export default function FounderCommandRoom({
         <AlkonTreasuryLifePanel snapshot={appSnapshot.treasuryLife} />
         <AlkonAuthorityFabricPanel snapshot={appSnapshot.alkonLegitimacy} />
         <AlkonMediaRealityPanel snapshot={appSnapshot.mediaIntelligence} />
+      </div>
+
+      <AlkonContinuityPanel snapshot={appSnapshot.alkonContinuity} />
+
+      <div className="alkon-command-grid alkon-continuity-grid">
+        <AlkonEntityBirthPanel snapshot={appSnapshot.alkonContinuity} />
+        <AlkonLifecyclePanel snapshot={appSnapshot.alkonContinuity} />
+        <AlkonEvolutionPanel snapshot={appSnapshot.alkonContinuity} />
+        <AlkonDeprecationPanel snapshot={appSnapshot.alkonContinuity} />
+        <AlkonCleanupContinuityPanel snapshot={appSnapshot.alkonContinuity} />
       </div>
 
       <AlkonOntologyPanel snapshot={appSnapshot.alkonOntology} />

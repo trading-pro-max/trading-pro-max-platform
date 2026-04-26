@@ -15,6 +15,7 @@ import {
 } from "@/lib/server/local-ops";
 import { getRealWorldLaunchReadinessSnapshot } from "@/lib/server/launch-readiness";
 import { getFinalConvergenceSnapshot } from "@/lib/server/final-convergence";
+import { getAlkonContinuitySnapshot } from "@/lib/server/alkon-continuity";
 import { getAlkonLegitimacySnapshot } from "@/lib/server/alkon-legitimacy";
 import { getPlanetaryEnvironmentReadinessSnapshot } from "@/lib/server/environment";
 import { getEarthRealitySnapshot } from "@/lib/server/earth-reality";
@@ -70,6 +71,7 @@ export type FounderPersonalCompanionSnapshot = {
   alkonSovereignConsciousnessSummary: string[];
   alkonOntologySummary: string[];
   alkonLegitimacySummary: string[];
+  alkonContinuitySummary: string[];
   treasuryLifeSummary: string[];
   mediaIntelligenceSummary: string[];
   finalConvergenceSummary: string[];
@@ -129,6 +131,7 @@ export function getFounderPersonalCompanionSnapshot(
   const founderIdeaInbox = getFounderIdeaInboxReadiness(checkedAt);
   const codexSovereignty = getCodexPresidencyReport(checkedAt);
   const alkonUniverse = getAlkonUniverseSnapshot(checkedAt);
+  const alkonContinuity = getAlkonContinuitySnapshot(checkedAt);
   const alkonLegitimacy = getAlkonLegitimacySnapshot(checkedAt);
   const treasuryLife = getTreasuryLifeSnapshot();
   const mediaIntelligence = getMediaIntelligenceSnapshot();
@@ -282,6 +285,12 @@ export function getFounderPersonalCompanionSnapshot(
       `${alkonLegitimacy.recentSampleDecisions.length} sample decisions prove permit outcomes across user, billing, treasury, and media actions.`,
       `${alkonLegitimacy.blackHoleCategories.length} categories are black-holed, including billing, broker/feed, live execution, real money, production, and secrets access.`,
       "Legitimacy is private, read-only, and cannot execute payments, expose bank/card data, publish, activate production, or override Product Truth.",
+    ],
+    alkonContinuitySummary: [
+      `${alkonContinuity.name} is ${alkonContinuity.visibility}; public exposure is ${String(alkonContinuity.publicExposure)}.`,
+      `${alkonContinuity.sampleReports.length} sample reports cover birth, identity, law, function, integration, proof, life, evolution, deprecation, removal, and memory.`,
+      `${alkonContinuity.blackHoled.length} births are black-holed and ${alkonContinuity.deprecationCandidates.length} entities are deprecation candidates in the sample model.`,
+      "Continuity is private, read-only, non-deleting, and cannot expose Alkon, execute shell commands, call Codex, activate real-world systems, or create raster assets.",
     ],
     treasuryLifeSummary: [
       `Treasury Life is ${treasuryLife.status}; funding mode is ${treasuryLife.fundingMode}.`,

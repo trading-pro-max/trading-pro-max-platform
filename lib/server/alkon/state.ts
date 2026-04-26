@@ -3,6 +3,7 @@ import "server-only";
 import { getPlanEntitlementSnapshot } from "@/lib/plans/entitlements";
 import { getPrivateFounderRealm, getPublicPlanRealms } from "@/lib/plans/realms";
 import { getAlkonConsciousnessSnapshot } from "@/lib/server/alkon-consciousness";
+import { getAlkonContinuitySnapshot } from "@/lib/server/alkon-continuity";
 import { getAlkonCosmicPhysicsSnapshot } from "@/lib/server/alkon-physics";
 import { getAlkonLegitimacySnapshot } from "@/lib/server/alkon-legitimacy";
 import { getAlkonOntologySnapshot } from "@/lib/server/alkon-ontology";
@@ -83,6 +84,7 @@ export function getAlkonUniverseSnapshot(
     getAlkonConsciousnessSnapshot(checkedAt);
   const ontology = getAlkonOntologySnapshot(checkedAt);
   const sovereignLegitimacy = getAlkonLegitimacySnapshot(checkedAt);
+  const sovereignContinuity = getAlkonContinuitySnapshot(checkedAt);
   const universeMap = buildAlkonUniverseMap();
 
   return {
@@ -163,6 +165,7 @@ export function getAlkonUniverseSnapshot(
     sovereignOperatingConsciousness,
     ontology,
     sovereignLegitimacy,
+    sovereignContinuity,
     universeMap,
     nextSafeActions: [
       "Keep Alkon and الكون private to Founder Command and founder-only readiness APIs.",
@@ -170,6 +173,7 @@ export function getAlkonUniverseSnapshot(
       "Use Alkon Sovereign Operating Consciousness privately to sense, interpret, law-check, prioritize, route, prepare, judge, remember, and evolve work under Founder authority.",
       "Use Alkon Ontology privately so every entity has meaning, owner, lifecycle, relationships, risk, validation, report target, memory, and stay/removal law.",
       "Use Alkon Sovereign Legitimacy privately before sensitive authority, treasury, media, launch, security, cleanup, or public-claim decisions.",
+      "Use Alkon Sovereign Creation & Continuity privately so every entity has governed birth, identity, law, function, integration, proof, monitoring, evolution, deprecation/removal, memory, and report.",
       "Keep public users inside Trading Pro Max, Free, Pro, VIP, Institutional, TPM Assistant, workspace, settings, diagnostics, and readiness language only.",
       "Use Founder Idea Inbox, Task Passports, manual Codex drafts, Result Tribunal, and Memory lessons as review-only systems.",
       "Add future private execution only after owner auth, device trust, step-up confirmation, audit, security, legal, and Product Truth gates exist.",
@@ -196,6 +200,8 @@ export function getAlkonUniverseSnapshot(
       founderOntologyReadinessRoute: "/api/founder/alkon-ontology/readiness",
       founderLegitimacyReadinessRoute:
         "/api/founder/alkon-legitimacy/readiness",
+      founderContinuityReadinessRoute:
+        "/api/founder/alkon-continuity/readiness",
       publicRouteDecision:
         "Non-founder /api/alkon/* and /api/alkon/physics/* routes were not created because Alkon and Cosmic Operating Physics are not public product surfaces.",
       routeMode: "read_only_status_only",

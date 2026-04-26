@@ -33,6 +33,7 @@ import {
 } from "@/lib/server/local-ops";
 import { getRealWorldLaunchReadinessSnapshot } from "@/lib/server/launch-readiness";
 import { getFinalConvergenceSnapshot } from "@/lib/server/final-convergence";
+import { getAlkonContinuitySnapshot } from "@/lib/server/alkon-continuity";
 import { getAlkonLegitimacySnapshot } from "@/lib/server/alkon-legitimacy";
 import { getPlanetaryEnvironmentReadinessSnapshot } from "@/lib/server/environment";
 import { getEarthRealitySnapshot } from "@/lib/server/earth-reality";
@@ -185,6 +186,7 @@ export function getFounderCommandAppSnapshot(
   const realWorldLaunchReadiness =
     getRealWorldLaunchReadinessSnapshot(checkedAt);
   const finalConvergence = getFinalConvergenceSnapshot(checkedAt);
+  const alkonContinuity = getAlkonContinuitySnapshot(checkedAt);
   const alkonLegitimacy = getAlkonLegitimacySnapshot(checkedAt);
   const planetaryEnvironment =
     getPlanetaryEnvironmentReadinessSnapshot(checkedAt);
@@ -381,6 +383,7 @@ export function getFounderCommandAppSnapshot(
       alkonCommandUniverse.sovereignOperatingConsciousness,
     alkonOntology: alkonCommandUniverse.ontology,
     alkonLegitimacy,
+    alkonContinuity,
     treasuryLife,
     mediaIntelligence,
     finalConvergence,
@@ -1217,6 +1220,10 @@ export function getFounderCommandAppSnapshot(
       "/api/founder/alkon-ontology/cleanup-candidates",
       "/api/founder/alkon-legitimacy/readiness",
       "/api/founder/alkon-legitimacy/decision-sample",
+      "/api/founder/alkon-continuity/readiness",
+      "/api/founder/alkon-continuity/snapshot",
+      "/api/founder/alkon-continuity/sample-birth",
+      "/api/founder/alkon-continuity/cleanup-candidates",
       "/api/founder/treasury-life/readiness",
       "/api/founder/media-intelligence/readiness",
       "/api/founder/final-convergence/readiness",
