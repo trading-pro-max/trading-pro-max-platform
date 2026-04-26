@@ -493,6 +493,8 @@ test.describe("verified platform truth", () => {
           hasNoMarketMiniLayer: !element.querySelector(".tpm-earth-market-move"),
           hasMoonOrbit: Boolean(element.querySelector(".tpm-earth-moon-orbit")),
           hasMoon: Boolean(element.querySelector(".tpm-earth-moon")),
+          hasLiteralContinent: Boolean(element.querySelector(".tpm-earth-continent")),
+          hasContinentEdges: Boolean(element.querySelector(".tpm-earth-continent-edge")),
           hasGoldMapEdge: Boolean(element.querySelector(".tpm-earth-map-edge")),
           hasPrimaryGoldMapEdge: Boolean(
             element.querySelector(".tpm-earth-map-edge-primary")
@@ -506,6 +508,8 @@ test.describe("verified platform truth", () => {
           hasNoMarketMiniLayer: true,
           hasMoonOrbit: true,
           hasMoon: true,
+          hasLiteralContinent: true,
+          hasContinentEdges: true,
           hasGoldMapEdge: true,
           hasPrimaryGoldMapEdge: true,
         });
@@ -808,6 +812,8 @@ test.describe("verified platform truth", () => {
     expect(css).toContain(".tpm-earth-moon-orbit");
     expect(css).toContain(".tpm-earth-moon-carrier");
     expect(css).toContain(".tpm-earth-map-edge");
+    expect(css).toContain(".tpm-earth-continent");
+    expect(css).toContain(".tpm-earth-ocean-rim");
     expect(css).toContain("tpm-earth-moon-orbit");
     expect(css).toContain("tpm-earth-gold-edge-shimmer");
     expect(css).toContain("tpm-earth-orbit-breathe");
@@ -822,6 +828,11 @@ test.describe("verified platform truth", () => {
     expect(earthMarkSource).toContain("tpm-earth-moon");
     expect(earthMarkSource).toContain("tpm-earth-map-edge");
     expect(earthMarkSource).toContain("tpm-earth-map-edge-primary");
+    expect(earthMarkSource).toContain("tpm-earth-continent-americas");
+    expect(earthMarkSource).toContain("tpm-earth-continent-europe-africa");
+    expect(earthMarkSource).toContain("tpm-earth-continent-asia");
+    expect(earthMarkSource).toContain("radialGradient");
+    expect(earthMarkSource).toContain("clipPath");
     expect(earthMarkSource).toContain("Trading Pro Max Earth Moon Mark");
     expect(earthMarkSource).not.toContain("Celestial Swiss Trading Identity");
     expect(earthMarkSource).not.toMatch(/<image|<img|\\.png|\\.jpg|\\.gif/i);
@@ -838,6 +849,8 @@ test.describe("verified platform truth", () => {
     expect(appIconSource).toContain("Trading Pro Max Earth Moon Mark");
     expect(appIconSource).toContain("rx=\"28.9\"");
     expect(appIconSource).toContain("stroke=\"#f4d37a\"");
+    expect(appIconSource).toContain("url(#tpm-icon-ocean)");
+    expect(appIconSource).not.toMatch(/<rect/i);
     expect(appIconSource).not.toMatch(/<image|<img|\\.png|\\.jpg|\\.gif/i);
 
     const identityDocs = [

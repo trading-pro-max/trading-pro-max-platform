@@ -6218,8 +6218,13 @@ html[data-theme="light"] {
   --tpm-earth-red: var(--tpm-celestial-red);
   --tpm-earth-stroke: color-mix(in srgb, var(--tpm-celestial-silver) 86%, transparent);
   --tpm-earth-fill: color-mix(in srgb, var(--tpm-celestial-graphite) 72%, transparent);
-  --tpm-earth-moon-duration: 18s;
-  --tpm-earth-map-duration: 7.5s;
+  --tpm-earth-ocean-highlight: color-mix(in srgb, var(--tpm-celestial-blue) 32%, white 8%);
+  --tpm-earth-ocean-mid: color-mix(in srgb, var(--tpm-celestial-graphite) 76%, var(--tpm-celestial-blue) 24%);
+  --tpm-earth-ocean-deep: color-mix(in srgb, #020617 76%, var(--tpm-celestial-blue) 24%);
+  --tpm-earth-land-top: color-mix(in srgb, var(--tpm-celestial-panel-soft) 32%, var(--tpm-celestial-graphite) 68%);
+  --tpm-earth-land-bottom: color-mix(in srgb, var(--tpm-celestial-graphite) 88%, var(--tpm-celestial-gold) 12%);
+  --tpm-earth-moon-duration: 12s;
+  --tpm-earth-map-duration: 8.5s;
   --tpm-earth-state-accent: var(--tpm-celestial-cyan);
   --tpm-earth-orbit-opacity: 0.76;
   --tpm-earth-line-opacity: 0.78;
@@ -6228,33 +6233,34 @@ html[data-theme="light"] {
 
 .tpm-earth-mark--public {
   --tpm-earth-size: clamp(74px, 7.2vw, 104px);
-  --tpm-earth-moon-duration: 18s;
+  --tpm-earth-moon-duration: 10.5s;
 }
 
 .tpm-earth-mark--compact {
   --tpm-earth-size: 42px;
-  --tpm-earth-moon-duration: 24s;
+  --tpm-earth-moon-duration: 12s;
   --tpm-earth-orbit-opacity: 0.74;
   --tpm-earth-soft-orbit-opacity: 0.32;
 }
 
 .tpm-earth-mark--command {
   --tpm-earth-size: 82px;
-  --tpm-earth-moon-duration: 13s;
-  --tpm-earth-map-duration: 5.8s;
+  --tpm-earth-moon-duration: 9.5s;
+  --tpm-earth-map-duration: 6.8s;
   --tpm-earth-orbit-opacity: 0.96;
 }
 
 .tpm-earth-mark--surface-workstation {
   --tpm-earth-size: 38px;
-  --tpm-earth-moon-duration: 28s;
-  --tpm-earth-orbit-opacity: 0.54;
+  --tpm-earth-moon-duration: 30s;
+  --tpm-earth-orbit-opacity: 0.46;
   --tpm-earth-soft-orbit-opacity: 0.2;
+  --tpm-earth-line-opacity: 0.62;
 }
 
 .tpm-earth-mark--motion-command {
-  --tpm-earth-moon-duration: 12s;
-  --tpm-earth-map-duration: 5.5s;
+  --tpm-earth-moon-duration: 9s;
+  --tpm-earth-map-duration: 6s;
   --tpm-earth-orbit-opacity: 0.98;
 }
 
@@ -6294,11 +6300,36 @@ html[data-theme="light"] {
 }
 
 .tpm-earth-celestial-globe {
-  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.18));
+  filter: drop-shadow(0 7px 16px rgba(0, 0, 0, 0.16));
+}
+
+.tpm-earth-ocean {
+  fill: var(--tpm-earth-fill);
+}
+
+.tpm-earth-ocean-rim {
+  fill: none;
+  stroke: color-mix(in srgb, var(--tpm-earth-gold) 26%, transparent);
+  stroke-width: 0.75;
+  opacity: 0.7;
 }
 
 .tpm-earth-grid .tpm-earth-line {
-  stroke-width: 1.05;
+  stroke-width: 0.92;
+}
+
+.tpm-earth-continent {
+  opacity: 0.72;
+  stroke: none;
+}
+
+.tpm-earth-continent-americas,
+.tpm-earth-continent-europe-africa {
+  opacity: 0.8;
+}
+
+.tpm-earth-continent-oceania {
+  opacity: 0.66;
 }
 
 .tpm-earth-map-edge,
@@ -6310,12 +6341,16 @@ html[data-theme="light"] {
 
 .tpm-earth-map-edge {
   stroke: var(--tpm-earth-gold);
-  stroke-width: 1.75;
+  stroke-width: 1.35;
   opacity: 0.95;
 }
 
 .tpm-earth-map-edge-primary {
-  stroke-width: 2;
+  stroke-width: 1.55;
+}
+
+.tpm-earth-continent-edge {
+  vector-effect: non-scaling-stroke;
 }
 
 .tpm-earth-map-coast {
@@ -6333,8 +6368,9 @@ html[data-theme="light"] {
 }
 
 .tpm-earth-mark--surface-workstation .tpm-earth-map-edge,
-.tpm-earth-mark--surface-workstation .tpm-earth-moon-track {
-  opacity: 0.58;
+.tpm-earth-mark--surface-workstation .tpm-earth-moon-track,
+.tpm-earth-mark--surface-workstation .tpm-earth-continent {
+  opacity: 0.5;
 }
 
 .tpm-earth-mark--blocked .tpm-earth-moon-carrier,
