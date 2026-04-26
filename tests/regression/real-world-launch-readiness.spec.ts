@@ -23,10 +23,17 @@ async function openWithTheme(
 }
 
 async function screenshotLocator(page: Page, selector: string, fileName: string) {
-  const target = page.locator(selector).first();
-  await target.scrollIntoViewIfNeeded();
-  await expect(target).toBeVisible();
-  await target.screenshot({ path: path.join(ARTIFACT_DIR, fileName) });
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    try {
+      const target = page.locator(selector).first();
+      await expect(target).toBeVisible();
+      await target.screenshot({ path: path.join(ARTIFACT_DIR, fileName) });
+      return;
+    } catch (error) {
+      if (attempt === 2) throw error;
+      await page.waitForTimeout(250);
+    }
+  }
 }
 
 test.describe("real-world launch readiness gate", () => {

@@ -14,6 +14,7 @@ import {
   getLocalOperationsReadinessSnapshot,
 } from "@/lib/server/local-ops";
 import { getRealWorldLaunchReadinessSnapshot } from "@/lib/server/launch-readiness";
+import { getFinalConvergenceSnapshot } from "@/lib/server/final-convergence";
 import { getPlanetaryEnvironmentReadinessSnapshot } from "@/lib/server/environment";
 import { getInvisibleOperatingLayerSnapshot } from "@/lib/server/invisible-operating-layer";
 import {
@@ -59,6 +60,7 @@ export type FounderPersonalCompanionSnapshot = {
   insideOutsidePlanetSummary: string[];
   alkonUniverseSummary: string[];
   alkonCosmicPhysicsSummary: string[];
+  finalConvergenceSummary: string[];
   realWorldLaunchReadinessSummary: string[];
   planetaryEnvironmentSummary: string[];
   invisibleOperatingLayerSummary: string[];
@@ -111,6 +113,7 @@ export function getFounderPersonalCompanionSnapshot(
   const founderIdeaInbox = getFounderIdeaInboxReadiness(checkedAt);
   const codexSovereignty = getCodexPresidencyReport(checkedAt);
   const alkonUniverse = getAlkonUniverseSnapshot(checkedAt);
+  const finalConvergence = getFinalConvergenceSnapshot(checkedAt);
   const realWorldLaunchReadiness =
     getRealWorldLaunchReadinessSnapshot(checkedAt);
   const planetaryEnvironment =
@@ -238,6 +241,13 @@ export function getFounderPersonalCompanionSnapshot(
       `${alkonUniverse.cosmicPhysics.registrySummary.planetOwners} planet/system owners, ${alkonUniverse.cosmicPhysics.registrySummary.satellites} satellites, ${alkonUniverse.cosmicPhysics.registrySummary.stations} stations, and ${alkonUniverse.cosmicPhysics.registrySummary.workers} workers are registered.`,
       `${alkonUniverse.cosmicPhysics.sampleTaskGraphs.length} sample task graphs prove source, energy, gravity, orbit, owner, satellite, station, worker, passport, Codex License, validation, tribunal, memory, and Founder report.`,
       "Cosmic Operating Physics remains private, read-only, status-only, and cannot execute shell commands, call Codex, expose secrets, activate billing, trade live, route real money, or publish.",
+    ],
+    finalConvergenceSummary: [
+      `Final Convergence is ${finalConvergence.status} with score ${finalConvergence.convergenceScore.score}/10; no fake 10/10 is claimed.`,
+      `${finalConvergence.layers.length} layers are registered and ${finalConvergence.layerGrowth.proposals.length} governed layer-growth proposals are ready for private review.`,
+      `Automation maximum is ${finalConvergence.automationGovernor.currentMaximumLevel}; Level 4 remains disabled and Level 5 uncontrolled autopilot is forbidden.`,
+      `Reality audit is ${finalConvergence.realityAuditReadiness.status}; cleanup execution active is ${String(finalConvergence.cleanupReadiness.executionActive)}; Local Day status is ${finalConvergence.localDayReadiness.status}.`,
+      "Final Convergence remains Founder-only and cannot launch, bill, trade live, route real money, expose secrets, run shell commands, call Codex, or expose Alkon publicly.",
     ],
     realWorldLaunchReadinessSummary: [
       `Real-world readiness is ${realWorldLaunchReadiness.status}; launch gate is ${realWorldLaunchReadiness.gate.status}.`,

@@ -9,6 +9,11 @@ import { PlanetMapPreview } from "@/modules/planet-map/components";
 import PrivateFounderShell from "@/modules/shell/components/PrivateFounderShell";
 import type { FounderCommandRoomProps } from "../types";
 import AlkonCommandUniverse from "./AlkonCommandUniverse";
+import AlkonAutomationGovernorPanel from "./AlkonAutomationGovernorPanel";
+import AlkonConvergenceScorePanel from "./AlkonConvergenceScorePanel";
+import AlkonFinalConvergencePanel from "./AlkonFinalConvergencePanel";
+import AlkonLayerGrowthPanel from "./AlkonLayerGrowthPanel";
+import AlkonNextSafeLayersPanel from "./AlkonNextSafeLayersPanel";
 import FounderApprovalQueue from "./FounderApprovalQueue";
 import FounderCommandAppShell from "./FounderCommandAppShell";
 import FounderIdeaInbox from "./FounderIdeaInbox";
@@ -84,6 +89,15 @@ export default function FounderCommandRoom({
       <FounderPlanetCommandWorld checkedAt={commandSnapshot.checkedAt} />
 
       <AlkonCommandUniverse checkedAt={commandSnapshot.checkedAt} />
+
+      <AlkonFinalConvergencePanel snapshot={appSnapshot.finalConvergence} />
+
+      <div className="alkon-command-grid alkon-final-convergence-grid">
+        <AlkonLayerGrowthPanel snapshot={appSnapshot.finalConvergence} />
+        <AlkonAutomationGovernorPanel snapshot={appSnapshot.finalConvergence} />
+        <AlkonConvergenceScorePanel snapshot={appSnapshot.finalConvergence} />
+        <AlkonNextSafeLayersPanel snapshot={appSnapshot.finalConvergence} />
+      </div>
 
       <section className="tpm-founder-panel" data-private-environment-readiness="true">
         <div className="tpm-founder-panel-head">

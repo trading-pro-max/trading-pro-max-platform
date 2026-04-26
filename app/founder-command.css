@@ -594,7 +594,12 @@
 .alkon-cosmic-task-graph,
 .alkon-gravity-orbit,
 .alkon-workers-stations,
-.alkon-risk-belt {
+.alkon-risk-belt,
+.alkon-final-convergence,
+.alkon-layer-growth,
+.alkon-automation-governor,
+.alkon-convergence-score,
+.alkon-next-safe-layers {
   min-height: 260px;
   border-color: color-mix(in srgb, var(--alkon-gold) 22%, var(--tpm-border));
 }
@@ -619,6 +624,36 @@
 
 .alkon-risk-belt {
   border-color: color-mix(in srgb, var(--alkon-red) 46%, var(--tpm-border));
+}
+
+.alkon-final-convergence {
+  background:
+    radial-gradient(circle at 76% 8%, color-mix(in srgb, var(--alkon-gold) 18%, transparent), transparent 32%),
+    linear-gradient(180deg, color-mix(in srgb, #050608 44%, var(--tpm-founder-panel)), var(--tpm-founder-surface));
+}
+
+.alkon-layer-growth {
+  border-color: color-mix(in srgb, var(--alkon-cyan) 34%, var(--tpm-border));
+}
+
+.alkon-automation-governor {
+  border-color: color-mix(in srgb, #82e6d8 32%, var(--tpm-border));
+}
+
+.alkon-convergence-score {
+  border-color: color-mix(in srgb, #b8a4ff 34%, var(--tpm-border));
+}
+
+.alkon-next-safe-layers {
+  border-color: color-mix(in srgb, var(--alkon-gold) 36%, var(--tpm-border));
+}
+
+.alkon-final-convergence-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.alkon-score-map {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .alkon-earth-command {

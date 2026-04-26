@@ -1187,28 +1187,37 @@ test.describe("verified platform truth", () => {
     const protectedBeforeLogin = await page.request.get("/api/launch/operations");
     expect(protectedBeforeLogin.status()).toBe(401);
 
-    const authPanel = page.locator(".tpm-auth-panel-inline").first();
-    await authPanel.screenshot({
-      path: path.join(THEME_ARTIFACT_DIR, "login-state.png"),
-    });
-    await authPanel.locator('input[name="email"]').fill(DEMO_EMAIL);
-    await authPanel.locator('input[name="password"]').fill(DEMO_PASSWORD);
-    await authPanel.getByRole("button", { name: "Sign in" }).click();
+    const screenshotAuthPanel = async (fileName: string) => {
+      for (let attempt = 0; attempt < 3; attempt += 1) {
+        try {
+          const panel = page.locator(".tpm-auth-panel-inline").first();
+          await expect(panel).toBeVisible();
+          await panel.screenshot({
+            path: path.join(THEME_ARTIFACT_DIR, fileName),
+          });
+          return;
+        } catch (error) {
+          if (attempt === 2) throw error;
+          await page.waitForTimeout(250);
+        }
+      }
+    };
 
-    await expect(authPanel).toContainText("Signed in");
-    await expect(authPanel).toContainText(DEMO_EMAIL);
-    await authPanel.screenshot({
-      path: path.join(THEME_ARTIFACT_DIR, "session-state.png"),
-    });
+    await screenshotAuthPanel("login-state.png");
+    await page.locator(".tpm-auth-panel-inline").first().locator('input[name="email"]').fill(DEMO_EMAIL);
+    await page.locator(".tpm-auth-panel-inline").first().locator('input[name="password"]').fill(DEMO_PASSWORD);
+    await page.locator(".tpm-auth-panel-inline").first().getByRole("button", { name: "Sign in" }).click();
+
+    await expect(page.locator(".tpm-auth-panel-inline").first()).toContainText("Signed in");
+    await expect(page.locator(".tpm-auth-panel-inline").first()).toContainText(DEMO_EMAIL);
+    await screenshotAuthPanel("session-state.png");
 
     const protectedAfterLogin = await page.request.get("/api/launch/operations");
     expect(protectedAfterLogin.status()).toBe(200);
 
-    await authPanel.getByRole("button", { name: "Sign out" }).click();
-    await expect(authPanel).toContainText("Sign in");
-    await authPanel.screenshot({
-      path: path.join(THEME_ARTIFACT_DIR, "logout-state.png"),
-    });
+    await page.locator(".tpm-auth-panel-inline").first().getByRole("button", { name: "Sign out" }).click();
+    await expect(page.locator(".tpm-auth-panel-inline").first()).toContainText("Sign in");
+    await screenshotAuthPanel("logout-state.png");
 
     const protectedAfterLogout = await page.request.get("/api/launch/operations");
     expect(protectedAfterLogout.status()).toBe(401);

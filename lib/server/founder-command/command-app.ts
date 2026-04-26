@@ -32,6 +32,7 @@ import {
   getLocalOperationsReadinessSnapshot,
 } from "@/lib/server/local-ops";
 import { getRealWorldLaunchReadinessSnapshot } from "@/lib/server/launch-readiness";
+import { getFinalConvergenceSnapshot } from "@/lib/server/final-convergence";
 import { getPlanetaryEnvironmentReadinessSnapshot } from "@/lib/server/environment";
 import { getInvisibleOperatingLayerSnapshot } from "@/lib/server/invisible-operating-layer";
 import {
@@ -177,6 +178,7 @@ export function getFounderCommandAppSnapshot(
   const alkonCommandUniverse = getAlkonUniverseSnapshot(checkedAt);
   const realWorldLaunchReadiness =
     getRealWorldLaunchReadinessSnapshot(checkedAt);
+  const finalConvergence = getFinalConvergenceSnapshot(checkedAt);
   const planetaryEnvironment =
     getPlanetaryEnvironmentReadinessSnapshot(checkedAt);
 
@@ -352,6 +354,7 @@ export function getFounderCommandAppSnapshot(
     },
     alkonUniverse: alkonCommandUniverse,
     alkonCosmicPhysics: alkonCommandUniverse.cosmicPhysics,
+    finalConvergence,
     planetaryEnvironment: {
       status: planetaryEnvironment.status,
       publicName: planetaryEnvironment.publicName,
@@ -1120,6 +1123,10 @@ export function getFounderCommandAppSnapshot(
       "/api/founder/build-room/readiness",
       "/api/founder/alkon/readiness",
       "/api/founder/alkon-physics/readiness",
+      "/api/founder/final-convergence/readiness",
+      "/api/founder/final-convergence/snapshot",
+      "/api/founder/final-convergence/layers",
+      "/api/founder/final-convergence/growth-proposals",
       "/api/founder/ideas/readiness",
       "/api/founder/ideas/preview",
       "/api/founder/launch-readiness",
