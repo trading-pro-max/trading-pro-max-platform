@@ -7,6 +7,7 @@ import TPMEarthMark from "@/modules/brand/components/TPMEarthMark";
 import ProductLogo from "@/modules/brand/components/ProductLogo";
 import { PlanetMapPreview } from "@/modules/planet-map/components";
 import type { FounderCommandRoomProps } from "../types";
+import AlkonCommandUniverse from "./AlkonCommandUniverse";
 import FounderApprovalQueue from "./FounderApprovalQueue";
 import FounderCommandAppShell from "./FounderCommandAppShell";
 import FounderIdeaInbox from "./FounderIdeaInbox";
@@ -80,6 +81,8 @@ export default function FounderCommandRoom({
 
       <FounderPlanetCommandWorld checkedAt={commandSnapshot.checkedAt} />
 
+      <AlkonCommandUniverse checkedAt={commandSnapshot.checkedAt} />
+
       <FounderPlanetStatusMap checkedAt={commandSnapshot.checkedAt} />
 
       <FounderCommandAppShell checkedAt={commandSnapshot.checkedAt} />
@@ -90,7 +93,10 @@ export default function FounderCommandRoom({
 
       <FounderSovereignAutonomyPanel checkedAt={commandSnapshot.checkedAt} />
 
-      <FounderIdeaInbox readiness={ideaInboxReadiness} />
+      <FounderIdeaInbox
+        readiness={ideaInboxReadiness}
+        alkonBridge={appSnapshot.engineeringOpsQuality.sovereignAutonomy.ideaInbox.alkonBridge}
+      />
 
       <FounderAutonomyQueuePanel checkedAt={commandSnapshot.checkedAt} />
 

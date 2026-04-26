@@ -91,7 +91,22 @@ type InboxReadiness = {
   recentIdeaExamples: InboxPreview[];
   pendingIdeaDrafts: InboxPreview[];
   blockedIdeaExamples: InboxPreview[];
+  alkonBridge: AlkonIdeaBridge;
   nextSafeIdeaAction: string;
+};
+
+type AlkonIdeaBridge = {
+  universeName: string;
+  arabicName: string;
+  orbitCommandLinked: boolean;
+  constructionUniverseLinked: boolean;
+  memoryUniverseLinked: boolean;
+  resultTribunalLinked: boolean;
+  publicVisible: false;
+  executionActive: false;
+  shellExecutionActive: false;
+  codexCalledFromWebApp: false;
+  nextAction: string;
 };
 
 const defaultInput = {
@@ -112,9 +127,12 @@ function selectValue(formData: FormData, key: keyof typeof defaultInput) {
 
 export default function FounderIdeaInbox({
   readiness,
+  alkonBridge,
 }: {
   readiness: InboxReadiness;
+  alkonBridge?: AlkonIdeaBridge;
 }) {
+  const bridge = alkonBridge ?? readiness.alkonBridge;
   const [preview, setPreview] = useState<InboxPreview | null>(
     readiness.recentIdeaExamples[0] ?? null
   );
@@ -193,6 +211,14 @@ export default function FounderIdeaInbox({
           <span>Execution</span>
           <strong>false</strong>
           <small>preview-only, no web app execution</small>
+        </div>
+        <div className="tpm-founder-metric alkon-idea-bridge">
+          <span>Alkon bridge</span>
+          <strong>{bridge.universeName}</strong>
+          <small>
+            Orbit {String(bridge.orbitCommandLinked)} / Construction{" "}
+            {String(bridge.constructionUniverseLinked)}
+          </small>
         </div>
       </div>
 
@@ -277,7 +303,10 @@ export default function FounderIdeaInbox({
       <div className="tpm-founder-access-card">
         <span>Next safe idea action</span>
         <strong>{readiness.nextSafeIdeaAction}</strong>
-        <small>No public navigation, user plan exposure, persistence, or execution.</small>
+        <small>
+          {bridge.nextAction} No public navigation, user plan exposure,
+          persistence, or execution.
+        </small>
       </div>
     </section>
   );

@@ -457,7 +457,7 @@ test.describe("verified platform truth", () => {
       expect(publicNavText).not.toMatch(/Founder Command|Command Room/);
       const publicBodyText = await page.locator("body").innerText();
       expect(publicBodyText).not.toMatch(
-        /Founder Command|Founder King|Kingdom|\bministries\b|\bcouncils\b|Presidency|government model|Planet OS|Planet governance|\bPlanet\b|\bEnterprise\b|Owner command|Owner-only|owner-only|private command|internal governance|ruler|construction queue|Codex task|secrets authority|treasury controls|security sovereignty|product memory internals|local operations|local universe|TPM Companion|Demo \/ Paper/i
+        /Alkon|الكون|Founder Command|Founder King|Kingdom|\bministries\b|\bcouncils\b|Presidency|government model|Planet OS|Planet governance|\bPlanet\b|\bEnterprise\b|Owner command|Owner-only|owner-only|private command|internal governance|ruler|construction queue|Codex task|secrets authority|treasury controls|security sovereignty|product memory internals|local operations|local universe|TPM Companion|Demo \/ Paper/i
       );
 
       if (route.path === "/") {
@@ -775,7 +775,7 @@ test.describe("verified platform truth", () => {
     await expect(page.locator("#support")).toContainText(/Help Center|Security Contact|Partnership Contact/);
 
     const forbiddenPublicTerms =
-      /Founder Command|Founder King|Kingdom|\bministries\b|\bcouncils\b|Presidency|government model|Planet OS|Planet governance|\bPlanet\b|\bEnterprise\b|Owner command|Owner-only|owner-only|private command|internal governance|ruler|construction queue|Codex task|secrets authority|treasury controls|security sovereignty|product memory internals|local operations|local universe/i;
+      /Alkon|الكون|Founder Command|Founder King|Kingdom|\bministries\b|\bcouncils\b|Presidency|government model|Planet OS|Planet governance|\bPlanet\b|\bEnterprise\b|Owner command|Owner-only|owner-only|private command|internal governance|ruler|construction queue|Codex task|secrets authority|treasury controls|security sovereignty|product memory internals|local operations|local universe/i;
 
     expect(await page.locator("body").innerText()).not.toMatch(forbiddenPublicTerms);
 

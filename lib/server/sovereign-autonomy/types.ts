@@ -411,6 +411,20 @@ export type FounderIdeaInboxPreview = {
   };
 };
 
+export type FounderIdeaInboxAlkonBridge = {
+  universeName: "Alkon";
+  arabicName: "الكون";
+  orbitCommandLinked: true;
+  constructionUniverseLinked: true;
+  memoryUniverseLinked: true;
+  resultTribunalLinked: true;
+  publicVisible: false;
+  executionActive: false;
+  shellExecutionActive: false;
+  codexCalledFromWebApp: false;
+  nextAction: string;
+};
+
 export type FounderIdeaInboxReadiness = {
   checkedAt: string;
   mode: "founder_idea_inbox_readiness";
@@ -430,6 +444,7 @@ export type FounderIdeaInboxReadiness = {
   recentIdeaExamples: FounderIdeaInboxPreview[];
   pendingIdeaDrafts: FounderIdeaInboxPreview[];
   blockedIdeaExamples: FounderIdeaInboxPreview[];
+  alkonBridge: FounderIdeaInboxAlkonBridge;
   nextSafeIdeaAction: string;
   truth: FounderIdeaInboxPreview["truth"];
 };

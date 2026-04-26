@@ -197,6 +197,19 @@ Founder Command now includes a private Sovereign Autonomy readiness layer. It co
 
 The operating room reports incoming ideas, event queue status, blocked events, Task Passports, Codex worker licenses, draft readiness, Result Tribunal outcomes, memory lessons, next safe actions, and what not to automate. It remains read-only: no shell command execution, direct Codex calls, external account connection, social publishing, billing activation, broker/feed activation, live execution, real-money routing, public launch, secret exposure, fake metrics, or approval execution is active.
 
+## Alkon Private Command Universe
+
+Founder Command now includes Alkon / الكون as Ahmad's private supreme command universe. It is the private place where Ahmad sees Earth Public World, Moon cycle, Orbit/event/task flow, Solar Command priorities, Planetary Systems, Defense Universe, Construction Universe, Memory Universe, World Interface, the Invisible Operating Layer, Result Tribunal status, and next safe actions.
+
+Alkon is not public, not a plan, not a user feature, not public navigation, and not available to Free, Pro, VIP, or Institutional users. No public `/api/alkon/*` route is exposed. `/api/founder/alkon/readiness` is read-only/status-only and reports no secrets, private sensitive data, fake metrics, or execution endpoints.
+
+The component set is internal to Founder Command:
+- `AlkonCommandUniverse`
+- `AlkonUniverseMap`
+- Earth, Moon, Orbit, Solar, Planetary, Defense, Construction, Memory, World Interface, and Next Actions panels
+
+All Alkon surfaces are readiness/reporting only. They do not execute shell commands, call Codex directly, send email, publish socially, connect accounts, activate billing, activate broker/feed, enable live execution, route real money, touch production secrets, weaken auth/security, or fake users/revenue/metrics.
+
 # Living Brand Intelligence Readiness
 
 Founder Command receives the internal Brand Intelligence readiness summary:

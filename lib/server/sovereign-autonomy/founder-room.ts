@@ -60,6 +60,34 @@ export function getFounderSovereignAutonomyRoomSnapshot(
     permitDecisions: snapshot.codexLicenses,
     resultTribunalOutcomes: snapshot.tribunalReports,
     memoryLessons: snapshot.memoryLessons,
+    alkonBridge: {
+      universeName: "Alkon",
+      arabicName: "الكون",
+      orbitCommand: {
+        incomingIdeas: snapshot.sampleFounderIdeas.length,
+        classifiedEvents: snapshot.sampleEvents.length,
+        blockedEvents: blockedEvents.length,
+        waitingReview: waitingReview.length,
+      },
+      constructionUniverse: {
+        validPassports: validPassports.length,
+        manualDrafts: snapshot.codexSubmitReadiness.drafts.length,
+        permittedLicenses: permittedLicenses.length,
+        webAppExecution: false,
+      },
+      resultTribunal: {
+        reports: snapshot.tribunalReports.length,
+        latestDecision: snapshot.tribunalReports[0]?.decision ?? "needs_fix",
+      },
+      memoryUniverse: {
+        lessons: snapshot.memoryLessons.length,
+        secretsStored: false,
+        privateSensitiveDataStored: false,
+      },
+      publicVisible: false,
+      nextAction:
+        "Keep Alkon as the private command universe that reviews ideas, events, passports, drafts, tribunal outcomes, and lessons without executing actions.",
+    },
     nextSafeAction: snapshot.nextSafeActions[0],
     whatNotToAutomate: snapshot.blockedSystems,
     productTruth: snapshot.truth,

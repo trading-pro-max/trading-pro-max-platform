@@ -3,6 +3,7 @@ import "server-only";
 import { getPlanEntitlementSnapshot } from "@/lib/plans/entitlements";
 import { getPrivateFounderRealm, getPublicPlanRealms } from "@/lib/plans/realms";
 import { getAcademyReadinessSnapshot } from "@/lib/server/academy";
+import { getAlkonUniverseSnapshot } from "@/lib/server/alkon";
 import { getBrandIntelligenceInternalReadiness } from "@/lib/server/brand-intelligence";
 import { getAiVideoStudioReadinessSnapshot } from "@/lib/server/ai-video-studio";
 import { getCommunityReadinessSnapshot } from "@/lib/server/community";
@@ -170,7 +171,8 @@ export function getFounderCommandAppSnapshot(
   const invisibleOperatingLayer = getInvisibleOperatingLayerSnapshot(checkedAt);
   const localLivingDayLoop = getLocalLivingDayLoopSnapshot(checkedAt);
   const publicRealms = getPublicPlanRealms();
-  const alkonUniverse = getPrivateFounderRealm();
+  const privateAlkonRealm = getPrivateFounderRealm();
+  const alkonCommandUniverse = getAlkonUniverseSnapshot(checkedAt);
 
   const desktopApp: FounderCommandDeviceBlueprint = {
     platform: "desktop",
@@ -275,10 +277,17 @@ export function getFounderCommandAppSnapshot(
         approvalExecutionActive: false,
         ideaInboxReady: founderIdeaInbox.status === "ready",
         alkonUniverse: {
-          realmId: alkonUniverse.realmId,
+          realmId: privateAlkonRealm.realmId,
           privateNames: ["Alkon", "الكون"],
-          visibility: alkonUniverse.visibility,
-          activationState: alkonUniverse.activationState,
+          visibility: privateAlkonRealm.visibility,
+          universeVisibility: alkonCommandUniverse.visibility,
+          activationState: privateAlkonRealm.activationState,
+          publicExposure: alkonCommandUniverse.publicExposure,
+          publicRouteExposed:
+            alkonCommandUniverse.apiExposure.publicAlkonRoutesExposed,
+          founderReadinessRoute:
+            alkonCommandUniverse.apiExposure.founderReadinessRoute,
+          productTruthStatus: alkonCommandUniverse.productTruthStatus.overall,
           publicPlanAccess: false,
         },
       },
@@ -330,6 +339,7 @@ export function getFounderCommandAppSnapshot(
         truth: localLivingDayLoop.truth,
       },
     },
+    alkonUniverse: alkonCommandUniverse,
     modules: command.modules,
     moduleSummary,
     approvalCenter: {
@@ -988,6 +998,7 @@ export function getFounderCommandAppSnapshot(
           userPlanExposure: founderIdeaInbox.access.userPlanExposure,
           previewPostOnly: founderIdeaInbox.access.previewPostOnly,
           persistenceActive: founderIdeaInbox.access.persistenceActive,
+          alkonBridge: founderIdeaInbox.alkonBridge,
           truth: founderIdeaInbox.truth,
         },
         eventSystemReady: sovereignAutonomy.eventSystemReady,
@@ -1055,6 +1066,7 @@ export function getFounderCommandAppSnapshot(
       "/api/founder/local-command/snapshot",
       "/api/founder/local-command/readiness",
       "/api/founder/build-room/readiness",
+      "/api/founder/alkon/readiness",
       "/api/founder/ideas/readiness",
       "/api/founder/ideas/preview",
       "/api/invisible-operating-layer/readiness",

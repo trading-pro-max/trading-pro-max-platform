@@ -351,6 +351,20 @@ export function getFounderIdeaInboxReadiness(
     recentIdeaExamples: samples,
     pendingIdeaDrafts,
     blockedIdeaExamples,
+    alkonBridge: {
+      universeName: "Alkon",
+      arabicName: "الكون",
+      orbitCommandLinked: true,
+      constructionUniverseLinked: true,
+      memoryUniverseLinked: true,
+      resultTribunalLinked: true,
+      publicVisible: false,
+      executionActive: false,
+      shellExecutionActive: false,
+      codexCalledFromWebApp: false,
+      nextAction:
+        "Review the idea through Alkon Orbit, Construction, Memory, and Result Tribunal before any manual external work.",
+    },
     nextSafeIdeaAction:
       "Enter a Founder idea, review classification, owner route, policy gates, Task Passport, and manual-only Codex draft before any external work.",
     truth: {

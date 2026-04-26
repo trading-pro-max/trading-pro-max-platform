@@ -2,6 +2,7 @@ import "server-only";
 
 import { getPlanEntitlementSnapshot } from "@/lib/plans/entitlements";
 import { getPrivateFounderRealm, getPublicPlanRealms } from "@/lib/plans/realms";
+import { getAlkonUniverseSnapshot } from "@/lib/server/alkon";
 import { getConstructionQueueSnapshot } from "@/lib/server/codex-construction";
 import { getCodexPresidencyReport } from "@/lib/server/codex-sovereignty";
 import {
@@ -54,6 +55,7 @@ export type FounderPersonalCompanionSnapshot = {
   productMemorySummary: string[];
   buildRoomSummary: string[];
   insideOutsidePlanetSummary: string[];
+  alkonUniverseSummary: string[];
   invisibleOperatingLayerSummary: string[];
   localLivingDayLoopSummary: string[];
   founderIdeaInboxSummary: string[];
@@ -103,6 +105,7 @@ export function getFounderPersonalCompanionSnapshot(
   const sovereignAutonomy = getSovereignAutonomyReadinessSnapshot(checkedAt);
   const founderIdeaInbox = getFounderIdeaInboxReadiness(checkedAt);
   const codexSovereignty = getCodexPresidencyReport(checkedAt);
+  const alkonUniverse = getAlkonUniverseSnapshot(checkedAt);
   const publicRealms = getPublicPlanRealms();
   const privateRealm = getPrivateFounderRealm();
   const decisionMinistries = reporting.ministries.filter(
@@ -214,6 +217,12 @@ export function getFounderPersonalCompanionSnapshot(
       "Ahmad lives inside private Founder Command and Alkon / الكون Universe with Idea Inbox, construction governance, memory, tribunal, and next safe actions.",
       "The invisible operating layer maps internal complexity to public-safe readiness outputs.",
       "The living Earth atmosphere is code-only and local-scope; no images, external maps, GPS, or precise location tracking are used.",
+    ],
+    alkonUniverseSummary: [
+      `${alkonUniverse.name} / ${alkonUniverse.arabicName} is ${alkonUniverse.visibility}; public exposure is ${String(alkonUniverse.publicExposure)}.`,
+      `${alkonUniverse.universeMap.length} command subsystems cover Earth, Moon, Orbit, Solar Command, Planetary Systems, Defense, Construction, Memory, World Interface, and the Invisible Operating Layer.`,
+      alkonUniverse.apiExposure.publicRouteDecision,
+      `Product truth is ${alkonUniverse.productTruthStatus.overall}; live execution, real money, billing, broker/feed, public launch, social publishing, and shell execution remain blocked or inactive.`,
     ],
     invisibleOperatingLayerSummary: [
       `${invisibleLayer.systems.length} invisible operating systems are mapped.`,

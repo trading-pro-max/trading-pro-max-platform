@@ -473,6 +473,235 @@
   font-size: 13px;
 }
 
+.alkon-command-universe {
+  --alkon-gold: color-mix(in srgb, var(--tpm-founder-gold) 84%, #f6e6a5);
+  --alkon-platinum: #dfe7f1;
+  --alkon-cyan: #69d9ff;
+  --alkon-red: var(--tpm-founder-red);
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 84% 10%, color-mix(in srgb, var(--alkon-gold) 16%, transparent), transparent 34%),
+    linear-gradient(135deg, color-mix(in srgb, #000 56%, var(--tpm-surface-strong)), var(--tpm-founder-surface));
+}
+
+.alkon-command-universe::before {
+  content: "";
+  position: absolute;
+  inset: 14px;
+  pointer-events: none;
+  border: 1px solid color-mix(in srgb, var(--alkon-gold) 18%, transparent);
+  border-radius: var(--tpm-radius-lg);
+  background:
+    linear-gradient(90deg, transparent 49.75%, color-mix(in srgb, var(--alkon-platinum) 8%, transparent) 50%, transparent 50.25%),
+    linear-gradient(0deg, transparent 49.75%, color-mix(in srgb, var(--alkon-platinum) 8%, transparent) 50%, transparent 50.25%);
+  background-size: 72px 72px;
+  opacity: 0.55;
+}
+
+.alkon-command-universe > * {
+  position: relative;
+  z-index: 1;
+}
+
+.alkon-command-head h2 {
+  color: var(--alkon-platinum);
+}
+
+.alkon-command-head span,
+.alkon-next-actions > span {
+  color: var(--alkon-gold);
+}
+
+.alkon-command-metrics .tpm-founder-metric {
+  border-color: color-mix(in srgb, var(--alkon-gold) 30%, var(--tpm-border));
+}
+
+.alkon-universe-map {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.alkon-universe-map article,
+.alkon-domain-list > div,
+.alkon-command-facts > div {
+  border: 1px solid color-mix(in srgb, var(--alkon-gold) 18%, var(--tpm-border));
+  border-radius: var(--tpm-radius-md);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--tpm-surface-alt) 88%, transparent), color-mix(in srgb, #000 20%, var(--tpm-surface-strong)));
+}
+
+.alkon-universe-map article {
+  min-height: 160px;
+  padding: 13px;
+  display: grid;
+  align-content: start;
+  gap: 7px;
+}
+
+.alkon-universe-map article[data-status="blocked"] {
+  border-color: color-mix(in srgb, var(--tpm-status-blocked-text) 45%, var(--tpm-border));
+}
+
+.alkon-universe-map span,
+.alkon-command-facts dt,
+.alkon-domain-list small,
+.alkon-command-tags span {
+  color: var(--tpm-text-soft);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.alkon-universe-map strong {
+  color: var(--alkon-gold);
+  font-size: 12px;
+}
+
+.alkon-universe-map p,
+.alkon-universe-map small {
+  margin: 0;
+  color: var(--tpm-text-soft);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.alkon-command-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.alkon-earth-command,
+.alkon-moon-cycle,
+.alkon-orbit-command,
+.alkon-solar-command,
+.alkon-planetary-systems,
+.alkon-defense-universe,
+.alkon-construction-universe,
+.alkon-memory-universe,
+.alkon-world-interface,
+.alkon-invisible-operating-layer {
+  min-height: 260px;
+  border-color: color-mix(in srgb, var(--alkon-gold) 22%, var(--tpm-border));
+}
+
+.alkon-earth-command {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, #0f3658 28%, var(--tpm-founder-panel)), var(--tpm-founder-surface));
+}
+
+.alkon-moon-cycle {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, #e7edf6 10%, var(--tpm-founder-panel)), var(--tpm-founder-surface));
+}
+
+.alkon-orbit-command {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, #1c8e6a 16%, var(--tpm-founder-panel)), var(--tpm-founder-surface));
+}
+
+.alkon-solar-command {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--alkon-gold) 18%, var(--tpm-founder-panel)), var(--tpm-founder-surface));
+}
+
+.alkon-defense-universe {
+  border-color: color-mix(in srgb, var(--alkon-red) 45%, var(--tpm-border));
+}
+
+.alkon-construction-universe {
+  border-color: color-mix(in srgb, var(--alkon-cyan) 35%, var(--tpm-border));
+}
+
+.alkon-memory-universe {
+  border-color: color-mix(in srgb, #b8a4ff 32%, var(--tpm-border));
+}
+
+.alkon-world-interface {
+  border-color: color-mix(in srgb, #82e6d8 32%, var(--tpm-border));
+}
+
+.alkon-invisible-operating-layer {
+  border-color: color-mix(in srgb, var(--alkon-platinum) 28%, var(--tpm-border));
+}
+
+.alkon-command-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+}
+
+.alkon-command-facts > div {
+  padding: 10px;
+  display: grid;
+  gap: 4px;
+}
+
+.alkon-command-facts dd {
+  margin: 0;
+  color: var(--alkon-platinum);
+  font-size: 12px;
+}
+
+.alkon-domain-list {
+  display: grid;
+  gap: 8px;
+}
+
+.alkon-domain-list > div {
+  padding: 10px;
+  display: grid;
+  gap: 4px;
+}
+
+.alkon-domain-list strong {
+  color: var(--tpm-text);
+  font-size: 12px;
+}
+
+.alkon-domain-list p,
+.alkon-next-action {
+  margin: 0;
+  color: var(--tpm-text-soft);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.alkon-command-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.alkon-command-tags span {
+  border: 1px solid color-mix(in srgb, var(--alkon-gold) 20%, var(--tpm-border));
+  border-radius: var(--tpm-radius-pill);
+  background: color-mix(in srgb, var(--tpm-surface-strong) 78%, transparent);
+  padding: 6px 8px;
+}
+
+.alkon-next-action {
+  border-left: 2px solid var(--alkon-gold);
+  padding-left: 10px;
+}
+
+.alkon-next-actions {
+  border-color: color-mix(in srgb, var(--alkon-gold) 36%, var(--tpm-border));
+}
+
+.alkon-decision-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.alkon-idea-bridge,
+.alkon-orbit-bridge {
+  border-color: color-mix(in srgb, var(--tpm-founder-gold) 42%, var(--tpm-border));
+}
+
 [dir="rtl"] .tpm-founder-command-room,
 [dir="rtl"] .tpm-founder-command-room * {
   text-align: start;
@@ -488,7 +717,10 @@
   .tpm-founder-inbox-preview-grid,
   .tpm-founder-living-loop,
   .tpm-founder-living-room-grid,
-  .tpm-founder-risk-grid {
+  .tpm-founder-risk-grid,
+  .alkon-universe-map,
+  .alkon-command-grid,
+  .alkon-decision-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -509,7 +741,11 @@
   .tpm-founder-living-room-grid,
   .tpm-founder-queue-layout,
   .tpm-founder-approval-list,
-  .tpm-founder-risk-grid {
+  .tpm-founder-risk-grid,
+  .alkon-universe-map,
+  .alkon-command-grid,
+  .alkon-decision-grid,
+  .alkon-command-facts {
     grid-template-columns: minmax(0, 1fr);
   }
 

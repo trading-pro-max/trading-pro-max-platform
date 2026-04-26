@@ -59,6 +59,14 @@ export default function FounderSovereignAutonomyPanel({
           <strong>{room.permitDecisions.filter((permit) => permit.permitted).length}</strong>
           <small>Manual/readiness only, no web app execution</small>
         </div>
+        <div className="tpm-founder-metric alkon-orbit-bridge">
+          <span>Alkon Orbit</span>
+          <strong>{room.alkonBridge.universeName}</strong>
+          <small>
+            {room.alkonBridge.orbitCommand.classifiedEvents} events /{" "}
+            {room.alkonBridge.constructionUniverse.manualDrafts} drafts
+          </small>
+        </div>
       </div>
 
       <div className="tpm-founder-briefing-grid">
@@ -128,6 +136,20 @@ export default function FounderSovereignAutonomyPanel({
             {room.memoryLessons.slice(0, 4).map((lesson) => (
               <li key={lesson.lessonId}>{lesson.title}</li>
             ))}
+          </ul>
+        </article>
+        <article>
+          <h3>Alkon bridge</h3>
+          <ul>
+            <li>Public visible: {String(room.alkonBridge.publicVisible)}</li>
+            <li>
+              Tribunal: {room.alkonBridge.resultTribunal.latestDecision}
+            </li>
+            <li>
+              Web execution:{" "}
+              {String(room.alkonBridge.constructionUniverse.webAppExecution)}
+            </li>
+            <li>{room.alkonBridge.nextAction}</li>
           </ul>
         </article>
       </div>

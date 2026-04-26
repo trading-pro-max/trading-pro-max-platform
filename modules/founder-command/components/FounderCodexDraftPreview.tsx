@@ -17,14 +17,14 @@ export default function FounderCodexDraftPreview({
   if (!draft) {
     return (
       <article className="tpm-founder-panel">
-        <div className="tpm-founder-panel-head">
-          <span>Codex Draft Preview</span>
-          <h3>Blocked or review-only</h3>
-          <p>
-            No Codex draft is generated for blocked or restricted ideas. Keep
-            the item in Founder review.
-          </p>
-        </div>
+      <div className="tpm-founder-panel-head">
+        <span>Codex Draft Preview</span>
+        <h3>Blocked or review-only</h3>
+        <p>
+          No Codex draft is generated for blocked or restricted ideas. Keep the
+          item in Alkon Construction Universe and Founder review.
+        </p>
+      </div>
       </article>
     );
   }
@@ -35,7 +35,8 @@ export default function FounderCodexDraftPreview({
         <span>Codex Draft Preview</span>
         <h3>{draft.draftId}</h3>
         <p>
-          {draft.mode}; no web-app execution, no external submission, no secrets.
+          {draft.mode}; Alkon Construction Universe review only; no web-app
+          execution, no external submission, no secrets.
         </p>
       </div>
 

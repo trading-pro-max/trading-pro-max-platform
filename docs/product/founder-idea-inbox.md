@@ -67,3 +67,17 @@ Public boundary:
 - not a Free, Pro, VIP, or Institutional feature
 - not visible to normal users
 - private terminology remains inside Founder Command, private APIs, and docs
+
+## Alkon Link
+
+Founder Idea Inbox now links privately into Alkon Orbit Command, Construction Universe, Memory Universe, and Result Tribunal.
+
+The link is reporting-only:
+- incoming ideas become classified Orbit events
+- safe ideas may produce Task Passport previews
+- Codex drafts remain manual-only previews
+- blocked requests stay blocked
+- Result Tribunal status is visible for review
+- Memory lessons may be summarized safely
+
+This does not add execution, persistence, shell access, direct Codex calls, external submission, public navigation, public plan access, secrets, billing, broker/feed, live execution, real money, social publishing, or launch activation.
