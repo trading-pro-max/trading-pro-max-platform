@@ -23,6 +23,14 @@ import {
   TradingTopbar,
   WorkstationCommandCenter,
 } from "./PlatformShellV2";
+import { ExecutionRail } from "./ExecutionRail";
+import { LivingMarketCore } from "./LivingMarketCore";
+import { TradingChartCanvas } from "./TradingChartCanvas";
+import { TradingChartFooter } from "./TradingChartFooter";
+import { TradingChartHeader } from "./TradingChartHeader";
+import { TradingChartSurface } from "./TradingChartSurface";
+import { WorkspaceAssistantDock } from "./WorkspaceAssistantDock";
+import { WorkspaceJournalCoachDock } from "./WorkspaceJournalCoachDock";
 import { createTradingWorkstationViewModel } from "./trading-workstation-view-model";
 
 function focusModeLabel(mode: WorkspaceFocusMode) {
@@ -59,58 +67,6 @@ type WorkflowPreflightState = {
   tone: "approved" | "pending" | "restricted" | "blocked";
   note: string;
 };
-
-function WorkspaceDepthBar({
-  focusMode,
-  watchlistDensity,
-  shortcutHint,
-}: {
-  focusMode: WorkspaceFocusMode;
-  watchlistDensity: WatchlistDensityMode;
-  shortcutHint: string;
-}) {
-  const assistantIntents = [
-    "Start",
-    "Why blocked?",
-    "Bigger chart",
-    "Calmer",
-    "Plans",
-    "Journal",
-    "Support",
-  ];
-
-  return (
-    <section
-      className="tpmv2-card tpmv2-workspace-depth-bar tpmv2-workspace-depth-bar-compact tpm-intent-workspace-rail"
-      aria-label="Workspace controls"
-    >
-      <div className="tpmv2-workspace-depth-block">
-        <span>Workspace focus</span>
-        <strong>{focusModeLabel(focusMode)}</strong>
-        <small>Ask Pro Max Assistant for Chart Comfort, a calmer workspace, or Start guidance.</small>
-      </div>
-
-      <div className="tpmv2-workspace-depth-block">
-        <span>Watchlist</span>
-        <strong>{watchlistDensityLabel(watchlistDensity)}</strong>
-        <small>Secondary density controls stay in Settings, Journal/Coach, and Assistant guidance.</small>
-      </div>
-
-      <div className="tpmv2-workspace-depth-status tpm-intent-assistant-card">
-        <span>Paper-safe controls</span>
-        <strong>Layout-only</strong>
-        <small>{shortcutHint} No order-entry hotkeys are armed.</small>
-        <div className="tpm-intent-chip-row" aria-label="Assistant workspace intents">
-          {assistantIntents.map((intent) => (
-            <span key={intent} className="tpm-intent-chip">
-              {intent}
-            </span>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 export default function TradingWorkstation({
   locale,
@@ -462,6 +418,172 @@ export default function TradingWorkstation({
   ]
     .filter(Boolean)
     .join(" ");
+  const feedStatus = humanizeState(platformState.dataStateFoundation.marketFeedState);
+  const fallbackTruth =
+    platformState.dataStateFoundation.marketFeedState === "fallback_ready"
+      ? "Demo/fallback data"
+      : "Market data readiness";
+
+  function renderCommandCenter() {
+    return (
+      <WorkstationCommandCenter
+        dict={dict}
+        selectedAssetSymbol={platformState.selectedAsset.symbol}
+        selectedTimeframe={platformState.selectedTimeframe}
+        signalLabel={viewModel.signalLabel}
+        decision={platformState.decision}
+        openTradesCount={platformState.openTrades.length}
+        historyCount={platformState.history.length}
+        sessionPnLText={viewModel.sessionPnLText}
+        ticketReadinessLabel={viewModel.ticketReadinessLabel}
+        ticketReadinessValue={viewModel.ticketReadinessValue}
+        ticketReadinessTone={viewModel.ticketReadinessTone}
+        paperAccessLabel={viewModel.paperAccessLabel}
+        paperAccessValue={viewModel.paperAccessValue}
+        paperAccessTone={viewModel.paperAccessTone}
+      />
+    );
+  }
+
+  function renderChartCard(withWorkspaceControls: boolean) {
+    return (
+      <ChartCard
+        dict={dict}
+        selectedAsset={platformState.selectedAsset}
+        selectedTimeframe={platformState.selectedTimeframe}
+        onSelectTimeframe={platformState.setSelectedTimeframe}
+        candles={platformState.candles}
+        decision={platformState.decision}
+        chartType={platformState.workspacePreferences.chartType}
+        onSelectChartType={(chartType) =>
+          platformState.setWorkspacePreference("chartType", chartType)
+        }
+        activeIndicators={platformState.workspacePreferences.activeIndicators}
+        onToggleIndicator={platformState.toggleWorkspaceIndicator}
+        activeDrawingTool={platformState.workspacePreferences.activeDrawingTool}
+        onSelectDrawingTool={(tool) =>
+          platformState.setWorkspacePreference("activeDrawingTool", tool)
+        }
+        chartZoom={platformState.workspacePreferences.chartZoom}
+        onSetChartZoom={(zoom) =>
+          platformState.setWorkspacePreference("chartZoom", zoom)
+        }
+        onResetChart={platformState.resetChartWorkspace}
+        intelligenceKicker={viewModel.intelligence.chartKicker}
+        intelligenceHeadline={viewModel.intelligence.chartHeadline}
+        intelligenceSummary={viewModel.intelligence.chartSummary}
+        intelligenceNote={viewModel.intelligence.chartNote}
+        marketDepthItems={marketDepthItems}
+        marketDepthNote={`Feed ${feedStatus} / ${watchlistDensityLabel(
+          watchlistDensity
+        )} watchlist / ${focusModeLabel(focusMode)} composition.`}
+        focusMode={focusMode}
+        workspaceControls={withWorkspaceControls ? workspaceControls : undefined}
+      />
+    );
+  }
+
+  function renderExecutionCard() {
+    return (
+      <ExecutionCard
+        dict={dict}
+        decision={platformState.decision}
+        signalLabel={viewModel.signalLabel}
+        selectedAssetSymbol={platformState.selectedAsset.symbol}
+        selectedTimeframe={platformState.selectedTimeframe}
+        selectedDuration={platformState.selectedDuration}
+        durationOptions={platformState.availableDurations}
+        onSelectDuration={platformState.setSelectedDuration}
+        analysisTimeframeLabel={viewModel.analysisTimeframeLabel}
+        durationFieldLabel={viewModel.durationFieldLabel}
+        amount={platformState.amount}
+        setAmount={platformState.setAmount}
+        sessionLocked={platformState.sessionLocked}
+        canOpenMore={platformState.canOpenMore}
+        canExecute={platformState.canExecute}
+        accountMode={platformState.accountMode}
+        openTradeBySignal={platformState.openTradeBySignal}
+        openPaperTrade={platformState.openPaperTrade}
+        demoLabel={viewModel.demoLabel}
+        realLabel={viewModel.realLabel}
+        accountLifecycleLabel={viewModel.accountLifecycleLabel}
+        accountLifecycleTone={viewModel.accountLifecycleTone}
+        reviewStatusLabel={viewModel.reviewStatusLabel}
+        reviewStatusTone={viewModel.reviewStatusTone}
+        ticketReadinessLabel={viewModel.ticketReadinessLabel}
+        ticketReadinessValue={viewModel.ticketReadinessValue}
+        ticketReadinessTone={viewModel.ticketReadinessTone}
+        ticketGateLabel={viewModel.ticketGateLabel}
+        ticketGateValue={viewModel.ticketGateValue}
+        ticketGateTone={viewModel.ticketGateTone}
+        ticketNextStepLabel={viewModel.ticketNextStepLabel}
+        ticketNextStepValue={viewModel.ticketNextStepValue}
+        ticketOperationalLabel={viewModel.ticketOperationalLabel}
+        ticketOperationalValue={viewModel.ticketOperationalValue}
+        ticketOperationalTone={viewModel.ticketOperationalTone}
+        preflightItems={preflightItems}
+        amountPresets={amountPresets}
+        onApplyAmountPreset={platformState.setAmount}
+        recentActivityLabel="Recent desk activity"
+        recentActivityValue={recentActivity}
+        recentActivityNote="Activity reflects workspace controls, paper routing, and guarded execution only."
+      />
+    );
+  }
+
+  function renderLivingMarketCore({
+    includeExecution,
+    withWorkspaceControls,
+  }: {
+    includeExecution: boolean;
+    withWorkspaceControls: boolean;
+  }) {
+    return (
+      <LivingMarketCore
+        marketStatusStrip={renderCommandCenter()}
+        chartHeader={
+          <TradingChartHeader
+            assetChange={platformState.selectedAsset.change}
+            assetPrice={platformState.selectedAsset.price}
+            assetSymbol={platformState.selectedAsset.symbol}
+            feedStatus={feedStatus}
+            focusModeLabel={focusModeLabel(focusMode)}
+            marketStatus={platformState.selectedAsset.status}
+            paperAccess={`${viewModel.paperAccessLabel}: ${viewModel.paperAccessValue}`}
+          />
+        }
+        chart={
+          <TradingChartSurface>
+            <TradingChartCanvas>{renderChartCard(withWorkspaceControls)}</TradingChartCanvas>
+          </TradingChartSurface>
+        }
+        chartFooter={
+          <TradingChartFooter
+            fallbackTruth={fallbackTruth}
+            shortcutHint={shortcutHint}
+          />
+        }
+        executionRail={
+          includeExecution ? <ExecutionRail>{renderExecutionCard()}</ExecutionRail> : null
+        }
+        assistantDock={
+          <WorkspaceAssistantDock
+            focusMode={focusMode}
+            shortcutHint={shortcutHint}
+            watchlistDensity={watchlistDensity}
+          />
+        }
+        journalCoachDock={
+          <WorkspaceJournalCoachDock
+            auditCount={platformState.auditTraceFoundation.recentEvents.length}
+            historyCount={platformState.history.length}
+            openTradesCount={platformState.openTrades.length}
+            sessionPnLText={viewModel.sessionPnLText}
+          />
+        }
+      />
+    );
+  }
 
   return (
     <main
@@ -517,117 +639,15 @@ export default function TradingWorkstation({
           />
         ) : null}
 
-        <section className="tpmv2-main">
+        <section className="tpmv2-main tpm-living-workspace-main">
           <section className={desktopMasterClass}>
-            <section className="tpmv2-primary">
-              <ChartCard
-                dict={dict}
-                selectedAsset={platformState.selectedAsset}
-                selectedTimeframe={platformState.selectedTimeframe}
-                onSelectTimeframe={platformState.setSelectedTimeframe}
-                candles={platformState.candles}
-                decision={platformState.decision}
-                chartType={platformState.workspacePreferences.chartType}
-                onSelectChartType={(chartType) =>
-                  platformState.setWorkspacePreference("chartType", chartType)
-                }
-                activeIndicators={platformState.workspacePreferences.activeIndicators}
-                onToggleIndicator={platformState.toggleWorkspaceIndicator}
-                activeDrawingTool={platformState.workspacePreferences.activeDrawingTool}
-                onSelectDrawingTool={(tool) =>
-                  platformState.setWorkspacePreference("activeDrawingTool", tool)
-                }
-                chartZoom={platformState.workspacePreferences.chartZoom}
-                onSetChartZoom={(zoom) =>
-                  platformState.setWorkspacePreference("chartZoom", zoom)
-                }
-                onResetChart={platformState.resetChartWorkspace}
-                intelligenceKicker={viewModel.intelligence.chartKicker}
-                intelligenceHeadline={viewModel.intelligence.chartHeadline}
-                intelligenceSummary={viewModel.intelligence.chartSummary}
-                intelligenceNote={viewModel.intelligence.chartNote}
-                marketDepthItems={marketDepthItems}
-                marketDepthNote={`Feed ${humanizeState(
-                  platformState.dataStateFoundation.marketFeedState
-                )} / ${watchlistDensityLabel(watchlistDensity)} watchlist / ${focusModeLabel(
-                  focusMode
-                )} composition.`}
-                focusMode={focusMode}
-                workspaceControls={workspaceControls}
-              />
+            <section className="tpmv2-primary tpm-living-primary">
+              {renderLivingMarketCore({
+                includeExecution: desktopTicketVisible,
+                withWorkspaceControls: true,
+              })}
             </section>
-
-            {desktopTicketVisible ? (
-              <aside className="tpmv2-side">
-                <ExecutionCard
-                  dict={dict}
-                  decision={platformState.decision}
-                  signalLabel={viewModel.signalLabel}
-                  selectedAssetSymbol={platformState.selectedAsset.symbol}
-                  selectedTimeframe={platformState.selectedTimeframe}
-                  selectedDuration={platformState.selectedDuration}
-                  durationOptions={platformState.availableDurations}
-                  onSelectDuration={platformState.setSelectedDuration}
-                  analysisTimeframeLabel={viewModel.analysisTimeframeLabel}
-                  durationFieldLabel={viewModel.durationFieldLabel}
-                  amount={platformState.amount}
-                  setAmount={platformState.setAmount}
-                  sessionLocked={platformState.sessionLocked}
-                  canOpenMore={platformState.canOpenMore}
-                  canExecute={platformState.canExecute}
-                  accountMode={platformState.accountMode}
-                  openTradeBySignal={platformState.openTradeBySignal}
-                  openPaperTrade={platformState.openPaperTrade}
-                  demoLabel={viewModel.demoLabel}
-                  realLabel={viewModel.realLabel}
-                  accountLifecycleLabel={viewModel.accountLifecycleLabel}
-                  accountLifecycleTone={viewModel.accountLifecycleTone}
-                  reviewStatusLabel={viewModel.reviewStatusLabel}
-                  reviewStatusTone={viewModel.reviewStatusTone}
-                  ticketReadinessLabel={viewModel.ticketReadinessLabel}
-                  ticketReadinessValue={viewModel.ticketReadinessValue}
-                  ticketReadinessTone={viewModel.ticketReadinessTone}
-                  ticketGateLabel={viewModel.ticketGateLabel}
-                  ticketGateValue={viewModel.ticketGateValue}
-                  ticketGateTone={viewModel.ticketGateTone}
-                  ticketNextStepLabel={viewModel.ticketNextStepLabel}
-                  ticketNextStepValue={viewModel.ticketNextStepValue}
-                  ticketOperationalLabel={viewModel.ticketOperationalLabel}
-                  ticketOperationalValue={viewModel.ticketOperationalValue}
-                  ticketOperationalTone={viewModel.ticketOperationalTone}
-                  preflightItems={preflightItems}
-                  amountPresets={amountPresets}
-                  onApplyAmountPreset={platformState.setAmount}
-                  recentActivityLabel="Recent desk activity"
-                  recentActivityValue={recentActivity}
-                  recentActivityNote="Activity reflects workspace controls, paper routing, and guarded execution only."
-                />
-              </aside>
-            ) : null}
           </section>
-
-          <WorkstationCommandCenter
-            dict={dict}
-            selectedAssetSymbol={platformState.selectedAsset.symbol}
-            selectedTimeframe={platformState.selectedTimeframe}
-            signalLabel={viewModel.signalLabel}
-            decision={platformState.decision}
-            openTradesCount={platformState.openTrades.length}
-            historyCount={platformState.history.length}
-            sessionPnLText={viewModel.sessionPnLText}
-            ticketReadinessLabel={viewModel.ticketReadinessLabel}
-            ticketReadinessValue={viewModel.ticketReadinessValue}
-            ticketReadinessTone={viewModel.ticketReadinessTone}
-            paperAccessLabel={viewModel.paperAccessLabel}
-            paperAccessValue={viewModel.paperAccessValue}
-            paperAccessTone={viewModel.paperAccessTone}
-          />
-
-          <WorkspaceDepthBar
-            focusMode={focusMode}
-            watchlistDensity={watchlistDensity}
-            shortcutHint={shortcutHint}
-          />
 
           <section
             className={
@@ -703,107 +723,10 @@ export default function TradingWorkstation({
           onSelectAsset={platformState.setSelectedAssetIndex}
         />
 
-        <ChartCard
-          dict={dict}
-          selectedAsset={platformState.selectedAsset}
-          selectedTimeframe={platformState.selectedTimeframe}
-          onSelectTimeframe={platformState.setSelectedTimeframe}
-          candles={platformState.candles}
-          decision={platformState.decision}
-          chartType={platformState.workspacePreferences.chartType}
-          onSelectChartType={(chartType) =>
-            platformState.setWorkspacePreference("chartType", chartType)
-          }
-          activeIndicators={platformState.workspacePreferences.activeIndicators}
-          onToggleIndicator={platformState.toggleWorkspaceIndicator}
-          activeDrawingTool={platformState.workspacePreferences.activeDrawingTool}
-          onSelectDrawingTool={(tool) =>
-            platformState.setWorkspacePreference("activeDrawingTool", tool)
-          }
-          chartZoom={platformState.workspacePreferences.chartZoom}
-          onSetChartZoom={(zoom) =>
-            platformState.setWorkspacePreference("chartZoom", zoom)
-          }
-          onResetChart={platformState.resetChartWorkspace}
-          intelligenceKicker={viewModel.intelligence.chartKicker}
-          intelligenceHeadline={viewModel.intelligence.chartHeadline}
-          intelligenceSummary={viewModel.intelligence.chartSummary}
-          intelligenceNote={viewModel.intelligence.chartNote}
-          marketDepthItems={marketDepthItems}
-          marketDepthNote={`Feed ${humanizeState(
-            platformState.dataStateFoundation.marketFeedState
-          )} / ${watchlistDensityLabel(watchlistDensity)} watchlist / ${focusModeLabel(
-            focusMode
-          )} composition.`}
-          focusMode={focusMode}
-        />
-
-        <WorkstationCommandCenter
-          dict={dict}
-          selectedAssetSymbol={platformState.selectedAsset.symbol}
-          selectedTimeframe={platformState.selectedTimeframe}
-          signalLabel={viewModel.signalLabel}
-          decision={platformState.decision}
-          openTradesCount={platformState.openTrades.length}
-          historyCount={platformState.history.length}
-          sessionPnLText={viewModel.sessionPnLText}
-          ticketReadinessLabel={viewModel.ticketReadinessLabel}
-          ticketReadinessValue={viewModel.ticketReadinessValue}
-          ticketReadinessTone={viewModel.ticketReadinessTone}
-          paperAccessLabel={viewModel.paperAccessLabel}
-          paperAccessValue={viewModel.paperAccessValue}
-          paperAccessTone={viewModel.paperAccessTone}
-        />
-
-        <ExecutionCard
-          dict={dict}
-          decision={platformState.decision}
-          signalLabel={viewModel.signalLabel}
-          selectedAssetSymbol={platformState.selectedAsset.symbol}
-          selectedTimeframe={platformState.selectedTimeframe}
-          selectedDuration={platformState.selectedDuration}
-          durationOptions={platformState.availableDurations}
-          onSelectDuration={platformState.setSelectedDuration}
-          analysisTimeframeLabel={viewModel.analysisTimeframeLabel}
-          durationFieldLabel={viewModel.durationFieldLabel}
-          amount={platformState.amount}
-          setAmount={platformState.setAmount}
-          sessionLocked={platformState.sessionLocked}
-          canOpenMore={platformState.canOpenMore}
-          canExecute={platformState.canExecute}
-          accountMode={platformState.accountMode}
-          openTradeBySignal={platformState.openTradeBySignal}
-          openPaperTrade={platformState.openPaperTrade}
-          demoLabel={viewModel.demoLabel}
-          realLabel={viewModel.realLabel}
-          accountLifecycleLabel={viewModel.accountLifecycleLabel}
-          accountLifecycleTone={viewModel.accountLifecycleTone}
-          reviewStatusLabel={viewModel.reviewStatusLabel}
-          reviewStatusTone={viewModel.reviewStatusTone}
-          ticketReadinessLabel={viewModel.ticketReadinessLabel}
-          ticketReadinessValue={viewModel.ticketReadinessValue}
-          ticketReadinessTone={viewModel.ticketReadinessTone}
-          ticketGateLabel={viewModel.ticketGateLabel}
-          ticketGateValue={viewModel.ticketGateValue}
-          ticketGateTone={viewModel.ticketGateTone}
-          ticketNextStepLabel={viewModel.ticketNextStepLabel}
-          ticketNextStepValue={viewModel.ticketNextStepValue}
-          ticketOperationalLabel={viewModel.ticketOperationalLabel}
-          ticketOperationalValue={viewModel.ticketOperationalValue}
-          ticketOperationalTone={viewModel.ticketOperationalTone}
-          preflightItems={preflightItems}
-          amountPresets={amountPresets}
-          onApplyAmountPreset={platformState.setAmount}
-          recentActivityLabel="Recent desk activity"
-          recentActivityValue={recentActivity}
-          recentActivityNote="Activity reflects workspace controls, paper routing, and guarded execution only."
-        />
-
-        <WorkspaceDepthBar
-          focusMode={focusMode}
-          watchlistDensity={watchlistDensity}
-          shortcutHint={shortcutHint}
-        />
+        {renderLivingMarketCore({
+          includeExecution: true,
+          withWorkspaceControls: false,
+        })}
 
         <ActivityOpenTradesPanel
           dict={dict}

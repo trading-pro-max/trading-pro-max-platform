@@ -1264,7 +1264,7 @@ export function ExecutionCard({
         {renderCoreAction({
           className: "tpmv2-core-action tpmv2-core-ai",
           ariaLabel: dict.decision.executeBySignal,
-          label: "AI",
+          label: "AI Wait",
           meta: signalLabel,
           actionDisabled: aiActionDisabled,
           onClick: openTradeBySignal,

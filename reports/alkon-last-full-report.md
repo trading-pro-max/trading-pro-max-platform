@@ -1,39 +1,37 @@
 # Alkon Last Full Report
 
-Mission: Alkon Sovereign Source Law
+Mission: Living Market Core / Trading Workspace Rebuild
 
-Status: closed and pushed.
+Status: closed, pending commit and push.
 
 Completed:
 
-- Private Source Law doctrine was added.
-- Deterministic Source Law server engine was added.
-- Vision Core, Human Value, Truth, Safety, Proof, Source Drift, One Correct Action, and Memory layers were modeled.
-- Alkon Universe snapshot now includes Sovereign Source Law.
-- Founder Command app snapshot and Founder Companion now include Source Law readiness.
-- Founder-only Source Law read APIs were added.
-- Private Founder Command Source Law panels were added.
-- Regression coverage was added and public proof screenshots were captured.
-- Wake, last full report, execution history, and next command reports were created.
+- Rebuilt the Trading Workspace around a Living Market Core hierarchy.
+- Added chart-first workspace components for chart header, chart canvas, compact truth footer, paper Execution Rail, collapsed Assistant dock, and secondary Journal/Coach dock.
+- Preserved one terminal shell, one topbar, one compact Pro Max logo, and no public navigation inside the workspace.
+- Kept the existing trading state, chart controls, paper ticket controls, blocked-state explanations, and backend workflow preflight intact.
+- Reduced workspace topbar clutter by moving theme/language controls out of the terminal bar and leaving Settings/Diagnostics/sign-in visible.
+- Added a Local Day One readiness note for Living Market Core with `visual_acceptance_needed`.
+- Added focused regression coverage and captured visual proof under `test-results/living-market-core-rebuild/`.
 
 Validation:
 
-- npx tsc --noEmit: pass
-- npx eslint app modules tests --max-warnings=0: pass
-- npm run build: pass
-- npm run prisma:validate: pass
-- npm run test:regression: pass, 180 tests
-- npm run smoke:routes: pass
-- git diff --check: pass
-- git status --short: clean after commit and push
+- `npx tsc --noEmit`: pass
+- `npx eslint app modules tests --max-warnings=0`: pass
+- `npm run build`: pass
+- `npm run prisma:validate`: pass
+- `npm run test:regression`: pass, 185 tests
+- `npm run smoke:routes`: pass
+- `git diff --check`: pass
 
 Public truth:
 
-- No public Source Law API was created.
-- No public Alkon navigation was created.
-- No live execution, real money, broker/feed, billing, production, publishing, payment, shell execution, direct Codex execution, or external account connection was enabled.
-- No secrets, bank/card data, fake metrics, fake claims, or raster/image assets were added.
+- Workspace remains paper-safe.
+- Live execution remains inactive.
+- Real money remains blocked.
+- Broker/feed and billing remain inactive.
+- No trading signals, profit promises, fake claims, shell execution, direct Codex execution, public Alkon exposure, secrets, bank/card data, generated images, or raster app assets were added.
 
 Next:
 
-Keep Station 1 pointed at Living Market Core proof, Pro Max Assistant clarity, Reality Audit, Safe Cleanup, and Local Day One.
+Ahmad should review the Living Market Core visual proof and decide whether the workspace is visually accepted for Local Day One.

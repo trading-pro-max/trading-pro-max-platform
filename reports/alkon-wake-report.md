@@ -1,11 +1,11 @@
 WAKE REPORT
 Status: closed
-Mission: Alkon Sovereign Source Law
-Done: Source doctrine, engine, Founder Command, founder APIs, tests, public proof, reports
-Not done: private component screenshots not captured because no private route is exposed
+Mission: Living Market Core / Trading Workspace Rebuild
+Done: chart-first workspace, one terminal topbar, one compact logo, paper Execution Rail, collapsed Assistant dock, secondary Journal/Coach dock, visual proof, tests
+Not done: Ahmad visual acceptance remains needed before Local Day One is fully accepted
 Validation: passed
-Tests: 180 regression tests passed
-Commit: build alkon sovereign source law
-Pushed: yes
-Clean: yes
-Next: Keep Station 1 focused on Living Market Core proof and Local Day One
+Tests: 185 regression tests passed
+Commit: rebuild living market core workspace
+Pushed: pending
+Clean: pending
+Next: Ahmad visual acceptance for Living Market Core and Local Day One review
