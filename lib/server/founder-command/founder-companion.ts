@@ -14,6 +14,7 @@ import {
   getProductMemorySummarySnapshot,
 } from "@/lib/server/product-memory";
 import { getProductRealityFinalScoreSnapshot } from "@/lib/server/product-reality";
+import { getSovereignAutonomyReadinessSnapshot } from "@/lib/server/sovereign-autonomy";
 import { getFounderToolingReadinessSnapshot } from "@/lib/server/integrations";
 import { getFounderBuildRoomSnapshot } from "./build-room";
 import type { FounderBriefing, MinistryReport } from "@/lib/server/planet-os/types";
@@ -44,6 +45,7 @@ export type FounderPersonalCompanionSnapshot = {
   localDayOneSummary: string[];
   productMemorySummary: string[];
   buildRoomSummary: string[];
+  sovereignAutonomySummary: string[];
   toolingSummary: string[];
   whatNotToApprove: string[];
   nextSafeDecisions: string[];
@@ -83,6 +85,7 @@ export function getFounderPersonalCompanionSnapshot(
     getProductMemoryDailySummarySnapshot(checkedAt);
   const buildRoom = getFounderBuildRoomSnapshot(checkedAt);
   const tooling = getFounderToolingReadinessSnapshot(checkedAt);
+  const sovereignAutonomy = getSovereignAutonomyReadinessSnapshot(checkedAt);
   const decisionMinistries = reporting.ministries.filter(
     (report) => report.founderDecisionNeeded
   );
@@ -179,6 +182,13 @@ export function getFounderPersonalCompanionSnapshot(
       `${buildRoom.codexTaskDrafts.length} Codex-ready draft candidates are available for manual Ahmad review.`,
       `${buildRoom.topProductGaps.length} product gaps and ${buildRoom.topVisualGaps.length} visual gaps are highlighted.`,
       "No automatic external Codex sending, approval execution, launch, billing, broker/feed, live execution, real money, or social publishing is active.",
+    ],
+    sovereignAutonomySummary: [
+      `Sovereign Autonomy is ${sovereignAutonomy.mode} in ${sovereignAutonomy.operatingMode}.`,
+      `${sovereignAutonomy.sampleFounderIdeas.length} sample Founder ideas become ${sovereignAutonomy.sampleEvents.length} classified events.`,
+      `${sovereignAutonomy.taskPassports.filter((passport) => passport.valid).length} Task Passports and ${sovereignAutonomy.codexSubmitReadiness.drafts.length} Codex-ready drafts are available for review.`,
+      `Result Tribunal sample decision is ${sovereignAutonomy.tribunalReports[0]?.decision ?? "needs_fix"}.`,
+      "The web app cannot execute shell commands, call Codex directly, send secrets, publish, launch, bill, trade live, or route real money.",
     ],
     toolingSummary: [
       `Essential tooling hub is ${tooling.status}.`,

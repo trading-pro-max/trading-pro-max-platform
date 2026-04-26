@@ -1,5 +1,18 @@
 # Founder Command Room
 
+## Sovereign Autonomy Operating Room
+
+Founder Command now includes the Sovereign Autonomy Operating Room as a private,
+read-only local construction surface. It shows Founder ideas, classified events,
+blocked requests, owner routing, policy gate decisions, Task Passports, Codex
+Licenses, Codex-ready drafts, Result Tribunal outcomes, Memory Law lessons, and
+next safe actions.
+
+This room does not execute approvals, shell commands, Codex, billing,
+broker/feed activation, live execution, real-money routing, social publishing,
+or public launch. It is not public navigation, not a user plan feature, and not
+visible to normal users.
+
 The Founder Command Room is the private operational room for the Founder King inside TPM Planet OS. It is a shorter product name for the Founder King Command Room and is intended for internal documentation consistency.
 
 ## Boundary
@@ -172,6 +185,12 @@ Founder Command now receives the Essential Integrations Hub as an owner-only rea
 - what not to connect now
 
 The hub is read-only and planning-only. It does not run shell commands from the web app, create accounts, connect email, connect social accounts, publish externally, store secrets, send tasks to Codex, activate billing, activate broker/feed, enable live execution, route real money, or claim launch readiness.
+
+## Sovereign Autonomy Operating Room
+
+Founder Command now includes a private Sovereign Autonomy readiness layer. It converts Founder ideas, visual feedback, product gaps, validation results, and build requests into classified internal events. Events pass through Product Truth, public/private boundary, Guardian, Legal, Trust, Security, Secrets, Visual Acceptance, and Founder approval gates before any Task Passport or Codex-ready draft exists.
+
+The operating room reports incoming ideas, event queue status, blocked events, Task Passports, Codex worker licenses, draft readiness, Result Tribunal outcomes, memory lessons, next safe actions, and what not to automate. It remains read-only: no shell command execution, direct Codex calls, external account connection, social publishing, billing activation, broker/feed activation, live execution, real-money routing, public launch, secret exposure, fake metrics, or approval execution is active.
 
 # Living Brand Intelligence Readiness
 

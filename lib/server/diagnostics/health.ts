@@ -54,6 +54,7 @@ import {
 import { getCommunityReadinessSnapshot } from "@/lib/server/community";
 import { getSecuritySovereigntySnapshot } from "@/lib/server/security-sovereignty";
 import { getSecretsAuthoritySnapshot } from "@/lib/server/secrets-authority";
+import { getSovereignAutonomyPublicSafeReadiness } from "@/lib/server/sovereign-autonomy";
 import { getSurfaceBoundarySnapshot } from "@/lib/server/surface-boundaries";
 import { getVipRoomsReadinessSnapshot } from "@/lib/server/vip-rooms";
 import { getWorldInterfaceSnapshot } from "@/lib/server/world-interface";
@@ -1353,6 +1354,8 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       `${founderBuildRoomSnapshot.summaries.codexTaskDrafts} Codex task drafts, ${founderBuildRoomSnapshot.summaries.productGaps} product gaps, and ${founderBuildRoomSnapshot.summaries.visualGaps} visual gaps are visible with automatic Codex sending disabled.`,
     checkedAt,
   };
+  const sovereignAutonomyPublicProbe =
+    getSovereignAutonomyPublicSafeReadiness(checkedAt);
   const brandIntelligenceSummary = getPublicBrandIntelligenceSummary(checkedAt);
   const brandIntelligenceProbe: DiagnosticsProbe = {
     key: "living_brand_intelligence",
@@ -1441,6 +1444,7 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
       founderLocalCommandProbe,
       localDayOneProbe,
       founderBuildRoomProbe,
+      sovereignAutonomyPublicProbe,
       brandIntelligenceProbe,
       surfaceBoundaryProbe,
       securitySovereigntyProbe,
@@ -1542,6 +1546,41 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         status: founderBuildRoomProbe.status,
         detail:
           "Founder Build Room readiness route reports local build-command drafting status without public navigation, approval execution, external Codex sending, secrets, or fake metrics.",
+      },
+      {
+        path: "/api/founder/sovereign-autonomy/readiness",
+        method: "GET",
+        status: sovereignAutonomyPublicProbe.status,
+        detail:
+          "Founder-only operating readiness route reports internal review and drafting control without public navigation, shell execution, external calls, secrets, or activation authority.",
+      },
+      {
+        path: "/api/sovereign-autonomy/status",
+        method: "GET",
+        status: sovereignAutonomyPublicProbe.status,
+        detail:
+          "Internal operating status route is read-only and reports readiness without shell execution, external calls, secrets, launch, billing, broker/feed, live execution, real money, or social publishing.",
+      },
+      {
+        path: "/api/sovereign-autonomy/founder-ideas",
+        method: "GET",
+        status: sovereignAutonomyPublicProbe.status,
+        detail:
+          "Internal idea sample route is read-only and redacts sensitive-looking content.",
+      },
+      {
+        path: "/api/sovereign-autonomy/events",
+        method: "GET",
+        status: sovereignAutonomyPublicProbe.status,
+        detail:
+          "Internal event state route reports classified readiness events without executing actions.",
+      },
+      {
+        path: "/api/sovereign-autonomy/codex-drafts",
+        method: "GET",
+        status: sovereignAutonomyPublicProbe.status,
+        detail:
+          "Internal draft route returns task drafts and submission readiness only; the web app cannot run shell commands or call Codex.",
       },
       {
         path: "/api/local-ops/day-one",
@@ -1783,6 +1822,13 @@ export async function getDiagnosticsHealthSnapshot(): Promise<DiagnosticsHealthS
         status: founderBuildRoomProbe.status,
         summary: founderBuildRoomProbe.summary,
         detail: founderBuildRoomProbe.detail,
+      },
+      {
+        key: sovereignAutonomyPublicProbe.key,
+        label: sovereignAutonomyPublicProbe.label,
+        status: sovereignAutonomyPublicProbe.status,
+        summary: sovereignAutonomyPublicProbe.summary,
+        detail: sovereignAutonomyPublicProbe.detail,
       },
       {
         key: "living_brand_intelligence",

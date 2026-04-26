@@ -19,4 +19,5 @@ export { default as FounderMinistryGrid } from "./FounderMinistryGrid";
 export { default as FounderNextActionsPanel } from "./FounderNextActionsPanel";
 export { default as FounderPlanetOverview } from "./FounderPlanetOverview";
 export { default as FounderRiskPanel } from "./FounderRiskPanel";
+export { default as FounderSovereignAutonomyPanel } from "./FounderSovereignAutonomyPanel";
 export { default as FounderValidationPanel } from "./FounderValidationPanel";

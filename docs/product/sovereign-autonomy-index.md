@@ -1,0 +1,18 @@
+# Sovereign Autonomy Index
+
+- [Constitution](./tpm-sovereign-autonomy-constitution.md)
+- [Operating Civilization](./sovereign-autonomy-operating-civilization.md)
+- [Founder Idea Loop](./founder-idea-operating-loop.md)
+- [Autonomy Levels Law](./autonomy-levels-law.md)
+- [Safety Boundaries](../security/sovereign-autonomy-safety-boundaries.md)
+- [Founder Idea Intake](./founder-idea-intake.md)
+- [Event State Engine](./sovereign-event-state-engine.md)
+- [Owner Routing](./sovereign-owner-routing.md)
+- [Policy Gates](./sovereign-policy-gates.md)
+- [Task Passport](./sovereign-task-passport.md)
+- [Codex Worker License](./codex-worker-license.md)
+- [Codex Drafting](./sovereign-codex-task-drafting.md)
+- [Result Tribunal](./sovereign-result-tribunal.md)
+- [Memory Law](./sovereign-memory-law.md)
+- [Founder Room](./founder-sovereign-autonomy-room.md)
+- [Local Runtime Readiness](./local-runtime-command-center.md)

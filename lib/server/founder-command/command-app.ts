@@ -52,6 +52,10 @@ import {
   getFounderSecurityReadinessSnapshot,
   getSecretsAuthoritySnapshot,
 } from "@/lib/server/secrets-authority";
+import {
+  getFounderSovereignAutonomyRoomSnapshot,
+  getSovereignAutonomyReadinessSnapshot,
+} from "@/lib/server/sovereign-autonomy";
 import { getTrustGovernorSnapshot } from "@/lib/server/trust-governor";
 import { getVisualAcceptanceSnapshot } from "@/lib/server/visual-acceptance";
 import { getVipRoomsReadinessSnapshot } from "@/lib/server/vip-rooms";
@@ -149,6 +153,9 @@ export function getFounderCommandAppSnapshot(
   const community = getCommunityReadinessSnapshot(checkedAt);
   const vipRooms = getVipRoomsReadinessSnapshot(checkedAt);
   const toolingReadiness = getFounderToolingReadinessSnapshot(checkedAt);
+  const sovereignAutonomy = getSovereignAutonomyReadinessSnapshot(checkedAt);
+  const sovereignAutonomyRoom =
+    getFounderSovereignAutonomyRoomSnapshot(checkedAt);
 
   const desktopApp: FounderCommandDeviceBlueprint = {
     platform: "desktop",
@@ -870,6 +877,33 @@ export function getFounderCommandAppSnapshot(
         whatNotToConnectNow: toolingReadiness.whatNotToConnectNow,
         truth: toolingReadiness.truth,
       },
+      sovereignAutonomy: {
+        status: "ready",
+        operatingMode: sovereignAutonomy.operatingMode,
+        ideaIntakeReady: sovereignAutonomy.ideaIntakeReady,
+        eventSystemReady: sovereignAutonomy.eventSystemReady,
+        policyGatesReady: sovereignAutonomy.policyEvaluations.length > 0,
+        taskPassportsReady: sovereignAutonomy.taskPassports.filter(
+          (passport) => passport.valid
+        ).length,
+        codexDraftsReady: sovereignAutonomy.codexSubmitReadiness.drafts.length,
+        permitDecisions: sovereignAutonomy.codexLicenses.map(
+          (license) => license.permitState
+        ),
+        submitReadiness: {
+          defaultMode: sovereignAutonomy.codexSubmitReadiness.defaultMode,
+          supportedModes: sovereignAutonomy.codexSubmitReadiness.supportedModes,
+          webAppCanExecute:
+            sovereignAutonomy.codexSubmitReadiness.truth.webAppShellExecution,
+        },
+        resultTribunal:
+          sovereignAutonomy.tribunalReports[0]?.decision ?? "needs_fix",
+        memoryLessons: sovereignAutonomy.memoryLessons.length,
+        founderRoom: sovereignAutonomyRoom,
+        nextSafeActions: sovereignAutonomy.nextSafeActions,
+        whatNotToAutomate: sovereignAutonomy.blockedSystems,
+        truth: sovereignAutonomy.truth,
+      },
       visualAcceptance: {
         status: visualAcceptance.status,
         averageScoreEstimate: visualAcceptance.averageScoreEstimate,
@@ -891,6 +925,11 @@ export function getFounderCommandAppSnapshot(
       "/api/founder/local-command/snapshot",
       "/api/founder/local-command/readiness",
       "/api/founder/build-room/readiness",
+      "/api/founder/sovereign-autonomy/readiness",
+      "/api/sovereign-autonomy/status",
+      "/api/sovereign-autonomy/founder-ideas",
+      "/api/sovereign-autonomy/events",
+      "/api/sovereign-autonomy/codex-drafts",
       "/api/planet/economy/readiness",
       "/api/planet/media/readiness",
       "/api/planet/consciousness",

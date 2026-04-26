@@ -12,6 +12,7 @@ import FounderLocalCommandShell from "./FounderLocalCommandShell";
 import FounderMinistryGrid from "./FounderMinistryGrid";
 import FounderPlanetOverview from "./FounderPlanetOverview";
 import FounderRiskPanel from "./FounderRiskPanel";
+import FounderSovereignAutonomyPanel from "./FounderSovereignAutonomyPanel";
 
 function classNames(...classes: Array<string | undefined>) {
   return classes.filter(Boolean).join(" ");
@@ -71,6 +72,8 @@ export default function FounderCommandRoom({
       <FounderCommandAppShell checkedAt={commandSnapshot.checkedAt} />
 
       <FounderLocalCommandShell checkedAt={commandSnapshot.checkedAt} />
+
+      <FounderSovereignAutonomyPanel checkedAt={commandSnapshot.checkedAt} />
 
       <section className="tpm-founder-panel">
         <div className="tpm-founder-panel-head">
