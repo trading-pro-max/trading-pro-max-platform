@@ -6,6 +6,7 @@ export * from "./daily-report";
 export * from "./digital-twin";
 export * from "./final-report";
 export * from "./founder-acceptance";
+export * from "./living-day-loop";
 export * from "./readiness-law";
 export * from "./report";
 export type * from "./types";

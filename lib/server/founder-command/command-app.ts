@@ -25,9 +25,11 @@ import {
   getLocalDayOneOperationSnapshot,
   getLocalDailyOperationsLoopSnapshot,
   getLocalDailyOperationsReportSnapshot,
+  getLocalLivingDayLoopSnapshot,
   getLocalOperationsFinalReportSnapshot,
   getLocalOperationsReadinessSnapshot,
 } from "@/lib/server/local-ops";
+import { getInvisibleOperatingLayerSnapshot } from "@/lib/server/invisible-operating-layer";
 import {
   getContentReviewReadinessSnapshot,
   getMediaOfficeReadinessSnapshot,
@@ -57,6 +59,7 @@ import {
   getSecretsAuthoritySnapshot,
 } from "@/lib/server/secrets-authority";
 import {
+  getFounderIdeaInboxReadiness,
   getFounderSovereignAutonomyRoomSnapshot,
   getSovereignAutonomyReadinessSnapshot,
 } from "@/lib/server/sovereign-autonomy";
@@ -160,8 +163,11 @@ export function getFounderCommandAppSnapshot(
   const sovereignAutonomy = getSovereignAutonomyReadinessSnapshot(checkedAt);
   const sovereignAutonomyRoom =
     getFounderSovereignAutonomyRoomSnapshot(checkedAt);
+  const founderIdeaInbox = getFounderIdeaInboxReadiness(checkedAt);
   const codexSovereignty = getCodexSovereigntySnapshot(checkedAt);
   const codexPresidencyReport = getCodexPresidencyReport(checkedAt);
+  const invisibleOperatingLayer = getInvisibleOperatingLayerSnapshot(checkedAt);
+  const localLivingDayLoop = getLocalLivingDayLoopSnapshot(checkedAt);
 
   const desktopApp: FounderCommandDeviceBlueprint = {
     platform: "desktop",
@@ -240,6 +246,49 @@ export function getFounderCommandAppSnapshot(
       cityModules: blueprint.structure.cityModules,
       blockedOrPlannedSystems: room.overview.blockedOrPlannedSystems,
       topRisks: room.overview.highestRisks,
+    },
+    insideOutsidePlanet: {
+      readiness: "local_living_experience_ready" as const,
+      publicWorld: {
+        status: "complete_public_platform_world",
+        surfaces: [
+          "Home",
+          "Trading Workspace",
+          "Markets",
+          "Plans",
+          "Apps / Platforms",
+          "Academy",
+          "Community",
+          "Support",
+          "Settings",
+          "Diagnostics",
+        ],
+        founderTerminologyVisible: false,
+      },
+      privateWorld: {
+        status: "private_founder_planet_command_world",
+        ownerOnly: ownerAccessPolicy.ownerOnly,
+        publicNavigationVisible: ownerAccessPolicy.publicNavigationVisible,
+        approvalExecutionActive: false,
+        ideaInboxReady: founderIdeaInbox.status === "ready",
+      },
+      invisibleOperatingLayer: {
+        systems: invisibleOperatingLayer.systems.length,
+        publicSafeOutputs: invisibleOperatingLayer.publicSafeOutputs.length,
+        hiddenFromPublic: invisibleOperatingLayer.hiddenFromPublic,
+        truth: invisibleOperatingLayer.truth,
+      },
+      localLivingDayLoop: {
+        mode: localLivingDayLoop.mode,
+        stages: localLivingDayLoop.loop.length,
+        todayIdeaIntake: localLivingDayLoop.today.ideaIntake,
+        openGaps: localLivingDayLoop.today.openGaps,
+        proposedCodexDrafts: localLivingDayLoop.today.proposedCodexDrafts,
+        blockedRequests: localLivingDayLoop.today.blockedRequests,
+        visualReviewNeeds: localLivingDayLoop.today.visualReviewNeeds,
+        nextSafeAction: localLivingDayLoop.today.nextSafeAction,
+        truth: localLivingDayLoop.truth,
+      },
     },
     modules: command.modules,
     moduleSummary,
@@ -887,6 +936,20 @@ export function getFounderCommandAppSnapshot(
         status: "ready",
         operatingMode: sovereignAutonomy.operatingMode,
         ideaIntakeReady: sovereignAutonomy.ideaIntakeReady,
+        ideaInboxReady: founderIdeaInbox.status === "ready",
+        ideaInbox: {
+          status: founderIdeaInbox.status,
+          recentIdeaExamples: founderIdeaInbox.recentIdeaExamples.length,
+          pendingIdeaDrafts: founderIdeaInbox.pendingIdeaDrafts.length,
+          blockedIdeaExamples: founderIdeaInbox.blockedIdeaExamples.length,
+          nextSafeIdeaAction: founderIdeaInbox.nextSafeIdeaAction,
+          publicNavigationVisible:
+            founderIdeaInbox.access.publicNavigationVisible,
+          userPlanExposure: founderIdeaInbox.access.userPlanExposure,
+          previewPostOnly: founderIdeaInbox.access.previewPostOnly,
+          persistenceActive: founderIdeaInbox.access.persistenceActive,
+          truth: founderIdeaInbox.truth,
+        },
         eventSystemReady: sovereignAutonomy.eventSystemReady,
         policyGatesReady: sovereignAutonomy.policyEvaluations.length > 0,
         taskPassportsReady: sovereignAutonomy.taskPassports.filter(
@@ -952,6 +1015,9 @@ export function getFounderCommandAppSnapshot(
       "/api/founder/local-command/snapshot",
       "/api/founder/local-command/readiness",
       "/api/founder/build-room/readiness",
+      "/api/founder/ideas/readiness",
+      "/api/founder/ideas/preview",
+      "/api/invisible-operating-layer/readiness",
       "/api/founder/sovereign-autonomy/readiness",
       "/api/founder/codex-sovereignty/readiness",
       "/api/sovereign-autonomy/status",
@@ -978,6 +1044,7 @@ export function getFounderCommandAppSnapshot(
       "/api/local-ops/start-readiness",
       "/api/local-ops/day-one-operation",
       "/api/local-ops/daily-loop",
+      "/api/local-ops/living-day-loop",
       "/api/local-ops/daily-report",
       "/api/local-ops/readiness-law",
       "/api/local-ops/report",

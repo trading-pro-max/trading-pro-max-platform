@@ -67,6 +67,11 @@ The read-only command shell now renders more actionable briefing slices:
 - product gaps
 - blocked/degraded ministries
 - approval queue truth
+- inside/outside planet readiness
+- private Founder Idea Inbox
+- invisible operating intelligence map
+- local living day loop
+- Product Memory and next safe build panels
 
 This is still a component/contracts foundation, not a public page or native Founder app. No approval execution, public route, private data, secrets, fake users, fake revenue, fake metrics, launch action, billing action, broker/feed activation, social publishing, live execution, or real-money routing is exposed.
 

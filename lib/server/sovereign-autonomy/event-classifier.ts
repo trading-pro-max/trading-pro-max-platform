@@ -191,6 +191,36 @@ const eventRules: EventRule[] = [
       "Clarify Apps / Platforms readiness without faking shipped mobile or desktop apps.",
   },
   {
+    type: "support_gap",
+    patterns: ["support", "help desk", "customer support", "contact us", "ticket"],
+    affectedSurface: "support",
+    affectedWorld: "public_user_world",
+    riskLevel: "medium",
+    requiredReviews: ["guardian", "legal", "trust_governor", "quality"],
+    suggestedOwner: "World Interface",
+    productTruthImpact:
+      "Support readiness can improve without connecting external channels or sending messages.",
+    publicUserImpact: "Support language may become clearer after review.",
+    founderImpact: "Founder sees a support/world-interface readiness candidate.",
+    suggestedNextAction:
+      "Draft a support readiness task with no email, social, or external sending.",
+  },
+  {
+    type: "security_risk",
+    patterns: ["security", "auth", "vulnerability", "exploit", "attack", "hack"],
+    affectedSurface: "security",
+    affectedWorld: "invisible_operating_layer",
+    riskLevel: "critical",
+    requiredReviews: ["security", "guardian", "legal", "founder"],
+    suggestedOwner: "Public Security & Cyber Sovereignty",
+    productTruthImpact:
+      "Security requests must route through defensive review without weakening auth.",
+    publicUserImpact: "No security controls or private details are exposed to normal users.",
+    founderImpact: "Founder sees a quarantined security review event.",
+    suggestedNextAction:
+      "Route to Security/Founder review and keep implementation blocked until scoped.",
+  },
+  {
     type: "codex_task_needed",
     patterns: ["codex", "build", "ينفذ", "نفذ", "implement", "fix"],
     affectedSurface: "codex_governance",

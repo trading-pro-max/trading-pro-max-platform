@@ -1,4 +1,6 @@
 import { useId, type CSSProperties } from "react";
+import { getEarthIdentity } from "@/lib/brand/earth-identity-engine";
+import type { LivingEarthPlan } from "@/lib/brand/earth-background-types";
 import type {
   BrandMotionIntensity,
   BrandOccasionThemeKey,
@@ -23,6 +25,7 @@ type TPMEarthMarkProps = {
   className?: string;
   motionIntensity?: BrandMotionIntensity;
   occasionTheme?: BrandOccasionThemeKey;
+  plan?: LivingEarthPlan;
   size?: number | string;
   state?: TPMEarthMarkState;
   surface?: BrandSurface;
@@ -43,12 +46,21 @@ export default function TPMEarthMark({
   className,
   motionIntensity = animated ? "low" : "none",
   occasionTheme = "default",
+  plan = "free",
   size,
   state = "ready",
   surface,
   title = "Trading Pro Max Earth Moon Mark",
   variant = "compact",
 }: TPMEarthMarkProps) {
+  const identity = getEarthIdentity({
+    plan,
+    surface,
+    state:
+      state === "ready" || state === "degraded" || state === "inactive" || state === "planned"
+        ? "paper_safe"
+        : state,
+  });
   const stateClassName = state.replaceAll("_", "-");
   const occasionClassName = occasionTheme.replaceAll("_", "-");
   const surfaceClassName = surface?.replaceAll("_", "-");
@@ -65,6 +77,7 @@ export default function TPMEarthMark({
         `tpm-earth-mark-${variant}`,
         `tpm-earth-mark--${stateClassName}`,
         `tpm-earth-mark-${stateClassName}`,
+        `tpm-earth-mark--plan-${plan}`,
         `tpm-earth-mark--motion-${motionIntensity}`,
         `tpm-earth-mark--occasion-${occasionClassName}`,
         surfaceClassName ? `tpm-earth-mark--surface-${surfaceClassName}` : null,
@@ -77,10 +90,14 @@ export default function TPMEarthMark({
       data-animated={animated ? "true" : "false"}
       data-motion-intensity={motionIntensity}
       data-occasion-theme={occasionTheme}
+      data-earth-plan={plan}
+      data-earth-raster-assets="false"
+      data-earth-external-map-assets="false"
+      data-earth-precise-location="false"
       data-state={state}
       data-surface={surface}
       data-variant={variant}
-      style={sizeStyle(size)}
+      style={{ ...identity.cssVariables, ...sizeStyle(size) } as CSSProperties}
     >
       <svg
         aria-hidden={title ? undefined : true}

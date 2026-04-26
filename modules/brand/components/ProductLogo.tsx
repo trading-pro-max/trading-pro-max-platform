@@ -7,6 +7,7 @@ import type {
   BrandOccasionThemeKey,
   BrandSurface,
 } from "@/lib/brand/types";
+import type { LivingEarthPlan } from "@/lib/brand/earth-background-types";
 
 type ProductLogoProps = {
   animated?: boolean;
@@ -15,6 +16,7 @@ type ProductLogoProps = {
   mode?: "lockup" | "mark-only" | "wordmark-only";
   motionIntensity?: BrandMotionIntensity;
   occasionTheme?: BrandOccasionThemeKey;
+  plan?: LivingEarthPlan;
   showSubtitle?: boolean;
   state?: TPMEarthMarkState;
   surface?: BrandSurface;
@@ -27,6 +29,7 @@ type BrandMarkProps = {
   className?: string;
   motionIntensity?: BrandMotionIntensity;
   occasionTheme?: BrandOccasionThemeKey;
+  plan?: LivingEarthPlan;
   state?: TPMEarthMarkState;
   surface?: BrandSurface;
   title?: string;
@@ -50,6 +53,7 @@ export function BrandMark({
   className,
   motionIntensity,
   occasionTheme,
+  plan = "free",
   state = "paper_safe",
   surface,
   title = "Trading Pro Max Earth Moon Mark",
@@ -61,6 +65,7 @@ export function BrandMark({
       className={["tpm-brand-mark", className].filter(Boolean).join(" ")}
       motionIntensity={motionIntensity}
       occasionTheme={occasionTheme}
+      plan={plan}
       state={state}
       surface={surface}
       title={title}
@@ -84,6 +89,7 @@ export default function ProductLogo({
   mode = "lockup",
   motionIntensity,
   occasionTheme,
+  plan,
   showSubtitle,
   state,
   surface,
@@ -122,6 +128,7 @@ export default function ProductLogo({
           className="tpm-brand-lockup-mark"
           motionIntensity={resolvedMotion}
           occasionTheme={occasionTheme}
+          plan={plan ?? (variant === "command" ? "founder" : "free")}
           state={markState}
           surface={surface}
           title={markTitle}

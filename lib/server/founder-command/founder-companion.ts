@@ -7,15 +7,20 @@ import {
   getLocalDayOneReadinessSnapshot,
   getLocalDailyOperationsLoopSnapshot,
   getLocalDailyOperationsReportSnapshot,
+  getLocalLivingDayLoopSnapshot,
   getLocalOperationsFinalReportSnapshot,
   getLocalOperationsReadinessSnapshot,
 } from "@/lib/server/local-ops";
+import { getInvisibleOperatingLayerSnapshot } from "@/lib/server/invisible-operating-layer";
 import {
   getProductMemoryDailySummarySnapshot,
   getProductMemorySummarySnapshot,
 } from "@/lib/server/product-memory";
 import { getProductRealityFinalScoreSnapshot } from "@/lib/server/product-reality";
-import { getSovereignAutonomyReadinessSnapshot } from "@/lib/server/sovereign-autonomy";
+import {
+  getFounderIdeaInboxReadiness,
+  getSovereignAutonomyReadinessSnapshot,
+} from "@/lib/server/sovereign-autonomy";
 import { getFounderToolingReadinessSnapshot } from "@/lib/server/integrations";
 import { getFounderBuildRoomSnapshot } from "./build-room";
 import type { FounderBriefing, MinistryReport } from "@/lib/server/planet-os/types";
@@ -46,6 +51,10 @@ export type FounderPersonalCompanionSnapshot = {
   localDayOneSummary: string[];
   productMemorySummary: string[];
   buildRoomSummary: string[];
+  insideOutsidePlanetSummary: string[];
+  invisibleOperatingLayerSummary: string[];
+  localLivingDayLoopSummary: string[];
+  founderIdeaInboxSummary: string[];
   sovereignAutonomySummary: string[];
   codexSovereigntySummary: string[];
   toolingSummary: string[];
@@ -87,7 +96,10 @@ export function getFounderPersonalCompanionSnapshot(
     getProductMemoryDailySummarySnapshot(checkedAt);
   const buildRoom = getFounderBuildRoomSnapshot(checkedAt);
   const tooling = getFounderToolingReadinessSnapshot(checkedAt);
+  const invisibleLayer = getInvisibleOperatingLayerSnapshot(checkedAt);
+  const localLivingDayLoop = getLocalLivingDayLoopSnapshot(checkedAt);
   const sovereignAutonomy = getSovereignAutonomyReadinessSnapshot(checkedAt);
+  const founderIdeaInbox = getFounderIdeaInboxReadiness(checkedAt);
   const codexSovereignty = getCodexPresidencyReport(checkedAt);
   const decisionMinistries = reporting.ministries.filter(
     (report) => report.founderDecisionNeeded
@@ -185,6 +197,30 @@ export function getFounderPersonalCompanionSnapshot(
       `${buildRoom.codexTaskDrafts.length} Codex-ready draft candidates are available for manual Ahmad review.`,
       `${buildRoom.topProductGaps.length} product gaps and ${buildRoom.topVisualGaps.length} visual gaps are highlighted.`,
       "No automatic external Codex sending, approval execution, launch, billing, broker/feed, live execution, real money, or social publishing is active.",
+    ],
+    insideOutsidePlanetSummary: [
+      "Public users live on the professional Trading Pro Max platform surface.",
+      "Ahmad lives inside private Founder Command with Idea Inbox, construction governance, memory, tribunal, and next safe actions.",
+      "The invisible operating layer maps internal complexity to public-safe readiness outputs.",
+      "The living Earth atmosphere is code-only and local-scope; no images, external maps, GPS, or precise location tracking are used.",
+    ],
+    invisibleOperatingLayerSummary: [
+      `${invisibleLayer.systems.length} invisible operating systems are mapped.`,
+      `${invisibleLayer.publicSafeOutputs.length} public-safe outputs are allowed and ${invisibleLayer.hiddenFromPublic.length} internal systems are hidden from users.`,
+      "Billing blocked maps to billing inactive; Founder Command, Codex queue, Product Memory, Secrets Authority, and Security Sovereignty stay hidden publicly.",
+    ],
+    localLivingDayLoopSummary: [
+      `${localLivingDayLoop.loop.length} Local Day One living stages are ready.`,
+      localLivingDayLoop.today.ideaIntake,
+      `${localLivingDayLoop.today.openGaps.length} open gaps and ${localLivingDayLoop.today.blockedRequests.length} blocked requests are visible to Founder Command.`,
+      localLivingDayLoop.today.nextSafeAction,
+    ],
+    founderIdeaInboxSummary: [
+      `Founder Idea Inbox is ${founderIdeaInbox.status}.`,
+      `${founderIdeaInbox.recentIdeaExamples.length} recent idea examples are classified through intake, routing, gates, passports, and drafts.`,
+      `${founderIdeaInbox.pendingIdeaDrafts.length} pending idea drafts and ${founderIdeaInbox.blockedIdeaExamples.length} blocked idea examples are available for private review.`,
+      founderIdeaInbox.nextSafeIdeaAction,
+      "Idea preview is stateless and cannot execute shell commands, call Codex, persist secrets, auto-submit, publish, bill, trade live, or route real money.",
     ],
     sovereignAutonomySummary: [
       `Sovereign Autonomy is ${sovereignAutonomy.mode} in ${sovereignAutonomy.operatingMode}.`,

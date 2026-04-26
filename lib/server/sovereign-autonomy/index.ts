@@ -4,6 +4,7 @@ export * from "./codex-submit-readiness";
 export * from "./event-classifier";
 export * from "./event-state";
 export * from "./founder-idea-intake";
+export * from "./founder-idea-inbox";
 export * from "./founder-room";
 export * from "./memory-law";
 export * from "./owner-router";

@@ -15,6 +15,7 @@ import { getPlanVisualIdentities } from "../../../lib/plans/visual-identity";
 import type { JournalCoachSnapshot } from "../../../lib/server/journal-coach/types";
 import { AcademyPreview } from "../../academy/components";
 import AuthSessionPanel from "../../auth/components/AuthSessionPanel";
+import LivingEarthBackground from "../../brand/components/LivingEarthBackground";
 import { CommunityReadinessPanel, VIPRoomsPreview } from "../../community/components";
 import { SessionCoachPanel } from "../../journal-coach/components";
 import { MediaOfficeReadinessPanel } from "../../media-office/components";
@@ -1747,6 +1748,7 @@ export function PlatformDiagnosticsSurface({
 
   return (
     <main className="tpm-foundation-page tpm-utility-page tpm-utility-page-diagnostics">
+      <LivingEarthBackground surface="diagnostics" plan="free" state="paper_safe" />
       <section className="tpm-foundation-card tpm-utility-hero">
         <header className="tpm-foundation-head">
           <div>
@@ -2189,6 +2191,7 @@ export function PlatformSettingsSurface({
 
   return (
     <main className="tpm-foundation-page tpm-utility-page tpm-utility-page-settings">
+      <LivingEarthBackground surface="settings" plan="free" state="paper_safe" />
       <section className="tpm-foundation-card tpm-utility-hero">
         <header className="tpm-foundation-head">
           <div>

@@ -2,15 +2,23 @@ import {
   getFounderCommandAppSnapshot,
   getFounderCommandRoomFoundationSnapshot,
 } from "@/lib/server/founder-command";
+import { getFounderIdeaInboxReadiness } from "@/lib/server/sovereign-autonomy";
 import TPMEarthMark from "@/modules/brand/components/TPMEarthMark";
 import ProductLogo from "@/modules/brand/components/ProductLogo";
 import { PlanetMapPreview } from "@/modules/planet-map/components";
 import type { FounderCommandRoomProps } from "../types";
 import FounderApprovalQueue from "./FounderApprovalQueue";
 import FounderCommandAppShell from "./FounderCommandAppShell";
+import FounderIdeaInbox from "./FounderIdeaInbox";
 import FounderLocalCommandShell from "./FounderLocalCommandShell";
 import FounderMinistryGrid from "./FounderMinistryGrid";
+import FounderAutonomyQueuePanel from "./FounderAutonomyQueuePanel";
+import FounderNextBuildPanel from "./FounderNextBuildPanel";
+import FounderOperatingLoopPanel from "./FounderOperatingLoopPanel";
+import FounderPlanetCommandWorld from "./FounderPlanetCommandWorld";
+import FounderPlanetMemoryPanel from "./FounderPlanetMemoryPanel";
 import FounderPlanetOverview from "./FounderPlanetOverview";
+import FounderPlanetStatusMap from "./FounderPlanetStatusMap";
 import FounderRiskPanel from "./FounderRiskPanel";
 import FounderSovereignAutonomyPanel from "./FounderSovereignAutonomyPanel";
 
@@ -24,6 +32,7 @@ export default function FounderCommandRoom({
 }: FounderCommandRoomProps) {
   const commandSnapshot = snapshot ?? getFounderCommandRoomFoundationSnapshot();
   const appSnapshot = getFounderCommandAppSnapshot(commandSnapshot.checkedAt);
+  const ideaInboxReadiness = getFounderIdeaInboxReadiness(commandSnapshot.checkedAt);
 
   return (
     <main
@@ -69,11 +78,25 @@ export default function FounderCommandRoom({
 
       <PlanetMapPreview audience="founder" />
 
+      <FounderPlanetCommandWorld checkedAt={commandSnapshot.checkedAt} />
+
+      <FounderPlanetStatusMap checkedAt={commandSnapshot.checkedAt} />
+
       <FounderCommandAppShell checkedAt={commandSnapshot.checkedAt} />
 
       <FounderLocalCommandShell checkedAt={commandSnapshot.checkedAt} />
 
+      <FounderOperatingLoopPanel checkedAt={commandSnapshot.checkedAt} />
+
       <FounderSovereignAutonomyPanel checkedAt={commandSnapshot.checkedAt} />
+
+      <FounderIdeaInbox readiness={ideaInboxReadiness} />
+
+      <FounderAutonomyQueuePanel checkedAt={commandSnapshot.checkedAt} />
+
+      <FounderPlanetMemoryPanel checkedAt={commandSnapshot.checkedAt} />
+
+      <FounderNextBuildPanel checkedAt={commandSnapshot.checkedAt} />
 
       <section className="tpm-founder-panel">
         <div className="tpm-founder-panel-head">

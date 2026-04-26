@@ -6411,6 +6411,209 @@ html[data-theme="light"] {
   }
 }
 
+.tpm-living-earth-background {
+  --tpm-living-earth-accent: var(--tpm-celestial-cyan);
+  --tpm-living-earth-warm: var(--tpm-celestial-gold);
+  --tpm-living-earth-opacity: 0.82;
+  --tpm-living-earth-motion: 42s;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.tpm-living-earth-background[data-earth-plan="vip"],
+.tpm-living-earth-background[data-earth-plan="founder"] {
+  --tpm-living-earth-accent: #f1c96b;
+  --tpm-living-earth-warm: #f5d889;
+}
+
+.tpm-living-earth-background[data-earth-plan="institutional"] {
+  --tpm-living-earth-accent: #91d8ff;
+  --tpm-living-earth-warm: #c8d4dc;
+}
+
+.tpm-living-earth-background[data-earth-surface="workstation"] {
+  --tpm-living-earth-opacity: 0.24;
+  --tpm-living-earth-motion: 76s;
+}
+
+.tpm-living-earth-background[data-earth-surface="diagnostics"],
+.tpm-living-earth-background[data-earth-surface="settings"] {
+  --tpm-living-earth-opacity: 0.34;
+  --tpm-living-earth-motion: 64s;
+}
+
+.tpm-living-earth-background[data-earth-surface="founder_command"] {
+  --tpm-living-earth-opacity: 0.94;
+  --tpm-living-earth-motion: 36s;
+}
+
+.tpm-living-earth-stars,
+.tpm-living-earth-orbital-grid,
+.tpm-living-earth-horizon {
+  position: absolute;
+  inset: 0;
+}
+
+.tpm-living-earth-stars {
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.34) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 72% 22%, rgba(255, 255, 255, 0.25) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 88% 62%, rgba(255, 255, 255, 0.16) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 34% 74%, rgba(255, 255, 255, 0.14) 0 1px, transparent 1.5px);
+  opacity: calc(var(--tpm-living-earth-opacity) * 0.52);
+}
+
+.tpm-living-earth-orbital-grid {
+  background:
+    linear-gradient(95deg, transparent 0 46%, color-mix(in srgb, var(--tpm-living-earth-accent) 11%, transparent) 48%, transparent 52%),
+    repeating-linear-gradient(105deg, transparent 0 38px, color-mix(in srgb, var(--tpm-living-earth-accent) 7%, transparent) 39px 40px);
+  mask-image: radial-gradient(ellipse at 50% 78%, black 0 36%, transparent 64%);
+  opacity: calc(var(--tpm-living-earth-opacity) * 0.34);
+  transform-origin: 50% 80%;
+  animation: tpm-living-earth-grid-drift var(--tpm-living-earth-motion) linear infinite;
+}
+
+.tpm-living-earth-horizon {
+  display: grid;
+  place-items: end center;
+}
+
+.tpm-living-earth-globe {
+  position: relative;
+  width: min(980px, 112vw);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  margin-bottom: min(-420px, -24vw);
+  background:
+    radial-gradient(circle at 50% 18%, color-mix(in srgb, var(--tpm-living-earth-accent) 18%, transparent), transparent 33%),
+    radial-gradient(circle at 44% 28%, color-mix(in srgb, var(--tpm-living-earth-warm) 12%, transparent), transparent 39%),
+    linear-gradient(180deg, color-mix(in srgb, #163452 72%, var(--tpm-living-earth-accent) 28%), #020817 68%);
+  box-shadow:
+    0 -28px 90px color-mix(in srgb, var(--tpm-living-earth-accent) 16%, transparent),
+    inset 0 18px 44px rgba(255, 255, 255, 0.08),
+    inset 0 -120px 140px rgba(0, 0, 0, 0.52);
+  opacity: var(--tpm-living-earth-opacity);
+}
+
+.tpm-living-earth-globe::before {
+  content: "";
+  position: absolute;
+  width: min(980px, 112vw);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border-top: 1px solid color-mix(in srgb, var(--tpm-living-earth-accent) 52%, transparent);
+  box-shadow: 0 -10px 36px color-mix(in srgb, var(--tpm-living-earth-accent) 18%, transparent);
+}
+
+.tpm-living-earth-continent {
+  position: absolute;
+  bottom: clamp(28px, 8vw, 94px);
+  height: clamp(32px, 6vw, 88px);
+  border-radius: 52% 48% 58% 42%;
+  background: color-mix(in srgb, var(--tpm-living-earth-warm) 22%, rgba(255, 255, 255, 0.08));
+  filter: blur(0.4px);
+  opacity: calc(var(--tpm-living-earth-opacity) * 0.24);
+}
+
+.tpm-living-earth-continent-a {
+  left: 17%;
+  width: clamp(120px, 18vw, 260px);
+  transform: rotate(-8deg);
+}
+
+.tpm-living-earth-continent-b {
+  right: 19%;
+  width: clamp(150px, 21vw, 310px);
+  transform: rotate(7deg);
+}
+
+.tpm-living-earth-continent-c {
+  left: 45%;
+  width: clamp(80px, 11vw, 150px);
+  transform: rotate(2deg);
+}
+
+.tpm-living-earth-focus-signal {
+  position: absolute;
+  right: clamp(22px, 9vw, 140px);
+  bottom: clamp(94px, 14vw, 184px);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--tpm-living-earth-accent);
+  box-shadow: 0 0 0 7px color-mix(in srgb, var(--tpm-living-earth-accent) 18%, transparent);
+  opacity: calc(var(--tpm-living-earth-opacity) * 0.78);
+}
+
+.tpm-product-hero,
+.tpmv2-page,
+.tpm-utility-page {
+  position: relative;
+}
+
+.tpm-product-hero > *:not(.tpm-living-earth-background),
+.tpmv2-page > *:not(.tpm-living-earth-background),
+.tpm-utility-page > *:not(.tpm-living-earth-background) {
+  position: relative;
+  z-index: 1;
+}
+
+.tpm-localized-earth-focus {
+  border: 1px solid color-mix(in srgb, var(--tpm-celestial-cyan) 22%, transparent);
+  border-radius: 999px;
+  color: var(--tpm-text-soft);
+  display: inline-flex;
+  font-size: 11px;
+  font-weight: 850;
+  min-height: 28px;
+  padding: 0 10px;
+  width: max-content;
+}
+
+.tpm-product-plan-card-title {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  min-width: 0;
+}
+
+.tpm-product-plan-card .tpm-earth-mark {
+  --tpm-earth-size: 34px;
+  flex: 0 0 auto;
+}
+
+html[data-theme="light"] .tpm-living-earth-background {
+  --tpm-living-earth-opacity: 0.46;
+}
+
+html[data-theme="light"] .tpm-living-earth-globe {
+  background:
+    radial-gradient(circle at 50% 18%, color-mix(in srgb, var(--tpm-living-earth-accent) 16%, white 10%), transparent 34%),
+    linear-gradient(180deg, #cfe8f3, #edf6fb 62%);
+  box-shadow:
+    0 -20px 70px rgba(15, 143, 130, 0.12),
+    inset 0 20px 44px rgba(255, 255, 255, 0.74),
+    inset 0 -120px 140px rgba(120, 145, 166, 0.2);
+}
+
+@keyframes tpm-living-earth-grid-drift {
+  from {
+    transform: rotate(0deg) scale(1);
+  }
+  to {
+    transform: rotate(360deg) scale(1.02);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tpm-living-earth-orbital-grid {
+    animation: none;
+  }
+}
+
 .tpm-brand-wordmark {
   letter-spacing: 0;
 }

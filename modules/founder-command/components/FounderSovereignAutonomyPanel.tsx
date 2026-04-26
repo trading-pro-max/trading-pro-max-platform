@@ -1,4 +1,7 @@
-import { getFounderSovereignAutonomyRoomSnapshot } from "@/lib/server/sovereign-autonomy";
+import {
+  getFounderIdeaInboxReadiness,
+  getFounderSovereignAutonomyRoomSnapshot,
+} from "@/lib/server/sovereign-autonomy";
 
 export default function FounderSovereignAutonomyPanel({
   checkedAt,
@@ -6,6 +9,7 @@ export default function FounderSovereignAutonomyPanel({
   checkedAt?: string;
 }) {
   const room = getFounderSovereignAutonomyRoomSnapshot(checkedAt);
+  const ideaInbox = getFounderIdeaInboxReadiness(checkedAt);
 
   return (
     <section
@@ -33,6 +37,11 @@ export default function FounderSovereignAutonomyPanel({
           <small>Founder input converted into governed events</small>
         </div>
         <div className="tpm-founder-metric">
+          <span>Idea Inbox</span>
+          <strong>{ideaInbox.status}</strong>
+          <small>{ideaInbox.pendingIdeaDrafts.length} pending preview drafts</small>
+        </div>
+        <div className="tpm-founder-metric">
           <span>Events</span>
           <strong>{room.eventQueueSummary.total}</strong>
           <small>
@@ -53,6 +62,26 @@ export default function FounderSovereignAutonomyPanel({
       </div>
 
       <div className="tpm-founder-briefing-grid">
+        <article>
+          <h3>Idea Inbox examples</h3>
+          <ul>
+            {ideaInbox.recentIdeaExamples.slice(0, 4).map((preview) => (
+              <li key={preview.idea.ideaId}>
+                {preview.idea.title}: {preview.event.type}
+              </li>
+            ))}
+          </ul>
+        </article>
+        <article>
+          <h3>Inbox blocked examples</h3>
+          <ul>
+            {ideaInbox.blockedIdeaExamples.slice(0, 4).map((preview) => (
+              <li key={preview.idea.ideaId}>
+                {preview.event.type}: {preview.blockedReason ?? "blocked"}
+              </li>
+            ))}
+          </ul>
+        </article>
         <article>
           <h3>Incoming ideas</h3>
           <ul>

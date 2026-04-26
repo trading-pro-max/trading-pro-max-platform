@@ -15,6 +15,34 @@ export type SovereignAffectedWorld =
 
 export type FounderIdeaUrgency = "low" | "medium" | "high" | "critical";
 
+export type FounderIdeaDesiredTiming =
+  | "now"
+  | "next"
+  | "later"
+  | "someday"
+  | "blocked";
+
+export type FounderIdeaInboxSurface =
+  | "public_entry"
+  | "trading_workspace"
+  | "chart"
+  | "execution"
+  | "assistant"
+  | "journal_coach"
+  | "settings"
+  | "diagnostics"
+  | "plans"
+  | "apps_platforms"
+  | "academy"
+  | "community"
+  | "support"
+  | "founder_command"
+  | "security"
+  | "secrets"
+  | "world_interface"
+  | "media"
+  | "construction";
+
 export type SovereignEventType =
   | "founder_idea_received"
   | "visual_gap_detected"
@@ -207,6 +235,17 @@ export type FounderIdeaInput = {
   createdAt?: string;
 };
 
+export type FounderIdeaInboxInput = {
+  title: string;
+  rawIdea: string;
+  affectedWorld: SovereignAffectedWorld;
+  affectedSurface: FounderIdeaInboxSurface;
+  urgency: FounderIdeaUrgency;
+  founderIntent: string;
+  desiredTiming: FounderIdeaDesiredTiming;
+  notes?: string;
+};
+
 export type FounderIdea = {
   ideaId: string;
   title: string;
@@ -333,6 +372,66 @@ export type CodexDraft = {
   secretsIncluded: false;
   includesForbiddenScope: boolean;
   includesValidation: boolean;
+};
+
+export type FounderIdeaInboxPreview = {
+  checkedAt: string;
+  mode: "founder_idea_inbox_preview";
+  input: FounderIdeaInboxInput;
+  idea: FounderIdea;
+  event: SovereignEvent;
+  ownerRoute: OwnerRoute;
+  policyEvaluation: PolicyGateEvaluation;
+  taskPassportPreview: TaskPassport;
+  permitPreview: CodexLicense;
+  codexDraftPreview: CodexDraft | null;
+  constructionQueueReadiness: {
+    recommendedQueue: RecommendedQueue;
+    status:
+      | "draft_ready"
+      | "waiting_review"
+      | "waiting_founder"
+      | "blocked";
+    externalExecutionActive: false;
+    autoSubmitActive: false;
+    shellExecutionActive: false;
+  };
+  blockedReason: string | null;
+  nextSafeAction: string;
+  truth: {
+    previewOnly: true;
+    persisted: false;
+    storesSecrets: false;
+    privateSensitiveDataStored: false;
+    externalCalls: false;
+    codexCalled: false;
+    shellExecution: false;
+    autoSubmit: false;
+    productTruthPreserved: true;
+  };
+};
+
+export type FounderIdeaInboxReadiness = {
+  checkedAt: string;
+  mode: "founder_idea_inbox_readiness";
+  status: "ready";
+  access: {
+    ownerOnly: true;
+    publicNavigationVisible: false;
+    userPlanExposure: false;
+    readOnly: true;
+    previewPostOnly: true;
+    persistenceActive: false;
+    approvalExecutionActive: false;
+    secretsVisible: false;
+  };
+  allowedAffectedWorlds: SovereignAffectedWorld[];
+  allowedSurfaces: FounderIdeaInboxSurface[];
+  recentIdeaExamples: FounderIdeaInboxPreview[];
+  pendingIdeaDrafts: FounderIdeaInboxPreview[];
+  blockedIdeaExamples: FounderIdeaInboxPreview[];
+  nextSafeIdeaAction: string;
+  truth: FounderIdeaInboxPreview["truth"];
 };
 
 export type CodexSubmitReadiness = {

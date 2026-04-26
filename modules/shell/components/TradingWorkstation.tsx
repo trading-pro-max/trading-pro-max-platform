@@ -3,6 +3,7 @@
 import { useEffect, useEffectEvent, useMemo, useState } from "react";
 import { PLATFORM_LIMITS } from "../../../lib/constants/platform";
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
+import LivingEarthBackground from "../../brand/components/LivingEarthBackground";
 import OperatorIntelligenceDeck from "../../intelligence/components/OperatorIntelligenceDeck";
 import type {
   WorkspaceFocusMode,
@@ -468,7 +469,8 @@ export default function TradingWorkstation({
     .join(" ");
 
   return (
-    <main className="tpmv2-page">
+    <main className="tpmv2-page" data-living-earth-surface="workstation">
+      <LivingEarthBackground surface="workstation" plan="free" state="paper_safe" />
       <section
         className={
           desktopWatchlistVisible
