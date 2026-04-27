@@ -30,7 +30,7 @@ test.describe("Alkon Private Universe Identity Correction", () => {
     fs.mkdirSync(ARTIFACT_DIR, { recursive: true });
   });
 
-  test("/founder/alkon renders the private Alkon Universe entry", async ({ page }) => {
+  test("/founder/alkon renders the private Alkon command interface", async ({ page }) => {
     await page.goto("/founder/alkon", { waitUntil: "domcontentloaded" });
     await expect(page.locator("main").first()).toBeVisible();
 
@@ -38,6 +38,7 @@ test.describe("Alkon Private Universe Identity Correction", () => {
     await expect(body).toContainText("Alkon / الكون");
     await expect(body).toContainText("Private Operating Universe");
     await expect(body).toContainText("Alkon Operating Mode");
+    await expect(body).toContainText("Ask Alkon");
     await expect(body).toContainText("Kernel 0-16");
     await expect(body).toContainText("Zero Truth");
     await expect(body).toContainText("One Next Action");
@@ -47,8 +48,9 @@ test.describe("Alkon Private Universe Identity Correction", () => {
     await expect(body).toContainText("Daily Loop");
     await expect(body).toContainText("Local Day One Gate");
     await expect(body).toContainText("Device Constellation");
-    await expect(body).toContainText("What not to do");
+    await expect(body).toContainText("What Not To Do");
     await expect(body).toContainText("No unsafe activation");
+    await expect(body).toContainText("Command Passport Preview");
     await expect(body).not.toContainText(/Paper-safe AI-Guided Trading Workspace|Pro Max Assistant|Start trading/i);
     await expect(page.locator("button")).toHaveCount(0);
 
@@ -74,6 +76,7 @@ test.describe("Alkon Private Universe Identity Correction", () => {
     await expect(body).toContainText("Visual Review");
     await expect(body).toContainText("Local Day One Gate");
     await expect(body).toContainText("What not to do");
+    await expect(body).toContainText("Open Ask Alkon");
     await expect(body).not.toContainText(/Paper-safe AI-Guided Trading Workspace|Pro Max Assistant|public Home|Start trading/i);
     await expect(page.locator("button")).toHaveCount(0);
     await expect(page.locator(`a[href="/founder/alkon"]`)).toHaveCount(1);
@@ -90,7 +93,7 @@ test.describe("Alkon Private Universe Identity Correction", () => {
     await expect(page.locator("main").first()).toBeVisible();
     await expect(page.locator("body")).toContainText("Alkon Pocket");
     await expect(page.locator("body")).toContainText("Ahmad Pocket Decision");
-    await expect(page.locator("body")).toContainText("visual_acceptance_needed");
+    await expect(page.locator("body")).toContainText("Ahmad visual acceptance needed");
     await expect(page.locator("button")).toHaveCount(0);
     await expect(page.locator("body")).not.toContainText(/Launch now|Pay now|Live trade now|Run shell now|Run Codex now/i);
 

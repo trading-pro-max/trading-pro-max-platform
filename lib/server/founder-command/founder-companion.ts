@@ -28,6 +28,7 @@ import { getNumberOneDestinySnapshot } from "@/lib/server/number-one-destiny";
 import { getSourceLawSnapshot } from "@/lib/server/source-law";
 import { getAlkonOperatingModeSnapshot } from "@/lib/server/alkon-operating-mode";
 import { getAlkonKernelSnapshot } from "@/lib/server/alkon-kernel";
+import { getAlkonChatReadiness } from "@/lib/server/alkon-chat";
 import { getPlanetaryEnvironmentReadinessSnapshot } from "@/lib/server/environment";
 import { getEarthRealitySnapshot } from "@/lib/server/earth-reality";
 import { getPersonalRealityReadinessSnapshot } from "@/lib/server/personal-reality";
@@ -95,6 +96,7 @@ export type FounderPersonalCompanionSnapshot = {
   sourceLawSummary: string[];
   alkonOperatingModeSummary: string[];
   alkonKernelSummary: string[];
+  alkonChatSummary: string[];
   treasuryLifeSummary: string[];
   mediaIntelligenceSummary: string[];
   revelationExperienceSummary: string[];
@@ -168,6 +170,7 @@ export function getFounderPersonalCompanionSnapshot(
   const sourceLaw = getSourceLawSnapshot(checkedAt);
   const alkonOperatingMode = getAlkonOperatingModeSnapshot(checkedAt);
   const alkonKernel = getAlkonKernelSnapshot(checkedAt);
+  const alkonChat = getAlkonChatReadiness(checkedAt);
   const brandUniverse = getPrivateBrandUniverse();
   const treasuryLife = getTreasuryLifeSnapshot();
   const mediaIntelligence = getMediaIntelligenceSnapshot();
@@ -384,6 +387,12 @@ export function getFounderPersonalCompanionSnapshot(
       `One next action: ${alkonKernel.oneNextAction.oneNextAction}`,
       `Local Day One gate is ${alkonKernel.localDayOneGate.localDayOneStatus}; Ahmad visual acceptance required: ${String(alkonKernel.localDayOneGate.ahmadVisualAcceptanceRequired)}.`,
       "Kernel is private, read-only, no-execution, and cannot launch, bill, trade live, route real money, expose secrets, run shell commands, or expose Alkon publicly.",
+    ],
+    alkonChatSummary: [
+      `Alkon Chat is ${alkonChat.statusLabel}; public exposure is ${String(alkonChat.publicExposure)}.`,
+      `${alkonChat.availableIntents.length} private intents are available for read-only status, truth, evidence, devices, Local Day One, and command passport previews.`,
+      `Current one next action: ${alkonChat.currentOneNextAction}`,
+      "Alkon Chat can answer, classify, judge, and draft passports only; it cannot execute shell, call Codex, activate billing, trade live, route real money, expose secrets, or become public.",
     ],
     treasuryLifeSummary: [
       `Treasury Life is ${treasuryLife.status}; funding mode is ${treasuryLife.fundingMode}.`,

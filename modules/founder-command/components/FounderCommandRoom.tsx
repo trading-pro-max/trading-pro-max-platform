@@ -147,6 +147,41 @@ export default function FounderCommandRoom({
 
       <AlkonCommandUniverse checkedAt={commandSnapshot.checkedAt} />
 
+      <section className="tpm-founder-panel" data-alkon-chat-readiness="true">
+        <div className="tpm-founder-panel-head">
+          <span>Alkon Chat</span>
+          <h2>Private command mind is ready with notes</h2>
+          <p>
+            Ask Alkon is Founder-only, read-only, and preview-only. It can answer,
+            classify, judge, and draft command passports, but cannot execute shell,
+            Codex, payments, live trading, billing, broker/feed, real money, launch,
+            or external calls.
+          </p>
+        </div>
+        <div className="tpm-founder-metrics">
+          <div className="tpm-founder-metric">
+            <span>Status</span>
+            <strong>{appSnapshot.alkonChat.statusLabel}</strong>
+            <small>Founder-only command interface</small>
+          </div>
+          <div className="tpm-founder-metric">
+            <span>Available intents</span>
+            <strong>{appSnapshot.alkonChat.availableIntents.length}</strong>
+            <small>{appSnapshot.alkonChat.promptChips.slice(0, 3).join(" / ")}</small>
+          </div>
+          <div className="tpm-founder-metric">
+            <span>One Next Action</span>
+            <strong>Ahmad review</strong>
+            <small>{appSnapshot.alkonChat.currentOneNextAction}</small>
+          </div>
+          <div className="tpm-founder-metric">
+            <span>No execution</span>
+            <strong>{appSnapshot.alkonChat.noExecution ? "Blocked" : "Review"}</strong>
+            <small>Command Passport drafting is preview-only</small>
+          </div>
+        </div>
+      </section>
+
       <AlkonLegitimacyPanel snapshot={appSnapshot.alkonLegitimacy} />
 
       <div className="alkon-command-grid alkon-legitimacy-grid">

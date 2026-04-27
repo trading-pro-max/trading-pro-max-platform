@@ -1,4 +1,5 @@
 import type { AlkonPocketUniverseSnapshot } from "@/lib/server/devices";
+import { formatAlkonStatusLabel } from "@/lib/server/alkon-chat";
 
 export default function PocketWakeReportCard({
   snapshot,
@@ -8,7 +9,7 @@ export default function PocketWakeReportCard({
   return (
     <section className="tpm-founder-subpanel alkon-pocket-card" data-pocket-card="wake-report">
       <span>Wake Report</span>
-      <h3>{snapshot.wakeReport.status}</h3>
+      <h3>{formatAlkonStatusLabel(snapshot.wakeReport.status)}</h3>
       <dl className="alkon-command-facts">
         <div>
           <dt>Mission</dt>
@@ -26,4 +27,3 @@ export default function PocketWakeReportCard({
     </section>
   );
 }
-

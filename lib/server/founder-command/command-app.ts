@@ -53,6 +53,7 @@ import { getFounderDeviceReadinessSnapshot } from "@/lib/server/devices";
 import { getLocalBuilderReadinessSnapshot } from "@/lib/server/local-builder";
 import { getRealityProductionSnapshot } from "@/lib/server/reality-production";
 import { getSelfCorrectionSnapshot } from "@/lib/server/self-correction";
+import { getAlkonChatReadiness } from "@/lib/server/alkon-chat";
 import { getMediaIntelligenceSnapshot } from "@/lib/server/media-intelligence";
 import { getRevelationExperienceSnapshot } from "@/lib/server/revelation-experience";
 import { getInvisibleOperatingLayerSnapshot } from "@/lib/server/invisible-operating-layer";
@@ -220,6 +221,7 @@ export function getFounderCommandAppSnapshot(
   const localBuilder = getLocalBuilderReadinessSnapshot(checkedAt);
   const realityProduction = getRealityProductionSnapshot(checkedAt);
   const selfCorrection = getSelfCorrectionSnapshot(checkedAt);
+  const alkonChat = getAlkonChatReadiness(checkedAt);
   const treasuryLife = getTreasuryLifeSnapshot();
   const mediaIntelligence = getMediaIntelligenceSnapshot();
   const revelationExperience = getRevelationExperienceSnapshot(checkedAt);
@@ -520,6 +522,26 @@ export function getFounderCommandAppSnapshot(
     localBuilder,
     realityProduction,
     selfCorrection,
+    alkonChat: {
+      status: alkonChat.status,
+      statusLabel: alkonChat.statusLabel,
+      founderOnly: alkonChat.founderOnly,
+      readOnly: alkonChat.readOnly,
+      previewOnly: alkonChat.previewOnly,
+      noExecution: alkonChat.noExecution,
+      noShell: alkonChat.noShell,
+      noCodex: alkonChat.noCodex,
+      noPayments: alkonChat.noPayments,
+      noLiveExecution: alkonChat.noLiveExecution,
+      noBilling: alkonChat.noBilling,
+      noBrokerFeed: alkonChat.noBrokerFeed,
+      noRealMoney: alkonChat.noRealMoney,
+      publicExposure: alkonChat.publicExposure,
+      availableIntents: alkonChat.availableIntents,
+      promptChips: alkonChat.promptChips,
+      currentOneNextAction: alkonChat.currentOneNextAction,
+      commandPassportReady: alkonChat.commandPassportReady,
+    },
     finalUniversalClosureGate: {
       status:
         visualAcceptance.status === "pass"
@@ -1428,6 +1450,9 @@ export function getFounderCommandAppSnapshot(
       "/api/founder/alkon-kernel/commands",
       "/api/founder/alkon-kernel/one-next-action",
       "/api/founder/alkon-kernel/local-day-one",
+      "/api/founder/alkon-chat/status",
+      "/api/founder/alkon-chat/context",
+      "/api/founder/alkon-chat/message",
       "/api/founder/devices/readiness",
       "/api/founder/devices/registry",
       "/api/founder/pocket/status",

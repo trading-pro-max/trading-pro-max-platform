@@ -597,6 +597,267 @@
   border-color: color-mix(in srgb, var(--tpm-founder-gold) 30%, var(--tpm-border));
 }
 
+.alkon-sovereign-command-interface {
+  width: min(1480px, 100%);
+  gap: 18px;
+}
+
+.alkon-sovereign-command-hero,
+.alkon-chat-panel,
+.alkon-kernel-status-rail,
+.alkon-evidence-rail,
+.alkon-what-not-to-do-panel,
+.alkon-command-passport-draft,
+.alkon-builder-device-panel {
+  border: 1px solid color-mix(in srgb, var(--tpm-founder-gold) 24%, var(--tpm-border));
+  border-radius: var(--tpm-radius-lg);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--tpm-founder-gold) 7%, transparent), transparent 36%),
+    linear-gradient(180deg, color-mix(in srgb, #0b1018 90%, var(--tpm-founder-panel)), color-mix(in srgb, #030407 90%, var(--tpm-founder-surface)));
+  box-shadow: 0 18px 52px rgba(0, 0, 0, 0.34);
+}
+
+.alkon-sovereign-command-hero {
+  min-height: 216px;
+  padding: 22px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.42fr);
+  gap: 18px;
+  align-items: stretch;
+}
+
+.alkon-command-identity {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 18px;
+  align-items: center;
+}
+
+.alkon-command-identity h1 {
+  margin: 4px 0 0;
+  color: var(--tpm-text);
+  font-size: clamp(36px, 5vw, 76px);
+  line-height: 0.94;
+}
+
+.alkon-command-identity span,
+.alkon-command-gate-strip span,
+.alkon-rail-head span,
+.alkon-chat-title-row span,
+.alkon-chat-message-head span,
+.alkon-chat-section-grid span,
+.alkon-command-passport-grid dt {
+  color: var(--tpm-founder-gold-soft);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.alkon-command-identity p,
+.alkon-rail-head p,
+.alkon-chat-title-row p,
+.alkon-chat-message p,
+.alkon-chat-composer p,
+.alkon-evidence-callout p,
+.alkon-command-passport-grid dd {
+  color: var(--tpm-text-soft);
+  font-size: 12px;
+  line-height: 1.55;
+  margin: 8px 0 0;
+}
+
+.alkon-command-gate-strip {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.alkon-command-gate-strip div,
+.alkon-evidence-callout,
+.alkon-rail-truth,
+.alkon-chat-state,
+.alkon-chat-input-preview,
+.alkon-command-passport-grid > div {
+  border: 1px solid color-mix(in srgb, var(--tpm-founder-gold) 18%, var(--tpm-border));
+  border-radius: var(--tpm-radius-md);
+  background: color-mix(in srgb, var(--tpm-surface-alt) 84%, transparent);
+  padding: 12px;
+}
+
+.alkon-command-gate-strip strong,
+.alkon-evidence-callout strong,
+.alkon-chat-state strong {
+  color: var(--tpm-text);
+  display: block;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+.alkon-command-layout {
+  display: grid;
+  grid-template-columns: minmax(230px, 0.24fr) minmax(0, 1fr) minmax(270px, 0.32fr);
+  gap: 14px;
+  align-items: start;
+}
+
+.alkon-kernel-status-rail,
+.alkon-evidence-rail,
+.alkon-what-not-to-do-panel,
+.alkon-chat-panel,
+.alkon-command-passport-draft,
+.alkon-builder-device-panel {
+  min-width: 0;
+  padding: 16px;
+  display: grid;
+  gap: 14px;
+}
+
+.alkon-kernel-status-rail {
+  position: sticky;
+  top: 82px;
+}
+
+.alkon-command-right-rail {
+  display: grid;
+  gap: 14px;
+}
+
+.alkon-rail-head h2,
+.alkon-chat-title-row h2,
+.alkon-command-passport-draft h2,
+.alkon-builder-device-panel h2 {
+  color: var(--tpm-text);
+  font-size: 22px;
+  line-height: 1.05;
+  margin: 5px 0 0;
+}
+
+.alkon-chat-panel {
+  border-color: color-mix(in srgb, var(--tpm-founder-gold) 38%, var(--tpm-border));
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #69d9ff 8%, transparent), transparent 30%),
+    linear-gradient(180deg, color-mix(in srgb, #0b1018 92%, var(--tpm-founder-panel)), #040609);
+}
+
+.alkon-chat-title-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(130px, auto);
+  gap: 12px;
+  align-items: start;
+}
+
+.alkon-chat-message-list {
+  display: grid;
+  gap: 12px;
+}
+
+.alkon-chat-message {
+  border-left: 3px solid color-mix(in srgb, var(--tpm-founder-gold) 72%, var(--tpm-border));
+  background: color-mix(in srgb, var(--tpm-surface-strong) 72%, transparent);
+  border-radius: var(--tpm-radius-md);
+  padding: 14px;
+}
+
+.alkon-chat-message-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.alkon-chat-message-head strong {
+  color: var(--tpm-text);
+  font-size: 12px;
+  text-transform: capitalize;
+}
+
+.alkon-chat-section-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.alkon-chat-section-grid > div {
+  border: 1px solid color-mix(in srgb, var(--tpm-founder-gold) 14%, var(--tpm-border));
+  border-radius: var(--tpm-radius-md);
+  background: color-mix(in srgb, var(--tpm-surface-alt) 80%, transparent);
+  padding: 10px;
+}
+
+.alkon-chat-section-grid > div[data-tone="blocked"] {
+  border-color: color-mix(in srgb, var(--tpm-founder-red) 42%, var(--tpm-border));
+}
+
+.alkon-chat-section-grid > div[data-tone="warning"] {
+  border-color: color-mix(in srgb, var(--tpm-status-pending-text) 42%, var(--tpm-border));
+}
+
+.alkon-chat-section-grid p {
+  margin: 5px 0 0;
+  overflow-wrap: anywhere;
+}
+
+.alkon-chat-composer {
+  display: grid;
+  gap: 10px;
+}
+
+.alkon-chat-input-preview {
+  color: var(--tpm-text);
+  font-size: 14px;
+}
+
+.alkon-chat-prompt-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.alkon-chat-prompt-row span {
+  border: 1px solid color-mix(in srgb, #69d9ff 26%, var(--tpm-border));
+  border-radius: var(--tpm-radius-pill);
+  background: color-mix(in srgb, #69d9ff 8%, var(--tpm-surface-strong));
+  color: var(--tpm-text);
+  font-size: 11px;
+  font-weight: 850;
+  padding: 7px 10px;
+}
+
+.alkon-evidence-callout[data-proof-section="alkon-one-next-action"] {
+  border-color: color-mix(in srgb, var(--tpm-founder-gold) 50%, var(--tpm-border));
+}
+
+.alkon-what-not-to-do-panel {
+  border-color: color-mix(in srgb, var(--tpm-founder-red) 32%, var(--tpm-border));
+}
+
+.alkon-command-lower-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.7fr);
+  gap: 14px;
+}
+
+.alkon-command-passport-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+}
+
+.alkon-command-passport-grid > div:first-child,
+.alkon-command-passport-grid > div:nth-child(5),
+.alkon-command-passport-grid > div:nth-child(9) {
+  grid-column: span 2;
+}
+
+.alkon-command-passport-grid dd {
+  margin: 5px 0 0;
+  overflow-wrap: anywhere;
+}
+
 .alkon-device-list {
   margin: 0;
   padding-left: 18px;
@@ -1085,8 +1346,16 @@ dl.alkon-command-facts.alkon-pocket-capability-facts {
   .alkon-universe-map,
   .alkon-physics-grid,
   .alkon-command-grid,
-  .alkon-decision-grid {
+  .alkon-decision-grid,
+  .alkon-command-layout,
+  .alkon-command-lower-panel,
+  .alkon-sovereign-command-hero,
+  .alkon-command-passport-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .alkon-kernel-status-rail {
+    position: static;
   }
 }
 
@@ -1112,7 +1381,15 @@ dl.alkon-command-facts.alkon-pocket-capability-facts {
   .alkon-physics-grid,
   .alkon-command-grid,
   .alkon-decision-grid,
-  .alkon-command-facts {
+  .alkon-command-facts,
+  .alkon-command-layout,
+  .alkon-command-lower-panel,
+  .alkon-sovereign-command-hero,
+  .alkon-command-identity,
+  .alkon-command-gate-strip,
+  .alkon-chat-title-row,
+  .alkon-chat-section-grid,
+  .alkon-command-passport-grid {
     grid-template-columns: minmax(0, 1fr);
   }
 
@@ -1133,5 +1410,11 @@ dl.alkon-command-facts.alkon-pocket-capability-facts {
   .alkon-private-hero-mark {
     min-height: 82px;
     width: 82px;
+  }
+
+  .alkon-command-passport-grid > div:first-child,
+  .alkon-command-passport-grid > div:nth-child(5),
+  .alkon-command-passport-grid > div:nth-child(9) {
+    grid-column: auto;
   }
 }

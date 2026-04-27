@@ -1,18 +1,28 @@
 # Alkon Last Full Report
 
-Mission: Alkon Private Universe Identity Correction
+Mission: Alkon Zero Codebase Architecture Recomposition
 
-Status: validated, committed, pushed, and clean.
+Status: validated, committed, pushed, and clean after this report is committed.
 
-Corrected:
+Official path:
 
-- Audited Founder/Pocket identity and found public-product identity residue in the private Founder shell and Founder Command hero.
-- Replaced the private shell's public `ProductLogo` usage with a compact `Alkon / الكون` Founder-only identity.
-- Created `/founder/alkon` as the private Alkon Universe entry route.
-- Updated `/founder/pocket` to read as `Alkon Pocket` and `Ahmad Pocket Decision`, not a public Pro Max page.
-- Updated Founder Command hero copy to say Alkon Command Room and Ahmad private operating universe.
-- Kept all Founder routes read-only, private, no-execution, and absent from public navigation.
-- Added regression tests for `/founder/alkon`, `/founder/pocket`, public Home, public Diagnostics, public/private leak prevention, no unsafe activation, no secrets, and no tracked raster assets.
+`C:\Users\ahmad\Desktop\ALKON\Pro Max\Pro Max Trading\pro-max-trading-platform`
+
+Completed:
+
+- Classified the active repository into Public Pro Max Reality, Private Alkon Universe, Invisible Operating Layer, Tools / Builder, Tests / Evidence, Docs / Reports, and Public Assets.
+- Added `docs/product/alkon-zero-codebase-architecture.md`.
+- Added `docs/product/pro-max-public-private-folder-law.md`.
+- Added `docs/product/invisible-operating-layer-architecture.md`.
+- Added `docs/product/codebase-ownership-classification.md`.
+- Added `reports/alkon-codebase-architecture-map.md`.
+- Added `reports/alkon-cleanup-candidates.md`.
+- Added `tests/regression/alkon-zero-codebase-architecture.spec.ts`.
+- Preserved the existing route structure and avoided risky broad moves across `app`, `modules`, `lib`, and CSS.
+- Documented cleanup_candidate, move_candidate, merge_candidate, protected_candidate, boundary_candidate, archive_candidate, and css_cleanup_candidate items.
+- Verified public Home and Diagnostics have no Alkon/Founder links or internal terms.
+- Verified `/founder/alkon`, `/founder/pocket`, `/en`, and founder-only chat APIs still work.
+- Verified Product Truth remains blocked/inactive for live execution, real money, broker/feed, billing, public launch, and unsafe claims.
 
 Validation:
 
@@ -20,17 +30,19 @@ Validation:
 - `npx eslint app modules tests --max-warnings=0`: pass
 - `npm run build`: pass
 - `npm run prisma:validate`: pass
-- `npm run test:regression`: pass, 232 tests
+- `npx playwright test alkon-zero-codebase-architecture.spec.ts`: pass, 7 tests
+- `npm run test:regression`: pass, 245 tests
 - `npm run smoke:routes`: pass, 4 canonical routes
 - `git diff --check`: pass
 
 Visual proof:
 
-- `test-results/alkon-private-universe-identity/founder-alkon-universe.png`
-- `test-results/alkon-private-universe-identity/founder-pocket-alkon-identity.png`
-- `test-results/alkon-private-universe-identity/pocket-mobile-layout.png`
-- `test-results/alkon-private-universe-identity/public-home-no-alkon-link.png`
-- `test-results/alkon-private-universe-identity/no-alkon-public-leak.png`
+- `test-results/alkon-zero-codebase-architecture/public-home-clean-after-architecture.png`
+- `test-results/alkon-zero-codebase-architecture/founder-alkon-after-architecture.png`
+- `test-results/alkon-zero-codebase-architecture/founder-pocket-after-architecture.png`
+- `test-results/alkon-zero-codebase-architecture/workspace-after-architecture.png`
+- `test-results/alkon-zero-codebase-architecture/diagnostics-public-safe.png`
+- `test-results/alkon-zero-codebase-architecture/public-no-alkon-leak.png`
 
 Product Truth:
 
@@ -44,9 +56,9 @@ Product Truth:
 - No public Founder route link.
 - No shell execution from the web app.
 - No Codex execution from the web app.
-- No secrets, bank/card data, or raw sensitive personal data.
-- No generated images or tracked raster assets.
+- No secrets, bank/card data, or raw sensitive personal data exposed.
+- No generated images or public raster assets were added.
 
 Next:
 
-Ahmad visually reviews the private Alkon identity proof and records `accept`, `reject_with_notes`, or `focused_correction`.
+Ahmad reviews the architecture map, cleanup candidates, and visual proof. Any next cleanup should be a focused move or merge with import proof, route proof, public/private leak proof, Product Truth proof, and visual proof.

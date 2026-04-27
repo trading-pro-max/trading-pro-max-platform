@@ -1,5 +1,39 @@
 # Alkon Execution History
 
+## 2026-04-28 - Alkon Zero Codebase Architecture Recomposition
+
+Mission executed locally in docs, reports, tests, and visual proof only.
+
+Actions:
+
+- Audited the current active project structure under the official path.
+- Classified active folders and file groups into Public Pro Max Reality, Private Alkon Universe, Invisible Operating Layer, Tools / Builder, Tests / Evidence, Docs / Reports, and Public Assets.
+- Added Zero Codebase Architecture doctrine, public/private folder law, Invisible Operating Layer architecture, and codebase ownership classification docs.
+- Added `reports/alkon-codebase-architecture-map.md`.
+- Added `reports/alkon-cleanup-candidates.md`.
+- Added `tests/regression/alkon-zero-codebase-architecture.spec.ts`.
+- Preserved existing source layout where moves were high-risk, and recorded uncertain work as cleanup, move, merge, boundary, archive, protected, or CSS cleanup candidates.
+- Confirmed Local Builder scaffold and scripts remain present and terminal-only.
+- Captured visual proof under `test-results/alkon-zero-codebase-architecture/`.
+
+Validation:
+
+- TypeScript passed.
+- ESLint passed.
+- Build passed.
+- Prisma validate passed.
+- Focused architecture proof passed with 7 tests.
+- Regression passed with 245 tests.
+- Route smoke passed with 4 canonical routes.
+
+Safety:
+
+- Public Home and Diagnostics remain clean and do not link to `/founder/alkon`, `/founder/pocket`, or `/api/founder/*`.
+- Founder routes remain private, read-only, and no-execution.
+- Workspace route remains functional.
+- No uncertain files were deleted.
+- No live execution, real money, billing, broker/feed, production activation, public launch, public Alkon exposure, shell execution from web app, Codex execution from web app, secrets exposure, fake claims, or public raster assets were introduced.
+
 ## 2026-04-27 - Alkon Private Universe Identity Correction
 
 Mission executed locally in code, tests, reports, and visual proof only.

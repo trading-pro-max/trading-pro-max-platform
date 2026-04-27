@@ -9269,8 +9269,31 @@ html[data-theme="light"] .tpm-product-hero[data-public-section="public-entry-her
   padding: 10px 12px;
 }
 
+.tpm-product-center-paths {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+  max-width: 640px;
+}
+
+.tpm-product-center-paths span {
+  border: 1px solid color-mix(in srgb, var(--tpm-border) 52%, transparent);
+  border-radius: var(--tpm-radius-pill);
+  background: color-mix(in srgb, var(--tpm-surface) 58%, transparent);
+  color: var(--tpm-text);
+  font-size: 11px;
+  font-weight: 850;
+  padding: 7px 10px;
+}
+
 html[data-theme="light"] .tpm-product-hero[data-public-section="public-entry-hero"] .tpm-product-proof-row {
   background: rgba(247, 251, 254, 0.82);
+}
+
+html[data-theme="light"] .tpm-product-center-paths span {
+  background: rgba(255, 255, 255, 0.76);
+  border-color: rgba(15, 23, 42, 0.12);
 }
 
 .tpm-product-signal-grid-calm {

@@ -40,15 +40,16 @@ export default function FounderPocketPage() {
               <span>Wake Report</span>
               <span>Visual Review</span>
               <span>What not to do</span>
+              <span>Ask Alkon</span>
             </div>
             <Link className="alkon-private-entry-link" href="/founder/alkon">
-              Open Alkon Universe
+              Open Ask Alkon
             </Link>
           </div>
           <div className="tpm-founder-access-card">
             <span>Private Founder-only</span>
-            <strong>{snapshot.localDayOne}</strong>
-            <small>Local Day One Gate: {snapshot.visualAcceptance}</small>
+            <strong>Not started</strong>
+            <small>Local Day One Gate: Ahmad visual acceptance needed</small>
           </div>
         </header>
 

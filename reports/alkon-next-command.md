@@ -2,28 +2,33 @@
 
 Recommended next command:
 
-Ahmad visually reviews the corrected private Alkon identity and records one of: `accept`, `reject_with_notes`, or `focused_correction`.
+Ahmad reviews the Zero Codebase Architecture map, cleanup candidates, and visual proof, then chooses one focused cleanup or move only if it has clear route, import, Product Truth, and public/private boundary proof.
 
 Review:
 
-- `test-results/alkon-private-universe-identity/founder-alkon-universe.png`
-- `test-results/alkon-private-universe-identity/founder-pocket-alkon-identity.png`
-- `test-results/alkon-private-universe-identity/pocket-mobile-layout.png`
-- `test-results/alkon-private-universe-identity/public-home-no-alkon-link.png`
-- `test-results/alkon-private-universe-identity/no-alkon-public-leak.png`
+- `reports/alkon-codebase-architecture-map.md`
+- `reports/alkon-cleanup-candidates.md`
+- `docs/product/alkon-zero-codebase-architecture.md`
+- `docs/product/pro-max-public-private-folder-law.md`
+- `docs/product/invisible-operating-layer-architecture.md`
+- `docs/product/codebase-ownership-classification.md`
+- `test-results/alkon-zero-codebase-architecture/public-home-clean-after-architecture.png`
+- `test-results/alkon-zero-codebase-architecture/founder-alkon-after-architecture.png`
+- `test-results/alkon-zero-codebase-architecture/founder-pocket-after-architecture.png`
+- `test-results/alkon-zero-codebase-architecture/workspace-after-architecture.png`
+- `test-results/alkon-zero-codebase-architecture/diagnostics-public-safe.png`
+- `test-results/alkon-zero-codebase-architecture/public-no-alkon-leak.png`
 
 Reason:
 
-Founder/Pocket now reads as Alkon / الكون instead of public Pro Max. Public Pro Max remains clean. Ahmad visual acceptance is still required before any closure or Local Day One decision.
+The active project now has an explicit ownership map. Broad folder moves are intentionally postponed where import risk is high. Cleanup should proceed in small, governed passes with evidence.
 
-If accepted:
+Safe next cleanup options:
 
-- Mark the private Alkon identity correction visually accepted.
-- Continue only to the next gated private command.
-
-If rejected:
-
-- Create one focused correction command from Ahmad's narrow visual notes.
+- Audit root public starter SVG usage before any asset cleanup.
+- Split `modules/shell` ownership only after an import map proves public shell, workspace shell, and private shell boundaries.
+- Split `app/theme-localization.css` only with screenshots for Home, Workspace, Settings, Diagnostics, Founder Alkon, and Pocket.
+- Rename companion/Assistant internals only with API compatibility and public copy proof.
 
 Blocked:
 
@@ -42,4 +47,5 @@ Blocked:
 - social publishing
 - secrets exposure
 - raw sensitive personal data in code
-- image generation or tracked raster assets
+- image generation or public raster assets
+- deletion of uncertain files

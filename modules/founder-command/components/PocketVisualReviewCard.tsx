@@ -1,4 +1,5 @@
 import type { AlkonPocketUniverseSnapshot } from "@/lib/server/devices";
+import { formatAlkonStatusLabel } from "@/lib/server/alkon-chat";
 
 export default function PocketVisualReviewCard({
   snapshot,
@@ -8,12 +9,12 @@ export default function PocketVisualReviewCard({
   return (
     <section className="tpm-founder-subpanel alkon-pocket-card" data-pocket-card="visual-review">
       <span>Visual Review</span>
-      <h3>{snapshot.visualAcceptance}</h3>
+      <h3>{formatAlkonStatusLabel(snapshot.visualAcceptance)}</h3>
       <div className="tpm-founder-metrics alkon-pocket-status-grid">
         <div className="tpm-founder-metric">
           <span>Station</span>
           <strong>{snapshot.station}</strong>
-          <small>{snapshot.localDayOne}</small>
+          <small>{formatAlkonStatusLabel(snapshot.localDayOne)}</small>
         </div>
         <div className="tpm-founder-metric">
           <span>Heart</span>
@@ -24,4 +25,3 @@ export default function PocketVisualReviewCard({
     </section>
   );
 }
-

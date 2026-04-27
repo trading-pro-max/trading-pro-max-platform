@@ -1,4 +1,5 @@
 import type { AlkonPocketUniverseSnapshot } from "@/lib/server/devices";
+import { formatAlkonStatusLabel } from "@/lib/server/alkon-chat";
 
 export default function PocketOneNextActionCard({
   snapshot,
@@ -12,10 +13,9 @@ export default function PocketOneNextActionCard({
       <p>{snapshot.wakeReport.next}</p>
       <div className="alkon-pocket-decision-options" aria-label="Safe decision options">
         {snapshot.decisionOptions.map((option) => (
-          <span key={option}>{option}</span>
+          <span key={option}>{formatAlkonStatusLabel(option)}</span>
         ))}
       </div>
     </section>
   );
 }
-

@@ -21,17 +21,17 @@ const heroSignals = [
   {
     label: "Earth-native",
     value: "Human scale",
-    note: "Time, motion, and privacy stay grounded without precise location tracking.",
+    note: "Pro Max Center stays grounded in an Earth reference while gathering workspace, Assistant, learning, support, apps status, and readiness.",
   },
   {
-    label: "Paper-safe",
-    value: "Safe start",
-    note: "Use the chart-first workspace for rehearsal, learning, and review.",
+    label: "First heart",
+    value: "Pro Max Trading",
+    note: "The first paper-safe workspace stays chart-first for rehearsal, learning, and review.",
   },
   {
-    label: "Live route",
-    value: "Inactive",
-    note: "No broker, feed activation, billing, or real-money path is enabled.",
+    label: "Product Truth",
+    value: "Visible",
+    note: "No broker, feed activation, billing, live execution, or real-money path is enabled.",
   },
 ];
 
@@ -127,6 +127,14 @@ const firstDayContinuity = [
   },
 ];
 
+const centerStartingPoints = [
+  "Start with Trading Workspace",
+  "Pro Max Assistant",
+  "Academy status",
+  "Support",
+  "Apps / Platforms status",
+];
+
 export default function PublicProductEntry({
   diagnosticsHref,
   settingsHref,
@@ -145,7 +153,7 @@ export default function PublicProductEntry({
         >
           <LivingEarthBackground surface="public_entry" plan="free" state="paper_safe" />
           <div className="tpm-product-kicker-row">
-            <span className="tpm-product-kicker">Pro Max public home</span>
+            <span className="tpm-product-kicker">Pro Max Center</span>
             <LocalizedEarthFocus locale="en" surface="public_entry" />
           </div>
 
@@ -159,10 +167,11 @@ export default function PublicProductEntry({
                 surface="public_entry"
                 variant="hero"
               />
-              <h1>Pro Max Trading</h1>
+              <h1>Pro Max Center</h1>
               <p>
-                A calm Earth-native trading workspace for paper practice, blocked-state
-                clarity, and chart-first review.
+                The public center for Pro Max. Pro Max Trading is the first
+                paper-safe workspace, with Assistant, learning, support, apps
+                status, and Product Truth close to the surface.
               </p>
 
               <div className="tpm-product-cta-row">
@@ -174,8 +183,15 @@ export default function PublicProductEntry({
                 </Link>
               </div>
               <p className="tpm-intent-hero-note">
-                Ask for a calmer workspace, a bigger chart, or why something is blocked.
+                Start with the chart, ask why something is blocked, or check
+                learning, support, and app readiness without fake activation.
               </p>
+
+              <div className="tpm-product-center-paths" aria-label="Pro Max Center starting points">
+                {centerStartingPoints.map((item) => (
+                  <span key={item}>{item}</span>
+                ))}
+              </div>
 
               <div className="tpm-product-proof-row">
                 {trustStates.map((item) => (
@@ -208,7 +224,7 @@ export default function PublicProductEntry({
           <div className="tpm-product-section-head">
             <div>
               <span className="tpm-product-kicker">Product Truth</span>
-              <h2>Paper-safe now. Live, billing, and broker routing stay inactive.</h2>
+              <h2>Pro Max Center is paper-safe now. Live, billing, and broker routing stay inactive.</h2>
             </div>
             <p>
               Trust stays visible below the hero instead of crowding the header.

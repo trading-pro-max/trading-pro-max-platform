@@ -271,7 +271,7 @@ test.describe("Alkon A-Z Operating Execution", () => {
     await expect(page.locator("body")).toContainText("Pocket Decision Center");
     await expect(page.locator("body")).toContainText("Wake Report");
     await expect(page.locator("body")).toContainText("One Next Action");
-    await expect(page.locator("body")).toContainText("visual_acceptance_needed");
+    await expect(page.locator("body")).toContainText("Ahmad visual acceptance needed");
     await expect(page.locator("button")).toHaveCount(0);
     await expect(page.locator("body")).not.toContainText(/Launch now|Pay now|Live trade now|Run shell now|Run Codex now/i);
     await page.screenshot({
