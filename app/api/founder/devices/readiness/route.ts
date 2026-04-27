@@ -15,5 +15,6 @@ export async function GET() {
     noExecution: true,
     noSecrets: true,
     noExternalCalls: true,
+    officialConstellation: snapshot.officialConstellation,
   });
 }

@@ -56,6 +56,9 @@ import AlkonFounderSourcePanel from "./AlkonFounderSourcePanel";
 import AlkonCreatorRuntimePanel from "./AlkonCreatorRuntimePanel";
 import AlkonKernelZeroTruthPanel from "./AlkonKernelZeroTruthPanel";
 import AlkonRealityTrialPanel from "./AlkonRealityTrialPanel";
+import AlkonRealityProductionPanel from "./AlkonRealityProductionPanel";
+import AlkonSelfCorrectionPanel from "./AlkonSelfCorrectionPanel";
+import AlkonLocalBuilderPanel from "./AlkonLocalBuilderPanel";
 import AlkonKernelCommandsPanel from "./AlkonKernelCommandsPanel";
 import AlkonLocalDayOneGatePanel from "./AlkonLocalDayOneGatePanel";
 import AlkonGenesisPanel from "./AlkonGenesisPanel";
@@ -226,6 +229,10 @@ export default function FounderCommandRoom({
         <AlkonKernelCommandsPanel snapshot={appSnapshot.alkonKernel} />
         <AlkonLocalDayOneGatePanel snapshot={appSnapshot.alkonKernel} />
       </div>
+
+      <AlkonRealityProductionPanel snapshot={appSnapshot.realityProduction} />
+      <AlkonSelfCorrectionPanel snapshot={appSnapshot.selfCorrection} />
+      <AlkonLocalBuilderPanel snapshot={appSnapshot.localBuilder} />
 
       <AlkonGenesisPanel snapshot={appSnapshot.alkonGenesis} />
 

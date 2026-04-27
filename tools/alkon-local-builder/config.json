@@ -1,0 +1,12 @@
+{
+  "mode": "alkon_local_builder",
+  "status": "ready_with_notes",
+  "readOnlyDefault": true,
+  "externalCalls": false,
+  "codexExecution": false,
+  "webShellExecution": false,
+  "dangerousCommands": false,
+  "reportsDirectory": "reports",
+  "officialProjectPath": "C:\\Users\\ahmad\\Desktop\\ALKON\\Pro Max\\Pro Max Trading\\pro-max-trading-platform"
+}
+

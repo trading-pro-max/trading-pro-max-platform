@@ -44,4 +44,11 @@ Alkon Watch:
 - P0 alert-only.
 - No secrets and no action execution.
 
-Hard blocked on all devices: live execution activation, real money, billing activation, broker/feed activation, production secrets, social publishing, shell execution, public Alkon exposure, fake downloads, fake store claims, fake users, fake revenue, and fake metrics.
+Official Ahmad constellation:
+
+- Windows Command + Build Center may build locally only when Ahmad uses the terminal directly.
+- iPhone Pocket Decision Center may review Wake Report, One Next Action, visual proof, and accept/reject/focused correction intent only.
+- Samsung Review + Android Reality Center may review Android/mobile reality, Wake Report, One Next Action, and visual proof only.
+- Phones cannot execute shell, run Codex, access secrets, execute payments, activate live/billing/broker/feed/real money, or start Local Day One.
+
+Hard blocked on all devices: live execution activation, real money, billing activation, broker/feed activation, production secrets, Codex execution, payment execution, social publishing, shell execution, public Alkon exposure, fake downloads, fake store claims, fake users, fake revenue, and fake metrics.

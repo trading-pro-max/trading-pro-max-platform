@@ -696,6 +696,83 @@
   border-color: color-mix(in srgb, var(--alkon-gold) 36%, var(--tpm-border));
 }
 
+.alkon-pocket-page {
+  width: min(780px, 100%);
+  padding: 14px;
+}
+
+.alkon-pocket-hero {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.alkon-pocket-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+}
+
+.alkon-pocket-card {
+  min-width: 0;
+  border-color: color-mix(in srgb, var(--alkon-cyan) 26%, var(--tpm-border));
+}
+
+.alkon-pocket-status-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.alkon-pocket-decision-options,
+.alkon-pocket-block-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.alkon-pocket-decision-options span,
+.alkon-pocket-block-strip span {
+  border: 1px solid color-mix(in srgb, var(--alkon-gold) 28%, var(--tpm-border));
+  border-radius: 999px;
+  padding: 8px 10px;
+  color: var(--tpm-text);
+  background: color-mix(in srgb, var(--tpm-founder-panel) 82%, transparent);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.alkon-pocket-block-strip span {
+  border-color: color-mix(in srgb, var(--tpm-founder-red) 36%, var(--tpm-border));
+}
+
+@media (min-width: 720px) {
+  .alkon-pocket-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .alkon-pocket-device-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .tpm-founder-shell-header {
+    align-items: start;
+    overflow: hidden;
+  }
+
+  .tpm-shell-nav-founder {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .tpm-shell-nav-founder span {
+    max-width: calc(50% - 4px);
+    overflow-wrap: anywhere;
+    text-align: center;
+    white-space: normal;
+  }
+}
+
 .alkon-final-convergence-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }

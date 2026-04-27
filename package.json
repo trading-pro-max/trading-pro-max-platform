@@ -17,7 +17,12 @@
     "staging:validate": "node scripts/validate-staging-readiness.mjs",
     "prisma:generate": "node scripts/clean-prisma-client.mjs && prisma generate",
     "prisma:seed": "prisma db seed",
-    "prisma:validate": "prisma validate"
+    "prisma:validate": "prisma validate",
+    "alkon:status": "node tools/alkon-local-builder/status.mjs",
+    "alkon:wake": "node tools/alkon-local-builder/wake.mjs",
+    "alkon:next": "node tools/alkon-local-builder/next.mjs",
+    "alkon:passport": "node tools/alkon-local-builder/passport.mjs",
+    "alkon:audit": "node tools/alkon-local-builder/audit.mjs"
   },
   "dependencies": {
     "@prisma/adapter-better-sqlite3": "^7.7.0",

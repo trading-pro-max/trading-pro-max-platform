@@ -13,6 +13,8 @@ export const HARD_BLOCKED_DEVICE_CAPABILITIES: DeviceBlockedCapability[] = [
   "broker_feed_activation",
   "production_activation",
   "production_secrets",
+  "codex_execution",
+  "payment_execution",
   "social_publishing",
   "shell_execution",
   "public_private_systems",
@@ -32,6 +34,18 @@ function allowedSummary(device: DeviceRegistryItem): string[] {
 
   if (device.type === "watch") {
     return ["P0 alert visibility only", "no secret values", "no action execution"];
+  }
+
+  if (
+    device.constellationRole === "iphone_pocket_decision_center" ||
+    device.constellationRole === "samsung_review_android_reality_center"
+  ) {
+    return [
+      "Wake Report review",
+      "One Next Action review",
+      "mobile visual review",
+      "accept/reject/focused correction intent only",
+    ];
   }
 
   if (device.type === "mobile") {

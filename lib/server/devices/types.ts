@@ -53,7 +53,12 @@ export type DeviceCapability =
   | "full_private_command"
   | "mobile_pulse_planned"
   | "visual_review_future"
-  | "p0_alerts_future";
+  | "p0_alerts_future"
+  | "local_build_center"
+  | "wake_report_review"
+  | "one_next_action_review"
+  | "mobile_visual_review"
+  | "focused_correction_intent";
 
 export type DeviceBlockedCapability =
   | "live_execution"
@@ -62,12 +67,21 @@ export type DeviceBlockedCapability =
   | "broker_feed_activation"
   | "production_activation"
   | "production_secrets"
+  | "codex_execution"
+  | "payment_execution"
   | "social_publishing"
   | "shell_execution"
   | "public_private_systems"
   | "fake_downloads"
   | "fake_store_claims"
   | "fake_metrics";
+
+export type PrivateDeviceConstellationRole =
+  | "public_device_truth"
+  | "windows_command_build_center"
+  | "iphone_pocket_decision_center"
+  | "samsung_review_android_reality_center"
+  | "legacy_internal_readiness";
 
 export type DeviceRegistryItem = {
   deviceId: string;
@@ -81,6 +95,7 @@ export type DeviceRegistryItem = {
   allowedCapabilities: DeviceCapability[];
   blockedCapabilities: DeviceBlockedCapability[];
   permissionLevel: DevicePermissionLevel;
+  constellationRole: PrivateDeviceConstellationRole;
   securityPosture: DeviceSecurityPosture[];
   publicVisible: boolean;
   founderVisible: boolean;
@@ -89,6 +104,48 @@ export type DeviceRegistryItem = {
   continuityRole: string;
   productTruthNotes: string[];
   nextSafeAction: string;
+};
+
+export type PocketDecisionOption =
+  | "accept"
+  | "reject_with_notes"
+  | "focused_correction";
+
+export type AlkonPocketUniverseSnapshot = {
+  checkedAt: string;
+  mode: "alkon_pocket_universe";
+  founderOnly: true;
+  readOnly: true;
+  previewOnly: true;
+  publicExposure: false;
+  station: "Local Day One Gate";
+  localDayOne: "not_started";
+  heartStatus: "Pro Max Trading heart preserved";
+  visualAcceptance: "visual_acceptance_needed";
+  wakeReport: {
+    status: string;
+    mission: string;
+    done: string;
+    notDone: string;
+    next: string;
+  };
+  oneNextAction: string;
+  decisionOptions: PocketDecisionOption[];
+  deviceRoles: Array<{
+    deviceId: string;
+    privateName: string;
+    role: string;
+    constellationRole: PrivateDeviceConstellationRole;
+    allowed: DeviceCapability[];
+    blocked: DeviceBlockedCapability[];
+  }>;
+  blockedActions: DeviceBlockedCapability[];
+  whatNotToDo: string[];
+  noShell: true;
+  noCodex: true;
+  noPayments: true;
+  noSecrets: true;
+  noLiveTrading: true;
 };
 
 export type PublicDeviceRegistryItem = Omit<
@@ -166,6 +223,11 @@ export type FounderDeviceReadinessSnapshot = {
   publicExposure: false;
   noExecution: true;
   noSecrets: true;
+  officialConstellation: {
+    windows: "Windows Command + Build Center";
+    iphone: "iPhone Pocket Decision Center";
+    samsung: "Samsung Review + Android Reality Center";
+  };
   nextSafeActions: string[];
   blockedActions: DeviceBlockedCapability[];
 };

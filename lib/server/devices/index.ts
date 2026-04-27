@@ -15,6 +15,8 @@ export type {
   FounderDeviceReadinessSnapshot,
   PublicDeviceReadinessSnapshot,
   PublicDeviceRegistryItem,
+  AlkonPocketUniverseSnapshot,
+  PocketDecisionOption,
 } from "./types";
 export { getAlkonDeviceRegistry } from "./alkon-devices";
 export { getDeviceContinuityPaths } from "./continuity";
@@ -25,6 +27,7 @@ export {
 } from "./permissions";
 export { getPublicDeviceRegistry } from "./public-devices";
 export { getDeviceSecurityReadiness } from "./security";
+export { getAlkonPocketUniverseSnapshot } from "./pocket-universe";
 export {
   getDeviceDiagnosticsProbe,
   getDeviceRegistry,

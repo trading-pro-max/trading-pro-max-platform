@@ -2,31 +2,40 @@
 
 Status: active_with_notes
 
-Activation decision: activate_with_notes
+Activation decision: active_with_notes after A-Z operating execution.
 
-Zero Truth:
+Official path:
 
-- Current project was audited without deletion, reset, or blank rebuild.
-- Product Truth and public/private boundary are preserved by default.
-- Ahmad visual acceptance remains required.
+`C:\Users\ahmad\Desktop\ALKON\Pro Max\Pro Max Trading\pro-max-trading-platform`
+
+Desktop structure:
+
+- `Alkon 0`: kernel/origin area.
+- `Pro Max`: public mother brand area.
+- `Pro Max Trading`: Prime World and current codebase.
+- `Assets`: approved future assets only.
+- `Reports`: operational reports.
+- `Archive`: do not use as current project.
 
 Gates:
 
 - Product Truth Gate: pass
 - Public/Private Boundary Gate: pass
-- Build Validation Gate: pass with notes
-- Git Clean Gate: pass with notes
+- Official Path Gate: pass
+- Device Constellation Gate: pass
+- Pocket Universe Gate: pass with notes
+- Local Builder Gate: pass with notes
+- Reality Production Gate: pass with notes
+- Self-Correction Gate: pass with notes
 - Wake Report Gate: pass
-- Living Market Core Gate: pass
-- Visual Acceptance Gate: needs review
-- Assistant Readiness Gate: pass
-- Settings and Diagnostics Gate: pass
-- Alkon Private Readiness Gate: pass
-- Local Day One Gate: needs review
+- Validation Gate: pass
+- Visual Acceptance Gate: visual_acceptance_needed
+- Final Universal Closure Gate: ready_with_notes
+- Local Day One Gate: not_started
 
 One next action:
 
-Ask Ahmad to visually accept or reject the latest Pro Max public and Trading Workspace baseline.
+Ask Ahmad to visually accept or reject the Founder Command, Pocket Universe, and public Pro Max baseline.
 
 Forbidden now:
 
@@ -38,5 +47,7 @@ Forbidden now:
 - real money
 - public Alkon exposure
 - shell execution from the web app
+- Codex execution from the web app
+- payment execution
 - secrets exposure
-- image generation or raster assets
+- image generation or tracked raster assets

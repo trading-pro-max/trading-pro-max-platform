@@ -32,6 +32,9 @@ import { getPlanetaryEnvironmentReadinessSnapshot } from "@/lib/server/environme
 import { getEarthRealitySnapshot } from "@/lib/server/earth-reality";
 import { getPersonalRealityReadinessSnapshot } from "@/lib/server/personal-reality";
 import { getFounderDeviceReadinessSnapshot } from "@/lib/server/devices";
+import { getLocalBuilderReadinessSnapshot } from "@/lib/server/local-builder";
+import { getRealityProductionSnapshot } from "@/lib/server/reality-production";
+import { getSelfCorrectionSnapshot } from "@/lib/server/self-correction";
 import { getMediaIntelligenceSnapshot } from "@/lib/server/media-intelligence";
 import { getIntentInterfaceReadinessSnapshot } from "@/lib/server/intent-interface";
 import { getRevelationExperienceSnapshot } from "@/lib/server/revelation-experience";
@@ -101,6 +104,9 @@ export type FounderPersonalCompanionSnapshot = {
   personalRealitySummary: string[];
   intentInterfaceSummary: string[];
   deviceConstellationSummary: string[];
+  localBuilderSummary: string[];
+  realityProductionSummary: string[];
+  selfCorrectionSummary: string[];
   realWorldLaunchReadinessSummary: string[];
   planetaryEnvironmentSummary: string[];
   invisibleOperatingLayerSummary: string[];
@@ -176,6 +182,9 @@ export function getFounderPersonalCompanionSnapshot(
   const personalReality = getPersonalRealityReadinessSnapshot(checkedAt);
   const intentInterface = getIntentInterfaceReadinessSnapshot(checkedAt);
   const deviceConstellation = getFounderDeviceReadinessSnapshot(checkedAt);
+  const localBuilder = getLocalBuilderReadinessSnapshot(checkedAt);
+  const realityProduction = getRealityProductionSnapshot(checkedAt);
+  const selfCorrection = getSelfCorrectionSnapshot(checkedAt);
   const publicRealms = getPublicPlanRealms();
   const privateRealm = getPrivateFounderRealm();
   const decisionMinistries = reporting.ministries.filter(
@@ -426,9 +435,25 @@ export function getFounderPersonalCompanionSnapshot(
     ],
     deviceConstellationSummary: [
       `Multi-device readiness is ${deviceConstellation.status}: ${deviceConstellation.publicDevices.length} public apps and ${deviceConstellation.privateDevices.length} private command devices are modeled.`,
+      `Official constellation: ${deviceConstellation.officialConstellation.windows}, ${deviceConstellation.officialConstellation.iphone}, ${deviceConstellation.officialConstellation.samsung}.`,
       "Public Apps / Platforms truth remains Web current, Desktop planned, Mobile planned, and Tablet future with no fake downloads or store claims.",
       "Private Alkon devices are internal-only, read-only, secret-free, and non-executing.",
       `${deviceConstellation.blockedActions.length} hard-blocked actions apply across every device, including billing, broker/feed, live execution, real money, social publishing, secrets, and shell execution.`,
+    ],
+    localBuilderSummary: [
+      `Local Builder is ${localBuilder.status} with ${localBuilder.scripts.length} terminal-only scripts.`,
+      `Web shell execution: ${String(localBuilder.webAppCanExecuteShell)}; web Codex execution: ${String(localBuilder.webAppCanRunCodex)}.`,
+      localBuilder.nextSafeAction,
+    ],
+    realityProductionSummary: [
+      `Reality Production is ${realityProduction.status}; selected builder is ${realityProduction.selectedBuilder.builderId}.`,
+      `Evidence closure allowed: ${String(realityProduction.evidence.canClose)}; next fate is ${realityProduction.nextFate}.`,
+      "Codex remains a builder, not the leader; Ahmad decides sensitive matters.",
+    ],
+    selfCorrectionSummary: [
+      `Self-Correction is ${selfCorrection.status} with ${selfCorrection.signals.length} monitored blocker signals.`,
+      `${selfCorrection.signals.filter((signal) => signal.detected).length} signals are active notes, including visual acceptance and Local Day One blockers.`,
+      selfCorrection.nextAction,
     ],
     realWorldLaunchReadinessSummary: [
       `Real-world readiness is ${realWorldLaunchReadiness.status}; launch gate is ${realWorldLaunchReadiness.gate.status}.`,

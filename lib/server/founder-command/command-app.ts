@@ -50,6 +50,9 @@ import { getPlanetaryEnvironmentReadinessSnapshot } from "@/lib/server/environme
 import { getEarthRealitySnapshot } from "@/lib/server/earth-reality";
 import { getPersonalRealityReadinessSnapshot } from "@/lib/server/personal-reality";
 import { getFounderDeviceReadinessSnapshot } from "@/lib/server/devices";
+import { getLocalBuilderReadinessSnapshot } from "@/lib/server/local-builder";
+import { getRealityProductionSnapshot } from "@/lib/server/reality-production";
+import { getSelfCorrectionSnapshot } from "@/lib/server/self-correction";
 import { getMediaIntelligenceSnapshot } from "@/lib/server/media-intelligence";
 import { getRevelationExperienceSnapshot } from "@/lib/server/revelation-experience";
 import { getInvisibleOperatingLayerSnapshot } from "@/lib/server/invisible-operating-layer";
@@ -214,6 +217,9 @@ export function getFounderCommandAppSnapshot(
   const hybridEarthTextureReadiness = getFounderHybridEarthTextureReadiness();
   const personalReality = getPersonalRealityReadinessSnapshot(checkedAt);
   const deviceConstellation = getFounderDeviceReadinessSnapshot(checkedAt);
+  const localBuilder = getLocalBuilderReadinessSnapshot(checkedAt);
+  const realityProduction = getRealityProductionSnapshot(checkedAt);
+  const selfCorrection = getSelfCorrectionSnapshot(checkedAt);
   const treasuryLife = getTreasuryLifeSnapshot();
   const mediaIntelligence = getMediaIntelligenceSnapshot();
   const revelationExperience = getRevelationExperienceSnapshot(checkedAt);
@@ -480,6 +486,7 @@ export function getFounderCommandAppSnapshot(
     },
     deviceConstellation: {
       status: deviceConstellation.status,
+      officialConstellation: deviceConstellation.officialConstellation,
       publicDeviceCount: deviceConstellation.publicDevices.length,
       privateDeviceCount: deviceConstellation.privateDevices.length,
       publicDevices: deviceConstellation.publicDevices.map((device) => ({
@@ -509,6 +516,23 @@ export function getFounderCommandAppSnapshot(
       noSecrets: deviceConstellation.noSecrets,
       blockedActions: deviceConstellation.blockedActions,
       nextSafeActions: deviceConstellation.nextSafeActions,
+    },
+    localBuilder,
+    realityProduction,
+    selfCorrection,
+    finalUniversalClosureGate: {
+      status:
+        visualAcceptance.status === "pass"
+          ? "ready_for_final_closure_review"
+          : "ready_with_notes",
+      localDayOne: "not_started",
+      visualAcceptance:
+        visualAcceptance.status === "pass" ? "accepted" : "visual_acceptance_needed",
+      next:
+        visualAcceptance.status === "pass"
+          ? "Final Universal Closure review, then Ahmad decides Local Day One."
+          : "Ahmad visual review.",
+      startsAutomatically: false,
     },
     planetaryEnvironment: {
       status: planetaryEnvironment.status,
@@ -1404,6 +1428,15 @@ export function getFounderCommandAppSnapshot(
       "/api/founder/alkon-kernel/commands",
       "/api/founder/alkon-kernel/one-next-action",
       "/api/founder/alkon-kernel/local-day-one",
+      "/api/founder/devices/readiness",
+      "/api/founder/devices/registry",
+      "/api/founder/pocket/status",
+      "/api/founder/pocket/wake-report",
+      "/api/founder/pocket/one-next-action",
+      "/api/founder/pocket/visual-review",
+      "/api/founder/local-builder/readiness",
+      "/api/founder/reality-production/readiness",
+      "/api/founder/self-correction/readiness",
       "/api/integrations/readiness",
       "/api/integrations/registry",
       "/api/integrations/account-provisioning",

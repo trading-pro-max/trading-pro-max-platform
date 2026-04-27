@@ -83,6 +83,11 @@ export function getFounderDeviceReadinessSnapshot(
     publicExposure: false,
     noExecution: true,
     noSecrets: true,
+    officialConstellation: {
+      windows: "Windows Command + Build Center",
+      iphone: "iPhone Pocket Decision Center",
+      samsung: "Samsung Review + Android Reality Center",
+    },
     nextSafeActions: [
       "Keep public apps truthful: Web current, Desktop planned, Mobile planned, Tablet future.",
       "Keep private Alkon device constellation internal and read-only.",
