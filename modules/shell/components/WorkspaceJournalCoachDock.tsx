@@ -27,14 +27,14 @@ export function WorkspaceJournalCoachDock({
       <div className="tpm-workspace-journal-head">
         <div>
           <span>Journal / Coach</span>
-          <strong>Secondary helper</strong>
+          <strong>Quiet reflection layer</strong>
         </div>
-        <small>Paper practice reflection only</small>
+        <small>Paper practice only</small>
       </div>
 
       <div className="tpm-workspace-journal-grid" aria-label="Session reflection">
         <div>
-          <span>Open paper trades</span>
+          <span>Open trades</span>
           <strong>{openTradesCount}</strong>
         </div>
         <div>

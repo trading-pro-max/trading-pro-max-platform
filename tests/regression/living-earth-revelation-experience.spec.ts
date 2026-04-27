@@ -148,6 +148,12 @@ test.describe("TPM Living Earth Revelation Experience", () => {
     await expect(page.locator(".tpm-terminal-topbar")).toHaveCount(1);
     await expect(page.locator(".tpm-public-nav")).toHaveCount(0);
     await expect(page.locator(".tpmv2-chart-surface").first()).toBeVisible();
+    await page.evaluate(() => {
+      const details = document.querySelector(
+        ".tpm-workspace-assistant-details"
+      ) as HTMLDetailsElement | null;
+      if (details) details.open = true;
+    });
     await expect(page.locator(".tpm-intent-chip", { hasText: "Journal" }).first()).toBeVisible();
     await screenshotLocator(page, ".tpm-workspace-shell", "workspace-first-3-minutes.png");
     await screenshotLocator(page, ".tpmv2-primary", "workspace-chart-focus.png");

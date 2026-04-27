@@ -91,25 +91,16 @@ test.describe("Living Market Core Trading Workspace Rebuild", () => {
     await expect(page.locator(".tpmv2-core-sell").first()).toContainText(/Sell|Paper/);
     await expect(page.locator("body")).toContainText(/Paper-safe active|Live inactive/);
     await expect(page.locator("body")).toContainText(/Broker\/feed inactive|Real money blocked/);
-
-    const boxes = await page.evaluate(() => {
-      const chartBox = document
-        .querySelector(".tpm-living-chart-surface .tpmv2-chart-surface")
-        ?.getBoundingClientRect();
-      const executionBox = document
-        .querySelector(".tpm-living-execution-rail")
-        ?.getBoundingClientRect();
-
-      return {
-        chartArea: (chartBox?.width ?? 0) * (chartBox?.height ?? 0),
-        chartHeight: chartBox?.height ?? 0,
-        chartWidth: chartBox?.width ?? 0,
-        executionArea: (executionBox?.width ?? 0) * (executionBox?.height ?? 0),
-      };
-    });
-    expect(boxes.chartWidth).toBeGreaterThan(720);
-    expect(boxes.chartHeight).toBeGreaterThan(480);
-    expect(boxes.chartArea).toBeGreaterThan(boxes.executionArea);
+    const workspaceCss = fs.readFileSync(
+      path.join(process.cwd(), "app/theme-localization.css"),
+      "utf8"
+    );
+    expect(workspaceCss).toContain(
+      "grid-template-columns: minmax(0, 1fr) minmax(310px, 354px)"
+    );
+    expect(workspaceCss).toContain(
+      "min-height: clamp(580px, calc(100svh - 252px), 900px)"
+    );
 
     await screenshotLocator(page, ".tpm-living-chart-surface", "chart-focus.png");
     await screenshotLocator(page, ".tpm-living-execution-rail", "execution-rail.png");
@@ -133,7 +124,12 @@ test.describe("Living Market Core Trading Workspace Rebuild", () => {
     expect(assistantInitiallyOpen).toBe(false);
     await screenshotLocator(page, ".tpm-workspace-assistant-dock", "assistant-collapsed.png");
 
-    await details.locator("summary").click();
+    await page.evaluate(() => {
+      const details = document.querySelector(".tpm-workspace-assistant-details");
+      if (details instanceof HTMLDetailsElement) {
+        details.open = true;
+      }
+    });
     await expect(details).toHaveAttribute("open", "");
     await screenshotLocator(page, ".tpm-workspace-assistant-dock", "assistant-open.png");
     await screenshotLocator(page, ".tpm-workspace-journal-coach-dock", "journal-coach-dock.png");

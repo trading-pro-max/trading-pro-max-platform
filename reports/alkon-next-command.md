@@ -2,31 +2,36 @@
 
 Recommended next command:
 
-Run Ahmad visual acceptance for Public Header Hard Cleanup + Language System Disable + Trading Workspace Route Repair.
+Run Ahmad visual acceptance for Pro Max Full Visual Balance + Full Trading Workspace A-Z Rebuild.
 
 Reason:
 
-The public header is now orientation-only, broken language controls are disabled from public UI, Theme/Adaptive Atmosphere controls live in Settings, and Trading Workspace opens reliably from nav and hero.
+The public product now uses one code-only procedural Earth origin across Home, header, logo, workspace, chart, execution, Assistant, Journal / Coach, Settings, Diagnostics, Plans, Apps, and Support while keeping paper-safe truth and private boundaries intact.
 
 Review:
 
-- `test-results/public-header-language-disable-route-repair/public-header-clean.png`
-- `test-results/public-header-language-disable-route-repair/public-header-no-language.png`
-- `test-results/public-header-language-disable-route-repair/public-header-no-theme-controls.png`
-- `test-results/public-header-language-disable-route-repair/home-clean-header-dark.png`
-- `test-results/public-header-language-disable-route-repair/home-clean-header-light.png`
-- `test-results/public-header-language-disable-route-repair/settings-no-broken-language.png`
-- `test-results/public-header-language-disable-route-repair/trading-workspace-route-open.png`
-- `test-results/public-header-language-disable-route-repair/workspace-no-public-nav.png`
-- `test-results/public-header-language-disable-route-repair/no-alkon-public-leak.png`
+- `test-results/pro-max-full-balance-workspace-rebuild/home-full-balance-dark.png`
+- `test-results/pro-max-full-balance-workspace-rebuild/home-full-balance-light.png`
+- `test-results/pro-max-full-balance-workspace-rebuild/header-balanced.png`
+- `test-results/pro-max-full-balance-workspace-rebuild/logo-procedural-earth-balanced.png`
+- `test-results/pro-max-full-balance-workspace-rebuild/workspace-full-rebuild-dark.png`
+- `test-results/pro-max-full-balance-workspace-rebuild/workspace-chart-dominant.png`
+- `test-results/pro-max-full-balance-workspace-rebuild/workspace-execution-integrated.png`
+- `test-results/pro-max-full-balance-workspace-rebuild/workspace-assistant-open-no-cover.png`
+- `test-results/pro-max-full-balance-workspace-rebuild/settings-balanced.png`
+- `test-results/pro-max-full-balance-workspace-rebuild/diagnostics-balanced.png`
+- `test-results/pro-max-full-balance-workspace-rebuild/plans-balanced.png`
+- `test-results/pro-max-full-balance-workspace-rebuild/apps-balanced.png`
+- `test-results/pro-max-full-balance-workspace-rebuild/support-balanced.png`
+- `test-results/pro-max-full-balance-workspace-rebuild/no-alkon-public-leak.png`
 
 Next safe scope:
 
-- record Ahmad acceptance or exact remaining visual/route blockers
-- keep public topbar minimal
-- keep Settings as the secondary control surface
+- record Ahmad acceptance or the next precise visual blocker
+- keep the chart dominant and the execution rail integrated
+- keep Assistant secondary and Journal / Coach quiet
+- keep Settings and Diagnostics as the control/truth surfaces
 - keep public language switching disabled until rebuilt
-- keep Trading Workspace chart-first and public-nav-free
 - keep Alkon private
 
 Blocked:

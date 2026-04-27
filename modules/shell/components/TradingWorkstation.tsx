@@ -6,7 +6,6 @@ import { getDirection } from "../../../lib/i18n/config";
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
 import LivingEarthBackground from "../../brand/components/LivingEarthBackground";
 import { CompanionLauncher } from "../../companion/components";
-import OperatorIntelligenceDeck from "../../intelligence/components/OperatorIntelligenceDeck";
 import type {
   WorkspaceFocusMode,
   WatchlistDensityMode,
@@ -17,11 +16,8 @@ import {
   ActivityLogPanel,
   ActivityOpenTradesPanel,
   ChartCard,
-  DesktopRail,
   ExecutionCard,
-  NarrowStrip,
   TradingTopbar,
-  WorkstationCommandCenter,
 } from "./PlatformShellV2";
 import { ExecutionRail } from "./ExecutionRail";
 import { LivingMarketCore } from "./LivingMarketCore";
@@ -37,6 +33,12 @@ function focusModeLabel(mode: WorkspaceFocusMode) {
   if (mode === "chart_focus") return "Chart focus";
   if (mode === "execution_focus") return "Execution focus";
   return "Balanced";
+}
+
+function workspaceFocusClassName(mode: WorkspaceFocusMode) {
+  if (mode === "chart_focus") return "tpmv2-desktop-master-focus-chart";
+  if (mode === "execution_focus") return "tpmv2-desktop-master-focus-execution";
+  return "tpmv2-desktop-master-focus-balanced";
 }
 
 function watchlistDensityLabel(mode: WatchlistDensityMode) {
@@ -68,6 +70,8 @@ type WorkflowPreflightState = {
   note: string;
 };
 
+const AMOUNT_PRESETS = ["50", "100", "250", "500"] as const;
+
 export default function TradingWorkstation({
   locale,
   dict,
@@ -76,11 +80,6 @@ export default function TradingWorkstation({
   dict: Dictionary;
 }) {
   const platformState = usePlatformState(locale, dict.decision.reasons);
-  const {
-    watchlistVisible: desktopWatchlistVisible,
-    ticketVisible: desktopTicketVisible,
-    blotterExpanded: desktopBlotterExpanded,
-  } = platformState.workspacePreferences;
   const { focusMode, watchlistDensity } = platformState.workspaceDepth;
   const viewModel = createTradingWorkstationViewModel({
     locale,
@@ -100,9 +99,7 @@ export default function TradingWorkstation({
     openTradesCount: platformState.openTrades.length,
   });
 
-  const [shortcutHint, setShortcutHint] = useState(
-    "Workspace depth layer active."
-  );
+  const [shortcutHint, setShortcutHint] = useState("Balanced workspace focus active.");
   const [workflowPreflight, setWorkflowPreflight] = useState<WorkflowPreflightState>({
     value: "Loading",
     tone: "pending",
@@ -113,6 +110,12 @@ export default function TradingWorkstation({
   const diagnosticsHref = `${localePrefix}/diagnostics`;
   const settingsHref = `${localePrefix}/settings`;
   const feedbackHref = `${diagnosticsHref}#feedback`;
+  const feedStatus = humanizeState(platformState.dataStateFoundation.marketFeedState);
+  const fallbackTruth =
+    platformState.dataStateFoundation.marketFeedState === "fallback_ready"
+      ? "Demo/fallback data"
+      : "Market data readiness";
+
   const marketDepthItems = useMemo(
     () => [
       {
@@ -121,7 +124,7 @@ export default function TradingWorkstation({
       },
       {
         label: "Feed state",
-        value: humanizeState(platformState.dataStateFoundation.marketFeedState),
+        value: feedStatus,
         tone:
           platformState.dataStateFoundation.marketFeedState === "external_ready"
             ? ("approved" as const)
@@ -139,12 +142,14 @@ export default function TradingWorkstation({
       },
     ],
     [
+      feedStatus,
       focusMode,
       platformState.dataStateFoundation.chartBindingState,
       platformState.dataStateFoundation.marketFeedState,
       platformState.selectedAsset.assetClass,
     ]
   );
+
   const preflightItems = useMemo(
     () => [
       {
@@ -175,21 +180,22 @@ export default function TradingWorkstation({
       platformState.accountMode,
       platformState.canOpenMore,
       platformState.openTrades.length,
-      workflowPreflight.note,
-      workflowPreflight.tone,
-      workflowPreflight.value,
-      viewModel.ticketReadinessLabel,
-      viewModel.ticketReadinessValue,
       viewModel.sessionPnLText,
       viewModel.sessionStateLabel,
       viewModel.ticketGateTone,
       viewModel.ticketGateValue,
+      viewModel.ticketReadinessLabel,
+      viewModel.ticketReadinessValue,
+      workflowPreflight.note,
+      workflowPreflight.tone,
+      workflowPreflight.value,
     ]
   );
+
   const recentActivity =
     platformState.auditTraceFoundation.recentEvents[0]?.message ??
     "Workspace state is standing by for the next operator action.";
-  const amountPresets = ["50", "100", "250", "500"] as const;
+
   const showShortcutHint = (message: string) => {
     setShortcutHint(message);
   };
@@ -198,7 +204,7 @@ export default function TradingWorkstation({
     if (!shortcutHint) return undefined;
 
     const timeout = window.setTimeout(() => {
-      setShortcutHint("Workspace depth layer active.");
+      setShortcutHint("Balanced workspace focus active.");
     }, 3200);
 
     return () => window.clearTimeout(timeout);
@@ -293,33 +299,6 @@ export default function TradingWorkstation({
 
     const key = event.key.toLowerCase();
 
-    if (key === "1") {
-      event.preventDefault();
-      platformState.toggleWorkspacePanel("watchlistVisible");
-      showShortcutHint(
-        `Watchlist ${desktopWatchlistVisible ? "collapsed" : "opened"} from keyboard.`
-      );
-      return;
-    }
-
-    if (key === "2") {
-      event.preventDefault();
-      platformState.toggleWorkspacePanel("ticketVisible");
-      showShortcutHint(
-        `Execution ticket ${desktopTicketVisible ? "collapsed" : "opened"} from keyboard.`
-      );
-      return;
-    }
-
-    if (key === "3") {
-      event.preventDefault();
-      platformState.toggleWorkspacePanel("blotterExpanded");
-      showShortcutHint(
-        `Blotter ${desktopBlotterExpanded ? "collapsed" : "expanded"} from keyboard.`
-      );
-      return;
-    }
-
     if (key === "4") {
       event.preventDefault();
       platformState.setWorkspaceFocusMode("balanced");
@@ -342,10 +321,10 @@ export default function TradingWorkstation({
     }
 
     const shortcutAmountPresetByKey: Record<string, string> = {
-      "7": amountPresets[0],
-      "8": amountPresets[1],
-      "9": amountPresets[2],
-      "0": amountPresets[3],
+      "7": AMOUNT_PRESETS[0],
+      "8": AMOUNT_PRESETS[1],
+      "9": AMOUNT_PRESETS[2],
+      "0": AMOUNT_PRESETS[3],
     };
     const preset = shortcutAmountPresetByKey[key];
 
@@ -362,90 +341,7 @@ export default function TradingWorkstation({
     return () => window.removeEventListener("keydown", handleShortcut);
   }, []);
 
-  const workspaceControls = (
-    <div className="tpmv2-workspace-controls" role="toolbar" aria-label={dict.chart.title}>
-      <button
-        type="button"
-        className={
-          desktopWatchlistVisible
-            ? "tpmv2-workspace-toggle active"
-            : "tpmv2-workspace-toggle"
-        }
-        aria-pressed={desktopWatchlistVisible}
-        aria-keyshortcuts="Shift+1"
-        onClick={() => platformState.toggleWorkspacePanel("watchlistVisible")}
-      >
-        {dict.market.title}
-      </button>
-
-      <button
-        type="button"
-        className={
-          desktopTicketVisible
-            ? "tpmv2-workspace-toggle active"
-            : "tpmv2-workspace-toggle"
-        }
-        aria-pressed={desktopTicketVisible}
-        aria-keyshortcuts="Shift+2"
-        onClick={() => platformState.toggleWorkspacePanel("ticketVisible")}
-      >
-        {dict.trade.title}
-      </button>
-
-      <button
-        type="button"
-        className={
-          desktopBlotterExpanded
-            ? "tpmv2-workspace-toggle active"
-            : "tpmv2-workspace-toggle"
-        }
-        aria-pressed={desktopBlotterExpanded}
-        aria-keyshortcuts="Shift+3"
-        onClick={() => platformState.toggleWorkspacePanel("blotterExpanded")}
-      >
-        {dict.journal.historyTitle}
-      </button>
-    </div>
-  );
-  const desktopMasterClass = [
-    "tpmv2-desktop-master",
-    !desktopTicketVisible ? "tpmv2-desktop-master-ticket-hidden" : "",
-    focusMode === "chart_focus"
-      ? "tpmv2-desktop-master-focus-chart"
-      : focusMode === "execution_focus"
-      ? "tpmv2-desktop-master-focus-execution"
-      : "",
-  ]
-    .filter(Boolean)
-    .join(" ");
-  const feedStatus = humanizeState(platformState.dataStateFoundation.marketFeedState);
-  const fallbackTruth =
-    platformState.dataStateFoundation.marketFeedState === "fallback_ready"
-      ? "Demo/fallback data"
-      : "Market data readiness";
-
-  function renderCommandCenter() {
-    return (
-      <WorkstationCommandCenter
-        dict={dict}
-        selectedAssetSymbol={platformState.selectedAsset.symbol}
-        selectedTimeframe={platformState.selectedTimeframe}
-        signalLabel={viewModel.signalLabel}
-        decision={platformState.decision}
-        openTradesCount={platformState.openTrades.length}
-        historyCount={platformState.history.length}
-        sessionPnLText={viewModel.sessionPnLText}
-        ticketReadinessLabel={viewModel.ticketReadinessLabel}
-        ticketReadinessValue={viewModel.ticketReadinessValue}
-        ticketReadinessTone={viewModel.ticketReadinessTone}
-        paperAccessLabel={viewModel.paperAccessLabel}
-        paperAccessValue={viewModel.paperAccessValue}
-        paperAccessTone={viewModel.paperAccessTone}
-      />
-    );
-  }
-
-  function renderChartCard(withWorkspaceControls: boolean) {
+  function renderChartCard() {
     return (
       <ChartCard
         dict={dict}
@@ -478,7 +374,6 @@ export default function TradingWorkstation({
           watchlistDensity
         )} watchlist / ${focusModeLabel(focusMode)} composition.`}
         focusMode={focusMode}
-        workspaceControls={withWorkspaceControls ? workspaceControls : undefined}
       />
     );
   }
@@ -522,7 +417,7 @@ export default function TradingWorkstation({
         ticketOperationalValue={viewModel.ticketOperationalValue}
         ticketOperationalTone={viewModel.ticketOperationalTone}
         preflightItems={preflightItems}
-        amountPresets={amountPresets}
+        amountPresets={AMOUNT_PRESETS}
         onApplyAmountPreset={platformState.setAmount}
         recentActivityLabel="Recent desk activity"
         recentActivityValue={recentActivity}
@@ -531,16 +426,9 @@ export default function TradingWorkstation({
     );
   }
 
-  function renderLivingMarketCore({
-    includeExecution,
-    withWorkspaceControls,
-  }: {
-    includeExecution: boolean;
-    withWorkspaceControls: boolean;
-  }) {
+  function renderLivingMarketCore() {
     return (
       <LivingMarketCore
-        marketStatusStrip={renderCommandCenter()}
         chartHeader={
           <TradingChartHeader
             assetChange={platformState.selectedAsset.change}
@@ -550,11 +438,12 @@ export default function TradingWorkstation({
             focusModeLabel={focusModeLabel(focusMode)}
             marketStatus={platformState.selectedAsset.status}
             paperAccess={`${viewModel.paperAccessLabel}: ${viewModel.paperAccessValue}`}
+            selectedTimeframe={platformState.selectedTimeframe}
           />
         }
         chart={
           <TradingChartSurface>
-            <TradingChartCanvas>{renderChartCard(withWorkspaceControls)}</TradingChartCanvas>
+            <TradingChartCanvas>{renderChartCard()}</TradingChartCanvas>
           </TradingChartSurface>
         }
         chartFooter={
@@ -563,9 +452,7 @@ export default function TradingWorkstation({
             shortcutHint={shortcutHint}
           />
         }
-        executionRail={
-          includeExecution ? <ExecutionRail>{renderExecutionCard()}</ExecutionRail> : null
-        }
+        executionRail={<ExecutionRail>{renderExecutionCard()}</ExecutionRail>}
         assistantDock={
           <WorkspaceAssistantDock
             focusMode={focusMode}
@@ -585,6 +472,38 @@ export default function TradingWorkstation({
     );
   }
 
+  const activityShelf = (
+    <section
+      className="tpm-workspace-activity-shelf"
+      aria-label="Workspace activity shelf"
+      data-workspace-activity="secondary"
+    >
+      <details className="tpm-workspace-activity-panel">
+        <summary>Open paper positions</summary>
+        <ActivityOpenTradesPanel
+          dict={dict}
+          openTrades={platformState.openTrades}
+          closePaperTrade={platformState.closePaperTrade}
+        />
+      </details>
+
+      <details className="tpm-workspace-activity-panel">
+        <summary>History</summary>
+        <ActivityHistoryPanel dict={dict} history={platformState.history} />
+      </details>
+
+      <details className="tpm-workspace-activity-panel">
+        <summary>{viewModel.auditTitle}</summary>
+        <ActivityLogPanel
+          title={viewModel.auditTitle}
+          subtitle={viewModel.auditSubtitle}
+          events={platformState.auditTraceFoundation.recentEvents}
+          emptyLabel={viewModel.auditEmptyLabel}
+        />
+      </details>
+    </section>
+  );
+
   return (
     <main
       className="tpm-app-shell tpm-workspace-shell tpm-foundation-frame tpmv2-page"
@@ -600,150 +519,145 @@ export default function TradingWorkstation({
       <TradingTopbar
         balance={platformState.balance}
         accountMode={platformState.accountMode}
-        onModeChange={platformState.switchAccountMode}
-        modeLabel={viewModel.modeLabel}
         demoLabel={viewModel.demoLabel}
-        realLabel={viewModel.realLabel}
-        selectedAssetSymbol={platformState.selectedAsset.symbol}
-        selectedAssetPrice={platformState.selectedAsset.price}
-        selectedAssetChange={platformState.selectedAsset.change}
-        marketStatus={platformState.selectedAsset.status}
-        paperAccessLabel={viewModel.paperAccessLabel}
-        paperAccessValue={viewModel.paperAccessValue}
-        paperAccessTone={viewModel.paperAccessTone}
         diagnosticsHref={diagnosticsHref}
         diagnosticsLabel={dict.nav.diagnostics}
+        locale={locale}
+        marketStatus={platformState.selectedAsset.status}
+        modeLabel={viewModel.modeLabel}
+        paperAccessLabel={viewModel.paperAccessLabel}
+        paperAccessTone={viewModel.paperAccessTone}
+        paperAccessValue={viewModel.paperAccessValue}
+        realLabel={viewModel.realLabel}
+        selectedAssetChange={platformState.selectedAsset.change}
+        selectedAssetPrice={platformState.selectedAsset.price}
+        selectedAssetSymbol={platformState.selectedAsset.symbol}
         settingsHref={settingsHref}
         settingsLabel={dict.nav.settings}
-        locale={locale}
       />
 
-      <section
-        className={
-          desktopWatchlistVisible
-            ? "tpmv2-shell-desktop"
-            : "tpmv2-shell-desktop tpmv2-shell-desktop-watchlist-hidden"
-        }
-      >
-        {desktopWatchlistVisible ? (
-          <DesktopRail
-            dict={dict}
-            assets={platformState.marketAssets}
-            selectedAssetIndex={platformState.selectedAssetIndex}
-            onSelectAsset={platformState.setSelectedAssetIndex}
-            selectedAsset={platformState.selectedAsset}
-            watchlistDensity={watchlistDensity}
-            focusMode={focusMode}
-            feedState={platformState.dataStateFoundation.marketFeedState}
-            lastUpdatedAt={platformState.dataStateFoundation.lastUpdatedAt}
-          />
-        ) : null}
-
-        <section className="tpmv2-main tpm-living-workspace-main">
-          <section className={desktopMasterClass}>
-            <section className="tpmv2-primary tpm-living-primary">
-              {renderLivingMarketCore({
-                includeExecution: desktopTicketVisible,
-                withWorkspaceControls: true,
-              })}
-            </section>
-          </section>
-
-          <section
-            className={
-              desktopBlotterExpanded
-                ? "tpmv2-card tpmv2-blotter expanded"
-                : "tpmv2-card tpmv2-blotter collapsed"
-            }
-          >
-            <div className="tpmv2-blotter-bar">
-              <div className="tpmv2-blotter-summary">
-                <div className="tpmv2-blotter-stat">
-                  <span>{dict.journal.openTradesTitle}</span>
-                  <strong>{platformState.openTrades.length}</strong>
-                </div>
-
-                <div className="tpmv2-blotter-stat">
-                  <span>{dict.journal.historyTitle}</span>
-                  <strong>{platformState.history.length}</strong>
-                </div>
-
-                <div className="tpmv2-blotter-stat">
-                  <span>{viewModel.auditTitle}</span>
-                  <strong>{platformState.auditTraceFoundation.recentEvents.length}</strong>
-                </div>
-              </div>
-
-              <div className="tpmv2-blotter-actions">
-                <span>{desktopBlotterExpanded ? dict.common.enabled : dict.common.closed}</span>
-                <button
-                  type="button"
-                  className={
-                    desktopBlotterExpanded
-                      ? "tpmv2-blotter-toggle active"
-                      : "tpmv2-blotter-toggle"
-                  }
-                  aria-expanded={desktopBlotterExpanded}
-                  onClick={() => platformState.toggleWorkspacePanel("blotterExpanded")}
-                >
-                  {dict.journal.historyTitle}
-                </button>
-              </div>
+      <section className="tpm-workspace-shell-body">
+        <section
+          className="tpm-workspace-market-summary"
+          aria-label="Workspace market summary"
+          data-workspace-market-summary="true"
+        >
+          <div className="tpm-workspace-market-summary-head">
+            <div className="tpm-workspace-market-summary-copy">
+              <span>Trading Workspace</span>
+              <strong>{platformState.selectedAsset.symbol}</strong>
+              <p>
+                Chart-first paper terminal with blocked live routing, clear product truth,
+                and assistant guidance that stays attached to the workspace.
+              </p>
             </div>
 
-            {desktopBlotterExpanded ? (
-              <div className="tpmv2-blotter-grid">
-                <ActivityOpenTradesPanel
-                  dict={dict}
-                  openTrades={platformState.openTrades}
-                  closePaperTrade={platformState.closePaperTrade}
-                />
-
-                <ActivityHistoryPanel dict={dict} history={platformState.history} />
-
-                <ActivityLogPanel
-                  title={viewModel.auditTitle}
-                  subtitle={viewModel.auditSubtitle}
-                  events={platformState.auditTraceFoundation.recentEvents}
-                  emptyLabel={viewModel.auditEmptyLabel}
-                />
+            <div className="tpm-workspace-market-summary-stats">
+              <div>
+                <span>Price</span>
+                <strong>{platformState.selectedAsset.price}</strong>
+                <small className={platformState.selectedAsset.change.startsWith("-") ? "negative" : "positive"}>
+                  {platformState.selectedAsset.change}
+                </small>
               </div>
-            ) : null}
-          </section>
+              <div>
+                <span>Focus</span>
+                <strong>{focusModeLabel(focusMode)}</strong>
+                <small>{platformState.selectedTimeframe}</small>
+              </div>
+              <div>
+                <span>Feed</span>
+                <strong>{feedStatus}</strong>
+                <small>{fallbackTruth}</small>
+              </div>
+              <div>
+                <span>Session</span>
+                <strong>{viewModel.sessionPnLText}</strong>
+                <small>{viewModel.ticketOperationalValue}</small>
+              </div>
+            </div>
+          </div>
 
-          <OperatorIntelligenceDeck intelligence={viewModel.intelligence} />
+          <div className="tpm-workspace-market-summary-actions">
+            <div className="tpm-workspace-focus-row" role="toolbar" aria-label="Workspace focus">
+              <button
+                type="button"
+                className={focusMode === "balanced" ? "active" : ""}
+                aria-pressed={focusMode === "balanced"}
+                onClick={() => {
+                  platformState.setWorkspaceFocusMode("balanced");
+                  showShortcutHint("Balanced workspace focus engaged.");
+                }}
+              >
+                Balanced
+              </button>
+              <button
+                type="button"
+                className={focusMode === "chart_focus" ? "active" : ""}
+                aria-pressed={focusMode === "chart_focus"}
+                onClick={() => {
+                  platformState.setWorkspaceFocusMode("chart_focus");
+                  showShortcutHint("Chart focus engaged.");
+                }}
+              >
+                Chart focus
+              </button>
+              <button
+                type="button"
+                className={focusMode === "execution_focus" ? "active" : ""}
+                aria-pressed={focusMode === "execution_focus"}
+                onClick={() => {
+                  platformState.setWorkspaceFocusMode("execution_focus");
+                  showShortcutHint("Execution focus engaged.");
+                }}
+              >
+                Execution
+              </button>
+            </div>
+
+            <div className="tpm-workspace-truth-row" aria-label="Workspace truth">
+              <span>Paper-safe</span>
+              <span>Live inactive</span>
+              <span>Broker/feed blocked</span>
+              <span>Earth-native</span>
+            </div>
+          </div>
+
+          <div className="tpm-workspace-asset-pills" role="tablist" aria-label="Market watchlist">
+            {platformState.marketAssets.map((asset, index) => (
+              <button
+                key={asset.symbol}
+                type="button"
+                className={index === platformState.selectedAssetIndex ? "active" : ""}
+                aria-pressed={index === platformState.selectedAssetIndex}
+                onClick={() => platformState.setSelectedAssetIndex(index)}
+              >
+                <strong>{asset.symbol}</strong>
+                <span>{asset.price}</span>
+                <small className={asset.change.startsWith("-") ? "negative" : "positive"}>
+                  {asset.change}
+                </small>
+              </button>
+            ))}
+          </div>
         </section>
-      </section>
 
-      <section className="tpmv2-shell-narrow">
-        <NarrowStrip
-          dict={dict}
-          assets={platformState.marketAssets}
-          selectedAssetIndex={platformState.selectedAssetIndex}
-          onSelectAsset={platformState.setSelectedAssetIndex}
-        />
+        <section className="tpmv2-shell-desktop">
+          <section className="tpmv2-main tpm-living-workspace-main">
+            <section
+              className={[
+                "tpmv2-desktop-master",
+                workspaceFocusClassName(focusMode),
+              ].join(" ")}
+            >
+              <section className="tpmv2-primary tpm-living-primary">
+                {renderLivingMarketCore()}
+              </section>
+            </section>
 
-        {renderLivingMarketCore({
-          includeExecution: true,
-          withWorkspaceControls: false,
-        })}
-
-        <ActivityOpenTradesPanel
-          dict={dict}
-          openTrades={platformState.openTrades}
-          closePaperTrade={platformState.closePaperTrade}
-        />
-
-        <ActivityHistoryPanel dict={dict} history={platformState.history} />
-
-        <ActivityLogPanel
-          title={viewModel.auditTitle}
-          subtitle={viewModel.auditSubtitle}
-          events={platformState.auditTraceFoundation.recentEvents}
-          emptyLabel={viewModel.auditEmptyLabel}
-        />
-
-        <OperatorIntelligenceDeck intelligence={viewModel.intelligence} />
+            {activityShelf}
+          </section>
+        </section>
       </section>
 
       <CompanionLauncher

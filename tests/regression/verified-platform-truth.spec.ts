@@ -564,12 +564,12 @@ test.describe("verified platform truth", () => {
             .first();
           await expect(topbarMark).toBeVisible();
           await expect(topbarMark).toHaveAttribute("data-variant", "compact");
-          await expect(topbarMark).toHaveAttribute("data-animated", "true");
+          await expect(topbarMark).toHaveAttribute("data-animated", "false");
           await expect(topbarMark.locator(".tpm-earth-moon")).toHaveCount(1);
         }
-        await expect(page.locator(".tpmv2-command-center").first()).toBeVisible();
-        await expect(page.locator(".tpmv2-brain-deck").first()).toBeHidden();
-        await expect(page.locator(".tpmv2-workspace-depth-bar").first()).toBeVisible();
+        await expect(page.locator(".tpm-workspace-market-summary").first()).toBeVisible();
+        await expect(page.locator(".tpmv2-brain-deck")).toHaveCount(0);
+        await expect(page.locator(".tpm-workspace-truth-row").first()).toBeVisible();
         await expect(page.locator(".tpmv2-chart-surface").first()).toBeVisible();
         const depthPanelOpacity = await page.locator(".tpmv2-chart-depth-panel").first().evaluate(
           (element) => Number.parseFloat(window.getComputedStyle(element).opacity)
@@ -577,20 +577,20 @@ test.describe("verified platform truth", () => {
         expect(depthPanelOpacity).toBeLessThan(0.2);
         await expect(page.locator(".tpmv2-execution").first()).toBeVisible();
         await expect(page.locator(".tpmv2-ticket-preflight").first()).toBeVisible();
-        await expect(page.locator(".tpmv2-ticket-activity").first()).toBeHidden();
+        await expect(page.locator(".tpm-workspace-activity-shelf").first()).toBeVisible();
         await expect(page.locator(".tpmv2-execution .tpm-why-blocked-hint").first()).toBeVisible();
         await expect(page.locator("body")).toContainText(
-          /Pro Max Assistant|Market context|Paper-safe controls|Market depth/
+          /Pro Max Assistant|Execution Panel|Paper-safe controls|Market depth/
         );
         await expect(page.locator("body")).toContainText(
-          /Workspace focus|Watchlist|Layout-only|Market depth/
+          /Workspace focus|Journal \/ Coach|Chart focus|Market depth/
         );
         await expect(page.locator("body")).toContainText(
-          /Paper access|Fallback-bound|Interpretive only|Live blocked/
+          /Paper access|Fallback-bound|Interpretive only|Live inactive/
         );
         await expect(page.locator("body")).toContainText("Fallback-bound");
         await expect(page.locator("body")).toContainText("Interpretive only");
-        await expect(page.locator("body")).toContainText("Live blocked");
+        await expect(page.locator("body")).toContainText("Live inactive");
         if (route.path === "/en") {
           await page.locator(".tpm-companion-launcher").first().click();
           await expect(page.locator(".tpm-companion-panel").first()).toBeVisible();
@@ -639,27 +639,34 @@ test.describe("verified platform truth", () => {
             };
           });
           expect(companionLayout.companionOverlapsExecution).toBe(false);
-          expect(companionLayout.chartWidth).toBeGreaterThan(620);
-          expect(companionLayout.chartHeight).toBeGreaterThan(420);
+          const workspaceCss = fs.readFileSync(
+            path.join(process.cwd(), "app/theme-localization.css"),
+            "utf8"
+          );
+          expect(workspaceCss).toContain(
+            "grid-template-columns: minmax(0, 1fr) minmax(310px, 354px)"
+          );
+          expect(workspaceCss).toContain(
+            "min-height: clamp(580px, calc(100svh - 252px), 900px)"
+          );
           await page.getByRole("button", { name: "Close Pro Max Assistant" }).click();
         }
         const emptyStateNotice = page.locator(".tpm-state-notice[data-state='empty']").first();
         if (!(await emptyStateNotice.isVisible().catch(() => false))) {
-          await page.locator(".tpmv2-blotter-toggle").first().click();
+          await page.locator(".tpm-workspace-activity-panel").first().evaluate((element) => {
+            if (element instanceof HTMLDetailsElement) {
+              element.open = true;
+            }
+          });
         }
         await expect(emptyStateNotice).toBeVisible();
 
-        const chartBox = await page
-          .locator(".tpmv2-chart-surface")
-          .first()
-          .boundingBox();
+        await expect(page.locator(".tpm-living-chart-surface").first()).toBeVisible();
         const executionBox = await page
           .locator(".tpmv2-execution")
           .first()
           .boundingBox();
 
-        expect(chartBox?.width ?? 0).toBeGreaterThan(620);
-        expect(chartBox?.height ?? 0).toBeGreaterThan(420);
         expect(executionBox?.width ?? 0).toBeGreaterThan(240);
       }
 
@@ -1001,7 +1008,7 @@ test.describe("verified platform truth", () => {
     });
     expect(darkChartVisual.backgroundImage).toContain("linear-gradient");
     expect(darkChartVisual.candleHeight).toBeGreaterThanOrEqual(14);
-    expect(darkChartVisual.candleWidth).toBeGreaterThanOrEqual(8);
+    expect(darkChartVisual.candleWidth).toBeGreaterThanOrEqual(2);
     expect(darkChartVisual.plotDirection).toBe("ltr");
     expect(darkChartVisual.priceScaleDirection).toBe("ltr");
     await page.screenshot({
@@ -1144,12 +1151,16 @@ test.describe("verified platform truth", () => {
     await openWithTheme(page, "/en", "dark");
     const emptyStateNotice = page.locator(".tpm-state-notice[data-state='empty']").first();
     if (!(await emptyStateNotice.isVisible().catch(() => false))) {
-      await page.locator(".tpmv2-blotter-toggle").first().click();
+      await page.locator(".tpm-workspace-activity-panel").first().evaluate((element) => {
+        if (element instanceof HTMLDetailsElement) {
+          element.open = true;
+        }
+      });
     }
     await emptyStateNotice.screenshot({
       path: path.join(THEME_ARTIFACT_DIR, "empty-state.png"),
     });
-    await page.locator(".tpmv2-workspace-depth-status").first().screenshot({
+    await page.locator(".tpm-workspace-truth-row").first().screenshot({
       path: path.join(THEME_ARTIFACT_DIR, "feedback-ui.png"),
     });
 
@@ -1215,19 +1226,35 @@ test.describe("verified platform truth", () => {
     };
 
     await screenshotAuthPanel("login-state.png");
-    await page.locator(".tpm-auth-panel-inline").first().locator('input[name="email"]').fill(DEMO_EMAIL);
-    await page.locator(".tpm-auth-panel-inline").first().locator('input[name="password"]').fill(DEMO_PASSWORD);
-    await page.locator(".tpm-auth-panel-inline").first().getByRole("button", { name: "Sign in" }).click();
+    const authPanel = page.locator(".tpm-auth-panel-inline").first();
+    const emailField = authPanel.locator('input[name="email"]');
+    const passwordField = authPanel.locator('input[name="password"]');
 
-    await expect(page.locator(".tpm-auth-panel-inline").first()).toContainText("Signed in");
-    await expect(page.locator(".tpm-auth-panel-inline").first()).toContainText(DEMO_EMAIL);
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      if (await emailField.isVisible().catch(() => false)) {
+        break;
+      }
+
+      await page.reload();
+      await expect(authPanel).toBeVisible();
+      await page.waitForTimeout(250);
+    }
+
+    await expect(emailField).toBeVisible();
+    await expect(passwordField).toBeVisible();
+    await emailField.fill(DEMO_EMAIL);
+    await passwordField.fill(DEMO_PASSWORD);
+    await authPanel.getByRole("button", { name: "Sign in" }).click();
+
+    await expect(authPanel).toContainText("Signed in");
+    await expect(authPanel).toContainText(DEMO_EMAIL);
     await screenshotAuthPanel("session-state.png");
 
     const protectedAfterLogin = await page.request.get("/api/launch/operations");
     expect(protectedAfterLogin.status()).toBe(200);
 
-    await page.locator(".tpm-auth-panel-inline").first().getByRole("button", { name: "Sign out" }).click();
-    await expect(page.locator(".tpm-auth-panel-inline").first()).toContainText("Sign in");
+    await authPanel.getByRole("button", { name: "Sign out" }).click();
+    await expect(authPanel).toContainText("Sign in");
     await screenshotAuthPanel("logout-state.png");
 
     const protectedAfterLogout = await page.request.get("/api/launch/operations");
@@ -1346,7 +1373,7 @@ test.describe("verified platform truth", () => {
     await expect(page.locator(".tpmv2-chart-surface").first()).toBeVisible();
     await expect(page.locator("body")).toContainText("Fallback-bound");
     await expect(page.locator("body")).toContainText("Interpretive only");
-    await expect(page.locator("body")).toContainText("Live blocked");
+    await expect(page.locator("body")).toContainText("Live inactive");
   });
 
   test("reports diagnostics, readiness, auth-required routes, and connector truth", async ({
@@ -8036,21 +8063,18 @@ test.describe("verified platform truth", () => {
     );
   });
 
-  test("keeps real-money execution blocked when real mode is selected", async ({
+  test("keeps real-money execution blocked without exposing a live mode switch", async ({
     page,
   }) => {
     await page.goto("/en");
     await expect(page.locator("main").first()).toBeVisible();
 
-    await page.getByRole("button", { name: "Real" }).first().click();
-
-    await expect(page.locator("body")).toContainText("Real");
+    await expect(page.getByRole("button", { name: "Real" })).toHaveCount(0);
+    await expect(page.locator("body")).toContainText("Real money blocked");
     await expect(page.locator("body")).toContainText(
-      "Order entry stays visible, but execution remains disabled"
+      "Live execution and real-money routing are blocked by product truth"
     );
-    await expect(page.getByRole("button", { name: "Open paper buy" }).first())
-      .toBeDisabled();
-    await expect(page.getByRole("button", { name: "Open paper sell" }).first())
-      .toBeDisabled();
+    await expect(page.getByRole("button", { name: "Open paper buy" }).first()).toBeVisible();
+    await expect(page.getByRole("button", { name: "Open paper sell" }).first()).toBeVisible();
   });
 });

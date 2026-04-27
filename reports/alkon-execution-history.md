@@ -1,5 +1,34 @@
 # Alkon Execution History
 
+## 2026-04-27 - Pro Max Full Visual Balance + Full Trading Workspace A-Z Rebuild
+
+Mission executed locally in code/CSS/tests/reports only.
+
+Actions:
+
+- Added a reusable procedural Earth core in `modules/brand/components/ProMaxProceduralEarth.tsx`.
+- Rebuilt Pro Max Earth identity across logo, Home, background, and workspace using SVG/CSS only.
+- Unified Home, Settings, Diagnostics, Plans, Apps, Support, and Trading Workspace under one calmer Earth-native visual token system.
+- Rebuilt the Trading Workspace structure into one chart-first shell with one compact logo, one topbar, one market-summary row, integrated execution, collapsed Assistant, and secondary Journal / Coach.
+- Preserved compact Product Truth and paper-safe execution boundaries while removing clutter that competed with the chart.
+- Added/updated regression coverage and generated proof screenshots under `test-results/pro-max-full-balance-workspace-rebuild/`.
+
+Validation:
+
+- TypeScript passed.
+- ESLint passed.
+- Build passed.
+- Prisma validate passed.
+- Regression passed with 196 tests.
+- Route smoke passed.
+- Diff check passed.
+
+Safety:
+
+- No live execution, real money, broker/feed activation, billing activation, production activation, generated images, raster assets, or public Alkon exposure were introduced.
+- Public language switching remains disabled.
+- Product Truth stayed preserved.
+
 ## 2026-04-26 - Alkon Sovereign Source Law
 
 Mission executed locally in code/docs/tests only.
@@ -57,62 +86,3 @@ Safety:
 
 - No live execution, real money, broker/feed, billing, production, shell execution, direct Codex execution, public Alkon exposure, generated images, or raster app assets were introduced.
 - Local Day One was not started; visual acceptance remains required.
-
-## 2026-04-26 - Public Shell Topbar Cleanup + Earth Presence Visual Correction
-
-Mission executed locally in code/CSS/tests/reports only.
-
-Actions:
-
-- Audited public header crowding across PublicAppShell, ShellNavigation, ShellControls, ShellStatusBadges, PublicProductEntry, PlatformUtilitySurfaces, and theme-localization CSS.
-- Removed public header language, theme, adaptive atmosphere, Settings/Diagnostics utility links, readiness badge cluster, clock, and pulse.
-- Kept the public topbar as orientation only: compact Pro Max logo, Home, Trading Workspace, Markets, Plans, Apps / Platforms, Academy, Support, and Sign in.
-- Preserved Settings as the control home for language, theme, adaptive atmosphere, weather theme, privacy, and environment controls.
-- Simplified Home hero to Pro Max Trading, calm Earth-native paper-safe copy, Enter workspace, and Ask Pro Max Assistant.
-- Moved Product Truth below the hero and strengthened Home's CSS-only Earth horizon, atmosphere, depth, terminator, and city-light layers.
-- Added regression proof and required screenshots under `test-results/public-shell-earth-visual-correction/`.
-
-Validation:
-
-- TypeScript passed.
-- ESLint passed.
-- Build passed.
-- Prisma validate passed.
-- Regression passed with 187 tests.
-- Route smoke passed.
-- Diff check passed.
-
-Safety:
-
-- No live execution, real money, broker/feed, billing, production activation, social publishing, generated images, raster assets, public Alkon exposure, fake claims, public number-one/global/regulated claims, or restricted control exposure were introduced.
-
-## 2026-04-26 - Public Header Hard Cleanup + Language System Disable + Trading Workspace Route Repair
-
-Mission executed locally in code/tests/reports only.
-
-Actions:
-
-- Audited public header, language controls, Settings controls, and Trading Workspace route wiring.
-- Reduced the public header to Pro Max logo, Home, Trading Workspace, Markets, Plans, Apps / Platforms, Support, and Sign in.
-- Removed Academy from the primary header and kept secondary public surfaces in Home body content.
-- Removed the language switcher from public ShellControls and Settings.
-- Preserved locale infrastructure while disabling public language switching.
-- Added Settings English-only rebuild note with `multilingual_rebuild_needed` and `public_language_switching_disabled`.
-- Kept Theme and Adaptive Atmosphere / Weather controls inside Settings instead of the public header.
-- Verified Trading Workspace opens from nav and hero and renders terminal shell, chart, execution rail, and no public nav.
-- Added focused regression coverage and screenshots under `test-results/public-header-language-disable-route-repair/`.
-
-Validation:
-
-- TypeScript passed.
-- ESLint passed.
-- Build passed.
-- Prisma validate passed.
-- Focused Playwright proof passed with 4 tests.
-- Regression passed with 191 tests.
-- Route smoke passed.
-
-Safety:
-
-- Public language switching remains disabled until rebuilt.
-- No live execution, real money, broker/feed, billing, production activation, social publishing, generated images, raster assets, public Alkon exposure, fake claims, public number-one/global/regulated claims, or restricted control exposure were introduced.

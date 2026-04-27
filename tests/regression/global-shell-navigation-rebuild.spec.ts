@@ -53,10 +53,10 @@ async function expectWorkspaceControlsOnce(page: Page, shellSelector: string) {
 
   await expect(shellControls).toHaveCount(1);
   await expect(shellControls.locator(".tpm-auth-panel-nav, .tpm-auth-panel-topbar")).toHaveCount(1);
-  await expect(shellControls.locator(".tpm-theme-switcher")).toHaveCount(1);
+  await expect(shellControls.locator(".tpm-theme-switcher")).toHaveCount(0);
   await expect(shellControls.locator(".tpm-locale-select")).toHaveCount(0);
-  await expect(shellControls.locator(".tpm-shell-utility-link", { hasText: "Settings" })).toHaveCount(1);
-  await expect(shellControls.locator(".tpm-shell-utility-link", { hasText: "Diagnostics" })).toHaveCount(1);
+  await expect(shellControls.locator(".tpm-shell-utility-link", { hasText: "Settings" })).toHaveCount(0);
+  await expect(shellControls.locator(".tpm-shell-utility-link", { hasText: "Diagnostics" })).toHaveCount(0);
 }
 
 test.describe("global shell and navigation rebuild", () => {
@@ -117,11 +117,13 @@ test.describe("global shell and navigation rebuild", () => {
     await expect(page.locator("body")).not.toContainText(PUBLIC_FORBIDDEN_TERMS);
 
     const terminalBox = await page.locator(".tpm-terminal-topbar").boundingBox();
+    const marketSummaryBox = await page.locator(".tpm-workspace-market-summary").boundingBox();
     const chartBox = await page.locator(".tpmv2-chart-surface").first().boundingBox();
     expect(terminalBox).not.toBeNull();
+    expect(marketSummaryBox).not.toBeNull();
     expect(chartBox).not.toBeNull();
-    expect(chartBox!.y).toBeGreaterThanOrEqual(terminalBox!.y + terminalBox!.height - 2);
-    expect(chartBox!.y - (terminalBox!.y + terminalBox!.height)).toBeLessThan(260);
+    expect(marketSummaryBox!.y).toBeGreaterThanOrEqual(terminalBox!.y + terminalBox!.height - 2);
+    expect(chartBox!.y).toBeGreaterThanOrEqual(marketSummaryBox!.y + marketSummaryBox!.height - 2);
 
     await page.screenshot({
       fullPage: true,

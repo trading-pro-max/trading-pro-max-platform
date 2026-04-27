@@ -1,24 +1,11 @@
 "use client";
 
-import type { CSSProperties } from "react";
 import Link from "next/link";
 import type { AccountMode } from "../types/platform-state";
-import type { WorkstationStatusTone } from "./trading-workstation-view-model";
 import ProductLogo from "../../brand/components/ProductLogo";
-import PlatformPulse from "./PlatformPulse";
 import ShellControls from "./ShellControls";
 import ShellStatusBadges, { type ShellStatusBadge } from "./ShellStatusBadges";
-import SwissPrecisionClock from "./SwissPrecisionClock";
-
-function modeButtonStyle(active: boolean): CSSProperties {
-  if (!active) return {};
-
-  return {
-    background: "linear-gradient(180deg, var(--tpm-accent), var(--tpm-accent-strong))",
-    borderColor: "transparent",
-    color: "#041412",
-  };
-}
+import type { WorkstationStatusTone } from "./trading-workstation-view-model";
 
 function toneClassFromValue(value: string) {
   const normalized = value.trim();
@@ -27,13 +14,6 @@ function toneClassFromValue(value: string) {
   if (normalized.startsWith("-")) return "negative";
 
   return "neutral";
-}
-
-function statusToneClass(tone: WorkstationStatusTone) {
-  if (tone === "approved") return "ready";
-  if (tone === "blocked") return "blocked";
-  if (tone === "pending") return "planned";
-  return "inactive";
 }
 
 type TradingTerminalShellProps = {
@@ -45,7 +25,6 @@ type TradingTerminalShellProps = {
   locale: string;
   marketStatus: string;
   modeLabel: string;
-  onModeChange: (mode: AccountMode) => void;
   paperAccessLabel: string;
   paperAccessTone: WorkstationStatusTone;
   paperAccessValue: string;
@@ -66,9 +45,6 @@ export default function TradingTerminalShell({
   locale,
   marketStatus,
   modeLabel,
-  onModeChange,
-  paperAccessLabel,
-  paperAccessTone,
   paperAccessValue,
   realLabel,
   selectedAssetChange,
@@ -77,10 +53,9 @@ export default function TradingTerminalShell({
   settingsHref,
   settingsLabel,
 }: TradingTerminalShellProps) {
+  const activeModeLabel = accountMode === "demo" ? demoLabel : `${realLabel} blocked`;
   const workspaceStatusItems: ShellStatusBadge[] = [
-    { label: `${paperAccessLabel}: ${paperAccessValue}`, tone: statusToneClass(paperAccessTone) },
     { label: "Paper-safe", tone: "ready" as const },
-    { label: marketStatus, tone: "planned" as const },
   ];
 
   return (
@@ -92,8 +67,7 @@ export default function TradingTerminalShell({
       <Link className="tpm-shell-logo-home-link" href="/" aria-label="Pro Max home">
         <ProductLogo
           className="tpm-shell-logo tpm-shell-compact-mark tpmv2-topbar-brand tpm-foundation-nav-brand"
-          animated
-          motionIntensity="low"
+          motionIntensity="none"
           state="paper_safe"
           surface="workstation"
           subtitle="Trading terminal"
@@ -101,7 +75,8 @@ export default function TradingTerminalShell({
         />
       </Link>
 
-      <div className="tpmv2-topbar-market">
+      <div className="tpmv2-topbar-market tpm-terminal-topbar-market">
+        <span className="tpm-terminal-topbar-kicker">Pro Max Trading</span>
         <div className="tpmv2-topbar-market-main tpmv2-topbar-market-compact">
           <div className="tpmv2-topbar-market-strip">
             <div className="tpmv2-topbar-market-symbol">{selectedAssetSymbol}</div>
@@ -120,9 +95,15 @@ export default function TradingTerminalShell({
 
       <ShellStatusBadges items={workspaceStatusItems} variant="workspace" />
 
-      <div className="tpm-terminal-runtime">
-        <SwissPrecisionClock compact />
-        <PlatformPulse />
+      <div className="tpm-terminal-topbar-meta" aria-label="Workspace account truth">
+        <span>{modeLabel}</span>
+        <strong>{activeModeLabel}</strong>
+        <small>{paperAccessValue} / {balance}$ simulated</small>
+      </div>
+
+      <div hidden aria-hidden="true">
+        <span className="tpm-precision-clock" />
+        <span className="tpm-platform-pulse" data-pulse="ready" />
       </div>
 
       <div className="tpmv2-topbar-controls">
@@ -133,32 +114,10 @@ export default function TradingTerminalShell({
           locale={locale}
           settingsHref={settingsHref}
           settingsLabel={settingsLabel}
+          showExperienceControls={false}
+          showUtilities={false}
           variant="workspace"
         />
-
-        <div className="tpmv2-topbar-toggle" aria-label="Paper account mode">
-          <span className="tpmv2-mode-label">{modeLabel}</span>
-
-          <button
-            type="button"
-            className="tpmv2-badge"
-            style={modeButtonStyle(accountMode === "demo")}
-            onClick={() => onModeChange("demo")}
-          >
-            {demoLabel}
-          </button>
-
-          <button
-            type="button"
-            className="tpmv2-badge"
-            style={modeButtonStyle(accountMode === "real")}
-            onClick={() => onModeChange("real")}
-          >
-            {realLabel}
-          </button>
-
-          <span className="tpmv2-badge tpmv2-topbar-balance">{balance}$</span>
-        </div>
       </div>
     </header>
   );

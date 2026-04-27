@@ -101,7 +101,7 @@ export default function ProductLogo({
   const markVariant = markVariantForLogo(variant);
   const markState = state ?? (variant === "command" ? "local_only" : "paper_safe");
   const markAnimated =
-    animated ?? (variant === "hero" || variant === "command" || variant === "topbar");
+    animated ?? (variant === "hero" || variant === "command");
   const resolvedMotion =
     motionIntensity ??
     (variant === "command"

@@ -36,43 +36,44 @@ export function WorkspaceAssistantDock({
 }: WorkspaceAssistantDockProps) {
   return (
     <section
-      className="tpmv2-card tpmv2-workspace-depth-bar tpmv2-workspace-depth-bar-compact tpm-intent-workspace-rail tpm-workspace-assistant-dock"
+      className="tpmv2-card tpm-intent-workspace-rail tpm-workspace-assistant-dock"
       aria-label="Pro Max Assistant workspace dock"
       data-assistant-collapsed-default="true"
     >
-      <div className="tpmv2-workspace-depth-block">
-        <span>Workspace focus</span>
-        <strong>{focusModeLabel(focusMode)}</strong>
-        <small>Ask Pro Max Assistant for Chart Comfort, a calmer workspace, or Start guidance.</small>
-      </div>
+      <details className="tpm-workspace-assistant-details">
+        <summary className="tpm-workspace-assistant-summary">
+          <div className="tpm-workspace-assistant-summary-copy">
+            <span>Pro Max Assistant</span>
+            <strong>Secondary language layer</strong>
+            <small>
+              {focusModeLabel(focusMode)} / {watchlistDensityLabel(watchlistDensity)} watchlist
+            </small>
+          </div>
+          <div className="tpm-workspace-assistant-summary-state">
+            <em>Collapsed by default</em>
+            <b>{shortcutHint}</b>
+          </div>
+        </summary>
 
-      <div className="tpmv2-workspace-depth-block">
-        <span>Watchlist</span>
-        <strong>{watchlistDensityLabel(watchlistDensity)}</strong>
-        <small>Secondary density controls stay behind the chart-first layout.</small>
-      </div>
-
-      <div className="tpmv2-workspace-depth-status tpm-intent-assistant-card">
-        <span>Paper-safe controls</span>
-        <strong>Layout-only</strong>
-        <small>{shortcutHint} No order-entry hotkeys are armed.</small>
-        <div className="tpm-intent-chip-row" aria-label="Assistant workspace intents">
-          {ASSISTANT_INTENTS.map((intent) => (
-            <span key={intent} className="tpm-intent-chip">
-              {intent}
-            </span>
-          ))}
-        </div>
-
-        <details className="tpm-workspace-assistant-details">
-          <summary>Open short guidance</summary>
+        <div className="tpm-workspace-assistant-panel">
           <p>
-            Pro Max Assistant can explain paper-safe state, blocked actions, calmer
-            chart settings, plans, Journal notes, and Support readiness.
+            Ask for blocked-state clarity, calmer chart comfort, Journal prompts, plan truth,
+            support direction, or a bigger chart without covering execution.
           </p>
-          <small>No trading signals, profit promises, or unsafe activation.</small>
-        </details>
-      </div>
+
+          <div className="tpm-intent-chip-row" aria-label="Assistant workspace intents">
+            {ASSISTANT_INTENTS.map((intent) => (
+              <span key={intent} className="tpm-intent-chip">
+                {intent}
+              </span>
+            ))}
+          </div>
+
+          <div className="tpm-workspace-assistant-note">
+            No trading signals, profit promises, or unsafe activation.
+          </div>
+        </div>
+      </details>
     </section>
   );
 }

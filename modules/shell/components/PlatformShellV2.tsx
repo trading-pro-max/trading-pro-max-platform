@@ -476,7 +476,6 @@ export function DesktopRail({
 export function TradingTopbar({
   balance,
   accountMode,
-  onModeChange,
   modeLabel,
   demoLabel,
   realLabel,
@@ -495,7 +494,6 @@ export function TradingTopbar({
 }: {
   balance: string;
   accountMode: AccountMode;
-  onModeChange: (mode: AccountMode) => void;
   modeLabel: string;
   demoLabel: string;
   realLabel: string;
@@ -522,7 +520,6 @@ export function TradingTopbar({
       locale={locale}
       marketStatus={marketStatus}
       modeLabel={modeLabel}
-      onModeChange={onModeChange}
       paperAccessLabel={paperAccessLabel}
       paperAccessTone={paperAccessTone}
       paperAccessValue={paperAccessValue}

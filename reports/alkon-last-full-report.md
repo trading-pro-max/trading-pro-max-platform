@@ -1,21 +1,18 @@
 # Alkon Last Full Report
 
-Mission: Public Header Hard Cleanup + Language System Disable + Trading Workspace Route Repair
+Mission: Pro Max Full Visual Balance + Full Trading Workspace A-Z Rebuild
 
 Status: closed, validated, ready for commit and push.
 
 Completed:
 
-- Audited the public header, language controls, Settings surface, and Trading Workspace route links.
-- Reduced the public header to orientation and primary movement only: Pro Max logo, Home, Trading Workspace, Markets, Plans, Apps / Platforms, Support, and Sign in.
-- Removed Academy from the primary header while leaving Academy/Community content available in Home body surfaces.
-- Removed the language selector from ShellControls, Settings, and public header surfaces.
-- Preserved locale infrastructure and routes without exposing a clickable public language switcher.
-- Added an English-only Settings note and internal readiness markers: `multilingual_rebuild_needed` and `public_language_switching_disabled`.
-- Kept Theme and Adaptive Atmosphere / Weather controls functional in Settings, not the public header.
-- Repaired and verified Trading Workspace navigation from public nav, Home hero Enter workspace, `/`, and `/en`.
-- Confirmed workspace renders terminal shell, chart surface, execution rail, and no public nav/duplicate shell.
-- Added focused regression coverage and visual proof under `test-results/public-header-language-disable-route-repair/`.
+- Added `modules/brand/components/ProMaxProceduralEarth.tsx` as the shared code-only Earth renderer for logo, Home, background, and workspace identity.
+- Rebuilt Earth identity surfaces to feel calmer, deeper, and more unified without images, raster assets, or external textures.
+- Updated the public Home so the header stays orientation-only, the hero stays short and chart-first, and Product Truth remains compact below the lead section.
+- Reworked the Trading Workspace into one public-safe terminal shell with one compact logo, one topbar, one market-summary band, one dominant chart surface, one integrated execution rail, one collapsed Assistant dock, and one quiet Journal / Coach layer.
+- Removed noisy workspace/header utility clutter while preserving functional controls in Settings and public-safe diagnostics in Diagnostics.
+- Preserved paper-safe truth: live execution inactive, real money blocked, broker/feed inactive, billing inactive, and no fake activations or claims.
+- Added and updated regression coverage for the new visual/workspace contract and captured visual proof under `test-results/pro-max-full-balance-workspace-rebuild/`.
 
 Validation:
 
@@ -23,34 +20,45 @@ Validation:
 - `npx eslint app modules tests --max-warnings=0`: pass
 - `npm run build`: pass
 - `npm run prisma:validate`: pass
-- `npx playwright test tests/regression/public-header-language-disable-route-repair.spec.ts`: pass, 4 tests
-- `npm run test:regression`: pass, 191 tests
+- `npm run test:regression`: pass, 196 tests
 - `npm run smoke:routes`: pass
-- `git diff --check`: pending final report diff check
+- `git diff --check`: pass
 
 Visual proof:
 
-- `test-results/public-header-language-disable-route-repair/public-header-clean.png`
-- `test-results/public-header-language-disable-route-repair/public-header-no-language.png`
-- `test-results/public-header-language-disable-route-repair/public-header-no-theme-controls.png`
-- `test-results/public-header-language-disable-route-repair/home-clean-header-dark.png`
-- `test-results/public-header-language-disable-route-repair/home-clean-header-light.png`
-- `test-results/public-header-language-disable-route-repair/settings-no-broken-language.png`
-- `test-results/public-header-language-disable-route-repair/trading-workspace-route-open.png`
-- `test-results/public-header-language-disable-route-repair/workspace-no-public-nav.png`
-- `test-results/public-header-language-disable-route-repair/no-alkon-public-leak.png`
-- `test-results/public-header-language-disable-route-repair/hero-essential-ctas.png`
+- `test-results/pro-max-full-balance-workspace-rebuild/home-full-balance-dark.png`
+- `test-results/pro-max-full-balance-workspace-rebuild/home-full-balance-light.png`
+- `test-results/pro-max-full-balance-workspace-rebuild/logo-procedural-earth-balanced.png`
+- `test-results/pro-max-full-balance-workspace-rebuild/header-balanced.png`
+- `test-results/pro-max-full-balance-workspace-rebuild/header-no-language-theme.png`
+- `test-results/pro-max-full-balance-workspace-rebuild/home-to-workspace-route.png`
+- `test-results/pro-max-full-balance-workspace-rebuild/workspace-full-rebuild-dark.png`
+- `test-results/pro-max-full-balance-workspace-rebuild/workspace-full-rebuild-light.png`
+- `test-results/pro-max-full-balance-workspace-rebuild/workspace-chart-dominant.png`
+- `test-results/pro-max-full-balance-workspace-rebuild/workspace-chart-starts-high.png`
+- `test-results/pro-max-full-balance-workspace-rebuild/workspace-execution-integrated.png`
+- `test-results/pro-max-full-balance-workspace-rebuild/workspace-assistant-collapsed.png`
+- `test-results/pro-max-full-balance-workspace-rebuild/workspace-assistant-open-no-cover.png`
+- `test-results/pro-max-full-balance-workspace-rebuild/workspace-journal-secondary.png`
+- `test-results/pro-max-full-balance-workspace-rebuild/workspace-one-logo-one-header.png`
+- `test-results/pro-max-full-balance-workspace-rebuild/workspace-no-public-nav.png`
+- `test-results/pro-max-full-balance-workspace-rebuild/settings-balanced.png`
+- `test-results/pro-max-full-balance-workspace-rebuild/diagnostics-balanced.png`
+- `test-results/pro-max-full-balance-workspace-rebuild/plans-balanced.png`
+- `test-results/pro-max-full-balance-workspace-rebuild/apps-balanced.png`
+- `test-results/pro-max-full-balance-workspace-rebuild/support-balanced.png`
+- `test-results/pro-max-full-balance-workspace-rebuild/no-alkon-public-leak.png`
 
 Public truth:
 
-- Public product is English-only for now from exposed controls.
-- Public language switching is disabled while the language system is rebuilt.
-- Public Home remains paper-safe.
+- Public surfaces remain Pro Max / Pro Max Trading only.
+- Trading Workspace remains paper-safe and chart-first.
 - Live execution remains inactive.
 - Real money remains blocked.
-- Broker/feed, billing, production launch, and social publishing remain inactive.
-- No generated images, raster assets, public Alkon exposure, fake claims, number-one/global/regulated claims, broker/feed activation, billing activation, or live execution were introduced.
+- Broker/feed, billing, and production activation remain inactive.
+- Public language switching remains disabled.
+- No public Alkon exposure, fake claims, number-one/global/regulated claims, generated images, or raster assets were introduced.
 
 Next:
 
-Ahmad should review the new public header, Settings language-disable, and Trading Workspace route proof screenshots, then record visual acceptance or the next precise blocker.
+Ahmad should review the full-balance visual proof set and either accept the new Home/workspace unity or name the next specific visual blocker.

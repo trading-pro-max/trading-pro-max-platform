@@ -1,11 +1,11 @@
 WAKE REPORT
 Status: closed
-Mission: Public Header Hard Cleanup + Language System Disable + Trading Workspace Route Repair
-Done: public header reduced to Pro Max logo, Home, Trading Workspace, Markets, Plans, Apps / Platforms, Support, and Sign in; Academy removed from primary header; language controls removed from public header, Settings, and workspace ShellControls; Settings now shows English-only rebuild note with multilingual_rebuild_needed and public_language_switching_disabled markers; theme/environment controls remain in Settings only; Trading Workspace links from nav, hero, root, and /en verified; visual proof added
+Mission: Pro Max Full Visual Balance + Full Trading Workspace A-Z Rebuild
+Done: unified Pro Max around a shared procedural Earth visual origin; rebuilt the Trading Workspace shell into one chart-first flow with one compact logo, one terminal topbar, integrated execution rail, collapsed Assistant dock, quiet Journal / Coach dock, compact Product Truth, aligned Settings / Diagnostics / Plans / Apps / Support surfaces, refreshed public Home hero/header balance, added visual proof, and updated regression coverage
 Not done: Ahmad final visual acceptance remains the human gate
 Validation: passed
-Tests: 191 regression tests passed
-Commit: disable public language controls and repair workspace route
-Pushed: yes after git push completes
+Tests: 196 regression tests passed
+Commit: pending clean local commit with `build pro max visual balance and rebuild workspace`
+Pushed: pending after commit
 Clean: yes after commit/push completes
-Next: Ahmad visual acceptance of `test-results/public-header-language-disable-route-repair/`
+Next: Ahmad visual review of `test-results/pro-max-full-balance-workspace-rebuild/`

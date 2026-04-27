@@ -19,17 +19,17 @@ type PublicProductEntryProps = {
 
 const heroSignals = [
   {
-    label: "Earth reference",
+    label: "Earth-native",
     value: "Human scale",
-    note: "The public experience uses time, place, motion, and privacy without precise location tracking.",
+    note: "Time, motion, and privacy stay grounded without precise location tracking.",
   },
   {
-    label: "Paper mode",
+    label: "Paper-safe",
     value: "Safe start",
     note: "Use the chart-first workspace for rehearsal, learning, and review.",
   },
   {
-    label: "Live routing",
+    label: "Live route",
     value: "Inactive",
     note: "No broker, feed activation, billing, or real-money path is enabled.",
   },
@@ -158,9 +158,8 @@ export default function PublicProductEntry({
               />
               <h1>Pro Max Trading</h1>
               <p>
-                The first Pro Max product is a calm Earth-native paper workspace:
-                web current, truthful about limits, and ready for practice without
-                live execution or real-money routing.
+                A calm Earth-native trading workspace for paper practice, blocked-state
+                clarity, and chart-first review.
               </p>
 
               <div className="tpm-product-cta-row">
@@ -186,7 +185,7 @@ export default function PublicProductEntry({
             </div>
 
             <div className="tpm-product-hero-side">
-              <div className="tpm-product-signal-grid">
+              <div className="tpm-product-signal-grid tpm-product-signal-grid-calm">
                 {heroSignals.map((item) => (
                   <article key={item.label} className="tpm-product-signal-card">
                     <span>{item.label}</span>
@@ -209,8 +208,7 @@ export default function PublicProductEntry({
               <h2>Paper-safe now. Live, billing, and broker routing stay inactive.</h2>
             </div>
             <p>
-              The Home page keeps trust visible without turning the topbar into a
-              control panel.
+              Trust stays visible below the hero instead of crowding the header.
             </p>
           </div>
           <div className="tpm-product-truth-grid">
@@ -235,11 +233,11 @@ export default function PublicProductEntry({
           <div className="tpm-product-section-head">
             <div>
               <span className="tpm-product-kicker">Pro Max Assistant</span>
-              <h2>Tell Pro Max Assistant what you want to do.</h2>
+              <h2>Tell Pro Max Assistant what you want.</h2>
             </div>
             <p>
-              Assistant guidance handles secondary intent: product truth, plan questions,
-              support, apps, Journal, comfort settings, and why something is blocked.
+              Assistant handles product truth, plan questions, support, apps, Journal,
+              comfort settings, and why something is blocked.
             </p>
           </div>
           <div className="tpm-revelation-prompt-row" aria-label="Assistant first-use prompts">

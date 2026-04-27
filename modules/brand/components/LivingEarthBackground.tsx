@@ -10,6 +10,7 @@ import type {
   WeatherState,
 } from "@/lib/environment/client-types";
 import type { PlanRealmId } from "@/lib/plans/realms/types";
+import ProMaxProceduralEarth from "./ProMaxProceduralEarth";
 
 type LivingEarthBackgroundProps = {
   className?: string;
@@ -48,6 +49,12 @@ export default function LivingEarthBackground({
     timeZone,
   });
   const realmId = planRealmIds[plan];
+  const earthVariant =
+    surface === "public_entry"
+      ? "background"
+      : surface === "workstation"
+      ? "workspace"
+      : "compact";
 
   return (
     <div
@@ -76,7 +83,16 @@ export default function LivingEarthBackground({
       <div className="tpm-living-earth-realm-orbit" data-earth-realm={realmId} />
       <div className="tpm-living-earth-horizon">
         <div className="tpm-living-earth-atmosphere-arc" />
-        <div className="tpm-living-earth-globe" />
+        <div className="tpm-living-earth-globe">
+          <ProMaxProceduralEarth
+            className="tpm-living-earth-procedural-planet"
+            intensity={surface === "public_entry" ? "high" : surface === "workstation" ? "soft" : "medium"}
+            showAtmosphere={surface !== "settings" && surface !== "diagnostics"}
+            showClouds={surface !== "workstation"}
+            showTerminator
+            variant={earthVariant}
+          />
+        </div>
         <div className="tpm-living-earth-terminator" />
         <div className="tpm-living-earth-city-lights" />
         <div className="tpm-living-earth-continent tpm-living-earth-continent-a" />

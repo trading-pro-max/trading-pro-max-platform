@@ -72,20 +72,25 @@ test.describe("public shell topbar cleanup and Earth visual correction", () => {
     const earthVisual = await page.locator(".tpm-product-hero").first().evaluate((element) => {
       const arc = element.querySelector(".tpm-living-earth-atmosphere-arc");
       const globe = element.querySelector(".tpm-living-earth-globe");
+      const planet = element.querySelector(".tpm-living-earth-procedural-planet");
       const hero = window.getComputedStyle(element);
       const arcStyle = arc ? window.getComputedStyle(arc) : null;
       const globeStyle = globe ? window.getComputedStyle(globe) : null;
+      const planetStyle = planet ? window.getComputedStyle(planet) : null;
 
       return {
         arcBorder: arcStyle?.borderTopColor ?? "",
-        globeBackground: globeStyle?.backgroundImage ?? "",
+        globeContainsPlanet: Boolean(planet),
         globeShadow: globeStyle?.boxShadow ?? "",
         heroBackground: hero.backgroundImage,
+        planetFilter: planetStyle?.filter ?? "",
+        planetOpacity: planetStyle?.opacity ?? "",
       };
     });
     expect(earthVisual.arcBorder).not.toBe("rgba(0, 0, 0, 0)");
-    expect(earthVisual.globeBackground).toContain("gradient");
-    expect(earthVisual.globeShadow).not.toBe("none");
+    expect(earthVisual.globeContainsPlanet).toBe(true);
+    expect(earthVisual.planetFilter).not.toBe("none");
+    expect(earthVisual.planetOpacity).not.toBe("0");
     expect(earthVisual.heroBackground).toContain("gradient");
 
     const hero = page.locator(".tpm-product-hero").first();

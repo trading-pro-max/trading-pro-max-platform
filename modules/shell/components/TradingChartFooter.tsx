@@ -11,6 +11,7 @@ export function TradingChartFooter({
     <footer className="tpm-living-chart-footer" data-product-truth-strip="compact">
       <span>Paper-safe active</span>
       <span>{fallbackTruth}</span>
+      <span>Interpretive only</span>
       <span>Live inactive</span>
       <span>Broker/feed inactive</span>
       <span>Real money blocked</span>

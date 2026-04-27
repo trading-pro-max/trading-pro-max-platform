@@ -6,6 +6,7 @@ type TradingChartHeaderProps = {
   focusModeLabel: string;
   marketStatus: string;
   paperAccess: string;
+  selectedTimeframe: string;
 };
 
 export function TradingChartHeader({
@@ -16,15 +17,23 @@ export function TradingChartHeader({
   focusModeLabel,
   marketStatus,
   paperAccess,
+  selectedTimeframe,
 }: TradingChartHeaderProps) {
   return (
     <header className="tpm-living-chart-header" data-chart-header="true">
       <div className="tpm-living-chart-header-main">
-        <span>Trading Workspace</span>
-        <strong>{assetSymbol}</strong>
-        <small>
-          {assetPrice} / {assetChange} / {marketStatus}
-        </small>
+        <div className="tpm-living-chart-header-title">
+          <span>Chart Area</span>
+          <strong>{assetSymbol}</strong>
+        </div>
+        <div className="tpm-living-chart-header-marketline">
+          <strong>{assetPrice}</strong>
+          <small className={assetChange.startsWith("-") ? "negative" : "positive"}>
+            {assetChange}
+          </small>
+          <small>{marketStatus}</small>
+          <small>{selectedTimeframe}</small>
+        </div>
       </div>
 
       <div className="tpm-living-chart-header-truth" aria-label="Workspace truth">
