@@ -5,6 +5,7 @@ import PocketDeviceRoleCard from "@/modules/founder-command/components/PocketDev
 import PocketOneNextActionCard from "@/modules/founder-command/components/PocketOneNextActionCard";
 import PocketVisualReviewCard from "@/modules/founder-command/components/PocketVisualReviewCard";
 import PocketWakeReportCard from "@/modules/founder-command/components/PocketWakeReportCard";
+import Link from "next/link";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -15,28 +16,39 @@ export default function FounderPocketPage() {
   return (
     <PrivateFounderShell checkedAt={snapshot.checkedAt}>
       <main
-        className="tpm-founder-command-room alkon-pocket-page"
+        className="tpm-founder-command-room alkon-private-route alkon-pocket-page"
         data-owner-only="true"
         data-public-route-exposed="false"
         data-read-only="true"
         data-no-shell="true"
         data-no-payments="true"
-        aria-label="Alkon Pocket Universe"
+        aria-label="Alkon Pocket"
       >
         <header className="tpm-founder-hero alkon-pocket-hero">
           <div>
-            <span>Alkon Pocket Universe</span>
-            <h1>Pocket Decision Center</h1>
+            <span>Alkon Pocket</span>
+            <h1>Ahmad Pocket Decision</h1>
             <p>
-              Founder-only mobile review for Wake Report, One Next Action, visual acceptance
-              intent, focused correction, and blocked-action truth. It is read-only and
-              cannot execute shell, Codex, payments, live trading, billing, broker/feed, or real money.
+              Private Founder-only bridge into Alkon / الكون for Wake Report,
+              One Next Action, Visual Review, Local Day One Gate, and focused
+              correction intent. This is not public Pro Max, not marketing, and
+              not an execution surface.
             </p>
+            <div className="alkon-pocket-command-strip" aria-label="Private Alkon pocket prompts">
+              <span>Status</span>
+              <span>One Next Action</span>
+              <span>Wake Report</span>
+              <span>Visual Review</span>
+              <span>What not to do</span>
+            </div>
+            <Link className="alkon-private-entry-link" href="/founder/alkon">
+              Open Alkon Universe
+            </Link>
           </div>
           <div className="tpm-founder-access-card">
-            <span>Local Day One</span>
+            <span>Private Founder-only</span>
             <strong>{snapshot.localDayOne}</strong>
-            <small>{snapshot.visualAcceptance}</small>
+            <small>Local Day One Gate: {snapshot.visualAcceptance}</small>
           </div>
         </header>
 
@@ -67,4 +79,3 @@ export default function FounderPocketPage() {
     </PrivateFounderShell>
   );
 }
-

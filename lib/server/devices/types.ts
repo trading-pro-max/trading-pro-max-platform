@@ -120,7 +120,7 @@ export type AlkonPocketUniverseSnapshot = {
   publicExposure: false;
   station: "Local Day One Gate";
   localDayOne: "not_started";
-  heartStatus: "Pro Max Trading heart preserved";
+  heartStatus: "Prime World heart preserved behind Alkon";
   visualAcceptance: "visual_acceptance_needed";
   wakeReport: {
     status: string;

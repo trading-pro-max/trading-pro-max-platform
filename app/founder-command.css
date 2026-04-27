@@ -1,3 +1,18 @@
+.tpm-founder-shell {
+  --tpm-bg: #030407;
+  --tpm-surface: #080d14;
+  --tpm-surface-alt: #0d141f;
+  --tpm-surface-soft: #111a27;
+  --tpm-surface-strong: #030507;
+  --tpm-border: rgba(241, 201, 107, 0.18);
+  --tpm-text: #f8f2df;
+  --tpm-text-soft: #b5c2d4;
+  --tpm-text-muted: #d2dbea;
+  --tpm-card-bg: linear-gradient(180deg, rgba(13, 20, 31, 0.98), rgba(4, 7, 11, 0.98));
+  --tpm-card-bg-raised: linear-gradient(180deg, rgba(16, 24, 36, 0.98), rgba(5, 8, 13, 0.98));
+  --tpm-chip-bg: rgba(241, 201, 107, 0.08);
+}
+
 .tpm-founder-command-room {
   --tpm-founder-gold: var(--tpm-brand-gold, #d8a83c);
   --tpm-founder-gold-soft: var(--tpm-brand-gold-soft, #f4d37a);
@@ -473,6 +488,123 @@
   font-size: 13px;
 }
 
+.alkon-private-shell-brand {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+  min-width: 0;
+}
+
+.alkon-private-mark,
+.alkon-private-hero-mark {
+  align-items: center;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--tpm-founder-gold) 26%, #10151e), #07090d);
+  border: 1px solid color-mix(in srgb, var(--tpm-founder-gold) 46%, var(--tpm-border));
+  color: var(--tpm-founder-gold-soft);
+  display: inline-flex;
+  font-weight: 950;
+  justify-content: center;
+}
+
+.alkon-private-mark {
+  border-radius: 999px;
+  height: 38px;
+  width: 38px;
+}
+
+.alkon-private-copy,
+.alkon-private-hero-copy {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.alkon-private-copy strong,
+.alkon-private-hero-copy strong {
+  color: var(--tpm-text);
+  font-size: 15px;
+}
+
+.alkon-private-copy small,
+.alkon-private-hero-copy small {
+  color: var(--tpm-text-soft);
+  font-size: 11px;
+}
+
+.alkon-private-hero {
+  grid-template-columns: minmax(88px, auto) minmax(0, 1fr) minmax(240px, 0.28fr);
+}
+
+.alkon-private-hero-mark {
+  border-radius: 20px;
+  font-size: 34px;
+  min-height: 118px;
+  width: 118px;
+}
+
+.alkon-private-badge-row,
+.alkon-pocket-command-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.alkon-private-badge-row span,
+.alkon-pocket-command-strip span,
+.alkon-private-entry-link {
+  border: 1px solid color-mix(in srgb, var(--tpm-founder-gold) 24%, var(--tpm-border));
+  border-radius: var(--tpm-radius-pill);
+  background: color-mix(in srgb, var(--tpm-surface-strong) 78%, transparent);
+  color: var(--tpm-text);
+  font-size: 11px;
+  font-weight: 850;
+  padding: 7px 10px;
+  text-decoration: none;
+}
+
+.alkon-private-entry-link {
+  display: inline-flex;
+  margin-top: 14px;
+}
+
+.alkon-private-entry-link:focus-visible {
+  outline: 2px solid var(--tpm-founder-gold-soft);
+  outline-offset: 3px;
+}
+
+.alkon-private-route {
+  --tpm-founder-panel: color-mix(in srgb, #07090f 82%, var(--tpm-surface));
+  --tpm-founder-surface: color-mix(in srgb, #030406 84%, var(--tpm-surface-strong));
+}
+
+.alkon-universe-entry {
+  width: min(1380px, 100%);
+}
+
+.alkon-private-map {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.alkon-private-map .tpm-founder-subpanel {
+  min-height: 164px;
+}
+
+.alkon-private-wide {
+  border-color: color-mix(in srgb, var(--tpm-founder-gold) 30%, var(--tpm-border));
+}
+
+.alkon-device-list {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--tpm-text-soft);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
 .alkon-command-universe {
   --alkon-gold: color-mix(in srgb, var(--tpm-founder-gold) 84%, #f6e6a5);
   --alkon-platinum: #dfe7f1;
@@ -721,14 +853,16 @@
 }
 
 .alkon-pocket-decision-options,
-.alkon-pocket-block-strip {
+.alkon-pocket-block-strip,
+.alkon-pocket-capability-list {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
 .alkon-pocket-decision-options span,
-.alkon-pocket-block-strip span {
+.alkon-pocket-block-strip span,
+.alkon-pocket-capability-list span {
   border: 1px solid color-mix(in srgb, var(--alkon-gold) 28%, var(--tpm-border));
   border-radius: 999px;
   padding: 8px 10px;
@@ -736,10 +870,32 @@
   background: color-mix(in srgb, var(--tpm-founder-panel) 82%, transparent);
   font-size: 12px;
   font-weight: 800;
+  overflow-wrap: anywhere;
 }
 
 .alkon-pocket-block-strip span {
   border-color: color-mix(in srgb, var(--tpm-founder-red) 36%, var(--tpm-border));
+}
+
+dl.alkon-command-facts.alkon-pocket-capability-facts {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.alkon-pocket-capability-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  margin-top: 6px;
+}
+
+.alkon-pocket-capability-list span {
+  border-radius: 12px;
+  min-height: 34px;
+}
+
+.tpm-founder-subpanel h3,
+.tpm-founder-metric strong,
+.tpm-founder-access-card strong {
+  overflow-wrap: anywhere;
 }
 
 @media (min-width: 720px) {
@@ -925,6 +1081,7 @@
   .tpm-founder-living-loop,
   .tpm-founder-living-room-grid,
   .tpm-founder-risk-grid,
+  .alkon-private-map,
   .alkon-universe-map,
   .alkon-physics-grid,
   .alkon-command-grid,
@@ -950,6 +1107,7 @@
   .tpm-founder-queue-layout,
   .tpm-founder-approval-list,
   .tpm-founder-risk-grid,
+  .alkon-private-map,
   .alkon-universe-map,
   .alkon-physics-grid,
   .alkon-command-grid,
@@ -966,5 +1124,14 @@
 
   .tpm-founder-hero h1 {
     font-size: 34px;
+  }
+
+  .alkon-private-hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .alkon-private-hero-mark {
+    min-height: 82px;
+    width: 82px;
   }
 }

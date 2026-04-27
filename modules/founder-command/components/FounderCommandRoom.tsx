@@ -4,8 +4,6 @@ import {
 } from "@/lib/server/founder-command";
 import { getFounderDeviceReadinessSnapshot } from "@/lib/server/devices";
 import { getFounderIdeaInboxReadiness } from "@/lib/server/sovereign-autonomy";
-import TPMEarthMark from "@/modules/brand/components/TPMEarthMark";
-import ProductLogo from "@/modules/brand/components/ProductLogo";
 import { PlanetMapPreview } from "@/modules/planet-map/components";
 import PrivateFounderShell from "@/modules/shell/components/PrivateFounderShell";
 import type { FounderCommandRoomProps } from "../types";
@@ -118,34 +116,27 @@ export default function FounderCommandRoom({
       >
       <header className="tpm-founder-hero">
         <div className="tpm-founder-logo-stack">
-          <TPMEarthMark
-            animated
-            motionIntensity="medium"
-            state="local_only"
-            surface="founder_command"
-            variant="command"
-          />
-          <ProductLogo
-            className="tpm-founder-logo"
-            motionIntensity="medium"
-            state="local_only"
-            surface="founder_command"
-            subtitle="Private Founder Command"
-            variant="command"
-          />
+          <div className="alkon-private-hero-mark" aria-hidden="true">
+            A
+          </div>
+          <div className="alkon-private-hero-copy">
+            <strong>Alkon / الكون</strong>
+            <small>Ahmad private operating universe</small>
+          </div>
         </div>
         <div>
-          <span>TPM Planet Command</span>
-          <h1>Founder King Command Room Foundation</h1>
+          <span>Private Alkon Founder Command</span>
+          <h1>Alkon Command Room</h1>
           <p>
-            A private, read-only command surface for observing Planet OS
-            readiness, ministries, risks, approvals, and product truth. It is
-            not a public feature and does not activate any capability.
+            A private, read-only Alkon surface for observing Kernel readiness,
+            Reality Trial, Evidence Chain, devices, risks, approvals, and
+            Product Truth. It is not public Pro Max, not user-facing, and never
+            activates unsafe capability.
           </p>
         </div>
         <div className="tpm-founder-access-card">
-          <span>Access</span>
-          <strong>Owner-only planned</strong>
+          <span>Alkon access</span>
+          <strong>Ahmad only</strong>
           <small>{commandSnapshot.access.exposureDecision}</small>
         </div>
       </header>

@@ -2,28 +2,28 @@
 
 Recommended next command:
 
-Ahmad visually reviews Founder Command, Pocket Universe on iPhone/Samsung widths, and the public Pro Max surfaces, then records one of: `accept`, `reject_with_notes`, or `focused_correction`.
-
-Reason:
-
-The A-Z operating layer is validated and private. Final Universal Closure is ready_with_notes, but visual acceptance is not present. Local Day One cannot start automatically.
+Ahmad visually reviews the corrected private Alkon identity and records one of: `accept`, `reject_with_notes`, or `focused_correction`.
 
 Review:
 
-- `test-results/alkon-a-z-operating-execution/founder-command-center.png`
-- `test-results/alkon-a-z-operating-execution/pocket-iphone-layout.png`
-- `test-results/alkon-a-z-operating-execution/pocket-samsung-layout.png`
-- `test-results/alkon-a-z-operating-execution/public-home-clean.png`
-- `test-results/alkon-a-z-operating-execution/diagnostics-public-safe.png`
+- `test-results/alkon-private-universe-identity/founder-alkon-universe.png`
+- `test-results/alkon-private-universe-identity/founder-pocket-alkon-identity.png`
+- `test-results/alkon-private-universe-identity/pocket-mobile-layout.png`
+- `test-results/alkon-private-universe-identity/public-home-no-alkon-link.png`
+- `test-results/alkon-private-universe-identity/no-alkon-public-leak.png`
+
+Reason:
+
+Founder/Pocket now reads as Alkon / الكون instead of public Pro Max. Public Pro Max remains clean. Ahmad visual acceptance is still required before any closure or Local Day One decision.
 
 If accepted:
 
-- Run Final Universal Closure review.
-- Ask Ahmad before starting Local Day One.
+- Mark the private Alkon identity correction visually accepted.
+- Continue only to the next gated private command.
 
 If rejected:
 
-- Create one focused correction command from Ahmad's narrow notes.
+- Create one focused correction command from Ahmad's narrow visual notes.
 
 Blocked:
 
@@ -36,9 +36,10 @@ Blocked:
 - payment execution
 - shell execution from the web app
 - Codex execution from the web app
+- public Alkon exposure
+- public Founder navigation
 - external account connection
 - social publishing
 - secrets exposure
 - raw sensitive personal data in code
 - image generation or tracked raster assets
-- public Alkon / Kernel / Founder Command exposure
