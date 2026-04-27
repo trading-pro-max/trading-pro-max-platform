@@ -1,10 +1,12 @@
 import type { DiagnosticsProbe } from "@/modules/shell/types/platform-state";
+import { getFounderHybridEarthTextureReadiness } from "@/lib/brand/hybrid-earth-policy";
 import { getEarthRealitySnapshot } from "./engine";
 
 export function getEarthRealityReadinessSnapshot(
   checkedAt = new Date().toISOString()
 ) {
   const snapshot = getEarthRealitySnapshot(checkedAt);
+  const hybridEarthTextureReadiness = getFounderHybridEarthTextureReadiness();
 
   return {
     ok: true,
@@ -16,6 +18,7 @@ export function getEarthRealityReadinessSnapshot(
     surfaceCount: snapshot.surfaces.length,
     publicPrivateBoundaryStatus: snapshot.publicPrivateBoundaryStatus,
     productTruthStatus: snapshot.productTruthStatus,
+    hybridEarthTextureReadiness,
     nextSafeActions: snapshot.nextSafeActions,
   };
 }

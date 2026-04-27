@@ -1,7 +1,7 @@
-import TPMEarthMark, {
-  type TPMEarthMarkState,
-  type TPMEarthMarkVariant,
-} from "./TPMEarthMark";
+import ProMaxEarthMark, {
+  type ProMaxEarthMarkState,
+  type ProMaxEarthMarkVariant,
+} from "./ProMaxEarthMark";
 import type {
   BrandMotionIntensity,
   BrandOccasionThemeKey,
@@ -18,7 +18,7 @@ type ProductLogoProps = {
   occasionTheme?: BrandOccasionThemeKey;
   plan?: LivingEarthPlan;
   showSubtitle?: boolean;
-  state?: TPMEarthMarkState;
+  state?: ProMaxEarthMarkState;
   surface?: BrandSurface;
   subtitle?: string;
   variant?: "nav" | "topbar" | "hero" | "auth" | "compact" | "command";
@@ -30,10 +30,10 @@ type BrandMarkProps = {
   motionIntensity?: BrandMotionIntensity;
   occasionTheme?: BrandOccasionThemeKey;
   plan?: LivingEarthPlan;
-  state?: TPMEarthMarkState;
+  state?: ProMaxEarthMarkState;
   surface?: BrandSurface;
   title?: string;
-  variant?: TPMEarthMarkVariant;
+  variant?: ProMaxEarthMarkVariant;
 };
 
 type BrandWordmarkProps = {
@@ -60,7 +60,7 @@ export function BrandMark({
   variant = "compact",
 }: BrandMarkProps) {
   return (
-    <TPMEarthMark
+    <ProMaxEarthMark
       animated={animated}
       className={["tpm-brand-mark", className].filter(Boolean).join(" ")}
       motionIntensity={motionIntensity}

@@ -7,7 +7,7 @@ export type ProMaxProceduralEarthVariant =
   | "workspace"
   | "compact";
 
-type EarthIntensity = "soft" | "medium" | "high" | number;
+export type EarthIntensity = "soft" | "medium" | "high" | number;
 
 type ProMaxProceduralEarthProps = {
   className?: string;
@@ -16,6 +16,7 @@ type ProMaxProceduralEarthProps = {
   showClouds?: boolean;
   showTerminator?: boolean;
   size?: number | string;
+  staticMode?: boolean;
   style?: CSSProperties;
   title?: string;
   variant?: ProMaxProceduralEarthVariant;
@@ -54,6 +55,7 @@ export default function ProMaxProceduralEarth({
   showClouds = true,
   showTerminator = true,
   size,
+  staticMode = false,
   style,
   title,
   variant = "logo",
@@ -65,6 +67,7 @@ export default function ProMaxProceduralEarth({
   const sunlightGradientId = `${earthId}-sunlight`;
   const terminatorGradientId = `${earthId}-terminator`;
   const cloudGradientId = `${earthId}-clouds`;
+  const polarGradientId = `${earthId}-polar`;
   const globeClipId = `${earthId}-globe-clip`;
   const intensityScale = intensityValue(intensity);
 
@@ -73,6 +76,7 @@ export default function ProMaxProceduralEarth({
       className={[
         "tpm-procedural-earth",
         `tpm-procedural-earth--${variant}`,
+        staticMode ? "tpm-procedural-earth--static" : null,
         className,
       ]
         .filter(Boolean)
@@ -84,6 +88,7 @@ export default function ProMaxProceduralEarth({
           ...style,
         } as CSSProperties
       }
+      data-static-mode={staticMode ? "true" : "false"}
     >
       <svg
         aria-hidden={title ? undefined : true}
@@ -124,6 +129,11 @@ export default function ProMaxProceduralEarth({
             <stop offset="0%" stopColor="rgba(255, 255, 255, 0.52)" />
             <stop offset="100%" stopColor="rgba(255, 255, 255, 0.08)" />
           </linearGradient>
+          <radialGradient id={polarGradientId} cx="48%" cy="16%" r="62%">
+            <stop offset="0%" stopColor="rgba(238, 250, 255, 0.54)" />
+            <stop offset="52%" stopColor="rgba(188, 232, 255, 0.16)" />
+            <stop offset="100%" stopColor="rgba(188, 232, 255, 0)" />
+          </radialGradient>
           <clipPath id={globeClipId}>
             <circle cx="36" cy="36" r="22.8" />
           </clipPath>
@@ -178,6 +188,24 @@ export default function ProMaxProceduralEarth({
             r="22.8"
             style={{ fill: `url(#${sunlightGradientId})` }}
           />
+          <g className="tpm-earth-polar-haze" clipPath={`url(#${globeClipId})`}>
+            <ellipse
+              className="tpm-earth-polar-haze-north"
+              cx="36"
+              cy="18.7"
+              rx="16.4"
+              ry="5.2"
+              style={{ fill: `url(#${polarGradientId})` }}
+            />
+            <ellipse
+              className="tpm-earth-polar-haze-south"
+              cx="37.8"
+              cy="55.2"
+              rx="14.2"
+              ry="4.5"
+              style={{ fill: `url(#${polarGradientId})` }}
+            />
+          </g>
 
           <g className="tpm-earth-map tpm-earth-continents" clipPath={`url(#${globeClipId})`}>
             <path
@@ -212,6 +240,14 @@ export default function ProMaxProceduralEarth({
                   className="tpm-earth-cloud-bank tpm-earth-cloud-bank-b"
                   d="M24.1 43.2c1.4-1.9 3.7-2.9 6-2.6 1.1-1.7 3.1-2.6 5.1-2.4 2 .1 3.8 1.3 4.9 3.1 2.2-.4 4.6.2 6.2 1.7 1.7 1.5 2.4 3.8 1.9 6-1 4-5.5 6.3-9.2 4.8-1.4 1.6-3.5 2.4-5.6 2.2-2.2-.2-4.1-1.6-5.1-3.5-1.6.7-3.5.8-5.1 0-1.6-.7-2.9-2.2-3.3-3.9-.4-1.8 0-3.8 1.2-5.4Z"
                   style={{ fill: `url(#${cloudGradientId})` }}
+                />
+                <path
+                  className="tpm-earth-cloud-bank tpm-earth-cloud-bank-c"
+                  d="M16.9 36.8c6.1-1.7 12.1-1.2 17.7 1.3 6.9 3.1 13.1 3.5 20.7 1.1"
+                />
+                <path
+                  className="tpm-earth-cloud-bank tpm-earth-cloud-bank-d"
+                  d="M20.6 24.8c4.6-1 8.8-.6 12.7 1.1 5.8 2.6 11.4 2.8 17.8.7"
                 />
               </g>
             ) : null}

@@ -301,6 +301,33 @@ export default function FounderCommandRoom({
             <small>Assistant-controlled and plan-aware</small>
           </div>
         </div>
+        <div className="tpm-founder-metrics" data-private-hybrid-earth-texture-readiness="true">
+          <div className="tpm-founder-metric">
+            <span>Hybrid Earth policy</span>
+            <strong>{appSnapshot.earthReality.hybridEarthTextureReadiness.status}</strong>
+            <small>{appSnapshot.earthReality.hybridEarthTextureReadiness.activeTextureMode}</small>
+          </div>
+          <div className="tpm-founder-metric">
+            <span>Approved texture registry</span>
+            <strong>{appSnapshot.earthReality.hybridEarthTextureReadiness.approvedTextureCount}</strong>
+            <small>
+              {appSnapshot.earthReality.hybridEarthTextureReadiness.approvedDisabledCount} approved disabled
+            </small>
+          </div>
+          <div className="tpm-founder-metric">
+            <span>Missing / invalid metadata</span>
+            <strong>
+              {appSnapshot.earthReality.hybridEarthTextureReadiness.missingMetadataCount} /{" "}
+              {appSnapshot.earthReality.hybridEarthTextureReadiness.invalidMetadataCount}
+            </strong>
+            <small>No active texture without complete metadata</small>
+          </div>
+          <div className="tpm-founder-metric">
+            <span>Next safe action</span>
+            <strong>License first</strong>
+            <small>{appSnapshot.earthReality.hybridEarthTextureReadiness.nextSafeAction}</small>
+          </div>
+        </div>
       </section>
 
       <AlkonDeviceConstellationPanel snapshot={deviceSnapshot} />

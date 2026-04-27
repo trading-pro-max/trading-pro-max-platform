@@ -9,6 +9,7 @@ import {
 import { getAssistantTierSnapshot } from "../../../lib/assistant/tiers";
 import { getPlanEntitlementSnapshot } from "../../../lib/plans/entitlements";
 import { getPublicPlanRealms } from "../../../lib/plans/realms";
+import { getPublicHybridEarthPolicy } from "../../../lib/brand/hybrid-earth-policy";
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
 import type { PlanVisualIdentity, PlanVisualKey } from "../../../lib/plans/visual-identity";
 import { getPlanVisualIdentities } from "../../../lib/plans/visual-identity";
@@ -896,6 +897,7 @@ export function PlatformDiagnosticsSurface({
   const planEntitlementSnapshot = getPlanEntitlementSnapshot("demo_free");
   const currentPlanetLayer = planEntitlementSnapshot.citizenAccess.currentLayer;
   const publicPlanRealms = getPublicPlanRealms();
+  const earthRenderingPolicy = getPublicHybridEarthPolicy();
   const localePrefix = locale ? `/${locale}` : "";
   const systemItems = [
     {
@@ -1203,6 +1205,12 @@ export function PlatformDiagnosticsSurface({
       value: "Earth-native",
       tone: "approved" as const,
       note: "Public visuals, plans, workspace, markets, support, privacy, and Product Truth serve a real human on Earth.",
+    },
+    {
+      label: "Earth visual",
+      value: earthRenderingPolicy.fallbackActive ? "Local fallback" : "Local approved layer",
+      tone: "approved" as const,
+      note: "The visual identity renders locally, avoids remote image URLs, and keeps the Workspace chart-first.",
     },
     {
       label: "Product Truth",
@@ -2382,6 +2390,7 @@ export function PlatformSettingsSurface({
   const planEntitlementSnapshot = getPlanEntitlementSnapshot("demo_free");
   const currentPlanetLayer = planEntitlementSnapshot.citizenAccess.currentLayer;
   const publicPlanRealms = getPublicPlanRealms();
+  const earthRenderingPolicy = getPublicHybridEarthPolicy();
   const journalCoachLoadState = useJournalCoachReadiness();
 
   const productStructureItems = [
@@ -2463,6 +2472,12 @@ export function PlatformSettingsSurface({
       value: "Reference reality",
       tone: "approved" as const,
       note: "Pro Max Trading uses Earth as the public reference for human, time, privacy, market, learning, support, environment, and Product Truth decisions.",
+    },
+    {
+      label: "Earth visual",
+      value: earthRenderingPolicy.fallbackActive ? "Procedural fallback" : "Local approved layer",
+      tone: "approved" as const,
+      note: "Home can be richer, while the Trading Workspace keeps Earth identity subtle and chart-first.",
     },
     {
       label: "Safety truth",

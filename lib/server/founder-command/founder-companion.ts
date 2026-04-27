@@ -1,6 +1,9 @@
 import "server-only";
 
-import { getPrivateBrandUniverse } from "@/lib/brand";
+import {
+  getFounderHybridEarthTextureReadiness,
+  getPrivateBrandUniverse,
+} from "@/lib/brand";
 import { getPlanEntitlementSnapshot } from "@/lib/plans/entitlements";
 import { getPrivateFounderRealm, getPublicPlanRealms } from "@/lib/plans/realms";
 import { getAlkonUniverseSnapshot } from "@/lib/server/alkon";
@@ -90,6 +93,7 @@ export type FounderPersonalCompanionSnapshot = {
   revelationExperienceSummary: string[];
   finalConvergenceSummary: string[];
   earthRealitySummary: string[];
+  hybridEarthTextureSummary: string[];
   personalRealitySummary: string[];
   intentInterfaceSummary: string[];
   deviceConstellationSummary: string[];
@@ -162,6 +166,7 @@ export function getFounderPersonalCompanionSnapshot(
   const planetaryEnvironment =
     getPlanetaryEnvironmentReadinessSnapshot(checkedAt);
   const earthReality = getEarthRealitySnapshot(checkedAt);
+  const hybridEarthTextureReadiness = getFounderHybridEarthTextureReadiness();
   const personalReality = getPersonalRealityReadinessSnapshot(checkedAt);
   const intentInterface = getIntentInterfaceReadinessSnapshot(checkedAt);
   const deviceConstellation = getFounderDeviceReadinessSnapshot(checkedAt);
@@ -381,6 +386,12 @@ export function getFounderPersonalCompanionSnapshot(
       `${earthReality.layers.length} Earth layers and ${earthReality.surfaces.length} public surfaces are constitutionally mapped.`,
       `Public/private boundary is ${earthReality.publicPrivateBoundaryStatus}; live execution, real money, broker/feed, billing, production, and social publishing remain blocked or inactive.`,
       "Earth is the public reference reality for human orientation, time, privacy, markets, law/trust, learning/support, environment, and Product Truth.",
+    ],
+    hybridEarthTextureSummary: [
+      `Hybrid Earth texture mode is ${hybridEarthTextureReadiness.activeTextureMode}.`,
+      `${hybridEarthTextureReadiness.approvedTextureCount} approved texture is active; ${hybridEarthTextureReadiness.invalidMetadataCount} invalid metadata entries are disabled.`,
+      hybridEarthTextureReadiness.nextSafeAction,
+      "Procedural fallback remains active unless a local legally approved texture has complete metadata, checksum, and approval.",
     ],
     personalRealitySummary: [
       `Personal Reality is ${personalReality.status}; ${personalReality.freeControls.length} Free controls are active.`,

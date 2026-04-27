@@ -8938,6 +8938,75 @@ html[data-theme="light"] {
   width: var(--tpm-procedural-earth-size);
 }
 
+.tpm-hybrid-earth {
+  --tpm-hybrid-earth-texture-url: none;
+  align-items: center;
+  display: inline-flex;
+  height: var(--tpm-hybrid-earth-size, var(--tpm-procedural-earth-size, 40px));
+  justify-content: center;
+  position: relative;
+  width: var(--tpm-hybrid-earth-size, var(--tpm-procedural-earth-size, 40px));
+}
+
+.tpm-hybrid-earth > .tpm-procedural-earth {
+  height: 100%;
+  width: 100%;
+}
+
+.tpm-hybrid-earth-approved-texture {
+  border-radius: 999px;
+  inset: 18.35%;
+  overflow: hidden;
+  pointer-events: none;
+  position: absolute;
+  z-index: 2;
+}
+
+.tpm-hybrid-earth-approved-texture-sphere,
+.tpm-hybrid-earth-approved-texture-light,
+.tpm-hybrid-earth-approved-texture-terminator,
+.tpm-hybrid-earth-approved-texture-atmosphere,
+.tpm-hybrid-earth-approved-texture-clouds {
+  border-radius: inherit;
+  inset: 0;
+  position: absolute;
+}
+
+.tpm-hybrid-earth-approved-texture-sphere {
+  background-image: var(--tpm-hybrid-earth-texture-url);
+  background-position: 50% 50%;
+  background-size: cover;
+  filter: saturate(0.95) contrast(1.04);
+}
+
+.tpm-hybrid-earth-approved-texture-light {
+  background:
+    radial-gradient(circle at 31% 20%, rgba(255, 255, 255, 0.38), transparent 30%),
+    radial-gradient(circle at 45% 34%, rgba(97, 191, 255, 0.14), transparent 56%);
+  mix-blend-mode: screen;
+}
+
+.tpm-hybrid-earth-approved-texture-terminator {
+  background: linear-gradient(112deg, rgba(0, 0, 0, 0.62) 0%, rgba(0, 0, 0, 0.28) 43%, transparent 68%);
+  mix-blend-mode: multiply;
+}
+
+.tpm-hybrid-earth-approved-texture-atmosphere {
+  box-shadow:
+    inset 0 0 0 1px rgba(178, 233, 255, 0.54),
+    inset 12px -14px 26px rgba(2, 9, 18, 0.36),
+    0 0 18px rgba(94, 195, 255, 0.28);
+}
+
+.tpm-hybrid-earth-approved-texture-clouds {
+  background:
+    radial-gradient(ellipse at 28% 29%, rgba(255, 255, 255, 0.26), transparent 24%),
+    radial-gradient(ellipse at 57% 43%, rgba(255, 255, 255, 0.16), transparent 28%),
+    linear-gradient(12deg, transparent 28%, rgba(255, 255, 255, 0.16), transparent 50%);
+  mix-blend-mode: screen;
+  opacity: 0.72;
+}
+
 .tpm-procedural-earth-svg {
   display: block;
   height: 100%;
@@ -8988,6 +9057,17 @@ html[data-theme="light"] {
   opacity: calc(0.96 * var(--tpm-procedural-earth-intensity, 1));
 }
 
+.tpm-procedural-earth .tpm-earth-polar-haze {
+  mix-blend-mode: screen;
+  opacity: calc(0.72 * var(--tpm-procedural-earth-intensity, 1));
+}
+
+.tpm-procedural-earth .tpm-earth-polar-haze-south {
+  opacity: 0.58;
+  transform: rotate(-6deg);
+  transform-origin: 38px 55px;
+}
+
 .tpm-procedural-earth .tpm-earth-continent {
   filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.18));
 }
@@ -8995,6 +9075,15 @@ html[data-theme="light"] {
 .tpm-procedural-earth .tpm-earth-cloud-bank {
   mix-blend-mode: screen;
   opacity: calc(0.78 * var(--tpm-procedural-earth-intensity, 1));
+}
+
+.tpm-procedural-earth .tpm-earth-cloud-bank-c,
+.tpm-procedural-earth .tpm-earth-cloud-bank-d {
+  fill: none;
+  opacity: calc(0.38 * var(--tpm-procedural-earth-intensity, 1));
+  stroke: rgba(255, 255, 255, 0.54);
+  stroke-linecap: round;
+  stroke-width: 1.35;
 }
 
 .tpm-procedural-earth .tpm-earth-terminator {
@@ -9051,8 +9140,20 @@ html[data-theme="light"] {
   --tpm-procedural-earth-size: 30px;
 }
 
+.tpm-earth-mark--compact .tpm-hybrid-earth,
+.tpm-earth-mark-compact .tpm-hybrid-earth {
+  --tpm-hybrid-earth-size: 30px;
+  --tpm-procedural-earth-size: 30px;
+}
+
 .tpm-earth-mark--public .tpm-procedural-earth,
 .tpm-earth-mark-public .tpm-procedural-earth {
+  --tpm-procedural-earth-size: 72px;
+}
+
+.tpm-earth-mark--public .tpm-hybrid-earth,
+.tpm-earth-mark-public .tpm-hybrid-earth {
+  --tpm-hybrid-earth-size: 72px;
   --tpm-procedural-earth-size: 72px;
 }
 
@@ -9724,7 +9825,9 @@ html[data-theme="light"] .tpm-workspace-activity-panel {
 }
 
 html[data-tpm-environment-mode="static"] .tpm-procedural-earth *,
-.tpm-env-static .tpm-procedural-earth * {
+.tpm-env-static .tpm-procedural-earth *,
+.tpm-hybrid-earth--static *,
+.tpm-procedural-earth--static * {
   animation: none !important;
   transition: none !important;
 }

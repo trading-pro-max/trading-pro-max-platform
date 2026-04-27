@@ -1,11 +1,11 @@
 WAKE REPORT
-Status: closed
-Mission: Pro Max Full Visual Balance + Full Trading Workspace A-Z Rebuild
-Done: unified Pro Max around a shared procedural Earth visual origin; rebuilt the Trading Workspace shell into one chart-first flow with one compact logo, one terminal topbar, integrated execution rail, collapsed Assistant dock, quiet Journal / Coach dock, compact Product Truth, aligned Settings / Diagnostics / Plans / Apps / Support surfaces, refreshed public Home hero/header balance, added visual proof, and updated regression coverage
-Not done: Ahmad final visual acceptance remains the human gate
+Status: validated
+Mission: Pro Max Hybrid Living Earth Reality System
+Done: added hybrid Earth policy docs, governed empty texture folder/manifest, static texture registry, public-safe hybrid renderer, improved procedural fallback, optional approved-local texture layer disabled by default, Home/logo/Workspace/Settings/Diagnostics integration, private Founder readiness summaries, regression coverage, and visual proof
+Not done: no actual Earth texture asset was added or activated; Ahmad must later provide a legally approved texture with complete metadata if desired
 Validation: passed
-Tests: 196 regression tests passed
-Commit: pending clean local commit with `build pro max visual balance and rebuild workspace`
+Tests: 201 regression tests passed
+Commit: pending clean local commit with `build hybrid living earth reality`
 Pushed: pending after commit
-Clean: yes after commit/push completes
-Next: Ahmad visual review of `test-results/pro-max-full-balance-workspace-rebuild/`
+Clean: pending final git status after commit/push
+Next: Ahmad may review `test-results/pro-max-hybrid-earth-reality/` and later add only a licensed/checksummed Earth texture through the manifest

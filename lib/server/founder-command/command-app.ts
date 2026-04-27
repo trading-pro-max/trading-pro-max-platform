@@ -1,6 +1,9 @@
 import "server-only";
 
-import { getPrivateBrandUniverse } from "@/lib/brand";
+import {
+  getFounderHybridEarthTextureReadiness,
+  getPrivateBrandUniverse,
+} from "@/lib/brand";
 import { getPlanEntitlementSnapshot } from "@/lib/plans/entitlements";
 import { getPrivateFounderRealm, getPublicPlanRealms } from "@/lib/plans/realms";
 import { getAcademyReadinessSnapshot } from "@/lib/server/academy";
@@ -204,6 +207,7 @@ export function getFounderCommandAppSnapshot(
   const planetaryEnvironment =
     getPlanetaryEnvironmentReadinessSnapshot(checkedAt);
   const earthReality = getEarthRealitySnapshot(checkedAt);
+  const hybridEarthTextureReadiness = getFounderHybridEarthTextureReadiness();
   const personalReality = getPersonalRealityReadinessSnapshot(checkedAt);
   const deviceConstellation = getFounderDeviceReadinessSnapshot(checkedAt);
   const treasuryLife = getTreasuryLifeSnapshot();
@@ -444,6 +448,7 @@ export function getFounderCommandAppSnapshot(
       surfaceCount: earthReality.surfaces.length,
       publicPrivateBoundaryStatus: earthReality.publicPrivateBoundaryStatus,
       productTruthStatus: earthReality.productTruthStatus,
+      hybridEarthTextureReadiness,
       nextSafeActions: earthReality.nextSafeActions,
       founderReviewNeeded: earthReality.founderReviewNeeded,
     },

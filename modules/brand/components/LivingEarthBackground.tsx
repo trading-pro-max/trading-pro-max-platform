@@ -10,7 +10,8 @@ import type {
   WeatherState,
 } from "@/lib/environment/client-types";
 import type { PlanRealmId } from "@/lib/plans/realms/types";
-import ProMaxProceduralEarth from "./ProMaxProceduralEarth";
+import { getPublicHybridEarthPolicy } from "@/lib/brand/hybrid-earth-policy";
+import ProMaxHybridEarth from "./ProMaxHybridEarth";
 
 type LivingEarthBackgroundProps = {
   className?: string;
@@ -49,6 +50,7 @@ export default function LivingEarthBackground({
     timeZone,
   });
   const realmId = planRealmIds[plan];
+  const hybridPolicy = getPublicHybridEarthPolicy();
   const earthVariant =
     surface === "public_entry"
       ? "background"
@@ -65,11 +67,14 @@ export default function LivingEarthBackground({
       data-earth-external-map-assets="false"
       data-earth-focus-region={focus.region}
       data-earth-gps-used="false"
+      data-earth-render-mode={hybridPolicy.renderMode}
+      data-earth-renderer="hybrid"
       data-earth-plan={plan}
       data-earth-raster-assets="false"
       data-earth-realm={realmId}
       data-earth-state={state}
       data-earth-surface={surface}
+      data-earth-texture-active={hybridPolicy.textureActive ? "true" : "false"}
       data-env-solar-phase={solarPhase}
       data-env-weather-state={weatherState}
       data-environment-engine="adaptive_atmosphere"
@@ -84,12 +89,13 @@ export default function LivingEarthBackground({
       <div className="tpm-living-earth-horizon">
         <div className="tpm-living-earth-atmosphere-arc" />
         <div className="tpm-living-earth-globe">
-          <ProMaxProceduralEarth
+          <ProMaxHybridEarth
             className="tpm-living-earth-procedural-planet"
             intensity={surface === "public_entry" ? "high" : surface === "workstation" ? "soft" : "medium"}
             showAtmosphere={surface !== "settings" && surface !== "diagnostics"}
             showClouds={surface !== "workstation"}
             showTerminator
+            textureMode="auto"
             variant={earthVariant}
           />
         </div>

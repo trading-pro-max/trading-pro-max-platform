@@ -1,0 +1,16 @@
+[
+  {
+    "id": "earth_day_approved",
+    "file": "earth-day.approved.ext",
+    "type": "day",
+    "status": "missing",
+    "source": "",
+    "license": "",
+    "author": "",
+    "usageNotes": "",
+    "approvedBy": "",
+    "dateAdded": "",
+    "checksum": "",
+    "enabled": false
+  }
+]
