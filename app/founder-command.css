@@ -595,6 +595,11 @@
 .alkon-gravity-orbit,
 .alkon-workers-stations,
 .alkon-risk-belt,
+.alkon-operating-mode,
+.alkon-zero-truth,
+.alkon-daily-loop,
+.alkon-one-next-action,
+.alkon-activation-gates,
 .alkon-final-convergence,
 .alkon-layer-growth,
 .alkon-automation-governor,
@@ -630,6 +635,16 @@
   background:
     radial-gradient(circle at 76% 8%, color-mix(in srgb, var(--alkon-gold) 18%, transparent), transparent 32%),
     linear-gradient(180deg, color-mix(in srgb, #050608 44%, var(--tpm-founder-panel)), var(--tpm-founder-surface));
+}
+
+.alkon-operating-mode {
+  background:
+    radial-gradient(circle at 76% 8%, color-mix(in srgb, var(--alkon-cyan) 16%, transparent), transparent 32%),
+    linear-gradient(180deg, color-mix(in srgb, #050608 48%, var(--tpm-founder-panel)), var(--tpm-founder-surface));
+}
+
+.alkon-operating-mode-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .alkon-layer-growth {

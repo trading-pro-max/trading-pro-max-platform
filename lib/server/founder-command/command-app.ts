@@ -44,6 +44,7 @@ import { getAlkonGenesisSnapshot } from "@/lib/server/alkon-genesis";
 import { getInfiniteGrowthSnapshot } from "@/lib/server/infinite-growth";
 import { getNumberOneDestinySnapshot } from "@/lib/server/number-one-destiny";
 import { getSourceLawSnapshot } from "@/lib/server/source-law";
+import { getAlkonOperatingModeSnapshot } from "@/lib/server/alkon-operating-mode";
 import { getPlanetaryEnvironmentReadinessSnapshot } from "@/lib/server/environment";
 import { getEarthRealitySnapshot } from "@/lib/server/earth-reality";
 import { getPersonalRealityReadinessSnapshot } from "@/lib/server/personal-reality";
@@ -203,6 +204,7 @@ export function getFounderCommandAppSnapshot(
   const infiniteGrowth = getInfiniteGrowthSnapshot(checkedAt);
   const numberOneDestiny = getNumberOneDestinySnapshot(checkedAt);
   const sourceLaw = getSourceLawSnapshot(checkedAt);
+  const alkonOperatingMode = getAlkonOperatingModeSnapshot(checkedAt);
   const brandUniverse = getPrivateBrandUniverse();
   const planetaryEnvironment =
     getPlanetaryEnvironmentReadinessSnapshot(checkedAt);
@@ -360,6 +362,10 @@ export function getFounderCommandAppSnapshot(
           sourceLawReady: sourceLaw.readiness === "ready",
           sourceLawPublicExposure: sourceLaw.publicExposure,
           sourceLawOneCorrectAction: sourceLaw.oneCorrectAction.oneCorrectAction,
+          operatingModeStatus: alkonOperatingMode.status,
+          operatingModePublicExposure: alkonOperatingMode.publicExposure,
+          operatingModeOneNextAction:
+            alkonOperatingMode.oneNextAction.oneNextAction,
         },
       },
       planRealmFunctionalExperience: {
@@ -423,6 +429,7 @@ export function getFounderCommandAppSnapshot(
     infiniteGrowth,
     numberOneDestiny,
     sourceLaw,
+    alkonOperatingMode,
     brandUniverse,
     treasuryLife,
     mediaIntelligence,
@@ -1380,6 +1387,11 @@ export function getFounderCommandAppSnapshot(
       "/api/founder/secrets/readiness",
       "/api/founder/security/readiness",
       "/api/founder/tooling/readiness",
+      "/api/founder/alkon-operating-mode/readiness",
+      "/api/founder/alkon-operating-mode/snapshot",
+      "/api/founder/alkon-operating-mode/zero-truth",
+      "/api/founder/alkon-operating-mode/one-next-action",
+      "/api/founder/alkon-operating-mode/daily-loop",
       "/api/integrations/readiness",
       "/api/integrations/registry",
       "/api/integrations/account-provisioning",

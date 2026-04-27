@@ -31,9 +31,21 @@ async function openWithTheme(
 }
 
 async function screenshotLocator(page: Page, selector: string, fileName: string) {
-  const target = page.locator(selector).first();
-  await expect(target).toBeVisible();
-  await target.screenshot({ path: path.join(ARTIFACT_DIR, fileName) });
+  await expect(page.locator(selector).first()).toBeVisible();
+
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    const target = page.locator(selector).first();
+
+    try {
+      await target.scrollIntoViewIfNeeded({ timeout: 5000 });
+      await expect(target).toBeVisible();
+      await target.screenshot({ path: path.join(ARTIFACT_DIR, fileName) });
+      return;
+    } catch (error) {
+      if (attempt === 2) throw error;
+      await page.waitForTimeout(250);
+    }
+  }
 }
 
 test.describe("plan-realm functional experience system", () => {

@@ -26,6 +26,7 @@ import { getAlkonGenesisSnapshot } from "@/lib/server/alkon-genesis";
 import { getInfiniteGrowthSnapshot } from "@/lib/server/infinite-growth";
 import { getNumberOneDestinySnapshot } from "@/lib/server/number-one-destiny";
 import { getSourceLawSnapshot } from "@/lib/server/source-law";
+import { getAlkonOperatingModeSnapshot } from "@/lib/server/alkon-operating-mode";
 import { getPlanetaryEnvironmentReadinessSnapshot } from "@/lib/server/environment";
 import { getEarthRealitySnapshot } from "@/lib/server/earth-reality";
 import { getPersonalRealityReadinessSnapshot } from "@/lib/server/personal-reality";
@@ -88,6 +89,7 @@ export type FounderPersonalCompanionSnapshot = {
   infiniteGrowthSummary: string[];
   numberOneDestinySummary: string[];
   sourceLawSummary: string[];
+  alkonOperatingModeSummary: string[];
   treasuryLifeSummary: string[];
   mediaIntelligenceSummary: string[];
   revelationExperienceSummary: string[];
@@ -156,6 +158,7 @@ export function getFounderPersonalCompanionSnapshot(
   const infiniteGrowth = getInfiniteGrowthSnapshot(checkedAt);
   const numberOneDestiny = getNumberOneDestinySnapshot(checkedAt);
   const sourceLaw = getSourceLawSnapshot(checkedAt);
+  const alkonOperatingMode = getAlkonOperatingModeSnapshot(checkedAt);
   const brandUniverse = getPrivateBrandUniverse();
   const treasuryLife = getTreasuryLifeSnapshot();
   const mediaIntelligence = getMediaIntelligenceSnapshot();
@@ -355,6 +358,13 @@ export function getFounderPersonalCompanionSnapshot(
       `One correct action: ${sourceLaw.oneCorrectAction.oneCorrectAction}`,
       `${sourceLaw.driftSignals.length} drift signals are active and ${sourceLaw.memoryLessons.length} memory lessons guard future work.`,
       "Source Law is private, read-only, and cannot execute, expose secrets, launch, bill, trade live, route real money, or expose Alkon publicly.",
+    ],
+    alkonOperatingModeSummary: [
+      `${alkonOperatingMode.name} is ${alkonOperatingMode.status}; activation decision is ${alkonOperatingMode.activationDecision}.`,
+      `Zero Truth audit is ${alkonOperatingMode.zeroTruthAudit.status} with ${alkonOperatingMode.zeroTruthAudit.blockers.length} blockers.`,
+      `One next action: ${alkonOperatingMode.oneNextAction.oneNextAction}`,
+      `Local Day One gate is ${alkonOperatingMode.localDayOneGate.status}; Founder decision needed: ${String(alkonOperatingMode.founderDecisionNeeded)}.`,
+      "Operating Mode is private, read-only, no-execution, and cannot launch, bill, trade live, route real money, expose secrets, run shell commands, or expose Alkon publicly.",
     ],
     treasuryLifeSummary: [
       `Treasury Life is ${treasuryLife.status}; funding mode is ${treasuryLife.fundingMode}.`,

@@ -46,6 +46,11 @@ import AlkonOneCorrectActionPanel from "./AlkonOneCorrectActionPanel";
 import AlkonSourceDriftPanel from "./AlkonSourceDriftPanel";
 import AlkonSourceLawPanel from "./AlkonSourceLawPanel";
 import AlkonVisionCorePanel from "./AlkonVisionCorePanel";
+import AlkonOperatingModePanel from "./AlkonOperatingModePanel";
+import AlkonZeroTruthPanel from "./AlkonZeroTruthPanel";
+import AlkonDailyLoopPanel from "./AlkonDailyLoopPanel";
+import AlkonOneNextActionPanel from "./AlkonOneNextActionPanel";
+import AlkonActivationGatesPanel from "./AlkonActivationGatesPanel";
 import AlkonGenesisPanel from "./AlkonGenesisPanel";
 import AlkonGenesisGatesPanel from "./AlkonGenesisGatesPanel";
 import AlkonPrimeWorldPanel from "./AlkonPrimeWorldPanel";
@@ -193,6 +198,15 @@ export default function FounderCommandRoom({
         <AlkonVisionCorePanel snapshot={appSnapshot.sourceLaw} />
         <AlkonOneCorrectActionPanel snapshot={appSnapshot.sourceLaw} />
         <AlkonSourceDriftPanel snapshot={appSnapshot.sourceLaw} />
+      </div>
+
+      <AlkonOperatingModePanel snapshot={appSnapshot.alkonOperatingMode} />
+
+      <div className="alkon-command-grid alkon-operating-mode-grid">
+        <AlkonZeroTruthPanel snapshot={appSnapshot.alkonOperatingMode} />
+        <AlkonDailyLoopPanel snapshot={appSnapshot.alkonOperatingMode} />
+        <AlkonOneNextActionPanel snapshot={appSnapshot.alkonOperatingMode} />
+        <AlkonActivationGatesPanel snapshot={appSnapshot.alkonOperatingMode} />
       </div>
 
       <AlkonGenesisPanel snapshot={appSnapshot.alkonGenesis} />

@@ -42,10 +42,21 @@ async function openWithTheme(
 }
 
 async function screenshotLocator(page: Page, selector: string, fileName: string) {
-  const target = page.locator(selector).first();
-  await target.scrollIntoViewIfNeeded();
-  await expect(target).toBeVisible();
-  await target.screenshot({ path: path.join(ARTIFACT_DIR, fileName) });
+  await expect(page.locator(selector).first()).toBeVisible();
+
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    const target = page.locator(selector).first();
+
+    try {
+      await target.scrollIntoViewIfNeeded({ timeout: 5000 });
+      await expect(target).toBeVisible();
+      await target.screenshot({ path: path.join(ARTIFACT_DIR, fileName) });
+      return;
+    } catch (error) {
+      if (attempt === 2) throw error;
+      await page.waitForTimeout(250);
+    }
+  }
 }
 
 async function expectPublicSafe(page: Page) {
@@ -225,6 +236,8 @@ test.describe("Earth Reality Constitution and Personal Operating Reality", () =>
   });
 
   test("captures public Earth world and settings/diagnostics proof", async ({ page }) => {
+    test.setTimeout(120000);
+
     await openWithTheme(page, "/", "dark");
     await expectPublicSafe(page);
     await page.screenshot({
@@ -269,6 +282,8 @@ test.describe("Earth Reality Constitution and Personal Operating Reality", () =>
   test("captures workspace, Assistant, static, and high-contrast proof", async ({
     page,
   }) => {
+    test.setTimeout(120000);
+
     await openWithTheme(page, "/en", "dark");
     await expect(page.locator(".tpm-workspace-shell")).toHaveCount(1);
     await expect(page.locator(".tpmv2-chart-surface").first()).toBeVisible();

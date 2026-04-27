@@ -2,41 +2,38 @@
 
 Recommended next command:
 
-Review the Pro Max Full Visual Balance + Trading Workspace proof screenshots and record Ahmad's human visual acceptance notes.
+Ahmad reviews the current Pro Max visual baseline and records visual acceptance or focused rejection notes.
 
 Reason:
 
-The platform now has a unified Earth-native public visual origin, a balanced public header, a chart-first Trading Workspace contract, integrated paper execution, collapsed Assistant semantics, secondary Journal/Coach semantics, and aligned Settings/Diagnostics/Plans/Apps/Support surfaces.
+Alkon Operating Mode is active_with_notes. Zero Truth found no default P0 Product Truth, public/private boundary, build, Git, or safety blocker. Local Day One remains blocked by human visual acceptance, which cannot be faked by code.
 
 Review:
 
-- `test-results/pro-max-full-balance-workspace-rebuild/home-full-balance-dark.png`
-- `test-results/pro-max-full-balance-workspace-rebuild/home-full-balance-light.png`
-- `test-results/pro-max-full-balance-workspace-rebuild/header-balanced.png`
-- `test-results/pro-max-full-balance-workspace-rebuild/workspace-full-rebuild-dark.png`
-- `test-results/pro-max-full-balance-workspace-rebuild/workspace-chart-dominant.png`
-- `test-results/pro-max-full-balance-workspace-rebuild/workspace-execution-integrated.png`
-- `test-results/pro-max-full-balance-workspace-rebuild/workspace-assistant-open-no-cover.png`
-- `test-results/pro-max-full-balance-workspace-rebuild/settings-balanced.png`
-- `test-results/pro-max-full-balance-workspace-rebuild/diagnostics-balanced.png`
-- `test-results/pro-max-full-balance-workspace-rebuild/no-alkon-public-leak.png`
+- `test-results/pro-max-full-balance-workspace-rebuild/`
+- `test-results/alkon-operating-mode/public-entry-dark.png`
+- `test-results/alkon-operating-mode/diagnostics-public-safe.png`
 
-Next safe scope:
+If accepted:
 
-- Ahmad reviews whether the Home, header, logo, Trading Workspace, chart, execution rail, Assistant, Journal/Coach, Settings, Diagnostics, Plans, Apps, and Support now feel like one Pro Max product.
-- Any next work should be acceptance-note driven and narrowly scoped.
-- Keep Workspace chart-first and keep Earth identity supportive.
-- Keep public UI free of Alkon and private governance internals.
+- Run Final Universal Closure.
+- Start closed Local Day One review only after closure evidence remains clean.
+
+If rejected:
+
+- Create one focused visual correction command from Ahmad's notes.
 
 Blocked:
 
-- images or raster assets
-- generated image files
+- public launch
+- production activation
+- billing activation
+- broker/feed activation
 - live execution
 - real money
-- broker/feed activation
-- billing activation
-- production activation
-- fake downloads
-- fake claims or performance promises
-- public Alkon exposure
+- shell execution from the web app
+- external account connection
+- social publishing
+- secrets exposure
+- image generation or raster assets
+- public Alkon / Founder Command / Operating Mode exposure
