@@ -1,5 +1,36 @@
 # Alkon Execution History
 
+## 2026-04-27 - Pro Max Full Visual Balance + Full Trading Workspace A-Z Rebuild Completion
+
+Mission executed locally in code/CSS/docs/tests/reports only.
+
+Actions:
+
+- Added `docs/product/pro-max-full-visual-balance-workspace-rebuild.md` with the visual origin, public header contract, workspace architecture, P0/P1/P2 audit classification, and Product Truth boundaries.
+- Marked public shell, Home, ProductLogo, Workspace, Settings, and Diagnostics with the shared Pro Max Earth-financial visual origin.
+- Rebalanced the public header into an equal-zone identity / navigation / Sign in structure and kept public controls out of the topbar.
+- Tightened the workspace market summary spacing so the chart starts higher.
+- Added explicit chart-first hierarchy metadata to the Living Market Core, chart surface, execution rail, Assistant dock, and Journal/Coach dock.
+- Strengthened the full-balance regression spec for header centering, route refresh, logo-to-Home navigation, code-only hybrid logo rendering, workspace shell contract, assistant non-overlay layout, utility surface continuity, no fake app downloads, and no raster source assets.
+- Refreshed proof screenshots under `test-results/pro-max-full-balance-workspace-rebuild/`.
+
+Validation:
+
+- TypeScript passed.
+- ESLint passed.
+- Build passed.
+- Prisma validate passed.
+- Focused full-balance Playwright spec passed with 5 tests.
+- Regression passed with 201 tests.
+- Route smoke passed with 4 canonical routes.
+
+Safety:
+
+- No image generation, raster assets, generated images, or unknown assets were added.
+- No live execution, real money, broker/feed activation, billing activation, production activation, fake downloads, fake claims, or performance promises were introduced.
+- Public users do not see Alkon, Founder Command, internal governance, Product Memory internals, Treasury internals, Risk Belt, or Black Hole Zone.
+- Product Truth stayed preserved.
+
 ## 2026-04-27 - Pro Max Hybrid Living Earth Reality System
 
 Mission executed locally in docs/code/tests/reports only.

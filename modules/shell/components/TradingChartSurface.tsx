@@ -10,6 +10,7 @@ export function TradingChartSurface({ children }: TradingChartSurfaceProps) {
       className="tpm-living-chart-surface"
       aria-label="Chart-first trading surface"
       data-chart-surface="living-market-core"
+      data-visual-priority="primary"
     >
       {children}
     </section>

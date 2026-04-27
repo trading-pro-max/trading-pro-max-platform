@@ -63,6 +63,7 @@ export default function TradingTerminalShell({
       className="tpm-terminal-topbar tpmv2-card tpmv2-topbar"
       data-shell-layer="terminal_topbar"
       data-terminal-topbar="true"
+      data-workspace-header="single-terminal-header"
     >
       <Link className="tpm-shell-logo-home-link" href="/" aria-label="Pro Max home">
         <ProductLogo

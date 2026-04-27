@@ -30,6 +30,8 @@ export function LivingMarketCore({
       aria-label="Living Market Core"
       data-chart-first="true"
       data-living-market-core="true"
+      data-visual-hierarchy="chart-execution-truth-assistant-journal-atmosphere-brand"
+      data-workspace-core="chart-execution-docks"
     >
       {marketStatusStrip ? (
         <div className="tpm-living-market-status-strip">{marketStatusStrip}</div>

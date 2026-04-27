@@ -1999,7 +1999,10 @@ export function PlatformDiagnosticsSurface({
   ];
 
   return (
-    <main className="tpm-foundation-page tpm-utility-page tpm-utility-page-diagnostics">
+    <main
+      className="tpm-foundation-page tpm-utility-page tpm-utility-page-diagnostics"
+      data-visual-origin="pro-max-earth-financial"
+    >
       <LivingEarthBackground surface="diagnostics" plan="free" state="paper_safe" />
       <section className="tpm-foundation-card tpm-utility-hero">
         <header className="tpm-foundation-head">
@@ -2611,7 +2614,10 @@ export function PlatformSettingsSurface({
   ];
 
   return (
-    <main className="tpm-foundation-page tpm-utility-page tpm-utility-page-settings">
+    <main
+      className="tpm-foundation-page tpm-utility-page tpm-utility-page-settings"
+      data-visual-origin="pro-max-earth-financial"
+    >
       <LivingEarthBackground surface="settings" plan="free" state="paper_safe" />
       <section className="tpm-foundation-card tpm-utility-hero">
         <header className="tpm-foundation-head">

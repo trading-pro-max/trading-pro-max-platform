@@ -39,6 +39,7 @@ export function WorkspaceAssistantDock({
       className="tpmv2-card tpm-intent-workspace-rail tpm-workspace-assistant-dock"
       aria-label="Pro Max Assistant workspace dock"
       data-assistant-collapsed-default="true"
+      data-visual-priority="tertiary"
     >
       <details className="tpm-workspace-assistant-details">
         <summary className="tpm-workspace-assistant-summary">

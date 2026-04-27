@@ -23,6 +23,7 @@ export function WorkspaceJournalCoachDock({
       className="tpmv2-card tpm-workspace-journal-coach-dock"
       aria-label="Journal and Coach dock"
       data-journal-coach-priority="secondary"
+      data-visual-priority="supporting"
     >
       <div className="tpm-workspace-journal-head">
         <div>

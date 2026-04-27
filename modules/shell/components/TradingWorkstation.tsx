@@ -511,6 +511,8 @@ export default function TradingWorkstation({
       data-living-earth-surface="workstation"
       data-revelation-stage="first_3_minutes"
       data-shell-mode="workspace"
+      data-visual-origin="pro-max-earth-financial"
+      data-workspace-architecture="workspace-header-market-summary-trading-core-docks"
       dir={dir}
       lang={locale}
     >

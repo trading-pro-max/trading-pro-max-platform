@@ -133,7 +133,10 @@ export default function PublicProductEntry({
   workspaceHref,
 }: PublicProductEntryProps) {
   return (
-    <div className="tpm-product-shell">
+    <div
+      className="tpm-product-shell"
+      data-visual-origin="pro-max-earth-financial"
+    >
       <section className="tpm-foundation-page tpm-product-entry">
         <section
           className="tpm-foundation-card tpm-product-hero"

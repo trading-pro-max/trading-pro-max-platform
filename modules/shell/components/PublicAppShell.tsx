@@ -46,9 +46,17 @@ export default function PublicAppShell({
       lang={locale}
       className={`tpm-app-shell tpm-public-shell tpm-public-shell-${routeMode} tpm-foundation-frame tpm-foundation-frame-${routeMode}`}
       data-shell-mode="public"
+      data-visual-origin="pro-max-earth-financial"
     >
-      <header className="tpm-foundation-nav-shell tpm-public-shell-header">
-        <nav className="tpm-foundation-nav tpm-shell-nav-row" aria-label="Pro Max Trading public navigation">
+      <header
+        className="tpm-foundation-nav-shell tpm-public-shell-header"
+        data-header-contract="identity-nav-signin"
+      >
+        <nav
+          className="tpm-foundation-nav tpm-shell-nav-row"
+          aria-label="Pro Max Trading public navigation"
+          data-header-layout="three-zone-balanced"
+        >
           <Link
             className="tpm-shell-logo-home-link"
             href="/"
