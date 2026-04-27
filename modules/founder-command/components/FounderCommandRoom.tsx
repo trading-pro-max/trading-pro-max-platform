@@ -51,6 +51,13 @@ import AlkonZeroTruthPanel from "./AlkonZeroTruthPanel";
 import AlkonDailyLoopPanel from "./AlkonDailyLoopPanel";
 import AlkonOneNextActionPanel from "./AlkonOneNextActionPanel";
 import AlkonActivationGatesPanel from "./AlkonActivationGatesPanel";
+import AlkonKernelPanel from "./AlkonKernelPanel";
+import AlkonFounderSourcePanel from "./AlkonFounderSourcePanel";
+import AlkonCreatorRuntimePanel from "./AlkonCreatorRuntimePanel";
+import AlkonKernelZeroTruthPanel from "./AlkonKernelZeroTruthPanel";
+import AlkonRealityTrialPanel from "./AlkonRealityTrialPanel";
+import AlkonKernelCommandsPanel from "./AlkonKernelCommandsPanel";
+import AlkonLocalDayOneGatePanel from "./AlkonLocalDayOneGatePanel";
 import AlkonGenesisPanel from "./AlkonGenesisPanel";
 import AlkonGenesisGatesPanel from "./AlkonGenesisGatesPanel";
 import AlkonPrimeWorldPanel from "./AlkonPrimeWorldPanel";
@@ -207,6 +214,17 @@ export default function FounderCommandRoom({
         <AlkonDailyLoopPanel snapshot={appSnapshot.alkonOperatingMode} />
         <AlkonOneNextActionPanel snapshot={appSnapshot.alkonOperatingMode} />
         <AlkonActivationGatesPanel snapshot={appSnapshot.alkonOperatingMode} />
+      </div>
+
+      <AlkonKernelPanel snapshot={appSnapshot.alkonKernel} />
+
+      <div className="alkon-command-grid alkon-kernel-grid">
+        <AlkonFounderSourcePanel snapshot={appSnapshot.alkonKernel} />
+        <AlkonCreatorRuntimePanel snapshot={appSnapshot.alkonKernel} />
+        <AlkonKernelZeroTruthPanel snapshot={appSnapshot.alkonKernel} />
+        <AlkonRealityTrialPanel snapshot={appSnapshot.alkonKernel} />
+        <AlkonKernelCommandsPanel snapshot={appSnapshot.alkonKernel} />
+        <AlkonLocalDayOneGatePanel snapshot={appSnapshot.alkonKernel} />
       </div>
 
       <AlkonGenesisPanel snapshot={appSnapshot.alkonGenesis} />

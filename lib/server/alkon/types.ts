@@ -12,6 +12,7 @@ import type { InfiniteGrowthSnapshot } from "@/lib/server/infinite-growth";
 import type { NumberOneDestinySnapshot } from "@/lib/server/number-one-destiny";
 import type { SourceLawSnapshot } from "@/lib/server/source-law";
 import type { AlkonOperatingModeSnapshot } from "@/lib/server/alkon-operating-mode";
+import type { AlkonKernelSnapshot } from "@/lib/server/alkon-kernel";
 
 export type AlkonUniverseVisibility = "private_founder_only";
 
@@ -94,6 +95,8 @@ export type AlkonApiExposure = {
   founderSourceLawSnapshotRoute: "/api/founder/source-law/snapshot";
   founderOperatingModeReadinessRoute: "/api/founder/alkon-operating-mode/readiness";
   founderOperatingModeSnapshotRoute: "/api/founder/alkon-operating-mode/snapshot";
+  founderKernelReadinessRoute: "/api/founder/alkon-kernel/readiness";
+  founderKernelSnapshotRoute: "/api/founder/alkon-kernel/snapshot";
   publicRouteDecision: string;
   routeMode: "read_only_status_only";
   secretsExposed: false;
@@ -129,6 +132,7 @@ export type AlkonUniverseSnapshot = {
   numberOneDestinyAlignment: NumberOneDestinySnapshot;
   sovereignSourceLaw: SourceLawSnapshot;
   operatingMode: AlkonOperatingModeSnapshot;
+  kernel: AlkonKernelSnapshot;
   brandUniverse: ReturnType<typeof getPrivateBrandUniverse>;
   universeMap: AlkonSubsystem[];
   nextSafeActions: string[];

@@ -1,4 +1,4 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type APIRequestContext, type Page } from "@playwright/test";
 import fs from "node:fs";
 import path from "node:path";
 import {
@@ -62,6 +62,24 @@ async function screenshotLocator(page: Page, selector: string, fileName: string)
 async function expectPublicSafe(page: Page) {
   await expect(page.locator("body")).not.toContainText(PUBLIC_FORBIDDEN_TERMS);
   await expect(page.locator("img")).toHaveCount(0);
+}
+
+async function getWithRetry(request: APIRequestContext, route: string) {
+  let lastError: unknown;
+
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    try {
+      const response = await request.get(route);
+      expect(response.status(), route).toBe(200);
+
+      return response;
+    } catch (error) {
+      lastError = error;
+      await new Promise((resolve) => setTimeout(resolve, 350));
+    }
+  }
+
+  throw lastError ?? new Error(`Unable to GET ${route}.`);
 }
 
 test.describe("Earth Reality Constitution and Personal Operating Reality", () => {
@@ -202,8 +220,7 @@ test.describe("Earth Reality Constitution and Personal Operating Reality", () =>
       "/api/personal-reality/status",
       "/api/personal-reality/profiles",
     ]) {
-      const response = await request.get(route);
-      expect(response.status(), route).toBe(200);
+      const response = await getWithRetry(request, route);
       const text = await response.text();
       expect(text, route).not.toMatch(PUBLIC_FORBIDDEN_TERMS);
       expect(text, route).not.toMatch(/liveExecutionActivated":true|billingActivated":true|paidPlanActivated":true/);

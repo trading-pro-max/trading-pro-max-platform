@@ -27,6 +27,7 @@ import { getInfiniteGrowthSnapshot } from "@/lib/server/infinite-growth";
 import { getNumberOneDestinySnapshot } from "@/lib/server/number-one-destiny";
 import { getSourceLawSnapshot } from "@/lib/server/source-law";
 import { getAlkonOperatingModeSnapshot } from "@/lib/server/alkon-operating-mode";
+import { getAlkonKernelSnapshot } from "@/lib/server/alkon-kernel";
 import { getPlanetaryEnvironmentReadinessSnapshot } from "@/lib/server/environment";
 import { getEarthRealitySnapshot } from "@/lib/server/earth-reality";
 import { getPersonalRealityReadinessSnapshot } from "@/lib/server/personal-reality";
@@ -90,6 +91,7 @@ export type FounderPersonalCompanionSnapshot = {
   numberOneDestinySummary: string[];
   sourceLawSummary: string[];
   alkonOperatingModeSummary: string[];
+  alkonKernelSummary: string[];
   treasuryLifeSummary: string[];
   mediaIntelligenceSummary: string[];
   revelationExperienceSummary: string[];
@@ -159,6 +161,7 @@ export function getFounderPersonalCompanionSnapshot(
   const numberOneDestiny = getNumberOneDestinySnapshot(checkedAt);
   const sourceLaw = getSourceLawSnapshot(checkedAt);
   const alkonOperatingMode = getAlkonOperatingModeSnapshot(checkedAt);
+  const alkonKernel = getAlkonKernelSnapshot(checkedAt);
   const brandUniverse = getPrivateBrandUniverse();
   const treasuryLife = getTreasuryLifeSnapshot();
   const mediaIntelligence = getMediaIntelligenceSnapshot();
@@ -365,6 +368,13 @@ export function getFounderPersonalCompanionSnapshot(
       `One next action: ${alkonOperatingMode.oneNextAction.oneNextAction}`,
       `Local Day One gate is ${alkonOperatingMode.localDayOneGate.status}; Founder decision needed: ${String(alkonOperatingMode.founderDecisionNeeded)}.`,
       "Operating Mode is private, read-only, no-execution, and cannot launch, bill, trade live, route real money, expose secrets, run shell commands, or expose Alkon publicly.",
+    ],
+    alkonKernelSummary: [
+      `Alkon Sovereign Kernel is ${alkonKernel.status}; public exposure is ${String(alkonKernel.publicExposure)}.`,
+      `${alkonKernel.commandStatuses.length} kernel command statuses cover Command 0 through Command 16.`,
+      `One next action: ${alkonKernel.oneNextAction.oneNextAction}`,
+      `Local Day One gate is ${alkonKernel.localDayOneGate.localDayOneStatus}; Ahmad visual acceptance required: ${String(alkonKernel.localDayOneGate.ahmadVisualAcceptanceRequired)}.`,
+      "Kernel is private, read-only, no-execution, and cannot launch, bill, trade live, route real money, expose secrets, run shell commands, or expose Alkon publicly.",
     ],
     treasuryLifeSummary: [
       `Treasury Life is ${treasuryLife.status}; funding mode is ${treasuryLife.fundingMode}.`,

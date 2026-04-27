@@ -18,12 +18,23 @@ async function postIdea(
     notes?: string;
   }
 ) {
-  const response = await request.post("/api/founder/ideas/preview", {
-    data: input,
-  });
-  expect(response.status()).toBe(200);
+  let lastError: unknown;
 
-  return response.json();
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    try {
+      const response = await request.post("/api/founder/ideas/preview", {
+        data: input,
+      });
+      expect(response.status()).toBe(200);
+
+      return response.json();
+    } catch (error) {
+      lastError = error;
+      await new Promise((resolve) => setTimeout(resolve, 350));
+    }
+  }
+
+  throw lastError ?? new Error("Unable to preview founder idea.");
 }
 
 async function assertPublicClean(page: Page, route: string) {

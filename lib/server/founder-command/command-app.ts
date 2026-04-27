@@ -45,6 +45,7 @@ import { getInfiniteGrowthSnapshot } from "@/lib/server/infinite-growth";
 import { getNumberOneDestinySnapshot } from "@/lib/server/number-one-destiny";
 import { getSourceLawSnapshot } from "@/lib/server/source-law";
 import { getAlkonOperatingModeSnapshot } from "@/lib/server/alkon-operating-mode";
+import { getAlkonKernelSnapshot } from "@/lib/server/alkon-kernel";
 import { getPlanetaryEnvironmentReadinessSnapshot } from "@/lib/server/environment";
 import { getEarthRealitySnapshot } from "@/lib/server/earth-reality";
 import { getPersonalRealityReadinessSnapshot } from "@/lib/server/personal-reality";
@@ -205,6 +206,7 @@ export function getFounderCommandAppSnapshot(
   const numberOneDestiny = getNumberOneDestinySnapshot(checkedAt);
   const sourceLaw = getSourceLawSnapshot(checkedAt);
   const alkonOperatingMode = getAlkonOperatingModeSnapshot(checkedAt);
+  const alkonKernel = getAlkonKernelSnapshot(checkedAt);
   const brandUniverse = getPrivateBrandUniverse();
   const planetaryEnvironment =
     getPlanetaryEnvironmentReadinessSnapshot(checkedAt);
@@ -366,6 +368,10 @@ export function getFounderCommandAppSnapshot(
           operatingModePublicExposure: alkonOperatingMode.publicExposure,
           operatingModeOneNextAction:
             alkonOperatingMode.oneNextAction.oneNextAction,
+          kernelStatus: alkonKernel.status,
+          kernelPublicExposure: alkonKernel.publicExposure,
+          kernelOneNextAction: alkonKernel.oneNextAction.oneNextAction,
+          localDayOneGate: alkonKernel.localDayOneGate.localDayOneStatus,
         },
       },
       planRealmFunctionalExperience: {
@@ -430,6 +436,7 @@ export function getFounderCommandAppSnapshot(
     numberOneDestiny,
     sourceLaw,
     alkonOperatingMode,
+    alkonKernel,
     brandUniverse,
     treasuryLife,
     mediaIntelligence,
@@ -1392,6 +1399,11 @@ export function getFounderCommandAppSnapshot(
       "/api/founder/alkon-operating-mode/zero-truth",
       "/api/founder/alkon-operating-mode/one-next-action",
       "/api/founder/alkon-operating-mode/daily-loop",
+      "/api/founder/alkon-kernel/readiness",
+      "/api/founder/alkon-kernel/snapshot",
+      "/api/founder/alkon-kernel/commands",
+      "/api/founder/alkon-kernel/one-next-action",
+      "/api/founder/alkon-kernel/local-day-one",
       "/api/integrations/readiness",
       "/api/integrations/registry",
       "/api/integrations/account-provisioning",

@@ -600,6 +600,13 @@
 .alkon-daily-loop,
 .alkon-one-next-action,
 .alkon-activation-gates,
+.alkon-kernel,
+.alkon-founder-source,
+.alkon-creator-runtime,
+.alkon-kernel-zero-truth,
+.alkon-reality-trial,
+.alkon-kernel-commands,
+.alkon-local-day-one-gate,
 .alkon-final-convergence,
 .alkon-layer-growth,
 .alkon-automation-governor,
@@ -645,6 +652,32 @@
 
 .alkon-operating-mode-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.alkon-kernel {
+  background:
+    radial-gradient(circle at 18% 0%, color-mix(in srgb, var(--alkon-gold) 14%, transparent), transparent 30%),
+    radial-gradient(circle at 84% 12%, color-mix(in srgb, var(--alkon-cyan) 14%, transparent), transparent 34%),
+    linear-gradient(180deg, color-mix(in srgb, #050608 52%, var(--tpm-founder-panel)), var(--tpm-founder-surface));
+}
+
+.alkon-kernel-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.alkon-founder-source,
+.alkon-creator-runtime {
+  border-color: color-mix(in srgb, var(--alkon-gold) 36%, var(--tpm-border));
+}
+
+.alkon-kernel-zero-truth,
+.alkon-reality-trial {
+  border-color: color-mix(in srgb, var(--alkon-cyan) 34%, var(--tpm-border));
+}
+
+.alkon-kernel-commands,
+.alkon-local-day-one-gate {
+  border-color: color-mix(in srgb, #b8a4ff 34%, var(--tpm-border));
 }
 
 .alkon-layer-growth {

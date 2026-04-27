@@ -14,6 +14,7 @@ import { getInfiniteGrowthSnapshot } from "@/lib/server/infinite-growth";
 import { getNumberOneDestinySnapshot } from "@/lib/server/number-one-destiny";
 import { getSourceLawSnapshot } from "@/lib/server/source-law";
 import { getAlkonOperatingModeSnapshot } from "@/lib/server/alkon-operating-mode";
+import { getAlkonKernelSnapshot } from "@/lib/server/alkon-kernel";
 import { getInvisibleOperatingLayerSnapshot } from "@/lib/server/invisible-operating-layer";
 import {
   getLocalDailyOperationsLoopSnapshot,
@@ -98,6 +99,7 @@ export function getAlkonUniverseSnapshot(
   const numberOneDestinyAlignment = getNumberOneDestinySnapshot(checkedAt);
   const sovereignSourceLaw = getSourceLawSnapshot(checkedAt);
   const operatingMode = getAlkonOperatingModeSnapshot(checkedAt);
+  const kernel = getAlkonKernelSnapshot(checkedAt);
   const brandUniverse = getPrivateBrandUniverse();
   const universeMap = buildAlkonUniverseMap();
 
@@ -193,6 +195,7 @@ export function getAlkonUniverseSnapshot(
     numberOneDestinyAlignment,
     sovereignSourceLaw,
     operatingMode,
+    kernel,
     brandUniverse,
     universeMap,
     nextSafeActions: [
@@ -208,6 +211,7 @@ export function getAlkonUniverseSnapshot(
       "Use Pro Max Number One Destiny Alignment privately so #1 is enforced as an internal quality standard while public #1, best, global, regulated, guaranteed, profit, and win-rate claims remain blocked.",
       "Use Alkon Sovereign Source Law privately so every action traces to Ahmad vision, human value, truth, safety, proof, and one correct action now.",
       "Use Alkon Operating Mode privately so Zero Truth, activation gates, daily loop, memory, evidence, and one next action govern Pro Max without public leakage.",
+      "Use Alkon Sovereign Kernel privately so Founder Source, Creator Runtime Oath, Zero Truth, Reality Trial, Evidence Chain, Memory Law, Return to Heart, One Next Action, and Local Day One gates govern creation.",
       "Keep public users inside Pro Max, Pro Max Trading, Free, Pro, VIP, Institutional, Pro Max Assistant, workspace, settings, diagnostics, and readiness language only.",
       "Use Founder Idea Inbox, Task Passports, manual Codex drafts, Result Tribunal, and Memory lessons as review-only systems.",
       "Add future private execution only after owner auth, device trust, step-up confirmation, audit, security, legal, and Product Truth gates exist.",
@@ -254,6 +258,8 @@ export function getAlkonUniverseSnapshot(
         "/api/founder/alkon-operating-mode/readiness",
       founderOperatingModeSnapshotRoute:
         "/api/founder/alkon-operating-mode/snapshot",
+      founderKernelReadinessRoute: "/api/founder/alkon-kernel/readiness",
+      founderKernelSnapshotRoute: "/api/founder/alkon-kernel/snapshot",
       publicRouteDecision:
         "Non-founder /api/alkon/* and /api/alkon/physics/* routes were not created because Alkon and Cosmic Operating Physics are not public product surfaces.",
       routeMode: "read_only_status_only",

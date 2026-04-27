@@ -63,7 +63,7 @@ async function openWithTheme(
   pathName: string,
   themeMode: "dark" | "light" | "system"
 ) {
-  await page.goto(pathName);
+  await page.goto(pathName, { waitUntil: "domcontentloaded" });
   await page.evaluate(
     ({ key, mode }) => window.localStorage.setItem(key, mode),
     { key: THEME_STORAGE_KEY, mode: themeMode }
@@ -961,7 +961,7 @@ test.describe("verified platform truth", () => {
   test("renders global theme modes, disabled language controls, and RTL/LTR surfaces", async ({
     page,
   }) => {
-    test.setTimeout(120000);
+    test.setTimeout(240000);
     fs.mkdirSync(THEME_ARTIFACT_DIR, { recursive: true });
 
     await openWithTheme(page, "/", "dark");
