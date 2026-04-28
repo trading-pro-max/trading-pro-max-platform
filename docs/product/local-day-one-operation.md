@@ -21,7 +21,7 @@ This gate does not evaluate global launch readiness.
 ## Start Commands
 
 ```powershell
-cd C:\Users\ahmad\Desktop\trading-pro-max-platform
+cd C:\Users\ahmad\Desktop\ALKON\Pro Max\Pro Max Trading\pro-max-trading-platform
 npm run build
 npm start
 ```
@@ -29,7 +29,7 @@ npm start
 ## Routes To Review
 
 - http://localhost:3000
-- http://localhost:3000/en
+- http://localhost:3000/trading
 - http://localhost:3000/settings
 - http://localhost:3000/diagnostics
 

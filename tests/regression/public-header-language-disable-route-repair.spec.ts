@@ -162,9 +162,9 @@ test.describe("public header hard cleanup, language disable, and workspace route
     const workspaceLink = page
       .locator(".tpm-foundation-nav-shell")
       .getByRole("link", { exact: true, name: "Trading Workspace" });
-    await expect(workspaceLink).toHaveAttribute("href", "/en");
+    await expect(workspaceLink).toHaveAttribute("href", "/trading");
     await workspaceLink.click();
-    await expect(page).toHaveURL(/\/en$/);
+    await expect(page).toHaveURL(/\/trading$/);
     await expectWorkspaceOpened(page);
     await screenshotLocator(page, ".tpm-workspace-shell", "trading-workspace-route-open.png");
     await screenshotLocator(page, ".tpm-terminal-topbar", "workspace-no-public-nav.png");
@@ -172,7 +172,7 @@ test.describe("public header hard cleanup, language disable, and workspace route
     await openWithTheme(page, "/", "dark");
     await screenshotLocator(page, ".tpm-product-hero", "hero-essential-ctas.png");
     await page.getByRole("link", { exact: true, name: "Enter workspace" }).click();
-    await expect(page).toHaveURL(/\/en$/);
+    await expect(page).toHaveURL(/\/trading$/);
     await expectWorkspaceOpened(page);
 
     await openWithTheme(page, "/", "dark");

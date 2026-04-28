@@ -34,3 +34,10 @@ Evidence boundary:
 - Route tests must prove public routes have no Founder or Alkon links.
 - Regression tests must prove founder routes render private identity.
 - Product Truth tests must prove blocked activation remains blocked.
+# Origin-Clean Addendum
+
+Status: active_with_notes
+
+`/trading` is the canonical Pro Max Trading route. `/en` is compatibility only and must not be linked as the primary workspace identity from public Home, public header, or public Assistant entry points.
+
+Public files must not render Alkon private language. Founder files may render Alkon private language only inside `/founder/*` surfaces and `/api/founder/*` read-only summaries.

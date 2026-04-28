@@ -89,7 +89,7 @@ test.describe("Pro Max Trading Clean Zero Rebuild", () => {
     await expect(page.locator(".tpm-public-shell .tpm-auth-popover summary")).toHaveText("Sign in");
     await expect(page.locator(".tpm-product-hero").first()).toContainText("Pro Max Center");
     await expect(page.locator(".tpm-product-hero").first()).toContainText("Pro Max Trading");
-    await expect(page.locator(".tpm-product-cta-primary").first()).toHaveAttribute("href", "/en");
+    await expect(page.locator(".tpm-product-cta-primary").first()).toHaveAttribute("href", "/trading");
     await expectNoPublicAlkonLeak(page);
 
     await page.screenshot({
@@ -103,7 +103,7 @@ test.describe("Pro Max Trading Clean Zero Rebuild", () => {
     );
 
     await page.locator(".tpm-public-nav a", { hasText: "Trading Workspace" }).click();
-    await expect(page).toHaveURL(/\/en$/);
+    await expect(page).toHaveURL(/\/trading$/);
     await expect(page.locator(".tpm-workspace-shell")).toHaveAttribute(
       "data-clean-zero-rebuild",
       "true"
@@ -115,7 +115,7 @@ test.describe("Pro Max Trading Clean Zero Rebuild", () => {
 
     await openWithMode(page, "/", "dark");
     await page.getByRole("link", { name: "Enter workspace", exact: true }).click();
-    await expect(page).toHaveURL(/\/en$/);
+    await expect(page).toHaveURL(/\/trading$/);
     await page.reload({ waitUntil: "domcontentloaded" });
     await expect(page.locator(".tpm-workspace-shell")).toHaveCount(1);
   });
@@ -124,7 +124,7 @@ test.describe("Pro Max Trading Clean Zero Rebuild", () => {
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 960 });
-    await openWithMode(page, "/en", "dark");
+    await openWithMode(page, "/trading", "dark");
 
     await expect(page.locator('[data-shell-mode="workspace"]')).toHaveCount(1);
     await expect(page.locator(".tpm-terminal-topbar")).toHaveCount(1);
@@ -155,7 +155,7 @@ test.describe("Pro Max Trading Clean Zero Rebuild", () => {
       path: path.join(ARTIFACT_DIR, "no-alkon-public-leak.png"),
     });
 
-    await openWithMode(page, "/en", "light");
+    await openWithMode(page, "/trading", "light");
     await page.screenshot({
       fullPage: true,
       path: path.join(ARTIFACT_DIR, "trading-workspace-clean-zero-light.png"),
@@ -164,7 +164,7 @@ test.describe("Pro Max Trading Clean Zero Rebuild", () => {
 
   test("chart dominates, starts high, and execution is integrated", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 960 });
-    await openWithMode(page, "/en", "dark");
+    await openWithMode(page, "/trading", "dark");
 
     const chart = page.locator(".tpm-living-chart-surface .tpmv2-chart-surface").first();
     const chartHeader = page.locator(".tpm-living-chart-header").first();
@@ -212,7 +212,7 @@ test.describe("Pro Max Trading Clean Zero Rebuild", () => {
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 960 });
-    await openWithMode(page, "/en", "dark");
+    await openWithMode(page, "/trading", "dark");
 
     const assistant = page.locator(".tpm-workspace-assistant-dock").first();
     const assistantDetails = page.locator(".tpm-workspace-assistant-details").first();

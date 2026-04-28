@@ -10,6 +10,14 @@ Mission:
 
 Recompose the codebase architecture from Zero Truth without deleting uncertain files, breaking routes, exposing Alkon publicly, or enabling unsafe activation.
 
+Origin-clean update:
+
+- `/` is Pro Max Center.
+- `/trading` is the canonical Pro Max Trading workspace route.
+- `/en` remains compatibility only and is no longer the public primary workspace link.
+- `lib/server/jar-build` is the private Jar intake layer before Command Passport preview.
+- Public Home, public header, Apps / Platforms, Brain/Companion defaults, Local Day One references, smoke routes, and regression tests now point to `/trading`.
+
 Current source inventory:
 
 | Area | Observed file count | Ownership |
@@ -30,7 +38,8 @@ Layer classification:
 
 1. Public Pro Max Reality
    - `app/page.tsx`
-   - `app/[locale]/page.tsx`
+   - `app/trading/page.tsx`
+   - `app/[locale]/page.tsx` as compatibility
    - `app/settings/page.tsx`
    - `app/diagnostics/page.tsx`
    - public-safe API routes outside `/api/founder`
@@ -39,7 +48,7 @@ Layer classification:
    - public shell components under `modules/shell`
    - public-safe support in `lib/brand`, `lib/plans`, `lib/environment`, `lib/assistant`, `lib/market`
 
-2. Private Alkon Universe
+2. Private Alkon -0
    - `app/founder/*`
    - `app/api/founder/*`
    - `modules/founder-command`
@@ -48,6 +57,7 @@ Layer classification:
    - `lib/server/alkon-chat`
    - `lib/server/alkon-kernel`
    - `lib/server/alkon-operating-mode`
+   - `lib/server/jar-build`
    - `lib/server/devices`
    - `lib/server/founder-command`
    - `lib/server/reality-production`

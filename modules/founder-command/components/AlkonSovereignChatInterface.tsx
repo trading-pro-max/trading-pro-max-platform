@@ -1,13 +1,17 @@
 import type { AlkonSovereignCommandInterfaceSnapshot } from "@/lib/server/alkon-chat";
+import type { JarBuildSnapshot } from "@/lib/server/jar-build";
 import AlkonChatPanel from "./AlkonChatPanel";
 import AlkonCommandPassportDraftPanel from "./AlkonCommandPassportDraftPanel";
 import AlkonEvidenceRail from "./AlkonEvidenceRail";
+import AlkonJarBuildPanel from "./AlkonJarBuildPanel";
 import AlkonKernelStatusRail from "./AlkonKernelStatusRail";
 import AlkonWhatNotToDoPanel from "./AlkonWhatNotToDoPanel";
 
 export default function AlkonSovereignChatInterface({
+  jarSnapshot,
   snapshot,
 }: {
+  jarSnapshot?: JarBuildSnapshot;
   snapshot: AlkonSovereignCommandInterfaceSnapshot;
 }) {
   const passport = snapshot.commandPassportResponse.commandPassportDraft;
@@ -29,11 +33,11 @@ export default function AlkonSovereignChatInterface({
           </span>
           <div>
             <span>Alkon / الكون</span>
-            <h1>Private Operating Universe</h1>
+            <h1>Alkon -0 Private Origin Command Universe</h1>
             <p>
-              Ahmad private command mind for Kernel 0-16, Zero Truth, Reality Trial,
-              Evidence Chain, Memory, Daily Operating Loop, Wake Report, One Next Action,
-              and Local Day One gates.
+              Private Operating Universe for Ahmad: Kernel 0-16, Zero Truth,
+              Reality Trial, Evidence Chain, Memory, Jar Build System, Daily
+              Operating Loop, Wake Report, One Next Action, and Local Day One gates.
             </p>
           </div>
         </div>
@@ -68,6 +72,7 @@ export default function AlkonSovereignChatInterface({
 
       <section className="alkon-command-lower-panel" aria-label="Builder and device readiness">
         {passport ? <AlkonCommandPassportDraftPanel draft={passport} /> : null}
+        {jarSnapshot ? <AlkonJarBuildPanel snapshot={jarSnapshot} /> : null}
         <section className="alkon-builder-device-panel" aria-label="Builder and device constellation">
           <div className="alkon-rail-head">
             <span>Builder Selection / Device Constellation</span>

@@ -41,7 +41,7 @@ export function getTpmBrainContextSnapshot(
   return {
     checkedAt,
     mode: "tpm_brain_context_layer",
-    route: input.route ?? "/en",
+    route: input.route ?? "/trading",
     selectedAsset: input.selectedAsset ?? "EUR/USD",
     timeframe: input.timeframe ?? "1m",
     contextQuality: "bounded",

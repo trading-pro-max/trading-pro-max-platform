@@ -1,7 +1,7 @@
 # Trading Pro Max Legacy Salvage Report
 
 Generated on: 2026-04-23  
-Target repository: `C:\Users\ahmad\Desktop\trading-pro-max-platform`
+Target repository: `C:\Users\ahmad\Desktop\ALKON\Pro Max\Pro Max Trading\pro-max-trading-platform`
 
 ## 1. Donor repositories audited
 

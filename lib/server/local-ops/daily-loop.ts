@@ -110,7 +110,7 @@ const stages: LocalDailyLoopStage[] = [
     order: 3,
     label: "Inspect routes",
     purpose: "Review the local public, settings, diagnostics, and workstation routes.",
-    checks: ["Review /", "Review /en", "Review /settings", "Review /diagnostics"],
+    checks: ["Review /", "Review /trading", "Review /settings", "Review /diagnostics"],
     passCriteria: ["Routes are reviewed locally without public exposure"],
     output: "Route review note",
     memoryTouchpoint: true,

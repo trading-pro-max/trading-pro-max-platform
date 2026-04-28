@@ -56,3 +56,10 @@ Architecture placement:
 - Public route handlers may call public-safe APIs or public-safe summaries.
 - Founder route handlers may read deeper private state.
 - Reports document the boundary, but reports are not public surfaces.
+# Origin-Clean Addendum
+
+Status: active_with_notes
+
+The Invisible Operating Layer is the translation membrane between private truth and public-safe state. It may read Product Truth, readiness, safety, and private operating summaries, but public UI receives only calm user-safe language such as Paper-safe, Planned, Inactive, Future, Blocked, and Readiness.
+
+It must never pass Founder-only terms, secrets, shell actions, Codex execution, payments, billing activation, live trading, broker/feed activation, or production launch controls into public routes.

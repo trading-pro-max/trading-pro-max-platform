@@ -25,7 +25,7 @@ export default function PublicAppShell({
   routeMode,
 }: PublicAppShellProps) {
   const dir = getDirection(locale);
-  const workspaceHref = `/${locale}`;
+  const workspaceHref = "/trading";
   const diagnosticsHref =
     routeMode === "localized" ? `/${locale}/diagnostics` : "/diagnostics";
   const settingsHref =

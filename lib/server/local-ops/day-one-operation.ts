@@ -7,14 +7,14 @@ import type {
 import { getLocalDayOneReadinessSnapshot } from "./day-one";
 
 const commands = [
-  "cd C:\\Users\\ahmad\\Desktop\\trading-pro-max-platform",
+  "cd C:\\Users\\ahmad\\Desktop\\ALKON\\Pro Max\\Pro Max Trading\\pro-max-trading-platform",
   "npm run build",
   "npm start",
 ];
 
 const routes = [
   "http://localhost:3000",
-  "http://localhost:3000/en",
+  "http://localhost:3000/trading",
   "http://localhost:3000/settings",
   "http://localhost:3000/diagnostics",
 ];
@@ -210,7 +210,7 @@ export function getLocalDayOneOperationSnapshot(
       "run npm run build",
       "start local runtime",
       "review public entry",
-      "review /en Trading Workspace",
+      "review /trading Trading Workspace",
       "review Settings",
       "review Diagnostics",
       "capture required screenshots",

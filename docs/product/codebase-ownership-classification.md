@@ -30,3 +30,20 @@ Postponed normalization:
 - Broad module reshaping into `modules/workspace`, `modules/assistant`, and `modules/settings-diagnostics` is postponed because current imports are route-critical.
 - Broad `lib/server` consolidation is postponed because the private Alkon systems are intentionally numerous and test-covered.
 - CSS splitting is postponed except for safe obvious fixes.
+# Origin-Clean Addendum
+
+Status: active_with_notes
+
+The active ownership map now treats `/` as Pro Max Center and `/trading` as Pro Max Trading. Public Home, the public header, Apps / Platforms, smoke routes, and regression proof all point to `/trading`.
+
+Files that cannot prove current ownership remain documented in `reports/alkon-cleanup-candidates.md` and `reports/pro-max-origin-clean-candidates.md`.
+
+Current primary layers:
+
+1. Private Alkon -0
+2. Public Pro Max
+3. Invisible Operating Layer
+4. Tools / Builder
+5. Tests / Evidence
+6. Docs / Reports
+7. Public Assets

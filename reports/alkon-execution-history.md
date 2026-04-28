@@ -249,3 +249,32 @@ Safety:
 - No live execution, real money, broker/feed activation, billing activation, production activation, fake downloads, fake claims, or performance promises were introduced.
 - Public users do not see Alkon, Founder Command, internal governance, Product Memory internals, Treasury internals, Risk Belt, or Black Hole Zone.
 - Product Truth stayed preserved.
+## 2026-04-28 - ALKON Total Root-to-Reality Clean Rebirth
+
+Mission executed locally in code, docs, reports, tests, and private Founder UI only.
+
+Actions:
+
+- Recovered and completed the active working tree without reverting safe partial Codex work.
+- Documented Ahmad as Source, ALKON as Root, Alkon -0 as Private Origin, Reality Trial as Gate, Pro Max as Public World, Pro Max Trading as First Living Product, and user signals returning through Jar, Evidence, Memory, One Next Action, and Zero Truth.
+- Added `/trading` as canonical Pro Max Trading while preserving `/en` as compatibility, and updated public CTAs, route smoke, Local Day One references, and Assistant contexts.
+- Rebuilt the Trading cockpit so the chart owns the page, ultrawide space is used, paper execution stays attached, Assistant opens without covering chart/execution, and Journal/Coach remains secondary.
+- Built the private Jar Build System with Jar 0-9, classifier, prioritizer, Reality Trial adapter, exit permit, Command Passport bridge, state, memory, engine, and exports.
+- Integrated Jar privately into `/founder/alkon` and Founder Command.
+- Updated source-to-reality, ownership, route, cohesion, cleanup, GitHub readiness, Pro Max world, Alkon -0, user feedback, and Jar reports.
+- Captured visual proof under `test-results/alkon-total-root-to-reality-rebirth/`.
+
+Validation:
+
+- TypeScript passed.
+- ESLint passed.
+- Build passed.
+- Prisma validate passed.
+- Regression passed with 260 tests.
+- Route smoke passed with 5 canonical routes.
+- Diff check passed.
+
+Safety:
+
+- Local Day One remains not_started and Ahmad visual acceptance needed.
+- No public Alkon/Jar/Founder leak, live execution, real money, broker/feed activation, billing activation, production activation, public launch, shell execution from web, Codex execution from web, fake claim, secret exposure, bank/card exposure, raw personal document storage, image generation, or raster asset addition was introduced.

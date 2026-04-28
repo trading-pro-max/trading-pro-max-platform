@@ -10020,7 +10020,16 @@ html[data-theme="light"] .tpm-workspace-shell[data-clean-zero-rebuild="true"] {
 .tpm-workspace-shell[data-clean-zero-rebuild="true"] .tpmv2-desktop-master,
 .tpm-workspace-shell[data-clean-zero-rebuild="true"] .tpmv2-primary,
 .tpm-workspace-shell[data-clean-zero-rebuild="true"] .tpm-living-market-core {
+  max-width: none;
   width: 100%;
+}
+
+.tpm-workspace-shell[data-clean-zero-rebuild="true"] .tpmv2-shell-desktop {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.tpm-workspace-shell[data-clean-zero-rebuild="true"] .tpmv2-main {
+  grid-column: 1 / -1;
 }
 
 .tpm-workspace-shell[data-clean-zero-rebuild="true"] .tpmv2-desktop-master {

@@ -3,6 +3,7 @@ import {
   getFounderCommandRoomFoundationSnapshot,
 } from "@/lib/server/founder-command";
 import { getFounderDeviceReadinessSnapshot } from "@/lib/server/devices";
+import { getJarBuildSnapshot } from "@/lib/server/jar-build";
 import { getFounderIdeaInboxReadiness } from "@/lib/server/sovereign-autonomy";
 import { PlanetMapPreview } from "@/modules/planet-map/components";
 import PrivateFounderShell from "@/modules/shell/components/PrivateFounderShell";
@@ -75,6 +76,7 @@ import AlkonTreasuryLifePanel from "./AlkonTreasuryLifePanel";
 import AlkonAuthorityFabricPanel from "./AlkonAuthorityFabricPanel";
 import AlkonDeviceConstellationPanel from "./AlkonDeviceConstellationPanel";
 import AlkonPocketUniversePanel from "./AlkonPocketUniversePanel";
+import AlkonJarBuildPanel from "./AlkonJarBuildPanel";
 import AlkonDeviceSecurityPanel from "./AlkonDeviceSecurityPanel";
 import AlkonDeviceContinuityPanel from "./AlkonDeviceContinuityPanel";
 import FounderApprovalQueue from "./FounderApprovalQueue";
@@ -104,6 +106,7 @@ export default function FounderCommandRoom({
   const appSnapshot = getFounderCommandAppSnapshot(commandSnapshot.checkedAt);
   const ideaInboxReadiness = getFounderIdeaInboxReadiness(commandSnapshot.checkedAt);
   const deviceSnapshot = getFounderDeviceReadinessSnapshot(commandSnapshot.checkedAt);
+  const jarSnapshot = getJarBuildSnapshot(commandSnapshot.checkedAt);
 
   return (
     <PrivateFounderShell checkedAt={commandSnapshot.checkedAt}>
@@ -181,6 +184,8 @@ export default function FounderCommandRoom({
           </div>
         </div>
       </section>
+
+      <AlkonJarBuildPanel snapshot={jarSnapshot} />
 
       <AlkonLegitimacyPanel snapshot={appSnapshot.alkonLegitimacy} />
 

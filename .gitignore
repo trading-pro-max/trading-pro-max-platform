@@ -19,6 +19,7 @@
 # next.js
 /.next/
 /out/
+/dist/
 
 # prisma
 /lib/db/generated/
@@ -28,9 +29,63 @@
 # production
 /build
 
+# local runtime, caches, archives, and generated backups
+/.cache/
+/tmp/
+/temp/
+/runtime/backups/
+/legacy-trading-pro-max-archives/
+*.zip
+*.7z
+*.rar
+*.tar
+*.tar.gz
+
 # misc
 .DS_Store
 *.pem
+*.key
+*.p12
+*.pfx
+id_rsa*
+secrets.*
+credentials.*
+service-account*.json
+firebase*.json
+stripe*.json
+token*.txt
+token*.json
+token*.key
+private*.json
+private*.key
+private*.pem
+bank*.pdf
+bank*.jpg
+bank*.png
+card*.pdf
+card*.jpg
+card*.png
+passport*.pdf
+passport*.jpg
+passport*.png
+permit*.pdf
+permit*.jpg
+permit*.png
+identity*.pdf
+identity*.jpg
+identity*.png
+cvv*.txt
+
+# unapproved raster media
+/public/**/*.png
+/public/**/*.jpg
+/public/**/*.jpeg
+/public/**/*.webp
+/public/**/*.gif
+/public/**/*.avif
+/public/**/*.mp4
+/public/**/*.mov
+/public/**/*.webm
 
 # debug
 npm-debug.log*

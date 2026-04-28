@@ -133,7 +133,7 @@ test.describe("Pro Max full visual balance and workspace rebuild", () => {
     await page.setViewportSize({ width: 1440, height: 920 });
     await openWithTheme(page, "/", "dark");
     await page.getByRole("link", { name: "Enter workspace", exact: true }).click();
-    await expect(page).toHaveURL(/\/en$/);
+    await expect(page).toHaveURL(/\/trading$/);
     await expect(page.locator(".tpm-terminal-topbar")).toHaveCount(1);
     await expect(page.locator('.tpm-workspace-shell[data-visual-origin="pro-max-earth-financial"]')).toBeVisible();
     await expect(page.locator(".tpm-terminal-topbar")).toHaveAttribute(
@@ -161,7 +161,7 @@ test.describe("Pro Max full visual balance and workspace rebuild", () => {
 
   test("keeps chart dominant, execution integrated, and assistant secondary", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 920 });
-    await openWithTheme(page, "/en", "dark");
+    await openWithTheme(page, "/trading", "dark");
 
     const chart = page.locator(".tpm-living-chart-surface").first();
     const coreGrid = page.locator(".tpm-living-market-core-grid").first();
@@ -261,7 +261,7 @@ test.describe("Pro Max full visual balance and workspace rebuild", () => {
       "workspace-assistant-open-no-cover.png"
     );
 
-    await openWithTheme(page, "/en", "light");
+    await openWithTheme(page, "/trading", "light");
     await page.screenshot({
       fullPage: true,
       path: path.join(ARTIFACT_DIR, "workspace-full-rebuild-light.png"),

@@ -10,7 +10,7 @@ export default function HomePage() {
   return (
     <ProductExperienceFrame locale={locale} dict={dict} routeMode="root">
       <PublicProductEntry
-        workspaceHref={`/${locale}`}
+        workspaceHref="/trading"
         diagnosticsHref="/diagnostics"
         settingsHref="/settings"
       />

@@ -36,6 +36,10 @@ Cleanup candidates:
 | `modules/shell/components/TradingWorkstation.tsx` activity shelf | cleanup_candidate | Old Open positions / History / Audit shelf remains for compatibility but is no longer above the chart. | Keep below the core until a focused activity-history replacement is approved. |
 | `modules/companion/components/CompanionLauncher` workspace launcher | protected_candidate | Existing regression coverage expects the launcher on the workspace route. | Keep as secondary Assistant entry; do not let it cover chart or execution. |
 | repeated historical workspace CSS blocks in `app/theme-localization.css` | css_cleanup_candidate | Clean-zero route now overrides them, but the file still contains earlier workspace strata. | Split or remove only after visual regression proves no route drift. |
+| `/en` workspace route | compatibility_candidate | `/trading` is now canonical, but `/en` remains useful for older locale-compatible proofs. | Keep until a focused locale route strategy is approved. |
+| `modules/shell` public/workspace/private split | risky_move_candidate | Shell components span public header, workspace terminal, and private Founder shell. | Split only after import map and route proof. |
+| Founder API auth hardening | needs_ahmad_decision | Current private API boundary is route/private/read-only, not a full auth wall. | Design separately before public deployment. |
+| Jar API exposure | protected_candidate | Jar currently renders privately and has no public API. | Keep private; add Founder-only API later only if Ahmad approves. |
 
 Protected systems:
 

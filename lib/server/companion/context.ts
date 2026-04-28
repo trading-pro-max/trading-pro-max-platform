@@ -68,7 +68,7 @@ export function getCompanionContextSnapshot(
     checkedAt,
     mode: "companion_context_engine",
     source: input.sessionState === "authenticated_safe" ? "authenticated_safe" : "default_safe",
-    route: input.route ?? "/en",
+    route: input.route ?? "/trading",
     selectedAsset: input.selectedAsset ?? "EUR/USD",
     timeframe: input.timeframe ?? "1m",
     marketFeedState: "fallback_first",

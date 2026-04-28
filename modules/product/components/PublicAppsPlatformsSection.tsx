@@ -51,7 +51,7 @@ export default function PublicAppsPlatformsSection() {
       </div>
 
       <div className="tpm-product-cta-row tpm-device-cta-row">
-        <Link className="tpm-product-cta tpm-product-cta-primary" href="/en">
+        <Link className="tpm-product-cta tpm-product-cta-primary" href="/trading">
           Use Web App
         </Link>
         <span className="tpm-product-cta tpm-product-cta-secondary" aria-disabled="true">

@@ -18,6 +18,7 @@ const NEXT_BIN = path.join(ROOT, "node_modules", "next", "dist", "bin", "next");
 
 export const CANONICAL_UI_ROUTES = [
   "/",
+  "/trading",
   "/en",
   "/en/settings",
   "/diagnostics",
@@ -57,11 +58,10 @@ function buildLogTail(logs, count = 24) {
 
 function parseExistingServerUrl(logs) {
   const joined = logs.join("\n");
-  const marker = "Another Next.js dev server is already running";
-  const markerIndex = joined.indexOf(marker);
-  if (markerIndex === -1) return null;
+  const markerMatch = joined.match(/Another\s+(?:Next\.js|next)\s+dev\s+server\s+is\s+already\s+running/i);
+  if (!markerMatch || markerMatch.index === undefined) return null;
 
-  const existingServerSection = joined.slice(markerIndex);
+  const existingServerSection = joined.slice(markerMatch.index);
   const match = existingServerSection.match(/https?:\/\/(?:localhost|127\.0\.0\.1):\d+/i);
   return match ? match[0].replace("localhost", HOST) : null;
 }

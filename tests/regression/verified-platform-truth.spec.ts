@@ -478,7 +478,7 @@ test.describe("verified platform truth", () => {
         await expect(page.locator(".tpm-product-workstation-shell")).toHaveCount(0);
         await expect(page.locator(".tpm-product-cta-primary").first()).toHaveAttribute(
           "href",
-          "/en"
+          "/trading"
         );
         const heroMark = page.locator(".tpm-product-hero-logo .tpm-earth-mark-public").first();
         await expect(heroMark).toBeVisible();
@@ -6095,7 +6095,7 @@ test.describe("verified platform truth", () => {
     );
     expect(dayOne.snapshot.commands).toEqual(
       expect.arrayContaining([
-        "cd C:\\Users\\ahmad\\Desktop\\trading-pro-max-platform",
+        "cd C:\\Users\\ahmad\\Desktop\\ALKON\\Pro Max\\Pro Max Trading\\pro-max-trading-platform",
         "npm run build",
         "npm start",
       ])
@@ -6103,7 +6103,7 @@ test.describe("verified platform truth", () => {
     expect(dayOne.snapshot.routes).toEqual(
       expect.arrayContaining([
         "http://localhost:3000",
-        "http://localhost:3000/en",
+        "http://localhost:3000/trading",
         "http://localhost:3000/settings",
         "http://localhost:3000/diagnostics",
       ])

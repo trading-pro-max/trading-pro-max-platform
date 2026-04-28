@@ -40,6 +40,7 @@ export { default as AlkonOrbitCommandPanel } from "./AlkonOrbitCommandPanel";
 export { default as AlkonPlanetarySystemsPanel } from "./AlkonPlanetarySystemsPanel";
 export { default as AlkonPocketUniversePanel } from "./AlkonPocketUniversePanel";
 export { default as AlkonSovereignChatInterface } from "./AlkonSovereignChatInterface";
+export { default as AlkonJarBuildPanel } from "./AlkonJarBuildPanel";
 export { default as AlkonChatPanel } from "./AlkonChatPanel";
 export { default as AlkonChatMessageList } from "./AlkonChatMessageList";
 export { default as AlkonChatComposer } from "./AlkonChatComposer";
