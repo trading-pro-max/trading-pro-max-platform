@@ -571,10 +571,10 @@ test.describe("verified platform truth", () => {
         await expect(page.locator(".tpmv2-brain-deck")).toHaveCount(0);
         await expect(page.locator(".tpm-workspace-truth-row").first()).toBeVisible();
         await expect(page.locator(".tpmv2-chart-surface").first()).toBeVisible();
-        const depthPanelOpacity = await page.locator(".tpmv2-chart-depth-panel").first().evaluate(
-          (element) => Number.parseFloat(window.getComputedStyle(element).opacity)
-        );
-        expect(depthPanelOpacity).toBeLessThan(0.2);
+        await expect(page.locator(".tpmv2-chart-market-structure")).toHaveCount(0);
+        await expect(page.locator(".tpmv2-chart-ai-panel")).toHaveCount(0);
+        await expect(page.locator(".tpmv2-chart-depth-panel")).toHaveCount(0);
+        await expect(page.locator(".tpmv2-chart-depth-strip").first()).toBeVisible();
         await expect(page.locator(".tpmv2-execution").first()).toBeVisible();
         await expect(page.locator(".tpmv2-ticket-preflight").first()).toBeVisible();
         await expect(page.locator(".tpm-workspace-activity-shelf").first()).toBeVisible();

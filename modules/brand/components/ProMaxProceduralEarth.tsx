@@ -89,6 +89,7 @@ export default function ProMaxProceduralEarth({
         } as CSSProperties
       }
       data-static-mode={staticMode ? "true" : "false"}
+      data-earth-visual-direction="swiss-inspired-realistic-procedural"
     >
       <svg
         aria-hidden={title ? undefined : true}
@@ -157,7 +158,11 @@ export default function ProMaxProceduralEarth({
           </g>
         ) : null}
 
-        <g className="tpm-earth-moon-orbit" aria-hidden="true">
+        <g
+          className="tpm-earth-moon-orbit"
+          aria-hidden="true"
+          data-legacy-visual-marker="suppressed"
+        >
           <ellipse
             className="tpm-earth-moon-track"
             cx="36"
@@ -180,6 +185,7 @@ export default function ProMaxProceduralEarth({
             r="22.8"
             style={{ fill: `url(#${oceanGradientId})` }}
           />
+          <circle className="tpm-earth-surface-depth" cx="36" cy="36" r="22.8" />
           <circle className="tpm-earth-ocean-rim" cx="36" cy="36" r="22.1" />
           <circle
             className="tpm-earth-daylight"
@@ -227,6 +233,15 @@ export default function ProMaxProceduralEarth({
               className="tpm-earth-continent tpm-earth-continent-oceania"
               d="M50.1 46.4c1.2-.8 3.6-.4 4.3.8.8 1.4-.6 2.7-2.2 2.7-1.4 0-3.2-.9-3.1-2 .1-.6.5-1.1 1-1.5Z"
               style={{ fill: `url(#${continentGradientId})` }}
+            />
+
+            <path
+              className="tpm-earth-alpine-light"
+              d="M31.4 25.5 34.8 23l2.2 2.4 2.9-3.9 4.4 5.1"
+            />
+            <path
+              className="tpm-earth-precision-meridian"
+              d="M36 13.2c2.8 6 4.2 13.4 4.2 22.4S38.8 52 36 58.8"
             />
 
             {showClouds ? (

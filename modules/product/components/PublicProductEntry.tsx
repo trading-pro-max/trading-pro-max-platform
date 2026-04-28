@@ -143,6 +143,7 @@ export default function PublicProductEntry({
   return (
     <div
       className="tpm-product-shell"
+      data-swiss-inspired-precision="true"
       data-visual-origin="pro-max-earth-financial"
     >
       <section className="tpm-foundation-page tpm-product-entry">

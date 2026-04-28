@@ -67,6 +67,8 @@ export default function ProMaxHybridEarth({
       data-earth-active-texture={textureActive ? "true" : "false"}
       data-earth-render-mode={resolvedRenderMode}
       data-earth-renderer="hybrid"
+      data-earth-swiss-direction="procedural_precision"
+      data-earth-swiss-regulatory-claim="false"
       data-earth-texture-mode={textureMode}
       data-earth-texture-source={textureActive ? "approved_local" : "none"}
       data-reduced-motion-supported="true"
@@ -112,4 +114,3 @@ export default function ProMaxHybridEarth({
     </span>
   );
 }
-

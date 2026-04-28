@@ -74,3 +74,14 @@ New reports:
 - `reports/alkon-css-existence-map.md`
 - `reports/visual-cleanup-candidates.md`
 - `reports/visual-duplicate-layer-map.md`
+
+## 2026-04-28 - Swiss Earth / Logo / Chart Visual Amendment
+
+New cleanup candidates:
+
+| Candidate | Type | Reason | Action |
+| --- | --- | --- | --- |
+| Old chart overlay CSS in `app/compact-modes.css` | css_cleanup_candidate | The rendered market-structure, floating, AI, and depth overlay layers were removed from the chart body, but historical responsive CSS still contains their selectors. | Keep for now; remove only in a focused CSS deletion pass with full route and visual proof. |
+| Earlier chart overlay sections in `app/theme-localization.css` | css_cleanup_candidate | Final Swiss rebuild CSS overrides active layout, but older overlay rules still exist in the large CSS island. | Keep until a broad CSS split/removal pass is approved. |
+| Legacy moon orbit marker in `ProMaxProceduralEarth` | compatibility_candidate | The orbit is visually suppressed to remove toy-like noise, but the DOM marker remains for legacy proof contracts. | Keep hidden until legacy identity tests are retired or migrated. |
+| Approved photoreal Earth texture intake | needs_ahmad_decision | Procedural fallback improved, but true photorealism requires a licensed local texture manifest and Ahmad approval. | Do not add external images; prepare a Command Passport only if Ahmad wants texture intake. |

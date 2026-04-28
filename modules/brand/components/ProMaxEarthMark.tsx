@@ -107,6 +107,8 @@ export default function ProMaxEarthMark({
         .join(" ")}
       data-animated={animated ? "true" : "false"}
       data-earth-external-map-assets="false"
+      data-earth-swiss-regulatory-claim="false"
+      data-earth-visual-direction="swiss-inspired-procedural"
       data-earth-plan={plan}
       data-earth-precise-location="false"
       data-earth-raster-assets="false"
@@ -132,4 +134,3 @@ export default function ProMaxEarthMark({
     </span>
   );
 }
-

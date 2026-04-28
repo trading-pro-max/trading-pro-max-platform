@@ -806,28 +806,22 @@ export function ChartCard({
   const showEmaOverlay = activeIndicators.includes("EMA 20");
   const showMacdOverlay = activeIndicators.includes("MACD");
   const showRsiOverlay = activeIndicators.includes("RSI");
-  const showVolumeOverlay = activeIndicators.includes("VOL") || chartType === "bars";
   const chartSurfaceRef = usePointerField<HTMLDivElement>();
 
   return (
     <section
       className={`tpmv2-card tpmv2-chart tpmv2-chart-${chartType}`}
       aria-label={dict.chart.title}
+      data-chart-body-rebuilt="swiss-zero"
+      data-chart-old-overlays="removed"
     >
-      <div ref={chartSurfaceRef} className="tpmv2-chart-surface">
-        <div className="tpmv2-chart-grid-bg" />
-        <div className="tpmv2-chart-crosshair">
-          <span className="tpmv2-chart-crosshair-v" />
-          <span className="tpmv2-chart-crosshair-h" />
-        </div>
-        <div className="tpmv2-chart-market-structure" aria-hidden="true">
-          <span className="tpmv2-chart-session-zone" />
-          <span className="tpmv2-chart-vwap-line" />
-          <span className="tpmv2-chart-liquidity-zone tpmv2-chart-liquidity-zone-high" />
-          <span className="tpmv2-chart-liquidity-zone tpmv2-chart-liquidity-zone-low" />
-        </div>
-
-        <div className="tpmv2-chart-floating-bar">
+      <div
+        ref={chartSurfaceRef}
+        className="tpmv2-chart-surface tpmv2-chart-surface-swiss"
+        data-chart-obstruction-layer="none"
+        data-swiss-precision-chart="true"
+      >
+        <div className="tpmv2-chart-command-strip">
           <div className="tpmv2-chart-market-head">
             <div className="tpmv2-chart-market-symbol">{selectedAsset.symbol}</div>
             <div className="tpmv2-chart-market-line">
@@ -883,148 +877,95 @@ export function ChartCard({
             </div>
 
             {workspaceControls}
+
+            <div className="tpmv2-chart-zoom-controls" role="toolbar" aria-label="Chart zoom">
+              <button
+                type="button"
+                onClick={() => onSetChartZoom(Math.max(80, chartZoom - 10))}
+              >
+                -
+              </button>
+              <span>{chartZoom}%</span>
+              <button
+                type="button"
+                onClick={() => onSetChartZoom(Math.min(130, chartZoom + 10))}
+              >
+                +
+              </button>
+              <button type="button" onClick={onResetChart}>
+                Reset
+              </button>
+            </div>
           </div>
         </div>
 
-        <div className="tpmv2-chart-tool-rail" role="toolbar" aria-label="Drawing tools">
-          {DRAWING_TOOLS.map((tool) => (
-            <button
-              key={tool}
-              type="button"
-              className={tool === activeDrawingTool ? "active" : ""}
-              aria-pressed={tool === activeDrawingTool}
-              onClick={() => onSelectDrawingTool(tool)}
-            >
-              {tool}
-            </button>
-          ))}
-        </div>
-
-        <div className="tpmv2-chart-indicator-dock" role="toolbar" aria-label="Indicators">
-          <span>Indicators</span>
-          {INDICATOR_TOOLS.map((indicator) => (
-            <button
-              key={indicator}
-              type="button"
-              className={activeIndicators.includes(indicator) ? "active" : ""}
-              aria-pressed={activeIndicators.includes(indicator)}
-              onClick={() => onToggleIndicator(indicator)}
-            >
-              {indicator}
-            </button>
-          ))}
-        </div>
-
-        <div className="tpmv2-chart-zoom-controls" role="toolbar" aria-label="Chart zoom">
-          <button
-            type="button"
-            onClick={() => onSetChartZoom(Math.max(80, chartZoom - 10))}
-          >
-            -
-          </button>
-          <span>{chartZoom}%</span>
-          <button
-            type="button"
-            onClick={() => onSetChartZoom(Math.min(130, chartZoom + 10))}
-          >
-            +
-          </button>
-          <button type="button" onClick={onResetChart}>
-            Reset
-          </button>
-        </div>
-
-        <div className="tpmv2-chart-price-scale" aria-hidden="true">
-          {priceScale.map((price, index) => (
-            <span key={`${price}-${index}`}>{price}</span>
-          ))}
-        </div>
-
-        <div className={`tpmv2-chart-ai-panel ${decision.signal}`}>
-          <div className="tpmv2-chart-ai-kicker">{intelligenceKicker}</div>
-          <div className="tpmv2-chart-ai-row">
-            <strong>{intelligenceHeadline}</strong>
-            <span>{decision.confidence}</span>
-          </div>
-          <div className="tpmv2-chart-ai-note">
-            {intelligenceSummary} {intelligenceNote}
-          </div>
-        </div>
-
-        <div className="tpmv2-chart-depth-panel">
-          <div className="tpmv2-chart-depth-head">
-            <span>Market depth</span>
-            <strong>{focusModeLabel(focusMode)}</strong>
+        <div className="tpmv2-chart-body" data-old-overlay-artifacts="removed">
+          <div className="tpmv2-chart-grid-bg" />
+          <div className="tpmv2-chart-crosshair">
+            <span className="tpmv2-chart-crosshair-v" />
+            <span className="tpmv2-chart-crosshair-h" />
           </div>
 
-          <div className="tpmv2-chart-depth-grid">
-            {marketDepthItems.map((item) => (
-              <div key={`${item.label}-${item.value}`} className="tpmv2-chart-depth-card">
-                <span>{item.label}</span>
-                <strong className={item.tone ? item.tone : undefined}>{item.value}</strong>
-                {item.note ? <small>{item.note}</small> : null}
-              </div>
+          <div className="tpmv2-chart-price-scale" aria-hidden="true">
+            {priceScale.map((price, index) => (
+              <span key={`${price}-${index}`}>{price}</span>
             ))}
           </div>
 
-          <div className="tpmv2-chart-depth-note">{marketDepthNote}</div>
-        </div>
+          <div className="tpmv2-chart-price-marker" style={{ top: priceMarkerTop }}>
+            <span>{selectedAsset.price}</span>
+          </div>
 
-        <div className="tpmv2-chart-price-marker" style={{ top: priceMarkerTop }}>
-          <span>{selectedAsset.price}</span>
-        </div>
-
-        <div
-          className="tpmv2-chart-plot"
-          style={{ transform: `scaleX(${chartZoom / 100})` }}
-        >
-          {chartType === "area" || chartType === "line" ? (
-            <svg
-              className="tpmv2-chart-path"
-              viewBox="0 0 100 100"
-              preserveAspectRatio="none"
-              aria-hidden="true"
-            >
-              {chartType === "area" ? (
+          <div
+            className="tpmv2-chart-plot"
+            style={{ transform: `scaleX(${chartZoom / 100})` }}
+          >
+            {chartType === "area" || chartType === "line" ? (
+              <svg
+                className="tpmv2-chart-path"
+                viewBox="0 0 100 100"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                {chartType === "area" ? (
+                  <polygon className="tpmv2-chart-area-fill" points={chartAreaPoints} />
+                ) : null}
+                <polyline className="tpmv2-chart-line-stroke" points={chartPathPoints} />
+              </svg>
+            ) : (
+              <svg
+                className="tpmv2-chart-path tpmv2-chart-path-context"
+                viewBox="0 0 100 100"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
                 <polygon className="tpmv2-chart-area-fill" points={chartAreaPoints} />
-              ) : null}
-              <polyline className="tpmv2-chart-line-stroke" points={chartPathPoints} />
-            </svg>
-          ) : (
-            <svg
-              className="tpmv2-chart-path tpmv2-chart-path-context"
-              viewBox="0 0 100 100"
-              preserveAspectRatio="none"
-              aria-hidden="true"
-            >
-              <polygon className="tpmv2-chart-area-fill" points={chartAreaPoints} />
-              <polyline className="tpmv2-chart-line-stroke" points={chartPathPoints} />
-            </svg>
-          )}
+                <polyline className="tpmv2-chart-line-stroke" points={chartPathPoints} />
+              </svg>
+            )}
 
-          {showEmaOverlay || showMacdOverlay ? (
-            <svg
-              className="tpmv2-chart-indicator-lines"
-              viewBox="0 0 100 100"
-              preserveAspectRatio="none"
-              aria-hidden="true"
-            >
-              {showEmaOverlay ? (
-                <polyline className="tpmv2-chart-ema-fast" points={emaFastPoints} />
-              ) : null}
-              {showMacdOverlay ? (
-                <polyline className="tpmv2-chart-ema-slow" points={emaSlowPoints} />
-              ) : null}
-            </svg>
-          ) : null}
+            {showEmaOverlay || showMacdOverlay ? (
+              <svg
+                className="tpmv2-chart-indicator-lines"
+                viewBox="0 0 100 100"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                {showEmaOverlay ? (
+                  <polyline className="tpmv2-chart-ema-fast" points={emaFastPoints} />
+                ) : null}
+                {showMacdOverlay ? (
+                  <polyline className="tpmv2-chart-ema-slow" points={emaSlowPoints} />
+                ) : null}
+              </svg>
+            ) : null}
 
-          {showRsiOverlay ? (
-            <div className="tpmv2-chart-rsi-track" aria-hidden="true">
-              <span style={{ width: `${Math.max(28, Math.min(78, latestHeight))}%` }} />
-            </div>
-          ) : null}
+            {showRsiOverlay ? (
+              <div className="tpmv2-chart-rsi-track" aria-hidden="true">
+                <span style={{ width: `${Math.max(28, Math.min(78, latestHeight))}%` }} />
+              </div>
+            ) : null}
 
-          {showVolumeOverlay ? (
             <div className="tpmv2-chart-volume" aria-hidden="true">
               {chartBars.map((bar, index) => (
                 <span
@@ -1034,44 +975,99 @@ export function ChartCard({
                 />
               ))}
             </div>
-          ) : null}
 
-          <div
-            className={
-              chartType === "bars"
-                ? "tpmv2-candles tpmv2-candles-bars"
-                : chartType === "candlestick"
-                ? "tpmv2-candles"
-                : "tpmv2-candles tpmv2-candles-ghost"
-            }
-          >
-            {chartBars.map((bar, index) => {
-              return (
-                <div
-                  key={index}
-                  className={`tpmv2-candle-wrap ${bar.tone}`}
-                  style={
-                    {
-                      height: `${Math.max(18, Math.min(100, bar.height))}%`,
-                      "--tpmv2-candle-height": `${bar.bodyHeight}%`,
-                      "--tpmv2-wick-height": `${bar.wickHeight}%`,
-                    } as CSSProperties
-                  }
-                >
-                  <span
-                    className={`tpmv2-candle ${bar.tone}`}
-                    style={{ height: `${bar.bodyHeight}%` }}
-                  />
-                </div>
-              );
-            })}
+            <div
+              className={
+                chartType === "bars"
+                  ? "tpmv2-candles tpmv2-candles-bars"
+                  : chartType === "candlestick"
+                  ? "tpmv2-candles"
+                  : "tpmv2-candles tpmv2-candles-ghost"
+              }
+            >
+              {chartBars.map((bar, index) => {
+                return (
+                  <div
+                    key={index}
+                    className={`tpmv2-candle-wrap ${bar.tone}`}
+                    style={
+                      {
+                        height: `${Math.max(18, Math.min(100, bar.height))}%`,
+                        "--tpmv2-candle-height": `${bar.bodyHeight}%`,
+                        "--tpmv2-wick-height": `${bar.wickHeight}%`,
+                      } as CSSProperties
+                    }
+                  >
+                    <span
+                      className={`tpmv2-candle ${bar.tone}`}
+                      style={{ height: `${bar.bodyHeight}%` }}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="tpmv2-chart-time-scale" aria-hidden="true">
+            {timeScale.map((label, index) => (
+              <span key={`${label}-${index}`}>{label}</span>
+            ))}
           </div>
         </div>
 
-        <div className="tpmv2-chart-time-scale" aria-hidden="true">
-          {timeScale.map((label, index) => (
-            <span key={`${label}-${index}`}>{label}</span>
-          ))}
+        <div className="tpmv2-chart-aux-strip" aria-label="Chart support controls">
+          <div className="tpmv2-chart-tool-rail" role="toolbar" aria-label="Drawing tools">
+            {DRAWING_TOOLS.map((tool) => (
+              <button
+                key={tool}
+                type="button"
+                className={tool === activeDrawingTool ? "active" : ""}
+                aria-pressed={tool === activeDrawingTool}
+                onClick={() => onSelectDrawingTool(tool)}
+              >
+                {tool}
+              </button>
+            ))}
+          </div>
+
+          <div className="tpmv2-chart-indicator-dock" role="toolbar" aria-label="Indicators">
+            <span>Indicators</span>
+            {INDICATOR_TOOLS.map((indicator) => (
+              <button
+                key={indicator}
+                type="button"
+                className={activeIndicators.includes(indicator) ? "active" : ""}
+                aria-pressed={activeIndicators.includes(indicator)}
+                onClick={() => onToggleIndicator(indicator)}
+              >
+                {indicator}
+              </button>
+            ))}
+          </div>
+
+          <div className="tpmv2-chart-depth-strip" aria-label="Market depth summary">
+            <div className="tpmv2-chart-depth-head">
+              <span>Market depth</span>
+              <strong>{focusModeLabel(focusMode)}</strong>
+            </div>
+            <div className="tpmv2-chart-depth-inline">
+              {marketDepthItems.map((item) => (
+                <span key={`${item.label}-${item.value}`} className="tpmv2-chart-depth-chip">
+                  <small>{item.label}</small>
+                  <strong className={item.tone ? item.tone : undefined}>{item.value}</strong>
+                </span>
+              ))}
+            </div>
+            <small>{marketDepthNote}</small>
+          </div>
+
+          <div className={`tpmv2-chart-guidance-line ${decision.signal}`}>
+            <span>{intelligenceKicker}</span>
+            <strong>{intelligenceHeadline}</strong>
+            <small>
+              {decision.confidence} / {intelligenceSummary} {intelligenceNote}
+            </small>
+          </div>
         </div>
       </div>
     </section>

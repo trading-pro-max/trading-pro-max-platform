@@ -198,10 +198,10 @@ test.describe("Pro Max Trading Clean Zero Rebuild", () => {
     expect(summaryBox!.height).toBeLessThan(205);
     expect(chartBox!.y).toBeGreaterThanOrEqual(chartHeaderBox!.y + chartHeaderBox!.height - 2);
 
-    const depthPanelOpacity = await page.locator(".tpmv2-chart-depth-panel").first().evaluate(
-      (element) => Number.parseFloat(window.getComputedStyle(element).opacity)
-    );
-    expect(depthPanelOpacity).toBeLessThan(0.1);
+    await expect(page.locator(".tpmv2-chart-market-structure")).toHaveCount(0);
+    await expect(page.locator(".tpmv2-chart-ai-panel")).toHaveCount(0);
+    await expect(page.locator(".tpmv2-chart-depth-panel")).toHaveCount(0);
+    await expect(page.locator(".tpmv2-chart-depth-strip").first()).toBeVisible();
 
     await screenshotLocator(page, ".tpm-living-market-core-grid", "trading-chart-dominant.png");
     await screenshotLocator(page, ".tpm-living-market-core", "trading-chart-starts-high.png");

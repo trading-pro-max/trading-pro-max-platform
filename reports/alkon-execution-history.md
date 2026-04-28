@@ -308,3 +308,34 @@ Safety:
 - Local Day One remains not_started and Ahmad visual acceptance needed.
 - No public Permission-to-Exist, Alkon, Jar, Founder Command, Kernel, Zero Truth, Reality Trial, or internal governance leak was introduced.
 - No live execution, real money, broker/feed activation, billing activation, production activation, public launch, payment execution, shell execution from web, Codex execution from web, fake claim, secret exposure, bank/card exposure, raw personal document storage, image generation, or raster asset addition was introduced.
+
+## 2026-04-28 - Swiss Earth Identity + Logo + Trading Chart Body Rebuild
+
+Mission executed locally in code, CSS, reports, tests, and visual proof only.
+
+Actions:
+
+- Recorded Ahmad visual acceptance as rejected for Chart Body, Logo / Mark, and Earth realism / Swiss-inspired identity.
+- Rebuilt the Trading chart body as a clean Swiss precision chart surface.
+- Removed rendered old chart obstruction layers: market structure, floating overlay bar, AI panel, and depth panel.
+- Kept price marker, axes, candle/line path, indicators, and always-visible volume layer.
+- Attached paper execution to the chart without activating live trading, broker/feed, real money, billing, or signals.
+- Updated Pro Max logo and Earth mark metadata/styling for Swiss-inspired code-only identity.
+- Improved procedural Earth fallback and kept photorealism gated behind approved local licensed texture intake.
+- Added focused regression coverage and screenshots under `test-results/pro-max-swiss-earth-chart-logo-rebuild/`.
+
+Validation:
+
+- TypeScript passed.
+- ESLint passed.
+- Build passed.
+- Prisma validate passed.
+- Focused Swiss Earth / Logo / Chart regression passed with 4 tests.
+- Full regression passed with 270 tests.
+- Route smoke passed with 5 canonical routes after stopping stale repo-owned Next dev server.
+- Diff check passed with line-ending warnings only.
+
+Safety:
+
+- Local Day One remains not_started and Ahmad visual acceptance needed.
+- No image generation, raster asset, external image URL, unknown-license asset, public Alkon exposure, Swiss regulated/FINMA/licensed/company/bank claim, live execution, real money, broker/feed activation, billing activation, production activation, public launch, shell execution from web, Codex execution from web, fake claim, secret exposure, or bank/card exposure was introduced.

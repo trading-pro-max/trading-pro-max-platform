@@ -2,25 +2,29 @@
 
 Recommended next command:
 
-Ahmad reviews the Permission-to-Exist proof and decides one of:
+Ahmad reviews the Swiss Earth / Logo / Trading Chart visual proof and decides one of:
 
-- accept the current Permission-to-Exist governance layer
-- reject with one focused correction note
-- request a Command Passport for a specific entity cleanup or boundary hardening task
+- accept this visual direction for the next gated readiness pass
+- reject with one focused correction note for Chart Body, Logo / Mark, or Earth identity
+- request a Command Passport for approved local Earth texture intake if photorealism is required
 
 Review:
 
-- `test-results/alkon-permission-to-exist/existence-architecture-panel.png`
-- `test-results/alkon-permission-to-exist/entity-ownership-panel.png`
-- `test-results/alkon-permission-to-exist/existence-gate-panel.png`
-- `test-results/alkon-permission-to-exist/existence-jar-panel.png`
-- `test-results/alkon-permission-to-exist/public-home-clean.png`
-- `test-results/alkon-permission-to-exist/diagnostics-public-safe.png`
-- `test-results/alkon-permission-to-exist/no-alkon-public-leak.png`
+- `test-results/pro-max-swiss-earth-chart-logo-rebuild/chart-body-rebuilt-dark.png`
+- `test-results/pro-max-swiss-earth-chart-logo-rebuild/chart-body-rebuilt-light.png`
+- `test-results/pro-max-swiss-earth-chart-logo-rebuild/chart-no-old-overlays.png`
+- `test-results/pro-max-swiss-earth-chart-logo-rebuild/execution-attached-to-chart.png`
+- `test-results/pro-max-swiss-earth-chart-logo-rebuild/logo-swiss-clean-hero.png`
+- `test-results/pro-max-swiss-earth-chart-logo-rebuild/logo-swiss-clean-compact.png`
+- `test-results/pro-max-swiss-earth-chart-logo-rebuild/earth-swiss-identity-home.png`
+- `test-results/pro-max-swiss-earth-chart-logo-rebuild/earth-swiss-identity-logo.png`
+- `test-results/pro-max-swiss-earth-chart-logo-rebuild/trading-swiss-precision-cockpit.png`
+- `test-results/pro-max-swiss-earth-chart-logo-rebuild/public-home-no-alkon-leak.png`
+- `test-results/pro-max-swiss-earth-chart-logo-rebuild/local-day-one-not-started.png`
 
 Reason:
 
-The Permission-to-Exist system is implemented and validated. ALKON now has a private structure gate for files, folders, routes, APIs, components, styles, reports, tests, tools, assets, visual surfaces, and future ideas.
+Ahmad rejected the prior visual baseline. The focused rebuild corrected the chart body, logo/mark, and procedural Earth identity without adding images, assets, unsafe claims, or activations.
 
 Blocked:
 
@@ -43,3 +47,4 @@ Blocked:
 - bank/card data exposure
 - raw personal document storage
 - image generation or public raster assets
+- Swiss regulated, FINMA-approved, Swiss company, Swiss bank, licensed, profit, or win-rate claims

@@ -122,7 +122,9 @@ export default function ProductLogo({
         .filter(Boolean)
         .join(" ")}
       data-brand-renderer="hybrid-earth-code-only"
-      data-brand-visual-origin="pro-max-earth-financial"
+      data-brand-swiss-regulatory-claim="false"
+      data-brand-visual-origin="pro-max-swiss-earth-financial"
+      data-swiss-inspired-precision="true"
     >
       {showMark ? (
         <BrandMark

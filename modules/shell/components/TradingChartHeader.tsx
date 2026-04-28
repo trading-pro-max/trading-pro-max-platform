@@ -20,10 +20,14 @@ export function TradingChartHeader({
   selectedTimeframe,
 }: TradingChartHeaderProps) {
   return (
-    <header className="tpm-living-chart-header" data-chart-header="true">
+    <header
+      className="tpm-living-chart-header"
+      data-chart-header="true"
+      data-swiss-precision-chart="true"
+    >
       <div className="tpm-living-chart-header-main">
         <div className="tpm-living-chart-header-title">
-          <span>Chart Area</span>
+          <span>Swiss precision chart</span>
           <strong>{assetSymbol}</strong>
         </div>
         <div className="tpm-living-chart-header-marketline">

@@ -555,6 +555,7 @@ export default function TradingWorkstation({
       data-living-earth-surface="workstation"
       data-revelation-stage="first_3_minutes"
       data-shell-mode="workspace"
+      data-swiss-inspired-precision="true"
       data-visual-origin="pro-max-earth-financial"
       data-clean-zero-rebuild="true"
       data-workspace-architecture="clean-zero-workspace-header-market-summary-trading-core-docks"
