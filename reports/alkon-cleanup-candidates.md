@@ -57,3 +57,20 @@ Protected systems:
 Next cleanup rule:
 
 Move or delete only after a focused proof shows no broken imports, no route regression, no public/private leak, and no Product Truth regression.
+
+## 2026-04-28 - Permission-to-Exist Amendment
+
+New cleanup law:
+
+- Unknown files, folders, routes, APIs, components, CSS layers, reports, tests, tools, assets, visual surfaces, and future ideas do not move directly into execution.
+- Cleanup candidates enter Jar 6 Cleanup unless they are sensitive, public-leaking, route-breaking, Product Truth-breaking, or Ahmad-decision items.
+- Sensitive cleanup maps to Jar 0 Black Hole.
+- Public leak or Product Truth cleanup maps to Jar 1 P0 Reality.
+- Ahmad visual acceptance and unknown ownership map to Jar 9 Founder Decision.
+
+New reports:
+
+- `reports/alkon-codebase-existence-classification.md`
+- `reports/alkon-css-existence-map.md`
+- `reports/visual-cleanup-candidates.md`
+- `reports/visual-duplicate-layer-map.md`

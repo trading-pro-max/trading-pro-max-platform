@@ -16,3 +16,5 @@ Every active file must belong to one primary owner layer:
 | Public Assets | Approved static assets only |
 
 Files with unclear ownership are not deleted by default. They are classified as cleanup_candidate, move_candidate, archive_candidate, protected, blocked, or needs_ahmad_decision.
+
+Permission-to-Exist amendment: every file must also prove purpose, visibility, safe boundary, evidence or documented reason, lifecycle, and next fate. If any answer is missing, the file enters Jar / Inbox instead of execution.

@@ -54,6 +54,7 @@ import { getLocalBuilderReadinessSnapshot } from "@/lib/server/local-builder";
 import { getRealityProductionSnapshot } from "@/lib/server/reality-production";
 import { getSelfCorrectionSnapshot } from "@/lib/server/self-correction";
 import { getAlkonChatReadiness } from "@/lib/server/alkon-chat";
+import { getExistenceArchitectureSnapshot } from "@/lib/server/existence-architecture";
 import { getMediaIntelligenceSnapshot } from "@/lib/server/media-intelligence";
 import { getRevelationExperienceSnapshot } from "@/lib/server/revelation-experience";
 import { getInvisibleOperatingLayerSnapshot } from "@/lib/server/invisible-operating-layer";
@@ -222,6 +223,7 @@ export function getFounderCommandAppSnapshot(
   const realityProduction = getRealityProductionSnapshot(checkedAt);
   const selfCorrection = getSelfCorrectionSnapshot(checkedAt);
   const alkonChat = getAlkonChatReadiness(checkedAt);
+  const existenceArchitecture = getExistenceArchitectureSnapshot(checkedAt);
   const treasuryLife = getTreasuryLifeSnapshot();
   const mediaIntelligence = getMediaIntelligenceSnapshot();
   const revelationExperience = getRevelationExperienceSnapshot(checkedAt);
@@ -541,6 +543,20 @@ export function getFounderCommandAppSnapshot(
       promptChips: alkonChat.promptChips,
       currentOneNextAction: alkonChat.currentOneNextAction,
       commandPassportReady: alkonChat.commandPassportReady,
+    },
+    existenceArchitecture: {
+      status: existenceArchitecture.status,
+      founderOnly: existenceArchitecture.founderOnly,
+      readOnly: existenceArchitecture.readOnly,
+      noExecution: existenceArchitecture.noExecution,
+      noPublicExposure: existenceArchitecture.noPublicExposure,
+      totalEntitiesReviewed: existenceArchitecture.totalEntitiesReviewed,
+      unknownCount: existenceArchitecture.unknownEntities.length,
+      blockedPatternCount: existenceArchitecture.blockedEntities.length,
+      cleanupCandidateCount: existenceArchitecture.cleanupCandidates.length,
+      jarMappedCount: existenceArchitecture.jarMappedItems.length,
+      oneNextStructuralAction: existenceArchitecture.oneNextStructuralAction,
+      whatNotToDo: existenceArchitecture.whatNotToDo,
     },
     finalUniversalClosureGate: {
       status:

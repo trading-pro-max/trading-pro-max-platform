@@ -29,6 +29,7 @@ import { getSourceLawSnapshot } from "@/lib/server/source-law";
 import { getAlkonOperatingModeSnapshot } from "@/lib/server/alkon-operating-mode";
 import { getAlkonKernelSnapshot } from "@/lib/server/alkon-kernel";
 import { getAlkonChatReadiness } from "@/lib/server/alkon-chat";
+import { getExistenceArchitectureSnapshot } from "@/lib/server/existence-architecture";
 import { getPlanetaryEnvironmentReadinessSnapshot } from "@/lib/server/environment";
 import { getEarthRealitySnapshot } from "@/lib/server/earth-reality";
 import { getPersonalRealityReadinessSnapshot } from "@/lib/server/personal-reality";
@@ -97,6 +98,7 @@ export type FounderPersonalCompanionSnapshot = {
   alkonOperatingModeSummary: string[];
   alkonKernelSummary: string[];
   alkonChatSummary: string[];
+  existenceArchitectureSummary: string[];
   treasuryLifeSummary: string[];
   mediaIntelligenceSummary: string[];
   revelationExperienceSummary: string[];
@@ -171,6 +173,7 @@ export function getFounderPersonalCompanionSnapshot(
   const alkonOperatingMode = getAlkonOperatingModeSnapshot(checkedAt);
   const alkonKernel = getAlkonKernelSnapshot(checkedAt);
   const alkonChat = getAlkonChatReadiness(checkedAt);
+  const existenceArchitecture = getExistenceArchitectureSnapshot(checkedAt);
   const brandUniverse = getPrivateBrandUniverse();
   const treasuryLife = getTreasuryLifeSnapshot();
   const mediaIntelligence = getMediaIntelligenceSnapshot();
@@ -393,6 +396,12 @@ export function getFounderPersonalCompanionSnapshot(
       `${alkonChat.availableIntents.length} private intents are available for read-only status, truth, evidence, devices, Local Day One, and command passport previews.`,
       `Current one next action: ${alkonChat.currentOneNextAction}`,
       "Alkon Chat can answer, classify, judge, and draft passports only; it cannot execute shell, call Codex, activate billing, trade live, route real money, expose secrets, or become public.",
+    ],
+    existenceArchitectureSummary: [
+      `${existenceArchitecture.totalEntitiesReviewed} entities reviewed for permission to exist.`,
+      `${existenceArchitecture.unknownEntities.length} unknown entities require Jar/Inbox classification.`,
+      `${existenceArchitecture.cleanupCandidates.length} cleanup candidates are documented before deletion.`,
+      `One next structural action: ${existenceArchitecture.oneNextStructuralAction}`,
     ],
     treasuryLifeSummary: [
       `Treasury Life is ${treasuryLife.status}; funding mode is ${treasuryLife.fundingMode}.`,

@@ -25,6 +25,7 @@ The repository is not recomposed by destructive moves. It is classified, route-c
 | `modules/companion` | 22 | Pro Max Assistant UI | Public Pro Max Reality | Public-safe | Assistant launcher and workspace dock | active_with_notes | rename later only with compatibility plan |
 | `lib/server/alkon-*` | many | Kernel, operating mode, chat, physics, readiness | Private Alkon -0 | Private/internal | Founder APIs and command interface | active | protect |
 | `lib/server/jar-build` | 11 | Jar intake before Command Passport | Private Alkon -0 | Private/internal | Founder route panel and Jar tests | active_with_notes | protect |
+| `lib/server/existence-architecture` | many | Permission-to-Exist model, classifiers, gate, state, and Jar mapping | Private Alkon -0 | Private/internal | Founder API and regression proof | active_with_notes | keep |
 | `lib/server/product`, `lib/server/security` | many | Product Truth and safety summaries | Invisible Operating Layer | Public-safe summary | Product Truth API tests | active | protect |
 | `lib/brand`, `lib/plans`, `lib/assistant` | many | Public product modeling and public-safe planning | Invisible Operating Layer | Public-safe output | Plan/truth regression tests | active_with_notes | keep |
 | `tools/alkon-local-builder` | 7 | Terminal-only local builder reports | Tools / Builder | Local terminal | package scripts `alkon:*` | active_with_notes | protect |
@@ -38,3 +39,7 @@ The repository is not recomposed by destructive moves. It is classified, route-c
 Inventory conclusion:
 
 The active heart is Pro Max Center plus Pro Max Trading as public reality, with Alkon -0 private Founder command surfaces, Jar intake, and the Invisible Operating Layer preserving Product Truth. No unsafe activation was introduced.
+
+Permission-to-Exist conclusion:
+
+The active project now has a private existence architecture. Any new item that cannot prove owner, purpose, visibility, boundary, evidence, lifecycle, and next fate must enter Inbox/Jar before execution.

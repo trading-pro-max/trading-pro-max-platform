@@ -18,3 +18,10 @@ Ownership decisions:
 - `/en` stays as compatibility and must not be linked as primary public navigation.
 - Founder routes remain private route space and do not reuse public navigation.
 - Reports and docs are internal memory, not public UI.
+
+Permission-to-Exist amendment:
+
+- Every entity now has a required existence review: owner, purpose, visibility, boundary, evidence, lifecycle, and next fate.
+- `lib/server/existence-architecture` owns the private classifier/gate engine.
+- Public Pro Max cannot render Permission-to-Exist, Jar internals, Alkon -0, Founder Command, Kernel, Zero Truth, Reality Trial, or internal governance terms.
+- Unowned or unproven entities move to Inbox/Jar reports before execution.

@@ -16,3 +16,7 @@ Priority order:
 One next action:
 
 Contain unsafe/sensitive items first, then prepare exit permits for route and Trading heart work.
+
+Permission-to-Exist one next action:
+
+Before any new file, folder, route, API, component, CSS layer, report, test, tool, asset, visual surface, or future idea enters execution, classify it through the existence questions and Jar map.

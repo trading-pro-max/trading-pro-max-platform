@@ -1,6 +1,6 @@
 # Alkon Last Full Report
 
-Mission: Execute ALKON Total Root-to-Reality Clean Rebirth
+Mission: Execute ALKON Permission-to-Exist System
 
 Status: validated and ready with notes. Commit and push are part of this closure pass.
 
@@ -14,33 +14,24 @@ Official code path:
 
 Completed:
 
-- Recovered the current working tree and classified the active changes as route work, Trading rebuild work, Jar work, source-to-reality work, report updates, and safe regression coverage.
-- Documented the root architecture: Ahmad is Source, ALKON is Root, Alkon -0 is Private Origin, Reality Trial is Gate, Pro Max is Public World, Pro Max Trading is First Living Product, user signals return through Jar, Evidence, Memory, One Next Action, and Zero Truth.
-- Added `/trading` as the canonical Pro Max Trading route and kept `/en` as compatibility rather than primary identity.
-- Routed Home, public header, product entry, apps/platforms, Assistant context, Local Day One docs, and route smoke through `/trading`.
-- Rebuilt the Trading route around a clean living cockpit with the chart owning the page, the paper execution arm attached, Assistant collapsed, Journal/Coach secondary, and Product Truth compact.
-- Added the private Jar Build System under `lib/server/jar-build` with Jar 0-9, classification, prioritization, Reality Trial adapter, exit permit, Command Passport bridge, state, memory, and engine exports.
-- Integrated Jar status privately into `/founder/alkon` and Founder Command; no public Jar API or public Jar UI was added.
-- Updated ownership, lifecycle, cleanup, cohesion, route, GitHub readiness, source-to-reality, Alkon -0, Pro Max world, user feedback, and Jar reports.
-- Hardened `.gitignore` for secrets, archives, caches, generated output, local backups, and unapproved raster media.
-- Preserved private Alkon surfaces and public Pro Max surfaces without public Alkon/Jar/Founder leakage.
+- Created Permission-to-Exist doctrine under `docs/product/`.
+- Added `lib/server/existence-architecture` with entity types, helper constructors, existence questions, desktop/codebase/route/API/component/CSS classifiers, Jar mapping, existence gate, state, and snapshot/readiness engine.
+- Added Founder-only read-only APIs under `/api/founder/existence-architecture/*`.
+- Integrated the existence snapshot into Founder Command app state and Founder Companion summaries.
+- Added private Founder Command panels: architecture, entity ownership, existence gate, and existence-to-Jar map.
+- Updated route, API, component, CSS, codebase, desktop, unknowns, blocked-pattern, cleanup, Jar, and next-action reports.
+- Added `tests/regression/alkon-permission-to-exist.spec.ts`.
+- Captured public and private visual proof under `test-results/alkon-permission-to-exist/`.
 
 Visual proof:
 
-- `test-results/alkon-total-root-to-reality-rebirth/public-home-pro-max-center.png`
-- `test-results/alkon-total-root-to-reality-rebirth/trading-route-pro-max-trading.png`
-- `test-results/alkon-total-root-to-reality-rebirth/trading-living-core-dark.png`
-- `test-results/alkon-total-root-to-reality-rebirth/trading-ultrawide-no-empty-right.png`
-- `test-results/alkon-total-root-to-reality-rebirth/trading-chart-owns-page.png`
-- `test-results/alkon-total-root-to-reality-rebirth/trading-execution-arm-attached.png`
-- `test-results/alkon-total-root-to-reality-rebirth/trading-assistant-open-no-cover.png`
-- `test-results/alkon-total-root-to-reality-rebirth/founder-alkon-minus-zero.png`
-- `test-results/alkon-total-root-to-reality-rebirth/founder-pocket-private.png`
-- `test-results/alkon-total-root-to-reality-rebirth/diagnostics-public-safe.png`
-- `test-results/alkon-total-root-to-reality-rebirth/public-no-alkon-leak.png`
-- `test-results/alkon-total-root-to-reality-rebirth/route-home-to-trading-proof.png`
-- `test-results/alkon-total-root-to-reality-rebirth/jar-build-panel.png`
-- `test-results/alkon-total-root-to-reality-rebirth/jar-command-passport-panel.png`
+- `test-results/alkon-permission-to-exist/existence-architecture-panel.png`
+- `test-results/alkon-permission-to-exist/entity-ownership-panel.png`
+- `test-results/alkon-permission-to-exist/existence-gate-panel.png`
+- `test-results/alkon-permission-to-exist/existence-jar-panel.png`
+- `test-results/alkon-permission-to-exist/public-home-clean.png`
+- `test-results/alkon-permission-to-exist/diagnostics-public-safe.png`
+- `test-results/alkon-permission-to-exist/no-alkon-public-leak.png`
 
 Validation:
 
@@ -48,9 +39,9 @@ Validation:
 - `npx eslint app modules tests --max-warnings=0`: pass
 - `npm run build`: pass
 - `npm run prisma:validate`: pass
-- `npm run test:regression`: pass, 260 tests
+- `npm run test:regression`: pass, 266 tests
 - `npm run smoke:routes`: pass, 5 canonical routes
-- `git diff --check`: pass
+- `git diff --check`: pass with line-ending warnings only
 
 Product Truth:
 
@@ -61,7 +52,7 @@ Product Truth:
 - No live execution.
 - No real money.
 - No trading signals, profit promise, win-rate claim, or public number-one/global/regulated claim.
-- No public Alkon, Alkon -0, Founder Command, Kernel, Reality Trial, Jar System, or internal governance exposure.
+- No public Alkon, Alkon -0, Founder Command, Kernel, Zero Truth, Reality Trial, Jar System, Permission-to-Exist internals, or internal governance exposure.
 - No shell execution or Codex execution from the web app.
 - No secrets, bank/card data, or raw sensitive personal documents exposed.
 - No generated images or raster assets were added.
@@ -72,4 +63,4 @@ Local Day One remains not_started. Visual acceptance remains Ahmad visual accept
 
 Next:
 
-Ahmad reviews the Root-to-Reality visual proof and either accepts the current visual reality or returns one focused correction through Jar classification and a governed Command Passport.
+Ahmad reviews Permission-to-Exist proof. Any future entity must pass owner, purpose, visibility, boundary, evidence, lifecycle, next fate, Jar classification, and Command Passport requirements before execution.

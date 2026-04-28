@@ -34,3 +34,15 @@ Public APIs such as `/api/product/truth` may expose only public-safe states: blo
 Route smoke:
 
 `scripts/tpm-canonical-routes-smoke.mjs` checks `/`, `/trading`, `/en`, `/en/settings`, and `/diagnostics` as UI routes, with API routes available under the optional flag.
+
+Permission-to-Exist API update:
+
+Founder-only read-only preview APIs now exist under:
+
+- `/api/founder/existence-architecture/readiness`
+- `/api/founder/existence-architecture/snapshot`
+- `/api/founder/existence-architecture/unknowns`
+- `/api/founder/existence-architecture/jar-map`
+- `/api/founder/existence-architecture/next-action`
+
+They expose no shell, Codex, payments, secrets, external calls, or public Alkon surface.

@@ -16,5 +16,8 @@ Status: active_with_notes
 | Root SVG starter assets | cleanup_candidate | Not deleted without usage proof | review later |
 | Terminal scripts use process APIs | protected | Tool-only, not web-imported | keep out of app APIs |
 | Founder APIs broad route space | active_with_notes | Read-only/no-execution boundary documented and tested | protect |
+| unowned entity birth | active_with_notes | Permission-to-Exist gate added | classify through Jar before execution |
+| public Permission-to-Exist leak | guarded | Public leak tests include existence internals | block |
+| unknown desktop/code item | active_with_notes | Desktop/codebase existence classifiers added | Jar 9 Founder Decision unless unsafe |
 
 No P0/P1 route break or public/private leak was found in the active surfaces corrected by this pass.

@@ -25,3 +25,5 @@ API boundary status is tracked in:
 - `reports/alkon-route-api-cohesion.md`
 - `reports/alkon-disconnected-items.md`
 - `tests/regression/pro-max-alkon-origin-clean-rebirth.spec.ts`
+
+Permission-to-Exist amendment: every API must declare owner, public/private boundary, read/write capability, execution risk, secret risk, payment risk, test coverage, purpose, and next fate. Founder APIs are read-only/preview-only unless explicitly gated by Ahmad.

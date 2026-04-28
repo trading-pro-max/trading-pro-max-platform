@@ -3,6 +3,7 @@ import {
   getFounderCommandRoomFoundationSnapshot,
 } from "@/lib/server/founder-command";
 import { getFounderDeviceReadinessSnapshot } from "@/lib/server/devices";
+import { getExistenceArchitectureSnapshot } from "@/lib/server/existence-architecture";
 import { getJarBuildSnapshot } from "@/lib/server/jar-build";
 import { getFounderIdeaInboxReadiness } from "@/lib/server/sovereign-autonomy";
 import { PlanetMapPreview } from "@/modules/planet-map/components";
@@ -77,6 +78,10 @@ import AlkonAuthorityFabricPanel from "./AlkonAuthorityFabricPanel";
 import AlkonDeviceConstellationPanel from "./AlkonDeviceConstellationPanel";
 import AlkonPocketUniversePanel from "./AlkonPocketUniversePanel";
 import AlkonJarBuildPanel from "./AlkonJarBuildPanel";
+import AlkonExistenceArchitecturePanel from "./AlkonExistenceArchitecturePanel";
+import AlkonEntityOwnershipPanel from "./AlkonEntityOwnershipPanel";
+import AlkonExistenceGatePanel from "./AlkonExistenceGatePanel";
+import AlkonExistenceJarPanel from "./AlkonExistenceJarPanel";
 import AlkonDeviceSecurityPanel from "./AlkonDeviceSecurityPanel";
 import AlkonDeviceContinuityPanel from "./AlkonDeviceContinuityPanel";
 import FounderApprovalQueue from "./FounderApprovalQueue";
@@ -107,6 +112,7 @@ export default function FounderCommandRoom({
   const ideaInboxReadiness = getFounderIdeaInboxReadiness(commandSnapshot.checkedAt);
   const deviceSnapshot = getFounderDeviceReadinessSnapshot(commandSnapshot.checkedAt);
   const jarSnapshot = getJarBuildSnapshot(commandSnapshot.checkedAt);
+  const existenceSnapshot = getExistenceArchitectureSnapshot(commandSnapshot.checkedAt);
 
   return (
     <PrivateFounderShell checkedAt={commandSnapshot.checkedAt}>
@@ -186,6 +192,12 @@ export default function FounderCommandRoom({
       </section>
 
       <AlkonJarBuildPanel snapshot={jarSnapshot} />
+      <AlkonExistenceArchitecturePanel snapshot={existenceSnapshot} />
+      <div className="alkon-command-grid alkon-existence-grid">
+        <AlkonEntityOwnershipPanel snapshot={existenceSnapshot} />
+        <AlkonExistenceGatePanel snapshot={existenceSnapshot} />
+        <AlkonExistenceJarPanel snapshot={existenceSnapshot} />
+      </div>
 
       <AlkonLegitimacyPanel snapshot={appSnapshot.alkonLegitimacy} />
 

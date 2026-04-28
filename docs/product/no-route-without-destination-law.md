@@ -14,3 +14,5 @@ Current canonical destinations:
 - `/founder/pocket` -> Alkon Pocket
 
 `/en` is compatibility only, not the primary Trading identity.
+
+Permission-to-Exist amendment: routes must prove public/private destination, Product Truth, test coverage, and leak boundary. `/trading` is canonical. `/en` is compatibility, not the primary Trading identity.

@@ -18,3 +18,7 @@ Status: active_with_notes
 | Root starter SVGs | cleanup_candidate | Delete later only if usage proof says safe | yes |
 | Local Day One | blocked_to_start | Do not start until Ahmad visual acceptance | yes |
 | Visual acceptance | visual_acceptance_needed | Keep honest pending state | yes |
+| Permission-to-Exist system | active_with_notes | Keep private and use before new entities enter code | no |
+| unknown/unowned entities | unknown_needs_ahmad | Move to Inbox / Jar before execution | yes |
+| missing evidence items | needs_evidence | Move to Jar 7 Evidence before growth | maybe |
+| public Alkon or Jar exposure | blocked | Black-hole immediately | yes |

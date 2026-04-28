@@ -31,3 +31,9 @@ Product Truth:
 Closure:
 
 Ready with notes if validation passes. Local Day One remains not_started because Ahmad visual acceptance is still required.
+
+Permission-to-Exist:
+
+- Every future folder, file, route, API, component, style, report, test, tool, asset, visual surface, and idea must prove right to exist before build.
+- Unclassified items enter Inbox/Jar, not execution.
+- Public Pro Max remains free of Permission-to-Exist internals.

@@ -28,4 +28,13 @@ Evidence:
 - `tests/regression/pro-max-alkon-origin-clean-rebirth.spec.ts`
 - `tests/regression/pro-max-trading-clean-zero-rebuild.spec.ts`
 - `tests/regression/public-header-language-disable-route-repair.spec.ts`
+- `tests/regression/alkon-permission-to-exist.spec.ts`
 - `scripts/tpm-canonical-routes-smoke.mjs`
+
+Permission-to-Exist result:
+
+- `/` has permission to exist as Pro Max Center.
+- `/trading` has permission to exist as Pro Max Trading / Trading Workspace.
+- `/en` has permission to exist only as compatibility.
+- `/founder/alkon` and `/founder/pocket` have permission to exist only as private Founder routes.
+- Any public route exposing Alkon, Jar internals, Permission-to-Exist internals, Founder Command, Kernel, Zero Truth, or Reality Trial is blocked.

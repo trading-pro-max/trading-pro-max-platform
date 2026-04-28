@@ -135,3 +135,10 @@ Postponed moves:
 - Shell component split between public shell and workspace shell.
 - CSS domain split.
 - Public root starter SVG cleanup.
+
+Permission-to-Exist amendment:
+
+- `lib/server/existence-architecture` now owns entity types, existence questions, desktop/codebase/route/API/component/CSS classifiers, existence gate, Jar mapping, state, and snapshot engine.
+- Founder Command renders the private existence architecture panels.
+- Founder APIs expose read-only existence readiness, snapshot, unknowns, Jar map, and next action.
+- Public Pro Max routes do not render Permission-to-Exist internals.
