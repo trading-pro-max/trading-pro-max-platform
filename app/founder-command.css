@@ -1317,6 +1317,14 @@ dl.alkon-command-facts.alkon-pocket-capability-facts {
   border-color: color-mix(in srgb, var(--alkon-gold) 36%, var(--tpm-border));
 }
 
+.alkon-living-earth-runtime-panel {
+  border-color: color-mix(in srgb, var(--alkon-gold) 26%, rgba(94, 214, 255, 0.24));
+}
+
+.alkon-living-earth-runtime-panel .alkon-rail-head span {
+  color: color-mix(in srgb, var(--alkon-gold) 68%, #a9e7ff);
+}
+
 .alkon-decision-grid {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }

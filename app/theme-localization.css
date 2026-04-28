@@ -10742,7 +10742,7 @@ html[data-theme="light"] .tpmv2-chart-body .tpmv2-chart-line-stroke {
   border-radius: 5px;
   box-shadow: none;
   display: block;
-  min-height: 8px;
+  min-height: 14px;
   width: clamp(4px, 0.52vw, 8px);
   z-index: 1;
 }
@@ -10958,4 +10958,59 @@ html[data-theme="light"] .tpmv2-chart-body .tpmv2-chart-line-stroke {
 
 .tpmv2-chart-aux-strip .tpmv2-chart-tool-rail button {
   font-size: 0.72rem;
+}
+
+/* Living Earth Runtime: code-driven, chart-safe identity layer. */
+.tpm-living-earth-runtime {
+  display: inline-flex;
+  height: 100%;
+  width: 100%;
+}
+
+.tpm-living-earth-background[data-living-earth-runtime="active"] {
+  isolation: isolate;
+}
+
+.tpm-living-earth-background[data-living-earth-surface="home_hero"] {
+  --tpm-living-earth-opacity: 0.92;
+  --tpm-env-motion-opacity: 0.58;
+}
+
+.tpm-living-earth-background[data-living-earth-surface="trading_workspace"] {
+  --tpm-living-earth-opacity: 0.08;
+  --tpm-env-motion-opacity: 0.1;
+}
+
+.tpm-living-earth-background[data-living-earth-surface="settings"],
+.tpm-living-earth-background[data-living-earth-surface="diagnostics"] {
+  --tpm-living-earth-opacity: 0.3;
+  --tpm-env-motion-opacity: 0.2;
+}
+
+.tpm-hybrid-earth[data-living-earth-motion="static"] *,
+.tpm-procedural-earth[data-living-earth-motion="static"] * {
+  animation: none !important;
+  transition-duration: 0s !important;
+}
+
+.tpm-living-chart-surface[data-living-earth-surface="trading_chart_atmosphere"] {
+  position: relative;
+}
+
+.tpm-living-chart-surface[data-living-earth-surface="trading_chart_atmosphere"]::before {
+  border: 1px solid color-mix(in srgb, var(--tpm-swiss-red-soft, rgba(227, 6, 19, 0.16)) 38%, transparent);
+  border-radius: 10px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.035);
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
+}
+
+.tpm-living-chart-surface[data-living-earth-surface="trading_chart_atmosphere"] > * {
+  position: relative;
+  z-index: 1;
 }

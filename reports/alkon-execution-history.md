@@ -339,3 +339,34 @@ Safety:
 
 - Local Day One remains not_started and Ahmad visual acceptance needed.
 - No image generation, raster asset, external image URL, unknown-license asset, public Alkon exposure, Swiss regulated/FINMA/licensed/company/bank claim, live execution, real money, broker/feed activation, billing activation, production activation, public launch, shell execution from web, Codex execution from web, fake claim, secret exposure, or bank/card exposure was introduced.
+
+## 2026-04-28 - Pro Max Living Earth Runtime
+
+Mission executed locally in code, docs, reports, tests, and visual proof only.
+
+Actions:
+
+- Added the Living Earth Runtime model, asset policy, render decisions, evolution gates, and surface state.
+- Connected Living Earth runtime to Home, Pro Max logo/mark, Trading Workspace, chart atmosphere metadata, Settings, Diagnostics, and private Alkon readiness.
+- Added private `/founder/alkon` Living Earth readiness without public exposure.
+- Added Living Earth doctrine docs and status/evolution reports.
+- Added focused regression coverage and screenshots under `test-results/pro-max-living-earth-runtime/`.
+- Preserved chart-first Trading by keeping Earth subtle and declaring no Earth overlay over price action.
+- Restored the verified chart candle minimum guard to keep global theme visual tests stable.
+
+Validation:
+
+- TypeScript passed.
+- ESLint passed.
+- Build passed.
+- Prisma validate passed.
+- Focused Living Earth runtime regression passed with 6 tests.
+- Focused verified platform chart/theme guard passed after correction.
+- Full regression passed with 276 tests.
+- Route smoke passed with 5 canonical routes.
+- Diff check passed with line-ending warnings only.
+
+Safety:
+
+- Local Day One remains not_started and Ahmad visual acceptance needed.
+- No image generation, raster asset, external image URL, unknown-license asset, public Alkon exposure, fake Swiss legal/regulatory claim, live execution, real money, broker/feed activation, billing activation, production activation, public launch, shell execution from web, Codex execution from web, fake claim, secret exposure, or bank/card exposure was introduced.

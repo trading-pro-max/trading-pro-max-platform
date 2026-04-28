@@ -2,6 +2,10 @@ import type { CSSProperties } from "react";
 import { getEarthIdentity } from "@/lib/brand/earth-identity-engine";
 import type { LivingEarthPlan } from "@/lib/brand/earth-background-types";
 import type { HybridEarthTextureMode } from "@/lib/brand/earth-texture-types";
+import {
+  getLivingEarthRenderDecision,
+  type LivingEarthSurface as RuntimeLivingEarthSurface,
+} from "@/lib/brand/living-earth";
 import type {
   BrandMotionIntensity,
   BrandOccasionThemeKey,
@@ -34,6 +38,7 @@ export type ProMaxEarthMarkProps = {
   showTerminator?: boolean;
   size?: number | string;
   state?: ProMaxEarthMarkState;
+  livingEarthSurface?: RuntimeLivingEarthSurface;
   surface?: BrandSurface;
   textureMode?: HybridEarthTextureMode;
   title?: string;
@@ -56,6 +61,14 @@ const planRealmIds: Record<LivingEarthPlan, PlanRealmId> = {
   founder: "alkon_universe",
 };
 
+function livingEarthSurfaceForMark(
+  variant: ProMaxEarthMarkVariant
+): RuntimeLivingEarthSurface {
+  if (variant === "public") return "home_hero";
+  if (variant === "command") return "founder_private_preview";
+  return "compact_logo";
+}
+
 export default function ProMaxEarthMark({
   animated = false,
   className,
@@ -67,6 +80,7 @@ export default function ProMaxEarthMark({
   showTerminator = true,
   size,
   state = "ready",
+  livingEarthSurface,
   surface,
   textureMode = "auto",
   title = "Pro Max Earth Mark",
@@ -86,6 +100,14 @@ export default function ProMaxEarthMark({
   const realmId = planRealmIds[plan];
   const hybridVariant =
     variant === "public" ? "hero" : variant === "command" ? "workspace" : "compact";
+  const resolvedLivingEarthSurface =
+    livingEarthSurface ?? livingEarthSurfaceForMark(variant);
+  const livingEarthDecision = getLivingEarthRenderDecision({
+    motionMode: animated ? "subtle" : "static",
+    staticMode: !animated,
+    surface: resolvedLivingEarthSurface,
+    textureMode,
+  });
 
   return (
     <span
@@ -113,6 +135,10 @@ export default function ProMaxEarthMark({
       data-earth-precise-location="false"
       data-earth-raster-assets="false"
       data-earth-realm={realmId}
+      data-living-earth-acceptance="needs_ahmad_review"
+      data-living-earth-mode={livingEarthDecision.mode}
+      data-living-earth-runtime="active"
+      data-living-earth-surface={resolvedLivingEarthSurface}
       data-motion-intensity={motionIntensity}
       data-occasion-theme={occasionTheme}
       data-state={state}
@@ -123,10 +149,15 @@ export default function ProMaxEarthMark({
       <span className="tpm-earth-realm-shape" aria-hidden="true" data-earth-realm={realmId} />
       <ProMaxHybridEarth
         intensity={variant === "public" ? "high" : variant === "command" ? "medium" : "soft"}
+        motionMode={livingEarthDecision.motionMode}
         showAtmosphere={showAtmosphere}
         showClouds={showClouds ?? variant !== "command"}
+        showEarthPulse={livingEarthDecision.showEarthPulse}
+        showSwissPrecisionLayer={livingEarthDecision.showSwissPrecisionLayer}
         showTerminator={showTerminator}
         size={size}
+        staticMode={livingEarthDecision.motionMode === "static"}
+        surface={resolvedLivingEarthSurface}
         textureMode={textureMode}
         title={title}
         variant={hybridVariant}

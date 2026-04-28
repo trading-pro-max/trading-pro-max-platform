@@ -10,6 +10,7 @@ import { getAssistantTierSnapshot } from "../../../lib/assistant/tiers";
 import { getPlanEntitlementSnapshot } from "../../../lib/plans/entitlements";
 import { getPublicPlanRealms } from "../../../lib/plans/realms";
 import { getPublicHybridEarthPolicy } from "../../../lib/brand/hybrid-earth-policy";
+import { getLivingEarthRuntimeState } from "../../../lib/brand/living-earth";
 import type { Dictionary } from "../../../lib/i18n/get-dictionary";
 import type { PlanVisualIdentity, PlanVisualKey } from "../../../lib/plans/visual-identity";
 import { getPlanVisualIdentities } from "../../../lib/plans/visual-identity";
@@ -898,6 +899,10 @@ export function PlatformDiagnosticsSurface({
   const currentPlanetLayer = planEntitlementSnapshot.citizenAccess.currentLayer;
   const publicPlanRealms = getPublicPlanRealms();
   const earthRenderingPolicy = getPublicHybridEarthPolicy();
+  const livingEarthRuntime = getLivingEarthRuntimeState();
+  const diagnosticsLivingEarthDecision = livingEarthRuntime.renderDecisions.find(
+    (decision) => decision.surface === "diagnostics"
+  );
   const localePrefix = locale ? `/${locale}` : "";
   const systemItems = [
     {
@@ -1211,6 +1216,23 @@ export function PlatformDiagnosticsSurface({
       value: earthRenderingPolicy.fallbackActive ? "Local fallback" : "Local approved layer",
       tone: "approved" as const,
       note: "The visual identity renders locally, avoids remote image URLs, and keeps the Workspace chart-first.",
+    },
+    {
+      label: "Living Earth Runtime",
+      value: livingEarthRuntime.status === "active_with_notes" ? "Active with notes" : "Active",
+      tone: "pending" as const,
+      note:
+        diagnosticsLivingEarthDecision?.reason ??
+        "Code-driven Earth identity is active with procedural fallback readiness.",
+    },
+    {
+      label: "Texture mode",
+      value:
+        livingEarthRuntime.assetStatus === "approved_texture_active"
+          ? "Approved local"
+          : "Procedural fallback",
+      tone: "approved" as const,
+      note: "No external image URLs or unknown-license assets are used by the public Earth surface.",
     },
     {
       label: "Product Truth",
@@ -2394,6 +2416,10 @@ export function PlatformSettingsSurface({
   const currentPlanetLayer = planEntitlementSnapshot.citizenAccess.currentLayer;
   const publicPlanRealms = getPublicPlanRealms();
   const earthRenderingPolicy = getPublicHybridEarthPolicy();
+  const livingEarthRuntime = getLivingEarthRuntimeState();
+  const settingsLivingEarthDecision = livingEarthRuntime.renderDecisions.find(
+    (decision) => decision.surface === "settings"
+  );
   const journalCoachLoadState = useJournalCoachReadiness();
 
   const productStructureItems = [
@@ -2481,6 +2507,20 @@ export function PlatformSettingsSurface({
       value: earthRenderingPolicy.fallbackActive ? "Procedural fallback" : "Local approved layer",
       tone: "approved" as const,
       note: "Home can be richer, while the Trading Workspace keeps Earth identity subtle and chart-first.",
+    },
+    {
+      label: "Living Earth Runtime",
+      value: "Active with notes",
+      tone: "pending" as const,
+      note:
+        settingsLivingEarthDecision?.reason ??
+        "Static, reduced-motion, and high-contrast modes remain public-safe controls.",
+    },
+    {
+      label: "Chart protection",
+      value: "Chart remains king",
+      tone: "approved" as const,
+      note: "Trading uses subtle Earth atmosphere and does not place Earth over price action.",
     },
     {
       label: "Safety truth",

@@ -1,4 +1,5 @@
 import { useId, type CSSProperties } from "react";
+import type { LivingEarthMotionMode } from "@/lib/brand/living-earth";
 
 export type ProMaxProceduralEarthVariant =
   | "logo"
@@ -14,7 +15,10 @@ type ProMaxProceduralEarthProps = {
   intensity?: EarthIntensity;
   showAtmosphere?: boolean;
   showClouds?: boolean;
+  showEarthPulse?: boolean;
+  showSwissPrecisionLayer?: boolean;
   showTerminator?: boolean;
+  motionMode?: LivingEarthMotionMode;
   size?: number | string;
   staticMode?: boolean;
   style?: CSSProperties;
@@ -53,9 +57,12 @@ export default function ProMaxProceduralEarth({
   intensity = "medium",
   showAtmosphere = true,
   showClouds = true,
+  showEarthPulse = true,
+  showSwissPrecisionLayer = true,
   showTerminator = true,
   size,
   staticMode = false,
+  motionMode = staticMode ? "static" : "subtle",
   style,
   title,
   variant = "logo",
@@ -90,6 +97,9 @@ export default function ProMaxProceduralEarth({
       }
       data-static-mode={staticMode ? "true" : "false"}
       data-earth-visual-direction="swiss-inspired-realistic-procedural"
+      data-living-earth-motion={motionMode}
+      data-living-earth-pulse={showEarthPulse ? "true" : "false"}
+      data-living-earth-swiss-layer={showSwissPrecisionLayer ? "true" : "false"}
     >
       <svg
         aria-hidden={title ? undefined : true}
@@ -235,14 +245,18 @@ export default function ProMaxProceduralEarth({
               style={{ fill: `url(#${continentGradientId})` }}
             />
 
-            <path
-              className="tpm-earth-alpine-light"
-              d="M31.4 25.5 34.8 23l2.2 2.4 2.9-3.9 4.4 5.1"
-            />
-            <path
-              className="tpm-earth-precision-meridian"
-              d="M36 13.2c2.8 6 4.2 13.4 4.2 22.4S38.8 52 36 58.8"
-            />
+            {showSwissPrecisionLayer ? (
+              <>
+                <path
+                  className="tpm-earth-alpine-light"
+                  d="M31.4 25.5 34.8 23l2.2 2.4 2.9-3.9 4.4 5.1"
+                />
+                <path
+                  className="tpm-earth-precision-meridian"
+                  d="M36 13.2c2.8 6 4.2 13.4 4.2 22.4S38.8 52 36 58.8"
+                />
+              </>
+            ) : null}
 
             {showClouds ? (
               <g className="tpm-earth-clouds">
@@ -331,8 +345,12 @@ export default function ProMaxProceduralEarth({
           </g>
         </g>
 
-        <circle className="tpm-earth-pulse" cx="54.5" cy="20.5" r="5.2" />
-        <circle className="tpm-earth-swiss-point" cx="54.5" cy="20.5" r="2.5" />
+        {showEarthPulse ? (
+          <>
+            <circle className="tpm-earth-pulse" cx="54.5" cy="20.5" r="5.2" />
+            <circle className="tpm-earth-swiss-point" cx="54.5" cy="20.5" r="2.5" />
+          </>
+        ) : null}
       </svg>
     </span>
   );

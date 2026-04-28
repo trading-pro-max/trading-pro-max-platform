@@ -1,6 +1,12 @@
 import type { CSSProperties } from "react";
 import { getEarthTextureRegistryReadiness } from "@/lib/brand/earth-texture-registry";
 import type { HybridEarthTextureMode } from "@/lib/brand/earth-texture-types";
+import {
+  getLivingEarthRenderDecision,
+  type LivingEarthMotionMode,
+  type LivingEarthSurface,
+  type LivingEarthVisualIntensity,
+} from "@/lib/brand/living-earth";
 import ProMaxProceduralEarth, {
   type EarthIntensity,
   type ProMaxProceduralEarthVariant,
@@ -11,15 +17,20 @@ export type ProMaxHybridEarthVariant = ProMaxProceduralEarthVariant;
 type ProMaxHybridEarthProps = {
   className?: string;
   intensity?: EarthIntensity;
+  motionMode?: LivingEarthMotionMode;
   showAtmosphere?: boolean;
   showClouds?: boolean;
+  showEarthPulse?: boolean;
+  showSwissPrecisionLayer?: boolean;
   showTerminator?: boolean;
   size?: number | string;
   staticMode?: boolean;
   style?: CSSProperties;
+  surface?: LivingEarthSurface;
   textureMode?: HybridEarthTextureMode;
   title?: string;
   variant?: ProMaxHybridEarthVariant;
+  visualIntensity?: LivingEarthVisualIntensity;
 };
 
 function sizeStyle(size?: number | string): CSSProperties | undefined {
@@ -30,19 +41,38 @@ function sizeStyle(size?: number | string): CSSProperties | undefined {
   } as CSSProperties;
 }
 
+function surfaceForVariant(variant: ProMaxHybridEarthVariant): LivingEarthSurface {
+  if (variant === "hero" || variant === "background") return "home_hero";
+  if (variant === "workspace") return "trading_workspace";
+  if (variant === "compact" || variant === "logo") return "compact_logo";
+  return "future_world_ready";
+}
+
 export default function ProMaxHybridEarth({
   className,
   intensity = "medium",
+  motionMode,
   showAtmosphere = true,
   showClouds = true,
+  showEarthPulse,
+  showSwissPrecisionLayer,
   showTerminator = true,
   size,
   staticMode = false,
   style,
+  surface,
   textureMode = "auto",
   title,
+  visualIntensity,
   variant = "logo",
 }: ProMaxHybridEarthProps) {
+  const livingEarthSurface = surface ?? surfaceForVariant(variant);
+  const livingEarthDecision = getLivingEarthRenderDecision({
+    motionMode,
+    staticMode,
+    surface: livingEarthSurface,
+    textureMode,
+  });
   const registry = getEarthTextureRegistryReadiness();
   const approvedTexture =
     textureMode === "proceduralOnly" ? null : registry.activeTexture;
@@ -71,6 +101,15 @@ export default function ProMaxHybridEarth({
       data-earth-swiss-regulatory-claim="false"
       data-earth-texture-mode={textureMode}
       data-earth-texture-source={textureActive ? "approved_local" : "none"}
+      data-living-earth-asset-status={livingEarthDecision.assetStatus}
+      data-living-earth-chart-safe={livingEarthDecision.chartSafe ? "true" : "false"}
+      data-living-earth-mode={livingEarthDecision.mode}
+      data-living-earth-motion={livingEarthDecision.motionMode}
+      data-living-earth-runtime="active"
+      data-living-earth-surface={livingEarthSurface}
+      data-living-earth-visual-intensity={
+        visualIntensity ?? livingEarthDecision.visualIntensity
+      }
       data-reduced-motion-supported="true"
       data-static-mode={staticMode ? "true" : "false"}
       style={
@@ -88,8 +127,13 @@ export default function ProMaxHybridEarth({
       <ProMaxProceduralEarth
         className="tpm-hybrid-earth-procedural"
         intensity={intensity}
+        motionMode={livingEarthDecision.motionMode}
         showAtmosphere={showAtmosphere}
         showClouds={showClouds}
+        showEarthPulse={showEarthPulse ?? livingEarthDecision.showEarthPulse}
+        showSwissPrecisionLayer={
+          showSwissPrecisionLayer ?? livingEarthDecision.showSwissPrecisionLayer
+        }
         showTerminator={showTerminator}
         size={size}
         staticMode={staticMode}

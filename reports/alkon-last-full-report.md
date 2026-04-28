@@ -1,79 +1,8 @@
 # Alkon Last Full Report
 
-Latest mission: Execute Swiss Earth Identity + Logo + Trading Chart Body Rebuild from Zero
+Latest mission: Execute Pro Max Living Earth Runtime
 
-Status: focused visual core rebuilt and validated with notes. Ahmad visual acceptance remains required.
-
-Official code path:
-
-`C:\Users\ahmad\Desktop\ALKON\Pro Max\Pro Max Trading\pro-max-trading-platform`
-
-Completed:
-
-- Rebuilt the Trading chart body into `tpmv2-chart-surface-swiss`.
-- Removed old rendered chart obstruction layers: market structure, floating overlay bar, AI panel, and depth panel.
-- Kept chart controls compact, price marker visible, axes readable, and volume layer always visible.
-- Attached paper execution to the chart with no live, broker, real-money, signal, profit, or win-rate activation.
-- Updated Pro Max logo metadata/styling to the Swiss-inspired code-only direction.
-- Improved procedural Earth with deeper ocean, atmosphere, terminator, surface depth, cloud, continent edge, and alpine precision linework.
-- Suppressed the legacy moon orbit visually while retaining compatibility markers.
-- Added focused regression coverage and proof screenshots under `test-results/pro-max-swiss-earth-chart-logo-rebuild/`.
-- Recorded visual acceptance as rejected / needed and Local Day One as not_started.
-
-Visual proof:
-
-- `test-results/pro-max-swiss-earth-chart-logo-rebuild/chart-body-rebuilt-dark.png`
-- `test-results/pro-max-swiss-earth-chart-logo-rebuild/chart-body-rebuilt-light.png`
-- `test-results/pro-max-swiss-earth-chart-logo-rebuild/chart-no-old-overlays.png`
-- `test-results/pro-max-swiss-earth-chart-logo-rebuild/execution-attached-to-chart.png`
-- `test-results/pro-max-swiss-earth-chart-logo-rebuild/logo-swiss-clean-hero.png`
-- `test-results/pro-max-swiss-earth-chart-logo-rebuild/logo-swiss-clean-compact.png`
-- `test-results/pro-max-swiss-earth-chart-logo-rebuild/earth-swiss-identity-home.png`
-- `test-results/pro-max-swiss-earth-chart-logo-rebuild/earth-swiss-identity-logo.png`
-- `test-results/pro-max-swiss-earth-chart-logo-rebuild/trading-swiss-precision-cockpit.png`
-- `test-results/pro-max-swiss-earth-chart-logo-rebuild/public-home-no-alkon-leak.png`
-- `test-results/pro-max-swiss-earth-chart-logo-rebuild/local-day-one-not-started.png`
-
-Validation:
-
-- `npx tsc --noEmit`: pass
-- `npx eslint app modules tests --max-warnings=0`: pass
-- `npm run build`: pass
-- `npm run prisma:validate`: pass
-- `npx playwright test tests/regression/pro-max-swiss-earth-chart-logo-rebuild.spec.ts`: pass, 4 tests
-- `npm run test:regression`: pass, 270 tests
-- `npm run smoke:routes`: pass, 5 canonical routes after stopping stale repo-owned Next dev server
-- `git diff --check`: pass with line-ending warnings only
-
-Product Truth:
-
-- No public launch.
-- No production activation.
-- No billing activation.
-- No broker/feed activation.
-- No live execution.
-- No real money.
-- No generated images, raster assets, external image URLs, or unknown-license assets.
-- No Swiss regulated, FINMA-approved, Swiss company, Swiss bank, licensed, profit, win-rate, public #1/global/regulated, or trading signal claim.
-- No public Alkon exposure.
-
-Local Day One:
-
-Local Day One remains not_started. Ahmad visual acceptance remains needed.
-
-Next:
-
-Ahmad reviews the focused visual proof and either accepts the direction or returns one focused correction.
-
-## Previous Full Report
-
-Mission: Execute ALKON Permission-to-Exist System
-
-Status: validated and ready with notes. Commit and push are part of this closure pass.
-
-Official root:
-
-`C:\Users\ahmad\Desktop\ALKON`
+Status: validated and ready with notes. Ahmad visual acceptance remains required.
 
 Official code path:
 
@@ -81,24 +10,31 @@ Official code path:
 
 Completed:
 
-- Created Permission-to-Exist doctrine under `docs/product/`.
-- Added `lib/server/existence-architecture` with entity types, helper constructors, existence questions, desktop/codebase/route/API/component/CSS classifiers, Jar mapping, existence gate, state, and snapshot/readiness engine.
-- Added Founder-only read-only APIs under `/api/founder/existence-architecture/*`.
-- Integrated the existence snapshot into Founder Command app state and Founder Companion summaries.
-- Added private Founder Command panels: architecture, entity ownership, existence gate, and existence-to-Jar map.
-- Updated route, API, component, CSS, codebase, desktop, unknowns, blocked-pattern, cleanup, Jar, and next-action reports.
-- Added `tests/regression/alkon-permission-to-exist.spec.ts`.
-- Captured public and private visual proof under `test-results/alkon-permission-to-exist/`.
+- Added `lib/brand/living-earth` with runtime state, asset policy, render decisions, and evolution gates.
+- Added `ProMaxLivingEarth` and threaded Living Earth runtime metadata through the hybrid/procedural Earth renderer, Pro Max Earth mark, and ProductLogo.
+- Connected Home to the strongest public Living Earth surface.
+- Kept Trading Workspace Earth subtle and chart-safe with no Earth overlay over price action.
+- Added public-safe Living Earth status to Settings and Diagnostics.
+- Added private Alkon Living Earth readiness to `/founder/alkon`.
+- Added Living Earth doctrine docs and index.
+- Added focused regression coverage in `tests/regression/pro-max-living-earth-runtime.spec.ts`.
+- Captured visual proof under `test-results/pro-max-living-earth-runtime/`.
+- Repaired the existing verified platform chart guard by restoring a minimum candle body height of 14px.
 
 Visual proof:
 
-- `test-results/alkon-permission-to-exist/existence-architecture-panel.png`
-- `test-results/alkon-permission-to-exist/entity-ownership-panel.png`
-- `test-results/alkon-permission-to-exist/existence-gate-panel.png`
-- `test-results/alkon-permission-to-exist/existence-jar-panel.png`
-- `test-results/alkon-permission-to-exist/public-home-clean.png`
-- `test-results/alkon-permission-to-exist/diagnostics-public-safe.png`
-- `test-results/alkon-permission-to-exist/no-alkon-public-leak.png`
+- `test-results/pro-max-living-earth-runtime/home-living-earth-dark.png`
+- `test-results/pro-max-living-earth-runtime/home-living-earth-light.png`
+- `test-results/pro-max-living-earth-runtime/logo-living-earth-hero.png`
+- `test-results/pro-max-living-earth-runtime/logo-living-earth-compact.png`
+- `test-results/pro-max-living-earth-runtime/trading-subtle-living-earth.png`
+- `test-results/pro-max-living-earth-runtime/trading-chart-not-covered-by-earth.png`
+- `test-results/pro-max-living-earth-runtime/settings-earth-controls-safe.png`
+- `test-results/pro-max-living-earth-runtime/diagnostics-earth-public-safe.png`
+- `test-results/pro-max-living-earth-runtime/founder-earth-readiness-private.png`
+- `test-results/pro-max-living-earth-runtime/no-broken-earth-image.png`
+- `test-results/pro-max-living-earth-runtime/no-public-alkon-leak.png`
+- `test-results/pro-max-living-earth-runtime/local-day-one-not-started.png`
 
 Validation:
 
@@ -106,7 +42,9 @@ Validation:
 - `npx eslint app modules tests --max-warnings=0`: pass
 - `npm run build`: pass
 - `npm run prisma:validate`: pass
-- `npm run test:regression`: pass, 266 tests
+- `npx playwright test tests/regression/pro-max-living-earth-runtime.spec.ts`: pass, 6 tests
+- `npx playwright test tests/regression/verified-platform-truth.spec.ts -g "renders global theme modes"`: pass after chart candle guard correction
+- `npm run test:regression`: pass, 276 tests
 - `npm run smoke:routes`: pass, 5 canonical routes
 - `git diff --check`: pass with line-ending warnings only
 
@@ -118,16 +56,16 @@ Product Truth:
 - No broker/feed activation.
 - No live execution.
 - No real money.
-- No trading signals, profit promise, win-rate claim, or public number-one/global/regulated claim.
-- No public Alkon, Alkon -0, Founder Command, Kernel, Zero Truth, Reality Trial, Jar System, Permission-to-Exist internals, or internal governance exposure.
-- No shell execution or Codex execution from the web app.
-- No secrets, bank/card data, or raw sensitive personal documents exposed.
-- No generated images or raster assets were added.
+- No generated images, raster assets, external image URLs, hotlinks, or unknown-license assets.
+- No fake Swiss regulatory, FINMA, licensed, bank, profit, win-rate, public number-one, global, regulated, or trading signal claim.
+- No public Alkon exposure.
+- No shell execution from web.
+- No Codex execution from web.
 
 Local Day One:
 
-Local Day One remains not_started. Visual acceptance remains Ahmad visual acceptance needed.
+Local Day One remains not_started. Ahmad visual acceptance remains needed.
 
 Next:
 
-Ahmad reviews Permission-to-Exist proof. Any future entity must pass owner, purpose, visibility, boundary, evidence, lifecycle, next fate, Jar classification, and Command Passport requirements before execution.
+Ahmad reviews the Living Earth proof and either accepts the direction or returns one focused correction.

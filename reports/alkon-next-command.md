@@ -2,29 +2,30 @@
 
 Recommended next command:
 
-Ahmad reviews the Swiss Earth / Logo / Trading Chart visual proof and decides one of:
+Ahmad reviews the Pro Max Living Earth Runtime visual proof and decides one of:
 
-- accept this visual direction for the next gated readiness pass
-- reject with one focused correction note for Chart Body, Logo / Mark, or Earth identity
-- request a Command Passport for approved local Earth texture intake if photorealism is required
+- accept this Living Earth direction as the next public visual baseline
+- reject with one focused correction note for Home Earth, logo/mark, Trading atmosphere, Settings/Diagnostics, or private readiness
+- request a Command Passport for approved local licensed Earth texture intake if true photorealism is required
 
 Review:
 
-- `test-results/pro-max-swiss-earth-chart-logo-rebuild/chart-body-rebuilt-dark.png`
-- `test-results/pro-max-swiss-earth-chart-logo-rebuild/chart-body-rebuilt-light.png`
-- `test-results/pro-max-swiss-earth-chart-logo-rebuild/chart-no-old-overlays.png`
-- `test-results/pro-max-swiss-earth-chart-logo-rebuild/execution-attached-to-chart.png`
-- `test-results/pro-max-swiss-earth-chart-logo-rebuild/logo-swiss-clean-hero.png`
-- `test-results/pro-max-swiss-earth-chart-logo-rebuild/logo-swiss-clean-compact.png`
-- `test-results/pro-max-swiss-earth-chart-logo-rebuild/earth-swiss-identity-home.png`
-- `test-results/pro-max-swiss-earth-chart-logo-rebuild/earth-swiss-identity-logo.png`
-- `test-results/pro-max-swiss-earth-chart-logo-rebuild/trading-swiss-precision-cockpit.png`
-- `test-results/pro-max-swiss-earth-chart-logo-rebuild/public-home-no-alkon-leak.png`
-- `test-results/pro-max-swiss-earth-chart-logo-rebuild/local-day-one-not-started.png`
+- `test-results/pro-max-living-earth-runtime/home-living-earth-dark.png`
+- `test-results/pro-max-living-earth-runtime/home-living-earth-light.png`
+- `test-results/pro-max-living-earth-runtime/logo-living-earth-hero.png`
+- `test-results/pro-max-living-earth-runtime/logo-living-earth-compact.png`
+- `test-results/pro-max-living-earth-runtime/trading-subtle-living-earth.png`
+- `test-results/pro-max-living-earth-runtime/trading-chart-not-covered-by-earth.png`
+- `test-results/pro-max-living-earth-runtime/settings-earth-controls-safe.png`
+- `test-results/pro-max-living-earth-runtime/diagnostics-earth-public-safe.png`
+- `test-results/pro-max-living-earth-runtime/founder-earth-readiness-private.png`
+- `test-results/pro-max-living-earth-runtime/no-broken-earth-image.png`
+- `test-results/pro-max-living-earth-runtime/no-public-alkon-leak.png`
+- `test-results/pro-max-living-earth-runtime/local-day-one-not-started.png`
 
 Reason:
 
-Ahmad rejected the prior visual baseline. The focused rebuild corrected the chart body, logo/mark, and procedural Earth identity without adding images, assets, unsafe claims, or activations.
+The Earth is now governed as a living runtime identity across Pro Max, not a static decoration. It remains code-driven and chart-safe while Alkon readiness stays private.
 
 Blocked:
 
@@ -47,4 +48,4 @@ Blocked:
 - bank/card data exposure
 - raw personal document storage
 - image generation or public raster assets
-- Swiss regulated, FINMA-approved, Swiss company, Swiss bank, licensed, profit, or win-rate claims
+- fake Swiss legal/regulatory, FINMA, licensed, profit, or win-rate claims

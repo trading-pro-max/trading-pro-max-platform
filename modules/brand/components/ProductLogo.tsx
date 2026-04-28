@@ -8,11 +8,13 @@ import type {
   BrandSurface,
 } from "@/lib/brand/types";
 import type { LivingEarthPlan } from "@/lib/brand/earth-background-types";
+import type { LivingEarthSurface as RuntimeLivingEarthSurface } from "@/lib/brand/living-earth";
 
 type ProductLogoProps = {
   animated?: boolean;
   className?: string;
   markTitle?: string;
+  livingEarthSurface?: RuntimeLivingEarthSurface;
   mode?: "lockup" | "mark-only" | "wordmark-only";
   motionIntensity?: BrandMotionIntensity;
   occasionTheme?: BrandOccasionThemeKey;
@@ -30,6 +32,7 @@ type BrandMarkProps = {
   motionIntensity?: BrandMotionIntensity;
   occasionTheme?: BrandOccasionThemeKey;
   plan?: LivingEarthPlan;
+  livingEarthSurface?: RuntimeLivingEarthSurface;
   state?: ProMaxEarthMarkState;
   surface?: BrandSurface;
   title?: string;
@@ -48,9 +51,19 @@ function markVariantForLogo(
   return "compact";
 }
 
+function livingEarthSurfaceForLogo(
+  variant: NonNullable<ProductLogoProps["variant"]>
+): RuntimeLivingEarthSurface {
+  if (variant === "hero") return "home_hero";
+  if (variant === "nav") return "public_header_logo";
+  if (variant === "command") return "founder_private_preview";
+  return "compact_logo";
+}
+
 export function BrandMark({
   animated = false,
   className,
+  livingEarthSurface,
   motionIntensity,
   occasionTheme,
   plan = "free",
@@ -63,6 +76,7 @@ export function BrandMark({
     <ProMaxEarthMark
       animated={animated}
       className={["tpm-brand-mark", className].filter(Boolean).join(" ")}
+      livingEarthSurface={livingEarthSurface}
       motionIntensity={motionIntensity}
       occasionTheme={occasionTheme}
       plan={plan}
@@ -85,6 +99,7 @@ export function BrandWordmark({ className }: BrandWordmarkProps) {
 export default function ProductLogo({
   animated,
   className,
+  livingEarthSurface,
   markTitle = "Pro Max Earth Mark",
   mode = "lockup",
   motionIntensity,
@@ -110,6 +125,8 @@ export default function ProductLogo({
       ? "low"
       : "none");
   const resolvedShowSubtitle = showSubtitle ?? variant === "command";
+  const resolvedLivingEarthSurface =
+    livingEarthSurface ?? livingEarthSurfaceForLogo(variant);
 
   return (
     <div
@@ -124,12 +141,15 @@ export default function ProductLogo({
       data-brand-renderer="hybrid-earth-code-only"
       data-brand-swiss-regulatory-claim="false"
       data-brand-visual-origin="pro-max-swiss-earth-financial"
+      data-living-earth-logo-surface={resolvedLivingEarthSurface}
+      data-living-earth-runtime="active"
       data-swiss-inspired-precision="true"
     >
       {showMark ? (
         <BrandMark
           animated={markAnimated}
           className="tpm-brand-lockup-mark"
+          livingEarthSurface={resolvedLivingEarthSurface}
           motionIntensity={resolvedMotion}
           occasionTheme={occasionTheme}
           plan={plan ?? (variant === "command" ? "founder" : "free")}

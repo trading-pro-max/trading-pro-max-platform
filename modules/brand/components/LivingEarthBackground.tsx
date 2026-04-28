@@ -11,7 +11,11 @@ import type {
 } from "@/lib/environment/client-types";
 import type { PlanRealmId } from "@/lib/plans/realms/types";
 import { getPublicHybridEarthPolicy } from "@/lib/brand/hybrid-earth-policy";
-import ProMaxHybridEarth from "./ProMaxHybridEarth";
+import {
+  getLivingEarthRenderDecision,
+  type LivingEarthSurface as RuntimeLivingEarthSurface,
+} from "@/lib/brand/living-earth";
+import ProMaxLivingEarth from "./ProMaxLivingEarth";
 
 type LivingEarthBackgroundProps = {
   className?: string;
@@ -33,6 +37,17 @@ const planRealmIds: Record<LivingEarthPlan, PlanRealmId> = {
   founder: "alkon_universe",
 };
 
+function runtimeSurfaceForBackground(
+  surface: LivingEarthSurface
+): RuntimeLivingEarthSurface {
+  if (surface === "public_entry") return "home_hero";
+  if (surface === "workstation") return "trading_workspace";
+  if (surface === "settings") return "settings";
+  if (surface === "diagnostics") return "diagnostics";
+  if (surface === "founder_command") return "founder_private_preview";
+  return "future_world_ready";
+}
+
 export default function LivingEarthBackground({
   className,
   locale,
@@ -51,12 +66,11 @@ export default function LivingEarthBackground({
   });
   const realmId = planRealmIds[plan];
   const hybridPolicy = getPublicHybridEarthPolicy();
-  const earthVariant =
-    surface === "public_entry"
-      ? "background"
-      : surface === "workstation"
-      ? "workspace"
-      : "compact";
+  const runtimeSurface = runtimeSurfaceForBackground(surface);
+  const renderDecision = getLivingEarthRenderDecision({
+    surface: runtimeSurface,
+    textureMode: "auto",
+  });
 
   return (
     <div
@@ -78,6 +92,13 @@ export default function LivingEarthBackground({
       data-env-solar-phase={solarPhase}
       data-env-weather-state={weatherState}
       data-environment-engine="adaptive_atmosphere"
+      data-living-earth-asset-status={renderDecision.assetStatus}
+      data-living-earth-chart-safe={renderDecision.chartSafe ? "true" : "false"}
+      data-living-earth-mode={renderDecision.mode}
+      data-living-earth-motion={renderDecision.motionMode}
+      data-living-earth-runtime="active"
+      data-living-earth-surface={runtimeSurface}
+      data-living-earth-visual-intensity={renderDecision.visualIntensity}
       data-reduced-motion-supported="true"
     >
       <div className="tpm-living-earth-stars" />
@@ -89,14 +110,13 @@ export default function LivingEarthBackground({
       <div className="tpm-living-earth-horizon">
         <div className="tpm-living-earth-atmosphere-arc" />
         <div className="tpm-living-earth-globe">
-          <ProMaxHybridEarth
+          <ProMaxLivingEarth
             className="tpm-living-earth-procedural-planet"
-            intensity={surface === "public_entry" ? "high" : surface === "workstation" ? "soft" : "medium"}
             showAtmosphere={surface !== "settings" && surface !== "diagnostics"}
             showClouds={surface !== "workstation"}
             showTerminator
+            surface={runtimeSurface}
             textureMode="auto"
-            variant={earthVariant}
           />
         </div>
         <div className="tpm-living-earth-terminator" />
