@@ -519,7 +519,9 @@ export default function TradingWorkstation({
   const activityShelf = (
     <section
       className="tpm-workspace-activity-shelf"
-      aria-label="Workspace activity shelf"
+      aria-label="Bottom terminal dock"
+      data-bottom-terminal-dock="true"
+      data-trading-platform-depth="bottom-terminal-dock"
       data-workspace-activity="secondary"
     >
       <details className="tpm-workspace-activity-panel">
@@ -637,7 +639,13 @@ export default function TradingWorkstation({
             </div>
           </div>
 
-          <div className="tpm-workspace-asset-pills" role="tablist" aria-label="Market watchlist">
+          <div
+            className="tpm-workspace-asset-pills"
+            role="tablist"
+            aria-label="Market Board / Watchlist"
+            data-market-board="true"
+            data-trading-platform-depth="market-board"
+          >
             {platformState.marketAssets.map((asset, index) => (
               <button
                 key={asset.symbol}

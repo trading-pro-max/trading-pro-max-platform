@@ -1231,6 +1231,9 @@ export function ExecutionCard({
     <section
       ref={executionRef}
       className="tpmv2-card tpmv2-execution"
+      aria-label="Paper Order Ticket"
+      data-paper-order-ticket="true"
+      data-trading-platform-depth="paper-order-ticket"
     >
       <div className="tpmv2-ticket-head">
         <div>

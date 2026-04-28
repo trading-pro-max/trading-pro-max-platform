@@ -27,6 +27,10 @@ Jar boundary:
 
 Jar Build System is currently private server state rendered in Founder UI. No public Jar API was added. If a Jar API is added later, it must be `/api/founder/*`, read-only, preview-only, no-execution, and private.
 
+Reality Conversion boundary:
+
+Reality Conversion is currently private server state rendered in Founder UI. No public Reality Conversion API was added. It is read-only, preview-only, no-execution, and maps safe ideas into Reality Passports before any Command Passport work.
+
 Public API boundary:
 
 Public APIs such as `/api/product/truth` may expose only public-safe states: blocked, inactive, planned, future, paper-safe, and readiness.

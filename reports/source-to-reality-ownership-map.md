@@ -6,8 +6,8 @@ Status: active_with_notes
 | --- | --- | --- |
 | Ahmad | Source and final authority | Founder reports, private docs, final decisions |
 | ALKON | Root | `C:\Users\ahmad\Desktop\ALKON` |
-| Alkon -0 | Private Origin | `Alkon 0`, `/founder/*`, `/api/founder/*`, `lib/server/alkon-*`, `lib/server/jar-build` |
-| Reality Trial | Gate | Kernel, Jar, Product Truth, tests, validation |
+| Alkon -0 | Private Origin | `Alkon 0`, `/founder/*`, `/api/founder/*`, `lib/server/alkon-*`, `lib/server/jar-build`, `lib/server/existence-architecture`, `lib/server/reality-conversion` |
+| Reality Trial | Gate | Kernel, Jar, Reality Conversion, Product Truth, tests, validation |
 | Pro Max | Public World | `/`, public shell, product modules |
 | Pro Max Trading | First Living Product | `/trading`, Trading Workspace modules |
 | Users | Life signals | public-safe feedback, support, questions, comfort needs |

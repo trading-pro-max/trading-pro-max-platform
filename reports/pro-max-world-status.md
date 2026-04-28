@@ -25,4 +25,8 @@ Public surfaces:
 
 Public safety:
 
-No Alkon, Alkon -0, Founder Command, Kernel, Zero Truth, Reality Trial, Jar System, Command Passport internals, Wake Report internals, treasury/legal internals, or internal governance appears publicly.
+No Alkon, Alkon -0, Founder Command, Kernel, Zero Truth, Reality Trial, Jar System, Permission-to-Exist, Reality Conversion, Command Passport internals, Wake Report internals, treasury/legal internals, or internal governance appears publicly.
+
+Master Reality Command note:
+
+Public Pro Max remains the public world at `/`; private governance systems stay behind Founder-only routes while Pro Max Trading remains the first paper-safe living product at `/trading`.

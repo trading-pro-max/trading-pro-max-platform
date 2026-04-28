@@ -2,30 +2,28 @@
 
 Recommended next command:
 
-Ahmad reviews the Pro Max Living Earth Runtime visual proof and decides one of:
+Ahmad reviews the ALKON Master Reality Command proof and decides one of:
 
-- accept this Living Earth direction as the next public visual baseline
-- reject with one focused correction note for Home Earth, logo/mark, Trading atmosphere, Settings/Diagnostics, or private readiness
-- request a Command Passport for approved local licensed Earth texture intake if true photorealism is required
+- accept this as the next governed baseline
+- reject with one focused correction note for Pro Max Center, Trading platform depth, Living Earth, Reality Conversion, Jar, or private Alkon
+- request a Command Passport for one approved next action after Jar classification and Reality Trial
 
 Review:
 
-- `test-results/pro-max-living-earth-runtime/home-living-earth-dark.png`
-- `test-results/pro-max-living-earth-runtime/home-living-earth-light.png`
-- `test-results/pro-max-living-earth-runtime/logo-living-earth-hero.png`
-- `test-results/pro-max-living-earth-runtime/logo-living-earth-compact.png`
-- `test-results/pro-max-living-earth-runtime/trading-subtle-living-earth.png`
-- `test-results/pro-max-living-earth-runtime/trading-chart-not-covered-by-earth.png`
-- `test-results/pro-max-living-earth-runtime/settings-earth-controls-safe.png`
-- `test-results/pro-max-living-earth-runtime/diagnostics-earth-public-safe.png`
-- `test-results/pro-max-living-earth-runtime/founder-earth-readiness-private.png`
-- `test-results/pro-max-living-earth-runtime/no-broken-earth-image.png`
-- `test-results/pro-max-living-earth-runtime/no-public-alkon-leak.png`
-- `test-results/pro-max-living-earth-runtime/local-day-one-not-started.png`
+- `test-results/alkon-master-reality-command/public-home-pro-max-center.png`
+- `test-results/alkon-master-reality-command/trading-route-pro-max-trading.png`
+- `test-results/alkon-master-reality-command/trading-living-core-dark.png`
+- `test-results/alkon-master-reality-command/trading-chart-owns-page.png`
+- `test-results/alkon-master-reality-command/trading-platform-depth.png`
+- `test-results/alkon-master-reality-command/founder-alkon-real-system.png`
+- `test-results/alkon-master-reality-command/jar-private-panel.png`
+- `test-results/alkon-master-reality-command/reality-conversion-panel.png`
+- `test-results/alkon-master-reality-command/no-public-alkon-leak.png`
+- `test-results/alkon-master-reality-command/local-day-one-not-started.png`
 
 Reason:
 
-The Earth is now governed as a living runtime identity across Pro Max, not a static decoration. It remains code-driven and chart-safe while Alkon readiness stays private.
+ALKON now has a private intake-to-reality chain: Permission-to-Exist asks why an entity may exist, Jar filters it, Reality Conversion turns valuable ideas into Reality Passports, Reality Trial judges, Evidence proves, Memory preserves, and Ahmad decides.
 
 Blocked:
 
@@ -41,7 +39,7 @@ Blocked:
 - Codex execution from the web app
 - public Alkon exposure
 - public Founder navigation
-- public Jar or Permission-to-Exist exposure
+- public Jar, Permission-to-Exist, or Reality Conversion exposure
 - external account connection
 - social publishing
 - secrets exposure

@@ -1325,6 +1325,14 @@ dl.alkon-command-facts.alkon-pocket-capability-facts {
   color: color-mix(in srgb, var(--alkon-gold) 68%, #a9e7ff);
 }
 
+.alkon-reality-conversion-panel {
+  border-color: color-mix(in srgb, var(--alkon-gold) 32%, rgba(126, 210, 188, 0.22));
+}
+
+.alkon-reality-passport-panel {
+  border-color: color-mix(in srgb, var(--alkon-gold) 38%, var(--tpm-border));
+}
+
 .alkon-decision-grid {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }

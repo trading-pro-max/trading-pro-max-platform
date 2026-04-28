@@ -41,6 +41,7 @@ export { default as AlkonPlanetarySystemsPanel } from "./AlkonPlanetarySystemsPa
 export { default as AlkonPocketUniversePanel } from "./AlkonPocketUniversePanel";
 export { default as AlkonSovereignChatInterface } from "./AlkonSovereignChatInterface";
 export { default as AlkonJarBuildPanel } from "./AlkonJarBuildPanel";
+export { default as AlkonRealityConversionPanel } from "./AlkonRealityConversionPanel";
 export { default as AlkonLivingEarthRuntimePanel } from "./AlkonLivingEarthRuntimePanel";
 export { default as AlkonExistenceArchitecturePanel } from "./AlkonExistenceArchitecturePanel";
 export { default as AlkonEntityOwnershipPanel } from "./AlkonEntityOwnershipPanel";

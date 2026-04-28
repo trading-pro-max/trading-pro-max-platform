@@ -1,0 +1,87 @@
+import type { RealityConversionPassport } from "./types";
+
+export const PRODUCT_TRUTH: RealityConversionPassport["productTruth"] = {
+  liveExecutionBlocked: true,
+  realMoneyBlocked: true,
+  brokerFeedInactive: true,
+  billingInactive: true,
+  noFakeClaims: true,
+};
+
+export const realityConversionPassports: RealityConversionPassport[] = [
+  {
+    id: "reality_passport_living_earth_visual_acceptance",
+    title: "Living Earth visual acceptance",
+    purpose:
+      "Convert Ahmad's visual review into either accepted baseline or one focused correction.",
+    owner: "Ahmad",
+    source: "visual_rejection",
+    layer: "public_pro_max",
+    risk: "medium",
+    status: "ahmad_decision_required",
+    jarId: "jar_9_founder_decision",
+    allowedTools: ["reports", "screenshots", "focused CSS/React correction"],
+    forbiddenTools: ["generated images", "unknown-license assets", "public Alkon exposure"],
+    evidenceRequired: [
+      "Home Living Earth screenshot",
+      "Trading chart not covered screenshot",
+      "Logo compact screenshot",
+    ],
+    firstStep: "Ahmad reviews current Living Earth proof screenshots.",
+    ahmadDecisionRequired: true,
+    nextFate: "ask_ahmad",
+    publicExposureAllowed: false,
+    productTruth: PRODUCT_TRUTH,
+  },
+  {
+    id: "reality_passport_trading_platform_depth",
+    title: "Trading platform depth",
+    purpose:
+      "Convert the Trading Workspace into a paper-safe terminal with market reading, paper action, session learning, and calm Product Truth.",
+    owner: "Ahmad",
+    source: "founder_instruction",
+    layer: "public_pro_max",
+    risk: "medium",
+    status: "passport_ready",
+    jarId: "jar_2_heart",
+    allowedTools: ["React components", "CSS", "regression tests", "visual proof"],
+    forbiddenTools: ["live controls", "broker connect", "deposit/withdraw", "signals", "profit promise"],
+    evidenceRequired: [
+      "Trading living core screenshot",
+      "Paper order ticket proof",
+      "Open paper positions/history proof",
+    ],
+    firstStep: "Verify the existing paper-safe terminal surfaces before adding any new controls.",
+    ahmadDecisionRequired: false,
+    nextFate: "prepare_command_passport",
+    publicExposureAllowed: true,
+    productTruth: PRODUCT_TRUTH,
+  },
+  {
+    id: "reality_passport_approved_earth_texture_intake",
+    title: "Approved Earth texture intake",
+    purpose:
+      "Convert future photoreal Earth desire into a lawful local asset intake only if metadata and Ahmad approval exist.",
+    owner: "Ahmad",
+    source: "future_world",
+    layer: "public_assets",
+    risk: "blocked_until_ahmad",
+    status: "evidence_required",
+    jarId: "jar_7_evidence",
+    allowedTools: ["asset manifest", "checksum verification", "license report"],
+    forbiddenTools: ["hotlink", "random download", "generated texture", "unknown-license asset"],
+    evidenceRequired: [
+      "source",
+      "license",
+      "author/provider",
+      "checksum",
+      "usage notes",
+      "Ahmad approval",
+    ],
+    firstStep: "Prepare an asset intake passport only after Ahmad supplies/approves a licensed texture.",
+    ahmadDecisionRequired: true,
+    nextFate: "collect_evidence",
+    publicExposureAllowed: false,
+    productTruth: PRODUCT_TRUTH,
+  },
+];

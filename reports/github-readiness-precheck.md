@@ -12,7 +12,7 @@ Remote:
 
 Latest clean baseline before this mission:
 
-`3fcc0f3 rebuild pro max trading clean zero baseline`
+`9629890 build pro max living earth runtime`
 
 Precheck summary:
 

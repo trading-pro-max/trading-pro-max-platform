@@ -14,6 +14,7 @@ Status: active_with_notes
 | Local Builder | yes | package scripts | terminal only | report and package scripts | tool-only |
 | Alkon Chat / Command Interface | yes | yes | `/founder/alkon`, `/api/founder/alkon-chat/*` | regression/API proof | private-only |
 | Jar Build System | yes | yes | `/founder/alkon`, Founder Command panel, reports | Jar source/tests/private route proof | private-only |
+| Reality Conversion | yes | yes | `/founder/alkon`, Founder Command panel, reports | source/tests/private route proof | private-only |
 | Founder Command | yes | yes | `/founder/command`, Founder components | private route coverage | private-only |
 | Reports | yes | n/a | `/reports` files | report existence tests | internal docs |
 | Product Truth | yes | yes | public API and UI | regression tests | public-safe |
@@ -26,5 +27,6 @@ Fixed P0/P1 cohesion gaps:
 - Public route references were updated away from `/en`.
 - Local Day One path and route references were updated to official path and `/trading`.
 - Smoke routes now include `/trading`.
+- Reality Conversion now has a typed private server engine, reports, doctrine docs, and Founder UI panels without public API exposure.
 
 No disconnected P0/P1 system remains in the active public/founder route path.

@@ -28,3 +28,4 @@ Acceptance:
 
 Evidence:
 - `test-results/pro-max-living-earth-runtime/`
+- `test-results/alkon-master-reality-command/logo-and-earth-identity.png`

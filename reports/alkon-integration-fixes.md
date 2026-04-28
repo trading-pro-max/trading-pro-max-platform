@@ -17,6 +17,9 @@ Fixes applied in this pass:
 - Hardened `.gitignore` for sensitive files, caches, archives, and unapproved raster media.
 - Added private Jar Build System under `lib/server/jar-build`.
 - Rendered Jar status and Command Passport bridge inside private Founder surfaces.
+- Added private Reality Conversion under `lib/server/reality-conversion`.
+- Rendered Reality Passport preview and first reality action inside private Founder surfaces.
+- Added Trading platform-depth proof markers for Market Board, Paper Order Ticket, and Bottom Terminal Dock.
 - Added Source-to-Reality doctrine and root structure reports.
 
 No unsafe activation was added.
