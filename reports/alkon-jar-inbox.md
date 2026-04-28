@@ -4,6 +4,7 @@ Status: active_with_notes
 
 Current inbox classes:
 
+- Global Exclusive Brand Gate delayed to Jar 8 Future / Public Trust
 - Route canonicalization
 - Pro Max Trading living core
 - Desktop filesystem sorting
@@ -19,6 +20,15 @@ Current inbox classes:
 
 All items remain private and no-execution.
 
+Daily operating update:
+
+Global Exclusive Brand Gate
+
+- Status: delayed
+- Jar: Jar 8 Future / Public Trust
+- Reason: ALKON operation comes first.
+- Next: return only after the daily operating loop and current heart are stable, and only with Ahmad approval.
+
 Permission-to-Exist mapping:
 
 - unknown owner or visual acceptance -> Jar 9 Founder Decision
@@ -27,3 +37,4 @@ Permission-to-Exist mapping:
 - Trading cockpit issue -> Jar 2 Heart
 - cleanup or duplicate layer -> Jar 6 Cleanup
 - missing proof -> Jar 7 Evidence
+- brand ownership/global naming -> Jar 8 Future / Public Trust, then Jar 9 Founder Decision

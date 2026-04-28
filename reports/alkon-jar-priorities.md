@@ -15,7 +15,16 @@ Priority order:
 
 One next action:
 
-Contain unsafe/sensitive items first, then prepare exit permits for route and Trading heart work.
+Run ALKON Daily Operating Loop first, then keep Pro Max Trading heart review as the one next action.
+
+Delayed item:
+
+Global Exclusive Brand Gate
+
+- Status: delayed
+- Jar: Jar 8 Future / Public Trust
+- Reason: ALKON operation comes first.
+- Not active priority: no brand naming, no global brand migration, no codebase rename, no public launch.
 
 Permission-to-Exist one next action:
 

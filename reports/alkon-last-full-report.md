@@ -1,8 +1,8 @@
 # Alkon Last Full Report
 
-Latest mission: Execute Global Exclusive Brand Gate + Brand Rebirth Readiness
+Latest mission: Execute ALKON Real Daily Operating Activation
 
-Status: closed, validated, committed, pushed, clean, and ready with notes.
+Status: closed, validated, ready with notes, and prepared for final Git push.
 
 Official code path:
 
@@ -10,19 +10,16 @@ Official code path:
 
 Completed:
 
-- Added private Global Exclusive Brand Gate under `lib/server/brand-clearance`.
-- Assessed Pro Max as working_name_only / high risk.
-- Assessed Pro Max Trading as working_product_name_only requiring clearance.
-- Assessed Alkon as private_internal_name and Alkon -0 as private_internal_only.
-- Added Brand Tribunal criteria, name rules, manual search task generation, domain readiness, adoption gate, and migration plan.
-- Added Founder-only APIs under `/api/founder/brand-clearance/*`.
-- Added private Founder Command Brand Gate panel and Founder Companion summary.
-- Added brand clearance doctrine docs and reports.
-- Added focused regression coverage in `tests/regression/global-exclusive-brand-gate.spec.ts`.
+- Added `lib/server/alkon-daily-operation` with a deterministic daily operating truth snapshot.
+- Delayed Global Exclusive Brand Gate into Jar 8 Future / Public Trust so brand naming does not block operation.
+- Added Today Status, Operating Truth Snapshot, Daily Operating Loop, and One Next Action reports.
+- Updated Jar inbox, Jar priorities, and next command to center daily operation and `/trading` visual decision.
+- Added `AlkonTodayOperatingPanel` into `/founder/alkon`.
+- Added focused regression coverage in `tests/regression/alkon-daily-operating-activation.spec.ts`.
 
 Visual proof:
 
-No new visual proof was required for this mission. Public leak prevention and private Founder panel rendering are covered by regression.
+No new screenshot proof was required for this mission. Public leak prevention and private `/founder/alkon` daily operating panel rendering are covered by regression.
 
 Validation:
 
@@ -30,8 +27,8 @@ Validation:
 - `npx eslint app modules tests --max-warnings=0`: pass
 - `npm run build`: pass
 - `npm run prisma:validate`: pass
-- `npx playwright test tests/regression/global-exclusive-brand-gate.spec.ts`: pass, 6 tests
-- `npm run test:regression`: pass, 287 tests
+- `npx playwright test tests/regression/alkon-daily-operating-activation.spec.ts`: pass, 4 tests
+- `npm run test:regression`: pass, 291 tests
 - `npm run smoke:routes`: pass, 5 canonical routes
 - `git diff --check`: pass with line-ending warnings only
 
@@ -43,12 +40,12 @@ Product Truth:
 - No broker/feed activation.
 - No live execution.
 - No real money.
-- No generated images, raster assets, external image URLs, hotlinks, or unknown-license assets.
-- No fake Swiss regulatory, FINMA, licensed, bank, profit, win-rate, public number-one, global, regulated, or trading signal claim.
 - No public Alkon exposure.
 - No shell execution from web.
 - No Codex execution from web.
-- No domain purchase, trademark filing, external brand search, or legal ownership claim.
+- No secret exposure.
+- No fake claims.
+- Brand naming delayed; no domain purchase, trademark filing, external brand search, legal ownership claim, public brand rename, or global brand adoption.
 
 Local Day One:
 
@@ -56,4 +53,4 @@ Local Day One remains not_started. Ahmad visual acceptance remains needed.
 
 Next:
 
-Ahmad provides or requests candidate names. Every candidate stays private until search, legal review, and Ahmad approval pass.
+Ahmad reviews the current `/trading` Living Core and returns one focused decision: accept, reject with notes, or request one narrow correction.

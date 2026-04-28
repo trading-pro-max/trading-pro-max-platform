@@ -1,7 +1,45 @@
 import { classifyJarInput } from "./classifier";
+import type { JarBuildItem } from "./types";
+
+function delayedGlobalBrandGateItem(): JarBuildItem {
+  return {
+    id: "jar_item_global_brand_gate_delayed",
+    title: "Global Exclusive Brand Gate",
+    source: "future_world",
+    summary:
+      "Brand ownership and final global naming remain important, but ALKON daily operation comes first.",
+    jarId: "jar_8_future_worlds",
+    decision: "delay",
+    priority: 20,
+    sensitivity: "normal",
+    lifecycle: "delayed",
+    publicExposureAllowed: false,
+    reason:
+      "ALKON operation comes first; global naming belongs to Jar 8 Future / Public Trust and Jar 9 Founder Decision later.",
+    blockedActions: [
+      "no public brand migration now",
+      "no codebase rename now",
+      "no trademark ownership claim",
+      "no global exclusivity claim",
+      "no public launch",
+      "no domain purchase from the app",
+    ],
+    evidenceRequired: [
+      "manual trademark search tasks",
+      "manual domain review tasks",
+      "legal review",
+      "Ahmad final approval",
+    ],
+    exitPermitRequired: true,
+    commandPassportRequired: false,
+    nextAction:
+      "Delay until the current ALKON daily operating loop and Pro Max Trading heart are stable.",
+  };
+}
 
 export function getJarInboxItems() {
   return [
+    delayedGlobalBrandGateItem(),
     classifyJarInput({
       id: "jar_item_route_trading_canonical",
       title: "Make /trading the canonical Pro Max Trading route",

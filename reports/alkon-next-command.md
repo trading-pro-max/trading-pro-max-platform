@@ -2,25 +2,25 @@
 
 Recommended next command:
 
-Ahmad chooses the next brand step:
+Ahmad reviews the current `/trading` Living Core and returns one focused decision:
 
-- provide candidate names for private Brand Tribunal review
-- ask Alkon to propose candidate-name rules and candidate batches for review only
-- request manual trademark/domain/legal search work outside the app
-- keep Pro Max as working name until a stronger global candidate appears
+- accept current visual reality
+- reject with focused notes
+- request one narrow correction
 
 Current truth:
 
-- Pro Max is working_name_only and high risk for global exclusivity.
-- Pro Max Trading is working_product_name_only and needs clearance.
-- Alkon is private_internal_name and not public.
-- Alkon -0 is private_internal_only and public use is forbidden.
-- No final global brand is adopted.
-- Public/global launch remains blocked until brand clearance.
+- ALKON is now the daily operating focus.
+- Pro Max remains the public world.
+- Pro Max Trading at `/trading` remains the first living product and current heart.
+- Jar, Permission-to-Exist, Reality Conversion, Product Truth, and public/private boundary are active with notes.
+- Brand naming is delayed to Jar 8 Future / Public Trust and Jar 9 Founder Decision later.
+- Local Day One remains not_started.
 
 Blocked:
 
 - renaming the whole codebase without approval
+- working on brand naming now
 - public Alkon exposure
 - trademark ownership claim without registration/review
 - global exclusivity claim without legal proof

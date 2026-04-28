@@ -1,5 +1,6 @@
 import type { AlkonSovereignCommandInterfaceSnapshot } from "@/lib/server/alkon-chat";
 import { getLivingEarthRuntimeState } from "@/lib/brand/living-earth";
+import { getAlkonTodayOperationSnapshot } from "@/lib/server/alkon-daily-operation";
 import { getRealityConversionSnapshot } from "@/lib/server/reality-conversion";
 import type { JarBuildSnapshot } from "@/lib/server/jar-build";
 import AlkonChatPanel from "./AlkonChatPanel";
@@ -9,6 +10,7 @@ import AlkonJarBuildPanel from "./AlkonJarBuildPanel";
 import AlkonKernelStatusRail from "./AlkonKernelStatusRail";
 import AlkonLivingEarthRuntimePanel from "./AlkonLivingEarthRuntimePanel";
 import AlkonRealityConversionPanel from "./AlkonRealityConversionPanel";
+import AlkonTodayOperatingPanel from "./AlkonTodayOperatingPanel";
 import AlkonWhatNotToDoPanel from "./AlkonWhatNotToDoPanel";
 
 export default function AlkonSovereignChatInterface({
@@ -21,6 +23,7 @@ export default function AlkonSovereignChatInterface({
   const passport = snapshot.commandPassportResponse.commandPassportDraft;
   const livingEarthRuntime = getLivingEarthRuntimeState(snapshot.context.checkedAt);
   const realityConversion = getRealityConversionSnapshot(snapshot.context.checkedAt);
+  const todayOperation = getAlkonTodayOperationSnapshot(snapshot.context.checkedAt);
 
   return (
     <main
@@ -77,6 +80,7 @@ export default function AlkonSovereignChatInterface({
       </section>
 
       <section className="alkon-command-lower-panel" aria-label="Builder and device readiness">
+        <AlkonTodayOperatingPanel snapshot={todayOperation} />
         {passport ? <AlkonCommandPassportDraftPanel draft={passport} /> : null}
         {jarSnapshot ? <AlkonJarBuildPanel snapshot={jarSnapshot} /> : null}
         <AlkonRealityConversionPanel snapshot={realityConversion} />

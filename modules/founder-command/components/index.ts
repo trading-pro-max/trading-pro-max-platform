@@ -88,6 +88,7 @@ export { default as AlkonOperatingModePanel } from "./AlkonOperatingModePanel";
 export { default as AlkonZeroTruthPanel } from "./AlkonZeroTruthPanel";
 export { default as AlkonDailyLoopPanel } from "./AlkonDailyLoopPanel";
 export { default as AlkonOneNextActionPanel } from "./AlkonOneNextActionPanel";
+export { default as AlkonTodayOperatingPanel } from "./AlkonTodayOperatingPanel";
 export { default as AlkonActivationGatesPanel } from "./AlkonActivationGatesPanel";
 export { default as AlkonKernelPanel } from "./AlkonKernelPanel";
 export { default as AlkonFounderSourcePanel } from "./AlkonFounderSourcePanel";
