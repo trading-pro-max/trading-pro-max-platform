@@ -2,33 +2,27 @@
 
 Recommended next command:
 
-Ahmad reviews the Zero Codebase Architecture map, cleanup candidates, and visual proof, then chooses one focused cleanup or move only if it has clear route, import, Product Truth, and public/private boundary proof.
+Ahmad reviews the private Alkon Sovereign Chat visual proof and decides one of:
+
+- accept the private command interface visually
+- reject with focused correction notes
+- ask Alkon to prepare the next governed Command Passport
 
 Review:
 
-- `reports/alkon-codebase-architecture-map.md`
-- `reports/alkon-cleanup-candidates.md`
-- `docs/product/alkon-zero-codebase-architecture.md`
-- `docs/product/pro-max-public-private-folder-law.md`
-- `docs/product/invisible-operating-layer-architecture.md`
-- `docs/product/codebase-ownership-classification.md`
-- `test-results/alkon-zero-codebase-architecture/public-home-clean-after-architecture.png`
-- `test-results/alkon-zero-codebase-architecture/founder-alkon-after-architecture.png`
-- `test-results/alkon-zero-codebase-architecture/founder-pocket-after-architecture.png`
-- `test-results/alkon-zero-codebase-architecture/workspace-after-architecture.png`
-- `test-results/alkon-zero-codebase-architecture/diagnostics-public-safe.png`
-- `test-results/alkon-zero-codebase-architecture/public-no-alkon-leak.png`
+- `test-results/alkon-sovereign-chat-interface/founder-alkon-chat-interface.png`
+- `test-results/alkon-sovereign-chat-interface/alkon-chat-status-response.png`
+- `test-results/alkon-sovereign-chat-interface/alkon-chat-next-action-response.png`
+- `test-results/alkon-sovereign-chat-interface/alkon-command-passport-draft.png`
+- `test-results/alkon-sovereign-chat-interface/alkon-chat-unsafe-request-blocked.png`
+- `test-results/alkon-sovereign-chat-interface/pocket-alkon-chat-entry.png`
+- `test-results/alkon-sovereign-chat-interface/public-home-no-alkon-chat-link.png`
+- `test-results/alkon-sovereign-chat-interface/diagnostics-public-safe.png`
+- `test-results/alkon-sovereign-chat-interface/no-alkon-public-leak.png`
 
 Reason:
 
-The active project now has an explicit ownership map. Broad folder moves are intentionally postponed where import risk is high. Cleanup should proceed in small, governed passes with evidence.
-
-Safe next cleanup options:
-
-- Audit root public starter SVG usage before any asset cleanup.
-- Split `modules/shell` ownership only after an import map proves public shell, workspace shell, and private shell boundaries.
-- Split `app/theme-localization.css` only with screenshots for Home, Workspace, Settings, Diagnostics, Founder Alkon, and Pocket.
-- Rename companion/Assistant internals only with API compatibility and public copy proof.
+The private Alkon command/chat interface is implemented and validated. The remaining gate is Ahmad visual acceptance or focused correction. Local Day One must remain not_started until Ahmad explicitly accepts.
 
 Blocked:
 
@@ -46,6 +40,5 @@ Blocked:
 - external account connection
 - social publishing
 - secrets exposure
-- raw sensitive personal data in code
+- raw sensitive personal data exposure
 - image generation or public raster assets
-- deletion of uncertain files

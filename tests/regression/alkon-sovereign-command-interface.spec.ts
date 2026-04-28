@@ -8,6 +8,7 @@ import {
 } from "../../lib/server/alkon-chat";
 
 const ARTIFACT_DIR = path.join("test-results", "alkon-sovereign-command-interface");
+const CHAT_ARTIFACT_DIR = path.join("test-results", "alkon-sovereign-chat-interface");
 const PUBLIC_FORBIDDEN_TERMS =
   /Alkon Chat|Alkon Sovereign Command Interface|Founder Command|Kernel|Zero Truth|Reality Trial|internal chat|command passport|Alkon|الكون/i;
 const SECRET_PATTERN =
@@ -26,6 +27,7 @@ async function expectPublicClean(page: Page, route: string) {
 test.describe("Alkon Sovereign Command Interface", () => {
   test.beforeAll(() => {
     fs.mkdirSync(ARTIFACT_DIR, { recursive: true });
+    fs.mkdirSync(CHAT_ARTIFACT_DIR, { recursive: true });
   });
 
   test("read-only command mind interprets Arabic, drafts passports, and blocks unsafe requests", () => {
@@ -149,17 +151,33 @@ test.describe("Alkon Sovereign Command Interface", () => {
       fullPage: true,
       path: path.join(ARTIFACT_DIR, "founder-alkon-command-interface.png"),
     });
+    await page.screenshot({
+      fullPage: true,
+      path: path.join(CHAT_ARTIFACT_DIR, "founder-alkon-chat-interface.png"),
+    });
     await page.locator('[data-proof-section="alkon-ask-alkon-area"]').screenshot({
       path: path.join(ARTIFACT_DIR, "alkon-ask-alkon-area.png"),
     });
+    await page.locator('[data-chat-proof="status-response"]').screenshot({
+      path: path.join(CHAT_ARTIFACT_DIR, "alkon-chat-status-response.png"),
+    });
     await page.locator('[data-proof-section="alkon-one-next-action"]').screenshot({
       path: path.join(ARTIFACT_DIR, "alkon-one-next-action.png"),
+    });
+    await page.locator('[data-chat-proof="next-action-response"]').screenshot({
+      path: path.join(CHAT_ARTIFACT_DIR, "alkon-chat-next-action-response.png"),
     });
     await page.locator('[data-proof-section="alkon-wake-evidence"]').screenshot({
       path: path.join(ARTIFACT_DIR, "alkon-wake-evidence.png"),
     });
     await page.locator('[data-proof-section="alkon-command-passport-preview"]').screenshot({
       path: path.join(ARTIFACT_DIR, "alkon-command-passport-preview.png"),
+    });
+    await page.locator('[data-chat-proof="command-passport-draft"]').screenshot({
+      path: path.join(CHAT_ARTIFACT_DIR, "alkon-command-passport-draft.png"),
+    });
+    await page.locator('[data-chat-proof="unsafe-request-blocked"]').screenshot({
+      path: path.join(CHAT_ARTIFACT_DIR, "alkon-chat-unsafe-request-blocked.png"),
     });
     await page.screenshot({
       fullPage: true,
@@ -181,6 +199,10 @@ test.describe("Alkon Sovereign Command Interface", () => {
       fullPage: true,
       path: path.join(ARTIFACT_DIR, "pocket-private-alkon-link.png"),
     });
+    await page.screenshot({
+      fullPage: true,
+      path: path.join(CHAT_ARTIFACT_DIR, "pocket-alkon-chat-entry.png"),
+    });
   });
 
   test("public Home moves toward Pro Max Center without Alkon exposure", async ({ page }) => {
@@ -201,8 +223,20 @@ test.describe("Alkon Sovereign Command Interface", () => {
       fullPage: true,
       path: path.join(ARTIFACT_DIR, "public-home-no-alkon-leak.png"),
     });
+    await page.screenshot({
+      fullPage: true,
+      path: path.join(CHAT_ARTIFACT_DIR, "public-home-no-alkon-chat-link.png"),
+    });
 
     await expectPublicClean(page, "/diagnostics");
+    await page.screenshot({
+      fullPage: true,
+      path: path.join(CHAT_ARTIFACT_DIR, "diagnostics-public-safe.png"),
+    });
+    await page.screenshot({
+      fullPage: true,
+      path: path.join(CHAT_ARTIFACT_DIR, "no-alkon-public-leak.png"),
+    });
   });
 
   test("new command interface source stays secret-free, no-execution, and raster-free", () => {

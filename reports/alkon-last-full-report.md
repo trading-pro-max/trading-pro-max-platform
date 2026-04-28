@@ -1,8 +1,8 @@
 # Alkon Last Full Report
 
-Mission: Alkon Zero Codebase Architecture Recomposition
+Mission: Execute or Complete Alkon Sovereign Command Interface
 
-Status: validated, committed, pushed, and clean after this report is committed.
+Status: validated, ready to commit, and awaiting normal branch push after final diff checks.
 
 Official path:
 
@@ -10,19 +10,27 @@ Official path:
 
 Completed:
 
-- Classified the active repository into Public Pro Max Reality, Private Alkon Universe, Invisible Operating Layer, Tools / Builder, Tests / Evidence, Docs / Reports, and Public Assets.
-- Added `docs/product/alkon-zero-codebase-architecture.md`.
-- Added `docs/product/pro-max-public-private-folder-law.md`.
-- Added `docs/product/invisible-operating-layer-architecture.md`.
-- Added `docs/product/codebase-ownership-classification.md`.
-- Added `reports/alkon-codebase-architecture-map.md`.
-- Added `reports/alkon-cleanup-candidates.md`.
-- Added `tests/regression/alkon-zero-codebase-architecture.spec.ts`.
-- Preserved the existing route structure and avoided risky broad moves across `app`, `modules`, `lib`, and CSS.
-- Documented cleanup_candidate, move_candidate, merge_candidate, protected_candidate, boundary_candidate, archive_candidate, and css_cleanup_candidate items.
-- Verified public Home and Diagnostics have no Alkon/Founder links or internal terms.
-- Verified `/founder/alkon`, `/founder/pocket`, `/en`, and founder-only chat APIs still work.
-- Verified Product Truth remains blocked/inactive for live execution, real money, broker/feed, billing, public launch, and unsafe claims.
+- Confirmed the Alkon chat system already existed and completed it instead of creating a parallel system.
+- Verified `lib/server/alkon-chat/*` contains the read-only context engine, Arabic/English intent interpreter, safety guard, response composer, Command Passport drafter, stateless engine, status labels, and exported types.
+- Verified `/api/founder/alkon-chat/status`, `/context`, and `/message` are founder-only preview APIs with no shell, Codex, payment, live, billing, broker/feed, real-money, or external execution.
+- Verified `/founder/alkon` renders the private Alkon command/chat interface through `PrivateFounderShell` and `AlkonSovereignChatInterface`.
+- Verified the visible interface includes Ask Alkon, Kernel, Zero Truth, Reality Trial, Evidence Chain, Wake Report, One Next Action, What Not To Do, Local Day One Gate, and Command Passport Preview.
+- Verified `/founder/pocket` links privately to Ask Alkon and remains action-safe on phone width.
+- Enriched the five Alkon command doctrine docs.
+- Extended regression proof so the requested visual screenshots are captured under `test-results/alkon-sovereign-chat-interface/`.
+- Preserved public Pro Max boundaries: Home and Diagnostics do not link to Alkon Chat, Founder routes, or founder APIs.
+
+Visual proof:
+
+- `test-results/alkon-sovereign-chat-interface/founder-alkon-chat-interface.png`
+- `test-results/alkon-sovereign-chat-interface/alkon-chat-status-response.png`
+- `test-results/alkon-sovereign-chat-interface/alkon-chat-next-action-response.png`
+- `test-results/alkon-sovereign-chat-interface/alkon-command-passport-draft.png`
+- `test-results/alkon-sovereign-chat-interface/alkon-chat-unsafe-request-blocked.png`
+- `test-results/alkon-sovereign-chat-interface/pocket-alkon-chat-entry.png`
+- `test-results/alkon-sovereign-chat-interface/public-home-no-alkon-chat-link.png`
+- `test-results/alkon-sovereign-chat-interface/diagnostics-public-safe.png`
+- `test-results/alkon-sovereign-chat-interface/no-alkon-public-leak.png`
 
 Validation:
 
@@ -30,19 +38,9 @@ Validation:
 - `npx eslint app modules tests --max-warnings=0`: pass
 - `npm run build`: pass
 - `npm run prisma:validate`: pass
-- `npx playwright test alkon-zero-codebase-architecture.spec.ts`: pass, 7 tests
+- `npx playwright test tests/regression/alkon-sovereign-command-interface.spec.ts`: pass, 6 tests
 - `npm run test:regression`: pass, 245 tests
-- `npm run smoke:routes`: pass, 4 canonical routes
-- `git diff --check`: pass
-
-Visual proof:
-
-- `test-results/alkon-zero-codebase-architecture/public-home-clean-after-architecture.png`
-- `test-results/alkon-zero-codebase-architecture/founder-alkon-after-architecture.png`
-- `test-results/alkon-zero-codebase-architecture/founder-pocket-after-architecture.png`
-- `test-results/alkon-zero-codebase-architecture/workspace-after-architecture.png`
-- `test-results/alkon-zero-codebase-architecture/diagnostics-public-safe.png`
-- `test-results/alkon-zero-codebase-architecture/public-no-alkon-leak.png`
+- `npm run smoke:routes`: pass, 4 routes
 
 Product Truth:
 
@@ -61,4 +59,4 @@ Product Truth:
 
 Next:
 
-Ahmad reviews the architecture map, cleanup candidates, and visual proof. Any next cleanup should be a focused move or merge with import proof, route proof, public/private leak proof, Product Truth proof, and visual proof.
+Ahmad reviews the private Alkon chat proof. The next allowed outcomes are visual acceptance, focused correction, or a governed Command Passport. Local Day One remains not_started until Ahmad explicitly accepts.
