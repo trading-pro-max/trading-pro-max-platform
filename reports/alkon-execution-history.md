@@ -1,5 +1,37 @@
 # Alkon Execution History
 
+## 2026-04-28 - Pro Max Trading Clean Zero Rebuild
+
+Mission executed locally in public UI, CSS, tests, reports, and visual proof only.
+
+Actions:
+
+- Rebuilt the active Trading Workspace route without creating a parallel route or duplicate shell.
+- Preserved `/en` as the canonical Trading Workspace route opened by Home and the public topbar.
+- Corrected the public identity hierarchy: Pro Max Center on Home, Pro Max Trading / Trading Workspace / Paper-safe in the workspace.
+- Tightened Sign in to one compact public header control and one tiny workspace utility control.
+- Collapsed repeated Product Truth/status rows into one compact truth row.
+- Made the chart the dominant workspace object and kept paper execution attached beside it.
+- Moved workspace focus controls into the chart toolbar.
+- Kept Assistant collapsed by default and Journal / Coach secondary below the core.
+- Captured visual proof under `test-results/pro-max-trading-clean-zero-rebuild/`.
+
+Validation:
+
+- Build passed during focused proof refresh.
+- Focused clean-zero proof passed with 5 tests.
+- TypeScript passed.
+- ESLint passed.
+- Build passed.
+- Prisma validate passed.
+- Regression passed with 250 tests.
+- Route smoke passed with 4 canonical routes after stopping a stale local Next dev server for this repo.
+- Diff check passed.
+
+Safety:
+
+- No live execution, real money, billing activation, broker/feed activation, production activation, public Alkon exposure, secret exposure, shell execution from the web app, Codex execution from the web app, fake claims, image generation, or raster asset addition was introduced.
+
 ## 2026-04-28 - Alkon Sovereign Command Interface Completion
 
 Mission executed locally in docs, tests, reports, APIs, UI proof, and validation only.

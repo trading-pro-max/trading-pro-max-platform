@@ -32,6 +32,10 @@ Cleanup candidates:
 | `scripts/generate-launch-secrets.mjs` | protected_candidate | Terminal-only secret generation support. | Keep out of web imports; do not run in this mission. |
 | `scripts/tpm-canonical-routes-smoke.mjs` | protected_candidate | Terminal-only smoke harness uses local process controls. | Keep out of web imports; allowed for validation. |
 | `docs/legacy-salvage-report.md` | archive_candidate | Historical archive references are documentation of salvage, not current path. | Keep as historical record; official path docs govern current work. |
+| `modules/shell/components/PlatformShellV2.tsx` chart classes | protected_candidate | Existing chart internals are shared by current workspace tests and should not be demolished blindly. | Current mission owns layout through clean-zero route CSS; deeper refactor requires separate route-proof pass. |
+| `modules/shell/components/TradingWorkstation.tsx` activity shelf | cleanup_candidate | Old Open positions / History / Audit shelf remains for compatibility but is no longer above the chart. | Keep below the core until a focused activity-history replacement is approved. |
+| `modules/companion/components/CompanionLauncher` workspace launcher | protected_candidate | Existing regression coverage expects the launcher on the workspace route. | Keep as secondary Assistant entry; do not let it cover chart or execution. |
+| repeated historical workspace CSS blocks in `app/theme-localization.css` | css_cleanup_candidate | Clean-zero route now overrides them, but the file still contains earlier workspace strata. | Split or remove only after visual regression proves no route drift. |
 
 Protected systems:
 

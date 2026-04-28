@@ -200,6 +200,49 @@ export default function TradingWorkstation({
     setShortcutHint(message);
   };
 
+  const workspaceFocusControls = (
+    <div
+      className="tpm-workspace-focus-row tpm-workspace-focus-row-chart"
+      role="toolbar"
+      aria-label="Workspace focus"
+    >
+      <span>Workspace focus</span>
+      <button
+        type="button"
+        className={focusMode === "balanced" ? "active" : ""}
+        aria-pressed={focusMode === "balanced"}
+        onClick={() => {
+          platformState.setWorkspaceFocusMode("balanced");
+          showShortcutHint("Balanced workspace focus engaged.");
+        }}
+      >
+        Balanced
+      </button>
+      <button
+        type="button"
+        className={focusMode === "chart_focus" ? "active" : ""}
+        aria-pressed={focusMode === "chart_focus"}
+        onClick={() => {
+          platformState.setWorkspaceFocusMode("chart_focus");
+          showShortcutHint("Chart focus engaged.");
+        }}
+      >
+        Chart focus
+      </button>
+      <button
+        type="button"
+        className={focusMode === "execution_focus" ? "active" : ""}
+        aria-pressed={focusMode === "execution_focus"}
+        onClick={() => {
+          platformState.setWorkspaceFocusMode("execution_focus");
+          showShortcutHint("Execution focus engaged.");
+        }}
+      >
+        Execution
+      </button>
+    </div>
+  );
+
   useEffect(() => {
     if (!shortcutHint) return undefined;
 
@@ -374,6 +417,7 @@ export default function TradingWorkstation({
           watchlistDensity
         )} watchlist / ${focusModeLabel(focusMode)} composition.`}
         focusMode={focusMode}
+        workspaceControls={workspaceFocusControls}
       />
     );
   }
@@ -512,7 +556,8 @@ export default function TradingWorkstation({
       data-revelation-stage="first_3_minutes"
       data-shell-mode="workspace"
       data-visual-origin="pro-max-earth-financial"
-      data-workspace-architecture="workspace-header-market-summary-trading-core-docks"
+      data-clean-zero-rebuild="true"
+      data-workspace-architecture="clean-zero-workspace-header-market-summary-trading-core-docks"
       dir={dir}
       lang={locale}
     >
@@ -546,15 +591,21 @@ export default function TradingWorkstation({
         >
           <div className="tpm-workspace-market-summary-head">
             <div className="tpm-workspace-market-summary-copy">
-              <span>Trading Workspace</span>
-              <strong>{platformState.selectedAsset.symbol}</strong>
+              <span>Pro Max Trading</span>
+              <strong>Trading Workspace</strong>
               <p>
-                Chart-first paper terminal with blocked live routing, clear product truth,
-                and assistant guidance that stays attached to the workspace.
+                Clean paper-safe workspace for chart reading, rehearsal, and calm
+                review. Live routing, broker/feed activation, billing, and real money
+                stay inactive.
               </p>
             </div>
 
             <div className="tpm-workspace-market-summary-stats">
+              <div>
+                <span>Symbol</span>
+                <strong>{platformState.selectedAsset.symbol}</strong>
+                <small>{platformState.selectedTimeframe}</small>
+              </div>
               <div>
                 <span>Price</span>
                 <strong>{platformState.selectedAsset.price}</strong>
@@ -563,65 +614,25 @@ export default function TradingWorkstation({
                 </small>
               </div>
               <div>
-                <span>Focus</span>
-                <strong>{focusModeLabel(focusMode)}</strong>
-                <small>{platformState.selectedTimeframe}</small>
-              </div>
-              <div>
                 <span>Feed</span>
                 <strong>{feedStatus}</strong>
                 <small>{fallbackTruth}</small>
               </div>
               <div>
-                <span>Session</span>
-                <strong>{viewModel.sessionPnLText}</strong>
+                <span>Mode</span>
+                <strong>Paper-safe</strong>
                 <small>{viewModel.ticketOperationalValue}</small>
               </div>
             </div>
           </div>
 
           <div className="tpm-workspace-market-summary-actions">
-            <div className="tpm-workspace-focus-row" role="toolbar" aria-label="Workspace focus">
-              <button
-                type="button"
-                className={focusMode === "balanced" ? "active" : ""}
-                aria-pressed={focusMode === "balanced"}
-                onClick={() => {
-                  platformState.setWorkspaceFocusMode("balanced");
-                  showShortcutHint("Balanced workspace focus engaged.");
-                }}
-              >
-                Balanced
-              </button>
-              <button
-                type="button"
-                className={focusMode === "chart_focus" ? "active" : ""}
-                aria-pressed={focusMode === "chart_focus"}
-                onClick={() => {
-                  platformState.setWorkspaceFocusMode("chart_focus");
-                  showShortcutHint("Chart focus engaged.");
-                }}
-              >
-                Chart focus
-              </button>
-              <button
-                type="button"
-                className={focusMode === "execution_focus" ? "active" : ""}
-                aria-pressed={focusMode === "execution_focus"}
-                onClick={() => {
-                  platformState.setWorkspaceFocusMode("execution_focus");
-                  showShortcutHint("Execution focus engaged.");
-                }}
-              >
-                Execution
-              </button>
-            </div>
-
             <div className="tpm-workspace-truth-row" aria-label="Workspace truth">
-              <span>Paper-safe</span>
+              <span>Paper-safe active</span>
               <span>Live inactive</span>
-              <span>Broker/feed blocked</span>
-              <span>Earth-native</span>
+              <span>Broker/feed inactive</span>
+              <span>Billing inactive</span>
+              <span>Real money blocked</span>
             </div>
           </div>
 

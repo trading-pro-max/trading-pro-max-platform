@@ -2,27 +2,33 @@
 
 Recommended next command:
 
-Ahmad reviews the private Alkon Sovereign Chat visual proof and decides one of:
+Ahmad reviews the Pro Max Trading Clean Zero visual proof and decides one of:
 
-- accept the private command interface visually
+- accept the clean-zero Trading Workspace visually
 - reject with focused correction notes
-- ask Alkon to prepare the next governed Command Passport
+- request a new governed Command Passport for the next public surface
 
 Review:
 
-- `test-results/alkon-sovereign-chat-interface/founder-alkon-chat-interface.png`
-- `test-results/alkon-sovereign-chat-interface/alkon-chat-status-response.png`
-- `test-results/alkon-sovereign-chat-interface/alkon-chat-next-action-response.png`
-- `test-results/alkon-sovereign-chat-interface/alkon-command-passport-draft.png`
-- `test-results/alkon-sovereign-chat-interface/alkon-chat-unsafe-request-blocked.png`
-- `test-results/alkon-sovereign-chat-interface/pocket-alkon-chat-entry.png`
-- `test-results/alkon-sovereign-chat-interface/public-home-no-alkon-chat-link.png`
-- `test-results/alkon-sovereign-chat-interface/diagnostics-public-safe.png`
-- `test-results/alkon-sovereign-chat-interface/no-alkon-public-leak.png`
+- `test-results/pro-max-trading-clean-zero-rebuild/home-pro-max-center-clean.png`
+- `test-results/pro-max-trading-clean-zero-rebuild/public-header-signin-clean.png`
+- `test-results/pro-max-trading-clean-zero-rebuild/trading-route-open.png`
+- `test-results/pro-max-trading-clean-zero-rebuild/trading-workspace-clean-zero-dark.png`
+- `test-results/pro-max-trading-clean-zero-rebuild/trading-workspace-clean-zero-light.png`
+- `test-results/pro-max-trading-clean-zero-rebuild/trading-chart-dominant.png`
+- `test-results/pro-max-trading-clean-zero-rebuild/trading-chart-starts-high.png`
+- `test-results/pro-max-trading-clean-zero-rebuild/trading-execution-integrated.png`
+- `test-results/pro-max-trading-clean-zero-rebuild/trading-assistant-collapsed.png`
+- `test-results/pro-max-trading-clean-zero-rebuild/trading-assistant-open-no-cover.png`
+- `test-results/pro-max-trading-clean-zero-rebuild/trading-journal-secondary.png`
+- `test-results/pro-max-trading-clean-zero-rebuild/trading-single-logo-header.png`
+- `test-results/pro-max-trading-clean-zero-rebuild/trading-no-public-nav.png`
+- `test-results/pro-max-trading-clean-zero-rebuild/sign-in-not-duplicated.png`
+- `test-results/pro-max-trading-clean-zero-rebuild/no-alkon-public-leak.png`
 
 Reason:
 
-The private Alkon command/chat interface is implemented and validated. The remaining gate is Ahmad visual acceptance or focused correction. Local Day One must remain not_started until Ahmad explicitly accepts.
+The clean-zero Trading Workspace is implemented, validated, committed, and pushed. The remaining decision is Ahmad visual acceptance or focused correction. Local Day One remains not_started until Ahmad explicitly accepts.
 
 Blocked:
 

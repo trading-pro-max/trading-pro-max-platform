@@ -1,8 +1,8 @@
 # Alkon Last Full Report
 
-Mission: Execute or Complete Alkon Sovereign Command Interface
+Mission: Execute Pro Max Trading Clean Zero Rebuild + Sign-in Surface Correction
 
-Status: validated, committed, pushed, and clean after the final report correction commit.
+Status: validated, committed, pushed, and clean.
 
 Official path:
 
@@ -10,27 +10,33 @@ Official path:
 
 Completed:
 
-- Confirmed the Alkon chat system already existed and completed it instead of creating a parallel system.
-- Verified `lib/server/alkon-chat/*` contains the read-only context engine, Arabic/English intent interpreter, safety guard, response composer, Command Passport drafter, stateless engine, status labels, and exported types.
-- Verified `/api/founder/alkon-chat/status`, `/context`, and `/message` are founder-only preview APIs with no shell, Codex, payment, live, billing, broker/feed, real-money, or external execution.
-- Verified `/founder/alkon` renders the private Alkon command/chat interface through `PrivateFounderShell` and `AlkonSovereignChatInterface`.
-- Verified the visible interface includes Ask Alkon, Kernel, Zero Truth, Reality Trial, Evidence Chain, Wake Report, One Next Action, What Not To Do, Local Day One Gate, and Command Passport Preview.
-- Verified `/founder/pocket` links privately to Ask Alkon and remains action-safe on phone width.
-- Enriched the five Alkon command doctrine docs.
-- Extended regression proof so the requested visual screenshots are captured under `test-results/alkon-sovereign-chat-interface/`.
-- Preserved public Pro Max boundaries: Home and Diagnostics do not link to Alkon Chat, Founder routes, or founder APIs.
+- Audited the current public Home, Trading Workspace route, shell controls, Sign in, chart, execution rail, Assistant dock, Journal / Coach, and Product Truth surfaces.
+- Kept the canonical workspace route at `/en`; Home CTA and the public topbar both open that route and refresh works.
+- Corrected the visible identity so Home reads as Pro Max Center and the workspace reads as Pro Max Trading / Trading Workspace / Paper-safe.
+- Tightened public Sign in to a single compact header control and workspace Sign in to one tiny utility control.
+- Rebuilt the workspace hierarchy around a compact market summary, a dominant chart, an attached execution rail, collapsed Assistant, and secondary Journal / Coach.
+- Moved workspace focus controls into the chart toolbar.
+- Collapsed repeated Product Truth/status language into one compact public-safe truth row.
+- Preserved the activity shelf below the core as compatibility evidence, not as a chart blocker.
+- Added focused regression coverage in `tests/regression/pro-max-trading-clean-zero-rebuild.spec.ts`.
 
 Visual proof:
 
-- `test-results/alkon-sovereign-chat-interface/founder-alkon-chat-interface.png`
-- `test-results/alkon-sovereign-chat-interface/alkon-chat-status-response.png`
-- `test-results/alkon-sovereign-chat-interface/alkon-chat-next-action-response.png`
-- `test-results/alkon-sovereign-chat-interface/alkon-command-passport-draft.png`
-- `test-results/alkon-sovereign-chat-interface/alkon-chat-unsafe-request-blocked.png`
-- `test-results/alkon-sovereign-chat-interface/pocket-alkon-chat-entry.png`
-- `test-results/alkon-sovereign-chat-interface/public-home-no-alkon-chat-link.png`
-- `test-results/alkon-sovereign-chat-interface/diagnostics-public-safe.png`
-- `test-results/alkon-sovereign-chat-interface/no-alkon-public-leak.png`
+- `test-results/pro-max-trading-clean-zero-rebuild/home-pro-max-center-clean.png`
+- `test-results/pro-max-trading-clean-zero-rebuild/public-header-signin-clean.png`
+- `test-results/pro-max-trading-clean-zero-rebuild/trading-route-open.png`
+- `test-results/pro-max-trading-clean-zero-rebuild/trading-workspace-clean-zero-dark.png`
+- `test-results/pro-max-trading-clean-zero-rebuild/trading-workspace-clean-zero-light.png`
+- `test-results/pro-max-trading-clean-zero-rebuild/trading-chart-dominant.png`
+- `test-results/pro-max-trading-clean-zero-rebuild/trading-chart-starts-high.png`
+- `test-results/pro-max-trading-clean-zero-rebuild/trading-execution-integrated.png`
+- `test-results/pro-max-trading-clean-zero-rebuild/trading-assistant-collapsed.png`
+- `test-results/pro-max-trading-clean-zero-rebuild/trading-assistant-open-no-cover.png`
+- `test-results/pro-max-trading-clean-zero-rebuild/trading-journal-secondary.png`
+- `test-results/pro-max-trading-clean-zero-rebuild/trading-single-logo-header.png`
+- `test-results/pro-max-trading-clean-zero-rebuild/trading-no-public-nav.png`
+- `test-results/pro-max-trading-clean-zero-rebuild/sign-in-not-duplicated.png`
+- `test-results/pro-max-trading-clean-zero-rebuild/no-alkon-public-leak.png`
 
 Validation:
 
@@ -38,9 +44,10 @@ Validation:
 - `npx eslint app modules tests --max-warnings=0`: pass
 - `npm run build`: pass
 - `npm run prisma:validate`: pass
-- `npx playwright test tests/regression/alkon-sovereign-command-interface.spec.ts`: pass, 6 tests
-- `npm run test:regression`: pass, 245 tests
-- `npm run smoke:routes`: pass, 4 routes
+- `npx playwright test tests/regression/pro-max-trading-clean-zero-rebuild.spec.ts`: pass, 5 tests
+- `npm run test:regression`: pass, 250 tests
+- `npm run smoke:routes`: pass, 4 canonical routes after stopping a stale local Next dev server for this repo
+- `git diff --check`: pass
 
 Product Truth:
 
@@ -59,4 +66,4 @@ Product Truth:
 
 Next:
 
-Ahmad reviews the private Alkon chat proof. The next allowed outcomes are visual acceptance, focused correction, or a governed Command Passport. Local Day One remains not_started until Ahmad explicitly accepts.
+Ahmad reviews the Pro Max Trading clean-zero visual proof and decides visual acceptance or focused correction. Ahmad visual acceptance remains a separate decision gate.
