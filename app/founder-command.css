@@ -1333,6 +1333,14 @@ dl.alkon-command-facts.alkon-pocket-capability-facts {
   border-color: color-mix(in srgb, var(--alkon-gold) 38%, var(--tpm-border));
 }
 
+.alkon-global-brand-gate-panel {
+  border-color: color-mix(in srgb, #f43f5e 26%, var(--tpm-border));
+}
+
+.alkon-global-brand-gate-grid .tpm-founder-card {
+  border-color: color-mix(in srgb, #f87171 18%, var(--tpm-border));
+}
+
 .alkon-decision-grid {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }

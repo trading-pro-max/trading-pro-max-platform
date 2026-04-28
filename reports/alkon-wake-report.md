@@ -1,11 +1,11 @@
 WAKE REPORT
 Status: closed_validated_ready_with_notes
-Mission: Execute ALKON Master Reality Command
-Done: recovered a clean working baseline; added the private Reality Conversion system and Reality Passport model; connected Reality Conversion into `/founder/alkon` and Founder Command; preserved Permission-to-Exist, Jar, Source-to-Reality, Living Earth, Pro Max Center, and Pro Max Trading; added platform-depth proof markers for Market Board, Paper Order Ticket, and Bottom Terminal Dock; refreshed doctrine and reports; added master regression and visual proof under `test-results/alkon-master-reality-command/`.
-Not done: Local Day One is not_started; Ahmad visual acceptance is still required; no approved licensed Earth texture is active; no public launch, production activation, billing, broker/feed, live trading, real money, external account, social publishing, public Alkon, shell/Codex execution from web, secrets exposure, bank/card exposure, fake Swiss legal/regulatory claim, profit promise, win-rate claim, generated image, or raster asset was enabled.
-Validation: `npx tsc --noEmit` pass; `npx eslint app modules tests --max-warnings=0` pass; `npm run build` pass; `npm run prisma:validate` pass; `npm run test:regression` pass with 281 tests; `npm run smoke:routes` pass with 5 canonical routes; `git diff --check` pass with line-ending warnings only.
-Tests: focused master regression passed with 5 tests; full regression passed with 281 tests; visual proof captured under `test-results/alkon-master-reality-command/`.
-Commit: completed `execute alkon master reality command`; final report accuracy update follows it
-Pushed: yes
-Clean: yes
-Next: Ahmad reviews the master proof, especially Trading platform depth, Reality Conversion, Jar, and Living Earth; if accepted, preserve as a governed baseline, otherwise return one focused correction through Jar before execution.
+Mission: Execute Global Exclusive Brand Gate + Brand Rebirth Readiness
+Done: built private Brand Clearance system, current-name assessment, Brand Tribunal criteria, manual search task generator, domain readiness model, adoption gate, migration plan, Founder-only APIs, Founder Command panel, Founder Companion summary, doctrine docs, reports, and focused regression coverage; Pro Max remains working name, Alkon remains private/internal, and global/public launch stays blocked until clearance.
+Not done: no final global brand is adopted; no trademark/domain/legal search was executed; no domain was purchased; no legal ownership, exclusivity, Swiss regulatory, FINMA, licensed, profit, win-rate, or public launch claim was made.
+Validation: `npx tsc --noEmit` pass; `npx eslint app modules tests --max-warnings=0` pass; `npm run build` pass; `npm run prisma:validate` pass; `npx playwright test tests/regression/global-exclusive-brand-gate.spec.ts` pass with 6 tests; `npm run test:regression` pass with 287 tests; `npm run smoke:routes` pass with 5 canonical routes after stopping stale repo-owned Next dev server PID 4308; `git diff --check` pass with line-ending warnings only.
+Tests: focused Brand Gate regression passed; full regression passed with 287 tests.
+Commit: prepared for `build global exclusive brand gate`
+Pushed: pending final Git step after this report update
+Clean: pending final Git step after this report update
+Next: Ahmad provides or requests candidate names; each candidate enters Brand Tribunal, manual trademark/domain/language/conflict/legal review, then Ahmad approval before any migration or public/global launch.

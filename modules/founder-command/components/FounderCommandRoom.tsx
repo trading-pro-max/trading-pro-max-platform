@@ -6,6 +6,7 @@ import { getFounderDeviceReadinessSnapshot } from "@/lib/server/devices";
 import { getExistenceArchitectureSnapshot } from "@/lib/server/existence-architecture";
 import { getJarBuildSnapshot } from "@/lib/server/jar-build";
 import { getRealityConversionSnapshot } from "@/lib/server/reality-conversion";
+import { getBrandClearanceSnapshot } from "@/lib/server/brand-clearance";
 import { getFounderIdeaInboxReadiness } from "@/lib/server/sovereign-autonomy";
 import { PlanetMapPreview } from "@/modules/planet-map/components";
 import PrivateFounderShell from "@/modules/shell/components/PrivateFounderShell";
@@ -80,6 +81,7 @@ import AlkonDeviceConstellationPanel from "./AlkonDeviceConstellationPanel";
 import AlkonPocketUniversePanel from "./AlkonPocketUniversePanel";
 import AlkonJarBuildPanel from "./AlkonJarBuildPanel";
 import AlkonRealityConversionPanel from "./AlkonRealityConversionPanel";
+import AlkonGlobalBrandGatePanel from "./AlkonGlobalBrandGatePanel";
 import AlkonExistenceArchitecturePanel from "./AlkonExistenceArchitecturePanel";
 import AlkonEntityOwnershipPanel from "./AlkonEntityOwnershipPanel";
 import AlkonExistenceGatePanel from "./AlkonExistenceGatePanel";
@@ -115,6 +117,7 @@ export default function FounderCommandRoom({
   const deviceSnapshot = getFounderDeviceReadinessSnapshot(commandSnapshot.checkedAt);
   const jarSnapshot = getJarBuildSnapshot(commandSnapshot.checkedAt);
   const realityConversionSnapshot = getRealityConversionSnapshot(commandSnapshot.checkedAt);
+  const brandClearanceSnapshot = getBrandClearanceSnapshot(commandSnapshot.checkedAt);
   const existenceSnapshot = getExistenceArchitectureSnapshot(commandSnapshot.checkedAt);
 
   return (
@@ -196,6 +199,7 @@ export default function FounderCommandRoom({
 
       <AlkonJarBuildPanel snapshot={jarSnapshot} />
       <AlkonRealityConversionPanel snapshot={realityConversionSnapshot} />
+      <AlkonGlobalBrandGatePanel snapshot={brandClearanceSnapshot} />
       <AlkonExistenceArchitecturePanel snapshot={existenceSnapshot} />
       <div className="alkon-command-grid alkon-existence-grid">
         <AlkonEntityOwnershipPanel snapshot={existenceSnapshot} />

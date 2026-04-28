@@ -1,5 +1,36 @@
 # Alkon Execution History
 
+## 2026-04-28 - Global Exclusive Brand Gate + Brand Rebirth Readiness
+
+Mission executed locally in private governance code, Founder UI, docs, reports, tests, and validation only.
+
+Actions:
+
+- Added `lib/server/brand-clearance` with current-name assessment, Brand Tribunal criteria, name generation rules, manual trademark/domain search tasks, domain readiness, adoption gate, migration plan, and deterministic snapshot.
+- Added Founder-only read-only brand-clearance APIs under `/api/founder/brand-clearance/*`.
+- Added private Founder Command Brand Gate panel and Founder Companion summary.
+- Added doctrine docs for brand ownership, no global launch without clearance, Pro Max working-name risk, Alkon private-name risk, and Global Brand Tribunal.
+- Added reports for global brand clearance, current-name risks, manual search tasks, candidate shortlist state, and adoption gate.
+- Added `tests/regression/global-exclusive-brand-gate.spec.ts`.
+
+Validation:
+
+- TypeScript passed.
+- ESLint passed.
+- Build passed.
+- Prisma validate passed.
+- Focused Brand Gate regression passed with 6 tests.
+- Regression passed with 287 tests.
+- Route smoke passed with 5 canonical routes after stopping stale repo-owned Next dev server PID 4308.
+- Diff check passed with line-ending warnings only.
+
+Safety:
+
+- Pro Max remains a working public name only.
+- Alkon remains private/internal.
+- No final global brand was adopted.
+- No external search, scraping, domain purchase, payment, legal claim, public launch, billing, live execution, broker/feed, real money, public Alkon exposure, secret exposure, shell execution from web, or Codex execution from web was introduced.
+
 ## 2026-04-28 - ALKON Master Reality Command
 
 Mission executed locally in code, docs, reports, tests, and private Founder UI only.

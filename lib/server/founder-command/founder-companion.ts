@@ -30,6 +30,7 @@ import { getAlkonOperatingModeSnapshot } from "@/lib/server/alkon-operating-mode
 import { getAlkonKernelSnapshot } from "@/lib/server/alkon-kernel";
 import { getAlkonChatReadiness } from "@/lib/server/alkon-chat";
 import { getExistenceArchitectureSnapshot } from "@/lib/server/existence-architecture";
+import { getBrandClearanceSnapshot } from "@/lib/server/brand-clearance";
 import { getPlanetaryEnvironmentReadinessSnapshot } from "@/lib/server/environment";
 import { getEarthRealitySnapshot } from "@/lib/server/earth-reality";
 import { getPersonalRealityReadinessSnapshot } from "@/lib/server/personal-reality";
@@ -92,6 +93,7 @@ export type FounderPersonalCompanionSnapshot = {
   alkonRuntimeSummary: string[];
   alkonGenesisSummary: string[];
   brandUniverseSummary: string[];
+  brandClearanceSummary: string[];
   infiniteGrowthSummary: string[];
   numberOneDestinySummary: string[];
   sourceLawSummary: string[];
@@ -174,6 +176,7 @@ export function getFounderPersonalCompanionSnapshot(
   const alkonKernel = getAlkonKernelSnapshot(checkedAt);
   const alkonChat = getAlkonChatReadiness(checkedAt);
   const existenceArchitecture = getExistenceArchitectureSnapshot(checkedAt);
+  const brandClearance = getBrandClearanceSnapshot(checkedAt);
   const brandUniverse = getPrivateBrandUniverse();
   const treasuryLife = getTreasuryLifeSnapshot();
   const mediaIntelligence = getMediaIntelligenceSnapshot();
@@ -356,6 +359,13 @@ export function getFounderPersonalCompanionSnapshot(
       `${brandUniverse.primeWorld} is the Prime World and first public product.`,
       `${brandUniverse.privateUniverse} / ${brandUniverse.privateUniverseArabic} remains the Founder-only operating universe.`,
       `Future Pro Max Worlds remain ${brandUniverse.futureWorldsReadiness}; public exposure is ${String(brandUniverse.publicExposure)}.`,
+    ],
+    brandClearanceSummary: [
+      `Brand Clearance is ${brandClearance.status}; public exposure is ${String(brandClearance.publicExposure)}.`,
+      `Current names reviewed: ${brandClearance.currentNames.length}; final candidates adopted: ${brandClearance.candidateShortlist.length}.`,
+      `Manual search tasks: ${brandClearance.trademarkSearchTasks.length} trademark/conflict and ${brandClearance.domainSearchTasks.length} domain/handle tasks.`,
+      `Adoption gate is ${brandClearance.adoptionGate.adoptionStatus}; next safe action: ${brandClearance.nextSafeBrandAction}`,
+      "Pro Max remains a working name; Alkon remains private; no global exclusivity, trademark ownership, Swiss regulation, FINMA, licensing, profit, or win-rate claim is allowed.",
     ],
     infiniteGrowthSummary: [
       `${infiniteGrowth.name} is ${infiniteGrowth.visibility}; public exposure is ${String(infiniteGrowth.publicExposure)}.`,

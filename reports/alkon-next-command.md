@@ -2,48 +2,32 @@
 
 Recommended next command:
 
-Ahmad reviews the ALKON Master Reality Command proof and decides one of:
+Ahmad chooses the next brand step:
 
-- accept this as the next governed baseline
-- reject with one focused correction note for Pro Max Center, Trading platform depth, Living Earth, Reality Conversion, Jar, or private Alkon
-- request a Command Passport for one approved next action after Jar classification and Reality Trial
+- provide candidate names for private Brand Tribunal review
+- ask Alkon to propose candidate-name rules and candidate batches for review only
+- request manual trademark/domain/legal search work outside the app
+- keep Pro Max as working name until a stronger global candidate appears
 
-Review:
+Current truth:
 
-- `test-results/alkon-master-reality-command/public-home-pro-max-center.png`
-- `test-results/alkon-master-reality-command/trading-route-pro-max-trading.png`
-- `test-results/alkon-master-reality-command/trading-living-core-dark.png`
-- `test-results/alkon-master-reality-command/trading-chart-owns-page.png`
-- `test-results/alkon-master-reality-command/trading-platform-depth.png`
-- `test-results/alkon-master-reality-command/founder-alkon-real-system.png`
-- `test-results/alkon-master-reality-command/jar-private-panel.png`
-- `test-results/alkon-master-reality-command/reality-conversion-panel.png`
-- `test-results/alkon-master-reality-command/no-public-alkon-leak.png`
-- `test-results/alkon-master-reality-command/local-day-one-not-started.png`
-
-Reason:
-
-ALKON now has a private intake-to-reality chain: Permission-to-Exist asks why an entity may exist, Jar filters it, Reality Conversion turns valuable ideas into Reality Passports, Reality Trial judges, Evidence proves, Memory preserves, and Ahmad decides.
+- Pro Max is working_name_only and high risk for global exclusivity.
+- Pro Max Trading is working_product_name_only and needs clearance.
+- Alkon is private_internal_name and not public.
+- Alkon -0 is private_internal_only and public use is forbidden.
+- No final global brand is adopted.
+- Public/global launch remains blocked until brand clearance.
 
 Blocked:
 
-- Local Day One start without Ahmad acceptance
-- public launch
-- production activation
-- billing activation
-- broker/feed activation
-- live execution
-- real money
-- payment execution
-- shell execution from the web app
-- Codex execution from the web app
+- renaming the whole codebase without approval
 - public Alkon exposure
-- public Founder navigation
-- public Jar, Permission-to-Exist, or Reality Conversion exposure
-- external account connection
-- social publishing
-- secrets exposure
-- bank/card data exposure
-- raw personal document storage
-- image generation or public raster assets
-- fake Swiss legal/regulatory, FINMA, licensed, profit, or win-rate claims
+- trademark ownership claim without registration/review
+- global exclusivity claim without legal proof
+- Swiss company, Swiss regulated, FINMA, or licensed claim
+- domain purchase from the app
+- payment or billing activation
+- public/global launch
+- live execution, broker/feed, real money
+- fake claims, profit promises, win-rate claims
+- shell or Codex execution from web

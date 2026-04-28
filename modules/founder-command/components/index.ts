@@ -42,6 +42,11 @@ export { default as AlkonPocketUniversePanel } from "./AlkonPocketUniversePanel"
 export { default as AlkonSovereignChatInterface } from "./AlkonSovereignChatInterface";
 export { default as AlkonJarBuildPanel } from "./AlkonJarBuildPanel";
 export { default as AlkonRealityConversionPanel } from "./AlkonRealityConversionPanel";
+export { default as AlkonGlobalBrandGatePanel } from "./AlkonGlobalBrandGatePanel";
+export { default as BrandCandidatePanel } from "./BrandCandidatePanel";
+export { default as BrandRiskPanel } from "./BrandRiskPanel";
+export { default as BrandSearchTasksPanel } from "./BrandSearchTasksPanel";
+export { default as BrandAdoptionGatePanel } from "./BrandAdoptionGatePanel";
 export { default as AlkonLivingEarthRuntimePanel } from "./AlkonLivingEarthRuntimePanel";
 export { default as AlkonExistenceArchitecturePanel } from "./AlkonExistenceArchitecturePanel";
 export { default as AlkonEntityOwnershipPanel } from "./AlkonEntityOwnershipPanel";

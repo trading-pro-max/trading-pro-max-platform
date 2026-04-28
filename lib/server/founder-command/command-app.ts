@@ -55,6 +55,7 @@ import { getRealityProductionSnapshot } from "@/lib/server/reality-production";
 import { getSelfCorrectionSnapshot } from "@/lib/server/self-correction";
 import { getAlkonChatReadiness } from "@/lib/server/alkon-chat";
 import { getExistenceArchitectureSnapshot } from "@/lib/server/existence-architecture";
+import { getBrandClearanceSnapshot } from "@/lib/server/brand-clearance";
 import { getMediaIntelligenceSnapshot } from "@/lib/server/media-intelligence";
 import { getRevelationExperienceSnapshot } from "@/lib/server/revelation-experience";
 import { getInvisibleOperatingLayerSnapshot } from "@/lib/server/invisible-operating-layer";
@@ -224,6 +225,7 @@ export function getFounderCommandAppSnapshot(
   const selfCorrection = getSelfCorrectionSnapshot(checkedAt);
   const alkonChat = getAlkonChatReadiness(checkedAt);
   const existenceArchitecture = getExistenceArchitectureSnapshot(checkedAt);
+  const brandClearance = getBrandClearanceSnapshot(checkedAt);
   const treasuryLife = getTreasuryLifeSnapshot();
   const mediaIntelligence = getMediaIntelligenceSnapshot();
   const revelationExperience = getRevelationExperienceSnapshot(checkedAt);
@@ -557,6 +559,24 @@ export function getFounderCommandAppSnapshot(
       jarMappedCount: existenceArchitecture.jarMappedItems.length,
       oneNextStructuralAction: existenceArchitecture.oneNextStructuralAction,
       whatNotToDo: existenceArchitecture.whatNotToDo,
+    },
+    brandClearance: {
+      status: brandClearance.status,
+      founderOnly: brandClearance.founderOnly,
+      readOnly: brandClearance.readOnly,
+      previewOnly: brandClearance.previewOnly,
+      noExternalCalls: brandClearance.noExternalCalls,
+      noDomainPurchase: brandClearance.noDomainPurchase,
+      noPayments: brandClearance.noPayments,
+      noLegalClaims: brandClearance.noLegalClaims,
+      publicExposure: brandClearance.publicExposure,
+      currentNameCount: brandClearance.currentNames.length,
+      candidateCount: brandClearance.candidateShortlist.length,
+      trademarkTaskCount: brandClearance.trademarkSearchTasks.length,
+      domainTaskCount: brandClearance.domainSearchTasks.length,
+      adoptionStatus: brandClearance.adoptionGate.adoptionStatus,
+      nextSafeBrandAction: brandClearance.nextSafeBrandAction,
+      blockedClaims: brandClearance.blockedClaims,
     },
     finalUniversalClosureGate: {
       status:
