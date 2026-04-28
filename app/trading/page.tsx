@@ -1,16 +1,14 @@
-import { DEFAULT_LOCALE } from "../../lib/i18n/config";
-import { getDictionary } from "../../lib/i18n/get-dictionary";
-import TradingWorkstation from "../../modules/shell/components/TradingWorkstationBridge";
+import { getProjectUniverseTruthSnapshot } from "@/lib/server/project-universe-truth";
+import TradingOperatingFloor from "./_components/TradingOperatingFloor";
 
 export const metadata = {
-  title: "Pro Max Trading | Trading Workspace",
+  title: "Pro Max Trading | Trading Operating Floor",
   description:
-    "The canonical paper-safe Pro Max Trading workspace inside Pro Max Center.",
+    "The canonical private, demo-safe Pro Max Trading operating floor with Earth-scale intelligence and Swiss-inspired precision.",
 };
 
 export default function TradingPage() {
-  const locale = DEFAULT_LOCALE;
-  const dict = getDictionary(locale);
+  const truth = getProjectUniverseTruthSnapshot();
 
-  return <TradingWorkstation locale={locale} dict={dict} />;
+  return <TradingOperatingFloor truth={truth} />;
 }

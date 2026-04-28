@@ -1,0 +1,176 @@
+.universe {
+  background:
+    radial-gradient(circle at 86% 6%, rgba(227, 6, 19, 0.12), transparent 28rem),
+    radial-gradient(circle at 8% 0%, rgba(93, 173, 196, 0.16), transparent 24rem),
+    linear-gradient(180deg, #03050a 0%, #080d14 52%, #03050a 100%);
+  color: #f6f8fb;
+  display: grid;
+  gap: 14px;
+  min-height: calc(100vh - 112px);
+  padding: 16px;
+}
+
+.hero,
+.metricGrid article,
+.truthPanel,
+.columns article,
+.actionPanel article {
+  background: rgba(5, 9, 15, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.34);
+}
+
+.hero {
+  align-items: center;
+  border-radius: 18px;
+  display: grid;
+  gap: 18px;
+  grid-template-columns: auto minmax(0, 1fr) minmax(220px, 280px);
+  padding: 18px;
+}
+
+.hero span,
+.truthPanel span,
+.columns article > span,
+.actionPanel span,
+.metricGrid article span {
+  color: #ffeff1;
+  font-size: 0.68rem;
+  font-weight: 880;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  color: #ffffff;
+  font-size: clamp(2rem, 4vw, 4.2rem);
+  letter-spacing: 0;
+  line-height: 0.94;
+  margin: 5px 0 10px;
+}
+
+.hero p,
+.accessCard small,
+.metricGrid article small,
+.truthList small,
+.actionPanel li {
+  color: rgba(235, 241, 247, 0.68);
+  line-height: 1.5;
+}
+
+.accessCard {
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  display: grid;
+  gap: 6px;
+  padding: 14px;
+}
+
+.accessCard strong,
+.metricGrid article strong,
+.actionPanel strong {
+  color: #ffffff;
+  font-size: 1.05rem;
+}
+
+.metricGrid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.metricGrid article {
+  border-radius: 14px;
+  display: grid;
+  gap: 6px;
+  min-height: 116px;
+  padding: 13px;
+}
+
+.truthPanel {
+  border-radius: 16px;
+  display: grid;
+  gap: 12px;
+  padding: 15px;
+}
+
+.truthPanel h2,
+.columns h2 {
+  color: #ffffff;
+  margin: 3px 0 0;
+}
+
+.truthStrip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.truthStrip span {
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  color: rgba(245, 248, 251, 0.82);
+  font-size: 0.72rem;
+  padding: 7px 9px;
+  text-transform: none;
+}
+
+.columns {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.columns article,
+.actionPanel article {
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.truthList {
+  display: grid;
+  gap: 8px;
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+}
+
+.truthList li {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  display: grid;
+  gap: 5px;
+  padding: 9px;
+}
+
+.truthList strong,
+.truthList span {
+  color: #ffffff;
+}
+
+.actionPanel {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+}
+
+.actionPanel article {
+  display: grid;
+  gap: 10px;
+}
+
+.actionPanel ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+@media (max-width: 1180px) {
+  .hero,
+  .metricGrid,
+  .columns,
+  .actionPanel {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

@@ -1,0 +1,270 @@
+.identity {
+  align-items: center;
+  display: inline-flex;
+  gap: 12px;
+  min-width: 0;
+}
+
+.compact .orbitShell {
+  height: 38px;
+  width: 38px;
+}
+
+.command .orbitShell {
+  height: 58px;
+  width: 58px;
+}
+
+.hero .orbitShell {
+  height: 108px;
+  width: 108px;
+}
+
+.orbitShell {
+  display: grid;
+  flex: 0 0 auto;
+  isolation: isolate;
+  place-items: center;
+  position: relative;
+}
+
+.orbitShell::before {
+  animation: earthBreath 5.8s ease-in-out infinite;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.14), transparent 68%);
+  border-radius: 999px;
+  content: "";
+  inset: -12%;
+  position: absolute;
+}
+
+.earth {
+  animation: earthRotate 18s linear infinite;
+  background:
+    radial-gradient(circle at 30% 24%, rgba(255, 255, 255, 0.82), transparent 12%),
+    radial-gradient(circle at 34% 30%, #4eb7d0 0 16%, transparent 17%),
+    radial-gradient(circle at 70% 72%, rgba(255, 255, 255, 0.18), transparent 18%),
+    linear-gradient(125deg, #07141b 0%, #0c4055 34%, #0e7391 58%, #06151d 100%);
+  border: 1px solid rgba(255, 255, 255, 0.58);
+  border-radius: 999px;
+  box-shadow:
+    inset -18px -14px 28px rgba(0, 0, 0, 0.64),
+    inset 8px 7px 18px rgba(255, 255, 255, 0.18),
+    0 0 22px rgba(129, 212, 233, 0.22),
+    0 0 0 1px rgba(227, 6, 19, 0.16);
+  display: block;
+  height: 62%;
+  overflow: hidden;
+  position: relative;
+  width: 62%;
+  z-index: 3;
+}
+
+.terminator {
+  background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.48));
+  inset: 0;
+  position: absolute;
+}
+
+.landA,
+.landB,
+.landC {
+  background: linear-gradient(145deg, rgba(216, 231, 218, 0.9), rgba(70, 118, 86, 0.72));
+  border-radius: 56% 44% 62% 38%;
+  filter: blur(0.1px);
+  position: absolute;
+}
+
+.landA {
+  height: 27%;
+  left: 20%;
+  top: 27%;
+  transform: rotate(-18deg);
+  width: 32%;
+}
+
+.landB {
+  height: 34%;
+  right: 20%;
+  top: 42%;
+  transform: rotate(16deg);
+  width: 24%;
+}
+
+.landC {
+  bottom: 20%;
+  height: 16%;
+  left: 42%;
+  transform: rotate(24deg);
+  width: 26%;
+}
+
+.meridianA,
+.meridianB {
+  border: 1px solid rgba(238, 248, 250, 0.24);
+  border-left-color: transparent;
+  border-radius: 999px;
+  inset: 11%;
+  position: absolute;
+}
+
+.meridianB {
+  inset: 22% 8%;
+  transform: rotate(90deg);
+}
+
+.atmosphere {
+  border: 1px solid rgba(222, 247, 255, 0.48);
+  border-radius: 999px;
+  box-shadow: 0 0 16px rgba(167, 222, 244, 0.34);
+  inset: -2px;
+  position: absolute;
+}
+
+.orbitOne,
+.orbitTwo,
+.orbitThree {
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-left-color: rgba(227, 6, 19, 0.58);
+  border-radius: 999px;
+  position: absolute;
+}
+
+.orbitOne {
+  animation: orbitTurn 24s linear infinite;
+  inset: 4%;
+  transform: rotate(-18deg);
+}
+
+.orbitTwo {
+  animation: orbitTurnReverse 30s linear infinite;
+  inset: 15%;
+  opacity: 0.72;
+  transform: rotate(42deg);
+}
+
+.orbitThree {
+  animation: orbitTurn 36s linear infinite;
+  inset: -1%;
+  opacity: 0.46;
+  transform: rotate(76deg);
+}
+
+.nodeA,
+.nodeB,
+.nodeC {
+  animation: nodePulse 3.6s ease-in-out infinite;
+  background: #e30613;
+  border: 1px solid rgba(255, 255, 255, 0.86);
+  border-radius: 999px;
+  box-shadow: 0 0 16px rgba(227, 6, 19, 0.42);
+  height: 7%;
+  position: absolute;
+  width: 7%;
+  z-index: 4;
+}
+
+.nodeA {
+  right: 10%;
+  top: 23%;
+}
+
+.nodeB {
+  animation-delay: 0.8s;
+  bottom: 18%;
+  left: 15%;
+}
+
+.nodeC {
+  animation-delay: 1.4s;
+  bottom: 26%;
+  right: 19%;
+}
+
+.copy {
+  display: grid;
+  gap: 1px;
+  line-height: 1.08;
+}
+
+.copy strong {
+  color: #ffffff;
+  font-size: 0.94rem;
+  font-weight: 900;
+}
+
+.copy span {
+  color: rgba(231, 238, 244, 0.68);
+  font-size: 0.68rem;
+  font-weight: 750;
+  text-transform: uppercase;
+}
+
+@keyframes earthRotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbitTurn {
+  from {
+    transform: rotate(-18deg);
+  }
+
+  to {
+    transform: rotate(342deg);
+  }
+}
+
+@keyframes orbitTurnReverse {
+  from {
+    transform: rotate(42deg);
+  }
+
+  to {
+    transform: rotate(-318deg);
+  }
+}
+
+@keyframes earthBreath {
+  0%,
+  100% {
+    opacity: 0.42;
+    transform: scale(0.96);
+  }
+
+  50% {
+    opacity: 0.72;
+    transform: scale(1.03);
+  }
+}
+
+@keyframes nodePulse {
+  0%,
+  100% {
+    opacity: 0.58;
+    transform: scale(0.86);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .earth,
+  .orbitOne,
+  .orbitTwo,
+  .orbitThree,
+  .nodeA,
+  .nodeB,
+  .nodeC,
+  .orbitShell::before {
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+  }
+}
