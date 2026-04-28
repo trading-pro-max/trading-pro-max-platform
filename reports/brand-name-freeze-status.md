@@ -1,6 +1,6 @@
 # Brand Name Freeze Status
 
-brandDecision: deferred
+brandDecision: reopened_for_clearance_gate
 
 currentWorkingNames:
 
@@ -9,13 +9,13 @@ currentWorkingNames:
 - Pro Max
 - Pro Max Trading
 
-globalBrandClearance: future / not_started
+globalBrandClearance: active_with_notes / private_review_only
 
 publicLaunchByBrand: blocked until future review
 
 renameAction: none
 
-nextAction: continue current build roadmap without naming changes
+nextAction: run private brand clearance gate without renaming codebase or public product surfaces
 
 Boundary:
 
@@ -24,12 +24,12 @@ Boundary:
 - Pro Max remains the public working world name.
 - Pro Max Trading remains the first living product working name.
 
-Not started:
+Current boundary:
 
-- No brand alternative search.
-- No trademark research.
-- No domain research.
-- No naming tribunal.
+- 20 candidate names may be reviewed privately.
+- No trademark research is completed.
+- No domain research is completed.
+- No public brand adoption is approved.
 - No GitHub, route, file, folder, component, report, or public surface rename.
 
 Product Truth:

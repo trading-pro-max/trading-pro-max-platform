@@ -2,37 +2,36 @@
 
 Recommended next command:
 
-Continue the current build roadmap under the existing working names:
-
-- ALKON
-- Alkon -0
-- Pro Max
-- Pro Max Trading
+Use the Global Exclusive Brand Gate for private Founder review.
 
 Current truth:
 
-- ALKON is now the daily operating focus.
-- Pro Max remains the public world.
-- Pro Max Trading at `/trading` remains the first living product and current heart.
-- Jar, Permission-to-Exist, Reality Conversion, Product Truth, and public/private boundary are active with notes.
-- Brand decision is deferred.
-- Global Brand Clearance Gate is future / not_started.
-- Current names remain working names for development only.
-- Local Day One remains not_started.
+- ALKON remains private root.
+- Alkon -0 remains private origin.
+- Pro Max remains the public working name only.
+- Pro Max Trading remains the current public working product name.
+- Final global public brand approved: false.
+- Public/global launch blocked by brand gate: true.
+- 20 generated candidate names are private, unchecked, and not adopted.
+- Manual trademark, domain, conflict, class, language, and legal review are still required.
+- Ahmad final approval is required before any brand adoption.
+- Product Truth remains unchanged.
+
+One next action:
+
+Ahmad chooses which candidate names should enter official manual trademark, domain, conflict, language, class, and legal review.
 
 Blocked:
 
 - renaming the whole codebase without approval
-- working on brand naming now
-- generating brand candidates now
-- starting trademark or domain research now
-- public Alkon exposure
-- trademark ownership claim without registration/review
-- global exclusivity claim without legal proof
-- Swiss company, Swiss regulated, FINMA, or licensed claim
+- removing Pro Max references now
+- claiming legal ownership
+- claiming trademark registration
+- claiming global exclusivity
 - domain purchase from the app
-- payment or billing activation
+- automated trademark/domain scraping from the app
 - public/global launch
-- live execution, broker/feed, real money
+- billing or production activation
+- public Alkon exposure
 - fake claims, profit promises, win-rate claims
 - shell or Codex execution from web

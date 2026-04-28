@@ -3,10 +3,13 @@ import fs from "node:fs";
 import path from "node:path";
 import {
   evaluateBrandAdoptionGate,
+  generateBrandCandidates,
   generateDomainSearchTasks,
   generateTrademarkSearchTasks,
   getBrandClearanceSnapshot,
+  getBrandSearchPlan,
   getCurrentNameAssessmentSummary,
+  getProMaxRiskStatus,
 } from "../../lib/server/brand-clearance";
 
 const PUBLIC_FORBIDDEN_TERMS =
@@ -41,6 +44,7 @@ async function expectFounderApiSafe(request: APIRequestContext, route: string) {
 test.describe("Global Exclusive Brand Gate", () => {
   test("classifies current names without pretending global ownership", () => {
     const summary = getCurrentNameAssessmentSummary();
+    const proMaxRisk = getProMaxRiskStatus();
 
     expect(summary.proMax).toMatchObject({
       name: "Pro Max",
@@ -51,6 +55,13 @@ test.describe("Global Exclusive Brand Gate", () => {
     });
     expect(summary.proMax.reasons.join(" ")).toMatch(/Dell Pro Max/);
     expect(summary.proMax.reasons.join(" ")).toMatch(/Apple iPhone Pro Max/);
+    expect(proMaxRisk).toMatchObject({
+      name: "Pro Max",
+      status: "working_name_only",
+      riskLevel: "high",
+      finalBrandApproved: false,
+      publicLaunchAllowed: false,
+    });
 
     expect(summary.alkon).toMatchObject({
       name: "Alkon",
@@ -80,6 +91,15 @@ test.describe("Global Exclusive Brand Gate", () => {
     });
 
     expect(snapshot.publicExposure).toBe(false);
+    expect(snapshot.currentWorkingName).toBe("Pro Max");
+    expect(snapshot.finalBrandApproved).toBe(false);
+    expect(snapshot.launchBlockedByBrandGate).toBe(true);
+    expect(snapshot.candidateShortlist).toHaveLength(20);
+    expect(
+      snapshot.candidateShortlist.every(
+        (candidate) => candidate.clearanceStatus === "unchecked"
+      )
+    ).toBe(true);
     expect(snapshot.noExternalCalls).toBe(true);
     expect(snapshot.noDomainPurchase).toBe(true);
     expect(snapshot.noPayments).toBe(true);
@@ -102,6 +122,7 @@ test.describe("Global Exclusive Brand Gate", () => {
   test("generates manual WIPO, USPTO, EUIPO/TMview, domain, and legal tasks only", () => {
     const trademarkTasks = generateTrademarkSearchTasks("Avaren");
     const domainTasks = generateDomainSearchTasks("Avaren");
+    const searchPlan = getBrandSearchPlan("Avaren");
 
     expect(trademarkTasks.map((task) => task.registry)).toEqual(
       expect.arrayContaining(["WIPO", "USPTO", "EUIPO_TMVIEW", "SWISS_IPI", "LEGAL_REVIEW"])
@@ -112,6 +133,30 @@ test.describe("Global Exclusive Brand Gate", () => {
     );
     expect(domainTasks.every((task) => task.externalCallMade === false)).toBe(true);
     expect(domainTasks.every((task) => task.purchaseAttempted === false)).toBe(true);
+    expect(searchPlan.sources).toEqual(
+      expect.arrayContaining([
+        "WIPO Global Brand Database",
+        "USPTO Trademark Search",
+        "EUIPO / TMview",
+        "Domain availability",
+      ])
+    );
+    expect(searchPlan.automaticLegalClaim).toBe(false);
+    expect(searchPlan.finalApprovalWithoutLegalReview).toBe(false);
+  });
+
+  test("generates private unchecked candidate names without adopting any brand", () => {
+    const candidates = generateBrandCandidates();
+
+    expect(candidates).toHaveLength(20);
+    expect(candidates.map((candidate) => candidate.name)).toEqual(
+      expect.arrayContaining(["Aurenza", "Veyronis", "Noveris", "Axisora"])
+    );
+    expect(candidates.every((candidate) => candidate.useStatus === "candidate_only")).toBe(true);
+    expect(candidates.every((candidate) => candidate.decision === "needs_deeper_search")).toBe(true);
+    expect(candidates.every((candidate) => candidate.publicUseAllowed === false)).toBe(true);
+    expect(candidates.every((candidate) => candidate.globalLaunchAllowed === false)).toBe(true);
+    expect(candidates.every((candidate) => candidate.ahmadApprovalRequired === true)).toBe(true);
   });
 
   test("exposes Founder-only read-only APIs without external calls or purchases", async ({
@@ -144,6 +189,30 @@ test.describe("Global Exclusive Brand Gate", () => {
     );
     expect(adoptionGate.adoptionGate.adoptionStatus).toBe("needs_legal_review");
     expect(adoptionGate.migrationPlan.executeNow).toBe(false);
+
+    const candidates = await expectFounderApiSafe(
+      request,
+      "/api/founder/brand-clearance/candidates"
+    );
+    expect(candidates.candidates).toHaveLength(20);
+    expect(candidates.candidates[0]).toMatchObject({
+      useStatus: "candidate_only",
+      decision: "needs_deeper_search",
+      clearanceStatus: "unchecked",
+      publicUseAllowed: false,
+      globalLaunchAllowed: false,
+    });
+
+    const proMaxRisk = await expectFounderApiSafe(
+      request,
+      "/api/founder/brand-clearance/pro-max-risk"
+    );
+    expect(proMaxRisk.proMaxRisk).toMatchObject({
+      status: "working_name_only",
+      riskLevel: "high",
+      finalBrandApproved: false,
+      publicLaunchAllowed: false,
+    });
   });
 
   test("renders Founder Command brand gate privately and keeps public UI clean", async ({
@@ -154,6 +223,8 @@ test.describe("Global Exclusive Brand Gate", () => {
     await expect(panel).toBeVisible();
     await expect(panel).toContainText("Pro Max remains a working name");
     await expect(panel).toContainText("Alkon remains private");
+    await expect(panel).toHaveAttribute("data-final-brand-approved", "false");
+    await expect(panel).toHaveAttribute("data-launch-blocked-by-brand-gate", "true");
     await expect(panel).toHaveAttribute("data-no-external-calls", "true");
     await expect(panel).toHaveAttribute("data-no-domain-purchase", "true");
 
@@ -166,6 +237,9 @@ test.describe("Global Exclusive Brand Gate", () => {
   test("keeps reports and source free of purchase, payment, external-call, and fake-claim execution", () => {
     const requiredReports = [
       "reports/global-brand-clearance-status.md",
+      "reports/pro-max-name-risk-report.md",
+      "reports/global-brand-candidates.md",
+      "reports/brand-clearance-next-action.md",
       "reports/pro-max-working-name-risk.md",
       "reports/alkon-private-name-risk.md",
       "reports/global-brand-search-tasks.md",

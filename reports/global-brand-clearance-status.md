@@ -1,27 +1,65 @@
 # Global Brand Clearance Status
 
+Official path:
+C:\Users\ahmad\Desktop\ALKON\Pro Max\Pro Max Trading\pro-max-trading-platform
+
 Status: active_with_notes
 
-Current decision:
+Mission: Global Exclusive Brand Gate
 
-- Pro Max remains a working public name.
-- Pro Max Trading remains a working product name.
-- Alkon remains private/internal.
-- Alkon -0 remains private/internal only and public use is forbidden.
-- No final global public brand is adopted.
-- Public/global launch is blocked until brand clearance is complete.
+currentWorkingName: Pro Max
 
-Clearance required:
+finalBrandApproved: false
+
+launchBlockedByBrandGate: true
+
+Pro Max status:
+
+- working_name_only
+- riskLevel: high
+- finalBrandApproved: false
+- publicLaunchAllowed: false
+
+Reason:
+
+- generic words
+- heavy market use
+- likely conflicts
+- Dell Pro Max conflict risk
+- Apple Pro Max association risk
+- weak exclusive ownership potential
+
+Candidate status:
+
+- 20 private unchecked candidates generated.
+- No candidate is approved.
+- No candidate availability is claimed.
+- No trademark, domain, class, or legal clearance is claimed.
+- Ahmad approval is required before any adoption.
+
+Required searches:
 
 - WIPO Global Brand Database
-- USPTO
+- USPTO Trademark Search
 - EUIPO / TMview
-- Swiss IPI / Swissreg if Swiss-facing use is planned
-- `.com`, `.ai`, `.app`, `.ch`
-- phonetic, visual, language, sector, and reputation review
-- qualified legal review
-- Ahmad final approval
+- Swiss IPI / Swissreg if applicable
+- domain availability
+- Google/web conflict scan
+- social handle scan
+- app store name scan later
+- trademark class review
+- language review
+- legal review
 
-Truth:
+Blocked:
 
-No trademark ownership, global exclusivity, Swiss regulated, FINMA, licensed, profit, or win-rate claim is made.
+- public/global launch
+- global ownership claim
+- trademark registration claim
+- exclusivity claim
+- domain purchase from the app
+- billing, production, live trading, broker/feed, or real-money activation
+
+Next action:
+
+Ahmad chooses/searches candidate names for official manual trademark, domain, conflict, class, language, and legal review.

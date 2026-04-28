@@ -43,6 +43,9 @@ export { default as AlkonSovereignChatInterface } from "./AlkonSovereignChatInte
 export { default as AlkonJarBuildPanel } from "./AlkonJarBuildPanel";
 export { default as AlkonRealityConversionPanel } from "./AlkonRealityConversionPanel";
 export { default as AlkonGlobalBrandGatePanel } from "./AlkonGlobalBrandGatePanel";
+export { default as AlkonBrandClearancePanel } from "./AlkonBrandClearancePanel";
+export { default as AlkonBrandCandidatePanel } from "./AlkonBrandCandidatePanel";
+export { default as AlkonBrandRiskPanel } from "./AlkonBrandRiskPanel";
 export { default as BrandCandidatePanel } from "./BrandCandidatePanel";
 export { default as BrandRiskPanel } from "./BrandRiskPanel";
 export { default as BrandSearchTasksPanel } from "./BrandSearchTasksPanel";

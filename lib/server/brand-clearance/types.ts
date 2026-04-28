@@ -6,16 +6,69 @@ export type BrandCandidateSource =
   | "generated_candidate"
   | "migration_candidate";
 
-export type BrandRiskLevel = "low" | "medium" | "high" | "critical" | "unknown";
+export type BrandRiskLevel =
+  | "low"
+  | "medium"
+  | "high"
+  | "blocked"
+  | "critical"
+  | "unknown";
 
 export type BrandDecision =
+  | "accepted_candidate"
   | "accept_for_internal_use"
   | "working_name_only"
   | "needs_search"
+  | "needs_deeper_search"
   | "needs_legal_review"
+  | "rejected"
   | "reject"
+  | "blocked"
   | "black_hole"
   | "ready_for_ahmad_review";
+
+export type BrandSearchSource =
+  | "WIPO Global Brand Database"
+  | "USPTO Trademark Search"
+  | "EUIPO / TMview"
+  | "Swiss IPI / Swissreg"
+  | "Domain availability"
+  | "Google/web conflict scan"
+  | "Social handle scan"
+  | "App store name scan";
+
+export type TrademarkClassTarget = {
+  classNumber: 9 | 35 | 36 | 41 | 42;
+  label: string;
+  reason: string;
+};
+
+export type BrandConflict = {
+  family: string;
+  riskLevel: BrandRiskLevel;
+  reason: string;
+};
+
+export type DomainCheck = {
+  domain: string;
+  status: DomainReadinessStatus;
+  externalCallMade: false;
+  purchaseAttempted: false;
+};
+
+export type BrandNextAction = {
+  action: string;
+  owner: "Ahmad" | "Alkon" | "Legal review";
+  status: "not_started" | "ready_for_review" | "blocked" | "future";
+};
+
+export type BrandApprovalStatus =
+  | "not_started"
+  | "not_approved"
+  | "ahmad_review_required"
+  | "legal_review_required"
+  | "approved_private_only"
+  | "approved_public_use";
 
 export type BrandUseStatus =
   | "working_name_only"
@@ -62,6 +115,12 @@ export type BrandCandidate = {
   internalSafeUsage: string;
   nextSafeAction: string;
   ahmadApprovalRequired: boolean;
+  reason?: string;
+  risks?: string[];
+  clearanceStatus?: "unchecked" | "search_required" | "blocked" | "reviewed";
+  suggestedDomainForms?: string[];
+  recommendedTrademarkClasses?: TrademarkClassTarget[];
+  nextSearchAction?: string;
 };
 
 export type TrademarkSearchTask = {
@@ -142,6 +201,20 @@ export type BrandClearanceSnapshot = {
   legalReviewStatus: LegalReviewStatus;
   adoptionGate: BrandAdoptionPlan;
   migrationPlan: BrandMigrationPlan;
+  currentWorkingName: "Pro Max";
+  finalBrandApproved: false;
+  launchBlockedByBrandGate: true;
+  requiredSearches: BrandSearchSource[];
+  requiredLegalReview: true;
+  oneNextAction: BrandNextAction;
+  searchPlan: {
+    candidateName: string;
+    sources: BrandSearchSource[];
+    classTargets: TrademarkClassTarget[];
+    automaticLegalClaim: false;
+    finalApprovalWithoutLegalReview: false;
+    notes: string[];
+  };
   blockedClaims: string[];
   nextSafeBrandAction: string;
 };

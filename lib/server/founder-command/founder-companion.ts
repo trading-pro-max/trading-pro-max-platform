@@ -362,7 +362,8 @@ export function getFounderPersonalCompanionSnapshot(
     ],
     brandClearanceSummary: [
       `Brand Clearance is ${brandClearance.status}; public exposure is ${String(brandClearance.publicExposure)}.`,
-      `Current names reviewed: ${brandClearance.currentNames.length}; final candidates adopted: ${brandClearance.candidateShortlist.length}.`,
+      `Current working name: ${brandClearance.currentWorkingName}; final brand approved: ${String(brandClearance.finalBrandApproved)}; launch blocked by brand gate: ${String(brandClearance.launchBlockedByBrandGate)}.`,
+      `Candidate names prepared for private review: ${brandClearance.candidateShortlist.length}; all remain unchecked until official search and legal review.`,
       `Manual search tasks: ${brandClearance.trademarkSearchTasks.length} trademark/conflict and ${brandClearance.domainSearchTasks.length} domain/handle tasks.`,
       `Adoption gate is ${brandClearance.adoptionGate.adoptionStatus}; next safe action: ${brandClearance.nextSafeBrandAction}`,
       "Pro Max remains a working name; Alkon remains private; no global exclusivity, trademark ownership, Swiss regulation, FINMA, licensing, profit, or win-rate claim is allowed.",
