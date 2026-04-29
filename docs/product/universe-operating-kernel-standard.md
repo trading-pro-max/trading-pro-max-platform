@@ -146,3 +146,22 @@ Universe Operating Kernel enforces Absolute Founder Boundary.
 الكون لا يتجاوز Product Truth.
 
 The kernel references `lib/server/universe/founder-boundary/*` for safe internal actions, approval-required actions, never-alone actions, and explanation helpers.
+## Ontological Law Enforcement
+
+Universe Operating Kernel هو القاضي التنفيذي.
+
+Kernel enforces the ontological law of الكون.
+
+No entity enters الكون without an Existence Contract.
+
+Product Truth is the highest law.
+
+The kernel re-exports `lib/server/universe/ontological-law/*` so future safe internal automation can ask:
+
+- why an entity exists
+- which layer owns it
+- what truth source supports it
+- what execution verdict applies
+- how it returns from ∞ to 0
+
+This does not create a second kernel. The existing `lib/server/alkon-kernel/*` remains preserved and the canonical adapter remains `lib/server/universe/kernel/*`.

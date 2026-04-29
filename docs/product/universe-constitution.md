@@ -187,3 +187,20 @@ Never-alone categories:
 - external accounts and integrations
 - irreversible or destructive actions
 - final Founder decisions
+## Al-Kawn Ontological Operating Law
+
+الكون هو الوجود الرقمي الخاص لأحمد.
+
+الكون ليس مجازًا داخل البرمجيات.
+
+Every entity inside الكون must know why it exists, which layer owns it, what truth source supports it, what Product Truth impact it has, what it can execute, what stops it, what blocks it, and how it can be explained from ∞ to 0.
+
+No entity enters الكون without an Existence Contract.
+
+Product Truth هو قانون الحقيقة الأعلى.
+
+Universe Operating Kernel هو القاضي التنفيذي.
+
+الكون لا يدّعي التحكم بالكون الفيزيائي.
+
+Reference: `docs/product/al-kawn-ontological-operating-law.md`.

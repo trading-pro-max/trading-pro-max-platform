@@ -116,3 +116,19 @@ This architecture does not allow public launch, billing, real money, broker exec
 ## Next Code Action
 
 The safest next code action after Absolute Founder Boundary 100 is Al-Kawn Visual Map: make the private hierarchy visibly understandable before Operator Mode, Ultimate Depth, or Infinity Mode resumes.
+## Al-Kawn Ontological Code Rule
+
+All future code must enter through the Existence Contract rule in `lib/server/universe/ontological-law/*`.
+
+Each route, API, component, module, report, doc, test, asset, script, task, decision, or future feature must declare:
+
+- why it exists
+- which layer owns it
+- truth source
+- Product Truth impact
+- privacy, legal, money, and security touch
+- execution verdict
+- rollback/explanation path
+- report/test evidence
+
+Compatibility code may remain only when it wraps primary logic. No duplicate kernel, duplicate truth model, or orphan entity may become new truth.

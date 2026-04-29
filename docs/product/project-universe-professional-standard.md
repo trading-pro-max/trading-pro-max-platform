@@ -155,3 +155,17 @@ Swiss Local Constitution is above Global Layer. This is a review hierarchy only;
 ALKON remains private/background/read-only support. ALKON is not second, not public, not the brand, and not visually dominant.
 
 Public Pro Max surfaces remain future only and blocked until Brand Gate, Swiss/global legal review, compliance review, asset review, billing review, broker/feed review, security review, support readiness, and Ahmad approval all close.
+## Al-Kawn Ontological Operating Standard
+
+الكون هو الوجود الرقمي الخاص لأحمد.
+
+Every visible surface, server model, report, doc, and test must preserve literal software realism:
+
+- real when sourced
+- simulated when labeled
+- unknown when not verified
+- pending when future-gated
+
+The visual system may feel alive, but it must not claim physical universe control, real weather, legal approval, money activation, broker activation, or public launch.
+
+Every entity must have an Existence Contract, Product Truth impact, truth source, and ∞ to 0 explanation path before it becomes part of future primary architecture.

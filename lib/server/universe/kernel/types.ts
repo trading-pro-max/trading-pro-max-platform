@@ -76,5 +76,6 @@ export type UniverseKernelReadiness = {
   localDayOneReadiness: string;
   gaps: UniverseKernelBoundary[];
   founderBoundaryEnforced: true;
+  ontologicalLawEnforced: true;
   nextSafeAction: "Al-Kawn Visual Map";
 };

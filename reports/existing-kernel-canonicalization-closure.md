@@ -184,13 +184,17 @@ Boundary follow-up completed:
 
 Absolute Founder Boundary 100.
 
+Ontological follow-up completed:
+
+Al-Kawn Ontological Operating Law through `lib/server/universe/ontological-law/*`.
+
 Safest next action now:
 
 Al-Kawn Visual Map.
 
 Reason:
 
-The kernel is canonicalized and the founder boundary is active; deeper operation should wait until the private visual hierarchy is clear and Ahmad accepts the next shape.
+The kernel is canonicalized, the founder boundary is active, and the ontological law is active; deeper operation should wait until the private visual hierarchy is clear and Ahmad accepts the next shape.
 
 ## Validation Results
 

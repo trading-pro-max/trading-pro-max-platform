@@ -7,6 +7,9 @@ import {
 } from "@/lib/server/alkon-kernel";
 import { getSafeInternalActions } from "@/lib/server/universe/founder-boundary";
 import {
+  getOntologicalExecutionVerdictRules,
+} from "@/lib/server/universe/ontological-law";
+import {
   universeManagementReadiness,
   universeProductTruth,
 } from "@/lib/server/universe-management";
@@ -29,6 +32,21 @@ export {
   getSafeInternalActions,
   requiresAhmadApproval,
 } from "@/lib/server/universe/founder-boundary";
+export {
+  explainEntityFromInfinityToZero,
+  explainWhyEntityExists,
+  getAlKawnOntologicalLaw,
+  getExistenceContract,
+  getExistenceContracts,
+  getImpactMemoryRules,
+  getLayerBelongingRules,
+  getOntologicalExecutionVerdict,
+  getOntologicalExecutionVerdictRules,
+  getOntologicalReport,
+  getProtectionStateRules,
+  getRollbackExplanationRules,
+  getTruthSourceRules,
+} from "@/lib/server/universe/ontological-law";
 
 export type {
   UniverseKernelBoundary,
@@ -131,6 +149,9 @@ export function getUniverseKernelRole(): UniverseKernelRole {
       "Existing kernel canonicalized as Universe Operating Kernel.",
       "Universe Operating Kernel is the root private operating brain.",
       "Universe Operating Kernel enforces Absolute Founder Boundary.",
+      "Universe Operating Kernel هو القاضي التنفيذي.",
+      "Kernel enforces the ontological law of الكون.",
+      "No entity enters الكون without an Existence Contract.",
       "Product Truth overrides every action.",
       "Swiss Local Constitution is above the Global Layer.",
       "Dangerous actions require Ahmad approval or remain blocked.",
@@ -157,6 +178,8 @@ export function getUniverseKernelPermissions(): UniverseKernelPermissionSet {
       "brand, domain, or ownership action",
       "personal secrets, private documents, or external account connection",
       "irreversible destructive action",
+      "entity without Existence Contract",
+      "truth claim without source",
     ],
     blocked: [
       "public launch",
@@ -177,8 +200,16 @@ export function getUniverseKernelPermissions(): UniverseKernelPermissionSet {
 
 export function getUniverseKernelGuards(): UniverseKernelGuard[] {
   const engine = runAlkonKernelEngine();
+  const ontologicalVerdictCount = getOntologicalExecutionVerdictRules().length;
 
   return [
+    {
+      id: "ontological_law",
+      label: "Al-Kawn Ontological Operating Law",
+      status: "available",
+      enforcedBy: "lib/server/universe/ontological-law/*",
+      note: `Kernel enforces the ontological law of الكون. No entity enters الكون without an Existence Contract. Product Truth is the highest law. ${ontologicalVerdictCount} execution verdicts are defined.`,
+    },
     {
       id: "absolute_founder_boundary",
       label: "Absolute Founder Boundary",
@@ -230,7 +261,7 @@ export function getUniverseKernelNextAction() {
   return {
     next: "Al-Kawn Visual Map" as const,
     reason:
-      "The existing kernel is canonicalized and the Absolute Founder Boundary is enforced. The safest next step is a private visual map of الكون before Operator Mode, Ultimate Depth, or Infinity Mode resumes.",
+      "The existing kernel is canonicalized, the Absolute Founder Boundary is enforced, and the ontological law of الكون now requires every entity to explain why it exists. The safest next step is a private visual map of الكون before Operator Mode, Ultimate Depth, or Infinity Mode resumes.",
     mustNotDo: [
       "Do not start Infinity Mode.",
       "Do not start Operator Mode without Ahmad decision.",
@@ -277,6 +308,7 @@ export function getUniverseKernelReadiness(
     localDayOneReadiness: readiness.localDayOneStatus,
     gaps: pendingKernelGaps,
     founderBoundaryEnforced: true,
+    ontologicalLawEnforced: true,
     nextSafeAction: "Al-Kawn Visual Map",
   };
 }

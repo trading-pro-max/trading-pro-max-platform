@@ -21,7 +21,7 @@ export default function TradingCommandBar({
 
       <div className={styles.commandBadges} aria-label="Trading operating truth">
         <span>Managed by Universe</span>
-        <span>Private mode</span>
+        <span>Private mode / Inside Al-Kawn law / Existence Contract required</span>
         <span>Demo-safe / read-only mode</span>
         <span>Founder Boundary: active / Money/broker actions approval-gated</span>
         <span>Public launch: not started</span>

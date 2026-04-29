@@ -30,6 +30,16 @@ import {
   getUniverseKernelState,
   getUniverseKernelTruth,
 } from "@/lib/server/universe/kernel";
+import {
+  explainEntityFromInfinityToZero,
+  getAlKawnOntologicalLaw,
+  getExistenceContracts,
+  getImpactMemoryRules,
+  getLayerBelongingRules,
+  getOntologicalExecutionVerdictRules,
+  getRollbackExplanationRules,
+  getTruthSourceRules,
+} from "@/lib/server/universe/ontological-law";
 import styles from "../founder-universe.module.css";
 
 function TruthList({ items }: { items: UniverseTruthItem[] }) {
@@ -96,6 +106,15 @@ export default function UniverseCommandCenter({
   const safeInternalActions = getSafeInternalActions().slice(0, 10);
   const approvalRequiredActions = getApprovalRequiredActions().slice(0, 12);
   const neverAloneActions = getNeverAloneActions().slice(0, 12);
+  const ontologicalLaw = getAlKawnOntologicalLaw();
+  const existenceContracts = getExistenceContracts().slice(0, 5);
+  const layerBelongingRules = getLayerBelongingRules().slice(0, 8);
+  const truthSourceRules = getTruthSourceRules().slice(0, 6);
+  const executionVerdictRules = getOntologicalExecutionVerdictRules();
+  const impactMemoryRules = getImpactMemoryRules();
+  const rollbackExplanationRules = getRollbackExplanationRules().slice(0, 5);
+  const infinityToZeroExplanation =
+    explainEntityFromInfinityToZero("alkawn_root");
 
   return (
     <main
@@ -468,6 +487,110 @@ Compatibility evidence:
           <span>Public launch boundary: Ahmad approval required</span>
           <span>Secrets boundary: explicit Ahmad approval required</span>
           <span>Final decision boundary: Ahmad only</span>
+        </div>
+      </section>
+
+      <section
+        className={styles.kernelPanel}
+        data-testid="al-kawn-ontological-operating-law"
+        aria-label="Al-Kawn Ontological Operating Law"
+      >
+        <div className={styles.kernelHeader}>
+          <div>
+            <span>Al-Kawn Ontological Operating Law</span>
+            <h2>{ontologicalLaw.arabicTitle}</h2>
+            <p>الكون هو الوجود الرقمي الخاص لأحمد.</p>
+            <p>الكون ليس مجازًا داخل البرمجيات.</p>
+            {ontologicalLaw.highestLaw.map((law) => (
+              <p key={law}>{law}</p>
+            ))}
+            <p>No entity enters الكون without an Existence Contract.</p>
+            <p>Product Truth هو قانون الحقيقة الأعلى.</p>
+            <p>Universe Operating Kernel هو القاضي التنفيذي.</p>
+            <p>Kernel enforces the ontological law of الكون.</p>
+            <p>{ontologicalLaw.physicalRealityBoundary}</p>
+          </div>
+          <aside>
+            <strong>Existence law active</strong>
+            <small>{existenceContracts.length} contract examples</small>
+            <small>{executionVerdictRules.length} execution verdicts</small>
+          </aside>
+        </div>
+        <div className={styles.kernelGrid}>
+          <article>
+            <span>Existence Contract</span>
+            <strong>Every entity proves why it exists</strong>
+            <small>Routes, APIs, components, modules, reports, docs, tests, assets, scripts, tasks, decisions, and future features must declare origin, layer, truth source, Product Truth impact, and explanation path.</small>
+          </article>
+          <article>
+            <span>Layer belonging</span>
+            <strong>No orphan entity</strong>
+            <small>Pro Max Galaxy belongs inside الكون, Earth Planet belongs inside Pro Max Galaxy, /trading belongs to Earth Planet, and ALKON remains private/background.</small>
+          </article>
+          <article>
+            <span>Truth source</span>
+            <strong>Real when sourced</strong>
+            <small>Real when sourced. Simulated when labeled. Unknown when not verified. Pending when future-gated.</small>
+          </article>
+          <article>
+            <span>∞ to 0 explanation</span>
+            <strong>Every layer returns to origin</strong>
+            <small>∞ إلى 0 يعني تفسير الكون والرجوع إلى الأصل. كل طبقة يجب أن يمكن شرحها إلى أصلها.</small>
+          </article>
+        </div>
+        <div className={styles.kernelColumns}>
+          <article>
+            <span>Core execution law</span>
+            <ul>
+              {ontologicalLaw.coreExecutionLaw.map((law) => (
+                <li key={law}>{law}</li>
+              ))}
+            </ul>
+          </article>
+          <article>
+            <span>Existence contracts</span>
+            <ul>
+              {existenceContracts.map((contract) => (
+                <li key={contract.entityId}>
+                  {contract.technicalLabel}: {contract.executionVerdict}
+                </li>
+              ))}
+            </ul>
+          </article>
+          <article>
+            <span>Execution verdicts</span>
+            <ul>
+              {executionVerdictRules.map((rule) => (
+                <li key={rule.verdict}>{rule.verdict}</li>
+              ))}
+            </ul>
+          </article>
+        </div>
+        <div className={styles.kernelGuardList}>
+          <span>Layer and truth source rules</span>
+          {layerBelongingRules.map((rule) => (
+            <article key={rule.id}>
+              <strong>{rule.wording}</strong>
+              <small>{rule.parent} → {rule.child}</small>
+              <em>{rule.status}</em>
+            </article>
+          ))}
+          {truthSourceRules.map((rule) => (
+            <article key={rule.source}>
+              <strong>{rule.allowedClaim}</strong>
+              <small>{rule.meaning}</small>
+              <em>{rule.source}</em>
+            </article>
+          ))}
+        </div>
+        <div className={styles.kernelTruthStrip}>
+          {impactMemoryRules.map((rule) => (
+            <span key={rule.id}>{rule.meaning}</span>
+          ))}
+          {rollbackExplanationRules.map((rule) => (
+            <span key={rule.id}>{rule.question}: {rule.answerRequirement}</span>
+          ))}
+          <span>{infinityToZeroExplanation}</span>
         </div>
       </section>
 

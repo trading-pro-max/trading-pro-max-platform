@@ -26,8 +26,8 @@ Required exports exist:
 
 ## Category Counts
 
-- Total registry items: 54
-- Primary: 27
+- Total registry items: 55
+- Primary: 28
 - Compatibility: 6
 - Protected: 10
 - Cleanup candidate: 3
@@ -49,6 +49,7 @@ Primary sources:
 - existing `lib/server/alkon-kernel`
 - `lib/server/universe/kernel`
 - `lib/server/universe/founder-boundary`
+- `lib/server/universe/ontological-law`
 - `lib/server/jar-build`
 - `lib/server/reality-conversion`
 - `lib/server/existence-architecture`

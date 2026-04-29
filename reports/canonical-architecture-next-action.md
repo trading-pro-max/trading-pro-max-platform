@@ -15,7 +15,7 @@ The Canonical Architecture Registry exists and controlled canonical cleanup has 
 - Project Universe Truth structured Brand Gate state
 - private `/founder/universe` hierarchy wording
 
-Existing kernel canonicalization is complete through `lib/server/universe/kernel/*`. Absolute Founder Boundary is active through `lib/server/universe/founder-boundary/*`. Unresolved conflicts still remain around planet API classification, legacy Earth/logo wrappers, and Ahmad-decision product meaning.
+Existing kernel canonicalization is complete through `lib/server/universe/kernel/*`. Absolute Founder Boundary is active through `lib/server/universe/founder-boundary/*`. Al-Kawn Ontological Operating Law is active through `lib/server/universe/ontological-law/*`. Unresolved conflicts still remain around planet API classification, legacy Earth/logo wrappers, and Ahmad-decision product meaning.
 
 ## Is It Safe To Continue Ultimate Depth?
 
@@ -46,6 +46,7 @@ Al-Kawn Visual Map can safely:
 - preserve the canonicalized `lib/server/universe/kernel/*` adapter
 - keep the validated `lib/server/alkon-kernel/*` protected
 - keep `lib/server/universe/founder-boundary/*` active
+- keep `lib/server/universe/ontological-law/*` active
 - prevent duplicate kernel creation
 - make the private hierarchy visible before deeper operation
 - keep Product Truth primary
@@ -57,7 +58,7 @@ Al-Kawn Visual Map can safely:
 
 Execute Al-Kawn Visual Map:
 
-1. Map Ahmad Human, Ahmad Private Devices, الكون, kernel, boundary, Universe One, Swiss Local Constitution, Pro Max Galaxy, Earth Planet, and ALKON background visually.
+1. Map Ahmad Human, Ahmad Private Devices, الكون, Product Truth, Existence Contract, kernel, boundary, Universe One, Swiss Local Constitution, Pro Max Galaxy, Earth Planet, and ALKON background visually.
 2. Keep `lib/server/universe/kernel/*` as the canonical kernel adapter.
 3. Do not duplicate command/state/gate logic.
 4. Preserve Product Truth and private route boundaries.

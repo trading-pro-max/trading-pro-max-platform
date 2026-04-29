@@ -92,6 +92,14 @@ Result:
 
 `lib/server/universe/founder-boundary/*` defines safe internal actions, approval-required actions, never-alone actions, and explanation helpers. `lib/server/universe/kernel/*` references the boundary.
 
+## Al-Kawn Ontological Operating Law Result
+
+Al-Kawn Ontological Operating Law is active with notes.
+
+Result:
+
+`lib/server/universe/ontological-law/*` defines Existence Contract, layer belonging, truth source, protection state, execution verdict, impact memory, and ∞ to 0 explanation rules. `lib/server/universe/kernel/*` references the ontological law.
+
 ## Safest Next Action
 
 Al-Kawn Visual Map

@@ -20,8 +20,8 @@ test.describe("Canonical Architecture Registry", () => {
       "utf8"
     );
 
-    expect(registryReport).toContain("Total registry items: 54");
-    expect(registryReport).toContain("Primary: 27");
+    expect(registryReport).toContain("Total registry items: 55");
+    expect(registryReport).toContain("Primary: 28");
     expect(registryReport).toContain("Compatibility: 6");
     expect(registryReport).toContain("Protected: 10");
     expect(registryReport).toContain("Cleanup candidate: 3");
