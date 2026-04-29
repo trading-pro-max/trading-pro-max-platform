@@ -11,12 +11,22 @@ test.describe("Pro Max Earth Identity Closure", () => {
   }) => {
     await page.goto("/trading", { waitUntil: "domcontentloaded" });
 
-    const earth = page.locator("[data-promax-earth-identity='true']").first();
+    const earth = page.getByTestId("promax-earth-identity").first();
     await expect(earth).toBeVisible();
     await expect(earth).toHaveAttribute("data-animated-earth-mark", "true");
+    await expect(earth).toHaveAttribute("data-real-3d-earth-logo", "true");
+    await expect(earth).toHaveAttribute(
+      "data-earth-render-mode",
+      "local-procedural-layered-sphere"
+    );
     await expect(earth).toHaveAttribute("data-swiss-inspired-precision", "true");
     await expect(earth).toHaveAttribute("data-reduced-motion-supported", "true");
+    await expect(page.getByTestId("promax-earth-3d-globe").first()).toBeVisible();
+    await expect(page.getByTestId("promax-earth-orbit").first()).toBeVisible();
+    await expect(page.getByTestId("promax-earth-reduced-motion-safe").first()).toBeAttached();
     await expect(page.locator("body")).toContainText("Swiss-inspired visual identity only");
+    await expect(page.locator("body")).toContainText("Pro Max: working name only");
+    await expect(page.locator("body")).toContainText("Brand Gate review: ready with notes");
     await expect(page.locator("[data-product-truth-strip='true']")).toBeVisible();
 
     const bodyText = await page.locator("body").innerText();
@@ -29,9 +39,13 @@ test.describe("Pro Max Earth Identity Closure", () => {
     await page.goto("/founder/universe", { waitUntil: "domcontentloaded" });
 
     await expect(page.locator("[data-founder-universe-command-center='true']")).toBeVisible();
-    await expect(page.locator("[data-promax-earth-identity='true']").first()).toBeVisible();
+    await expect(page.getByTestId("promax-earth-identity").first()).toBeVisible();
+    await expect(page.getByTestId("promax-earth-3d-globe").first()).toBeVisible();
+    await expect(page.getByTestId("promax-earth-orbit").first()).toBeVisible();
     await expect(page.locator("body")).toContainText("Swiss-inspired visual identity only");
     await expect(page.locator("body")).toContainText("Product Truth");
+    await expect(page.locator("body")).toContainText("Pro Max: working_name_only");
+    await expect(page.locator("body")).toContainText("Brand Gate: ready_with_notes");
 
     const bodyText = await page.locator("body").innerText();
     expect(bodyText).not.toMatch(FORBIDDEN_FAKE_CLAIMS);
@@ -41,6 +55,8 @@ test.describe("Pro Max Earth Identity Closure", () => {
     const sourceFiles = [
       "app/_components/ProMaxEarthIdentity.tsx",
       "app/_components/ProMaxEarthIdentity.module.css",
+      "app/_components/ProMaxLivingEarth.tsx",
+      "app/_components/ProMaxLivingEarth.module.css",
       "app/trading/trading-premium-realism.module.css",
       "app/founder/universe/founder-universe.module.css",
     ]
@@ -48,8 +64,10 @@ test.describe("Pro Max Earth Identity Closure", () => {
       .join("\n");
 
     expect(sourceFiles).toContain("prefers-reduced-motion");
+    expect(sourceFiles).toContain("livingEarthSpin");
+    expect(sourceFiles).toContain("data-testid=\"promax-earth-3d-globe\"");
+    expect(sourceFiles).toContain("role=\"img\"");
     expect(sourceFiles).not.toMatch(/<img|src=["']https?:\/\/|fetch\(["']https?:\/\//i);
-    expect(sourceFiles).not.toMatch(/\.(png|jpe?g|webp|gif|avif|mp4|mov|webm)/i);
     expect(sourceFiles).not.toMatch(/NASA|official NASA|partnered with NASA/i);
   });
 });

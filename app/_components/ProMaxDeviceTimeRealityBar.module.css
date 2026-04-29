@@ -1,0 +1,66 @@
+.bar {
+  align-items: center;
+  background: rgba(5, 9, 15, 0.76);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  color: rgba(245, 248, 251, 0.82);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 10px;
+  padding: 8px;
+  position: relative;
+  z-index: 1;
+}
+
+.bar span,
+.bar strong {
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 6px 8px;
+  white-space: nowrap;
+}
+
+.bar strong {
+  color: #ffffff;
+}
+
+.full {
+  justify-content: flex-start;
+}
+
+.compact {
+  background: rgba(5, 9, 15, 0.72);
+  border-radius: 999px;
+  justify-content: flex-end;
+  margin-top: 0;
+  max-width: min(620px, 42vw);
+  overflow: hidden;
+  padding: 4px;
+  position: absolute;
+  right: 96px;
+  top: 16px;
+  z-index: 3;
+}
+
+.compact span,
+.compact strong {
+  font-size: 0.62rem;
+  padding: 4px 6px;
+}
+
+.compact span:nth-of-type(n + 5) {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .compact,
+  .full {
+    justify-content: flex-start;
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+}

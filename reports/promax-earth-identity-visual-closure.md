@@ -39,6 +39,18 @@ The identity sits around the operating floor and never activates real money, bro
 
 The Earth identity includes `prefers-reduced-motion` handling so motion becomes minimal for users who request reduced motion.
 
+## Real 3D Earth Logo Correction
+
+Ahmad rejected the previous logo because it still read as a decorated flat globe rather than a real living planet. The correction upgraded `ProMaxEarthIdentity` into a reusable code-driven 3D Earth mark with a projected rotating continent layer, deep ocean shading, cloud veil, day/night terminator, specular highlight, atmospheric rim, Swiss red orbit accent, data nodes, and living pulse.
+
+No image generation, image files, external image URLs, official symbols, or space-agency assets were used. The Earth remains CSS/React code only and uses stable test IDs for regression proof: `promax-earth-identity`, `promax-earth-3d-globe`, `promax-earth-orbit`, and `promax-earth-reduced-motion-safe`.
+
+Reduced-motion handling remains in CSS through `prefers-reduced-motion`, which stops continuous globe, cloud, orbit, and pulse animation for users who request minimal motion.
+
+Applied to:
+- `/founder/universe` as the large private command symbol.
+- `/trading` as the compact premium command bar mark.
+
 Validation results:
 - `npx tsc --noEmit`: pass.
 - `npx eslint app modules tests --max-warnings=0`: pass.
@@ -51,3 +63,11 @@ Validation results:
 
 Not done:
 No approved photoreal texture was added. No generated image was used.
+
+## Living Universe With Legal-Safe Assets Extension
+
+Ahmad expanded the visual direction to allow local, legal-safe assets inside the project. The Earth identity now has a dedicated `ProMaxLivingEarth` runtime component with local procedural SVG texture support, cloud layer, night lights overlay, atmosphere glow, day/night shadow, seasonal tint, Swiss red orbit accent, data nodes, and device-time labels.
+
+No image generation, random external URL, copied space-agency asset, official Swiss symbol, or unsafe legal/regulatory claim was introduced. The asset manifest is stored at `public/assets/promax/asset-manifest.json`, and all current assets are procedural/manual placeholders approved only for private internal review.
+
+Reduced-motion support remains active through `prefers-reduced-motion`, and the optional soundscape is generated locally, off by default, and user activated only.

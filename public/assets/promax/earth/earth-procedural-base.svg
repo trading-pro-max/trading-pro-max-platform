@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 512" role="img" aria-label="Original procedural Earth base texture placeholder">
+  <defs>
+    <linearGradient id="ocean" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#071321"/>
+      <stop offset="0.34" stop-color="#0b3455"/>
+      <stop offset="0.68" stop-color="#0b5875"/>
+      <stop offset="1" stop-color="#04101a"/>
+    </linearGradient>
+    <filter id="soften" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="5"/>
+    </filter>
+  </defs>
+  <rect width="1024" height="512" fill="url(#ocean)"/>
+  <g fill="#2d6f58" opacity="0.88" filter="url(#soften)">
+    <path d="M54 158c50-44 112-42 162-18 44 21 77 17 120 2 29-10 68-5 86 21 20 29-8 54-43 63-59 15-91 45-132 66-47 23-93 8-107-34-17-50-74-45-86-100z"/>
+    <path d="M340 312c43-31 99-42 145-22 30 13 48 48 36 78-15 37-67 52-112 41-44-11-94 0-119-26-25-27 10-49 50-71z"/>
+    <path d="M558 104c72-34 152-21 206 18 48 36 71 96 34 138-34 38-93 24-138 1-40-20-92-13-125-43-36-33-16-86 23-114z"/>
+    <path d="M740 302c48-14 93 3 126 34 26 25 68 27 82 62 13 32-25 55-72 47-41-7-79-30-118-27-35 3-68-18-65-52 2-27 19-50 47-64z"/>
+    <path d="M862 92c40-17 97-9 122 26 20 29 2 66-38 79-32 10-63-4-89-24-31-24-34-63 5-81z"/>
+  </g>
+  <g fill="#8fa47e" opacity="0.42" filter="url(#soften)">
+    <path d="M104 133c64-26 141 4 166 46-66-18-123-3-188 28-19-32-10-57 22-74z"/>
+    <path d="M592 123c52-19 120-5 154 33-49 9-112 12-162-4-21-7-24-20 8-29z"/>
+    <path d="M778 330c48-2 92 25 119 62-44-13-89-12-140 0-23-28-20-54 21-62z"/>
+  </g>
+  <g stroke="#d7f7ff" stroke-width="1" opacity="0.11">
+    <path d="M0 256h1024"/>
+    <path d="M0 128h1024"/>
+    <path d="M0 384h1024"/>
+    <path d="M256 0v512"/>
+    <path d="M512 0v512"/>
+    <path d="M768 0v512"/>
+  </g>
+</svg>

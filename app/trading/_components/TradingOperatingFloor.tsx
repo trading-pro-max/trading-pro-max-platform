@@ -1,4 +1,6 @@
-import { ProMaxEarthIdentity } from "@/app/_components/ProMaxEarthIdentity";
+import { ProMaxDeviceTimeRealityBarStatic } from "@/app/_components/ProMaxDeviceTimeRealityBarStatic";
+import { ProMaxLivingEarthStatic } from "@/app/_components/ProMaxLivingEarthStatic";
+import { ProMaxLivingUniverseBackgroundStatic } from "@/app/_components/ProMaxLivingUniverseBackgroundStatic";
 import type { ProjectUniverseTruthSnapshot } from "@/lib/server/project-universe-truth";
 import AlkonTradingTruthPanel from "./AlkonTradingTruthPanel";
 import ExecutionRiskPanel from "./ExecutionRiskPanel";
@@ -83,6 +85,13 @@ export default function TradingOperatingFloor({
       dir="ltr"
       lang="en"
     >
+      <script
+        dangerouslySetInnerHTML={{
+          __html:
+            "try{if('scrollRestoration'in history){history.scrollRestoration='manual'}window.scrollTo(0,0)}catch(error){}",
+        }}
+      />
+      <ProMaxLivingUniverseBackgroundStatic surface="trading" />
       <div className={styles.cosmicField} aria-hidden="true" />
       <div
         className={`${styles.workspaceEarth} tpm-living-earth-background`}
@@ -93,6 +102,7 @@ export default function TradingOperatingFloor({
       />
 
       <TradingCommandBar truth={truth} />
+      <ProMaxDeviceTimeRealityBarStatic variant="compact" />
 
       <section className={styles.body}>
         <MarketWatchPanel instruments={instruments} selectedSymbol={selectedInstrument.symbol} />
@@ -159,7 +169,7 @@ export default function TradingOperatingFloor({
         </section>
 
         <aside className={styles.identityColumn} aria-label="Earth identity status">
-          <ProMaxEarthIdentity size="hero" showText />
+          <ProMaxLivingEarthStatic size="hero" surface="trading" showText />
           <p>{truth.identityLine}</p>
           <span>Swiss-inspired visual identity only</span>
           <span>No government endorsement</span>

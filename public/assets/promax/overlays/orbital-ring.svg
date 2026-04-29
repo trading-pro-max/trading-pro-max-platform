@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Original orbital ring overlay">
+  <g fill="none" stroke-linecap="round">
+    <ellipse cx="256" cy="256" rx="222" ry="76" stroke="#d7f7ff" stroke-opacity="0.38" stroke-width="2" transform="rotate(-18 256 256)"/>
+    <ellipse cx="256" cy="256" rx="208" ry="92" stroke="#e30613" stroke-opacity="0.34" stroke-width="2" transform="rotate(28 256 256)"/>
+    <path d="M62 228c72-58 251-102 396-15" stroke="#ffffff" stroke-opacity="0.18" stroke-width="1.5"/>
+  </g>
+</svg>

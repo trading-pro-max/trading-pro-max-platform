@@ -55,3 +55,29 @@ The project must not claim legal approval, regulation, licensing, Swiss certific
 ## Gates
 
 Public launch, billing, real-money trading, broker/feed integration, founder review, Swiss legal review, global legal review, data protection review, AML/KYC review if money/accounts/payments/users are introduced, and brand clearance remain gated.
+
+## Living Universe With Legal-Safe Visual Assets Standard
+
+The Pro Max living universe may use local project assets when they are original, procedural, legally safe, documented in `public/assets/promax/asset-manifest.json`, and marked for private internal use with future public-launch review required.
+
+Allowed asset types:
+
+- Original procedural SVG textures and overlays.
+- Original CSS, SVG, React, and canvas-style visual layers.
+- Local approved textures only when source, license, author/provider, checksum, usage notes, approval, and restrictions are documented.
+- Web Audio API generated sound after user activation only.
+
+Forbidden asset types:
+
+- Random external image downloads.
+- Hotlinked images or audio.
+- Unknown-license textures.
+- Copied space-agency identity or logos.
+- Official Swiss coat of arms or government symbols.
+- Any asset implying government, regulatory, legal, or institutional endorsement.
+
+The living universe uses device-time simulation for day/night tone and device-date simulation for season tone. It must always say weather is not connected unless a real provider is lawfully implemented later. Soundscape is off by default, generated locally, user activated, low volume, and stopped on unmount.
+
+Reduced-motion preferences must be respected. Earth motion, cloud motion, orbit motion, and pulse effects must become static or minimal when requested.
+
+Product Truth outranks visual spectacle. Earth, atmosphere, stars, orbits, and sound may make the platform feel alive, but they must not hide charts, cover controls, reduce readability, or imply public launch, live trading, real money, broker activation, billing, legal approval, regulation, licensing, investment advice, guaranteed profit, guaranteed win, or risk-free trading.

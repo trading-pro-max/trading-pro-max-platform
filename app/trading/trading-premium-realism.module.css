@@ -50,8 +50,8 @@
   display: grid;
   gap: 12px;
   grid-template-columns: minmax(300px, 0.72fr) minmax(0, 1fr) auto;
-  min-height: 72px;
-  padding: 8px 12px;
+  min-height: 64px;
+  padding: 6px 10px;
 }
 
 .commandBar :global(.tpm-foundation-nav-brand) {
@@ -142,7 +142,7 @@
   display: grid;
   gap: 12px;
   grid-template-columns: minmax(230px, 280px) minmax(0, 1fr);
-  margin-top: 12px;
+  margin-top: 0;
 }
 
 .marketWatch,
@@ -250,14 +250,15 @@
   gap: 8px;
   grid-column: 2;
   grid-row: 1;
+  margin-top: -52px;
   min-width: 0;
   order: 0;
 }
 
 .marketSummary {
   border-radius: 16px;
-  min-height: 94px;
-  padding: 10px 12px;
+  min-height: 60px;
+  padding: 7px 10px;
 }
 
 .marketSummary h1 {
@@ -373,7 +374,10 @@
   min-height: clamp(680px, 72vh, 900px);
   min-width: 0 !important;
   padding: 10px;
+  position: sticky;
+  top: 12px;
   width: 100% !important;
+  z-index: 1;
 }
 
 .chartToolbar {
@@ -576,6 +580,11 @@
   border-radius: 16px;
   min-height: 100%;
   padding: 13px;
+}
+
+.executionRail {
+  display: block;
+  min-width: 0;
 }
 
 .ticketGrid,

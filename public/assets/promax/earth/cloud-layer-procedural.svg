@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 512" role="img" aria-label="Original procedural Earth cloud layer">
+  <defs>
+    <filter id="cloudBlur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="14"/>
+    </filter>
+  </defs>
+  <rect width="1024" height="512" fill="none"/>
+  <g fill="#ffffff" opacity="0.34" filter="url(#cloudBlur)">
+    <path d="M30 106c76-24 149-10 221 18 63 24 121 8 178-11 58-19 107-9 149 20-81 38-188 30-282 16-102-15-168 7-266-43z"/>
+    <path d="M536 84c95-28 185 2 275 20 68 13 135 2 190-21 18 31 8 58-26 75-104 0-196-19-292-22-73-3-116 6-147-52z"/>
+    <path d="M92 306c72-18 136-2 198 19 78 27 151 27 226 7 49-13 105-3 144 25-94 34-200 28-298 11-105-17-188 11-270-62z"/>
+    <path d="M642 294c86-27 156-4 238 20 52 16 94 11 130-6 23 35 4 71-43 81-91-6-177-32-265-30-55 1-84-21-60-65z"/>
+  </g>
+  <g fill="#ffffff" opacity="0.18" filter="url(#cloudBlur)">
+    <path d="M260 213c48-17 102-10 154 7 47 15 93 12 139-1 14 25 5 47-24 57-103 1-188-8-269-63z"/>
+    <path d="M720 190c75-16 148-1 215 32-31 24-79 32-139 22-56-10-91-23-76-54z"/>
+  </g>
+</svg>

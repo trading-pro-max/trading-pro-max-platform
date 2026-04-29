@@ -5,179 +5,298 @@
   min-width: 0;
 }
 
-.compact .orbitShell {
-  height: 38px;
-  width: 38px;
+.compact .earthStage {
+  --earth-size: 40px;
+  --earth-map-speed: 18s;
+  --earth-cloud-speed: 24s;
 }
 
-.command .orbitShell {
-  height: 58px;
-  width: 58px;
+.command .earthStage {
+  --earth-size: 58px;
+  --earth-map-speed: 22s;
+  --earth-cloud-speed: 30s;
 }
 
-.hero .orbitShell {
-  height: 108px;
-  width: 108px;
+.hero .earthStage {
+  --earth-size: clamp(132px, 11vw, 168px);
+  --earth-map-speed: 28s;
+  --earth-cloud-speed: 38s;
 }
 
-.orbitShell {
+.earthStage {
   display: grid;
   flex: 0 0 auto;
+  height: var(--earth-size);
   isolation: isolate;
   place-items: center;
   position: relative;
+  transform-style: preserve-3d;
+  width: var(--earth-size);
 }
 
-.orbitShell::before {
-  animation: earthBreath 5.8s ease-in-out infinite;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.14), transparent 68%);
+.earthStage::before {
+  animation: universePulse 7s ease-in-out infinite;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(147, 220, 255, 0.18), transparent 54%),
+    radial-gradient(circle at 50% 52%, rgba(227, 6, 19, 0.08), transparent 68%);
   border-radius: 999px;
   content: "";
-  inset: -12%;
+  filter: blur(1px);
+  inset: -16%;
   position: absolute;
 }
 
-.earth {
-  animation: earthRotate 18s linear infinite;
+.globe {
   background:
-    radial-gradient(circle at 30% 24%, rgba(255, 255, 255, 0.82), transparent 12%),
-    radial-gradient(circle at 34% 30%, #4eb7d0 0 16%, transparent 17%),
-    radial-gradient(circle at 70% 72%, rgba(255, 255, 255, 0.18), transparent 18%),
-    linear-gradient(125deg, #07141b 0%, #0c4055 34%, #0e7391 58%, #06151d 100%);
-  border: 1px solid rgba(255, 255, 255, 0.58);
+    radial-gradient(circle at 29% 21%, rgba(255, 255, 255, 0.9), transparent 7%),
+    radial-gradient(circle at 36% 30%, rgba(141, 221, 255, 0.5), transparent 15%),
+    radial-gradient(circle at 62% 72%, rgba(0, 0, 0, 0.72), transparent 48%),
+    linear-gradient(145deg, #061225 0%, #08345a 36%, #0a76a1 62%, #04111c 100%);
+  border: 1px solid rgba(218, 242, 255, 0.72);
   border-radius: 999px;
   box-shadow:
-    inset -18px -14px 28px rgba(0, 0, 0, 0.64),
-    inset 8px 7px 18px rgba(255, 255, 255, 0.18),
-    0 0 22px rgba(129, 212, 233, 0.22),
-    0 0 0 1px rgba(227, 6, 19, 0.16);
+    inset -18px -14px 26px rgba(0, 0, 0, 0.78),
+    inset 9px 7px 18px rgba(255, 255, 255, 0.2),
+    inset 0 0 34px rgba(12, 67, 96, 0.34),
+    0 0 18px rgba(82, 184, 224, 0.3),
+    0 0 0 1px rgba(227, 6, 19, 0.14);
   display: block;
-  height: 62%;
+  height: 66%;
   overflow: hidden;
   position: relative;
-  width: 62%;
-  z-index: 3;
+  transform: rotateX(7deg) rotateY(-18deg) rotateZ(-8deg);
+  transform-style: preserve-3d;
+  width: 66%;
+  z-index: 4;
 }
 
-.terminator {
-  background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.48));
+.oceanDepth,
+.continentProjection,
+.cloudLayer,
+.latitudeGrid,
+.meridianGrid,
+.dayNightTerminator,
+.specularHighlight,
+.atmosphereGlow {
+  border-radius: inherit;
   inset: 0;
   position: absolute;
 }
 
-.landA,
-.landB,
-.landC {
-  background: linear-gradient(145deg, rgba(216, 231, 218, 0.9), rgba(70, 118, 86, 0.72));
+.oceanDepth {
+  background:
+    radial-gradient(circle at 38% 32%, rgba(111, 210, 240, 0.55), transparent 21%),
+    radial-gradient(circle at 62% 58%, rgba(12, 90, 126, 0.52), transparent 34%),
+    linear-gradient(110deg, rgba(3, 19, 36, 0.18), rgba(14, 115, 150, 0.42), rgba(2, 12, 22, 0.58));
+  z-index: 1;
+}
+
+.continentProjection {
+  animation: rotateWorld var(--earth-map-speed) linear infinite;
+  filter:
+    drop-shadow(0 0 1px rgba(255, 255, 255, 0.16))
+    drop-shadow(7px 2px 5px rgba(0, 0, 0, 0.18));
+  height: 100%;
+  left: -8%;
+  top: 0;
+  transform-style: preserve-3d;
+  width: 230%;
+  z-index: 2;
+}
+
+.continent {
+  background:
+    radial-gradient(circle at 24% 24%, rgba(245, 244, 214, 0.9), transparent 14%),
+    linear-gradient(145deg, rgba(190, 210, 168, 0.95), rgba(52, 109, 72, 0.88));
+  border: 1px solid rgba(245, 253, 229, 0.12);
   border-radius: 56% 44% 62% 38%;
-  filter: blur(0.1px);
   position: absolute;
+  transform-origin: center;
 }
 
-.landA {
-  height: 27%;
-  left: 20%;
-  top: 27%;
-  transform: rotate(-18deg);
-  width: 32%;
+.continentA {
+  height: 28%;
+  left: 9%;
+  top: 28%;
+  transform: rotate(-23deg) skewX(-8deg);
+  width: 15%;
 }
 
-.landB {
+.continentB {
+  height: 41%;
+  left: 23%;
+  top: 39%;
+  transform: rotate(18deg) skewY(7deg);
+  width: 11%;
+}
+
+.continentC {
+  height: 21%;
+  left: 37%;
+  top: 20%;
+  transform: rotate(10deg);
+  width: 17%;
+}
+
+.continentD {
   height: 34%;
-  right: 20%;
-  top: 42%;
-  transform: rotate(16deg);
-  width: 24%;
+  left: 55%;
+  top: 34%;
+  transform: rotate(-15deg) skewX(8deg);
+  width: 14%;
 }
 
-.landC {
-  bottom: 20%;
-  height: 16%;
-  left: 42%;
-  transform: rotate(24deg);
-  width: 26%;
+.continentE {
+  height: 20%;
+  left: 71%;
+  top: 57%;
+  transform: rotate(26deg);
+  width: 19%;
 }
 
-.meridianA,
-.meridianB {
-  border: 1px solid rgba(238, 248, 250, 0.24);
-  border-left-color: transparent;
-  border-radius: 999px;
-  inset: 11%;
-  position: absolute;
+.continentF {
+  height: 25%;
+  left: 88%;
+  top: 24%;
+  transform: rotate(-28deg);
+  width: 14%;
 }
 
-.meridianB {
-  inset: 22% 8%;
-  transform: rotate(90deg);
+.cloudLayer {
+  animation: rotateClouds var(--earth-cloud-speed) linear infinite;
+  background:
+    radial-gradient(ellipse at 10% 30%, rgba(255, 255, 255, 0.38), transparent 16%),
+    radial-gradient(ellipse at 34% 18%, rgba(255, 255, 255, 0.22), transparent 12%),
+    radial-gradient(ellipse at 55% 63%, rgba(255, 255, 255, 0.32), transparent 16%),
+    radial-gradient(ellipse at 75% 40%, rgba(255, 255, 255, 0.2), transparent 12%),
+    radial-gradient(ellipse at 95% 67%, rgba(255, 255, 255, 0.24), transparent 15%);
+  filter: blur(0.4px);
+  left: -50%;
+  opacity: 0.44;
+  width: 200%;
+  z-index: 3;
 }
 
-.atmosphere {
-  border: 1px solid rgba(222, 247, 255, 0.48);
-  border-radius: 999px;
-  box-shadow: 0 0 16px rgba(167, 222, 244, 0.34);
-  inset: -2px;
-  position: absolute;
+.latitudeGrid {
+  background:
+    linear-gradient(transparent 22%, rgba(232, 248, 255, 0.16) 23%, transparent 24%),
+    linear-gradient(transparent 49%, rgba(232, 248, 255, 0.24) 50%, transparent 51%),
+    linear-gradient(transparent 76%, rgba(232, 248, 255, 0.14) 77%, transparent 78%);
+  opacity: 0.68;
+  z-index: 5;
+}
+
+.meridianGrid {
+  background:
+    radial-gradient(ellipse at 50% 50%, transparent 46%, rgba(234, 248, 255, 0.18) 47%, transparent 49%),
+    repeating-linear-gradient(90deg, transparent 0 17%, rgba(234, 248, 255, 0.12) 18%, transparent 19%);
+  mix-blend-mode: screen;
+  opacity: 0.62;
+  z-index: 5;
+}
+
+.dayNightTerminator {
+  background:
+    radial-gradient(circle at 30% 24%, rgba(255, 255, 255, 0.28), transparent 24%),
+    linear-gradient(100deg, transparent 0 36%, rgba(0, 0, 0, 0.2) 49%, rgba(0, 0, 0, 0.68) 78%, rgba(0, 0, 0, 0.9) 100%);
+  mix-blend-mode: multiply;
+  z-index: 6;
+}
+
+.specularHighlight {
+  background:
+    radial-gradient(circle at 29% 21%, rgba(255, 255, 255, 0.74), transparent 7%),
+    radial-gradient(ellipse at 37% 31%, rgba(212, 245, 255, 0.22), transparent 18%);
+  mix-blend-mode: screen;
+  z-index: 7;
+}
+
+.atmosphereGlow {
+  box-shadow:
+    inset 0 0 0 1px rgba(229, 251, 255, 0.62),
+    inset 8px 6px 16px rgba(255, 255, 255, 0.1),
+    inset -16px -12px 22px rgba(0, 0, 0, 0.24),
+    0 0 12px rgba(124, 219, 255, 0.38),
+    0 0 28px rgba(30, 132, 178, 0.22);
+  z-index: 8;
 }
 
 .orbitOne,
 .orbitTwo,
-.orbitThree {
-  border: 1px solid rgba(255, 255, 255, 0.24);
-  border-left-color: rgba(227, 6, 19, 0.58);
+.orbitThree,
+.precisionAxis {
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-left-color: rgba(227, 6, 19, 0.64);
   border-radius: 999px;
   position: absolute;
+  transform-style: preserve-3d;
 }
 
 .orbitOne {
   animation: orbitTurn 24s linear infinite;
-  inset: 4%;
-  transform: rotate(-18deg);
+  inset: 5%;
+  transform: rotateX(62deg) rotateZ(-22deg);
 }
 
 .orbitTwo {
-  animation: orbitTurnReverse 30s linear infinite;
-  inset: 15%;
+  animation: orbitTurnReverse 34s linear infinite;
+  inset: 14%;
   opacity: 0.72;
-  transform: rotate(42deg);
+  transform: rotateX(72deg) rotateZ(38deg);
 }
 
 .orbitThree {
-  animation: orbitTurn 36s linear infinite;
+  animation: orbitTurn 44s linear infinite;
   inset: -1%;
-  opacity: 0.46;
-  transform: rotate(76deg);
+  opacity: 0.42;
+  transform: rotateX(56deg) rotateZ(76deg);
+}
+
+.precisionAxis {
+  border-color: rgba(255, 255, 255, 0.13);
+  border-right-color: rgba(227, 6, 19, 0.42);
+  inset: 23%;
+  opacity: 0.74;
+  transform: rotateX(78deg) rotateZ(90deg);
 }
 
 .nodeA,
 .nodeB,
 .nodeC {
-  animation: nodePulse 3.6s ease-in-out infinite;
+  animation: nodePulse 3.8s ease-in-out infinite;
   background: #e30613;
   border: 1px solid rgba(255, 255, 255, 0.86);
   border-radius: 999px;
-  box-shadow: 0 0 16px rgba(227, 6, 19, 0.42);
-  height: 7%;
+  box-shadow: 0 0 14px rgba(227, 6, 19, 0.44);
+  height: 6.5%;
   position: absolute;
-  width: 7%;
-  z-index: 4;
+  width: 6.5%;
+  z-index: 9;
 }
 
 .nodeA {
   right: 10%;
-  top: 23%;
+  top: 24%;
 }
 
 .nodeB {
   animation-delay: 0.8s;
-  bottom: 18%;
+  bottom: 17%;
   left: 15%;
 }
 
 .nodeC {
-  animation-delay: 1.4s;
+  animation-delay: 1.45s;
   bottom: 26%;
-  right: 19%;
+  right: 18%;
+}
+
+.reducedMotionProof {
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  width: 1px;
 }
 
 .copy {
@@ -199,46 +318,56 @@
   text-transform: uppercase;
 }
 
-@keyframes earthRotate {
+@keyframes rotateWorld {
   from {
-    transform: rotate(0deg);
+    transform: translateX(0);
   }
 
   to {
-    transform: rotate(360deg);
+    transform: translateX(-45%);
+  }
+}
+
+@keyframes rotateClouds {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-28%);
   }
 }
 
 @keyframes orbitTurn {
   from {
-    transform: rotate(-18deg);
+    transform: rotateX(62deg) rotateZ(-22deg);
   }
 
   to {
-    transform: rotate(342deg);
+    transform: rotateX(62deg) rotateZ(338deg);
   }
 }
 
 @keyframes orbitTurnReverse {
   from {
-    transform: rotate(42deg);
+    transform: rotateX(72deg) rotateZ(38deg);
   }
 
   to {
-    transform: rotate(-318deg);
+    transform: rotateX(72deg) rotateZ(-322deg);
   }
 }
 
-@keyframes earthBreath {
+@keyframes universePulse {
   0%,
   100% {
-    opacity: 0.42;
-    transform: scale(0.96);
+    opacity: 0.44;
+    transform: scale(0.94);
   }
 
   50% {
-    opacity: 0.72;
-    transform: scale(1.03);
+    opacity: 0.76;
+    transform: scale(1.04);
   }
 }
 
@@ -246,7 +375,7 @@
   0%,
   100% {
     opacity: 0.58;
-    transform: scale(0.86);
+    transform: scale(0.84);
   }
 
   50% {
@@ -256,14 +385,15 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .earth,
+  .earthStage::before,
+  .continentProjection,
+  .cloudLayer,
   .orbitOne,
   .orbitTwo,
   .orbitThree,
   .nodeA,
   .nodeB,
-  .nodeC,
-  .orbitShell::before {
+  .nodeC {
     animation-duration: 0.01ms;
     animation-iteration-count: 1;
   }

@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" role="img" aria-label="Original sunset phase overlay">
+  <defs><linearGradient id="g" y1="1" y2="0"><stop offset="0" stop-color="#e30613" stop-opacity="0.18"/><stop offset="0.35" stop-color="#e8a24f" stop-opacity="0.28"/><stop offset="1" stop-color="#02050a" stop-opacity="0.05"/></linearGradient></defs>
+  <rect width="800" height="800" fill="url(#g)"/>
+</svg>

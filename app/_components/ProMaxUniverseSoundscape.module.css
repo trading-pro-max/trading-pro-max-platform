@@ -1,0 +1,59 @@
+.soundscape {
+  align-items: center;
+  background: rgba(5, 9, 15, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  color: rgba(245, 248, 251, 0.82);
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  padding: 10px;
+  position: relative;
+  z-index: 1;
+}
+
+.soundscape div:first-child {
+  display: grid;
+  gap: 3px;
+}
+
+.soundscape span {
+  color: #ffeff1;
+  font-size: 0.68rem;
+  font-weight: 880;
+  text-transform: uppercase;
+}
+
+.soundscape strong {
+  color: #ffffff;
+}
+
+.soundscape small {
+  color: rgba(235, 241, 247, 0.68);
+}
+
+.controls {
+  display: flex;
+  gap: 8px;
+}
+
+.controls button {
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 0.72rem;
+  font-weight: 850;
+  min-height: 32px;
+  padding: 0 10px;
+}
+
+.controls button:first-child {
+  border-color: rgba(227, 6, 19, 0.42);
+}
+
+.controls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}

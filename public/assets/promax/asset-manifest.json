@@ -1,0 +1,118 @@
+{
+  "status": "private_internal_approved_with_public_review_required",
+  "assetPolicy": "local_procedural_license_safe_only",
+  "sourceBoundary": "No external URLs, no copied space-agency assets, no government symbols, no generated chat images.",
+  "publicLaunchReviewRequired": true,
+  "assets": [
+    {
+      "name": "earth-procedural-base",
+      "path": "/assets/promax/earth/earth-procedural-base.svg",
+      "purpose": "Procedural Earth ocean and continent texture placeholder",
+      "type": "svg_texture",
+      "source": "original procedural SVG created inside project",
+      "licenseStatus": "project-owned procedural placeholder",
+      "method": "procedural_manual",
+      "approvedForPrivateInternalUse": true
+    },
+    {
+      "name": "cloud-layer-procedural",
+      "path": "/assets/promax/earth/cloud-layer-procedural.svg",
+      "purpose": "Procedural moving cloud layer texture",
+      "type": "svg_texture",
+      "source": "original procedural SVG created inside project",
+      "licenseStatus": "project-owned procedural placeholder",
+      "method": "procedural_manual",
+      "approvedForPrivateInternalUse": true
+    },
+    {
+      "name": "night-lights-procedural",
+      "path": "/assets/promax/earth/night-lights-procedural.svg",
+      "purpose": "Procedural night lights overlay for night and deep-night phases",
+      "type": "svg_overlay",
+      "source": "original procedural SVG created inside project",
+      "licenseStatus": "project-owned procedural placeholder",
+      "method": "procedural_manual",
+      "approvedForPrivateInternalUse": true
+    },
+    {
+      "name": "atmosphere-glow",
+      "path": "/assets/promax/overlays/atmosphere-glow.svg",
+      "purpose": "Atmospheric rim overlay",
+      "type": "svg_overlay",
+      "source": "original procedural SVG created inside project",
+      "licenseStatus": "project-owned procedural placeholder",
+      "method": "procedural_manual",
+      "approvedForPrivateInternalUse": true
+    },
+    {
+      "name": "star-field",
+      "path": "/assets/promax/universe/star-field.svg",
+      "purpose": "Cosmic background star field",
+      "type": "svg_background",
+      "source": "original procedural SVG created inside project",
+      "licenseStatus": "project-owned procedural placeholder",
+      "method": "procedural_manual",
+      "approvedForPrivateInternalUse": true
+    },
+    {
+      "name": "swiss-precision-grid",
+      "path": "/assets/promax/overlays/swiss-precision-grid.svg",
+      "purpose": "Swiss-inspired precision grid overlay",
+      "type": "svg_overlay",
+      "source": "original procedural SVG created inside project",
+      "licenseStatus": "project-owned procedural placeholder",
+      "method": "procedural_manual",
+      "approvedForPrivateInternalUse": true
+    },
+    {
+      "name": "orbital-ring",
+      "path": "/assets/promax/overlays/orbital-ring.svg",
+      "purpose": "Orbital intelligence ring overlay",
+      "type": "svg_overlay",
+      "source": "original procedural SVG created inside project",
+      "licenseStatus": "project-owned procedural placeholder",
+      "method": "procedural_manual",
+      "approvedForPrivateInternalUse": true
+    },
+    {
+      "name": "data-node",
+      "path": "/assets/promax/overlays/data-node.svg",
+      "purpose": "Data node sprite",
+      "type": "svg_sprite",
+      "source": "original procedural SVG created inside project",
+      "licenseStatus": "project-owned procedural placeholder",
+      "method": "procedural_manual",
+      "approvedForPrivateInternalUse": true
+    },
+    {
+      "name": "phase-overlays",
+      "path": "/assets/promax/overlays/phase-*.svg",
+      "purpose": "Device-time dawn, day, sunset, and night tone overlays",
+      "type": "svg_overlay_set",
+      "source": "original procedural SVG created inside project",
+      "licenseStatus": "project-owned procedural placeholder",
+      "method": "procedural_manual",
+      "approvedForPrivateInternalUse": true
+    },
+    {
+      "name": "season-overlays",
+      "path": "/assets/promax/overlays/season-*.svg",
+      "purpose": "Device-date spring, summer, autumn, and winter mood overlays",
+      "type": "svg_overlay_set",
+      "source": "original procedural SVG created inside project",
+      "licenseStatus": "project-owned procedural placeholder",
+      "method": "procedural_manual",
+      "approvedForPrivateInternalUse": true
+    },
+    {
+      "name": "generated-soundscape",
+      "path": "/assets/promax/sound/generated-soundscape.md",
+      "purpose": "Policy note for Web Audio API generated soundscape",
+      "type": "documentation",
+      "source": "original project documentation",
+      "licenseStatus": "project-owned",
+      "method": "generated_locally_at_runtime_after_user_activation",
+      "approvedForPrivateInternalUse": true
+    }
+  ]
+}

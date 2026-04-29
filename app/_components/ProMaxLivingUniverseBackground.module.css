@@ -1,0 +1,75 @@
+.background {
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
+}
+
+.stars,
+.phase,
+.season,
+.grid,
+.orbits,
+.horizon {
+  inset: 0;
+  position: absolute;
+}
+
+.stars {
+  background-image: var(--pmx-star-field);
+  background-size: cover;
+  opacity: calc(var(--pmx-star-visibility) * 0.72);
+}
+
+.phase {
+  background-image: var(--pmx-phase-overlay);
+  background-size: cover;
+  opacity: 0.54;
+}
+
+.season {
+  background-image: var(--pmx-season-overlay);
+  background-size: cover;
+  opacity: 0.66;
+}
+
+.grid {
+  background-image: var(--pmx-grid);
+  background-size: 820px 820px;
+  mix-blend-mode: screen;
+  opacity: 0.16;
+}
+
+.orbits {
+  background:
+    radial-gradient(ellipse at 76% 18%, transparent 40%, rgba(215, 247, 255, 0.14) 41%, transparent 42%),
+    radial-gradient(ellipse at 80% 28%, transparent 46%, rgba(227, 6, 19, 0.13) 47%, transparent 48%);
+  opacity: 0.76;
+}
+
+.horizon {
+  background:
+    radial-gradient(circle at 20% 8%, rgba(125, 223, 255, calc(var(--pmx-atmosphere-strength) * 0.2)), transparent 26rem),
+    radial-gradient(circle at 86% 10%, rgba(227, 6, 19, 0.1), transparent 22rem),
+    linear-gradient(180deg, transparent 0%, rgba(2, 5, 10, 0.28) 70%, rgba(2, 5, 10, 0.72) 100%);
+}
+
+.trading {
+  opacity: 0.58;
+}
+
+.founder {
+  opacity: 0.84;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stars,
+  .phase,
+  .season,
+  .grid,
+  .orbits,
+  .horizon {
+    animation: none;
+  }
+}

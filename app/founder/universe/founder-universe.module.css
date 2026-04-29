@@ -7,7 +7,9 @@
   display: grid;
   gap: 14px;
   min-height: calc(100vh - 112px);
+  overflow: hidden;
   padding: 16px;
+  position: relative;
 }
 
 .hero,
@@ -18,6 +20,15 @@
   background: rgba(5, 9, 15, 0.9);
   border: 1px solid rgba(255, 255, 255, 0.11);
   box-shadow: 0 20px 55px rgba(0, 0, 0, 0.34);
+}
+
+.hero,
+.metricGrid,
+.truthPanel,
+.columns,
+.actionPanel {
+  position: relative;
+  z-index: 1;
 }
 
 .hero {

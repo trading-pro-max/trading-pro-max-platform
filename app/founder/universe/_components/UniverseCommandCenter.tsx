@@ -1,4 +1,7 @@
-import { ProMaxEarthIdentity } from "@/app/_components/ProMaxEarthIdentity";
+import { ProMaxDeviceTimeRealityBar } from "@/app/_components/ProMaxDeviceTimeRealityBar";
+import { ProMaxLivingEarth } from "@/app/_components/ProMaxLivingEarth";
+import { ProMaxLivingUniverseBackground } from "@/app/_components/ProMaxLivingUniverseBackground";
+import { ProMaxUniverseSoundscape } from "@/app/_components/ProMaxUniverseSoundscape";
 import type {
   ProjectUniverseTruthSnapshot,
   UniverseTruthItem,
@@ -33,8 +36,9 @@ export default function UniverseCommandCenter({
       data-public-route-exposed="false"
       aria-label="Private Founder Universe Command Center"
     >
+      <ProMaxLivingUniverseBackground surface="founder" />
       <header className={styles.hero}>
-        <ProMaxEarthIdentity size="hero" showText />
+        <ProMaxLivingEarth size="hero" surface="founder" showText intensity="hero" />
         <div>
           <span>Private Founder Universe Command Center</span>
           <h1>ALKON / Alkon -0 Project Universe</h1>
@@ -46,6 +50,9 @@ export default function UniverseCommandCenter({
           <small>Product Truth guarded</small>
         </div>
       </header>
+
+      <ProMaxDeviceTimeRealityBar variant="full" />
+      <ProMaxUniverseSoundscape />
 
       <section className={styles.metricGrid} aria-label="Universe status">
         <article>
@@ -98,16 +105,21 @@ export default function UniverseCommandCenter({
         <div className={styles.truthStrip}>
           <span>Private: yes</span>
           <span>Read-only/demo-safe: yes</span>
+          <span>Pro Max: working_name_only</span>
           <span>Real money: disabled</span>
           <span>Broker execution: disabled/not connected</span>
           <span>Public launch: not started</span>
           <span>Billing: not active</span>
           <span>Brand Gate: frozen/deferred</span>
+          <span>Brand Gate: ready_with_notes</span>
           <span>Local Day One: not_started</span>
           <span>ALKON public exposure: no</span>
           <span>Swiss legal-review: pending</span>
           <span>Global legal-review: pending</span>
           <span>Swiss-inspired visual identity only; no government endorsement</span>
+          <span>Device-time simulation only</span>
+          <span>Weather not connected</span>
+          <span>Assets: local/procedural/license-safe</span>
         </div>
       </section>
 

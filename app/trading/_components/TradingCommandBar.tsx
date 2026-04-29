@@ -1,4 +1,4 @@
-import { ProMaxEarthIdentity } from "@/app/_components/ProMaxEarthIdentity";
+import { ProMaxLivingEarthStatic } from "@/app/_components/ProMaxLivingEarthStatic";
 import type { ProjectUniverseTruthSnapshot } from "@/lib/server/project-universe-truth";
 import Link from "next/link";
 import styles from "../trading-premium-realism.module.css";
@@ -11,7 +11,7 @@ export default function TradingCommandBar({
   return (
     <header className={`${styles.commandBar} tpm-terminal-topbar`} data-workspace-header="single-terminal-header">
       <Link href="/" className="tpm-foundation-nav-brand tpm-brand-lockup tpm-shell-logo-home-link">
-        <ProMaxEarthIdentity size="command" />
+        <ProMaxLivingEarthStatic size="medium" surface="trading" />
         <div>
           <strong>Pro Max Trading</strong>
           <span>Trading Operating Floor</span>

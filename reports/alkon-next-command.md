@@ -2,7 +2,7 @@
 
 Recommended next command:
 
-Open the verified Project Universe operating surfaces for Founder visual/product decision.
+Open the verified Living Universe operating surfaces for Founder visual/product decision.
 
 Current truth:
 
@@ -10,8 +10,11 @@ Current truth:
 - Alkon -0 remains private origin.
 - Pro Max remains the public working world.
 - Pro Max Trading is the first living product at `/trading`.
-- `/trading` now renders a premium Swiss-inspired operating floor with code-driven animated Earth identity.
-- `/founder/universe` renders the private command center.
+- `/trading` now renders a premium Swiss-inspired operating floor with code-driven local/procedural Living Earth identity.
+- `/founder/universe` renders the private command center with the interactive Living Earth runtime, device-time reality, seasonal mood, and user-controlled generated soundscape.
+- Local legal-safe asset manifest exists.
+- Device-time simulation is labeled.
+- Weather is not connected.
 - Product Truth remains visible.
 - Public launch is not started.
 - Billing is not active.
@@ -24,7 +27,7 @@ Current truth:
 
 One next action:
 
-Ahmad opens http://localhost:3000/trading and http://localhost:3000/founder/universe, then decides ACCEPT, REJECT with notes, or CORRECT one narrow visual/product issue.
+Ahmad opens http://localhost:3000/founder/universe and http://localhost:3000/trading, checks the living Earth, local assets, day-night, season mood, and sound controls, then decides ACCEPT, REJECT with notes, or CORRECT one narrow visual issue.
 
 Blocked:
 
