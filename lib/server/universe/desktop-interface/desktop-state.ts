@@ -46,6 +46,7 @@ export function getAlKawnDesktopState(date = new Date()): AlKawnDesktopState {
         "Native desktop packaging is not complete.",
         "Local authentication for a packaged app remains a future gate.",
         "Private Desktop Packaging Gate keeps packaging, signing, and private distribution gated.",
+        "Local Packaged Auth Gate defines Ahmad-only local access and keeps production-grade auth as a future gate.",
       ],
     },
     boot: getAlKawnDesktopBootState(),
@@ -96,6 +97,6 @@ export function getAlKawnDesktopState(date = new Date()): AlKawnDesktopState {
         "External account connections remain approval-gated.",
       ],
     },
-    nextSafeAction: "Local Packaged Auth Gate before private desktop packaging preparation.",
+    nextSafeAction: "Ahmad decision required for the local packaged-app auth method.",
   };
 }

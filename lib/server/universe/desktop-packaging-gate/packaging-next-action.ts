@@ -4,10 +4,11 @@ import type { DesktopPackagingNextAction } from "./types";
 
 export function getDesktopPackagingNextAction(): DesktopPackagingNextAction {
   return {
-    next: "Local Packaged Auth Gate",
+    next: "Ahmad decision required",
     reason:
-      "The private route and control surfaces exist, but native packaging should wait until packaged-app local authentication is defined.",
+      "The local auth gate is defined, but Ahmad must choose PIN, passphrase, device-lock integration, or another local method before private packaging preparation.",
     blockedUntil: [
+      "Ahmad chooses the local packaged-app auth method.",
       "Local packaged-app auth readiness closes.",
       "Ahmad approves signing method.",
       "Ahmad approves private distribution method.",

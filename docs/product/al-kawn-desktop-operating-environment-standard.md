@@ -155,7 +155,18 @@ Current state:
 - local packaged-app auth readiness: future_gate
 - secret safety: ready_with_notes
 
-The next safe gate is Local Packaged Auth Gate before private packaging preparation.
+Local Packaged Auth Gate now defines Ahmad-only local access requirements before private packaging preparation.
+
+Local auth truth:
+
+- Al-Kawn Desktop requires Ahmad-only local access.
+- Packaged-app authentication is private and local-first.
+- No secrets are stored in the app bundle.
+- External auth providers require Ahmad approval.
+- Production-grade auth is a future gate unless implemented.
+- Product Truth overrides local auth claims.
+
+PIN, passphrase, device-lock awareness, packaged-app lock, and session timeout remain future gates until implemented and validated.
 
 ## Control Surfaces
 

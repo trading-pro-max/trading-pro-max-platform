@@ -216,6 +216,24 @@ The gate does not package, sign, release, or distribute anything. It records she
 
 Packaging is not public distribution. Public desktop distribution is blocked. Signing and private distribution require future approval. No secrets are stored in the desktop bundle.
 
+## Local Packaged Auth Gate Code Rule
+
+`lib/server/universe/local-packaged-auth-gate/` is the canonical owner for private packaged-app access readiness.
+
+Required exports:
+
+- `getLocalPackagedAuthGate()`
+- `getLocalAuthReadiness()`
+- `getDesktopAccessModel()`
+- `getPackagedAppLockReadiness()`
+- `getSessionTimeoutReadiness()`
+- `getAuthSecretSafety()`
+- `getLocalAuthNextAction()`
+
+The gate defines Ahmad-only local access. It does not connect external auth providers, does not create customer login, does not claim production-grade auth, and does not store secrets in Git or the app bundle.
+
+Product Truth overrides local auth claims.
+
 ## Al-Kawn Control Surfaces Code Rule
 
 Canonical control surfaces live in `lib/server/universe/control-surfaces/*`.

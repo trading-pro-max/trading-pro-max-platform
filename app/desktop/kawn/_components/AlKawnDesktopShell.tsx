@@ -5,6 +5,7 @@ import {
   getControlSurfaceSummary,
 } from "@/lib/server/universe/control-surfaces";
 import { getDesktopPackagingGate } from "@/lib/server/universe/desktop-packaging-gate";
+import { getLocalPackagedAuthGate } from "@/lib/server/universe/local-packaged-auth-gate";
 import { AlKawnAppointmentCenter } from "./AlKawnAppointmentCenter";
 import { AlKawnBootSequence } from "./AlKawnBootSequence";
 import { AlKawnControlSurfaces } from "./AlKawnControlSurfaces";
@@ -14,6 +15,7 @@ import { AlKawnHumanChat } from "./AlKawnHumanChat";
 import { AlKawnKernelPanel } from "./AlKawnKernelPanel";
 import { AlKawnLayerNavigator } from "./AlKawnLayerNavigator";
 import { AlKawnDesktopShellStatus } from "./AlKawnDesktopShellStatus";
+import { AlKawnLocalPackagedAuthGate } from "./AlKawnLocalPackagedAuthGate";
 import { AlKawnPrivateDesktopPackagingGate } from "./AlKawnPrivateDesktopPackagingGate";
 import { AlKawnProductTruthPanel } from "./AlKawnProductTruthPanel";
 import { AlKawnProtectionPanel } from "./AlKawnProtectionPanel";
@@ -30,6 +32,7 @@ export function AlKawnDesktopShell({ state }: { state: AlKawnDesktopState }) {
   const controlSurfaces = getAlKawnControlSurfaces();
   const controlSurfaceSummary = getControlSurfaceSummary();
   const desktopPackagingGate = getDesktopPackagingGate();
+  const localPackagedAuthGate = getLocalPackagedAuthGate();
 
   return (
     <main
@@ -89,6 +92,7 @@ export function AlKawnDesktopShell({ state }: { state: AlKawnDesktopState }) {
 
       <AlKawnControlSurfaces surfaces={controlSurfaces} summary={controlSurfaceSummary} />
       <AlKawnPrivateDesktopPackagingGate gate={desktopPackagingGate} />
+      <AlKawnLocalPackagedAuthGate gate={localPackagedAuthGate} />
 
       <section className={styles.lowerGrid} aria-label="Al-Kawn desktop control panels">
         <AlKawnReportCenter reports={state.reports} />

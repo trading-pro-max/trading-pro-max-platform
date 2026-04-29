@@ -310,6 +310,23 @@ The gate requires:
 
 Signing, packaging, and private distribution remain gated. No secrets are stored in the desktop bundle. Ahmad decides any future signing or private distribution method.
 
+## Local Packaged Auth Gate Law
+
+Local Packaged Auth Gate protects a future packaged Al-Kawn Desktop app from opening without Ahmad-only local access.
+
+This is not public authentication, customer login, SaaS auth, or external account login.
+
+Required law:
+
+- Al-Kawn Desktop requires Ahmad-only local access.
+- Packaged-app authentication is private and local-first.
+- No secrets are stored in the app bundle.
+- External auth providers require Ahmad approval.
+- Production-grade auth is a future gate unless implemented.
+- Product Truth overrides local auth claims.
+
+PIN, passphrase, device-lock awareness, packaged-app lock, and session timeout are future gates until implemented and validated. Ahmad decides the local auth method.
+
 ## Control Surfaces Law
 
 Every major layer of الكون must have a private control surface before future automation is prepared.

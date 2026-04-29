@@ -95,6 +95,10 @@ Desktop packaging cannot override Product Truth:
 
 ## Future Packaging Path
 
-The safest next action is Local Packaged Auth Gate.
+Local Packaged Auth Gate is now the required access-control layer before private packaging preparation.
 
-Private packaging preparation may come later only after local auth, signing, private distribution, and secret safety decisions are ready.
+The safest next action after the gate exists is Ahmad decision required for the local access method.
+
+Private packaging preparation may come later only after local auth method, signing, private distribution, and secret safety decisions are ready.
+
+Reference: `docs/product/al-kawn-local-packaged-auth-gate.md`.
