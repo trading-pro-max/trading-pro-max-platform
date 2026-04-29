@@ -143,8 +143,9 @@ Product Truth overrides every action.
 - `npx playwright test tests/regression/living-earth-revelation-experience.spec.ts`: passed, 6/6 on rerun after the previous visual timeout.
 - `npm run test:regression`: passed, 330/330.
 - `npm run smoke:routes`: passed.
-- `git diff --check`: pending.
-- `git status --short`: pending until commit and push.
+- `git diff --check`: passed.
+- `git status --short`: clean after commit and push.
+- Commit and push: completed.
 
 ## Safest Next Action
 
