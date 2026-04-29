@@ -56,6 +56,7 @@ import {
   getAlKawnVisualMapTruth,
 } from "@/lib/server/universe/visual-map";
 import { getControlSurfaceSummary } from "@/lib/server/universe/control-surfaces";
+import { getDesktopPackagingGate } from "@/lib/server/universe/desktop-packaging-gate";
 import { getAlKawnDesktopState } from "@/lib/server/universe/desktop-interface";
 import styles from "../founder-universe.module.css";
 
@@ -168,6 +169,7 @@ export default function UniverseCommandCenter({
   const visualMapNextAction = getAlKawnVisualMapNextAction();
   const controlSurfaceSummary = getControlSurfaceSummary();
   const desktopState = getAlKawnDesktopState(new Date(truth.checkedAt));
+  const desktopPackagingGate = getDesktopPackagingGate();
   const visualMapCoreLayerIds = [
     "existence_contract",
     "product_truth",
@@ -669,10 +671,13 @@ Compatibility evidence:
             <h2>Desktop is the main private command client for الكون</h2>
             <p>/desktop/kawn is the Al-Kawn private desktop home.</p>
             <p>Private Ahmad-only desktop shell.</p>
+            <p>Private Desktop Packaging Gate</p>
             <p>Desktop is the main private command client for الكون</p>
             <p>Mobile clients come later as lightweight private access</p>
             <p>Public distribution is blocked</p>
             <p>Public desktop distribution is blocked.</p>
+            <p>Signing and private distribution require future approval.</p>
+            <p>Desktop remains Ahmad-only.</p>
             <p>No secrets are stored in the desktop bundle.</p>
             <p>External accounts require Ahmad approval.</p>
             <p>Product Truth enforced</p>
@@ -683,7 +688,10 @@ Compatibility evidence:
             <small>Desktop route status: private desktop-first command surface</small>
             <small>Native shell status: {desktopState.nativeShell.nativeShellStatus}</small>
             <small>Shell type: {desktopState.shellFinalization.shellType}</small>
+            <small>Private Desktop Packaging Gate status: {desktopPackagingGate.status}</small>
             <small>Native signing and private distribution remain future gates</small>
+            <small>Signing future gate: {desktopPackagingGate.signingReadiness.state}</small>
+            <small>Local auth packaging gate: {desktopPackagingGate.authReadiness.state}</small>
             <small>{desktopState.nativeShell.note}</small>
             <Link href="/desktop/kawn">Open Al-Kawn Desktop</Link>
           </aside>
@@ -703,6 +711,11 @@ Compatibility evidence:
             <span>Distribution</span>
             <strong>Private Ahmad-only</strong>
             <small>Public desktop distribution is blocked.</small>
+          </article>
+          <article>
+            <span>Private Desktop Packaging Gate</span>
+            <strong>{desktopPackagingGate.summary}</strong>
+            <small>{desktopPackagingGate.nextAction.reason}</small>
           </article>
           <article>
             <span>Shell security</span>

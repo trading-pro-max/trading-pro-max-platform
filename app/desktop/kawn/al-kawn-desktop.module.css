@@ -19,7 +19,8 @@
 .visualPane,
 .tradingBridge,
 .realityDock,
-.controlSurfaces {
+.controlSurfaces,
+.packagingGate {
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.065), transparent 48%),
     var(--alkawn-graphite-surface);
@@ -139,7 +140,8 @@
 .productTruth,
 .visualPane,
 .tradingBridge,
-.controlSurfaces {
+.controlSurfaces,
+.packagingGate {
   display: grid;
   gap: 10px;
   padding: 12px;
@@ -162,7 +164,9 @@
 .quickActions,
 .controlSurfaceCard,
 .controlDetail,
-.actionColumns article {
+.actionColumns article,
+.packagingCard,
+.packagingTruth article {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.085);
   border-radius: 12px;
@@ -219,7 +223,9 @@
 .rightStack,
 .lowerGrid,
 .controlSurfaceGrid,
-.actionColumns {
+.actionColumns,
+.packagingGrid,
+.packagingTruth {
   display: grid;
   gap: 12px;
 }
@@ -251,15 +257,41 @@
 }
 
 .controlSurfaceCard p,
-.controlDetail p {
+.controlDetail p,
+.packagingGate p {
   color: rgba(235, 241, 247, 0.72);
   line-height: 1.45;
   margin: 0;
 }
 
-.controlSurfaceCard em {
+.controlSurfaceCard em,
+.packagingCard em {
   color: rgba(255, 239, 241, 0.82);
   font-style: normal;
+}
+
+.packagingGrid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.packagingCard {
+  align-content: start;
+  min-height: 210px;
+}
+
+.packagingCard ul {
+  color: rgba(235, 241, 247, 0.72);
+  line-height: 1.45;
+  margin: 0;
+  padding-left: 18px;
+}
+
+.packagingTruth {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.packagingTruth article {
+  align-content: start;
 }
 
 .controlDetail {
@@ -344,7 +376,9 @@
   .lowerGrid,
   .controlSurfaceGrid,
   .controlDetail,
-  .actionColumns {
+  .actionColumns,
+  .packagingGrid,
+  .packagingTruth {
     grid-template-columns: 1fr;
   }
 

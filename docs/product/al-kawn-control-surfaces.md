@@ -63,6 +63,14 @@ Legal, money, broker, payment, public launch, brand, domain, external account, a
 
 Product Truth violations and secret/public exposure are blocked.
 
+## Private Desktop Packaging Gate Relationship
+
+Private Desktop Packaging Gate follows Desktop Shell Finalization and Control Surfaces.
+
+The control surfaces prove that `/desktop/kawn` can show state, actions, stop gates, blocked actions, and Product Truth impact. The packaging gate then determines whether this private route is safe to package later.
+
+Packaging is not public distribution. Al-Kawn Desktop remains Ahmad-only. Signing, packaging, and private distribution remain gated. Local packaged-app auth remains a future gate.
+
 ## Desktop Integration
 
 `/desktop/kawn` is the main private command client for الكون and the primary UI for the Control Surfaces grid and selected detail panel.

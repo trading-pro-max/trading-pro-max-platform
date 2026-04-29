@@ -291,6 +291,25 @@ Required boundaries:
 - Product Truth overrides every action.
 - Native signing and private distribution remain future gates.
 
+## Private Desktop Packaging Gate Law
+
+Private Desktop Packaging Gate protects the transition from private route to future private packaged desktop app.
+
+Packaging is not public distribution. Al-Kawn Desktop remains Ahmad-only. Product Truth overrides desktop packaging. Public desktop distribution is blocked.
+
+The gate requires:
+
+- shell readiness
+- native shell readiness
+- packaging readiness
+- signing readiness
+- private distribution readiness
+- local packaged-app auth readiness
+- secret safety
+- Product Truth safety
+
+Signing, packaging, and private distribution remain gated. No secrets are stored in the desktop bundle. Ahmad decides any future signing or private distribution method.
+
 ## Control Surfaces Law
 
 Every major layer of الكون must have a private control surface before future automation is prepared.

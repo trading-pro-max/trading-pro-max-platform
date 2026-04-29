@@ -196,6 +196,26 @@ Code rules:
 - Do not store secrets in Git or a desktop bundle.
 - Product Truth overrides every action.
 
+## Private Desktop Packaging Gate Code Rule
+
+`lib/server/universe/desktop-packaging-gate/` is the canonical owner for private desktop packaging readiness.
+
+Required exports:
+
+- `getDesktopPackagingGate()`
+- `getDesktopShellReadiness()`
+- `getNativeDesktopShellReadiness()`
+- `getDesktopPackageReadiness()`
+- `getDesktopSigningReadiness()`
+- `getDesktopPrivateDistributionReadiness()`
+- `getDesktopAuthReadiness()`
+- `getDesktopSecretSafety()`
+- `getDesktopPackagingNextAction()`
+
+The gate does not package, sign, release, or distribute anything. It records shell readiness, native shell readiness, package readiness, signing readiness, private distribution readiness, local auth readiness, secret safety, Product Truth safety, and next safe action.
+
+Packaging is not public distribution. Public desktop distribution is blocked. Signing and private distribution require future approval. No secrets are stored in the desktop bundle.
+
 ## Al-Kawn Control Surfaces Code Rule
 
 Canonical control surfaces live in `lib/server/universe/control-surfaces/*`.

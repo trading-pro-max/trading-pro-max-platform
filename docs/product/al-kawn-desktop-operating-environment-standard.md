@@ -139,6 +139,24 @@ Required desktop shell truth:
 
 The `desktop:check` script validates the route-only shell state without adding native dependencies or release behavior. Native signing and private distribution remain future gates.
 
+## Private Desktop Packaging Gate
+
+Private Desktop Packaging Gate defines whether `/desktop/kawn` can later become a private packaged desktop app.
+
+Packaging is not public distribution. Al-Kawn Desktop remains Ahmad-only. No secrets are stored in the desktop bundle. Signing, packaging, and private distribution remain gated. Product Truth overrides desktop packaging. Public desktop distribution is blocked.
+
+Current state:
+
+- shell readiness: ready_with_notes
+- native shell readiness: future_gate
+- packaging readiness: future_gate
+- signing readiness: needs_ahmad_decision
+- private distribution readiness: needs_ahmad_decision
+- local packaged-app auth readiness: future_gate
+- secret safety: ready_with_notes
+
+The next safe gate is Local Packaged Auth Gate before private packaging preparation.
+
 ## Control Surfaces
 
 `/desktop/kawn` is also the main private control client for Al-Kawn Control Surfaces.
