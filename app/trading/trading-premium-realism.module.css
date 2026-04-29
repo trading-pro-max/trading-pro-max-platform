@@ -88,6 +88,13 @@
   flex-wrap: wrap;
 }
 
+.commandBadges {
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
 .truthStrip {
   flex-wrap: nowrap;
   max-width: 100%;
@@ -106,6 +113,11 @@
   font-weight: 780;
   padding: 7px 9px;
   white-space: nowrap;
+}
+
+.commandBadges span {
+  font-size: 0.64rem;
+  padding: 6px 8px;
 }
 
 .commandBadges span:nth-child(8),

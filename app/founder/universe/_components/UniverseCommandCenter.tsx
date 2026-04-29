@@ -24,6 +24,36 @@ function TruthList({ items }: { items: UniverseTruthItem[] }) {
   );
 }
 
+const commandDeckPanels = [
+  {
+    label: "Universe status",
+    value: "Private command environment",
+    detail: "Runs on Ahmad devices only and manages Pro Max Earth without public exposure.",
+  },
+  {
+    label: "Pro Max Earth state",
+    value: "Future public product planet",
+    detail: "Working-name-only product world; public launch remains blocked until all gates close.",
+  },
+  {
+    label: "Living Earth Reality",
+    value: "Device-time life layers",
+    detail: "Day/night, device-date season, atmosphere, clouds, stars, and soundscape are labeled simulation.",
+  },
+  {
+    label: "Gate Matrix",
+    value: "Launch blocked",
+    detail: "Brand, legal, compliance, billing, broker, asset, and Founder gates remain pending.",
+  },
+] as const;
+
+const readinessScores = [
+  { label: "Hierarchy clarity", value: "94", state: "Layer order locked" },
+  { label: "Truth boundary", value: "100", state: "No unsafe activation" },
+  { label: "Earth realism", value: "82", state: "Code-driven improvement" },
+  { label: "Launch readiness", value: "0", state: "Blocked by gates" },
+] as const;
+
 export default function UniverseCommandCenter({
   truth,
 }: {
@@ -75,6 +105,33 @@ export default function UniverseCommandCenter({
         ├── Public Pro Max Surfaces — Future Public Product Layer
         └── ALKON — Private Background Guardian`}
         </pre>
+        <div className={styles.hierarchyVisual} aria-label="Premium private Universe hierarchy">
+          <div className={styles.hierarchyNode} data-layer="0">
+            <span>Layer 0</span>
+            <strong>Ahmad Private Devices</strong>
+            <small>Only private environment where Universe runs.</small>
+          </div>
+          <div className={styles.hierarchyNode} data-layer="1">
+            <span>Layer 1</span>
+            <strong>Universe</strong>
+            <small>Private living operating system and highest management layer.</small>
+          </div>
+          <div className={styles.hierarchyNode} data-layer="2">
+            <span>Layer 2</span>
+            <strong>Pro Max Earth</strong>
+            <small>Future public/global product planet, private until legally ready.</small>
+          </div>
+          <div className={styles.hierarchyBranch}>
+            {["Living Earth Reality", "/trading", "Public Pro Max Surfaces", "ALKON background guardian"].map(
+              (label, index) => (
+                <div key={label} className={styles.branchNode}>
+                  <span>Layer {index + 3}</span>
+                  <strong>{label}</strong>
+                </div>
+              )
+            )}
+          </div>
+        </div>
         <div className={styles.layerGrid}>
           {truth.layerOrder.map((layer) => (
             <article key={layer.id}>
@@ -148,6 +205,38 @@ export default function UniverseCommandCenter({
           <strong>not_started</strong>
           <small>Ahmad has not started it</small>
         </article>
+      </section>
+
+      <section className={styles.commandDeck} aria-label="Universe command deck">
+        <div className={styles.commandDeckMain}>
+          <span>Universe Command Deck</span>
+          <h2>Private operating layer filled with live truth, gates, and product state</h2>
+          <p>
+            Universe stays private on Ahmad&apos;s devices while Pro Max Earth remains the
+            managed product planet and future public/global product.
+          </p>
+          <div className={styles.commandDeckGrid}>
+            {commandDeckPanels.map((panel) => (
+              <article key={panel.label}>
+                <span>{panel.label}</span>
+                <strong>{panel.value}</strong>
+                <small>{panel.detail}</small>
+              </article>
+            ))}
+          </div>
+        </div>
+        <aside className={styles.readinessStack} aria-label="Readiness scores">
+          <span>Readiness Scores</span>
+          {readinessScores.map((score) => (
+            <div key={score.label} className={styles.readinessScore}>
+              <strong>{score.value}</strong>
+              <div>
+                <span>{score.label}</span>
+                <small>{score.state}</small>
+              </div>
+            </div>
+          ))}
+        </aside>
       </section>
 
       <ProMaxRealitySourceBar variant="full" />

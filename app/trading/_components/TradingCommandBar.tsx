@@ -24,9 +24,6 @@ export default function TradingCommandBar({
         <span>Private mode</span>
         <span>Demo-safe / read-only mode</span>
         <span>System readiness: guarded</span>
-        <span>Audit state: evidence-aware</span>
-        <span>Private origin boundary: protected</span>
-        <span>Session state: rehearsal</span>
         <span>Public launch: not started</span>
         <span>Real money: disabled</span>
       </div>

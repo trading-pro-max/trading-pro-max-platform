@@ -145,27 +145,34 @@
 
 .globe {
   background:
-    radial-gradient(circle at 34% 30%, rgba(255, 255, 255, 0.28), transparent 11%),
-    radial-gradient(circle at 42% 44%, rgba(21, 120, 154, 0.85), #05101a 72%);
-  border: 1px solid rgba(218, 247, 255, 0.32);
+    radial-gradient(circle at 30% 24%, rgba(255, 255, 255, 0.34), transparent 9%),
+    radial-gradient(circle at 34% 36%, rgba(91, 191, 214, 0.22), transparent 30%),
+    radial-gradient(circle at 74% 68%, rgba(0, 0, 0, 0.72), transparent 54%),
+    radial-gradient(circle at 42% 44%, rgba(21, 120, 154, 0.9), #040b13 74%);
+  border: 1px solid rgba(218, 247, 255, 0.42);
   border-radius: 50%;
   box-shadow:
-    inset -22px -12px 30px rgba(0, 0, 0, 0.72),
-    inset 12px 0 24px rgba(111, 217, 255, 0.16),
-    0 0 calc(var(--pmx-earth-size) * 0.24) rgba(116, 220, 255, 0.28);
+    inset calc(var(--pmx-earth-size) * -0.26) calc(var(--pmx-earth-size) * -0.1) calc(var(--pmx-earth-size) * 0.34) rgba(0, 0, 0, 0.82),
+    inset calc(var(--pmx-earth-size) * 0.12) 0 calc(var(--pmx-earth-size) * 0.26) rgba(111, 217, 255, 0.2),
+    inset 0 0 calc(var(--pmx-earth-size) * 0.07) rgba(255, 255, 255, 0.18),
+    0 0 calc(var(--pmx-earth-size) * 0.16) rgba(116, 220, 255, 0.3),
+    0 0 calc(var(--pmx-earth-size) * 0.36) rgba(54, 121, 166, 0.2);
   display: block;
   overflow: hidden;
   position: relative;
-  transform: rotateZ(-12deg) rotateY(-10deg);
+  transform: rotateX(3deg) rotateZ(-14deg) rotateY(-12deg);
 }
 
 .oceanCore,
 .texture,
 .clouds,
 .nightLights,
+.continentRelief,
+.cloudDepth,
 .gridLatitude,
 .gridLongitude,
 .dayNightShadow,
+.terminatorRim,
 .phaseOverlay,
 .seasonOverlay,
 .specular,
@@ -177,9 +184,33 @@
 
 .oceanCore {
   background:
-    radial-gradient(circle at 28% 18%, rgba(255, 255, 255, 0.22), transparent 14%),
-    radial-gradient(circle at 64% 64%, rgba(0, 0, 0, 0.54), transparent 58%),
-    linear-gradient(120deg, #05111d, #0a4c72 45%, #05101a);
+    radial-gradient(circle at 26% 18%, rgba(255, 255, 255, 0.2), transparent 12%),
+    radial-gradient(circle at 42% 42%, rgba(20, 113, 166, 0.96), transparent 45%),
+    radial-gradient(circle at 68% 72%, rgba(0, 0, 0, 0.64), transparent 56%),
+    linear-gradient(120deg, #04101c 0%, #075a86 42%, #03101b 100%);
+}
+
+.continentRelief {
+  background:
+    radial-gradient(ellipse at 28% 28%, rgba(92, 133, 95, 0.6) 0 7%, transparent 12%),
+    radial-gradient(ellipse at 43% 37%, rgba(156, 143, 104, 0.52) 0 8%, transparent 13%),
+    radial-gradient(ellipse at 58% 24%, rgba(84, 125, 91, 0.54) 0 5%, transparent 10%),
+    radial-gradient(ellipse at 67% 51%, rgba(120, 142, 98, 0.48) 0 6%, transparent 12%),
+    radial-gradient(ellipse at 34% 66%, rgba(132, 120, 86, 0.42) 0 5%, transparent 10%),
+    linear-gradient(90deg, transparent 0 18%, rgba(255, 255, 255, 0.08) 26%, transparent 34% 100%);
+  filter: saturate(1.2) contrast(1.1);
+  mix-blend-mode: overlay;
+  opacity: 0.72;
+}
+
+.cloudDepth {
+  background:
+    radial-gradient(ellipse at 24% 22%, rgba(255, 255, 255, 0.26), transparent 20%),
+    radial-gradient(ellipse at 60% 34%, rgba(255, 255, 255, 0.2), transparent 18%),
+    radial-gradient(ellipse at 42% 70%, rgba(255, 255, 255, 0.16), transparent 22%);
+  filter: blur(0.6px);
+  mix-blend-mode: screen;
+  opacity: calc(var(--pmx-cloud-opacity) * 0.72);
 }
 
 .texture {
@@ -230,8 +261,16 @@
 
 .dayNightShadow {
   background:
-    linear-gradient(var(--pmx-light-angle), rgba(0, 0, 0, 0.76), transparent 44%, rgba(255, 255, 255, 0.1) 66%, rgba(0, 0, 0, 0.42));
+    linear-gradient(var(--pmx-light-angle), rgba(0, 0, 0, 0.84), rgba(0, 0, 0, 0.52) 22%, transparent 48%, rgba(255, 255, 255, 0.12) 68%, rgba(0, 0, 0, 0.36));
   mix-blend-mode: multiply;
+}
+
+.terminatorRim {
+  background:
+    linear-gradient(calc(var(--pmx-light-angle) + 90deg), transparent 0 42%, rgba(131, 220, 255, 0.34) 49%, transparent 56% 100%);
+  filter: blur(1px);
+  mix-blend-mode: screen;
+  opacity: 0.62;
 }
 
 .phaseOverlay {

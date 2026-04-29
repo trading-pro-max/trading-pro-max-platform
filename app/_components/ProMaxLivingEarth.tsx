@@ -151,9 +151,12 @@ export function ProMaxLivingEarth({
           <span className={styles.texture} data-testid="promax-living-earth-texture" />
           <span className={styles.nightLights} data-testid="promax-living-earth-night-lights" />
           <span className={styles.clouds} data-testid="promax-living-earth-clouds" />
+          <span className={styles.continentRelief} data-testid="promax-earth-depth-lighting" />
+          <span className={styles.cloudDepth} />
           <span className={styles.gridLatitude} />
           <span className={styles.gridLongitude} />
           <span className={styles.dayNightShadow} />
+          <span className={styles.terminatorRim} />
           <span className={styles.phaseOverlay} />
           <span className={styles.seasonOverlay} />
           <span className={styles.specular} />

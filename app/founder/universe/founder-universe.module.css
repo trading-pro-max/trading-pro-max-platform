@@ -16,9 +16,12 @@
 .metricGrid article,
 .truthPanel,
 .hierarchyPanel,
+.commandDeck,
 .columns article,
 .actionPanel article {
-  background: rgba(5, 9, 15, 0.9);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.055), transparent 42%),
+    rgba(5, 9, 15, 0.9);
   border: 1px solid rgba(255, 255, 255, 0.11);
   box-shadow: 0 20px 55px rgba(0, 0, 0, 0.34);
 }
@@ -27,6 +30,7 @@
 .metricGrid,
 .truthPanel,
 .hierarchyPanel,
+.commandDeck,
 .columns,
 .actionPanel {
   position: relative;
@@ -39,7 +43,24 @@
   display: grid;
   gap: 18px;
   grid-template-columns: auto minmax(0, 1fr) minmax(220px, 280px);
+  overflow: hidden;
   padding: 18px;
+}
+
+.hero::after {
+  background:
+    linear-gradient(90deg, transparent, rgba(227, 6, 19, 0.16), transparent),
+    radial-gradient(circle at 84% 18%, rgba(135, 220, 255, 0.16), transparent 22rem);
+  content: "";
+  inset: 0;
+  opacity: 0.76;
+  pointer-events: none;
+  position: absolute;
+}
+
+.hero > * {
+  position: relative;
+  z-index: 1;
 }
 
 .hero span,
@@ -182,6 +203,56 @@
   line-height: 1.4;
 }
 
+.hierarchyVisual {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: minmax(180px, 0.8fr) minmax(190px, 0.9fr) minmax(220px, 1fr);
+}
+
+.hierarchyNode,
+.branchNode {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.06), transparent),
+    rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  display: grid;
+  gap: 6px;
+  min-height: 112px;
+  padding: 12px;
+  position: relative;
+}
+
+.hierarchyNode::after {
+  background: linear-gradient(180deg, rgba(227, 6, 19, 0.85), rgba(127, 220, 255, 0.16));
+  border-radius: 999px;
+  content: "";
+  inset: 10px auto 10px 0;
+  position: absolute;
+  width: 3px;
+}
+
+.hierarchyNode strong,
+.branchNode strong {
+  color: #ffffff;
+}
+
+.hierarchyNode small {
+  color: rgba(235, 241, 247, 0.66);
+  line-height: 1.45;
+}
+
+.hierarchyBranch {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.branchNode {
+  min-height: 72px;
+  padding: 10px;
+}
+
 .truthStrip {
   display: flex;
   flex-wrap: wrap;
@@ -202,6 +273,99 @@
   display: grid;
   gap: 10px;
   grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.commandDeck {
+  border-radius: 18px;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: minmax(0, 1fr) minmax(250px, 320px);
+  padding: 16px;
+}
+
+.commandDeckMain {
+  display: grid;
+  gap: 12px;
+}
+
+.commandDeckMain > span,
+.readinessStack > span {
+  color: #ffeff1;
+  font-size: 0.68rem;
+  font-weight: 880;
+  text-transform: uppercase;
+}
+
+.commandDeck h2 {
+  color: #ffffff;
+  font-size: clamp(1.35rem, 2.4vw, 2.2rem);
+  letter-spacing: 0;
+  margin: 0;
+}
+
+.commandDeck p,
+.commandDeck small {
+  color: rgba(235, 241, 247, 0.68);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.commandDeckGrid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.commandDeckGrid article,
+.readinessStack,
+.readinessScore {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 14px;
+}
+
+.commandDeckGrid article {
+  display: grid;
+  gap: 6px;
+  min-height: 112px;
+  padding: 12px;
+}
+
+.commandDeckGrid span,
+.readinessScore span {
+  color: rgba(255, 239, 241, 0.88);
+  font-size: 0.68rem;
+  font-weight: 860;
+  text-transform: uppercase;
+}
+
+.commandDeckGrid strong {
+  color: #ffffff;
+}
+
+.readinessStack {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+}
+
+.readinessScore {
+  align-items: center;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 62px minmax(0, 1fr);
+  padding: 10px;
+}
+
+.readinessScore > strong {
+  color: #ffffff;
+  font-size: 1.85rem;
+  line-height: 1;
+}
+
+.readinessScore div {
+  display: grid;
+  gap: 3px;
 }
 
 .columns article,
@@ -251,6 +415,9 @@
 @media (max-width: 1180px) {
   .hero,
   .metricGrid,
+  .hierarchyVisual,
+  .commandDeck,
+  .commandDeckGrid,
   .columns,
   .actionPanel {
     grid-template-columns: minmax(0, 1fr);
