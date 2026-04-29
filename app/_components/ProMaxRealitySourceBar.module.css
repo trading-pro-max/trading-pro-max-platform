@@ -1,0 +1,57 @@
+.bar {
+  align-items: center;
+  background: rgba(5, 9, 15, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 16px;
+  color: rgba(245, 248, 251, 0.82);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  padding: 9px;
+  position: relative;
+  z-index: 1;
+}
+
+.bar span,
+.bar strong {
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 850;
+  padding: 6px 8px;
+  white-space: nowrap;
+}
+
+.bar strong {
+  color: #ffffff;
+}
+
+.compact {
+  border-radius: 999px;
+  margin: 0;
+  max-width: min(720px, calc(100% - 20px));
+  overflow-x: auto;
+  padding: 5px;
+  position: absolute;
+  right: 10px;
+  scrollbar-width: thin;
+  top: 72px;
+  z-index: 5;
+}
+
+.compact span,
+.compact strong {
+  font-size: 0.62rem;
+  padding: 4px 6px;
+}
+
+@media (max-width: 760px) {
+  .compact {
+    margin: 7px 0;
+    max-width: 100%;
+    position: relative;
+    right: auto;
+    top: auto;
+  }
+}

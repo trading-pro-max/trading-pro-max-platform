@@ -1,0 +1,64 @@
+.layers {
+  background: rgba(5, 9, 15, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 18px;
+  color: rgba(245, 248, 251, 0.82);
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.header {
+  display: grid;
+  gap: 5px;
+}
+
+.header span {
+  color: #ffeff1;
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.header h2 {
+  color: #ffffff;
+  font-size: clamp(1.1rem, 2vw, 1.55rem);
+  margin: 0;
+}
+
+.header p {
+  margin: 0;
+}
+
+.grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+}
+
+.grid article {
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  display: grid;
+  gap: 5px;
+  padding: 10px;
+}
+
+.grid span {
+  color: rgba(235, 241, 247, 0.66);
+  font-size: 0.68rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.grid strong {
+  color: #ffffff;
+}
+
+.grid small {
+  color: rgba(235, 241, 247, 0.68);
+  line-height: 1.35;
+}

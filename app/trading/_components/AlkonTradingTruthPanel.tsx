@@ -21,6 +21,7 @@ export default function AlkonTradingTruthPanel({
       </p>
       <ul>
         <li>Product Truth summary: private, read-only, demo-safe.</li>
+        <li>Private background guard: active and not visually dominant.</li>
         <li>Boundary protection: no public private-origin exposure.</li>
         <li>Brand Gate: frozen/deferred.</li>
         <li>Local Day One: not started.</li>

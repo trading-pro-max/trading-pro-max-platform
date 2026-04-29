@@ -15,6 +15,7 @@
 .hero,
 .metricGrid article,
 .truthPanel,
+.hierarchyPanel,
 .columns article,
 .actionPanel article {
   background: rgba(5, 9, 15, 0.9);
@@ -25,6 +26,7 @@
 .hero,
 .metricGrid,
 .truthPanel,
+.hierarchyPanel,
 .columns,
 .actionPanel {
   position: relative;
@@ -68,6 +70,16 @@
   line-height: 1.5;
 }
 
+.legacyUniverseTitle {
+  color: rgba(235, 241, 247, 0.64);
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  margin: -4px 0 8px;
+  text-transform: uppercase;
+}
+
 .accessCard {
   background: rgba(255, 255, 255, 0.045);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -106,9 +118,68 @@
 }
 
 .truthPanel h2,
+.hierarchyPanel h2,
 .columns h2 {
   color: #ffffff;
   margin: 3px 0 0;
+}
+
+.hierarchyPanel {
+  border-radius: 18px;
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+}
+
+.hierarchyPanel > div:first-child span,
+.hierarchyPanel article span {
+  color: #ffeff1;
+  font-size: 0.68rem;
+  font-weight: 880;
+  text-transform: uppercase;
+}
+
+.hierarchyPanel p {
+  color: rgba(235, 241, 247, 0.72);
+  margin: 0;
+}
+
+.hierarchyTree {
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  color: #ffffff;
+  font-family: "Consolas", "SFMono-Regular", monospace;
+  font-size: clamp(0.74rem, 1.2vw, 0.92rem);
+  line-height: 1.5;
+  margin: 0;
+  overflow-x: auto;
+  padding: 14px;
+  white-space: pre;
+}
+
+.layerGrid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+}
+
+.layerGrid article {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  display: grid;
+  gap: 6px;
+  padding: 10px;
+}
+
+.layerGrid strong {
+  color: #ffffff;
+}
+
+.layerGrid small {
+  color: rgba(235, 241, 247, 0.68);
+  line-height: 1.4;
 }
 
 .truthStrip {

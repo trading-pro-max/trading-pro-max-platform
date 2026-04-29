@@ -65,3 +65,7 @@ Visual assets must preserve:
 - Device-time simulation only
 - Weather not connected
 - Assets: local/procedural/license-safe
+
+## Private Universe Asset Context
+
+Current assets support private Universe review on Ahmad's devices and Pro Max Earth as the future product planet. Assets are local/legal-safe/procedural/manifest-tracked for private review. Public launch approval remains no until future asset, legal, brand, and Founder reviews close.

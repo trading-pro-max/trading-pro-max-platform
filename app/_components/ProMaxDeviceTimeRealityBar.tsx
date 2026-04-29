@@ -41,9 +41,10 @@ export function ProMaxDeviceTimeRealityBar({
       <span>Device-time reality</span>
       <strong>Device time: {formatTime(date)}</strong>
       <span>Local phase: {mood.time.label}</span>
+      <span>Device-date simulation only</span>
       <span>Season: {mood.season.label}</span>
-      <span>Weather: not connected</span>
-      <span>Assets: local/procedural/license-safe</span>
+      <span>Weather is not connected</span>
+      <span>Assets: local/legal-safe/procedural</span>
       <span>Soundscape: user controlled</span>
       <span>Motion: normal/reduced-safe</span>
       <span>Product Truth</span>

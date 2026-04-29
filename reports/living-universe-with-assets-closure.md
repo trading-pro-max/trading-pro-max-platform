@@ -71,8 +71,10 @@ Device date maps to spring, summer, autumn, or winter and selects a local season
 Visible truth remains:
 
 - Private: yes
+- Universe: Ahmad devices only
 - Read-only/demo-safe: yes
 - Pro Max: working_name_only
+- Pro Max public/global approval: false
 - Brand Gate: ready_with_notes
 - Public launch: blocked/not started
 - Real money: disabled
@@ -84,12 +86,21 @@ Visible truth remains:
 - Global legal review: pending
 - Swiss-inspired visual identity only
 - Device-time simulation only
+- Device-date simulation only
 - Weather not connected
+- Location: not requested
 - Assets: local/procedural/license-safe
+- Assets: local/legal-safe/procedural/manifest-tracked
+- Soundscape: user controlled/off by default
+- Private until legally ready
 
-## NASA / Swiss / Legal Risk Avoidance
+## Final Layer Meaning
 
-No copied space-agency assets, no official Swiss coat of arms, no government endorsement, no FINMA approval claim, no licensed/regulated claim, no public launch claim, no investment advice claim, no real-money claim, no broker execution claim, no billing claim, and no guaranteed profit/win/risk-free claim were added.
+Universe stays private on Ahmad's devices. Pro Max Earth is the product planet inside Universe. Pro Max is the product that may appear to the world. ALKON stays private/background and is background guardian support, not the second layer.
+
+## Asset / Swiss / Legal Risk Avoidance
+
+No copied agency assets, no official Swiss coat of arms, no government endorsement, no FINMA approval claim, no licensed/regulated claim, no public launch claim, no investment advice claim, no real-money claim, no broker execution claim, no billing claim, and no guaranteed profit/win/risk-free claim were added.
 
 ## What Remains Not Done
 
@@ -108,9 +119,11 @@ No copied space-agency assets, no official Swiss coat of arms, no government end
 - `npx eslint app modules tests --max-warnings=0`: passed.
 - `npm run build`: passed.
 - `npm run prisma:validate`: passed.
-- `npx playwright test tests/regression/living-universe-with-assets-closure.spec.ts tests/regression/promax-earth-identity-closure.spec.ts`: passed, 6 tests.
-- `npm run test:regression`: passed, 304 tests.
+- Focused private-universe, literal-realism, deep-order, and living-universe regressions: passed, 11 tests.
+- `npx playwright test tests/regression/living-universe-with-assets-closure.spec.ts tests/regression/promax-earth-identity-closure.spec.ts`: passed.
+- `npm run test:regression`: passed, 312 tests.
+- `npm run smoke:routes`: passed.
 
 ## Final Status
 
-validated_for_commit_push. Git commit, push, smoke routes, diff check, and clean working tree verification remain the final closure steps.
+validated_for_commit_push. Git commit, push, diff check, and clean working tree verification remain the final closure steps.

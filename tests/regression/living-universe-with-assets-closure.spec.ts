@@ -20,9 +20,13 @@ async function expectLivingUniverseTruth(page: Page) {
     "Season:"
   );
   await expect(page.getByTestId("promax-living-earth-reduced-motion-safe").first()).toBeAttached();
+  await expect(page.getByTestId("promax-earth-inside-universe").first()).toBeAttached();
   await expect(page.getByTestId("promax-device-time-reality-bar").first()).toBeVisible();
+  await expect(page.getByTestId("promax-reality-source-bar").first()).toBeVisible();
   await expect(page.locator("body")).toContainText("Weather: not connected");
   await expect(page.locator("body")).toContainText("Assets: local/procedural/license-safe");
+  await expect(page.locator("body")).toContainText("Assets: local/legal-safe/procedural");
+  await expect(page.locator("body")).toContainText("Real when sourced. Simulated when labeled.");
   await expect(page.locator("body")).toContainText("Product Truth");
   await expect(page.locator("body")).toContainText("Real money: disabled");
   await expect(page.locator("body")).toContainText("Broker execution: disabled/not connected");
@@ -49,6 +53,7 @@ test.describe("Living Universe With Legal-Safe Assets Closure", () => {
     await expect(page.locator("body")).toContainText("Private / read-only");
     await expect(page.locator("body")).toContainText("Brand Gate: ready_with_notes");
     await expect(page.locator("body")).toContainText("Local Day One: not_started");
+    await expect(page.locator("body")).toContainText("Universe stays private on Ahmad's devices");
   });
 
   test("trading renders living universe without harming Product Truth", async ({ page }) => {
@@ -67,6 +72,7 @@ test.describe("Living Universe With Legal-Safe Assets Closure", () => {
     );
     await expect(page.locator("body")).toContainText("Pro Max: working name only");
     await expect(page.locator("body")).toContainText("Brand Gate review: ready with notes");
+    await expect(page.locator("body")).toContainText("Trading Ground on Pro Max Earth");
   });
 
   test("asset manifest and procedural asset policy exist without external images", () => {
@@ -78,11 +84,23 @@ test.describe("Living Universe With Legal-Safe Assets Closure", () => {
       "asset-manifest.json"
     );
     const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8")) as {
-      assets: Array<{ path: string; source: string; approvedForPrivateInternalUse: boolean }>;
+      assets: Array<{
+        path: string;
+        filePath: string;
+        source: string;
+        license: string;
+        commercialUseAllowed: string;
+        attributionRequired: string;
+        publicLaunchApproved: string;
+        approvedForPrivateInternalUse: boolean;
+        notes: string;
+      }>;
     };
 
     expect(manifest.assets.length).toBeGreaterThanOrEqual(10);
     expect(manifest.assets.every((asset) => asset.approvedForPrivateInternalUse)).toBe(true);
+    expect(manifest.assets.every((asset) => asset.filePath && asset.license)).toBe(true);
+    expect(manifest.assets.every((asset) => asset.publicLaunchApproved === "no")).toBe(true);
     expect(JSON.stringify(manifest)).toContain("local_procedural");
     expect(JSON.stringify(manifest)).not.toMatch(/https?:\/\/|NASA|official Swiss|FINMA/i);
 

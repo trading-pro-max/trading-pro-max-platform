@@ -14,12 +14,13 @@ export default function TradingCommandBar({
         <ProMaxLivingEarthStatic size="medium" surface="trading" />
         <div>
           <strong>Pro Max Trading</strong>
-          <span>Trading Operating Floor</span>
+          <span>Trading Ground on Pro Max Earth</span>
           <small>{truth.identityLine}</small>
         </div>
       </Link>
 
       <div className={styles.commandBadges} aria-label="Trading operating truth">
+        <span>Managed by Universe</span>
         <span>Private mode</span>
         <span>Demo-safe / read-only mode</span>
         <span>System readiness: guarded</span>

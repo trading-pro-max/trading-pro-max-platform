@@ -93,6 +93,7 @@ export function ProMaxLivingEarth({
       ].join(" ")}
       style={style}
       data-testid="promax-living-earth"
+      data-layer-meaning="pro-max-earth-product-planet"
       data-promax-earth-identity="true"
       data-animated-earth-mark="true"
       data-real-3d-earth-logo="true"
@@ -106,6 +107,9 @@ export function ProMaxLivingEarth({
       role="img"
       aria-label={label}
     >
+      <span className={styles.reducedMotionSafe} data-testid="promax-earth-inside-universe">
+        Pro Max Earth is the product planet inside Universe
+      </span>
       <span
         className={styles.identityAnchor}
         data-testid="promax-earth-identity"
@@ -168,14 +172,18 @@ export function ProMaxLivingEarth({
         {showText ? (
           <>
             <strong>Pro Max</strong>
-            <span>Living Earth identity</span>
+            <span>Pro Max Earth is the product planet inside Universe</span>
           </>
         ) : null}
         <small data-testid="promax-living-earth-time-phase">
-          Device-time simulation only. Local phase: {mood.time.label}.
+          Device-time simulation active. Device-time simulation only. Local phase: {mood.time.label}.
         </small>
-        <small data-testid="promax-living-earth-season">Season: {mood.season.label}.</small>
-        <small>Weather not connected. Assets: local/procedural/license-safe.</small>
+        <small data-testid="promax-living-earth-season">
+          Device-date simulation active. Season: {mood.season.label}.
+        </small>
+        <small>
+          Weather not connected. Assets: local/procedural/license-safe. Assets local/legal-safe/procedural.
+        </small>
         <small>Motion: {motion === "reduced_safe" ? "reduced-safe" : "normal"}.</small>
       </figcaption>
     </figure>

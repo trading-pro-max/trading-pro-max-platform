@@ -1,3 +1,15 @@
+import {
+  proMaxPublicFutureReadiness,
+  universeCanonicalHierarchy,
+  universeDeepModel,
+  universeForbiddenOrderRules,
+  universeLayerOrder,
+  universeManagementReadiness,
+  universeNextAction,
+  universeProductTruth,
+  type UniverseLayer,
+} from "@/lib/server/universe-management";
+
 export type UniverseGateState =
   | "allowed_now"
   | "blocked_now"
@@ -17,6 +29,13 @@ export type UniverseTruthItem = {
 export type ProjectUniverseTruthSnapshot = {
   checkedAt: string;
   identityLine: string;
+  canonicalHierarchy: typeof universeCanonicalHierarchy;
+  deepModel: typeof universeDeepModel;
+  layerOrder: UniverseLayer[];
+  managementReadiness: typeof universeManagementReadiness;
+  proMaxPublicFutureReadiness: typeof proMaxPublicFutureReadiness;
+  forbiddenOrderRules: typeof universeForbiddenOrderRules;
+  finalLayerTruth: typeof universeProductTruth;
   projectPrivateState: "private_until_legally_ready";
   alkonPrivateReadOnlyState: "private_read_only";
   proMaxTradingProductState: "first_living_product_demo_safe";
@@ -232,6 +251,13 @@ export function getProjectUniverseTruthSnapshot(
   return {
     checkedAt,
     identityLine,
+    canonicalHierarchy: universeCanonicalHierarchy,
+    deepModel: universeDeepModel,
+    layerOrder: universeLayerOrder,
+    managementReadiness: universeManagementReadiness,
+    proMaxPublicFutureReadiness,
+    forbiddenOrderRules: universeForbiddenOrderRules,
+    finalLayerTruth: universeProductTruth,
     projectPrivateState: "private_until_legally_ready",
     alkonPrivateReadOnlyState: "private_read_only",
     proMaxTradingProductState: "first_living_product_demo_safe",
@@ -291,7 +317,7 @@ export function getProjectUniverseTruthSnapshot(
       swissInspiredVisualIdentityOnly: true,
     },
     oneNextAction:
-      "Ahmad opens /trading and /founder/universe, then decides ACCEPT, REJECT with notes, or CORRECT one narrow visual/product issue.",
+      universeNextAction,
     whatNotToDo: [
       "Do not rename anything.",
       "Do not start Brand Gate research.",

@@ -25,6 +25,7 @@ export type SeasonReality = {
   month: number;
   season: SeasonPhase;
   label: string;
+  simulationNotice: "Device-date simulation only";
 };
 
 export type UniverseMood = {
@@ -37,7 +38,18 @@ export type UniverseMood = {
   cloudOpacity: number;
   nightLightsOpacity: number;
   orbitSpeedSeconds: number;
+  particleDensity: number;
+  backgroundDepth: number;
+  horizonGlow: number;
+  motionIntensity: number;
+  productTruthOverlayPriority: "always_visible";
   soundscapeMood: "quiet_dawn" | "clear_day" | "amber_sunset" | "deep_cosmic";
+  sourceLabels: {
+    deviceTime: "Local device time controls the living Universe";
+    season: "Season is based on device date";
+    soundscape: "Soundscape is user controlled and off by default";
+    weather: "Weather not connected";
+  };
 };
 
 export type UniverseAssetSet = {

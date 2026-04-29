@@ -19,5 +19,6 @@ export function getSeasonPhase(date = new Date()): SeasonReality {
     month,
     season,
     label: seasonLabels[season],
+    simulationNotice: "Device-date simulation only",
   };
 }

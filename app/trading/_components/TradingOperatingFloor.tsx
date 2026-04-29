@@ -1,6 +1,7 @@
 import { ProMaxDeviceTimeRealityBarStatic } from "@/app/_components/ProMaxDeviceTimeRealityBarStatic";
 import { ProMaxLivingEarthStatic } from "@/app/_components/ProMaxLivingEarthStatic";
 import { ProMaxLivingUniverseBackgroundStatic } from "@/app/_components/ProMaxLivingUniverseBackgroundStatic";
+import { ProMaxRealitySourceBar } from "@/app/_components/ProMaxRealitySourceBar";
 import type { ProjectUniverseTruthSnapshot } from "@/lib/server/project-universe-truth";
 import AlkonTradingTruthPanel from "./AlkonTradingTruthPanel";
 import ExecutionRiskPanel from "./ExecutionRiskPanel";
@@ -116,10 +117,12 @@ export default function TradingOperatingFloor({
             <div>
               <span className={styles.kicker}>Pro Max Trading</span>
               <h1>Trading Workspace</h1>
-              <p>Trading Operating Floor. {truth.identityLine}</p>
+              <p>Trading Ground on Pro Max Earth. Managed by Universe. {truth.identityLine}</p>
             </div>
             <ProductTruthStrip truth={truth} />
           </section>
+
+          <ProMaxRealitySourceBar variant="compact" />
 
           <InstrumentHeader instrument={selectedInstrument} />
 
@@ -171,6 +174,8 @@ export default function TradingOperatingFloor({
         <aside className={styles.identityColumn} aria-label="Earth identity status">
           <ProMaxLivingEarthStatic size="hero" surface="trading" showText />
           <p>{truth.identityLine}</p>
+          <span>Pro Max Earth context</span>
+          <span>Trading Ground on Pro Max Earth</span>
           <span>Swiss-inspired visual identity only</span>
           <span>No government endorsement</span>
         </aside>

@@ -81,3 +81,9 @@ The living universe uses device-time simulation for day/night tone and device-da
 Reduced-motion preferences must be respected. Earth motion, cloud motion, orbit motion, and pulse effects must become static or minimal when requested.
 
 Product Truth outranks visual spectacle. Earth, atmosphere, stars, orbits, and sound may make the platform feel alive, but they must not hide charts, cover controls, reduce readability, or imply public launch, live trading, real money, broker activation, billing, legal approval, regulation, licensing, investment advice, guaranteed profit, guaranteed win, or risk-free trading.
+
+## Private Universe / Public-Future Pro Max Standard
+
+Universe stays private on Ahmad's devices. Universe is a private living operating system and visual simulation. Pro Max Earth is the product planet inside Universe. Pro Max is the product that may appear to the world. Universe privately manages Pro Max.
+
+Public Pro Max launch is blocked until all gates close. ALKON stays private/background. ALKON is background guardian support, not the second layer. Real when sourced. Simulated when labeled. Weather is not connected. Legal review is pending. Goal: world-class legally ready global product. Private until legally ready.
