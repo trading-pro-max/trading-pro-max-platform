@@ -213,3 +213,22 @@ This law is exposed through `lib/server/universe/ontological-law/*` and re-expor
 - `/founder/universe` exists because Ahmad needs a private command center. It belongs to Human Interface inside الكون, uses local project state and report/test evidence, and executes only safe private display logic.
 - `/trading` exists because Earth Planet needs a demo-safe trading surface. It belongs to Earth Planet, blocks real-money and broker execution, and returns all claims to Product Truth.
 - Public Pro Max Future exists as a blocked future gate. It cannot claim public launch, billing, legal approval, or brand ownership until all gates close.
+
+## Visual Map Connection
+
+Al-Kawn Visual Map is the visual explanation surface for this ontological law.
+
+It renders the Existence Contract rule, layer belonging rule, truth source rule, Product Truth rule, Universe Operating Kernel judge, and legal/money stop gates as a founder-facing private map inside `/founder/universe`.
+
+The map must show:
+
+- أحمد هو الأصل.
+- الكون هو الوجود الرقمي الخاص بأحمد.
+- Every entity inside الكون needs an Existence Contract.
+- Product Truth هو قانون الحقيقة الأعلى.
+- Universe Operating Kernel هو القاضي التنفيذي.
+- Pro Max Galaxy is inside الكون.
+- Earth Planet is the trading project.
+- Swiss Local Constitution is above the Global Layer.
+- ALKON is private/background.
+- Legal and Money gates stop execution for Ahmad.

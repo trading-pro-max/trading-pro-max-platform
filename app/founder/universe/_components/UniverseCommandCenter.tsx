@@ -40,6 +40,13 @@ import {
   getRollbackExplanationRules,
   getTruthSourceRules,
 } from "@/lib/server/universe/ontological-law";
+import {
+  getAlKawnVisualMap,
+  getAlKawnVisualMapConnections,
+  getAlKawnVisualMapLayers,
+  getAlKawnVisualMapNextAction,
+  getAlKawnVisualMapTruth,
+} from "@/lib/server/universe/visual-map";
 import styles from "../founder-universe.module.css";
 
 function TruthList({ items }: { items: UniverseTruthItem[] }) {
@@ -86,6 +93,22 @@ const readinessScores = [
   { label: "Launch readiness", value: "0", state: "Blocked by gates" },
 ] as const;
 
+function getVisualMapEarthChildDetail(label: string) {
+  if (label === "/trading") {
+    return "/trading is the trading surface.";
+  }
+
+  if (label === "Global Layer") {
+    return "Under Swiss Local Constitution.";
+  }
+
+  if (label === "ALKON Background Guardian") {
+    return "ALKON is private/background.";
+  }
+
+  return "Protected by Product Truth.";
+}
+
 export default function UniverseCommandCenter({
   truth,
 }: {
@@ -115,6 +138,42 @@ export default function UniverseCommandCenter({
   const rollbackExplanationRules = getRollbackExplanationRules().slice(0, 5);
   const infinityToZeroExplanation =
     explainEntityFromInfinityToZero("alkawn_root");
+  const visualMap = getAlKawnVisualMap();
+  const visualMapLayers = getAlKawnVisualMapLayers();
+  const visualMapConnections = getAlKawnVisualMapConnections();
+  const visualMapTruth = getAlKawnVisualMapTruth();
+  const visualMapNextAction = getAlKawnVisualMapNextAction();
+  const visualMapCoreLayerIds = [
+    "existence_contract",
+    "product_truth",
+    "universe_operating_kernel",
+    "ahmad_digital_vault",
+    "protection_core",
+    "universe_one",
+    "swiss_local_constitution",
+    "human_interface",
+    "sovereign_execution",
+    "execution_court",
+    "causal_execution",
+    "infinity_mode",
+    "operator_mode",
+    "self_building",
+  ];
+  const visualMapDetailLayerIds = [
+    "al_kawn",
+    "product_truth",
+    "universe_operating_kernel",
+    "universe_one",
+    "pro_max_galaxy",
+    "earth_planet",
+    "trading_surface",
+  ];
+  const visualMapCoreLayers = visualMapLayers.filter((layer) =>
+    visualMapCoreLayerIds.includes(layer.id)
+  );
+  const visualMapDetailLayers = visualMapLayers.filter((layer) =>
+    visualMapDetailLayerIds.includes(layer.id)
+  );
 
   return (
     <main
@@ -231,6 +290,129 @@ Compatibility evidence:
         <p>ALKON is background guardian support, not the second layer.</p>
         <p>ALKON is private/background, not second.</p>
         <p>Goal: world-class legally ready global product.</p>
+      </section>
+
+      <section
+        className={styles.visualMapPanel}
+        data-testid="al-kawn-visual-map"
+        aria-label="Al-Kawn Visual Map"
+      >
+        <div className={styles.visualMapHeader}>
+          <div>
+            <span>{visualMap.title}</span>
+            <h2>Al-Kawn Visual Map</h2>
+            <p>{visualMap.purpose}</p>
+            <p>أحمد هو الأصل</p>
+            <p>الكون هو الوجود الرقمي الخاص بأحمد</p>
+            <p>Every entity inside الكون needs an Existence Contract</p>
+            <p>Product Truth هو قانون الحقيقة الأعلى</p>
+            <p>Universe Operating Kernel هو القاضي التنفيذي</p>
+            <p>Pro Max Galaxy is inside الكون</p>
+            <p>Earth Planet is the trading project</p>
+            <p>Swiss Local Constitution is above the Global Layer</p>
+            <p>ALKON is private/background</p>
+            <p>Legal and Money gates stop execution for Ahmad</p>
+          </div>
+          <aside>
+            <strong>{visualMapNextAction.next}</strong>
+            <small>{visualMapNextAction.reason}</small>
+          </aside>
+        </div>
+
+        <div className={styles.visualMapTree}>
+          <article className={styles.visualMapOrigin}>
+            <span>Origin</span>
+            <strong>Ahmad Human</strong>
+            <small>Ahmad is the source and final decision authority.</small>
+          </article>
+          <article className={styles.visualMapDevice}>
+            <span>Private devices</span>
+            <strong>Ahmad Private Devices</strong>
+            <small>Only private environment where الكون runs.</small>
+          </article>
+          <article className={styles.visualMapRoot}>
+            <span>Root</span>
+            <strong>الكون</strong>
+            <small>Ahmad&apos;s private digital existence.</small>
+          </article>
+          <div className={styles.visualMapCore} aria-label="Major internal layers">
+            {visualMapCoreLayers.map((layer) => (
+              <article key={layer.id}>
+                <span>{layer.status}</span>
+                <strong>{layer.technicalLabel}</strong>
+                <small>{layer.purpose}</small>
+              </article>
+            ))}
+          </div>
+          <article className={styles.visualMapGalaxy}>
+            <span>Product galaxy</span>
+            <strong>Pro Max Galaxy</strong>
+            <small>Pro Max Galaxy is inside الكون.</small>
+          </article>
+          <article className={styles.visualMapPlanet}>
+            <span>First planet</span>
+            <strong>Earth Planet</strong>
+            <small>Earth Planet is the trading project.</small>
+          </article>
+          <div className={styles.visualMapEarthChildren}>
+            {[
+              "Living Earth Reality",
+              "/trading",
+              "Global Layer",
+              "Public Pro Max Future",
+              "ALKON Background Guardian",
+            ].map((label) => (
+              <article key={label}>
+                <strong>{label}</strong>
+                <small>{getVisualMapEarthChildDetail(label)}</small>
+              </article>
+            ))}
+          </div>
+        </div>
+
+        <div className={styles.visualMapConnections}>
+          <span>Governing connections</span>
+          {visualMapConnections.map((connection) => (
+            <article key={connection.id}>
+              <strong>{connection.meaning}</strong>
+              <small>
+                {connection.from} -&gt; {connection.to} / {connection.relation}
+              </small>
+            </article>
+          ))}
+        </div>
+
+        <div className={styles.visualMapDetails}>
+          <span>Layer detail panel</span>
+          {visualMapDetailLayers.map((layer) => (
+            <article key={layer.id}>
+              <strong>{layer.technicalLabel}</strong>
+              <small>{layer.purpose}</small>
+              <em>Owner: {layer.parent ?? "origin"}</em>
+              <em>Truth source: {layer.truthSource}</em>
+              <em>Product Truth impact: {layer.productTruthImpact}</em>
+              <em>Execution role: {layer.executionRole}</em>
+              <em>Stops: {layer.approvalGate}</em>
+              <em>Status: {layer.status}</em>
+            </article>
+          ))}
+        </div>
+
+        <div className={styles.visualMapTruthStrip} data-product-truth="true">
+          {[...visualMapTruth.enforcedTruths, ...visualMapTruth.blockedStates].map((label) => (
+            <span key={label}>{label}</span>
+          ))}
+          <span>Product Truth</span>
+          <span>الكون private to Ahmad devices</span>
+          <span>Pro Max future public product</span>
+          <span>public launch blocked</span>
+          <span>billing inactive</span>
+          <span>payments inactive</span>
+          <span>real money disabled</span>
+          <span>broker execution disabled/not connected</span>
+          <span>legal review pending</span>
+          <span>ALKON private/background</span>
+        </div>
       </section>
 
       <ProMaxLivingEarthLayers />

@@ -204,3 +204,24 @@ Universe Operating Kernel هو القاضي التنفيذي.
 الكون لا يدّعي التحكم بالكون الفيزيائي.
 
 Reference: `docs/product/al-kawn-ontological-operating-law.md`.
+
+## Al-Kawn Visual Map Standard
+
+The private `/founder/universe` surface must include Al-Kawn Visual Map so Ahmad can see the full structure of الكون without image generation or decorative abstraction.
+
+The map must show:
+
+- أحمد هو الأصل.
+- الكون هو الوجود الرقمي الخاص بأحمد.
+- Every entity inside الكون needs an Existence Contract.
+- Product Truth هو قانون الحقيقة الأعلى.
+- Universe Operating Kernel هو القاضي التنفيذي.
+- Pro Max Galaxy is inside الكون.
+- Earth Planet is the trading project.
+- Swiss Local Constitution is above the Global Layer.
+- ALKON is private/background.
+- Legal and Money gates stop execution for Ahmad.
+
+The Visual Map is private only. It must preserve Product Truth, show public launch blocked, billing inactive, payments inactive, real money disabled, broker execution disabled/not connected, legal review pending, and ALKON private/background.
+
+Reference: `docs/product/al-kawn-visual-map-standard.md`.

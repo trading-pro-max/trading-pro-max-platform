@@ -5,16 +5,16 @@ export function getArchitectureRegistryNextAction() {
   const summary = getArchitectureRegistrySummary();
 
   return {
-    next: "Al-Kawn Visual Map" as const,
+    next: "Al-Kawn Desktop Operating Environment" as const,
     reason:
-      "Controlled cleanup normalized the target hierarchy, the existing kernel is canonicalized, and the Absolute Founder Boundary is enforced. Remaining conflicts are planet API classification, legacy Earth/logo compatibility wrappers, and Ahmad-decision product meaning.",
+      "The Visual Map is now a canonical founder-facing architecture view. The next safest step is a private desktop operating environment gate, while Infinity Mode and Operator Mode remain blocked until Ahmad explicitly resumes them.",
     infinityMode: summary.infinityModeSafe ? "safe" : "blocked_until_registry_conflicts_resolved",
     ultimateDepth: summary.ultimateDepthSafe ? "safe" : "blocked_until_registry_conflicts_resolved",
     mustNotDo: [
       "Do not start Infinity Mode.",
       "Do not resume Ultimate 100% Depth.",
       "Do not create a second kernel.",
-      "Do not build desktop/mobile app code.",
+      "Do not build desktop/mobile app code without an approved desktop operating environment mission.",
       "Do not launch public.",
       "Do not activate billing, real money, broker execution, or legal claims.",
     ],

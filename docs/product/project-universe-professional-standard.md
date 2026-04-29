@@ -168,4 +168,26 @@ Every visible surface, server model, report, doc, and test must preserve literal
 
 The visual system may feel alive, but it must not claim physical universe control, real weather, legal approval, money activation, broker activation, or public launch.
 
+## Al-Kawn Visual Map Founder Clarity Standard
+
+The professional standard now requires a clear private visual architecture map on `/founder/universe`.
+
+The map must feel premium, dark, precise, readable, and founder-facing. It must not feel like public marketing, image generation, decorative art, or a generic dashboard. It must explain parent/child relationships with connected layer cards and keep Product Truth visible.
+
+Required visible meaning:
+
+- أحمد هو الأصل.
+- الكون هو الوجود الرقمي الخاص بأحمد.
+- Every entity inside الكون needs an Existence Contract.
+- Product Truth هو قانون الحقيقة الأعلى.
+- Universe Operating Kernel هو القاضي التنفيذي.
+- Pro Max Galaxy is inside الكون.
+- Earth Planet is the trading project.
+- /trading is the trading surface.
+- Swiss Local Constitution is above the Global Layer.
+- ALKON is private/background.
+- Legal and Money gates stop execution for Ahmad.
+
+No visual layer may claim public launch, billing, payments, real money, broker execution, legal approval, FINMA approval, licensed/regulated status, guaranteed profit, risk-free trading, public الكون, or public ALKON.
+
 Every entity must have an Existence Contract, Product Truth impact, truth source, and ∞ to 0 explanation path before it becomes part of future primary architecture.

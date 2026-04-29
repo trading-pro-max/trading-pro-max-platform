@@ -16,6 +16,7 @@
 .metricGrid article,
 .truthPanel,
 .hierarchyPanel,
+.visualMapPanel,
 .commandDeck,
 .kernelPanel,
 .registryPanel,
@@ -32,6 +33,7 @@
 .metricGrid,
 .truthPanel,
 .hierarchyPanel,
+.visualMapPanel,
 .commandDeck,
 .kernelPanel,
 .registryPanel,
@@ -255,6 +257,208 @@
 .branchNode {
   min-height: 72px;
   padding: 10px;
+}
+
+.visualMapPanel {
+  border-radius: 18px;
+  display: grid;
+  gap: 14px;
+  overflow: hidden;
+  padding: 16px;
+}
+
+.visualMapHeader {
+  align-items: stretch;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 360px);
+}
+
+.visualMapHeader > div {
+  display: grid;
+  gap: 7px;
+}
+
+.visualMapHeader span,
+.visualMapTree span,
+.visualMapCore span,
+.visualMapConnections > span,
+.visualMapDetails > span {
+  color: #ffeff1;
+  font-size: 0.68rem;
+  font-weight: 880;
+  text-transform: uppercase;
+}
+
+.visualMapHeader h2 {
+  color: #ffffff;
+  font-size: clamp(1.55rem, 2.7vw, 2.55rem);
+  letter-spacing: 0;
+  margin: 0;
+}
+
+.visualMapHeader p,
+.visualMapHeader small,
+.visualMapTree small,
+.visualMapConnections small,
+.visualMapDetails small,
+.visualMapDetails em {
+  color: rgba(235, 241, 247, 0.7);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.visualMapHeader aside {
+  background:
+    linear-gradient(135deg, rgba(227, 6, 19, 0.14), transparent 55%),
+    radial-gradient(circle at 85% 12%, rgba(132, 221, 255, 0.12), transparent 12rem),
+    rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+}
+
+.visualMapHeader aside strong {
+  color: #ffffff;
+  font-size: 1.14rem;
+}
+
+.visualMapTree {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: minmax(180px, 0.82fr) minmax(180px, 0.82fr) minmax(230px, 1fr);
+  position: relative;
+}
+
+.visualMapTree::before {
+  background:
+    linear-gradient(90deg, rgba(227, 6, 19, 0.78), rgba(132, 221, 255, 0.2)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12), transparent);
+  content: "";
+  height: 2px;
+  inset: 54px 8px auto;
+  opacity: 0.7;
+  position: absolute;
+}
+
+.visualMapOrigin,
+.visualMapDevice,
+.visualMapRoot,
+.visualMapGalaxy,
+.visualMapPlanet,
+.visualMapCore article,
+.visualMapEarthChildren article,
+.visualMapConnections article,
+.visualMapDetails article {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.06), transparent 48%),
+    rgba(255, 255, 255, 0.038);
+  border: 1px solid rgba(255, 255, 255, 0.095);
+  border-radius: 14px;
+  display: grid;
+  gap: 7px;
+  padding: 12px;
+  position: relative;
+}
+
+.visualMapOrigin,
+.visualMapDevice,
+.visualMapRoot {
+  min-height: 118px;
+}
+
+.visualMapOrigin::after,
+.visualMapDevice::after,
+.visualMapRoot::after,
+.visualMapGalaxy::after,
+.visualMapPlanet::after {
+  background: linear-gradient(180deg, rgba(227, 6, 19, 0.88), rgba(132, 221, 255, 0.18));
+  border-radius: 999px;
+  content: "";
+  inset: 10px auto 10px 0;
+  position: absolute;
+  width: 3px;
+}
+
+.visualMapTree strong,
+.visualMapConnections strong,
+.visualMapDetails strong {
+  color: #ffffff;
+}
+
+.visualMapCore {
+  display: grid;
+  gap: 8px;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.visualMapCore article {
+  min-height: 116px;
+}
+
+.visualMapGalaxy,
+.visualMapPlanet {
+  min-height: 112px;
+}
+
+.visualMapEarthChildren {
+  display: grid;
+  gap: 8px;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.visualMapEarthChildren article {
+  min-height: 92px;
+}
+
+.visualMapConnections,
+.visualMapDetails {
+  display: grid;
+  gap: 10px;
+}
+
+.visualMapConnections {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.visualMapConnections > span,
+.visualMapDetails > span {
+  grid-column: 1 / -1;
+}
+
+.visualMapConnections article {
+  min-height: 96px;
+}
+
+.visualMapDetails {
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+}
+
+.visualMapDetails article {
+  align-content: start;
+}
+
+.visualMapDetails em {
+  font-style: normal;
+}
+
+.visualMapTruthStrip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.visualMapTruthStrip span {
+  background: rgba(227, 6, 19, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  color: rgba(245, 248, 251, 0.84);
+  font-size: 0.72rem;
+  padding: 7px 9px;
 }
 
 .truthStrip {
@@ -665,6 +869,11 @@
   .hero,
   .metricGrid,
   .hierarchyVisual,
+  .visualMapHeader,
+  .visualMapTree,
+  .visualMapCore,
+  .visualMapEarthChildren,
+  .visualMapConnections,
   .commandDeck,
   .commandDeckGrid,
   .kernelHeader,

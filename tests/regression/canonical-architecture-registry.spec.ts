@@ -20,8 +20,8 @@ test.describe("Canonical Architecture Registry", () => {
       "utf8"
     );
 
-    expect(registryReport).toContain("Total registry items: 55");
-    expect(registryReport).toContain("Primary: 28");
+    expect(registryReport).toContain("Total registry items: 56");
+    expect(registryReport).toContain("Primary: 29");
     expect(registryReport).toContain("Compatibility: 6");
     expect(registryReport).toContain("Protected: 10");
     expect(registryReport).toContain("Cleanup candidate: 3");
@@ -29,7 +29,7 @@ test.describe("Canonical Architecture Registry", () => {
     expect(conflictReport).toContain("Unresolved");
     expect(registryReport).toContain("Ultimate Depth safe now: no");
     expect(registryReport).toContain("Infinity Mode safe now: no");
-    expect(nextActionReport).toContain("Al-Kawn Visual Map");
+    expect(nextActionReport).toContain("Al-Kawn Desktop Operating Environment");
     expect(nextActionReport).toContain("blocked_until_registry_conflicts_resolved");
   });
 
@@ -70,7 +70,7 @@ test.describe("Canonical Architecture Registry", () => {
       path.join(process.cwd(), "reports/canonical-architecture-next-action.md"),
       "utf8"
     );
-    expect(nextAction).toContain("Al-Kawn Visual Map");
+    expect(nextAction).toContain("Al-Kawn Desktop Operating Environment");
     expect(nextAction).toContain("No.");
     expect(nextAction).not.toMatch(FORBIDDEN_CLAIMS);
   });

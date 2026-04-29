@@ -80,5 +80,6 @@ export type ArchitectureRegistrySummary = {
     | "controlled canonical cleanup"
     | "existing kernel canonicalization"
     | "Absolute Founder Boundary 100"
-    | "Al-Kawn Visual Map";
+    | "Al-Kawn Visual Map"
+    | "Al-Kawn Desktop Operating Environment";
 };

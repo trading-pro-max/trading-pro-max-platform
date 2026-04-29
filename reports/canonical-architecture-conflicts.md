@@ -3,9 +3,9 @@
 Official audited path:
 `C:\Users\ahmad\Desktop\ALKON\Pro Max\Pro Max Trading\pro-max-trading-platform`
 
-Status: existing_kernel_canonicalized_conflicts_remain
+Status: visual_map_added_conflicts_remain
 
-Controlled cleanup normalized the target hierarchy in docs, server truth, and the private `/founder/universe` panel. Existing kernel canonicalization is complete through `lib/server/universe/kernel/*`. Absolute Founder Boundary is active through `lib/server/universe/founder-boundary/*`. Al-Kawn Ontological Operating Law is active through `lib/server/universe/ontological-law/*`. Unresolved conflicts remain. Deeper missions stay blocked until visual hierarchy clarity, planet API classification, and legacy Earth/logo wrapper cleanup are complete.
+Controlled cleanup normalized the target hierarchy in docs, server truth, and the private `/founder/universe` panel. Existing kernel canonicalization is complete through `lib/server/universe/kernel/*`. Absolute Founder Boundary is active through `lib/server/universe/founder-boundary/*`. Al-Kawn Ontological Operating Law is active through `lib/server/universe/ontological-law/*`. Al-Kawn Visual Map is active through `lib/server/universe/visual-map/*`. Unresolved conflicts remain. Deeper missions stay blocked until Ahmad accepts the visual hierarchy, planet API classification is resolved, and legacy Earth/logo wrapper cleanup is complete.
 
 ## Remaining Duplicate / Conflict Signals
 
@@ -31,10 +31,11 @@ Updated paths:
 - `lib/server/universe-management/index.ts`
 - `lib/server/project-universe-truth/index.ts`
 - `app/founder/universe/_components/UniverseCommandCenter.tsx`
+- `lib/server/universe/visual-map/*`
 
 Recommendation:
 
-Keep the normalized hierarchy as primary truth. Do not implement Ahmad Digital Vault, Protection Core, Global Layer, Infinity Mode, or native apps until their own gates and Ahmad decisions close.
+Keep the normalized hierarchy and Visual Map as primary founder-facing truth. Do not implement Ahmad Digital Vault, Protection Core, Global Layer, Infinity Mode, Operator Mode, or native apps until their own gates and Ahmad decisions close.
 
 ### Existing kernel versus Universe Operating Kernel
 
@@ -68,7 +69,7 @@ Infinite Growth is a governed growth compatibility system. It is not Universe In
 
 Recommendation:
 
-Keep Infinity Mode blocked until registry cleanup and kernel canonicalization pass.
+Keep Infinity Mode blocked until Ahmad explicitly resumes it after registry conflicts and founder decisions are resolved.
 
 ### Earth/logo identity fragmentation
 
@@ -137,4 +138,4 @@ No.
 
 Single safest next action:
 
-Al-Kawn Visual Map.
+Al-Kawn Desktop Operating Environment.
