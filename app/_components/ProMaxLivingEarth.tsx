@@ -19,6 +19,7 @@ type ProMaxLivingEarthProps = {
   showText?: boolean;
   className?: string;
   intensity?: "subtle" | "standard" | "hero";
+  publicSafeLabels?: boolean;
 };
 
 function useReducedMotion(): MotionPreference {
@@ -57,6 +58,7 @@ export function ProMaxLivingEarth({
   showText = false,
   className = "",
   intensity = "standard",
+  publicSafeLabels = false,
 }: ProMaxLivingEarthProps) {
   const motion = useReducedMotion();
   const mood = useUniverseMood();
@@ -108,7 +110,9 @@ export function ProMaxLivingEarth({
       aria-label={label}
     >
       <span className={styles.reducedMotionSafe} data-testid="promax-earth-inside-universe">
-        Pro Max Earth is the product planet inside Universe
+        {publicSafeLabels
+          ? "Pro Max Earth visual identity"
+          : "Pro Max Earth is the product planet inside Universe"}
       </span>
       <span
         className={styles.identityAnchor}
@@ -175,7 +179,11 @@ export function ProMaxLivingEarth({
         {showText ? (
           <>
             <strong>Pro Max</strong>
-            <span>Pro Max Earth is the product planet inside Universe</span>
+            <span>
+              {publicSafeLabels
+                ? "Pro Max Earth visual identity"
+                : "Pro Max Earth is the product planet inside Universe"}
+            </span>
           </>
         ) : null}
         <small data-testid="promax-living-earth-time-phase">

@@ -1,6 +1,7 @@
 import { ProMaxDeviceTimeRealityBarStatic } from "@/app/_components/ProMaxDeviceTimeRealityBarStatic";
-import { ProMaxLivingEarthStatic } from "@/app/_components/ProMaxLivingEarthStatic";
+import { ProMaxCosmicIdentity } from "@/app/_components/ProMaxCosmicIdentity";
 import { ProMaxLivingUniverseBackgroundStatic } from "@/app/_components/ProMaxLivingUniverseBackgroundStatic";
+import { ProMaxRealityContinuityLayer } from "@/app/_components/ProMaxRealityContinuityLayer";
 import { ProMaxRealitySourceBar } from "@/app/_components/ProMaxRealitySourceBar";
 import type { ProjectUniverseTruthSnapshot } from "@/lib/server/project-universe-truth";
 import AlkonTradingTruthPanel from "./AlkonTradingTruthPanel";
@@ -103,6 +104,7 @@ export default function TradingOperatingFloor({
       />
 
       <TradingCommandBar truth={truth} />
+      <ProMaxRealityContinuityLayer surface="trading" />
       <ProMaxDeviceTimeRealityBarStatic variant="compact" />
 
       <section className={styles.body}>
@@ -172,7 +174,7 @@ export default function TradingOperatingFloor({
         </section>
 
         <aside className={styles.identityColumn} aria-label="Earth identity status">
-          <ProMaxLivingEarthStatic size="hero" surface="trading" showText />
+          <ProMaxCosmicIdentity size="large" surface="trading" showLabels compact />
           <p>{truth.identityLine}</p>
           <span>Pro Max Earth context</span>
           <span>Trading Ground on Pro Max Earth</span>

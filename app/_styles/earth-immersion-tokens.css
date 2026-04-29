@@ -1,0 +1,34 @@
+:root {
+  --pmx-immersion-sky: linear-gradient(180deg, #01040a 0%, #07111d 48%, #020409 100%);
+  --pmx-immersion-atmosphere: rgba(97, 193, 255, 0.78);
+  --pmx-immersion-horizon: rgba(81, 161, 223, 0.24);
+  --pmx-immersion-moonlight: rgba(206, 228, 255, 0.34);
+  --pmx-immersion-earth-light: rgba(96, 186, 245, 0.56);
+  --pmx-immersion-shadow: 0.78;
+  --pmx-immersion-stars: 0.72;
+  --pmx-immersion-clouds: 0.38;
+  --pmx-immersion-season-tint: rgba(117, 204, 168, 0.12);
+  --pmx-immersion-season-glow: rgba(144, 220, 190, 0.2);
+  --pmx-immersion-surface-tone: rgba(112, 167, 128, 0.38);
+  --pmx-immersion-swiss-red: rgba(227, 6, 19, 0.78);
+  --pmx-immersion-panel-alpha: 0.84;
+  --pmx-immersion-glass-depth: 0 26px 70px rgba(0, 0, 0, 0.38);
+  --pmx-immersion-trading-contrast: rgba(3, 7, 12, 0.92);
+  --pmx-immersion-border: rgba(220, 241, 248, 0.14);
+  --pmx-immersion-text-muted: rgba(235, 241, 247, 0.7);
+  --pmx-immersion-panel: rgba(5, 9, 15, var(--pmx-immersion-panel-alpha));
+}
+
+.tpm-earth-immersion-panel {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.055), transparent 44%),
+    var(--pmx-immersion-panel);
+  border: 1px solid var(--pmx-immersion-border);
+  box-shadow: var(--pmx-immersion-glass-depth);
+}
+
+.tpm-earth-immersion-truth {
+  color: var(--pmx-immersion-text-muted);
+  font-size: 0.74rem;
+  font-weight: 760;
+}

@@ -6,6 +6,7 @@ export * from "./getUniverseAssetSet";
 export * from "./getUniverseLayerState";
 export * from "./getUniverseMood";
 export * from "./getUniverseVisualTokens";
+export * from "./earthImmersionTokens";
 export * from "./realitySources";
 export * from "./soundscape";
 export * from "./types";

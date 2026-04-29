@@ -87,3 +87,29 @@ Product Truth outranks visual spectacle. Earth, atmosphere, stars, orbits, and s
 Universe stays private on Ahmad's devices. Universe is a private living operating system and visual simulation. Pro Max Earth is the product planet inside Universe. Pro Max is the product that may appear to the world. Universe privately manages Pro Max.
 
 Public Pro Max launch is blocked until all gates close. ALKON stays private/background. ALKON is background guardian support, not the second layer. Real when sourced. Simulated when labeled. Weather is not connected. Legal review is pending. Goal: world-class legally ready global product. Private until legally ready.
+
+## Inside/Outside Earth Reality Continuity Standard
+
+The visual goal is continuity: Ahmad should feel that the same Earth outside the laptop continues inside the product. Pro Max must not fragment into separate route-specific logos, disconnected dashboard styles, or decorative space themes.
+
+Rules:
+
+- Use one canonical Earth/Moon identity across `/founder/universe`, `/trading`, and Pro Max Center.
+- Use the same Earth immersion tokens for atmosphere, horizon glow, moonlight, star density, seasonal tint, panel transparency, and Swiss-inspired red precision accents.
+- Device time may drive dawn, morning, day, sunset, night, and deep-night visual mood when labeled as device-time simulation.
+- Device date may drive spring, summer, autumn, and winter visual mood when labeled as device-date simulation.
+- Reality source honesty remains visible: real when sourced, simulated when labeled.
+- Weather remains not connected unless a real provider is lawfully implemented later.
+- No page may invent a separate Earth logo, separate Swiss mark, or separate Product Truth style.
+- Motion rules must match everywhere and respect reduced-motion preferences.
+- Product Truth outranks immersion. Visual layers must not obscure trading charts, public navigation, gates, or safety labels.
+
+Shared consistency checklist:
+
+- Same canonical Earth/Moon identity component everywhere.
+- Same color tokens everywhere.
+- Same Swiss-inspired red precision mark everywhere.
+- Same Product Truth style everywhere.
+- Same Reality Source style everywhere.
+- Same motion and reduced-motion behavior everywhere.
+- Trading readability remains the priority on `/trading`.

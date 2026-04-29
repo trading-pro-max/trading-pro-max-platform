@@ -145,10 +145,10 @@
 
 .globe {
   background:
-    radial-gradient(circle at 30% 24%, rgba(255, 255, 255, 0.34), transparent 9%),
-    radial-gradient(circle at 34% 36%, rgba(91, 191, 214, 0.22), transparent 30%),
-    radial-gradient(circle at 74% 68%, rgba(0, 0, 0, 0.72), transparent 54%),
-    radial-gradient(circle at 42% 44%, rgba(21, 120, 154, 0.9), #040b13 74%);
+    radial-gradient(circle at 26% 18%, rgba(255, 255, 255, 0.42), transparent 8%),
+    radial-gradient(circle at 38% 34%, var(--pmx-immersion-earth-light), transparent 28%),
+    radial-gradient(circle at 78% 68%, rgba(0, 0, 0, calc(var(--pmx-immersion-shadow) * 0.95)), transparent 56%),
+    radial-gradient(circle at 42% 44%, rgba(21, 120, 154, 0.94), #03101c 72%);
   border: 1px solid rgba(218, 247, 255, 0.42);
   border-radius: 50%;
   box-shadow:
@@ -184,31 +184,34 @@
 
 .oceanCore {
   background:
-    radial-gradient(circle at 26% 18%, rgba(255, 255, 255, 0.2), transparent 12%),
-    radial-gradient(circle at 42% 42%, rgba(20, 113, 166, 0.96), transparent 45%),
-    radial-gradient(circle at 68% 72%, rgba(0, 0, 0, 0.64), transparent 56%),
-    linear-gradient(120deg, #04101c 0%, #075a86 42%, #03101b 100%);
+    radial-gradient(circle at 24% 18%, rgba(255, 255, 255, 0.22), transparent 12%),
+    radial-gradient(circle at 42% 42%, rgba(16, 110, 169, 0.98), transparent 44%),
+    radial-gradient(circle at 68% 72%, rgba(0, 0, 0, 0.7), transparent 58%),
+    radial-gradient(circle at 52% 56%, rgba(8, 66, 106, 0.72), transparent 42%),
+    linear-gradient(120deg, #03101d 0%, #075d8c 42%, #020b15 100%);
 }
 
 .continentRelief {
   background:
-    radial-gradient(ellipse at 28% 28%, rgba(92, 133, 95, 0.6) 0 7%, transparent 12%),
-    radial-gradient(ellipse at 43% 37%, rgba(156, 143, 104, 0.52) 0 8%, transparent 13%),
-    radial-gradient(ellipse at 58% 24%, rgba(84, 125, 91, 0.54) 0 5%, transparent 10%),
-    radial-gradient(ellipse at 67% 51%, rgba(120, 142, 98, 0.48) 0 6%, transparent 12%),
-    radial-gradient(ellipse at 34% 66%, rgba(132, 120, 86, 0.42) 0 5%, transparent 10%),
+    radial-gradient(ellipse at 26% 28%, rgba(98, 145, 99, 0.62) 0 5%, transparent 10%),
+    radial-gradient(ellipse at 38% 38%, rgba(161, 148, 108, 0.58) 0 7%, transparent 13%),
+    radial-gradient(ellipse at 52% 25%, rgba(88, 133, 98, 0.56) 0 4%, transparent 9%),
+    radial-gradient(ellipse at 67% 51%, rgba(123, 146, 99, 0.5) 0 5%, transparent 11%),
+    radial-gradient(ellipse at 35% 67%, rgba(139, 126, 88, 0.46) 0 4%, transparent 9%),
+    radial-gradient(ellipse at 72% 72%, rgba(92, 132, 94, 0.36) 0 3%, transparent 8%),
     linear-gradient(90deg, transparent 0 18%, rgba(255, 255, 255, 0.08) 26%, transparent 34% 100%);
-  filter: saturate(1.2) contrast(1.1);
+  filter: saturate(1.22) contrast(1.18) blur(0.1px);
   mix-blend-mode: overlay;
   opacity: 0.72;
 }
 
 .cloudDepth {
   background:
-    radial-gradient(ellipse at 24% 22%, rgba(255, 255, 255, 0.26), transparent 20%),
-    radial-gradient(ellipse at 60% 34%, rgba(255, 255, 255, 0.2), transparent 18%),
-    radial-gradient(ellipse at 42% 70%, rgba(255, 255, 255, 0.16), transparent 22%);
-  filter: blur(0.6px);
+    radial-gradient(ellipse at 24% 22%, rgba(255, 255, 255, 0.24), transparent 18%),
+    radial-gradient(ellipse at 60% 34%, rgba(255, 255, 255, 0.2), transparent 16%),
+    radial-gradient(ellipse at 42% 70%, rgba(255, 255, 255, 0.16), transparent 20%),
+    linear-gradient(115deg, transparent 0 22%, rgba(255, 255, 255, 0.12) 34%, transparent 48% 100%);
+  filter: blur(0.7px);
   mix-blend-mode: screen;
   opacity: calc(var(--pmx-cloud-opacity) * 0.72);
 }

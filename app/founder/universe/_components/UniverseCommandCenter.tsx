@@ -1,7 +1,8 @@
 import { ProMaxDeviceTimeRealityBar } from "@/app/_components/ProMaxDeviceTimeRealityBar";
+import { ProMaxCosmicIdentity } from "@/app/_components/ProMaxCosmicIdentity";
 import { ProMaxLivingEarthLayers } from "@/app/_components/ProMaxLivingEarthLayers";
-import { ProMaxLivingEarth } from "@/app/_components/ProMaxLivingEarth";
 import { ProMaxLivingUniverseBackground } from "@/app/_components/ProMaxLivingUniverseBackground";
+import { ProMaxRealityContinuityLayer } from "@/app/_components/ProMaxRealityContinuityLayer";
 import { ProMaxRealitySourceBar } from "@/app/_components/ProMaxRealitySourceBar";
 import { ProMaxUniverseSoundscape } from "@/app/_components/ProMaxUniverseSoundscape";
 import type {
@@ -70,7 +71,7 @@ export default function UniverseCommandCenter({
     >
       <ProMaxLivingUniverseBackground surface="founder" />
       <header className={styles.hero}>
-        <ProMaxLivingEarth size="hero" surface="founder" showText intensity="hero" />
+        <ProMaxCosmicIdentity size="hero" surface="founder" showLabels />
         <div>
           <span>Private Founder Universe Command Center</span>
           <h1>Universe Command Center</h1>
@@ -87,6 +88,7 @@ export default function UniverseCommandCenter({
         </div>
       </header>
 
+      <ProMaxRealityContinuityLayer surface="founder" />
       <ProMaxDeviceTimeRealityBar variant="full" />
       <ProMaxUniverseSoundscape />
 

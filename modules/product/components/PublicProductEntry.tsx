@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { ProMaxCosmicIdentity } from "@/app/_components/ProMaxCosmicIdentity";
+import { ProMaxRealityContinuityLayer } from "@/app/_components/ProMaxRealityContinuityLayer";
 import { getPublicPlanRealms } from "@/lib/plans/realms";
 import LivingEarthBackground from "../../brand/components/LivingEarthBackground";
 import LocalizedEarthFocus from "../../brand/components/LocalizedEarthFocus";
@@ -153,6 +155,7 @@ export default function PublicProductEntry({
           data-revelation-stage="first_3_seconds"
         >
           <LivingEarthBackground surface="public_entry" plan="free" state="paper_safe" />
+          <ProMaxRealityContinuityLayer surface="public" />
           <div className="tpm-product-kicker-row">
             <span className="tpm-product-kicker">Pro Max Center</span>
             <LocalizedEarthFocus locale="en" surface="public_entry" />
@@ -205,6 +208,7 @@ export default function PublicProductEntry({
             </div>
 
             <div className="tpm-product-hero-side">
+              <ProMaxCosmicIdentity size="large" surface="public" showLabels={false} />
               <div className="tpm-product-signal-grid tpm-product-signal-grid-calm">
                 {heroSignals.map((item) => (
                   <article key={item.label} className="tpm-product-signal-card">

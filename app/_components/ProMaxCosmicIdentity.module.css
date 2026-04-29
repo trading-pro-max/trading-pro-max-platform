@@ -1,0 +1,203 @@
+.identity {
+  --pmx-cosmic-size: 92px;
+  align-items: center;
+  color: #f6f8fb;
+  display: inline-grid;
+  gap: 10px;
+  justify-items: center;
+  margin: 0;
+  position: relative;
+}
+
+.small {
+  --pmx-cosmic-size: 58px;
+}
+
+.medium {
+  --pmx-cosmic-size: 82px;
+}
+
+.large {
+  --pmx-cosmic-size: 132px;
+}
+
+.hero {
+  --pmx-cosmic-size: clamp(190px, 19vw, 310px);
+}
+
+.system {
+  height: var(--pmx-cosmic-size);
+  position: relative;
+  width: var(--pmx-cosmic-size);
+}
+
+.system :global([data-testid="promax-living-earth"]) {
+  inset: 50% auto auto 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+.publicEarth {
+  background:
+    radial-gradient(circle at 28% 20%, rgba(255, 255, 255, 0.42), transparent 10%),
+    radial-gradient(circle at 38% 36%, rgba(95, 198, 240, 0.42), transparent 34%),
+    radial-gradient(circle at 78% 72%, rgba(0, 0, 0, 0.74), transparent 56%),
+    linear-gradient(135deg, #06182a, #0b6a94 48%, #03101b);
+  border: 1px solid rgba(218, 247, 255, 0.44);
+  border-radius: 50%;
+  box-shadow:
+    inset calc(var(--pmx-cosmic-size) * -0.08) calc(var(--pmx-cosmic-size) * -0.04) calc(var(--pmx-cosmic-size) * 0.16) rgba(0, 0, 0, 0.72),
+    0 0 calc(var(--pmx-cosmic-size) * 0.16) rgba(116, 220, 255, 0.28);
+  display: block;
+  height: calc(var(--pmx-cosmic-size) * 0.62);
+  inset: 50% auto auto 50%;
+  overflow: hidden;
+  position: absolute;
+  transform: translate(-50%, -50%) rotate(-14deg);
+  width: calc(var(--pmx-cosmic-size) * 0.62);
+}
+
+.publicOcean,
+.publicClouds,
+.publicAtmosphere {
+  border-radius: 50%;
+  inset: 0;
+  position: absolute;
+}
+
+.publicOcean {
+  background:
+    radial-gradient(ellipse at 28% 32%, rgba(93, 135, 96, 0.58) 0 7%, transparent 12%),
+    radial-gradient(ellipse at 52% 42%, rgba(154, 142, 102, 0.48) 0 8%, transparent 14%),
+    radial-gradient(ellipse at 64% 68%, rgba(92, 132, 94, 0.36) 0 6%, transparent 12%);
+  mix-blend-mode: screen;
+  opacity: 0.74;
+}
+
+.publicClouds {
+  background:
+    radial-gradient(ellipse at 26% 22%, rgba(255, 255, 255, 0.24), transparent 20%),
+    radial-gradient(ellipse at 58% 34%, rgba(255, 255, 255, 0.18), transparent 18%),
+    linear-gradient(115deg, transparent 0 22%, rgba(255, 255, 255, 0.13) 34%, transparent 48% 100%);
+  filter: blur(0.6px);
+  opacity: 0.48;
+}
+
+.publicAtmosphere {
+  box-shadow: inset 0 0 calc(var(--pmx-cosmic-size) * 0.06) rgba(255, 255, 255, 0.28);
+}
+
+.moonOrbit {
+  animation: moonOrbit 18s linear infinite;
+  border: 1px solid rgba(207, 229, 255, 0.18);
+  border-radius: 50%;
+  inset: 3%;
+  position: absolute;
+  transform: rotateX(66deg) rotateZ(-20deg);
+}
+
+.moon {
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.95), rgba(211, 226, 238, 0.78) 34%, rgba(97, 117, 132, 0.9) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  box-shadow:
+    inset -5px -5px 10px rgba(20, 27, 35, 0.55),
+    0 0 18px var(--pmx-immersion-moonlight);
+  height: max(10px, calc(var(--pmx-cosmic-size) * 0.085));
+  position: absolute;
+  right: 3%;
+  top: 46%;
+  width: max(10px, calc(var(--pmx-cosmic-size) * 0.085));
+}
+
+.moon::after {
+  background:
+    radial-gradient(circle at 36% 42%, rgba(49, 60, 72, 0.3) 0 9%, transparent 11%),
+    radial-gradient(circle at 64% 62%, rgba(49, 60, 72, 0.22) 0 7%, transparent 9%);
+  border-radius: inherit;
+  content: "";
+  inset: 0;
+  position: absolute;
+}
+
+.swissMark {
+  background: #e30613;
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  border-radius: 999px;
+  box-shadow: 0 0 18px rgba(227, 6, 19, 0.28);
+  height: max(6px, calc(var(--pmx-cosmic-size) * 0.038));
+  position: absolute;
+  right: 21%;
+  top: 17%;
+  width: max(22px, calc(var(--pmx-cosmic-size) * 0.15));
+}
+
+.swissMark::before {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 999px;
+  content: "";
+  height: 1px;
+  left: 18%;
+  position: absolute;
+  right: 18%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.labelRail {
+  display: grid;
+  gap: 4px;
+  max-width: 280px;
+  text-align: center;
+}
+
+.labelRail strong {
+  color: #ffffff;
+  font-size: clamp(0.88rem, 1.4vw, 1.08rem);
+}
+
+.labelRail span {
+  color: rgba(235, 241, 247, 0.7);
+  font-size: 0.72rem;
+  line-height: 1.35;
+}
+
+.compact .labelRail {
+  max-width: 210px;
+}
+
+.compact .labelRail span {
+  font-size: 0.66rem;
+}
+
+.trading {
+  gap: 6px;
+}
+
+.trading .labelRail {
+  text-align: left;
+}
+
+.srOnly {
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  width: 1px;
+}
+
+@keyframes moonOrbit {
+  from {
+    transform: rotateX(66deg) rotateZ(-20deg);
+  }
+
+  to {
+    transform: rotateX(66deg) rotateZ(340deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .moonOrbit {
+    animation: none;
+  }
+}
