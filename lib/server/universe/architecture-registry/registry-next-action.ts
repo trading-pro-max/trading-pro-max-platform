@@ -5,9 +5,9 @@ export function getArchitectureRegistryNextAction() {
   const summary = getArchitectureRegistrySummary();
 
   return {
-    next: "existing kernel canonicalization" as const,
+    next: "Absolute Founder Boundary 100" as const,
     reason:
-      "Controlled cleanup normalized the target hierarchy in docs, server truth, and private UI. Remaining conflicts are kernel canonicalization, planet API classification, and legacy Earth/logo compatibility wrappers.",
+      "Controlled cleanup normalized the target hierarchy and the existing kernel is now canonicalized through the Universe Operating Kernel adapter. Remaining conflicts are planet API classification, legacy Earth/logo compatibility wrappers, and Ahmad-decision product meaning.",
     infinityMode: summary.infinityModeSafe ? "safe" : "blocked_until_registry_conflicts_resolved",
     ultimateDepth: summary.ultimateDepthSafe ? "safe" : "blocked_until_registry_conflicts_resolved",
     mustNotDo: [

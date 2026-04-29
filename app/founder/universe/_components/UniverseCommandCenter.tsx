@@ -14,6 +14,15 @@ import {
   getArchitectureRegistryNextAction,
   getArchitectureRegistrySummary,
 } from "@/lib/server/universe/architecture-registry";
+import {
+  getUniverseKernelGuards,
+  getUniverseKernelNextAction,
+  getUniverseKernelPermissions,
+  getUniverseKernelReadiness,
+  getUniverseKernelRole,
+  getUniverseKernelState,
+  getUniverseKernelTruth,
+} from "@/lib/server/universe/kernel";
 import styles from "../founder-universe.module.css";
 
 function TruthList({ items }: { items: UniverseTruthItem[] }) {
@@ -68,6 +77,13 @@ export default function UniverseCommandCenter({
   const registrySummary = getArchitectureRegistrySummary();
   const registryConflicts = getArchitectureRegistryConflicts().slice(0, 6);
   const registryNextAction = getArchitectureRegistryNextAction();
+  const kernelState = getUniverseKernelState(truth.checkedAt);
+  const kernelRole = getUniverseKernelRole();
+  const kernelPermissions = getUniverseKernelPermissions();
+  const kernelGuards = getUniverseKernelGuards();
+  const kernelTruth = getUniverseKernelTruth();
+  const kernelReadiness = getUniverseKernelReadiness(truth.checkedAt);
+  const kernelNextAction = getUniverseKernelNextAction();
 
   return (
     <main
@@ -276,6 +292,96 @@ Compatibility evidence:
       <ProMaxRealitySourceBar variant="full" />
 
       <section
+        className={styles.kernelPanel}
+        data-testid="universe-operating-kernel"
+        aria-label="Universe Operating Kernel"
+      >
+        <div className={styles.kernelHeader}>
+          <div>
+            <span>Universe Operating Kernel</span>
+            <h2>Existing kernel canonicalized as Universe Operating Kernel.</h2>
+            {kernelRole.statements.map((statement) => (
+              <p key={statement}>{statement}</p>
+            ))}
+          </div>
+          <aside>
+            <strong>{kernelState.status}</strong>
+            <small>{kernelState.commandCount} existing kernel commands preserved</small>
+            <small>No duplicate kernel exists.</small>
+          </aside>
+        </div>
+        <div className={styles.kernelGrid}>
+          <article>
+            <span>Canonical owner</span>
+            <strong>{kernelState.canonicalOwner}</strong>
+            <small>{kernelState.adapterPath} delegates to {kernelState.existingKernelPath}</small>
+          </article>
+          <article>
+            <span>Kernel role</span>
+            <strong>Root private operating brain</strong>
+            <small>{kernelRole.canonicalLayer} now maps the existing kernel into the Universe architecture.</small>
+          </article>
+          <article>
+            <span>Readiness</span>
+            <strong>{kernelReadiness.canonicalization}</strong>
+            <small>Infinity Mode remains blocked until founder boundary and remaining registry conflicts are resolved.</small>
+          </article>
+          <article>
+            <span>Next safe action</span>
+            <strong>{kernelNextAction.next}</strong>
+            <small>{kernelNextAction.reason}</small>
+          </article>
+        </div>
+        <div className={styles.kernelColumns}>
+          <article>
+            <span>Allowed safe internal</span>
+            <ul>
+              {kernelPermissions.allowedSafeInternal.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </article>
+          <article>
+            <span>Requires Ahmad approval</span>
+            <ul>
+              {kernelPermissions.requiresAhmadApproval.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </article>
+          <article>
+            <span>Blocked</span>
+            <ul>
+              {kernelPermissions.blocked.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </article>
+        </div>
+        <div className={styles.kernelGuardList}>
+          <span>Kernel guards</span>
+          {kernelGuards.map((guard) => (
+            <article key={guard.id}>
+              <strong>{guard.label}</strong>
+              <small>{guard.note}</small>
+              <em>{guard.status}</em>
+            </article>
+          ))}
+        </div>
+        <div className={styles.kernelTruthStrip}>
+          <span>Product Truth overrides every action.</span>
+          <span>Swiss Local Constitution is above the Global Layer.</span>
+          <span>Public launch blocked: {kernelTruth.publicLaunchBlocked ? "yes" : "no"}</span>
+          <span>Real money disabled: {kernelTruth.realMoneyDisabled ? "yes" : "no"}</span>
+          <span>
+            Broker execution disabled/not connected:{" "}
+            {kernelTruth.brokerExecutionDisabled ? "yes" : "no"}
+          </span>
+          <span>Dangerous actions require Ahmad approval or remain blocked.</span>
+        </div>
+      </section>
+
+      <section
         className={styles.registryPanel}
         data-testid="canonical-architecture-registry"
         aria-label="Canonical Architecture Registry"
@@ -288,8 +394,8 @@ Compatibility evidence:
             <p>Cleanup candidates require controlled cleanup.</p>
             <p>Ahmad decision required for unresolved product meaning.</p>
             <p>Infinity Mode remains blocked until registry conflicts are resolved.</p>
-            <p>Cleanup status: controlled canonical cleanup applied to hierarchy docs, server truth, and private UI wording.</p>
-            <p>Remaining conflicts: existing kernel canonicalization, planet API classification, and legacy visual wrappers.</p>
+            <p>Cleanup status: controlled canonical cleanup applied; existing kernel canonicalized through the Universe Operating Kernel adapter.</p>
+            <p>Remaining conflicts: planet API classification, legacy visual wrappers, and Ahmad-decision product meaning.</p>
           </div>
           <aside>
             <strong>{registrySummary.safestNextAction}</strong>

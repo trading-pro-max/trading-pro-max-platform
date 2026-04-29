@@ -100,3 +100,58 @@ Private background guardian and intelligence support. ALKON is evidence-aware an
 ## Cleanup Boundary
 
 This constitution normalizes the architecture map only. It does not build Infinity Mode, Operator Mode, native desktop/mobile apps, a second kernel, public launch, billing, real-money trading, broker execution, or legal claims.
+
+## Universe Operating Kernel
+
+Existing kernel canonicalized as Universe Operating Kernel.
+
+Universe Operating Kernel is the root private operating brain.
+
+Product Truth overrides every action.
+
+Swiss Local Constitution is above the Global Layer.
+
+Dangerous actions require Ahmad approval or remain blocked.
+
+No duplicate kernel exists.
+
+The existing kernel lives at `lib/server/alkon-kernel/*` and remains the protected implementation for Command 0-16, evidence, legal reality, public trust, Local Day One, daily loop, and one next action gates.
+
+The canonical Universe-facing path is `lib/server/universe/kernel/*`. It is an adapter only. It imports the existing kernel, maps it into this constitution, and exposes the official Universe Operating Kernel interface without creating another kernel.
+
+Allowed safe internal kernel work:
+
+- audit
+- report generation
+- roadmap generation
+- task generation
+- Product Truth check
+- registry check
+- validation planning
+- next action generation
+
+Requires Ahmad approval:
+
+- code-changing execution outside an approved mission
+- Git commit or push unless the mission requires it
+- architecture changes
+- Local Day One start
+- external account connection
+- official, legal, money, brand, or final decisions
+
+Blocked:
+
+- public launch
+- billing
+- receiving money
+- real money
+- broker execution
+- legal approval claims
+- FINMA, licensed, or regulated claims
+- final brand adoption
+- domain purchase
+- public الكون / Universe
+- public ALKON
+- secrets in Git
+
+Future Infinity Mode and Operator Mode must use the Universe Operating Kernel adapter and must not duplicate the existing kernel.

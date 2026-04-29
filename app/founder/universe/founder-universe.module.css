@@ -17,6 +17,7 @@
 .truthPanel,
 .hierarchyPanel,
 .commandDeck,
+.kernelPanel,
 .registryPanel,
 .columns article,
 .actionPanel article {
@@ -32,6 +33,7 @@
 .truthPanel,
 .hierarchyPanel,
 .commandDeck,
+.kernelPanel,
 .registryPanel,
 .columns,
 .actionPanel {
@@ -371,11 +373,140 @@
   gap: 3px;
 }
 
+.kernelPanel,
 .registryPanel {
   border-radius: 18px;
   display: grid;
   gap: 14px;
   padding: 16px;
+}
+
+.kernelHeader {
+  align-items: stretch;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 360px);
+}
+
+.kernelHeader > div {
+  display: grid;
+  gap: 7px;
+}
+
+.kernelHeader span,
+.kernelGrid span,
+.kernelColumns span,
+.kernelGuardList > span,
+.kernelTruthStrip span {
+  color: #ffeff1;
+  font-size: 0.68rem;
+  font-weight: 880;
+  text-transform: uppercase;
+}
+
+.kernelHeader h2 {
+  color: #ffffff;
+  font-size: clamp(1.35rem, 2.2vw, 2rem);
+  letter-spacing: 0;
+  margin: 0;
+}
+
+.kernelHeader p,
+.kernelHeader small,
+.kernelGrid small,
+.kernelColumns li,
+.kernelGuardList small {
+  color: rgba(235, 241, 247, 0.7);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.kernelHeader aside {
+  background:
+    linear-gradient(135deg, rgba(227, 6, 19, 0.13), transparent 54%),
+    rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+}
+
+.kernelHeader aside strong {
+  color: #ffffff;
+  font-size: 1.22rem;
+}
+
+.kernelGrid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.kernelGrid article,
+.kernelColumns article,
+.kernelGuardList article {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 14px;
+  display: grid;
+  gap: 7px;
+  padding: 12px;
+}
+
+.kernelGrid article {
+  min-height: 122px;
+}
+
+.kernelGrid strong,
+.kernelGuardList strong {
+  color: #ffffff;
+}
+
+.kernelColumns {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.kernelColumns ul {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding-left: 18px;
+}
+
+.kernelGuardList {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.kernelGuardList > span {
+  grid-column: 1 / -1;
+}
+
+.kernelGuardList em {
+  color: rgba(255, 239, 241, 0.82);
+  font-size: 0.7rem;
+  font-style: normal;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.kernelTruthStrip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.kernelTruthStrip span {
+  background: rgba(227, 6, 19, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  color: rgba(245, 248, 251, 0.84);
+  padding: 7px 9px;
+  text-transform: none;
 }
 
 .registryHeader {
@@ -536,6 +667,10 @@
   .hierarchyVisual,
   .commandDeck,
   .commandDeckGrid,
+  .kernelHeader,
+  .kernelGrid,
+  .kernelColumns,
+  .kernelGuardList,
   .registryHeader,
   .registryStats,
   .registryConflictList,

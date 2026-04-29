@@ -3,7 +3,7 @@
 Official audited path:
 `C:\Users\ahmad\Desktop\ALKON\Pro Max\Pro Max Trading\pro-max-trading-platform`
 
-Status: registry_active_controlled_cleanup_applied
+Status: registry_active_kernel_canonicalized
 
 ## Registry Source
 
@@ -26,8 +26,8 @@ Required exports exist:
 
 ## Category Counts
 
-- Total registry items: 52
-- Primary: 25
+- Total registry items: 53
+- Primary: 26
 - Compatibility: 6
 - Protected: 10
 - Cleanup candidate: 3
@@ -47,6 +47,7 @@ Primary sources:
 - `lib/server/project-universe-truth`
 - `lib/server/universe/architecture-registry`
 - existing `lib/server/alkon-kernel`
+- `lib/server/universe/kernel`
 - `lib/server/jar-build`
 - `lib/server/reality-conversion`
 - `lib/server/existence-architecture`
@@ -140,4 +141,4 @@ These are deep product meaning and founder strategy items. They should become ca
 
 ## Registry Conclusion
 
-The project now has a canonical registry and controlled cleanup normalized the missing hierarchy documents plus primary server truth. Unresolved conflicts remain around kernel canonicalization, planet API classification, and legacy visual wrappers. The safest next action is existing kernel canonicalization.
+The project now has a canonical registry, controlled cleanup normalized the missing hierarchy documents plus primary server truth, and the existing kernel is canonicalized through `lib/server/universe/kernel/*`. Unresolved conflicts remain around planet API classification, legacy visual wrappers, and Ahmad-decision product meaning. The safest next action is Absolute Founder Boundary 100.

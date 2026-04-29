@@ -76,5 +76,8 @@ export type ArchitectureRegistrySummary = {
   needsAhmadDecisionCount: number;
   infinityModeSafe: false;
   ultimateDepthSafe: false;
-  safestNextAction: "controlled canonical cleanup" | "existing kernel canonicalization";
+  safestNextAction:
+    | "controlled canonical cleanup"
+    | "existing kernel canonicalization"
+    | "Absolute Founder Boundary 100";
 };

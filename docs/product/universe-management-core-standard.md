@@ -55,6 +55,14 @@ Soundscape is user controlled and off by default. It must not autoplay, must sto
 
 Product Truth must keep visible: Private, Universe Ahmad devices only, Pro Max working_name_only, public/global approval false, Brand Gate ready_with_notes, public launch blocked/not started, billing not active, real money disabled, broker execution disabled/not connected, Trading demo-safe/read-only, Local Day One not_started, Swiss/global legal review pending, weather not connected, location not requested, assets local/legal-safe/procedural/manifest-tracked, soundscape user controlled/off by default, and Private until legally ready.
 
+## Universe Operating Kernel Standard
+
+Existing kernel canonicalized as Universe Operating Kernel. The protected implementation remains `lib/server/alkon-kernel/*`; the canonical Universe import path is `lib/server/universe/kernel/*`.
+
+Universe Operating Kernel is the root private operating brain. It can audit, plan, generate reports, check Product Truth, check registry state, plan validation, and return the one safe next action. It cannot launch, bill, receive money, enable real-money trading, execute broker orders, claim legal approval, adopt a final brand, expose Universe publicly, expose ALKON publicly, or store secrets in Git.
+
+Product Truth overrides every action. Swiss Local Constitution is above the Global Layer. Dangerous actions require Ahmad approval or remain blocked. No duplicate kernel exists.
+
 ## ALKON Background Guardian Standard
 
 ALKON is private/read-only/background guardian support. It protects truth, boundaries, evidence, and safety. ALKON is not second. ALKON is not public. ALKON does not dominate public or Pro Max visual identity.

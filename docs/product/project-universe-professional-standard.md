@@ -24,6 +24,14 @@ Swiss inspiration means precision, order, trust, restraint, clean spacing, and s
 
 Routes, components, server truth, reports, and tests must be scoped, deterministic, and safe. No web app route may execute shell commands, Codex commands, payments, broker execution, real-money trading, public launch, or sensitive actions.
 
+## Universe Operating Kernel Standard
+
+Existing kernel canonicalized as Universe Operating Kernel. `lib/server/alkon-kernel/*` remains the protected implementation. `lib/server/universe/kernel/*` is the canonical adapter for Universe-facing imports.
+
+Universe Operating Kernel is the root private operating brain. Product Truth overrides every action. Swiss Local Constitution is above the Global Layer. Dangerous actions require Ahmad approval or remain blocked. No duplicate kernel exists.
+
+The kernel may support private audit, report generation, roadmap generation, task generation, Product Truth checks, registry checks, validation planning, and next action generation. It must not activate public launch, billing, real money, broker execution, legal approval claims, FINMA/licensed/regulated claims, final brand adoption, public Universe, public ALKON, or secrets in Git.
+
 ## Compliance-Readiness Standard
 
 Compliance readiness means legal-review-ready only. It is not legal advice and not approval. Real user data, public launch, billing, broker/feed integration, investment-advice boundaries, risk disclosure, Swiss-facing finance, and global markets require qualified review.

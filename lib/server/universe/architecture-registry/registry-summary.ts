@@ -54,6 +54,6 @@ export function getArchitectureRegistrySummary(): ArchitectureRegistrySummary {
     needsAhmadDecisionCount: byCategory.needs_ahmad_decision,
     infinityModeSafe: false,
     ultimateDepthSafe: false,
-    safestNextAction: "existing kernel canonicalization",
+    safestNextAction: "Absolute Founder Boundary 100",
   };
 }

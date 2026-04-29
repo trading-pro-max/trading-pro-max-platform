@@ -71,7 +71,21 @@ These are documented, but not implemented by this cleanup:
 
 ## No Second Kernel
 
-The existing `lib/server/alkon-kernel/*` is the only kernel foundation currently allowed. Any future Universe Operating Kernel must wrap, map, or canonicalize this existing kernel. It must not duplicate command, state, gate, Local Day One, or one-next-action logic.
+The existing `lib/server/alkon-kernel/*` is the only kernel foundation currently allowed. It is now canonicalized through `lib/server/universe/kernel/*`.
+
+`lib/server/universe/kernel/*` is the Universe Operating Kernel adapter. It imports the existing kernel and exposes:
+
+- `getUniverseKernelState()`
+- `getUniverseKernelRole()`
+- `getUniverseKernelPermissions()`
+- `getUniverseKernelGuards()`
+- `getUniverseKernelNextAction()`
+- `getUniverseKernelTruth()`
+- `getUniverseKernelReadiness()`
+
+Existing kernel canonicalized as Universe Operating Kernel. Universe Operating Kernel is the root private operating brain. Product Truth overrides every action. Swiss Local Constitution is above the Global Layer. Dangerous actions require Ahmad approval or remain blocked. No duplicate kernel exists.
+
+Future imports that need the official Universe Operating Kernel should use `lib/server/universe/kernel/*`. Code that needs the protected historical implementation may use `lib/server/alkon-kernel/*`, but it must not create parallel command, state, gate, Local Day One, or one-next-action logic.
 
 ## Public / Private Boundary
 
@@ -85,4 +99,4 @@ This architecture does not allow public launch, billing, real money, broker exec
 
 ## Next Code Action
 
-The safest next code action after this cleanup is existing kernel canonicalization: map the validated ALKON kernel into the canonical Universe architecture without creating a second kernel.
+The safest next code action after kernel canonicalization is Absolute Founder Boundary 100: harden founder-only access boundaries before Operator Mode, Ultimate Depth, or Infinity Mode resumes.
