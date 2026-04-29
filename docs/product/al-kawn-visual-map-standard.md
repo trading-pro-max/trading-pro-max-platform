@@ -11,12 +11,14 @@ The Visual Map must show:
 - Ahmad as origin.
 - Ahmad Private Devices as the only allowed private environment.
 - الكون as Ahmad's private digital existence.
+- Supreme Root Constitution.
 - Existence Contract as the admission law for every entity.
 - Product Truth as the highest truth law.
 - Universe Operating Kernel as the execution judge.
 - Pro Max Galaxy inside الكون.
 - Earth Planet as the trading project.
 - /trading as the trading surface.
+- Pro Max Center as an Earth Planet / Pro Max product surface.
 - Swiss Local Constitution above Global Layer.
 - ALKON as private/background.
 - Legal and Money gates stopping execution for Ahmad.
@@ -30,6 +32,7 @@ Ahmad Human
         ├── Existence Contract
         ├── Product Truth
         ├── Universe Operating Kernel
+        ├── Existence Contract Law
         ├── Ahmad Digital Vault
         ├── Protection Core
         ├── Universe One
@@ -43,8 +46,10 @@ Ahmad Human
         ├── Self-Building
         └── Pro Max Galaxy
             └── Earth Planet
+                ├── Trading Project
                 ├── Living Earth Reality
                 ├── /trading
+                ├── Pro Max Center
                 ├── Global Layer
                 ├── Public Pro Max Future
                 └── ALKON Background Guardian
@@ -61,9 +66,12 @@ Every map layer card must show:
 - Purpose.
 - Status.
 - Truth source.
+- Visibility scope.
 - Product Truth impact.
 - Execution role.
 - Approval gate.
+- Boundary type.
+- Relation to origin.
 - Visual importance.
 
 No layer card may imply that Pro Max owns الكون, that ALKON is second, that Global Layer overrides Swiss Local Constitution, or that public launch, billing, real money, broker execution, or legal approval is active.
@@ -77,6 +85,7 @@ No layer card may imply that Pro Max owns الكون, that ALKON is second, that
 - Pro Max Galaxy belongs inside الكون.
 - Earth Planet belongs inside Pro Max Galaxy.
 - /trading belongs to Earth Planet.
+- Pro Max Center belongs to Earth Planet / Pro Max product surface.
 - Swiss Local Constitution is above Global Layer.
 - ALKON is private/background and not public.
 

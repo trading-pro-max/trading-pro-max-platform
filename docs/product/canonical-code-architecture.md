@@ -140,11 +140,17 @@ The canonical founder-facing visual architecture map lives in `lib/server/univer
 Required exports:
 
 - `getAlKawnVisualMap()`
+- `getAlKawnVisualMapNodes()`
+- `getAlKawnVisualMapEdges()`
+- `getAlKawnVisualMapLegend()`
+- `getAlKawnVisualMapBoundaries()`
+- `getAlKawnVisualMapSummary()`
+- `explainVisualMapNode(nodeId)`
 - `getAlKawnVisualMapLayers()`
 - `getAlKawnVisualMapConnections()`
 - `getAlKawnVisualMapTruth()`
 - `getAlKawnVisualMapNextAction()`
 
-Future UI work must import this primary model instead of creating page-local hierarchy truth. The Visual Map must show Ahmad as origin, الكون as Ahmad's private digital existence, Product Truth as highest truth law, Universe Operating Kernel as execution judge, Pro Max Galaxy inside الكون, Earth Planet as the trading project, Swiss Local Constitution above Global Layer, ALKON private/background, and legal/money gates stopping execution for Ahmad.
+Future UI work must import this primary model instead of creating page-local hierarchy truth. The Visual Map must show Ahmad as origin, الكون as Ahmad's private electronic self, Product Truth as highest truth law, Universe Operating Kernel as execution judge, Pro Max Galaxy inside الكون, Earth Planet inside Pro Max Galaxy, /trading and Pro Max Center inside Earth Planet, Swiss Local Constitution above Global Layer, ALKON private/background, and legal/money gates stopping execution for Ahmad.
 
 The next safest code action after the Visual Map is Al-Kawn Desktop Operating Environment. Infinity Mode and Operator Mode remain blocked until Ahmad explicitly resumes them.

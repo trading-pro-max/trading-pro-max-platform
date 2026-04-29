@@ -280,6 +280,7 @@
 }
 
 .visualMapHeader span,
+.visualMapSummaryGrid span,
 .visualMapTree span,
 .visualMapCore span,
 .visualMapConnections > span,
@@ -299,6 +300,7 @@
 
 .visualMapHeader p,
 .visualMapHeader small,
+.visualMapSummaryGrid small,
 .visualMapTree small,
 .visualMapConnections small,
 .visualMapDetails small,
@@ -323,6 +325,43 @@
 .visualMapHeader aside strong {
   color: #ffffff;
   font-size: 1.14rem;
+}
+
+.visualMapSummaryGrid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.visualMapSummaryGrid article {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 14px;
+  display: grid;
+  gap: 7px;
+  min-height: 104px;
+  padding: 12px;
+}
+
+.visualMapSummaryGrid strong {
+  color: #ffffff;
+  font-size: 1.1rem;
+}
+
+.visualMapCanonicalTree {
+  background:
+    radial-gradient(circle at 90% 4%, rgba(132, 221, 255, 0.08), transparent 16rem),
+    rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 14px;
+  color: #ffffff;
+  font-family: "Consolas", "SFMono-Regular", monospace;
+  font-size: clamp(0.74rem, 1.2vw, 0.92rem);
+  line-height: 1.5;
+  margin: 0;
+  overflow-x: auto;
+  padding: 14px;
+  white-space: pre;
 }
 
 .visualMapTree {
@@ -408,7 +447,7 @@
   display: grid;
   gap: 8px;
   grid-column: 1 / -1;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
 }
 
 .visualMapEarthChildren article {
@@ -870,6 +909,7 @@
   .metricGrid,
   .hierarchyVisual,
   .visualMapHeader,
+  .visualMapSummaryGrid,
   .visualMapTree,
   .visualMapCore,
   .visualMapEarthChildren,

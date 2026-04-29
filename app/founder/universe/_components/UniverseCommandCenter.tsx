@@ -41,10 +41,16 @@ import {
   getTruthSourceRules,
 } from "@/lib/server/universe/ontological-law";
 import {
+  explainVisualMapNode,
   getAlKawnVisualMap,
+  getAlKawnVisualMapBoundaries,
   getAlKawnVisualMapConnections,
+  getAlKawnVisualMapEdges,
+  getAlKawnVisualMapLegend,
   getAlKawnVisualMapLayers,
   getAlKawnVisualMapNextAction,
+  getAlKawnVisualMapNodes,
+  getAlKawnVisualMapSummary,
   getAlKawnVisualMapTruth,
 } from "@/lib/server/universe/visual-map";
 import styles from "../founder-universe.module.css";
@@ -98,6 +104,14 @@ function getVisualMapEarthChildDetail(label: string) {
     return "/trading is the trading surface.";
   }
 
+  if (label === "Trading Project") {
+    return "Trading Project belongs to Earth Planet.";
+  }
+
+  if (label === "Pro Max Center") {
+    return "Pro Max Center belongs to Earth Planet / Pro Max product surface.";
+  }
+
   if (label === "Global Layer") {
     return "Under Swiss Local Constitution.";
   }
@@ -141,6 +155,11 @@ export default function UniverseCommandCenter({
   const visualMap = getAlKawnVisualMap();
   const visualMapLayers = getAlKawnVisualMapLayers();
   const visualMapConnections = getAlKawnVisualMapConnections();
+  const visualMapNodes = getAlKawnVisualMapNodes();
+  const visualMapEdges = getAlKawnVisualMapEdges();
+  const visualMapLegend = getAlKawnVisualMapLegend();
+  const visualMapBoundaries = getAlKawnVisualMapBoundaries();
+  const visualMapSummary = getAlKawnVisualMapSummary();
   const visualMapTruth = getAlKawnVisualMapTruth();
   const visualMapNextAction = getAlKawnVisualMapNextAction();
   const visualMapCoreLayerIds = [
@@ -167,12 +186,19 @@ export default function UniverseCommandCenter({
     "pro_max_galaxy",
     "earth_planet",
     "trading_surface",
+    "pro_max_center",
   ];
   const visualMapCoreLayers = visualMapLayers.filter((layer) =>
     visualMapCoreLayerIds.includes(layer.id)
   );
   const visualMapDetailLayers = visualMapLayers.filter((layer) =>
     visualMapDetailLayerIds.includes(layer.id)
+  );
+  const visualMapDetailNodes = visualMapNodes.filter((node) =>
+    visualMapDetailLayerIds.includes(node.id)
+  );
+  const futureGatedVisualNodes = visualMapNodes.filter((node) =>
+    ["blocked", "future_gated", "public_future"].includes(node.status)
   );
 
   return (
@@ -303,21 +329,84 @@ Compatibility evidence:
             <h2>Al-Kawn Visual Map</h2>
             <p>{visualMap.purpose}</p>
             <p>أحمد هو الأصل</p>
+            <p>الكون هو نسخة أحمد الإلكترونية الخاصة.</p>
             <p>الكون هو الوجود الرقمي الخاص بأحمد</p>
+            <p>الكون فوق برو ماكس.</p>
             <p>Every entity inside الكون needs an Existence Contract</p>
             <p>Product Truth هو قانون الحقيقة الأعلى</p>
             <p>Universe Operating Kernel هو القاضي التنفيذي</p>
+            <p>كل شيء داخل الكون يجب أن ينتمي إلى طبقة واضحة.</p>
             <p>Pro Max Galaxy is inside الكون</p>
+            <p>Pro Max Galaxy داخل الكون.</p>
             <p>Earth Planet is the trading project</p>
+            <p>Earth Planet داخل Pro Max Galaxy.</p>
+            <p>/trading ينتمي إلى Earth Planet.</p>
             <p>Swiss Local Constitution is above the Global Layer</p>
             <p>ALKON is private/background</p>
+            <p>ALKON هو حارس خلفي خاص.</p>
+            <p>Infinity Mode محجوب حاليًا.</p>
+            <p>Operator Mode محجوب حاليًا.</p>
+            <p>Public Pro Max Future بوابة مستقبلية.</p>
             <p>Legal and Money gates stop execution for Ahmad</p>
+            <p>∞ إلى 0 يعني تفسير البنية والرجوع إلى الأصل.</p>
           </div>
           <aside>
             <strong>{visualMapNextAction.next}</strong>
             <small>{visualMapNextAction.reason}</small>
           </aside>
         </div>
+
+        <div className={styles.visualMapSummaryGrid} aria-label="Visual map overview summary">
+          <article>
+            <span>Nodes</span>
+            <strong>{visualMapSummary.totalNodes}</strong>
+            <small>Every node carries owner, truth source, status, boundary, and origin relation.</small>
+          </article>
+          <article>
+            <span>Edges</span>
+            <strong>{visualMapSummary.totalEdges}</strong>
+            <small>Edges show ownership, containment, governance, blocks, protection, and routes.</small>
+          </article>
+          <article>
+            <span>Private scope</span>
+            <strong>{visualMapSummary.privateOnly ? "Ahmad only" : "review"}</strong>
+            <small>Private vs public distinction is explicit and public launch remains blocked.</small>
+          </article>
+          <article>
+            <span>Modes</span>
+            <strong>blocked/future</strong>
+            <small>Infinity Mode and Operator Mode are visible as blocked future layers, not active.</small>
+          </article>
+        </div>
+
+        <pre className={styles.visualMapCanonicalTree} aria-label="Canonical Al-Kawn hierarchy tree">
+{`Ahmad Human
+└── Ahmad Private Devices
+    └── الكون
+        ├── Supreme Root Constitution
+        ├── Product Truth
+        ├── Universe Operating Kernel
+        ├── Existence Contract Law
+        ├── Ahmad Digital Vault
+        ├── Protection Core
+        ├── Universe One
+        ├── Swiss Local Constitution
+        ├── Human Interface
+        ├── Sovereign Execution
+        ├── Execution Court
+        ├── Causal Execution
+        ├── Infinity Mode — blocked / future
+        ├── Operator Mode — blocked / future
+        ├── Self-Building — future-governed only
+        └── Pro Max Galaxy
+            └── Earth Planet
+                ├── Trading Project
+                ├── /trading
+                ├── Pro Max Center
+                ├── Global Layer
+                ├── Public Pro Max Future
+                └── ALKON Background Guardian`}
+        </pre>
 
         <div className={styles.visualMapTree}>
           <article className={styles.visualMapOrigin}>
@@ -357,7 +446,9 @@ Compatibility evidence:
           <div className={styles.visualMapEarthChildren}>
             {[
               "Living Earth Reality",
+              "Trading Project",
               "/trading",
+              "Pro Max Center",
               "Global Layer",
               "Public Pro Max Future",
               "ALKON Background Guardian",
@@ -372,6 +463,14 @@ Compatibility evidence:
 
         <div className={styles.visualMapConnections}>
           <span>Governing connections</span>
+          {visualMapEdges.map((edge) => (
+            <article key={edge.id}>
+              <strong>{edge.truthMeaning}</strong>
+              <small>
+                {edge.from} -&gt; {edge.to} / {edge.edgeType} / {edge.label}
+              </small>
+            </article>
+          ))}
           {visualMapConnections.map((connection) => (
             <article key={connection.id}>
               <strong>{connection.meaning}</strong>
@@ -384,8 +483,23 @@ Compatibility evidence:
 
         <div className={styles.visualMapDetails}>
           <span>Layer detail panel</span>
+          {visualMapDetailNodes.map((node) => (
+            <article key={node.id}>
+              <strong>{node.englishLabel}</strong>
+              <small>{node.compactExplanation}</small>
+              <em>Owner: {node.owner}</em>
+              <em>Layer type: {node.layerType}</em>
+              <em>Status: {node.status}</em>
+              <em>Truth source: {node.truthSource}</em>
+              <em>Visibility: {node.visibilityScope}</em>
+              <em>Boundary: {node.boundaryType}</em>
+              <em>Execution: {node.executionMeaning}</em>
+              <em>Origin relation: {node.relationToOrigin}</em>
+              <em>{explainVisualMapNode(node.id)}</em>
+            </article>
+          ))}
           {visualMapDetailLayers.map((layer) => (
-            <article key={layer.id}>
+            <article key={`layer-${layer.id}`}>
               <strong>{layer.technicalLabel}</strong>
               <small>{layer.purpose}</small>
               <em>Owner: {layer.parent ?? "origin"}</em>
@@ -394,6 +508,38 @@ Compatibility evidence:
               <em>Execution role: {layer.executionRole}</em>
               <em>Stops: {layer.approvalGate}</em>
               <em>Status: {layer.status}</em>
+            </article>
+          ))}
+        </div>
+
+        <div className={styles.visualMapConnections} aria-label="Visual map legend">
+          <span>Legend</span>
+          {visualMapLegend.map((item) => (
+            <article key={item.id}>
+              <strong>{item.label}</strong>
+              <small>{item.meaning}</small>
+            </article>
+          ))}
+        </div>
+
+        <div className={styles.visualMapConnections} aria-label="Boundary explanations">
+          <span>Boundary explanation</span>
+          {visualMapBoundaries.map((boundary) => (
+            <article key={boundary.id}>
+              <strong>{boundary.label}</strong>
+              <small>{boundary.meaning}</small>
+              <small>{boundary.affectedNodeIds.join(", ")}</small>
+            </article>
+          ))}
+        </div>
+
+        <div className={styles.visualMapConnections} aria-label="Future gated layers">
+          <span>Future-gated layers</span>
+          {futureGatedVisualNodes.map((node) => (
+            <article key={node.id}>
+              <strong>{node.englishLabel}</strong>
+              <small>{node.compactExplanation}</small>
+              <small>{node.status} / {node.boundaryType}</small>
             </article>
           ))}
         </div>

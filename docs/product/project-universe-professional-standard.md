@@ -177,16 +177,28 @@ The map must feel premium, dark, precise, readable, and founder-facing. It must 
 Required visible meaning:
 
 - أحمد هو الأصل.
+- الكون هو نسخة أحمد الإلكترونية الخاصة.
 - الكون هو الوجود الرقمي الخاص بأحمد.
+- الكون فوق برو ماكس.
 - Every entity inside الكون needs an Existence Contract.
 - Product Truth هو قانون الحقيقة الأعلى.
 - Universe Operating Kernel هو القاضي التنفيذي.
+- كل شيء داخل الكون يجب أن ينتمي إلى طبقة واضحة.
 - Pro Max Galaxy is inside الكون.
+- Pro Max Galaxy داخل الكون.
 - Earth Planet is the trading project.
+- Earth Planet داخل Pro Max Galaxy.
 - /trading is the trading surface.
+- /trading ينتمي إلى Earth Planet.
+- Pro Max Center belongs to Earth Planet / Pro Max product surface.
 - Swiss Local Constitution is above the Global Layer.
 - ALKON is private/background.
+- ALKON هو حارس خلفي خاص.
+- Infinity Mode محجوب حاليًا.
+- Operator Mode محجوب حاليًا.
+- Public Pro Max Future بوابة مستقبلية.
 - Legal and Money gates stop execution for Ahmad.
+- ∞ إلى 0 يعني تفسير البنية والرجوع إلى الأصل.
 
 No visual layer may claim public launch, billing, payments, real money, broker execution, legal approval, FINMA approval, licensed/regulated status, guaranteed profit, risk-free trading, public الكون, or public ALKON.
 

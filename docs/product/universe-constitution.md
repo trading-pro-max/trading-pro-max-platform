@@ -212,15 +212,26 @@ The private `/founder/universe` surface must include Al-Kawn Visual Map so Ahmad
 The map must show:
 
 - أحمد هو الأصل.
+- الكون هو نسخة أحمد الإلكترونية الخاصة.
 - الكون هو الوجود الرقمي الخاص بأحمد.
+- الكون فوق برو ماكس.
 - Every entity inside الكون needs an Existence Contract.
 - Product Truth هو قانون الحقيقة الأعلى.
 - Universe Operating Kernel هو القاضي التنفيذي.
+- كل شيء داخل الكون يجب أن ينتمي إلى طبقة واضحة.
 - Pro Max Galaxy is inside الكون.
+- Pro Max Galaxy داخل الكون.
 - Earth Planet is the trading project.
+- Earth Planet داخل Pro Max Galaxy.
+- /trading ينتمي إلى Earth Planet.
 - Swiss Local Constitution is above the Global Layer.
 - ALKON is private/background.
+- ALKON هو حارس خلفي خاص.
+- Infinity Mode محجوب حاليًا.
+- Operator Mode محجوب حاليًا.
+- Public Pro Max Future بوابة مستقبلية.
 - Legal and Money gates stop execution for Ahmad.
+- ∞ إلى 0 يعني تفسير البنية والرجوع إلى الأصل.
 
 The Visual Map is private only. It must preserve Product Truth, show public launch blocked, billing inactive, payments inactive, real money disabled, broker execution disabled/not connected, legal review pending, and ALKON private/background.
 
