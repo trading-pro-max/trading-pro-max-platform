@@ -9,6 +9,11 @@ import type {
   ProjectUniverseTruthSnapshot,
   UniverseTruthItem,
 } from "@/lib/server/project-universe-truth";
+import {
+  getArchitectureRegistryConflicts,
+  getArchitectureRegistryNextAction,
+  getArchitectureRegistrySummary,
+} from "@/lib/server/universe/architecture-registry";
 import styles from "../founder-universe.module.css";
 
 function TruthList({ items }: { items: UniverseTruthItem[] }) {
@@ -60,6 +65,10 @@ export default function UniverseCommandCenter({
 }: {
   truth: ProjectUniverseTruthSnapshot;
 }) {
+  const registrySummary = getArchitectureRegistrySummary();
+  const registryConflicts = getArchitectureRegistryConflicts().slice(0, 6);
+  const registryNextAction = getArchitectureRegistryNextAction();
+
   return (
     <main
       className={styles.universe}
@@ -242,6 +251,59 @@ export default function UniverseCommandCenter({
       </section>
 
       <ProMaxRealitySourceBar variant="full" />
+
+      <section
+        className={styles.registryPanel}
+        data-testid="canonical-architecture-registry"
+        aria-label="Canonical Architecture Registry"
+      >
+        <div className={styles.registryHeader}>
+          <div>
+            <span>Canonical Architecture Registry</span>
+            <h2>Primary sources are the only future truth.</h2>
+            <p>Compatibility layers must wrap primary logic.</p>
+            <p>Cleanup candidates require controlled cleanup.</p>
+            <p>Ahmad decision required for unresolved product meaning.</p>
+            <p>Infinity Mode remains blocked until registry conflicts are resolved.</p>
+          </div>
+          <aside>
+            <strong>{registrySummary.safestNextAction}</strong>
+            <small>{registryNextAction.reason}</small>
+          </aside>
+        </div>
+        <div className={styles.registryStats}>
+          <article>
+            <span>Primary</span>
+            <strong>{registrySummary.primaryCount}</strong>
+          </article>
+          <article>
+            <span>Compatibility</span>
+            <strong>{registrySummary.compatibilityCount}</strong>
+          </article>
+          <article>
+            <span>Protected</span>
+            <strong>{registrySummary.protectedCount}</strong>
+          </article>
+          <article>
+            <span>Cleanup candidate</span>
+            <strong>{registrySummary.cleanupCandidateCount}</strong>
+          </article>
+          <article>
+            <span>Needs Ahmad decision</span>
+            <strong>{registrySummary.needsAhmadDecisionCount}</strong>
+          </article>
+        </div>
+        <div className={styles.registryConflictList}>
+          <span>Top conflicts</span>
+          {registryConflicts.map((item) => (
+            <article key={item.id}>
+              <strong>{item.label}</strong>
+              <small>{item.recommendation}</small>
+              <em>{item.category}</em>
+            </article>
+          ))}
+        </div>
+      </section>
 
       <section className={styles.truthPanel} data-product-truth="true">
         <div>

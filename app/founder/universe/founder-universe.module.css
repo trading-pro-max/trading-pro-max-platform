@@ -17,6 +17,7 @@
 .truthPanel,
 .hierarchyPanel,
 .commandDeck,
+.registryPanel,
 .columns article,
 .actionPanel article {
   background:
@@ -31,6 +32,7 @@
 .truthPanel,
 .hierarchyPanel,
 .commandDeck,
+.registryPanel,
 .columns,
 .actionPanel {
   position: relative;
@@ -318,7 +320,8 @@
 
 .commandDeckGrid article,
 .readinessStack,
-.readinessScore {
+.readinessScore,
+.registryConflictList article {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.09);
   border-radius: 14px;
@@ -366,6 +369,121 @@
 .readinessScore div {
   display: grid;
   gap: 3px;
+}
+
+.registryPanel {
+  border-radius: 18px;
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+}
+
+.registryHeader {
+  align-items: stretch;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 360px);
+}
+
+.registryHeader > div {
+  display: grid;
+  gap: 7px;
+}
+
+.registryHeader span,
+.registryConflictList > span,
+.registryStats span {
+  color: #ffeff1;
+  font-size: 0.68rem;
+  font-weight: 880;
+  text-transform: uppercase;
+}
+
+.registryHeader h2 {
+  color: #ffffff;
+  font-size: clamp(1.35rem, 2.2vw, 2rem);
+  letter-spacing: 0;
+  margin: 0;
+}
+
+.registryHeader p {
+  color: rgba(235, 241, 247, 0.72);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.registryHeader aside {
+  background:
+    linear-gradient(135deg, rgba(227, 6, 19, 0.12), transparent 55%),
+    rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+}
+
+.registryHeader aside strong {
+  color: #ffffff;
+  font-size: 1.18rem;
+  text-transform: capitalize;
+}
+
+.registryHeader aside small,
+.registryConflictList small {
+  color: rgba(235, 241, 247, 0.68);
+  line-height: 1.45;
+}
+
+.registryStats {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.registryStats article {
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 14px;
+  display: grid;
+  gap: 6px;
+  min-height: 86px;
+  padding: 12px;
+}
+
+.registryStats strong {
+  color: #ffffff;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.registryConflictList {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.registryConflictList > span {
+  grid-column: 1 / -1;
+}
+
+.registryConflictList article {
+  display: grid;
+  gap: 7px;
+  min-height: 120px;
+  padding: 12px;
+}
+
+.registryConflictList strong {
+  color: #ffffff;
+}
+
+.registryConflictList em {
+  color: rgba(255, 239, 241, 0.82);
+  font-size: 0.7rem;
+  font-style: normal;
+  font-weight: 850;
+  text-transform: uppercase;
 }
 
 .columns article,
@@ -418,6 +536,9 @@
   .hierarchyVisual,
   .commandDeck,
   .commandDeckGrid,
+  .registryHeader,
+  .registryStats,
+  .registryConflictList,
   .columns,
   .actionPanel {
     grid-template-columns: minmax(0, 1fr);
