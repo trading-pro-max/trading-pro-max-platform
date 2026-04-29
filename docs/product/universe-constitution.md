@@ -274,3 +274,19 @@ Required private meaning:
 The visual system is Swiss-inspired precision only. It must not use NASA assets, official Swiss symbols, public launch claims, billing claims, payment claims, real-money claims, broker execution claims, legal approval claims, or public الكون / public ALKON claims.
 
 Reference: `docs/product/al-kawn-unified-visual-identity-system.md`.
+
+## Desktop Shell Finalization Law
+
+`/desktop/kawn is the Al-Kawn private desktop home.`
+
+The desktop shell is a private Ahmad-only command layer. Current shell type is `next_route_only`; no native Electron/Tauri packaging, signing, private distribution, public distribution, app-store listing, or mobile build is completed.
+
+Required boundaries:
+
+- Private Ahmad-only desktop shell.
+- Desktop shell is private Ahmad-only.
+- Public desktop distribution is blocked.
+- No secrets are stored in the desktop bundle.
+- External accounts require Ahmad approval.
+- Product Truth overrides every action.
+- Native signing and private distribution remain future gates.

@@ -27,6 +27,7 @@ export type {
   AlKawnDesktopQuickAction,
   AlKawnDesktopRealityCenter,
   AlKawnDesktopReport,
+  AlKawnDesktopShellFinalizationState,
   AlKawnDesktopState,
   AlKawnDesktopStatus,
   AlKawnDesktopTask,

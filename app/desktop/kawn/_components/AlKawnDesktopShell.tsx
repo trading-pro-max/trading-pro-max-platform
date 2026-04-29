@@ -7,6 +7,7 @@ import { AlKawnGalaxyMap } from "./AlKawnGalaxyMap";
 import { AlKawnHumanChat } from "./AlKawnHumanChat";
 import { AlKawnKernelPanel } from "./AlKawnKernelPanel";
 import { AlKawnLayerNavigator } from "./AlKawnLayerNavigator";
+import { AlKawnDesktopShellStatus } from "./AlKawnDesktopShellStatus";
 import { AlKawnProductTruthPanel } from "./AlKawnProductTruthPanel";
 import { AlKawnProtectionPanel } from "./AlKawnProtectionPanel";
 import { AlKawnRealityDock } from "./AlKawnRealityDock";
@@ -46,6 +47,11 @@ export function AlKawnDesktopShell({ state }: { state: AlKawnDesktopState }) {
         </div>
         <aside className={styles.bootCard}>
           <strong>Booting الكون private operating environment</strong>
+          <small>/desktop/kawn is the Al-Kawn private desktop home.</small>
+          <small>Private Ahmad-only desktop shell.</small>
+          <small>Public desktop distribution is blocked.</small>
+          <small>No secrets are stored in the desktop bundle.</small>
+          <small>External accounts require Ahmad approval.</small>
           <small>Private until legally ready</small>
           <small>{state.nativeShell.note}</small>
         </aside>
@@ -72,6 +78,7 @@ export function AlKawnDesktopShell({ state }: { state: AlKawnDesktopState }) {
 
       <section className={styles.lowerGrid} aria-label="Al-Kawn desktop control panels">
         <AlKawnReportCenter reports={state.reports} />
+        <AlKawnDesktopShellStatus shell={state.shellFinalization} />
         <AlKawnWakeReportPanel reports={state.reports} nextSafeAction={state.nextSafeAction} />
         <AlKawnProductTruthPanel items={state.productTruth} />
         <AlKawnProtectionPanel protection={state.protection} />

@@ -663,17 +663,25 @@ Compatibility evidence:
       >
         <div className={styles.kernelHeader}>
           <div>
-            <span>Al-Kawn Desktop Operating Environment</span>
-            <h2>Desktop is the main private command client for ط§ظ„ظƒظˆظ†</h2>
+            <span>Al-Kawn Desktop Operating Environment / Desktop shell finalization</span>
+            <h2>Desktop is the main private command client for الكون</h2>
+            <p>/desktop/kawn is the Al-Kawn private desktop home.</p>
+            <p>Private Ahmad-only desktop shell.</p>
             <p>Desktop is the main private command client for الكون</p>
             <p>Mobile clients come later as lightweight private access</p>
             <p>Public distribution is blocked</p>
+            <p>Public desktop distribution is blocked.</p>
+            <p>No secrets are stored in the desktop bundle.</p>
+            <p>External accounts require Ahmad approval.</p>
             <p>Product Truth enforced</p>
+            <p>Product Truth overrides every action.</p>
           </div>
           <aside>
             <strong>{desktopState.nativeShell.desktopRoute}</strong>
             <small>Desktop route status: private desktop-first command surface</small>
             <small>Native shell status: {desktopState.nativeShell.nativeShellStatus}</small>
+            <small>Shell type: {desktopState.shellFinalization.shellType}</small>
+            <small>Native signing and private distribution remain future gates</small>
             <small>{desktopState.nativeShell.note}</small>
             <Link href="/desktop/kawn">Open Al-Kawn Desktop</Link>
           </aside>
@@ -692,7 +700,12 @@ Compatibility evidence:
           <article>
             <span>Distribution</span>
             <strong>Private Ahmad-only</strong>
-            <small>No public desktop distribution is started.</small>
+            <small>Public desktop distribution is blocked.</small>
+          </article>
+          <article>
+            <span>Shell security</span>
+            <strong>No secrets in bundle</strong>
+            <small>No secrets are stored in the desktop bundle. External accounts require Ahmad approval.</small>
           </article>
           <article>
             <span>Mobile later</span>

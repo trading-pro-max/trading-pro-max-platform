@@ -122,4 +122,21 @@ The desktop environment must always show:
 
 ## Future Mobile Relationship
 
+## Desktop Shell Finalization
+
+`/desktop/kawn is the Al-Kawn private desktop home.`
+
+Current shell type is `next_route_only`. No app-level Electron or Tauri shell exists, and no native signing, packaging, release, store, or public distribution script is active.
+
+Required desktop shell truth:
+
+- Private Ahmad-only desktop shell.
+- Desktop shell is private Ahmad-only.
+- Public desktop distribution is blocked.
+- No secrets are stored in the desktop bundle.
+- External accounts require Ahmad approval.
+- Product Truth overrides every action.
+
+The `desktop:check` script validates the route-only shell state without adding native dependencies or release behavior. Native signing and private distribution remain future gates.
+
 Desktop is the main private command client for الكون. Mobile clients come later as lightweight private access layers and require their own security, signing, distribution, authentication, and no-secrets gates.

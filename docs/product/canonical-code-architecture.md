@@ -181,6 +181,21 @@ If native Electron, Tauri, or another shell is introduced later, it must target 
 
 ## Al-Kawn Unified Visual Identity Code Rule
 
+## Al-Kawn Desktop Shell Finalization Code Rule
+
+`/desktop/kawn` is the Al-Kawn private desktop home.
+
+Current shell type is `next_route_only`. Native Electron/Tauri packaging is not present, so native signing and private distribution remain future gates.
+
+Code rules:
+
+- Keep `/desktop/kawn` as the private desktop command route.
+- Use `lib/server/universe/desktop-interface/*` as the desktop state owner.
+- Use `npm run desktop:check` for route-only desktop shell validation.
+- Do not add signing, release, store, public distribution, payment, broker, or external account scripts without Ahmad approval.
+- Do not store secrets in Git or a desktop bundle.
+- Product Truth overrides every action.
+
 Canonical visual tokens live in `app/_styles/al-kawn-visual-tokens.css` and are imported by `app/layout.tsx`.
 
 Canonical visual wrappers live in `app/_components/al-kawn-visual/*`.

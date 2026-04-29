@@ -123,10 +123,24 @@ export type AlKawnDesktopNativeShellState = {
   note: string;
 };
 
+export type AlKawnDesktopShellFinalizationState = {
+  status: "route_finalized_native_future_gate";
+  shellType: "next_route_only";
+  privateHomeRoute: "/desktop/kawn";
+  defaultHomeStatus: "available_as_private_desktop_home";
+  packageScripts: string[];
+  publicDistribution: "blocked";
+  signingStatus: "future_gate";
+  packagingStatus: "future_gate";
+  securityRules: string[];
+  gaps: string[];
+};
+
 export type AlKawnDesktopState = {
   title: string;
   role: string;
   nativeShell: AlKawnDesktopNativeShellState;
+  shellFinalization: AlKawnDesktopShellFinalizationState;
   boot: AlKawnDesktopBootStep[];
   welcomeMessage: string;
   quickActions: AlKawnDesktopQuickAction[];
