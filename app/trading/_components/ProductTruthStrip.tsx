@@ -1,3 +1,4 @@
+import { AlKawnProductTruthStrip } from "@/app/_components/al-kawn-visual/AlKawnProductTruthStrip";
 import type { ProjectUniverseTruthSnapshot } from "@/lib/server/project-universe-truth";
 import styles from "../trading-premium-realism.module.css";
 
@@ -48,6 +49,7 @@ export default function ProductTruthStrip({
       data-product-truth-strip="true"
       aria-label="Premium Product Truth Strip"
     >
+      <AlKawnProductTruthStrip compact includePrivateAlKawn={false} includeAlkon={false} />
       {labels.map((label) => (
         <span key={label}>{label}</span>
       ))}

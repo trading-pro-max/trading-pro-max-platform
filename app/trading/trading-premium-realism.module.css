@@ -1,9 +1,6 @@
 .floor {
-  background:
-    radial-gradient(circle at 82% 8%, rgba(227, 6, 19, 0.13), transparent 24rem),
-    radial-gradient(circle at 12% 2%, rgba(74, 144, 164, 0.18), transparent 22rem),
-    linear-gradient(180deg, #02050a 0%, #070b12 46%, #03050a 100%);
-  color: #f6f8fb;
+  background: var(--alkawn-page-gradient);
+  color: var(--alkawn-text-primary);
   min-height: 100vh;
   overflow: hidden;
   padding: 12px;
@@ -43,10 +40,10 @@
 
 .commandBar {
   align-items: center;
-  background: rgba(4, 8, 14, 0.92);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 16px;
-  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.42);
+  background: var(--alkawn-trading-contrast);
+  border: 1px solid var(--alkawn-border-precision);
+  border-radius: var(--alkawn-radius-panel);
+  box-shadow: var(--alkawn-shadow-depth);
   display: grid;
   gap: 12px;
   grid-template-columns: minmax(300px, 0.72fr) minmax(0, 1fr) auto;
@@ -168,8 +165,8 @@
 .journalDock,
 .activityDock {
   background: rgba(5, 9, 15, 0.88);
-  border: 1px solid rgba(255, 255, 255, 0.11);
-  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.34);
+  border: 1px solid var(--alkawn-border-precision);
+  box-shadow: var(--alkawn-shadow-depth);
 }
 
 .marketWatch,

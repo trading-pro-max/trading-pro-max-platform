@@ -1,9 +1,6 @@
 .universe {
-  background:
-    radial-gradient(circle at 86% 6%, rgba(227, 6, 19, 0.12), transparent 28rem),
-    radial-gradient(circle at 8% 0%, rgba(93, 173, 196, 0.16), transparent 24rem),
-    linear-gradient(180deg, #03050a 0%, #080d14 52%, #03050a 100%);
-  color: #f6f8fb;
+  background: var(--alkawn-page-gradient);
+  color: var(--alkawn-text-primary);
   display: grid;
   gap: 14px;
   min-height: calc(100vh - 112px);
@@ -24,9 +21,9 @@
 .actionPanel article {
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.055), transparent 42%),
-    rgba(5, 9, 15, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.11);
-  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.34);
+    var(--alkawn-graphite-surface);
+  border: 1px solid var(--alkawn-border-precision);
+  box-shadow: var(--alkawn-shadow-depth);
 }
 
 .hero,
@@ -81,7 +78,7 @@
 }
 
 .hero h1 {
-  color: #ffffff;
+  color: var(--alkawn-text-primary);
   font-size: clamp(2rem, 4vw, 4.2rem);
   letter-spacing: 0;
   line-height: 0.94;

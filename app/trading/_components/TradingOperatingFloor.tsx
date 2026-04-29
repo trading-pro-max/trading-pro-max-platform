@@ -1,5 +1,5 @@
 import { ProMaxDeviceTimeRealityBarStatic } from "@/app/_components/ProMaxDeviceTimeRealityBarStatic";
-import { ProMaxCosmicIdentity } from "@/app/_components/ProMaxCosmicIdentity";
+import { AlKawnCosmicIdentity } from "@/app/_components/al-kawn-visual/AlKawnCosmicIdentity";
 import { ProMaxLivingUniverseBackgroundStatic } from "@/app/_components/ProMaxLivingUniverseBackgroundStatic";
 import { ProMaxRealityContinuityLayer } from "@/app/_components/ProMaxRealityContinuityLayer";
 import { ProMaxRealitySourceBar } from "@/app/_components/ProMaxRealitySourceBar";
@@ -77,7 +77,10 @@ export default function TradingOperatingFloor({
 
   return (
     <main
-      className={`${styles.floor} tpm-app-shell tpm-workspace-shell tpm-foundation-frame tpmv2-page`}
+      className={`${styles.floor} tpm-app-shell tpm-workspace-shell tpm-foundation-frame tpmv2-page al-kawn-visual-root`}
+      data-testid="al-kawn-unified-visual-identity"
+      data-al-kawn-visual-system="canonical"
+      data-al-kawn-surface="trading"
       data-shell-mode="workspace"
       data-clean-zero-rebuild="true"
       data-unified-project-universe="true"
@@ -174,7 +177,11 @@ export default function TradingOperatingFloor({
         </section>
 
         <aside className={styles.identityColumn} aria-label="Earth identity status">
-          <ProMaxCosmicIdentity size="large" surface="trading" showLabels compact />
+          <AlKawnCosmicIdentity
+            variant="tradingCompact"
+            showLabels
+            includePrivateLabels={false}
+          />
           <p>{truth.identityLine}</p>
           <span>Pro Max Earth context</span>
           <span>Trading Ground on Pro Max Earth</span>

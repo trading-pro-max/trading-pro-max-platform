@@ -1,9 +1,6 @@
 .desktop {
-  background:
-    radial-gradient(circle at 74% 8%, rgba(63, 156, 207, 0.18), transparent 28rem),
-    radial-gradient(circle at 8% 12%, rgba(227, 6, 19, 0.14), transparent 24rem),
-    linear-gradient(180deg, #03050a 0%, #071019 52%, #03050a 100%);
-  color: #f6f8fb;
+  background: var(--alkawn-page-gradient);
+  color: var(--alkawn-text-primary);
   display: grid;
   gap: 12px;
   min-height: 100vh;
@@ -24,10 +21,10 @@
 .realityDock {
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.065), transparent 48%),
-    rgba(4, 8, 14, 0.86);
-  border: 1px solid rgba(255, 255, 255, 0.105);
-  border-radius: 14px;
-  box-shadow: 0 20px 54px rgba(0, 0, 0, 0.34);
+    var(--alkawn-graphite-surface);
+  border: 1px solid var(--alkawn-border-precision);
+  border-radius: var(--alkawn-radius-panel);
+  box-shadow: var(--alkawn-shadow-depth);
   position: relative;
   z-index: 1;
 }

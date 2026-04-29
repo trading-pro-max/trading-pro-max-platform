@@ -23,6 +23,8 @@ export function AlKawnDesktopShell({ state }: { state: AlKawnDesktopState }) {
     <main
       className={styles.desktop}
       data-testid="al-kawn-desktop-operating-environment"
+      data-al-kawn-visual-system="canonical"
+      data-al-kawn-surface="desktop"
       data-private-ahmad-only="true"
       aria-label="Al-Kawn Desktop Operating Environment"
     >

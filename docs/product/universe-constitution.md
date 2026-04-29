@@ -256,3 +256,21 @@ Required meaning:
 The current implementation uses `/desktop/kawn` as a desktop-first private route. No app-level Electron or Tauri shell is currently active, so native desktop packaging remains a future gate. Public distribution is blocked. No secrets may be stored in Git or inside a future desktop bundle. External accounts, money, broker, public launch, and legal actions require Ahmad approval.
 
 Reference: `docs/product/al-kawn-desktop-operating-environment-standard.md`.
+
+## Unified Visual Identity Law
+
+Every private founder and product surface related to الكون, Pro Max Galaxy, Earth Planet, Product Truth, Kernel, and trading must feel like it belongs to the same system.
+
+Required private meaning:
+
+- الكون هو الامتداد الإلكتروني الخاص بأحمد.
+- الكون خاص بأجهزة أحمد.
+- Product Truth هو قانون الحقيقة الأعلى.
+- Universe Operating Kernel هو القاضي التنفيذي.
+- Pro Max Galaxy داخل الكون.
+- Earth Planet داخل Pro Max Galaxy.
+- Desktop is the main private command client for الكون.
+
+The visual system is Swiss-inspired precision only. It must not use NASA assets, official Swiss symbols, public launch claims, billing claims, payment claims, real-money claims, broker execution claims, legal approval claims, or public الكون / public ALKON claims.
+
+Reference: `docs/product/al-kawn-unified-visual-identity-system.md`.

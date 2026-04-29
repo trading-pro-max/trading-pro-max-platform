@@ -1,3 +1,4 @@
+import { AlKawnProductTruthStrip } from "@/app/_components/al-kawn-visual/AlKawnProductTruthStrip";
 import type { AlKawnDesktopTruthItem } from "@/lib/server/universe/desktop-interface";
 import styles from "../al-kawn-desktop.module.css";
 
@@ -8,6 +9,7 @@ export function AlKawnProductTruthPanel({ items }: { items: AlKawnDesktopTruthIt
         <span>Product Truth</span>
         <h2>Product Truth</h2>
       </div>
+      <AlKawnProductTruthStrip />
       <div className={styles.truthChips}>
         {items.map((item) => (
           <span key={item.id}>{item.label}: {item.value}</span>

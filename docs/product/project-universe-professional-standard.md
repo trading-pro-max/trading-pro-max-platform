@@ -229,3 +229,24 @@ It must feel like Ahmad's private operating environment, not a public marketing 
 It must state that Desktop is the main private command client for الكون, Mobile clients come later as lightweight private access, and Public distribution is blocked.
 
 No desktop surface may claim public launch, billing, payments, receiving money, real money, broker execution, legal approval, FINMA approval, licensed/regulated status, guaranteed profit, risk-free trading, public الكون, public ALKON, or absolute security.
+
+## Al-Kawn Unified Visual Identity System
+
+The professional visual standard now requires all الكون-related private and product surfaces to use one token/component language.
+
+Canonical tokens live in `app/_styles/al-kawn-visual-tokens.css`.
+
+Canonical visual components live in `app/_components/al-kawn-visual/*`.
+
+Required meaning:
+
+- الكون هو الامتداد الإلكتروني الخاص بأحمد.
+- Product Truth هو قانون الحقيقة الأعلى.
+- Universe Operating Kernel هو القاضي التنفيذي.
+- Pro Max Galaxy داخل الكون.
+- Earth Planet داخل Pro Max Galaxy.
+- /trading belongs to Earth Planet.
+- ALKON is a private background guardian.
+- Desktop is the main private command client for الكون.
+
+Founder and desktop surfaces may show private Al-Kawn wording. Pro Max Center must use public-safe identity and Product Truth without turning الكون into a public claim.

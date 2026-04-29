@@ -1,0 +1,92 @@
+:root {
+  --alkawn-cosmic-black: #02050a;
+  --alkawn-graphite-surface: rgba(5, 9, 15, 0.9);
+  --alkawn-graphite-surface-soft: rgba(255, 255, 255, 0.045);
+  --alkawn-deep-space-blue: #07121e;
+  --alkawn-earth-atmosphere-blue: #82ddff;
+  --alkawn-cloud-white: #f6f8fb;
+  --alkawn-moon-silver: #dce8f2;
+  --alkawn-swiss-red-precision: #e30613;
+  --alkawn-truth-amber: #ffbf69;
+  --alkawn-danger-red: #ff4d5b;
+  --alkawn-safe-green: #54d99d;
+  --alkawn-protected-violet: #9aa7ff;
+  --alkawn-border-precision: rgba(255, 255, 255, 0.11);
+  --alkawn-border-strong: rgba(255, 255, 255, 0.18);
+  --alkawn-panel-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.065), transparent 48%), rgba(4, 8, 14, 0.88);
+  --alkawn-shadow-depth: 0 22px 60px rgba(0, 0, 0, 0.42);
+  --alkawn-atmosphere-glow: 0 0 36px rgba(130, 221, 255, 0.22);
+  --alkawn-focus-ring: 0 0 0 3px rgba(130, 221, 255, 0.24), 0 0 0 1px rgba(255, 255, 255, 0.42);
+  --alkawn-text-primary: #ffffff;
+  --alkawn-text-secondary: rgba(235, 241, 247, 0.76);
+  --alkawn-text-muted: rgba(235, 241, 247, 0.58);
+  --alkawn-chip-bg: rgba(255, 255, 255, 0.055);
+  --alkawn-chip-truth-bg: rgba(255, 191, 105, 0.1);
+  --alkawn-chip-danger-bg: rgba(227, 6, 19, 0.12);
+  --alkawn-chip-safe-bg: rgba(84, 217, 157, 0.1);
+  --alkawn-radius-panel: 14px;
+  --alkawn-radius-tight: 10px;
+  --alkawn-radius-chip: 999px;
+  --alkawn-page-gradient:
+    radial-gradient(circle at 78% 8%, rgba(130, 221, 255, 0.16), transparent 28rem),
+    radial-gradient(circle at 8% 10%, rgba(227, 6, 19, 0.13), transparent 24rem),
+    linear-gradient(180deg, var(--alkawn-cosmic-black) 0%, var(--alkawn-deep-space-blue) 52%, var(--alkawn-cosmic-black) 100%);
+  --alkawn-trading-contrast: rgba(3, 7, 12, 0.94);
+  --alkawn-motion-calm: 240ms ease;
+}
+
+.al-kawn-visual-root {
+  background: var(--alkawn-page-gradient);
+  color: var(--alkawn-text-primary);
+}
+
+.al-kawn-panel {
+  background: var(--alkawn-panel-glass);
+  border: 1px solid var(--alkawn-border-precision);
+  border-radius: var(--alkawn-radius-panel);
+  box-shadow: var(--alkawn-shadow-depth);
+}
+
+.al-kawn-chip {
+  background: var(--alkawn-chip-bg);
+  border: 1px solid var(--alkawn-border-precision);
+  border-radius: var(--alkawn-radius-chip);
+  color: var(--alkawn-text-secondary);
+}
+
+.al-kawn-chip[data-status="blocked"],
+.al-kawn-chip[data-tone="danger"] {
+  background: var(--alkawn-chip-danger-bg);
+  border-color: rgba(227, 6, 19, 0.42);
+  color: #ffd8dc;
+}
+
+.al-kawn-chip[data-status="protected"],
+.al-kawn-chip[data-tone="protected"] {
+  border-color: rgba(154, 167, 255, 0.36);
+  color: #e1e6ff;
+}
+
+.al-kawn-chip[data-status="safe"],
+.al-kawn-chip[data-tone="safe"] {
+  background: var(--alkawn-chip-safe-bg);
+  border-color: rgba(84, 217, 157, 0.34);
+  color: #dfffee;
+}
+
+.al-kawn-chip[data-tone="truth"] {
+  background: var(--alkawn-chip-truth-bg);
+  border-color: rgba(255, 191, 105, 0.34);
+  color: #ffe6c4;
+}
+
+:where(.al-kawn-panel, .al-kawn-chip, a, button, input, textarea, select):focus-visible {
+  outline: none;
+  box-shadow: var(--alkawn-focus-ring);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --alkawn-motion-calm: 1ms linear;
+  }
+}

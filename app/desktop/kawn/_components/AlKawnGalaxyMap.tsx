@@ -1,10 +1,10 @@
-import { ProMaxCosmicIdentity } from "@/app/_components/ProMaxCosmicIdentity";
+import { AlKawnCosmicIdentity } from "@/app/_components/al-kawn-visual/AlKawnCosmicIdentity";
 import styles from "../al-kawn-desktop.module.css";
 
 export function AlKawnGalaxyMap() {
   return (
     <section className={styles.visualPane} aria-label="Universe Visual Pane">
-      <ProMaxCosmicIdentity size="large" surface="founder" showLabels />
+      <AlKawnCosmicIdentity variant="desktop" showLabels />
       <div>
         <span>Universe Visual Pane</span>
         <h2>Pro Max Galaxy inside الكون</h2>

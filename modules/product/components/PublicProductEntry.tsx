@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ProMaxCosmicIdentity } from "@/app/_components/ProMaxCosmicIdentity";
+import { AlKawnCosmicIdentity } from "@/app/_components/al-kawn-visual/AlKawnCosmicIdentity";
+import { AlKawnProductTruthStrip } from "@/app/_components/al-kawn-visual/AlKawnProductTruthStrip";
 import { ProMaxRealityContinuityLayer } from "@/app/_components/ProMaxRealityContinuityLayer";
 import { getPublicPlanRealms } from "@/lib/plans/realms";
 import LivingEarthBackground from "../../brand/components/LivingEarthBackground";
@@ -145,6 +146,8 @@ export default function PublicProductEntry({
   return (
     <div
       className="tpm-product-shell"
+      data-al-kawn-visual-system="canonical"
+      data-al-kawn-surface="center"
       data-swiss-inspired-precision="true"
       data-visual-origin="pro-max-earth-financial"
     >
@@ -208,7 +211,11 @@ export default function PublicProductEntry({
             </div>
 
             <div className="tpm-product-hero-side">
-              <ProMaxCosmicIdentity size="large" surface="public" showLabels={false} />
+              <AlKawnCosmicIdentity
+                variant="center"
+                showLabels={false}
+                includePrivateLabels={false}
+              />
               <div className="tpm-product-signal-grid tpm-product-signal-grid-calm">
                 {heroSignals.map((item) => (
                   <article key={item.label} className="tpm-product-signal-card">
@@ -236,6 +243,7 @@ export default function PublicProductEntry({
             </p>
           </div>
           <div className="tpm-product-truth-grid">
+            <AlKawnProductTruthStrip compact includePrivateAlKawn={false} includeAlkon={false} />
             {safetyTruth.map((item) => (
               <span key={item}>{item}</span>
             ))}

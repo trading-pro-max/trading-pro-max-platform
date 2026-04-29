@@ -1,0 +1,172 @@
+.shell {
+  background: var(--alkawn-page-gradient);
+  color: var(--alkawn-text-primary);
+  min-height: 100%;
+  position: relative;
+}
+
+.topBar,
+.panel,
+.actionCard {
+  background: var(--alkawn-panel-glass);
+  border: 1px solid var(--alkawn-border-precision);
+  border-radius: var(--alkawn-radius-panel);
+  box-shadow: var(--alkawn-shadow-depth);
+}
+
+.topBar {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: space-between;
+  padding: 10px 12px;
+}
+
+.panel,
+.actionCard {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+}
+
+.sectionHeader {
+  display: grid;
+  gap: 4px;
+}
+
+.sectionHeader span,
+.layerBadge span,
+.statusChip {
+  color: #ffeff1;
+  font-size: 0.68rem;
+  font-weight: 860;
+  text-transform: uppercase;
+}
+
+.sectionHeader h2,
+.panel h2,
+.actionCard strong,
+.topBar strong {
+  color: var(--alkawn-text-primary);
+  margin: 0;
+}
+
+.sectionHeader p,
+.panel p,
+.actionCard p,
+.topBar span,
+.layerBadge small,
+.realityChip small {
+  color: var(--alkawn-text-secondary);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.statusChip,
+.realityChip,
+.layerBadge,
+.truthStrip span {
+  background: var(--alkawn-chip-bg);
+  border: 1px solid var(--alkawn-border-precision);
+  border-radius: var(--alkawn-radius-chip);
+  color: var(--alkawn-text-secondary);
+  display: inline-flex;
+  gap: 6px;
+  line-height: 1.2;
+  padding: 7px 9px;
+  width: fit-content;
+}
+
+.statusChip[data-tone="danger"],
+.truthStrip span[data-tone="danger"] {
+  background: var(--alkawn-chip-danger-bg);
+  border-color: rgba(227, 6, 19, 0.42);
+  color: #ffd8dc;
+}
+
+.statusChip[data-tone="truth"],
+.truthStrip span[data-tone="truth"] {
+  background: var(--alkawn-chip-truth-bg);
+  border-color: rgba(255, 191, 105, 0.34);
+  color: #ffe6c4;
+}
+
+.statusChip[data-tone="protected"],
+.truthStrip span[data-tone="protected"] {
+  border-color: rgba(154, 167, 255, 0.36);
+  color: #e1e6ff;
+}
+
+.truthStrip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.truthStrip.compact {
+  flex-wrap: nowrap;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.truthStrip.compact span {
+  font-size: 0.66rem;
+  padding: 6px 8px;
+  white-space: nowrap;
+}
+
+.cosmicIdentity {
+  display: inline-grid;
+  gap: 6px;
+  justify-items: center;
+  position: relative;
+}
+
+.cosmicIdentity[data-variant="tradingCompact"],
+.cosmicIdentity[data-variant="tinyChip"] {
+  justify-items: start;
+}
+
+.identityLabel {
+  color: var(--alkawn-text-secondary);
+  display: grid;
+  font-size: 0.68rem;
+  gap: 3px;
+  line-height: 1.35;
+  max-width: 260px;
+}
+
+.identityLabel strong {
+  color: var(--alkawn-text-primary);
+}
+
+.srOnly {
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  width: 1px;
+}
+
+.layerBadge {
+  align-items: center;
+  border-radius: 12px;
+  display: grid;
+  gap: 3px;
+  padding: 8px 10px;
+}
+
+.realityChip {
+  align-items: center;
+}
+
+.actionCard {
+  min-height: 104px;
+}
+
+@media (max-width: 720px) {
+  .truthStrip.compact {
+    flex-wrap: wrap;
+  }
+}

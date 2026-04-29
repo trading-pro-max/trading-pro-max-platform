@@ -178,3 +178,21 @@ Its primary server model lives in `lib/server/universe/desktop-interface/*` and 
 The route is the private desktop command client for الكون. It must not define new Product Truth, new kernel truth, or a separate hierarchy. It surfaces existing canonical meaning through a desktop operating layout.
 
 If native Electron, Tauri, or another shell is introduced later, it must target `/desktop/kawn` or wrap the primary desktop route instead of duplicating desktop truth. Native shell finalization requires security, signing, distribution, no-secrets, and Ahmad approval gates.
+
+## Al-Kawn Unified Visual Identity Code Rule
+
+Canonical visual tokens live in `app/_styles/al-kawn-visual-tokens.css` and are imported by `app/layout.tsx`.
+
+Canonical visual wrappers live in `app/_components/al-kawn-visual/*`.
+
+Future UI work should reuse:
+
+- `AlKawnCosmicIdentity`
+- `AlKawnProductTruthStrip`
+- `AlKawnStatusChip`
+- `AlKawnPanel`
+- `AlKawnSectionHeader`
+- `AlKawnRealitySourceChip`
+- `AlKawnLayerBadge`
+
+No route should create a separate Earth/Moon identity, a separate Product Truth chip style, a separate page palette, or a second visual law for الكون. Trading may use compact density for readability, but must still carry the same Product Truth, Earth Planet, and Pro Max Galaxy meaning.

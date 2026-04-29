@@ -1,5 +1,6 @@
 import { ProMaxDeviceTimeRealityBar } from "@/app/_components/ProMaxDeviceTimeRealityBar";
-import { ProMaxCosmicIdentity } from "@/app/_components/ProMaxCosmicIdentity";
+import { AlKawnCosmicIdentity } from "@/app/_components/al-kawn-visual/AlKawnCosmicIdentity";
+import { AlKawnProductTruthStrip } from "@/app/_components/al-kawn-visual/AlKawnProductTruthStrip";
 import { ProMaxLivingEarthLayers } from "@/app/_components/ProMaxLivingEarthLayers";
 import { ProMaxLivingUniverseBackground } from "@/app/_components/ProMaxLivingUniverseBackground";
 import { ProMaxRealityContinuityLayer } from "@/app/_components/ProMaxRealityContinuityLayer";
@@ -206,7 +207,10 @@ export default function UniverseCommandCenter({
 
   return (
     <main
-      className={styles.universe}
+      className={`${styles.universe} al-kawn-visual-root`}
+      data-testid="al-kawn-unified-visual-identity"
+      data-al-kawn-visual-system="canonical"
+      data-al-kawn-surface="founder"
       data-founder-universe-command-center="true"
       data-owner-only="true"
       data-read-only="true"
@@ -215,7 +219,7 @@ export default function UniverseCommandCenter({
     >
       <ProMaxLivingUniverseBackground surface="founder" />
       <header className={styles.hero}>
-        <ProMaxCosmicIdentity size="hero" surface="founder" showLabels />
+        <AlKawnCosmicIdentity variant="hero" showLabels />
         <div>
           <span>Private Founder الكون / Universe Command Center</span>
           <h1>Universe Command Center</h1>
@@ -234,6 +238,7 @@ export default function UniverseCommandCenter({
 
       <ProMaxRealityContinuityLayer surface="founder" />
       <ProMaxDeviceTimeRealityBar variant="full" />
+      <AlKawnProductTruthStrip />
       <ProMaxUniverseSoundscape />
 
       <section className={styles.hierarchyPanel} data-testid="private-universe-hierarchy">
