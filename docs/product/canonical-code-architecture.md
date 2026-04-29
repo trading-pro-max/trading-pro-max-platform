@@ -234,6 +234,27 @@ The gate defines Ahmad-only local access. It does not connect external auth prov
 
 Product Truth overrides local auth claims.
 
+## Private Desktop Packaging Preparation Code Rule
+
+`lib/server/universe/desktop-packaging-preparation/` is the canonical owner for private desktop packaging preparation readiness.
+
+The preparation layer reads the prior packaging/auth gates, checks current packaging capability, and exposes a private UI readiness panel. It must not package, sign, release, publish, upload, or distribute the app.
+
+Safe script:
+
+- `desktop:package:check`
+
+Blocked scripts:
+
+- release scripts
+- signing scripts
+- publish scripts
+- upload scripts
+- auto-update scripts
+- payment or billing scripts
+
+Current result: no native shell and no packaging tool exist, so packaging remains future-gated and Ahmad decision is required before a local build dry run.
+
 ## Al-Kawn Control Surfaces Code Rule
 
 Canonical control surfaces live in `lib/server/universe/control-surfaces/*`.

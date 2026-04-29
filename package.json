@@ -9,6 +9,7 @@
     "prestart": "node scripts/verify-runtime-baseline.mjs",
     "start": "next start",
     "desktop:check": "node scripts/al-kawn-desktop-shell-check.mjs",
+    "desktop:package:check": "node scripts/al-kawn-desktop-package-check.mjs",
     "lint": "eslint",
     "test:regression": "npm run build && npm run prisma:seed && playwright test",
     "smoke:routes": "node scripts/tpm-canonical-routes-smoke.mjs --summary-only",

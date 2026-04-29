@@ -114,3 +114,11 @@ Future local auth options may include:
 - idle timeout
 
 Ahmad must choose the auth direction before private packaging preparation.
+
+## Packaging Preparation Dependency
+
+Private Desktop Packaging Preparation may only prepare a safe local path while real auth remains future-gated.
+
+The preparation must not claim packaged auth is complete. It must keep PIN, passphrase, device-lock awareness, packaged-app lock, and session timeout as future gates until implemented and validated.
+
+Packaging preparation is not public release. Product Truth overrides packaging.

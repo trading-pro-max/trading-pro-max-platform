@@ -102,3 +102,19 @@ The safest next action after the gate exists is Ahmad decision required for the 
 Private packaging preparation may come later only after local auth method, signing, private distribution, and secret safety decisions are ready.
 
 Reference: `docs/product/al-kawn-local-packaged-auth-gate.md`.
+
+## Private Desktop Packaging Preparation
+
+Private Desktop Packaging Preparation now records the safe next packaging path without creating a release.
+
+Required truth:
+
+- Packaging preparation is not public release.
+- Al-Kawn Desktop remains Ahmad-only.
+- No secrets are stored in the desktop bundle.
+- Signing and public distribution remain blocked.
+- Product Truth overrides packaging.
+
+Because no native Electron/Tauri shell or packaging tool exists, packaging remains future-gated. The only added script is `desktop:package:check`, a readiness check that does not package, sign, release, upload, publish, or distribute anything.
+
+Reference: `docs/product/al-kawn-private-desktop-packaging-preparation.md`.

@@ -5,6 +5,7 @@ import {
   getControlSurfaceSummary,
 } from "@/lib/server/universe/control-surfaces";
 import { getDesktopPackagingGate } from "@/lib/server/universe/desktop-packaging-gate";
+import { getPrivateDesktopPackagingPreparation } from "@/lib/server/universe/desktop-packaging-preparation";
 import { getLocalPackagedAuthGate } from "@/lib/server/universe/local-packaged-auth-gate";
 import { AlKawnAppointmentCenter } from "./AlKawnAppointmentCenter";
 import { AlKawnBootSequence } from "./AlKawnBootSequence";
@@ -17,6 +18,7 @@ import { AlKawnLayerNavigator } from "./AlKawnLayerNavigator";
 import { AlKawnDesktopShellStatus } from "./AlKawnDesktopShellStatus";
 import { AlKawnLocalPackagedAuthGate } from "./AlKawnLocalPackagedAuthGate";
 import { AlKawnPrivateDesktopPackagingGate } from "./AlKawnPrivateDesktopPackagingGate";
+import { AlKawnPrivateDesktopPackagingPreparation } from "./AlKawnPrivateDesktopPackagingPreparation";
 import { AlKawnProductTruthPanel } from "./AlKawnProductTruthPanel";
 import { AlKawnProtectionPanel } from "./AlKawnProtectionPanel";
 import { AlKawnRealityDock } from "./AlKawnRealityDock";
@@ -33,6 +35,7 @@ export function AlKawnDesktopShell({ state }: { state: AlKawnDesktopState }) {
   const controlSurfaceSummary = getControlSurfaceSummary();
   const desktopPackagingGate = getDesktopPackagingGate();
   const localPackagedAuthGate = getLocalPackagedAuthGate();
+  const desktopPackagingPreparation = getPrivateDesktopPackagingPreparation();
 
   return (
     <main
@@ -93,6 +96,9 @@ export function AlKawnDesktopShell({ state }: { state: AlKawnDesktopState }) {
       <AlKawnControlSurfaces surfaces={controlSurfaces} summary={controlSurfaceSummary} />
       <AlKawnPrivateDesktopPackagingGate gate={desktopPackagingGate} />
       <AlKawnLocalPackagedAuthGate gate={localPackagedAuthGate} />
+      <AlKawnPrivateDesktopPackagingPreparation
+        preparation={desktopPackagingPreparation}
+      />
 
       <section className={styles.lowerGrid} aria-label="Al-Kawn desktop control panels">
         <AlKawnReportCenter reports={state.reports} />

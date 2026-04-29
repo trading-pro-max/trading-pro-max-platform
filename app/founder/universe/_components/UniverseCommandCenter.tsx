@@ -57,6 +57,7 @@ import {
 } from "@/lib/server/universe/visual-map";
 import { getControlSurfaceSummary } from "@/lib/server/universe/control-surfaces";
 import { getDesktopPackagingGate } from "@/lib/server/universe/desktop-packaging-gate";
+import { getPrivateDesktopPackagingPreparation } from "@/lib/server/universe/desktop-packaging-preparation";
 import { getAlKawnDesktopState } from "@/lib/server/universe/desktop-interface";
 import { getLocalPackagedAuthGate } from "@/lib/server/universe/local-packaged-auth-gate";
 import styles from "../founder-universe.module.css";
@@ -172,6 +173,7 @@ export default function UniverseCommandCenter({
   const desktopState = getAlKawnDesktopState(new Date(truth.checkedAt));
   const desktopPackagingGate = getDesktopPackagingGate();
   const localPackagedAuthGate = getLocalPackagedAuthGate();
+  const desktopPackagingPreparation = getPrivateDesktopPackagingPreparation();
   const visualMapCoreLayerIds = [
     "existence_contract",
     "product_truth",
@@ -675,11 +677,13 @@ Compatibility evidence:
             <p>Private Ahmad-only desktop shell.</p>
             <p>Private Desktop Packaging Gate</p>
             <p>Local Packaged Auth Gate</p>
+            <p>Private Desktop Packaging Preparation</p>
             <p>Ahmad-only local access</p>
             <p>Desktop is the main private command client for الكون</p>
             <p>Mobile clients come later as lightweight private access</p>
             <p>Public distribution is blocked</p>
             <p>Public desktop distribution is blocked.</p>
+            <p>Signing remains a future gate.</p>
             <p>Signing and private distribution require future approval.</p>
             <p>Desktop remains Ahmad-only.</p>
             <p>External auth requires Ahmad approval</p>
@@ -695,6 +699,10 @@ Compatibility evidence:
             <small>Shell type: {desktopState.shellFinalization.shellType}</small>
             <small>Private Desktop Packaging Gate status: {desktopPackagingGate.status}</small>
             <small>Local Packaged Auth Gate status: {localPackagedAuthGate.status}</small>
+            <small>
+              Private Desktop Packaging Preparation status: {desktopPackagingPreparation.status}
+            </small>
+            <small>Package readiness: {desktopPackagingPreparation.packagingCapability.state}</small>
             <small>Native signing and private distribution remain future gates</small>
             <small>Signing future gate: {desktopPackagingGate.signingReadiness.state}</small>
             <small>Local auth packaging gate: {desktopPackagingGate.authReadiness.state}</small>
@@ -730,6 +738,11 @@ Compatibility evidence:
             <span>Local Packaged Auth Gate</span>
             <strong>{localPackagedAuthGate.summary}</strong>
             <small>{localPackagedAuthGate.nextAction.reason}</small>
+          </article>
+          <article>
+            <span>Private Desktop Packaging Preparation</span>
+            <strong>{desktopPackagingPreparation.summary}</strong>
+            <small>{desktopPackagingPreparation.nextAction.reason}</small>
           </article>
           <article>
             <span>Shell security</span>

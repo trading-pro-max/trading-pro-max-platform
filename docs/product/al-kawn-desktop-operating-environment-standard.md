@@ -168,6 +168,21 @@ Local auth truth:
 
 PIN, passphrase, device-lock awareness, packaged-app lock, and session timeout remain future gates until implemented and validated.
 
+## Private Desktop Packaging Preparation
+
+Private Desktop Packaging Preparation is a readiness layer, not a release.
+
+Required wording:
+
+- Private Desktop Packaging Preparation
+- Packaging preparation is not public release.
+- Al-Kawn Desktop remains Ahmad-only.
+- No secrets are stored in the desktop bundle.
+- Signing and public distribution remain blocked.
+- Product Truth overrides packaging.
+
+Because no native shell exists now, `/desktop/kawn` remains the desktop-first route. The safe script `desktop:package:check` may validate the future gate state, but it must not produce release artifacts.
+
 ## Control Surfaces
 
 `/desktop/kawn` is also the main private control client for Al-Kawn Control Surfaces.
