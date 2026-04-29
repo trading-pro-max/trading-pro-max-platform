@@ -72,8 +72,9 @@ export type UniverseKernelReadiness = {
   status: string;
   canonicalization: "existing_kernel_canonicalized";
   infinityModeReadiness: "blocked_until_founder_boundary_and_remaining_registry_conflicts";
-  operatorModeReadiness: "preparation_only_after_founder_boundary";
+  operatorModeReadiness: "preparation_only_after_visual_map_and_founder_decision";
   localDayOneReadiness: string;
   gaps: UniverseKernelBoundary[];
-  nextSafeAction: "Absolute Founder Boundary 100";
+  founderBoundaryEnforced: true;
+  nextSafeAction: "Al-Kawn Visual Map";
 };

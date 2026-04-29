@@ -79,5 +79,6 @@ export type ArchitectureRegistrySummary = {
   safestNextAction:
     | "controlled canonical cleanup"
     | "existing kernel canonicalization"
-    | "Absolute Founder Boundary 100";
+    | "Absolute Founder Boundary 100"
+    | "Al-Kawn Visual Map";
 };

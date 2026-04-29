@@ -180,13 +180,17 @@ Infinity Mode can not resume yet.
 
 Operator Mode can not start yet.
 
-Safest next action:
+Boundary follow-up completed:
 
 Absolute Founder Boundary 100.
 
+Safest next action now:
+
+Al-Kawn Visual Map.
+
 Reason:
 
-The kernel is now canonicalized, but deeper operation should wait until founder-only access boundaries are hardened and remaining registry conflicts are resolved.
+The kernel is canonicalized and the founder boundary is active; deeper operation should wait until the private visual hierarchy is clear and Ahmad accepts the next shape.
 
 ## Validation Results
 

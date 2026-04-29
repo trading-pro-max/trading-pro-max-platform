@@ -87,6 +87,22 @@ Existing kernel canonicalized as Universe Operating Kernel. Universe Operating K
 
 Future imports that need the official Universe Operating Kernel should use `lib/server/universe/kernel/*`. Code that needs the protected historical implementation may use `lib/server/alkon-kernel/*`, but it must not create parallel command, state, gate, Local Day One, or one-next-action logic.
 
+## Absolute Founder Boundary
+
+`lib/server/universe/founder-boundary/*` is the primary boundary module for what الكون may execute alone and what requires Ahmad approval.
+
+Required exports:
+
+- `getFounderBoundaryRules()`
+- `getNeverAloneActions()`
+- `getApprovalRequiredActions()`
+- `getSafeInternalActions()`
+- `canAlKawnExecuteAlone(action)`
+- `requiresAhmadApproval(action)`
+- `explainFounderBoundary(action)`
+
+Universe Operating Kernel enforces Absolute Founder Boundary. Future Operator Mode, Infinity Mode, native apps, or external integrations must import this boundary and must not bypass it.
+
 ## Public / Private Boundary
 
 Public routes must not expose الكون, Universe internals, ALKON internals, Founder Command, Jar internals, Permission-to-Exist internals, kernel internals, legal internals, or sensitive private governance.
@@ -99,4 +115,4 @@ This architecture does not allow public launch, billing, real money, broker exec
 
 ## Next Code Action
 
-The safest next code action after kernel canonicalization is Absolute Founder Boundary 100: harden founder-only access boundaries before Operator Mode, Ultimate Depth, or Infinity Mode resumes.
+The safest next code action after Absolute Founder Boundary 100 is Al-Kawn Visual Map: make the private hierarchy visibly understandable before Operator Mode, Ultimate Depth, or Infinity Mode resumes.

@@ -15,6 +15,13 @@ import {
   getArchitectureRegistrySummary,
 } from "@/lib/server/universe/architecture-registry";
 import {
+  getApprovalRequiredActions,
+  getFounderBoundaryRules,
+  getFounderDecisionMatrix,
+  getNeverAloneActions,
+  getSafeInternalActions,
+} from "@/lib/server/universe/founder-boundary";
+import {
   getUniverseKernelGuards,
   getUniverseKernelNextAction,
   getUniverseKernelPermissions,
@@ -84,6 +91,11 @@ export default function UniverseCommandCenter({
   const kernelTruth = getUniverseKernelTruth();
   const kernelReadiness = getUniverseKernelReadiness(truth.checkedAt);
   const kernelNextAction = getUniverseKernelNextAction();
+  const boundaryRules = getFounderBoundaryRules();
+  const boundaryMatrix = getFounderDecisionMatrix();
+  const safeInternalActions = getSafeInternalActions().slice(0, 10);
+  const approvalRequiredActions = getApprovalRequiredActions().slice(0, 12);
+  const neverAloneActions = getNeverAloneActions().slice(0, 12);
 
   return (
     <main
@@ -378,6 +390,84 @@ Compatibility evidence:
             {kernelTruth.brokerExecutionDisabled ? "yes" : "no"}
           </span>
           <span>Dangerous actions require Ahmad approval or remain blocked.</span>
+        </div>
+      </section>
+
+      <section
+        className={styles.kernelPanel}
+        data-testid="absolute-founder-boundary"
+        aria-label="Absolute Founder Boundary"
+      >
+        <div className={styles.kernelHeader}>
+          <div>
+            <span>Absolute Founder Boundary</span>
+            <h2>الكون يعمل داخليًا، وأحمد يبقى صاحب القرار الخارجي والنهائي</h2>
+            {boundaryRules.map((rule) => (
+              <p key={rule.id}>{rule.wording}</p>
+            ))}
+            <p>Universe Operating Kernel enforces Absolute Founder Boundary.</p>
+          </div>
+          <aside>
+            <strong>Boundary active</strong>
+            <small>{boundaryMatrix.safeInternalCount} safe internal actions</small>
+            <small>{boundaryMatrix.neverAloneCount} never-alone actions</small>
+          </aside>
+        </div>
+        <div className={styles.kernelGrid}>
+          <article>
+            <span>Money / Payment</span>
+            <strong>Ahmad approval always</strong>
+            <small>Payment, receiving money, payouts, invoices, pricing, subscriptions, bank links, and payment credentials are never autonomous.</small>
+          </article>
+          <article>
+            <span>Real Trading / Broker</span>
+            <strong>Ahmad approval always</strong>
+            <small>Real trading, live broker connections, broker keys, real orders, and real account risk changes remain blocked.</small>
+          </article>
+          <article>
+            <span>Legal / Public / Brand</span>
+            <strong>Ahmad approval always</strong>
+            <small>Legal claims, public launch, brand adoption, domains, ownership, and public exposure are never autonomous.</small>
+          </article>
+          <article>
+            <span>Secrets / Irreversible</span>
+            <strong>Ahmad approval always</strong>
+            <small>Secrets, private documents, external accounts, destructive actions, and final founder decisions never leave Ahmad control.</small>
+          </article>
+        </div>
+        <div className={styles.kernelColumns}>
+          <article>
+            <span>Safe internal actions</span>
+            <ul>
+              {safeInternalActions.map((action) => (
+                <li key={action.id}>{action.label}</li>
+              ))}
+            </ul>
+          </article>
+          <article>
+            <span>Approval-required actions</span>
+            <ul>
+              {approvalRequiredActions.map((action) => (
+                <li key={action.id}>{action.label}</li>
+              ))}
+            </ul>
+          </article>
+          <article>
+            <span>Never-alone actions</span>
+            <ul>
+              {neverAloneActions.map((action) => (
+                <li key={action.id}>{action.label}</li>
+              ))}
+            </ul>
+          </article>
+        </div>
+        <div className={styles.kernelTruthStrip}>
+          <span>الكون لا يتجاوز Product Truth.</span>
+          <span>Money/payment boundary: Ahmad approval required</span>
+          <span>Broker boundary: Ahmad approval required</span>
+          <span>Public launch boundary: Ahmad approval required</span>
+          <span>Secrets boundary: explicit Ahmad approval required</span>
+          <span>Final decision boundary: Ahmad only</span>
         </div>
       </section>
 

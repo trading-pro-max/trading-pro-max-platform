@@ -32,6 +32,26 @@ Universe Operating Kernel is the root private operating brain. Product Truth ove
 
 The kernel may support private audit, report generation, roadmap generation, task generation, Product Truth checks, registry checks, validation planning, and next action generation. It must not activate public launch, billing, real money, broker execution, legal approval claims, FINMA/licensed/regulated claims, final brand adoption, public Universe, public ALKON, or secrets in Git.
 
+## Absolute Founder Boundary Standard
+
+الكون يعمل عن أحمد داخليًا، لكن لا يتصرف بدل أحمد في العالم الخارجي أو المال أو القانون أو القرارات النهائية.
+
+الكون ينفذ الأعمال الداخلية الآمنة مباشرة.
+
+أحمد يوافق على الأمور الرسمية والقانونية والمالية والإطلاق والبروكر والاسم والقرارات النهائية.
+
+الكون لا يتجاوز Product Truth.
+
+الدفع واستلام الأموال يتطلبان موافقة أحمد دائمًا.
+
+التداول الحقيقي وتنفيذ البروكر يتطلبان موافقة أحمد دائمًا.
+
+الإطلاق العام يتطلب موافقة أحمد دائمًا.
+
+الأسرار والوثائق الخاصة لا تخرج من سيطرة أحمد إلا بموافقة صريحة.
+
+No product surface may imply that الكون can autonomously launch public, receive money, process payments, trade real money, execute broker orders, claim legal approval, adopt a brand, purchase a domain, connect external accounts, expose secrets, or make final Founder decisions.
+
 ## Compliance-Readiness Standard
 
 Compliance readiness means legal-review-ready only. It is not legal advice and not approval. Real user data, public launch, billing, broker/feed integration, investment-advice boundaries, risk disclosure, Swiss-facing finance, and global markets require qualified review.

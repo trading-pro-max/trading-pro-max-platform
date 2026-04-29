@@ -3,7 +3,7 @@
 Official audited path:
 `C:\Users\ahmad\Desktop\ALKON\Pro Max\Pro Max Trading\pro-max-trading-platform`
 
-Status: absolute_founder_boundary_100_required
+Status: al_kawn_visual_map_required
 
 ## Final Cleanup Decision
 
@@ -15,7 +15,7 @@ The Canonical Architecture Registry exists and controlled canonical cleanup has 
 - Project Universe Truth structured Brand Gate state
 - private `/founder/universe` hierarchy wording
 
-Existing kernel canonicalization is now complete through `lib/server/universe/kernel/*`. Unresolved conflicts still remain around planet API classification, legacy Earth/logo wrappers, and Ahmad-decision product meaning.
+Existing kernel canonicalization is complete through `lib/server/universe/kernel/*`. Absolute Founder Boundary is active through `lib/server/universe/founder-boundary/*`. Unresolved conflicts still remain around planet API classification, legacy Earth/logo wrappers, and Ahmad-decision product meaning.
 
 ## Is It Safe To Continue Ultimate Depth?
 
@@ -23,7 +23,7 @@ No.
 
 Reason:
 
-Ultimate Depth should wait until founder-only boundaries are hardened and remaining registry conflicts are resolved.
+Ultimate Depth should wait until the private visual hierarchy is clear, Ahmad accepts the next shape, and remaining registry conflicts are resolved.
 
 ## Is It Safe To Start Infinity Mode?
 
@@ -31,22 +31,23 @@ No.
 
 Reason:
 
-Existing `infinite-growth` is a compatibility/governed growth system, not Universe Infinity Mode. Infinity Mode remains blocked until founder boundary hardening and remaining registry conflicts are resolved.
+Existing `infinite-growth` is a compatibility/governed growth system, not Universe Infinity Mode. Infinity Mode remains blocked until visual map clarity, Ahmad decision, and remaining registry conflicts are resolved.
 
 Infinity Mode gate: `blocked_until_registry_conflicts_resolved`
 
 ## Safest Next Action
 
-Absolute Founder Boundary 100
+Al-Kawn Visual Map
 
 ## Why
 
-Absolute Founder Boundary 100 can safely:
+Al-Kawn Visual Map can safely:
 
 - preserve the canonicalized `lib/server/universe/kernel/*` adapter
 - keep the validated `lib/server/alkon-kernel/*` protected
+- keep `lib/server/universe/founder-boundary/*` active
 - prevent duplicate kernel creation
-- harden founder-only access assumptions before deeper operation
+- make the private hierarchy visible before deeper operation
 - keep Product Truth primary
 - keep ALKON private/background
 - keep Infinity Mode blocked until safe
@@ -54,9 +55,9 @@ Absolute Founder Boundary 100 can safely:
 
 ## Next Mission Shape
 
-Execute Absolute Founder Boundary 100:
+Execute Al-Kawn Visual Map:
 
-1. Verify private founder routes, APIs, shells, and reports are not public.
+1. Map Ahmad Human, Ahmad Private Devices, الكون, kernel, boundary, Universe One, Swiss Local Constitution, Pro Max Galaxy, Earth Planet, and ALKON background visually.
 2. Keep `lib/server/universe/kernel/*` as the canonical kernel adapter.
 3. Do not duplicate command/state/gate logic.
 4. Preserve Product Truth and private route boundaries.

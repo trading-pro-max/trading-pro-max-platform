@@ -155,3 +155,35 @@ Blocked:
 - secrets in Git
 
 Future Infinity Mode and Operator Mode must use the Universe Operating Kernel adapter and must not duplicate the existing kernel.
+
+## Absolute Founder Boundary
+
+الكون يعمل عن أحمد داخليًا، لكن لا يتصرف بدل أحمد في العالم الخارجي أو المال أو القانون أو القرارات النهائية.
+
+الكون ينفذ الأعمال الداخلية الآمنة مباشرة.
+
+أحمد يوافق على الأمور الرسمية والقانونية والمالية والإطلاق والبروكر والاسم والقرارات النهائية.
+
+الكون لا يتجاوز Product Truth.
+
+الدفع واستلام الأموال يتطلبان موافقة أحمد دائمًا.
+
+التداول الحقيقي وتنفيذ البروكر يتطلبان موافقة أحمد دائمًا.
+
+الإطلاق العام يتطلب موافقة أحمد دائمًا.
+
+الأسرار والوثائق الخاصة لا تخرج من سيطرة أحمد إلا بموافقة صريحة.
+
+Universe Operating Kernel enforces Absolute Founder Boundary.
+
+Never-alone categories:
+
+- money, payment, and receiving funds
+- real trading and broker execution
+- legal and official claims
+- public launch and customers
+- brand, domains, and ownership
+- personal data, secrets, and documents
+- external accounts and integrations
+- irreversible or destructive actions
+- final Founder decisions

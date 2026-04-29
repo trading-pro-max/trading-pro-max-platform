@@ -63,6 +63,22 @@ Universe Operating Kernel is the root private operating brain. It can audit, pla
 
 Product Truth overrides every action. Swiss Local Constitution is above the Global Layer. Dangerous actions require Ahmad approval or remain blocked. No duplicate kernel exists.
 
+## Absolute Founder Boundary Standard
+
+الكون ينفذ الأعمال الداخلية الآمنة مباشرة.
+
+أحمد يوافق على الأمور الرسمية والقانونية والمالية والإطلاق والبروكر والاسم والقرارات النهائية.
+
+الدفع واستلام الأموال يتطلبان موافقة أحمد دائمًا.
+
+التداول الحقيقي وتنفيذ البروكر يتطلبان موافقة أحمد دائمًا.
+
+الأسرار والوثائق الخاصة لا تخرج من سيطرة أحمد إلا بموافقة صريحة.
+
+الكون لا يتجاوز Product Truth.
+
+Universe Operating Kernel enforces Absolute Founder Boundary. Safe private internal work may run directly. Money, payment, receiving funds, real trading, broker execution, legal claims, public launch, brand adoption, domain purchase, external accounts, secrets, destructive actions, and final Founder decisions require Ahmad approval or remain blocked.
+
 ## ALKON Background Guardian Standard
 
 ALKON is private/read-only/background guardian support. It protects truth, boundaries, evidence, and safety. ALKON is not second. ALKON is not public. ALKON does not dominate public or Pro Max visual identity.

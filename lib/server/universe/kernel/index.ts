@@ -5,6 +5,7 @@ import {
   getAlkonKernelSnapshot,
   runAlkonKernelEngine,
 } from "@/lib/server/alkon-kernel";
+import { getSafeInternalActions } from "@/lib/server/universe/founder-boundary";
 import {
   universeManagementReadiness,
   universeProductTruth,
@@ -18,6 +19,16 @@ import type {
   UniverseKernelState,
   UniverseKernelTruth,
 } from "./types";
+export {
+  canAlKawnExecuteAlone,
+  explainFounderBoundary,
+  getApprovalRequiredActions,
+  getFounderBoundaryRules,
+  getFounderDecisionMatrix,
+  getNeverAloneActions,
+  getSafeInternalActions,
+  requiresAhmadApproval,
+} from "@/lib/server/universe/founder-boundary";
 
 export type {
   UniverseKernelBoundary,
@@ -119,6 +130,7 @@ export function getUniverseKernelRole(): UniverseKernelRole {
     statements: [
       "Existing kernel canonicalized as Universe Operating Kernel.",
       "Universe Operating Kernel is the root private operating brain.",
+      "Universe Operating Kernel enforces Absolute Founder Boundary.",
       "Product Truth overrides every action.",
       "Swiss Local Constitution is above the Global Layer.",
       "Dangerous actions require Ahmad approval or remain blocked.",
@@ -128,17 +140,10 @@ export function getUniverseKernelRole(): UniverseKernelRole {
 }
 
 export function getUniverseKernelPermissions(): UniverseKernelPermissionSet {
+  const safeInternal = getSafeInternalActions().map((action) => action.label);
+
   return {
-    allowedSafeInternal: [
-      "audit",
-      "report generation",
-      "roadmap generation",
-      "task generation",
-      "Product Truth check",
-      "registry check",
-      "validation planning",
-      "next action generation",
-    ],
+    allowedSafeInternal: safeInternal,
     requiresAhmadApproval: [
       "code-changing execution outside an approved mission",
       "Git commit or push unless the mission requires it",
@@ -146,6 +151,12 @@ export function getUniverseKernelPermissions(): UniverseKernelPermissionSet {
       "Local Day One start",
       "external account connection",
       "official, legal, money, brand, or final decisions",
+      "money, payment, or receiving funds",
+      "real trading or broker execution",
+      "public launch or customer onboarding",
+      "brand, domain, or ownership action",
+      "personal secrets, private documents, or external account connection",
+      "irreversible destructive action",
     ],
     blocked: [
       "public launch",
@@ -168,6 +179,13 @@ export function getUniverseKernelGuards(): UniverseKernelGuard[] {
   const engine = runAlkonKernelEngine();
 
   return [
+    {
+      id: "absolute_founder_boundary",
+      label: "Absolute Founder Boundary",
+      status: "available",
+      enforcedBy: "lib/server/universe/founder-boundary/*",
+      note: "Universe Operating Kernel enforces Absolute Founder Boundary. Money, legal, broker, public launch, brand, secrets, irreversible, external account, and final founder decisions require Ahmad.",
+    },
     {
       id: "no_duplicate_kernel",
       label: "No duplicate kernel",
@@ -210,12 +228,12 @@ export function getUniverseKernelGuards(): UniverseKernelGuard[] {
 
 export function getUniverseKernelNextAction() {
   return {
-    next: "Absolute Founder Boundary 100" as const,
+    next: "Al-Kawn Visual Map" as const,
     reason:
-      "The existing kernel is now canonicalized through a Universe adapter. The safest next step is to harden the private founder boundary before Operator Mode, Ultimate Depth, or Infinity Mode resumes.",
+      "The existing kernel is canonicalized and the Absolute Founder Boundary is enforced. The safest next step is a private visual map of الكون before Operator Mode, Ultimate Depth, or Infinity Mode resumes.",
     mustNotDo: [
       "Do not start Infinity Mode.",
-      "Do not start Operator Mode.",
+      "Do not start Operator Mode without Ahmad decision.",
       "Do not create another kernel.",
       "Do not launch public.",
       "Do not activate billing, real money, broker execution, or legal claims.",
@@ -255,9 +273,10 @@ export function getUniverseKernelReadiness(
     canonicalization: "existing_kernel_canonicalized",
     infinityModeReadiness:
       "blocked_until_founder_boundary_and_remaining_registry_conflicts",
-    operatorModeReadiness: "preparation_only_after_founder_boundary",
+    operatorModeReadiness: "preparation_only_after_visual_map_and_founder_decision",
     localDayOneReadiness: readiness.localDayOneStatus,
     gaps: pendingKernelGaps,
-    nextSafeAction: "Absolute Founder Boundary 100",
+    founderBoundaryEnforced: true,
+    nextSafeAction: "Al-Kawn Visual Map",
   };
 }

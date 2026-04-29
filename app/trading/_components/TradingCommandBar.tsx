@@ -23,7 +23,7 @@ export default function TradingCommandBar({
         <span>Managed by Universe</span>
         <span>Private mode</span>
         <span>Demo-safe / read-only mode</span>
-        <span>System readiness: guarded</span>
+        <span>Founder Boundary: active / Money/broker actions approval-gated</span>
         <span>Public launch: not started</span>
         <span>Real money: disabled</span>
       </div>

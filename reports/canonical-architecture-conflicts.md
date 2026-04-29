@@ -5,7 +5,7 @@ Official audited path:
 
 Status: existing_kernel_canonicalized_conflicts_remain
 
-Controlled cleanup normalized the target hierarchy in docs, server truth, and the private `/founder/universe` panel. Existing kernel canonicalization is complete through `lib/server/universe/kernel/*`. Unresolved conflicts remain. Deeper missions stay blocked until founder boundary hardening, planet API classification, and legacy Earth/logo wrapper cleanup are complete.
+Controlled cleanup normalized the target hierarchy in docs, server truth, and the private `/founder/universe` panel. Existing kernel canonicalization is complete through `lib/server/universe/kernel/*`. Absolute Founder Boundary is active through `lib/server/universe/founder-boundary/*`. Unresolved conflicts remain. Deeper missions stay blocked until visual hierarchy clarity, planet API classification, and legacy Earth/logo wrapper cleanup are complete.
 
 ## Remaining Duplicate / Conflict Signals
 
@@ -137,4 +137,4 @@ No.
 
 Single safest next action:
 
-Absolute Founder Boundary 100.
+Al-Kawn Visual Map.

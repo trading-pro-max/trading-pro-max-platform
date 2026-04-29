@@ -26,8 +26,8 @@ Required exports exist:
 
 ## Category Counts
 
-- Total registry items: 53
-- Primary: 26
+- Total registry items: 54
+- Primary: 27
 - Compatibility: 6
 - Protected: 10
 - Cleanup candidate: 3
@@ -48,6 +48,7 @@ Primary sources:
 - `lib/server/universe/architecture-registry`
 - existing `lib/server/alkon-kernel`
 - `lib/server/universe/kernel`
+- `lib/server/universe/founder-boundary`
 - `lib/server/jar-build`
 - `lib/server/reality-conversion`
 - `lib/server/existence-architecture`
@@ -141,4 +142,4 @@ These are deep product meaning and founder strategy items. They should become ca
 
 ## Registry Conclusion
 
-The project now has a canonical registry, controlled cleanup normalized the missing hierarchy documents plus primary server truth, and the existing kernel is canonicalized through `lib/server/universe/kernel/*`. Unresolved conflicts remain around planet API classification, legacy visual wrappers, and Ahmad-decision product meaning. The safest next action is Absolute Founder Boundary 100.
+The project now has a canonical registry, controlled cleanup normalized the missing hierarchy documents plus primary server truth, the existing kernel is canonicalized through `lib/server/universe/kernel/*`, and Absolute Founder Boundary is active through `lib/server/universe/founder-boundary/*`. Unresolved conflicts remain around planet API classification, legacy visual wrappers, and Ahmad-decision product meaning. The safest next action is Al-Kawn Visual Map.

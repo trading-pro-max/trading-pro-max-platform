@@ -127,4 +127,22 @@ They must not be presented as active.
 
 ## Future Relation
 
-Infinity Mode and Operator Mode may only resume after founder boundary hardening and remaining registry conflicts are resolved. They must use the Universe Operating Kernel adapter and must not create a parallel kernel.
+Infinity Mode and Operator Mode may only resume after founder boundary hardening, visual map clarity, Ahmad decision, and remaining registry conflicts are resolved. They must use the Universe Operating Kernel adapter and must not create a parallel kernel.
+
+## Absolute Founder Boundary
+
+Universe Operating Kernel enforces Absolute Founder Boundary.
+
+الكون ينفذ الأعمال الداخلية الآمنة مباشرة.
+
+أحمد يوافق على الأمور الرسمية والقانونية والمالية والإطلاق والبروكر والاسم والقرارات النهائية.
+
+الدفع واستلام الأموال يتطلبان موافقة أحمد دائمًا.
+
+التداول الحقيقي وتنفيذ البروكر يتطلبان موافقة أحمد دائمًا.
+
+الأسرار والوثائق الخاصة لا تخرج من سيطرة أحمد إلا بموافقة صريحة.
+
+الكون لا يتجاوز Product Truth.
+
+The kernel references `lib/server/universe/founder-boundary/*` for safe internal actions, approval-required actions, never-alone actions, and explanation helpers.
