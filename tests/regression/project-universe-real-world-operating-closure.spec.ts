@@ -22,7 +22,8 @@ test.describe("Project Universe Real-World Operating Closure", () => {
       realMoney: "disabled",
       brokerFeed: "disabled_not_connected",
       localDayOne: "not_started",
-      brandGate: "frozen_deferred",
+      brandGate: "ready_with_notes",
+      brandGateDecision: "frozen_deferred",
     });
     expect(truth.complianceReadiness).toMatchObject({
       status: "legal_review_ready_only",
@@ -43,7 +44,9 @@ test.describe("Project Universe Real-World Operating Closure", () => {
 
     const center = page.locator("[data-founder-universe-command-center='true']");
     await expect(center).toBeVisible();
-    await expect(center).toContainText("ALKON / Alkon -0 Project Universe");
+    await expect(center).toContainText("الكون / Universe - Ahmad private electronic self");
+    await expect(center).toContainText("Pro Max Galaxy");
+    await expect(center).toContainText("Earth Planet");
     await expect(center).toContainText("Private / read-only");
     await expect(center).toContainText("Product Truth");
     await expect(center).toContainText("Swiss legal-review gate");

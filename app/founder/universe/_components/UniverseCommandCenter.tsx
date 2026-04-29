@@ -82,10 +82,10 @@ export default function UniverseCommandCenter({
       <header className={styles.hero}>
         <ProMaxCosmicIdentity size="hero" surface="founder" showLabels />
         <div>
-          <span>Private Founder Universe Command Center</span>
+          <span>Private Founder الكون / Universe Command Center</span>
           <h1>Universe Command Center</h1>
           <small className={styles.legacyUniverseTitle}>
-            ALKON / Alkon -0 Project Universe
+            الكون / Universe - Ahmad private electronic self
           </small>
           <p>{truth.identityLine}</p>
           <p>Universe stays private on Ahmad&apos;s devices.</p>
@@ -104,11 +104,25 @@ export default function UniverseCommandCenter({
       <section className={styles.hierarchyPanel} data-testid="private-universe-hierarchy">
         <div>
           <span>Official Layer Order</span>
-          <h2>Private Universe manages Pro Max Earth</h2>
-          <p>Universe privately manages Pro Max.</p>
+          <h2>الكون privately manages Pro Max Galaxy and Earth Planet</h2>
+          <p>Universe = technical translation of الكون.</p>
         </div>
         <pre className={styles.hierarchyTree}>
 {`Ahmad Private Devices
+└── الكون / Universe - Ahmad private electronic self
+    ├── Ahmad Digital Vault - private documents, secrets, memory, decisions
+    ├── Protection Core - permissions, audit, kill switch, secret protection
+    ├── Universe One - literal living reality system
+    ├── Swiss Local Constitution - above Global Layer
+    └── Pro Max Galaxy - product galaxy inside الكون
+        └── Earth Planet - first planet / complete trading project
+            ├── Living Earth Reality
+            ├── /trading - trading surface on Earth
+            ├── Global Layer - future, under Swiss Constitution
+            ├── Public Pro Max Future Surfaces - blocked
+            └── ALKON - private background guardian
+
+Compatibility evidence:
 └── Universe — Private Living Operating System
     └── Pro Max Earth — Future Global Product
         ├── Living Earth Reality — Device-Time Life Layers
@@ -124,19 +138,19 @@ export default function UniverseCommandCenter({
           </div>
           <div className={styles.hierarchyNode} data-layer="1">
             <span>Layer 1</span>
-            <strong>Universe</strong>
-            <small>Private living operating system and highest management layer.</small>
+            <strong>الكون / Universe</strong>
+            <small>Ahmad&apos;s private electronic self and highest management layer.</small>
           </div>
           <div className={styles.hierarchyNode} data-layer="2">
-            <span>Layer 2</span>
-            <strong>Pro Max Earth</strong>
-            <small>Future public/global product planet, private until legally ready.</small>
+            <span>Core branches</span>
+            <strong>Universe One + Pro Max Galaxy</strong>
+            <small>Living reality system and product galaxy inside الكون.</small>
           </div>
           <div className={styles.hierarchyBranch}>
-            {["Living Earth Reality", "/trading", "Public Pro Max Surfaces", "ALKON background guardian"].map(
+            {["Earth Planet", "Living Earth Reality", "/trading", "ALKON background guardian"].map(
               (label, index) => (
                 <div key={label} className={styles.branchNode}>
-                  <span>Layer {index + 3}</span>
+                  <span>Canonical branch {index + 1}</span>
                   <strong>{label}</strong>
                 </div>
               )
@@ -152,6 +166,14 @@ export default function UniverseCommandCenter({
             </article>
           ))}
         </div>
+        <p>الكون هو نسخة أحمد الإلكترونية الخاصة.</p>
+        <p>الكون يتواصل مع أحمد فقط.</p>
+        <p>الكون يعمل فقط على أجهزة أحمد الخاصة.</p>
+        <p>Pro Max هو المنتج العالمي المستقبلي، وليس الكون.</p>
+        <p>Swiss Local Constitution is above the Global Layer.</p>
+        <p>Pro Max Galaxy is inside الكون.</p>
+        <p>Earth Planet is the trading project.</p>
+        <p>Product Truth overrides all automation and visuals.</p>
         <p>Pro Max is the product that may appear to the world.</p>
         <p>Pro Max is private until legally ready.</p>
         <p>Public Pro Max launch is blocked until all gates close.</p>
@@ -160,6 +182,7 @@ export default function UniverseCommandCenter({
         <p>Legal review is pending.</p>
         <p>ALKON stays private/background.</p>
         <p>ALKON is background guardian support, not the second layer.</p>
+        <p>ALKON is private/background, not second.</p>
         <p>Goal: world-class legally ready global product.</p>
       </section>
 
@@ -265,6 +288,8 @@ export default function UniverseCommandCenter({
             <p>Cleanup candidates require controlled cleanup.</p>
             <p>Ahmad decision required for unresolved product meaning.</p>
             <p>Infinity Mode remains blocked until registry conflicts are resolved.</p>
+            <p>Cleanup status: controlled canonical cleanup applied to hierarchy docs, server truth, and private UI wording.</p>
+            <p>Remaining conflicts: existing kernel canonicalization, planet API classification, and legacy visual wrappers.</p>
           </div>
           <aside>
             <strong>{registrySummary.safestNextAction}</strong>

@@ -3,7 +3,7 @@
 Official audited path:
 `C:\Users\ahmad\Desktop\ALKON\Pro Max\Pro Max Trading\pro-max-trading-platform`
 
-Status: registry_created_with_unresolved_conflicts
+Status: registry_active_controlled_cleanup_applied
 
 ## Registry Source
 
@@ -27,11 +27,11 @@ Required exports exist:
 ## Category Counts
 
 - Total registry items: 52
-- Primary: 23
+- Primary: 25
 - Compatibility: 6
 - Protected: 10
-- Cleanup candidate: 4
-- Needs Ahmad decision: 9
+- Cleanup candidate: 3
+- Needs Ahmad decision: 8
 
 ## What Is Primary Now
 
@@ -60,6 +60,8 @@ Primary sources:
 - `app/_styles/earth-immersion-tokens.css`
 - `lib/client/living-universe/earthImmersionTokens.ts`
 - `docs/product/project-universe-professional-standard.md`
+- `docs/product/universe-constitution.md`
+- `docs/product/canonical-code-architecture.md`
 - current inventory reports
 - `tests/regression/canonical-architecture-registry.spec.ts`
 
@@ -107,7 +109,6 @@ Cleanup candidates:
 - `app/api/planet/*`
 - `lib/server/planet-*/*`
 - `modules/brand/components/*` older Earth/logo systems
-- missing `docs/product/canonical-code-architecture.md`
 
 Rule:
 
@@ -125,7 +126,6 @@ Needs Ahmad decision:
 - Pro Max Galaxy
 - Earth Planet
 - Global Layer
-- `docs/product/universe-constitution.md`
 
 Reason:
 
@@ -140,4 +140,4 @@ These are deep product meaning and founder strategy items. They should become ca
 
 ## Registry Conclusion
 
-The project now has a canonical registry, but unresolved conflicts remain. The safest next action is controlled canonical cleanup, followed by existing kernel canonicalization.
+The project now has a canonical registry and controlled cleanup normalized the missing hierarchy documents plus primary server truth. Unresolved conflicts remain around kernel canonicalization, planet API classification, and legacy visual wrappers. The safest next action is existing kernel canonicalization.

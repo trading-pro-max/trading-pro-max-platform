@@ -43,7 +43,8 @@ export type ProjectUniverseTruthSnapshot = {
   animatedEarthIdentityState: "code_driven_original_animated";
   swissInspiredIdentityState: "visual_inspiration_only";
   complianceReadinessState: "legal_review_ready_not_approved";
-  brandGateState: "frozen_deferred";
+  brandGateState: "ready_with_notes";
+  brandGateDecision: "frozen_deferred";
   allowedNow: UniverseTruthItem[];
   blockedNow: UniverseTruthItem[];
   futureLegalReview: UniverseTruthItem[];
@@ -58,7 +59,8 @@ export type ProjectUniverseTruthSnapshot = {
     realMoney: "disabled";
     brokerFeed: "disabled_not_connected";
     localDayOne: "not_started";
-    brandGate: "frozen_deferred";
+    brandGate: "ready_with_notes";
+    brandGateDecision: "frozen_deferred";
   };
   productTruth: {
     privateMode: "yes";
@@ -68,7 +70,8 @@ export type ProjectUniverseTruthSnapshot = {
     brokerExecution: "disabled_not_connected";
     publicLaunch: "not_started";
     billing: "not_active";
-    brandGate: "frozen_deferred";
+    brandGate: "ready_with_notes";
+    brandGateDecision: "frozen_deferred";
     localDayOne: "not_started";
     privateOriginPublicExposure: "no";
     swissLegalReview: "pending";
@@ -265,7 +268,8 @@ export function getProjectUniverseTruthSnapshot(
     animatedEarthIdentityState: "code_driven_original_animated",
     swissInspiredIdentityState: "visual_inspiration_only",
     complianceReadinessState: "legal_review_ready_not_approved",
-    brandGateState: "frozen_deferred",
+    brandGateState: "ready_with_notes",
+    brandGateDecision: "frozen_deferred",
     allowedNow,
     blockedNow,
     futureLegalReview,
@@ -280,7 +284,8 @@ export function getProjectUniverseTruthSnapshot(
       realMoney: "disabled",
       brokerFeed: "disabled_not_connected",
       localDayOne: "not_started",
-      brandGate: "frozen_deferred",
+      brandGate: "ready_with_notes",
+      brandGateDecision: "frozen_deferred",
     },
     productTruth: {
       privateMode: "yes",
@@ -290,7 +295,8 @@ export function getProjectUniverseTruthSnapshot(
       brokerExecution: "disabled_not_connected",
       publicLaunch: "not_started",
       billing: "not_active",
-      brandGate: "frozen_deferred",
+      brandGate: "ready_with_notes",
+      brandGateDecision: "frozen_deferred",
       localDayOne: "not_started",
       privateOriginPublicExposure: "no",
       swissLegalReview: "pending",
@@ -327,7 +333,7 @@ export function getProjectUniverseTruthSnapshot(
       "Do not activate real-money trading.",
       "Do not activate broker execution.",
       "Do not claim legal approval, licensing, regulation, investment advice, performance guarantees, guaranteed outcomes, or zero-risk trading.",
-      "Do not expose the private origin publicly.",
+      "Do not expose الكون / Universe or ALKON publicly.",
     ],
   };
 }

@@ -113,3 +113,17 @@ Shared consistency checklist:
 - Same Reality Source style everywhere.
 - Same motion and reduced-motion behavior everywhere.
 - Trading readability remains the priority on `/trading`.
+
+## Universe / Universe One / Pro Max Galaxy / Earth Planet Ultimate Canonical Model
+
+The professional standard now follows `docs/product/universe-constitution.md`.
+
+الكون is Ahmad's private electronic self and the main private project. Universe is only the English technical translation where useful. Pro Max is not الكون. Pro Max Galaxy is inside الكون. Earth Planet is the first planet and the complete trading project.
+
+Universe One is the literal living reality system. It creates the one soul / one pulse through device-time and device-date simulation, atmosphere, stars, moon, soundscape, motion, and source truth. Real when sourced. Simulated when labeled.
+
+Swiss Local Constitution is above Global Layer. This is a review hierarchy only; it is not FINMA approval, Swiss certification, legal approval, or government endorsement.
+
+ALKON remains private/background/read-only support. ALKON is not second, not public, not the brand, and not visually dominant.
+
+Public Pro Max surfaces remain future only and blocked until Brand Gate, Swiss/global legal review, compliance review, asset review, billing review, broker/feed review, security review, support readiness, and Ahmad approval all close.

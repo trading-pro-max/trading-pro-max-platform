@@ -21,15 +21,15 @@ test.describe("Canonical Architecture Registry", () => {
     );
 
     expect(registryReport).toContain("Total registry items: 52");
-    expect(registryReport).toContain("Primary: 23");
+    expect(registryReport).toContain("Primary: 25");
     expect(registryReport).toContain("Compatibility: 6");
     expect(registryReport).toContain("Protected: 10");
-    expect(registryReport).toContain("Cleanup candidate: 4");
-    expect(registryReport).toContain("Needs Ahmad decision: 9");
+    expect(registryReport).toContain("Cleanup candidate: 3");
+    expect(registryReport).toContain("Needs Ahmad decision: 8");
     expect(conflictReport).toContain("Unresolved");
     expect(registryReport).toContain("Ultimate Depth safe now: no");
     expect(registryReport).toContain("Infinity Mode safe now: no");
-    expect(nextActionReport).toContain("controlled canonical cleanup");
+    expect(nextActionReport).toContain("existing kernel canonicalization");
     expect(nextActionReport).toContain("blocked_until_registry_conflicts_resolved");
   });
 
@@ -70,7 +70,7 @@ test.describe("Canonical Architecture Registry", () => {
       path.join(process.cwd(), "reports/canonical-architecture-next-action.md"),
       "utf8"
     );
-    expect(nextAction).toContain("controlled canonical cleanup");
+    expect(nextAction).toContain("existing kernel canonicalization");
     expect(nextAction).toContain("No.");
     expect(nextAction).not.toMatch(FORBIDDEN_CLAIMS);
   });

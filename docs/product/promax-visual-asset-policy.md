@@ -69,3 +69,14 @@ Visual assets must preserve:
 ## Private Universe Asset Context
 
 Current assets support private Universe review on Ahmad's devices and Pro Max Earth as the future product planet. Assets are local/legal-safe/procedural/manifest-tracked for private review. Public launch approval remains no until future asset, legal, brand, and Founder reviews close.
+
+## Universe / Universe One / Pro Max Galaxy / Earth Planet Ultimate Canonical Model
+
+Visual assets serve Earth Planet inside Pro Max Galaxy, not the whole الكون. الكون remains Ahmad's private electronic self. Universe One may drive device-time/device-date visual mood, but every visible reality feature must keep its source label.
+
+Asset rules for the canonical model:
+
+- Earth/Moon identity uses the primary app-level components, not duplicate page-specific logos.
+- Older module-level brand/Earth components are compatibility or cleanup candidates until wrapped or migrated.
+- Pro Max Galaxy and Earth Planet visuals may feel premium and realistic, but they must not imply public launch, legal approval, Swiss government endorsement, FINMA approval, licensing, regulation, live broker/feed, real money, billing, investment advice, guaranteed profit, or risk-free trading.
+- Public assets remain future-review only until asset, legal, brand, and Ahmad gates close.

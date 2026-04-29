@@ -3,27 +3,17 @@
 Official audited path:
 `C:\Users\ahmad\Desktop\ALKON\Pro Max\Pro Max Trading\pro-max-trading-platform`
 
-Status: conflicts_remain
+Status: controlled_cleanup_applied_conflicts_remain
 
-Unresolved conflicts remain. The registry exists, but deeper missions stay blocked until controlled canonical cleanup resolves the target hierarchy, kernel, Infinity Mode, Earth identity, and planet-layer overlap.
+Controlled cleanup normalized the target hierarchy in docs, server truth, and the private `/founder/universe` panel. Unresolved conflicts remain. Deeper missions stay blocked until existing kernel canonicalization, planet API classification, and legacy Earth/logo wrapper cleanup are complete.
 
 ## Remaining Duplicate / Conflict Signals
 
-### Target hierarchy missing in current code
+### Target hierarchy normalized; implementation remains gated
 
-Severity: high.
+Severity: medium.
 
-Current code has:
-
-- Ahmad Private Devices
-- Universe
-- Pro Max Earth
-- Living Earth Reality
-- `/trading`
-- Public Pro Max Surfaces
-- ALKON background guardian
-
-Target model requires:
+Controlled cleanup now documents and exposes the target model:
 
 - الكون / Universe
 - Ahmad Digital Vault
@@ -34,15 +24,17 @@ Target model requires:
 - Earth Planet
 - Global Layer
 
-Affected paths:
+Updated paths:
 
+- `docs/product/universe-constitution.md`
+- `docs/product/canonical-code-architecture.md`
 - `lib/server/universe-management/index.ts`
 - `lib/server/project-universe-truth/index.ts`
 - `app/founder/universe/_components/UniverseCommandCenter.tsx`
 
 Recommendation:
 
-Controlled canonical cleanup must map current Pro Max Earth to the approved Pro Max Galaxy / Earth Planet model before deeper work.
+Keep the normalized hierarchy as primary truth. Do not implement Ahmad Digital Vault, Protection Core, Global Layer, Infinity Mode, or native apps until their own gates and Ahmad decisions close.
 
 ### Existing kernel versus Universe Operating Kernel
 
@@ -98,7 +90,7 @@ Compatibility / cleanup candidates:
 
 Recommendation:
 
-Declare app-level `ProMaxCosmicIdentity` and `ProMaxLivingEarth` as primary. Migrate or wrap old modules in a controlled cleanup.
+Declare app-level `ProMaxCosmicIdentity` and `ProMaxLivingEarth` as primary. Migrate or wrap old modules in a future controlled cleanup.
 
 ### Planet API and module overlap
 
@@ -121,20 +113,17 @@ Classify before reuse. Do not remove until controlled cleanup proves safe.
 
 ### Brand Gate state wording
 
-Severity: medium.
+Severity: low after cleanup.
 
-Current wording includes:
-
-- `ready_with_notes`
-- `frozen_deferred`
-
-Recommendation:
-
-Use one structured state in the next cleanup:
+Current structured state:
 
 - status: `ready_with_notes`
 - decision: `frozen_deferred`
 - publicLaunchBlocked: true
+
+Recommendation:
+
+Keep this structured state across future reports and UI.
 
 ## Answers
 
@@ -148,4 +137,4 @@ No.
 
 Single safest next action:
 
-controlled canonical cleanup.
+existing kernel canonicalization.

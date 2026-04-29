@@ -78,3 +78,31 @@ Forbidden claims include global number one already, legal 100% approved, real we
 ## Founder Review Gate
 
 Goal: world-class legally ready global product. Ahmad decides acceptance, rejection, or one narrow correction after private review.
+
+## Universe / Universe One / Pro Max Galaxy / Earth Planet Ultimate Canonical Model
+
+Canonical cleanup normalizes the project to this hierarchy:
+
+Ahmad Private Devices
+-> الكون / Universe - Ahmad private electronic self / main private project
+-> Ahmad Digital Vault - strategy-only private documents, secrets, memory, decisions layer
+-> Protection Core - strategy-only permissions, audit, kill switch, secret protection layer
+-> Universe One - literal living reality system
+-> Swiss Local Constitution - above Global Layer
+-> Pro Max Galaxy - product galaxy inside الكون
+-> Earth Planet - first planet / complete trading project
+-> Living Earth Reality - device-time and device-date life layers
+-> /trading - trading surface on Earth
+-> Global Layer - future, under Swiss Constitution
+-> Public Pro Max Future Surfaces - blocked
+-> ALKON - private background guardian
+
+Forbidden hierarchy mistakes:
+
+- Pro Max is not the whole Universe.
+- ALKON is not the second layer.
+- Global Layer does not override Swiss Local Constitution.
+- Earth Planet does not sit above Pro Max Galaxy.
+- Universe/الكون is not public.
+
+The whole system must preserve one soul / one pulse through source-labeled reality, but Product Truth outranks every visual, automation, and future idea.

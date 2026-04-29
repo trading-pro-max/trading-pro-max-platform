@@ -18,7 +18,9 @@ test.describe("Final Visual Acceptance Correction", () => {
     await expect(body).toContainText("Universe Command Deck");
     await expect(body).toContainText("Readiness Scores");
     await expect(body).toContainText("Pro Max Earth");
-    await expect(body).toContainText("Future public/global product planet");
+    await expect(body).toContainText("Pro Max Galaxy");
+    await expect(body).toContainText("Earth Planet");
+    await expect(body).toContainText("Future public product planet");
     await expect(body).toContainText("Reality mode: literal software realism");
     await expect(body).toContainText("Product Truth");
     await expect(body).toContainText("Public Pro Max launch is blocked until all gates close");

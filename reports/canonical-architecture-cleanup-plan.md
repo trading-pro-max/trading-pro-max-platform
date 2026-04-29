@@ -3,50 +3,66 @@
 Official audited path:
 `C:\Users\ahmad\Desktop\ALKON\Pro Max\Pro Max Trading\pro-max-trading-platform`
 
-Status: cleanup_required_before_depth_or_infinity
+Status: controlled_cleanup_applied_kernel_canonicalization_next
 
-## What Should Be Cleaned First
+## Cleanup Applied
 
-1. Canonical hierarchy source
-   - Update `lib/server/universe-management/index.ts` only after Ahmad approves exact target definitions.
-   - Add الكون / Universe, Universe One, Swiss Local Constitution, Pro Max Galaxy, Earth Planet, and Global Layer in one governed pass.
+Controlled cleanup completed the first safe registry actions:
 
-2. Existing kernel canonicalization
-   - Treat `lib/server/alkon-kernel/*` as the existing kernel.
-   - Add a Universe Operating Kernel wrapper only if it imports/wraps the existing kernel.
-   - Do not duplicate command/state/gate logic.
+1. Created `docs/product/universe-constitution.md`.
+2. Created `docs/product/canonical-code-architecture.md`.
+3. Normalized `lib/server/universe-management/index.ts` to the approved target hierarchy.
+4. Updated `lib/server/project-universe-truth/index.ts` with structured Brand Gate state.
+5. Updated private `/founder/universe` wording to show الكون / Universe, Universe One, Pro Max Galaxy, Earth Planet, Swiss Local Constitution, Global Layer, and ALKON background support.
+6. Kept Infinity Mode blocked.
+7. Did not create a second kernel.
+8. Did not build desktop/mobile app code.
+9. Did not delete protected reports or validated systems.
 
-3. Earth/logo identity cleanup
-   - Keep `app/_components/ProMaxCosmicIdentity.tsx` and `app/_components/ProMaxLivingEarth.tsx` primary.
-   - Convert older module-level Earth/logo components into compatibility wrappers where safe.
+## Primary Sources Preserved
 
-4. Planet/Earth API classification
-   - Classify `app/api/planet/*` and `lib/server/planet-*/*` under Earth Planet or cleanup candidates.
-   - Do not delete without tests and evidence.
-
-5. Brand Gate wording normalization
-   - Normalize `ready_with_notes` and `frozen_deferred` into a structured state.
-
-6. Tests
-   - Add target-model tests after hierarchy cleanup.
-   - Keep old hierarchy tests as compatibility until migration is complete.
-
-## What Must Not Be Touched Casually
-
+- `lib/server/universe-management/index.ts`
+- `lib/server/project-universe-truth/index.ts`
+- `lib/server/universe/architecture-registry/*`
 - `lib/server/product/truth.ts`
 - `lib/server/alkon-kernel/*`
 - `lib/server/jar-build/*`
 - `lib/server/reality-conversion/*`
 - `lib/server/existence-architecture/*`
-- Brand Gate modules and reports
-- historical closure reports
-- local/procedural asset manifest
+- `app/_components/ProMaxCosmicIdentity.tsx`
+- `app/_components/ProMaxLivingEarth.tsx`
+- `app/trading/_components/*`
+
+## Protected Items Untouched
+
 - `/founder/alkon`
 - `/founder/command`
 - `/founder/pocket`
-- Product Truth visibility in `/founder/universe` and `/trading`
+- Product Truth protections
+- Brand Gate modules/reports
+- desktop/mobile strategy-only APIs/modules
+- soundscape off-by-default behavior
+- local/procedural asset manifest
+- historical closure reports
 
-## Blocked Until Cleanup
+## Remaining Cleanup Candidates
+
+- `app/api/planet/*`
+- `lib/server/planet-*/*`
+- `modules/brand/components/*` older Earth/logo systems
+
+These were not deleted. They require controlled reference checks, wrapping, or migration in a future cleanup.
+
+## Needs Ahmad Decision Remains
+
+- Ahmad Digital Vault implementation
+- Protection Core implementation
+- Swiss Local Constitution details
+- Global Layer details
+- Planet API reuse/retirement decision
+- native desktop/mobile runtime path
+
+## Blocked Until Further Cleanup
 
 - Ultimate 100% Depth
 - Universe Infinity Mode
@@ -60,25 +76,10 @@ Status: cleanup_required_before_depth_or_infinity
 - public Universe/الكون exposure
 - public ALKON exposure
 
-## Recommended Cleanup Commit Scope
+## Safest Next Action
 
-Next mission should be:
+existing kernel canonicalization
 
-controlled canonical cleanup
+Reason:
 
-Allowed:
-
-- docs
-- registry updates
-- hierarchy source updates after Ahmad approval
-- tests
-- compatibility wrappers
-- reports
-
-Not allowed:
-
-- new product surfaces
-- new kernel
-- Infinity Mode runtime
-- native app implementation
-- launch/billing/trading activation
+The existing `lib/server/alkon-kernel/*` is validated and protected. The next mission should map it into the canonical Universe architecture without creating a second kernel.

@@ -5,9 +5,9 @@ export function getArchitectureRegistryNextAction() {
   const summary = getArchitectureRegistrySummary();
 
   return {
-    next: "controlled canonical cleanup" as const,
+    next: "existing kernel canonicalization" as const,
     reason:
-      "Registry conflicts remain: target hierarchy terms are missing from canonical code, Earth/logo systems have compatibility layers, planet APIs need classification, and the existing ALKON kernel must be canonicalized instead of duplicated.",
+      "Controlled cleanup normalized the target hierarchy in docs, server truth, and private UI. Remaining conflicts are kernel canonicalization, planet API classification, and legacy Earth/logo compatibility wrappers.",
     infinityMode: summary.infinityModeSafe ? "safe" : "blocked_until_registry_conflicts_resolved",
     ultimateDepth: summary.ultimateDepthSafe ? "safe" : "blocked_until_registry_conflicts_resolved",
     mustNotDo: [

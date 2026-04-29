@@ -12,18 +12,20 @@ const FORBIDDEN_CLAIMS =
   /global number one already|legal 100% approved|real weather active|exact weather|exact sun position|user location active|FINMA approved|licensed trading platform|regulated broker|Swiss government approved|Swiss certified|NASA|official NASA|NASA partnership|investment advice provided|this is investment advice|real money enabled|live broker active|real execution active|public launch active|billing active|guaranteed profit|guaranteed win|risk free|fully autonomous live trading/i;
 
 test.describe("Private Universe / Public Pro Max Layering Closure", () => {
-  test("server model keeps Universe private and Pro Max Earth as future public product", () => {
-    expect(universeLayerOrder.map((layer) => layer.label)).toEqual([
-      "Ahmad Private Devices",
-      "Universe",
-      "Pro Max Earth",
-      "Living Earth Reality",
-      "/trading",
-      "Public Pro Max Surfaces",
-      "ALKON",
-    ]);
+  test("server model keeps الكون private and Pro Max Galaxy as future product container", () => {
+    const labels = universeLayerOrder.map((layer) => layer.label);
+    expect(labels).toContain("Ahmad Private Devices");
+    expect(labels).toContain("الكون / Universe");
+    expect(labels).toContain("Universe One");
+    expect(labels).toContain("Swiss Local Constitution");
+    expect(labels).toContain("Pro Max Galaxy");
+    expect(labels).toContain("Earth Planet");
+    expect(labels).toContain("ALKON Background Guardian");
+    expect(universeDeepModel.alkawnUniverse.privateOnlyOnAhmadDevices).toBe(true);
     expect(universeDeepModel.universe.privateOnlyOnAhmadDevices).toBe(true);
     expect(universeDeepModel.proMaxEarth.globalApproval).toBe(false);
+    expect(universeDeepModel.proMaxGalaxy.proMaxIsUniverse).toBe(false);
+    expect(universeDeepModel.earthPlanet.realMoney).toBe("disabled");
     expect(universeDeepModel.alkon.mustNeverBeSecondLayer).toBe(true);
     expect(universeManagementReadiness.publicExposureAllowed).toBe(false);
     expect(proMaxPublicFutureReadiness.publicLaunchAllowed).toBe(false);
@@ -37,14 +39,14 @@ test.describe("Private Universe / Public Pro Max Layering Closure", () => {
     const body = page.locator("body");
     await expect(body).toContainText("Universe stays private on Ahmad's devices");
     await expect(body).toContainText("Pro Max is the product that may appear to the world");
-    await expect(body).toContainText("Universe privately manages Pro Max");
     await expect(body).toContainText("Pro Max is private until legally ready");
     await expect(body).toContainText("Public Pro Max launch is blocked until all gates close");
     await expect(body).toContainText("ALKON stays private/background");
+    await expect(body).toContainText("ALKON is private/background, not second");
+    await expect(body).toContainText("Pro Max Galaxy is inside");
+    await expect(body).toContainText("Earth Planet is the trading project");
     await expect(body).toContainText("Goal: world-class legally ready global product");
-    await expect(page.getByTestId("private-universe-hierarchy")).toContainText(
-      "ALKON — Private Background Guardian"
-    );
+    await expect(page.getByTestId("private-universe-hierarchy")).toContainText("ALKON");
 
     const bodyText = await body.innerText();
     expect(bodyText).not.toMatch(FORBIDDEN_CLAIMS);

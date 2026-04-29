@@ -3,11 +3,19 @@
 Official audited path:
 `C:\Users\ahmad\Desktop\ALKON\Pro Max\Pro Max Trading\pro-max-trading-platform`
 
-Status: controlled_canonical_cleanup_required
+Status: existing_kernel_canonicalization_required
 
-## Final Registry Decision
+## Final Cleanup Decision
 
-The registry exists and is active, but unresolved conflicts remain.
+The Canonical Architecture Registry exists and controlled canonical cleanup has normalized:
+
+- highest hierarchy docs
+- canonical code architecture docs
+- primary Universe server model
+- Project Universe Truth structured Brand Gate state
+- private `/founder/universe` hierarchy wording
+
+Unresolved conflicts remain.
 
 ## Is It Safe To Continue Ultimate Depth?
 
@@ -15,7 +23,7 @@ No.
 
 Reason:
 
-The current code hierarchy does not yet match the target hierarchy. Ultimate Depth would deepen an unstable map.
+Ultimate Depth should wait until the existing kernel is canonicalized into the normalized Universe architecture.
 
 ## Is It Safe To Start Infinity Mode?
 
@@ -23,41 +31,39 @@ No.
 
 Reason:
 
-Existing `infinite-growth` is a compatibility/governed growth system, not Universe Infinity Mode. The kernel must be canonicalized first.
+Existing `infinite-growth` is a compatibility/governed growth system, not Universe Infinity Mode. Infinity Mode remains blocked until registry conflicts and kernel canonicalization are resolved.
 
 Infinity Mode gate: `blocked_until_registry_conflicts_resolved`
 
 ## Safest Next Action
 
-controlled canonical cleanup
+existing kernel canonicalization
 
 ## Why
 
-Controlled canonical cleanup can safely:
+Existing kernel canonicalization can safely:
 
-- define the target hierarchy in one canonical source
-- protect Product Truth
-- preserve ALKON as background/private
-- keep Pro Max public future blocked
+- preserve the validated `lib/server/alkon-kernel/*`
 - prevent duplicate kernel creation
+- map kernel commands and gates into the canonical Universe hierarchy
+- keep Product Truth primary
+- keep ALKON private/background
 - keep Infinity Mode blocked until safe
-- classify old Earth/logo/planet systems without deleting them
+- keep public launch, billing, real money, and broker execution blocked
 
 ## Next Mission Shape
 
-Execute controlled canonical cleanup:
+Execute existing kernel canonicalization:
 
-1. Get Ahmad approval for exact target layer wording.
-2. Create `docs/product/universe-constitution.md`.
-3. Create `docs/product/canonical-code-architecture.md`.
-4. Update `lib/server/universe-management/index.ts` to the approved hierarchy.
-5. Add a kernel canonicalization map that wraps existing `lib/server/alkon-kernel`.
-6. Update tests to protect the new target model.
-7. Keep Infinity Mode blocked.
+1. Inventory `lib/server/alkon-kernel/*` exports.
+2. Create a wrapper/map only if it imports the existing kernel.
+3. Do not duplicate command/state/gate logic.
+4. Preserve Product Truth and private route boundaries.
+5. Keep Infinity Mode inactive.
 
 ## Product Truth Preserved
 
-- Universe/الكون remains private to Ahmad devices.
+- الكون remains private to Ahmad devices.
 - Pro Max remains working_name_only.
 - Public launch remains blocked.
 - Billing remains inactive.
