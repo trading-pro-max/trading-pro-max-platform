@@ -18,7 +18,8 @@
 .productTruth,
 .visualPane,
 .tradingBridge,
-.realityDock {
+.realityDock,
+.controlSurfaces {
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.065), transparent 48%),
     var(--alkawn-graphite-surface);
@@ -137,7 +138,8 @@
 .panel,
 .productTruth,
 .visualPane,
-.tradingBridge {
+.tradingBridge,
+.controlSurfaces {
   display: grid;
   gap: 10px;
   padding: 12px;
@@ -157,7 +159,10 @@
 .tradingBridge,
 .productTruth,
 .commandComposer,
-.quickActions {
+.quickActions,
+.controlSurfaceCard,
+.controlDetail,
+.actionColumns article {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.085);
   border-radius: 12px;
@@ -198,7 +203,9 @@
 .layerList article > span,
 .truthChips span,
 .gapList span,
-.quickActions span {
+.quickActions span,
+.stateList span,
+.controlDetail footer span {
   background: rgba(255, 255, 255, 0.052);
   border: 1px solid rgba(255, 255, 255, 0.09);
   border-radius: 999px;
@@ -210,14 +217,17 @@
 
 .centerStack,
 .rightStack,
-.lowerGrid {
+.lowerGrid,
+.controlSurfaceGrid,
+.actionColumns {
   display: grid;
   gap: 12px;
 }
 
 .quickActions div,
 .truthChips,
-.gapList {
+.gapList,
+.stateList {
   display: flex;
   flex-wrap: wrap;
   gap: 7px;
@@ -229,6 +239,42 @@
 
 .quickActions span[data-category="blocked"] {
   border-color: rgba(227, 6, 19, 0.4);
+}
+
+.controlSurfaceGrid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.controlSurfaceCard {
+  align-content: start;
+  min-height: 198px;
+}
+
+.controlSurfaceCard p,
+.controlDetail p {
+  color: rgba(235, 241, 247, 0.72);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.controlSurfaceCard em {
+  color: rgba(255, 239, 241, 0.82);
+  font-style: normal;
+}
+
+.controlDetail {
+  grid-template-columns: minmax(260px, 0.8fr) minmax(0, 1.5fr);
+}
+
+.actionColumns {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.controlDetail footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  grid-column: 1 / -1;
 }
 
 .commandComposer textarea {
@@ -295,7 +341,10 @@
   .topBar,
   .hero,
   .operatingGrid,
-  .lowerGrid {
+  .lowerGrid,
+  .controlSurfaceGrid,
+  .controlDetail,
+  .actionColumns {
     grid-template-columns: 1fr;
   }
 

@@ -139,4 +139,19 @@ Required desktop shell truth:
 
 The `desktop:check` script validates the route-only shell state without adding native dependencies or release behavior. Native signing and private distribution remain future gates.
 
+## Control Surfaces
+
+`/desktop/kawn` is also the main private control client for Al-Kawn Control Surfaces.
+
+The desktop must show:
+
+- Control Surfaces
+- Each layer has a control surface
+- Direct internal execution
+- Legal stop
+- Money stop
+- Blocked by Product Truth
+
+Control surfaces classify every layer action before future automation. Infinity Mode and Operator Mode remain future-gated until Ahmad explicitly approves a later preparation mission.
+
 Desktop is the main private command client for الكون. Mobile clients come later as lightweight private access layers and require their own security, signing, distribution, authentication, and no-secrets gates.

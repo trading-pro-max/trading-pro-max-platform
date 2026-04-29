@@ -230,6 +230,21 @@ It must state that Desktop is the main private command client for الكون, Mo
 
 No desktop surface may claim public launch, billing, payments, receiving money, real money, broker execution, legal approval, FINMA approval, licensed/regulated status, guaranteed profit, risk-free trading, public الكون, public ALKON, or absolute security.
 
+## Al-Kawn Control Surfaces Standard
+
+Control surfaces make الكون controllable before future automation is prepared.
+
+The professional standard requires:
+
+- one canonical server model in `lib/server/universe/control-surfaces/*`
+- a major Control Surfaces section on `/desktop/kawn`
+- a compact Al-Kawn Control Surfaces summary on `/founder/universe`
+- only compact Earth Control status on `/trading`
+- action classification into direct internal execution, legal stop, money stop, blocked Product Truth, blocked security, future gate, or needs-more-evidence
+- Product Truth visible before any action
+
+Control surfaces are not Infinity Mode, not Operator Mode, not public launch, not billing, not payments, not receiving money, not real money, not broker execution, and not legal approval.
+
 ## Al-Kawn Unified Visual Identity System
 
 The professional visual standard now requires all الكون-related private and product surfaces to use one token/component language.

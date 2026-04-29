@@ -290,3 +290,28 @@ Required boundaries:
 - External accounts require Ahmad approval.
 - Product Truth overrides every action.
 - Native signing and private distribution remain future gates.
+
+## Control Surfaces Law
+
+Every major layer of الكون must have a private control surface before future automation is prepared.
+
+Control surfaces must show:
+
+- current state
+- what the layer owns
+- what it can do internally
+- what is blocked
+- what stops for law
+- what stops for money
+- next safe action
+- Product Truth impact
+
+Execution law:
+
+- داخل الكون: التنفيذ مباشر.
+- عند القانون: يتوقف لأحمد.
+- عند المال: يتوقف لأحمد.
+- Product Truth هو قانون الحقيقة الأعلى.
+- Universe Operating Kernel هو القاضي التنفيذي.
+
+Control surfaces do not start Infinity Mode, Operator Mode, Local Day One, public launch, billing, payments, receiving money, real money, broker execution, legal approval, or brand adoption.

@@ -1,7 +1,12 @@
 import { ProMaxLivingUniverseBackground } from "@/app/_components/ProMaxLivingUniverseBackground";
 import type { AlKawnDesktopState } from "@/lib/server/universe/desktop-interface";
+import {
+  getAlKawnControlSurfaces,
+  getControlSurfaceSummary,
+} from "@/lib/server/universe/control-surfaces";
 import { AlKawnAppointmentCenter } from "./AlKawnAppointmentCenter";
 import { AlKawnBootSequence } from "./AlKawnBootSequence";
+import { AlKawnControlSurfaces } from "./AlKawnControlSurfaces";
 import { AlKawnDecisionCenter } from "./AlKawnDecisionCenter";
 import { AlKawnGalaxyMap } from "./AlKawnGalaxyMap";
 import { AlKawnHumanChat } from "./AlKawnHumanChat";
@@ -20,6 +25,9 @@ import { AlKawnWakeReportPanel } from "./AlKawnWakeReportPanel";
 import styles from "../al-kawn-desktop.module.css";
 
 export function AlKawnDesktopShell({ state }: { state: AlKawnDesktopState }) {
+  const controlSurfaces = getAlKawnControlSurfaces();
+  const controlSurfaceSummary = getControlSurfaceSummary();
+
   return (
     <main
       className={styles.desktop}
@@ -75,6 +83,8 @@ export function AlKawnDesktopShell({ state }: { state: AlKawnDesktopState }) {
           <AlKawnAppointmentCenter appointments={state.appointments} />
         </div>
       </section>
+
+      <AlKawnControlSurfaces surfaces={controlSurfaces} summary={controlSurfaceSummary} />
 
       <section className={styles.lowerGrid} aria-label="Al-Kawn desktop control panels">
         <AlKawnReportCenter reports={state.reports} />

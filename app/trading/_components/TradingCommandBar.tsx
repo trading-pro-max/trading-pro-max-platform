@@ -25,7 +25,7 @@ export default function TradingCommandBar({
 
       <div className={styles.commandBadges} aria-label="Trading operating truth">
         <span>Inside Al-Kawn law / Existence Contract required</span>
-        <span>Earth Planet trading surface</span>
+        <span>Earth Control: available / Earth Planet trading surface</span>
         <span>Product Truth هو قانون الحقيقة الأعلى</span>
         <span>Demo-safe / read-only mode</span>
         <span>Founder Boundary: active / Money/broker actions approval-gated</span>

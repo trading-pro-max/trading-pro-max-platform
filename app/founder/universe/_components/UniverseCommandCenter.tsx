@@ -55,6 +55,7 @@ import {
   getAlKawnVisualMapSummary,
   getAlKawnVisualMapTruth,
 } from "@/lib/server/universe/visual-map";
+import { getControlSurfaceSummary } from "@/lib/server/universe/control-surfaces";
 import { getAlKawnDesktopState } from "@/lib/server/universe/desktop-interface";
 import styles from "../founder-universe.module.css";
 
@@ -165,6 +166,7 @@ export default function UniverseCommandCenter({
   const visualMapSummary = getAlKawnVisualMapSummary();
   const visualMapTruth = getAlKawnVisualMapTruth();
   const visualMapNextAction = getAlKawnVisualMapNextAction();
+  const controlSurfaceSummary = getControlSurfaceSummary();
   const desktopState = getAlKawnDesktopState(new Date(truth.checkedAt));
   const visualMapCoreLayerIds = [
     "existence_contract",
@@ -711,6 +713,55 @@ Compatibility evidence:
             <span>Mobile later</span>
             <strong>Lightweight private access</strong>
             <small>Android and iPhone clients remain future private access gates.</small>
+          </article>
+        </div>
+      </section>
+
+      <section
+        className={styles.kernelPanel}
+        data-testid="al-kawn-control-surfaces-summary"
+        aria-label="Al-Kawn Control Surfaces"
+      >
+        <div className={styles.kernelHeader}>
+          <div>
+            <span>Al-Kawn Control Surfaces</span>
+            <h2>Control surfaces prepare Infinity and Operator safely</h2>
+            <p>Desktop is the main private command client for الكون</p>
+            <p>Each layer has a control surface before future automation can be prepared.</p>
+            <p>Product Truth enforced</p>
+          </div>
+          <aside>
+            <strong>{controlSurfaceSummary.total} control surfaces</strong>
+            <small>{controlSurfaceSummary.rule}</small>
+            <small>{controlSurfaceSummary.nextSafeAction}</small>
+            <Link href="/desktop/kawn">Open desktop control client</Link>
+          </aside>
+        </div>
+        <div className={styles.kernelGrid}>
+          <article>
+            <span>Active</span>
+            <strong>{controlSurfaceSummary.active}</strong>
+            <small>Direct private internal control surfaces.</small>
+          </article>
+          <article>
+            <span>Protected</span>
+            <strong>{controlSurfaceSummary.protected}</strong>
+            <small>Truth, root, protection, and Swiss boundary surfaces.</small>
+          </article>
+          <article>
+            <span>Future</span>
+            <strong>{controlSurfaceSummary.future}</strong>
+            <small>Future automation remains gated.</small>
+          </article>
+          <article>
+            <span>Blocked</span>
+            <strong>{controlSurfaceSummary.blocked}</strong>
+            <small>Unsafe actions remain blocked by Product Truth.</small>
+          </article>
+          <article>
+            <span>Active with notes</span>
+            <strong>{controlSurfaceSummary.activeWithNotes}</strong>
+            <small>Available surfaces that still carry pending gates.</small>
           </article>
         </div>
       </section>

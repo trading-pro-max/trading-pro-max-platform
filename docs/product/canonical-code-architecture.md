@@ -196,6 +196,24 @@ Code rules:
 - Do not store secrets in Git or a desktop bundle.
 - Product Truth overrides every action.
 
+## Al-Kawn Control Surfaces Code Rule
+
+Canonical control surfaces live in `lib/server/universe/control-surfaces/*`.
+
+Required exports include:
+
+- `getAlKawnControlSurfaces()`
+- `getControlSurfaceById(surfaceId)`
+- `getControlSurfaceRegistry()`
+- `getControlSurfaceActions(surfaceId)`
+- `getControlSurfaceBoundaries(surfaceId)`
+- `getControlSurfaceSummary()`
+- `getControlSurfaceNextAction()`
+
+Future automation must read these surfaces before Infinity Mode, Operator Mode, Self-Building, Local Day One, money, broker, public launch, or external-account work is prepared.
+
+The desktop route `/desktop/kawn` is the main control UI. `/founder/universe` shows only a compact control summary. `/trading` stays compact and chart-first.
+
 Canonical visual tokens live in `app/_styles/al-kawn-visual-tokens.css` and are imported by `app/layout.tsx`.
 
 Canonical visual wrappers live in `app/_components/al-kawn-visual/*`.
