@@ -1,0 +1,319 @@
+.desktop {
+  background:
+    radial-gradient(circle at 74% 8%, rgba(63, 156, 207, 0.18), transparent 28rem),
+    radial-gradient(circle at 8% 12%, rgba(227, 6, 19, 0.14), transparent 24rem),
+    linear-gradient(180deg, #03050a 0%, #071019 52%, #03050a 100%);
+  color: #f6f8fb;
+  display: grid;
+  gap: 12px;
+  min-height: 100vh;
+  overflow: hidden;
+  padding: 12px;
+  position: relative;
+}
+
+.topBar,
+.hero,
+.bootSequence,
+.layerNavigator,
+.humanChat,
+.panel,
+.productTruth,
+.visualPane,
+.tradingBridge,
+.realityDock {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.065), transparent 48%),
+    rgba(4, 8, 14, 0.86);
+  border: 1px solid rgba(255, 255, 255, 0.105);
+  border-radius: 14px;
+  box-shadow: 0 20px 54px rgba(0, 0, 0, 0.34);
+  position: relative;
+  z-index: 1;
+}
+
+.topBar {
+  align-items: center;
+  display: grid;
+  gap: 8px;
+  grid-template-columns: minmax(190px, 1fr) repeat(7, auto);
+  min-height: 56px;
+  padding: 10px 12px;
+}
+
+.topBar div,
+.sectionTitle {
+  display: grid;
+  gap: 2px;
+}
+
+.topBar strong,
+.hero h1,
+.sectionTitle h2,
+.layerList strong,
+.chatExchange strong,
+.quickActions strong,
+.panel strong,
+.productTruth h2,
+.visualPane h2,
+.tradingBridge h2,
+.bootCard strong {
+  color: #ffffff;
+}
+
+.topBar span,
+.sectionTitle span,
+.hero span,
+.bootGrid span,
+.quickActions strong,
+.visualPane span,
+.realityDock strong {
+  color: #ffeff1;
+  font-size: 0.68rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.topBar > span {
+  background: rgba(255, 255, 255, 0.052);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 999px;
+  color: rgba(246, 248, 251, 0.8);
+  padding: 7px 9px;
+  white-space: nowrap;
+}
+
+.hero {
+  align-items: stretch;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 420px);
+  padding: 18px;
+}
+
+.hero h1 {
+  font-size: clamp(2rem, 4vw, 4.6rem);
+  letter-spacing: 0;
+  line-height: 0.95;
+  margin: 6px 0 12px;
+  max-width: 980px;
+}
+
+.hero p,
+.bootCard small,
+.bootGrid small,
+.layerList small,
+.chatExchange p,
+.chatExchange small,
+.panel small,
+.panel em,
+.panel li,
+.productTruth span,
+.visualPane p,
+.tradingBridge p,
+.realityDock span,
+.commandComposer label,
+.commandComposer textarea,
+.commandComposer span {
+  color: rgba(235, 241, 247, 0.72);
+  line-height: 1.45;
+}
+
+.hero p {
+  margin: 4px 0;
+}
+
+.bootCard {
+  align-content: center;
+  background:
+    radial-gradient(circle at 84% 10%, rgba(132, 221, 255, 0.13), transparent 16rem),
+    rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+}
+
+.bootSequence,
+.humanChat,
+.panel,
+.productTruth,
+.visualPane,
+.tradingBridge {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+}
+
+.bootGrid {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.bootGrid article,
+.layerList article,
+.chatExchange,
+.panel article,
+.visualPane,
+.tradingBridge,
+.productTruth,
+.commandComposer,
+.quickActions {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.085);
+  border-radius: 12px;
+  display: grid;
+  gap: 7px;
+  padding: 10px;
+}
+
+.bootGrid article {
+  min-height: 118px;
+}
+
+.operatingGrid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(240px, 0.75fr) minmax(520px, 1.55fr) minmax(320px, 1fr);
+  position: relative;
+  z-index: 1;
+}
+
+.layerNavigator {
+  display: grid;
+  gap: 10px;
+  max-height: 920px;
+  overflow: auto;
+  padding: 12px;
+}
+
+.layerList {
+  display: grid;
+  gap: 8px;
+}
+
+.layerList article {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.layerList article > span,
+.truthChips span,
+.gapList span,
+.quickActions span {
+  background: rgba(255, 255, 255, 0.052);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 999px;
+  color: rgba(246, 248, 251, 0.82);
+  font-size: 0.72rem;
+  padding: 6px 8px;
+  width: fit-content;
+}
+
+.centerStack,
+.rightStack,
+.lowerGrid {
+  display: grid;
+  gap: 12px;
+}
+
+.quickActions div,
+.truthChips,
+.gapList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.quickActions span[data-category="stop_gate"] {
+  border-color: rgba(255, 190, 100, 0.34);
+}
+
+.quickActions span[data-category="blocked"] {
+  border-color: rgba(227, 6, 19, 0.4);
+}
+
+.commandComposer textarea {
+  background: rgba(0, 0, 0, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  min-height: 84px;
+  padding: 10px;
+  resize: vertical;
+}
+
+.panel article {
+  align-content: start;
+}
+
+.panel em {
+  font-style: normal;
+}
+
+.panel ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.visualPane {
+  align-items: center;
+  grid-template-columns: auto minmax(0, 1fr);
+}
+
+.tradingBridge a {
+  color: #ffffff;
+  font-weight: 800;
+  text-decoration: underline;
+  text-decoration-color: rgba(227, 6, 19, 0.7);
+  text-underline-offset: 4px;
+}
+
+.lowerGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  position: relative;
+  z-index: 1;
+}
+
+.productTruth {
+  grid-column: span 2;
+}
+
+.realityDock {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  padding: 10px 12px;
+}
+
+.realityDock span {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 999px;
+  padding: 6px 8px;
+}
+
+@media (max-width: 1220px) {
+  .topBar,
+  .hero,
+  .operatingGrid,
+  .lowerGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .bootGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .desktop {
+    padding: 8px;
+  }
+
+  .bootGrid,
+  .visualPane {
+    grid-template-columns: 1fr;
+  }
+}

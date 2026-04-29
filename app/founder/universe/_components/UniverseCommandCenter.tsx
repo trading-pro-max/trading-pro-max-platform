@@ -5,6 +5,7 @@ import { ProMaxLivingUniverseBackground } from "@/app/_components/ProMaxLivingUn
 import { ProMaxRealityContinuityLayer } from "@/app/_components/ProMaxRealityContinuityLayer";
 import { ProMaxRealitySourceBar } from "@/app/_components/ProMaxRealitySourceBar";
 import { ProMaxUniverseSoundscape } from "@/app/_components/ProMaxUniverseSoundscape";
+import Link from "next/link";
 import type {
   ProjectUniverseTruthSnapshot,
   UniverseTruthItem,
@@ -53,6 +54,7 @@ import {
   getAlKawnVisualMapSummary,
   getAlKawnVisualMapTruth,
 } from "@/lib/server/universe/visual-map";
+import { getAlKawnDesktopState } from "@/lib/server/universe/desktop-interface";
 import styles from "../founder-universe.module.css";
 
 function TruthList({ items }: { items: UniverseTruthItem[] }) {
@@ -162,6 +164,7 @@ export default function UniverseCommandCenter({
   const visualMapSummary = getAlKawnVisualMapSummary();
   const visualMapTruth = getAlKawnVisualMapTruth();
   const visualMapNextAction = getAlKawnVisualMapNextAction();
+  const desktopState = getAlKawnDesktopState(new Date(truth.checkedAt));
   const visualMapCoreLayerIds = [
     "existence_contract",
     "product_truth",
@@ -646,6 +649,52 @@ Compatibility evidence:
             </div>
           ))}
         </aside>
+      </section>
+
+      <section
+        className={styles.kernelPanel}
+        data-testid="al-kawn-desktop-card"
+        aria-label="Al-Kawn Desktop Operating Environment"
+      >
+        <div className={styles.kernelHeader}>
+          <div>
+            <span>Al-Kawn Desktop Operating Environment</span>
+            <h2>Desktop is the main private command client for ط§ظ„ظƒظˆظ†</h2>
+            <p>Desktop is the main private command client for الكون</p>
+            <p>Mobile clients come later as lightweight private access</p>
+            <p>Public distribution is blocked</p>
+            <p>Product Truth enforced</p>
+          </div>
+          <aside>
+            <strong>{desktopState.nativeShell.desktopRoute}</strong>
+            <small>Desktop route status: private desktop-first command surface</small>
+            <small>Native shell status: {desktopState.nativeShell.nativeShellStatus}</small>
+            <small>{desktopState.nativeShell.note}</small>
+            <Link href="/desktop/kawn">Open Al-Kawn Desktop</Link>
+          </aside>
+        </div>
+        <div className={styles.kernelGrid}>
+          <article>
+            <span>Role</span>
+            <strong>Al-Kawn Desktop is Ahmad&apos;s private operating environment</strong>
+            <small>الكون هو نسخة أحمد الإلكترونية الخاصة</small>
+          </article>
+          <article>
+            <span>Desktop shell inventory</span>
+            <strong>Native shell future gate</strong>
+            <small>Electron: {desktopState.nativeShell.electron}; Tauri: {desktopState.nativeShell.tauri}</small>
+          </article>
+          <article>
+            <span>Distribution</span>
+            <strong>Private Ahmad-only</strong>
+            <small>No public desktop distribution is started.</small>
+          </article>
+          <article>
+            <span>Mobile later</span>
+            <strong>Lightweight private access</strong>
+            <small>Android and iPhone clients remain future private access gates.</small>
+          </article>
+        </div>
       </section>
 
       <ProMaxRealitySourceBar variant="full" />

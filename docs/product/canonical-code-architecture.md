@@ -154,3 +154,27 @@ Required exports:
 Future UI work must import this primary model instead of creating page-local hierarchy truth. The Visual Map must show Ahmad as origin, الكون as Ahmad's private electronic self, Product Truth as highest truth law, Universe Operating Kernel as execution judge, Pro Max Galaxy inside الكون, Earth Planet inside Pro Max Galaxy, /trading and Pro Max Center inside Earth Planet, Swiss Local Constitution above Global Layer, ALKON private/background, and legal/money gates stopping execution for Ahmad.
 
 The next safest code action after the Visual Map is Al-Kawn Desktop Operating Environment. Infinity Mode and Operator Mode remain blocked until Ahmad explicitly resumes them.
+
+## Al-Kawn Desktop Operating Environment Code Rule
+
+The desktop-first private route lives at `app/desktop/kawn/page.tsx`.
+
+Its primary server model lives in `lib/server/universe/desktop-interface/*` and exports:
+
+- `getAlKawnDesktopState()`
+- `getAlKawnDesktopBootState()`
+- `getAlKawnDesktopWelcomeMessage()`
+- `getAlKawnDesktopQuickActions()`
+- `getAlKawnDesktopResponseForIntent()`
+- `getAlKawnDesktopCommandResult()`
+- `getAlKawnDesktopDecisionCenter()`
+- `getAlKawnDesktopTaskCenter()`
+- `getAlKawnDesktopReportCenter()`
+- `getAlKawnDesktopAppointmentCenter()`
+- `getAlKawnDesktopRealityCenter()`
+- `getAlKawnDesktopProductTruth()`
+- `getAlKawnDesktopLayerState()`
+
+The route is the private desktop command client for الكون. It must not define new Product Truth, new kernel truth, or a separate hierarchy. It surfaces existing canonical meaning through a desktop operating layout.
+
+If native Electron, Tauri, or another shell is introduced later, it must target `/desktop/kawn` or wrap the primary desktop route instead of duplicating desktop truth. Native shell finalization requires security, signing, distribution, no-secrets, and Ahmad approval gates.

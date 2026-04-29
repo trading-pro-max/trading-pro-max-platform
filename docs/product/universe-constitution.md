@@ -236,3 +236,23 @@ The map must show:
 The Visual Map is private only. It must preserve Product Truth, show public launch blocked, billing inactive, payments inactive, real money disabled, broker execution disabled/not connected, legal review pending, and ALKON private/background.
 
 Reference: `docs/product/al-kawn-visual-map-standard.md`.
+
+## Al-Kawn Desktop Operating Environment
+
+The private desktop client is now defined as the main command environment for الكون on Ahmad's computer.
+
+Required meaning:
+
+- الكون هو نسخة أحمد الإلكترونية الخاصة.
+- Al-Kawn Desktop is Ahmad's private operating environment.
+- Desktop is the main private command client for الكون.
+- Pro Max is the future public product, not الكون.
+- Product Truth overrides every action.
+- Universe Operating Kernel is the execution judge.
+- داخل الكون: التنفيذ مباشر.
+- عند القانون: يتوقف لأحمد.
+- عند المال: يتوقف لأحمد.
+
+The current implementation uses `/desktop/kawn` as a desktop-first private route. No app-level Electron or Tauri shell is currently active, so native desktop packaging remains a future gate. Public distribution is blocked. No secrets may be stored in Git or inside a future desktop bundle. External accounts, money, broker, public launch, and legal actions require Ahmad approval.
+
+Reference: `docs/product/al-kawn-desktop-operating-environment-standard.md`.

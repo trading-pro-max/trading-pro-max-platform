@@ -203,3 +203,29 @@ Required visible meaning:
 No visual layer may claim public launch, billing, payments, real money, broker execution, legal approval, FINMA approval, licensed/regulated status, guaranteed profit, risk-free trading, public الكون, or public ALKON.
 
 Every entity must have an Existence Contract, Product Truth impact, truth source, and ∞ to 0 explanation path before it becomes part of future primary architecture.
+
+## Al-Kawn Desktop Operating Environment Standard
+
+The professional standard now includes `/desktop/kawn` as the private desktop-first command surface for الكون.
+
+It must feel like Ahmad's private operating environment, not a public marketing page, generic SaaS dashboard, or public desktop distribution. It must show:
+
+- top system bar
+- boot sequence
+- left layer navigator
+- human chat command area
+- quick actions
+- decision center
+- task center
+- appointment placeholder
+- report center
+- reality dock
+- Product Truth panel
+- Protection Core panel
+- Ahmad Digital Vault panel
+- Universe Operating Kernel panel
+- Pro Max Galaxy / Earth Planet visual pane
+
+It must state that Desktop is the main private command client for الكون, Mobile clients come later as lightweight private access, and Public distribution is blocked.
+
+No desktop surface may claim public launch, billing, payments, receiving money, real money, broker execution, legal approval, FINMA approval, licensed/regulated status, guaranteed profit, risk-free trading, public الكون, public ALKON, or absolute security.
