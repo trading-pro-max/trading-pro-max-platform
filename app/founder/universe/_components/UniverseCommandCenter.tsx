@@ -56,6 +56,7 @@ import {
   getAlKawnVisualMapTruth,
 } from "@/lib/server/universe/visual-map";
 import { getControlSurfaceSummary } from "@/lib/server/universe/control-surfaces";
+import { getDesktopDistributionGate } from "@/lib/server/universe/desktop-distribution-gate";
 import { getPrivateDesktopLocalBuildDryRun } from "@/lib/server/universe/desktop-local-build-dry-run";
 import { getDesktopPackagingGate } from "@/lib/server/universe/desktop-packaging-gate";
 import { getPrivateDesktopPackagingPreparation } from "@/lib/server/universe/desktop-packaging-preparation";
@@ -176,6 +177,7 @@ export default function UniverseCommandCenter({
   const localPackagedAuthGate = getLocalPackagedAuthGate();
   const desktopPackagingPreparation = getPrivateDesktopPackagingPreparation();
   const desktopLocalBuildDryRun = getPrivateDesktopLocalBuildDryRun();
+  const desktopDistributionGate = getDesktopDistributionGate();
   const visualMapCoreLayerIds = [
     "existence_contract",
     "product_truth",
@@ -681,13 +683,16 @@ Compatibility evidence:
             <p>Local Packaged Auth Gate</p>
             <p>Private Desktop Packaging Preparation</p>
             <p>Private Desktop Local Build Dry Run</p>
+            <p>Private Desktop Distribution Gate</p>
             <p>Ahmad-only local access</p>
             <p>Desktop is the main private command client for الكون</p>
             <p>Mobile clients come later as lightweight private access</p>
             <p>Public distribution is blocked</p>
             <p>Public desktop distribution is blocked.</p>
+            <p>Distribution is private Ahmad-only.</p>
             <p>Signing remains a future gate.</p>
             <p>Production signing remains a future gate.</p>
+            <p>No installers are uploaded or published.</p>
             <p>Signing and private distribution require future approval.</p>
             <p>Desktop remains Ahmad-only.</p>
             <p>External auth requires Ahmad approval</p>
@@ -709,9 +714,13 @@ Compatibility evidence:
             <small>
               Private Desktop Local Build Dry Run status: {desktopLocalBuildDryRun.status}
             </small>
+            <small>
+              Private Desktop Distribution Gate status: {desktopDistributionGate.status}
+            </small>
             <small>Package readiness: {desktopPackagingPreparation.packagingCapability.state}</small>
             <small>Local dry run support: {desktopLocalBuildDryRun.capability.state}</small>
             <small>Artifact status: {desktopLocalBuildDryRun.artifactSafety.result}</small>
+            <small>Distribution readiness: {desktopDistributionGate.privateDistributionReadiness.state}</small>
             <small>Native signing and private distribution remain future gates</small>
             <small>Signing future gate: {desktopPackagingGate.signingReadiness.state}</small>
             <small>Local auth packaging gate: {desktopPackagingGate.authReadiness.state}</small>
@@ -757,6 +766,11 @@ Compatibility evidence:
             <span>Private Desktop Local Build Dry Run</span>
             <strong>{desktopLocalBuildDryRun.summary}</strong>
             <small>{desktopLocalBuildDryRun.nextAction.reason}</small>
+          </article>
+          <article>
+            <span>Private Desktop Distribution Gate</span>
+            <strong>{desktopDistributionGate.summary}</strong>
+            <small>{desktopDistributionGate.nextAction.reason}</small>
           </article>
           <article>
             <span>Shell security</span>

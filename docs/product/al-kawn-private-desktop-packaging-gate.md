@@ -22,6 +22,12 @@ Private Desktop Local Build Dry Run is allowed only as a local readiness check u
 
 Local build dry run is not public release, production signing, upload, or distribution.
 
+## Private Distribution Gate Dependency
+
+Private Desktop Distribution Gate defines distribution as private Ahmad-only and keeps public desktop distribution blocked.
+
+The packaging gate must not be read as approval to upload installers, publish release artifacts, sign production builds, or enable auto-update.
+
 ## Shell Readiness
 
 Current shell readiness is `ready_with_notes`.

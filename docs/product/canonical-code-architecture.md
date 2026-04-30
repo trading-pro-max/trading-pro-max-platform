@@ -267,6 +267,21 @@ The script runs `scripts/al-kawn-desktop-local-build-dry-run.mjs` and is local r
 
 Current result: no native shell, no packaging tool, and no real packaged-app auth exist. The dry run can verify readiness only. Product Truth overrides local build.
 
+## Private Desktop Distribution Gate Code Rule
+
+`lib/server/universe/desktop-distribution-gate/` is the canonical owner for private desktop distribution readiness.
+
+Required exports include:
+
+- `getDesktopDistributionGate()`
+- `getPrivateDistributionReadiness()`
+- `getPublicDistributionBlock()`
+- `getProductionSigningGate()`
+- `getDesktopArtifactPolicy()`
+- `getDesktopDistributionNextAction()`
+
+The gate defines distribution as private Ahmad-only. It must not upload installers, publish release artifacts, perform production signing, enable auto-update, or create public desktop distribution. Product Truth overrides distribution.
+
 ## Al-Kawn Control Surfaces Code Rule
 
 Canonical control surfaces live in `lib/server/universe/control-surfaces/*`.

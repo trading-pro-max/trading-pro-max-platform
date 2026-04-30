@@ -96,3 +96,9 @@ A future private package path may be considered only after:
 Private Desktop Local Build Dry Run may run as a readiness-only check.
 
 Because no native shell or packaging tool exists, it must not create a package artifact, public installer, signing artifact, upload, or auto-update channel.
+
+## Distribution Gate Dependency
+
+Private Desktop Distribution Gate may define private distribution readiness, but it must not distribute, upload, sign, publish, or expose installers.
+
+Distribution stays private Ahmad-only and Product Truth overrides distribution.

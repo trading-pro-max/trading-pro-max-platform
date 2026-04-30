@@ -128,3 +128,9 @@ Packaging preparation is not public release. Product Truth overrides packaging.
 Private Desktop Local Build Dry Run must treat local auth as future-gated until a real Ahmad-only packaged-app lock exists.
 
 The dry run may verify readiness, but it must not claim production-grade auth, public auth, or customer login.
+
+## Distribution Gate Dependency
+
+Private Desktop Distribution Gate must keep distribution blocked until real Ahmad-only packaged-app auth exists.
+
+No public auth, customer login, or external auth provider is connected by the distribution gate.

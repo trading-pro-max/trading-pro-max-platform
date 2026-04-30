@@ -4,6 +4,7 @@ import {
   getAlKawnControlSurfaces,
   getControlSurfaceSummary,
 } from "@/lib/server/universe/control-surfaces";
+import { getDesktopDistributionGate } from "@/lib/server/universe/desktop-distribution-gate";
 import { getPrivateDesktopLocalBuildDryRun } from "@/lib/server/universe/desktop-local-build-dry-run";
 import { getDesktopPackagingGate } from "@/lib/server/universe/desktop-packaging-gate";
 import { getPrivateDesktopPackagingPreparation } from "@/lib/server/universe/desktop-packaging-preparation";
@@ -18,6 +19,7 @@ import { AlKawnKernelPanel } from "./AlKawnKernelPanel";
 import { AlKawnLayerNavigator } from "./AlKawnLayerNavigator";
 import { AlKawnDesktopShellStatus } from "./AlKawnDesktopShellStatus";
 import { AlKawnLocalPackagedAuthGate } from "./AlKawnLocalPackagedAuthGate";
+import { AlKawnPrivateDesktopDistributionGate } from "./AlKawnPrivateDesktopDistributionGate";
 import { AlKawnPrivateDesktopLocalBuildDryRun } from "./AlKawnPrivateDesktopLocalBuildDryRun";
 import { AlKawnPrivateDesktopPackagingGate } from "./AlKawnPrivateDesktopPackagingGate";
 import { AlKawnPrivateDesktopPackagingPreparation } from "./AlKawnPrivateDesktopPackagingPreparation";
@@ -39,6 +41,7 @@ export function AlKawnDesktopShell({ state }: { state: AlKawnDesktopState }) {
   const localPackagedAuthGate = getLocalPackagedAuthGate();
   const desktopPackagingPreparation = getPrivateDesktopPackagingPreparation();
   const desktopLocalBuildDryRun = getPrivateDesktopLocalBuildDryRun();
+  const desktopDistributionGate = getDesktopDistributionGate();
 
   return (
     <main
@@ -103,6 +106,7 @@ export function AlKawnDesktopShell({ state }: { state: AlKawnDesktopState }) {
         preparation={desktopPackagingPreparation}
       />
       <AlKawnPrivateDesktopLocalBuildDryRun dryRun={desktopLocalBuildDryRun} />
+      <AlKawnPrivateDesktopDistributionGate gate={desktopDistributionGate} />
 
       <section className={styles.lowerGrid} aria-label="Al-Kawn desktop control panels">
         <AlKawnReportCenter reports={state.reports} />

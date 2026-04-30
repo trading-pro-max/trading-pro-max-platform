@@ -52,3 +52,9 @@ Ahmad must choose:
 - private distribution method later
 
 Until then, Al-Kawn Desktop remains `/desktop/kawn` and Product Truth overrides local build.
+
+## Distribution Gate Dependency
+
+Private Desktop Distribution Gate follows this dry run because readiness-only build status is not enough to distribute.
+
+No installers are uploaded or published. Public desktop distribution is blocked. Production signing remains a future gate.
