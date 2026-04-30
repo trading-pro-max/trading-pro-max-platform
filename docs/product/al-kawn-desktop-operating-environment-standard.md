@@ -261,4 +261,24 @@ The visible required wording is:
 
 The enhancement does not start Infinity Mode, Operator Mode, public launch, billing, payments, receiving money, real money, broker execution, legal approval, external accounts, or public distribution.
 
+## Infinity Mode Preparation
+
+`/desktop/kawn` now carries the Infinity Mode Preparation panel.
+
+The panel must show:
+
+- Infinity Mode preparation
+- Infinity Mode is private internal continuous readiness.
+- Infinity Mode is not fully active yet.
+- Daily Work Loop feeds Infinity preparation.
+- Product Truth controls every cycle.
+- Legal and Money gates stop execution for Ahmad.
+- No uncontrolled infinite loop.
+- safe automation scope
+- blocked automation scope
+- cycle plan
+- one next action
+
+This is preparation only. It does not start Operator Mode, public launch, billing, payments, receiving money, real money, broker execution, legal claims, external accounts, or uncontrolled background automation.
+
 Desktop is the main private command client for الكون. Mobile clients come later as lightweight private access layers and require their own security, signing, distribution, authentication, and no-secrets gates.

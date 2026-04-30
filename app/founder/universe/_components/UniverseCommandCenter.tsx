@@ -63,6 +63,7 @@ import { getDesktopPackagingGate } from "@/lib/server/universe/desktop-packaging
 import { getPrivateDesktopPackagingPreparation } from "@/lib/server/universe/desktop-packaging-preparation";
 import { getAlKawnDesktopState } from "@/lib/server/universe/desktop-interface";
 import { getAlKawnHumanSpokenInterfaceState } from "@/lib/server/universe/human-spoken-interface";
+import { getAlKawnInfinityPreparation } from "@/lib/server/universe/infinity";
 import {
   getLocalDesktopAuthBoundaries,
   getLocalDesktopAuthNextAction,
@@ -194,6 +195,7 @@ export default function UniverseCommandCenter({
   const wakeState = getAlKawnWakeState();
   const dailyWorkLoop = getAlKawnDailyWorkLoop();
   const spokenInterface = getAlKawnHumanSpokenInterfaceState();
+  const infinityPreparation = getAlKawnInfinityPreparation();
   const visualMapCoreLayerIds = [
     "existence_contract",
     "product_truth",
@@ -865,6 +867,56 @@ Compatibility evidence:
             <span>Daily report</span>
             <strong>Daily WAKE REPORT prepared.</strong>
             <small>{wakeState.dailyWakeReportPath}</small>
+          </article>
+        </div>
+      </section>
+
+      <section
+        className={styles.kernelPanel}
+        data-testid="al-kawn-infinity-preparation-summary"
+        aria-label="Infinity Mode Preparation"
+      >
+        <div className={styles.kernelHeader}>
+          <div>
+            <span>Infinity Mode Preparation</span>
+            <h2>Infinity Mode preparation</h2>
+            <p>Infinity Mode is private internal continuous readiness.</p>
+            <p>Infinity Mode is not fully active yet.</p>
+            <p>Daily Work Loop feeds Infinity preparation.</p>
+            <p>Product Truth controls every cycle.</p>
+            <p>Legal and Money gates stop execution for Ahmad.</p>
+            <p>No uncontrolled infinite loop.</p>
+            <p>No public, money, broker, legal, or external automation.</p>
+          </div>
+          <aside>
+            <strong>{infinityPreparation.state}</strong>
+            <small>{infinityPreparation.summary}</small>
+            <small>{infinityPreparation.kernelStatus}</small>
+            <small>Blocked actions: {infinityPreparation.blockedActions.length}</small>
+            <small>Safe internal automation: {infinityPreparation.safeAutomation.length}</small>
+            <Link href="/desktop/kawn">Open Infinity preparation in desktop</Link>
+          </aside>
+        </div>
+        <div className={styles.kernelGrid}>
+          <article>
+            <span>Readiness</span>
+            <strong>{infinityPreparation.readiness[0]?.status}</strong>
+            <small>{infinityPreparation.readiness[1]?.status}</small>
+          </article>
+          <article>
+            <span>Cycle control</span>
+            <strong>Infinity cycle waits for safe trigger.</strong>
+            <small>Safe internal work only.</small>
+          </article>
+          <article>
+            <span>Daily loop connection</span>
+            <strong>{infinityPreparation.dailyLoopConnection[0]}</strong>
+            <small>{infinityPreparation.dailyLoopConnection[1]}</small>
+          </article>
+          <article>
+            <span>Next safe action</span>
+            <strong>{infinityPreparation.nextAction.next}</strong>
+            <small>{infinityPreparation.nextAction.reason}</small>
           </article>
         </div>
       </section>

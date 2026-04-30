@@ -414,3 +414,22 @@ Priority law:
 - One daily next action only.
 
 Daily WAKE REPORT updated.
+
+## Infinity Mode Preparation Law
+
+Infinity Mode preparation is private internal continuous readiness for الكون.
+
+Required law:
+
+- Infinity Mode preparation.
+- Infinity Mode is private internal continuous readiness.
+- Infinity Mode is not fully active yet.
+- Daily Work Loop feeds Infinity preparation.
+- Product Truth controls every cycle.
+- Legal and Money gates stop execution for Ahmad.
+- No uncontrolled infinite loop.
+- No public, money, broker, legal, or external automation.
+
+Infinity preparation may prepare internal reports, status refreshes, task drafts, Product Truth checks, regression summaries, desktop summaries, architecture summaries, forbidden-claim scans, wake reports, and one next action.
+
+Infinity preparation must block public launch, billing, payments, receiving money, real money, broker execution, legal claims, FINMA claims, external accounts, customer onboarding, public الكون, public ALKON, and secrets movement.

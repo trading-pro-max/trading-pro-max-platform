@@ -392,4 +392,22 @@ The desktop route `/desktop/kawn` renders the main wake panel. `/founder/univers
 
 Daily report files live under `reports/daily/` and must not contain secrets.
 
+## Infinity Preparation Code Rule
+
+Canonical Infinity preparation code lives in `lib/server/universe/infinity/*`.
+
+Required exports include:
+
+- `getAlKawnInfinityPreparation()`
+- `getInfinityReadiness()`
+- `getInfinityCyclePlan()`
+- `getInfinityBoundaries()`
+- `getInfinitySafeAutomation()`
+- `getInfinityBlockedActions()`
+- `getInfinityNextAction()`
+
+Infinity preparation is a readiness model only. It must not create an uncontrolled loop, a background daemon, public automation, billing, payments, receiving money, real money, broker execution, legal claims, external account work, public الكون, public ALKON, or secrets movement.
+
+The desktop route `/desktop/kawn` renders the main Infinity preparation panel. `/founder/universe` renders a compact summary. `/trading` remains compact.
+
 No route should create a separate Earth/Moon identity, a separate Product Truth chip style, a separate page palette, or a second visual law for الكون. Trading may use compact density for readability, but must still carry the same Product Truth, Earth Planet, and Pro Max Galaxy meaning.

@@ -10,6 +10,7 @@ import { getPrivateDesktopLocalBuildDryRun } from "@/lib/server/universe/desktop
 import { getDesktopPackagingGate } from "@/lib/server/universe/desktop-packaging-gate";
 import { getPrivateDesktopPackagingPreparation } from "@/lib/server/universe/desktop-packaging-preparation";
 import { getAlKawnHumanSpokenInterfaceState } from "@/lib/server/universe/human-spoken-interface";
+import { getAlKawnInfinityPreparation } from "@/lib/server/universe/infinity";
 import { getLocalPackagedAuthGate } from "@/lib/server/universe/local-packaged-auth-gate";
 import { getAlKawnWakeState } from "@/lib/server/universe/wake-state";
 import { AlKawnAppointmentCenter } from "./AlKawnAppointmentCenter";
@@ -18,6 +19,7 @@ import { AlKawnControlSurfaces } from "./AlKawnControlSurfaces";
 import { AlKawnDecisionCenter } from "./AlKawnDecisionCenter";
 import { AlKawnGalaxyMap } from "./AlKawnGalaxyMap";
 import { AlKawnHumanChat } from "./AlKawnHumanChat";
+import { AlKawnInfinityPreparationPanel } from "./AlKawnInfinityPreparationPanel";
 import { AlKawnKernelPanel } from "./AlKawnKernelPanel";
 import { AlKawnLayerNavigator } from "./AlKawnLayerNavigator";
 import { AlKawnDesktopShellStatus } from "./AlKawnDesktopShellStatus";
@@ -49,6 +51,7 @@ export function AlKawnDesktopShell({ state }: { state: AlKawnDesktopState }) {
   const wakeState = getAlKawnWakeState();
   const dailyWorkLoop = getAlKawnDailyWorkLoop();
   const spokenInterface = getAlKawnHumanSpokenInterfaceState();
+  const infinityPreparation = getAlKawnInfinityPreparation();
 
   return (
     <main
@@ -112,6 +115,7 @@ export function AlKawnDesktopShell({ state }: { state: AlKawnDesktopState }) {
         dailyWorkLoop={dailyWorkLoop}
         spokenInterface={spokenInterface}
       />
+      <AlKawnInfinityPreparationPanel preparation={infinityPreparation} />
       <AlKawnPrivateDesktopPackagingGate gate={desktopPackagingGate} />
       <AlKawnLocalPackagedAuthGate gate={localPackagedAuthGate} />
       <AlKawnPrivateDesktopPackagingPreparation
