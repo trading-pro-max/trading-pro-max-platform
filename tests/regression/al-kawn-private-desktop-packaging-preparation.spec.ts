@@ -3,7 +3,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { seedUnlockedAlKawnLocalAuth } from "./helpers/al-kawn-local-auth";
 
 const FORBIDDEN_CLAIMS =
-  /public desktop distribution active|signing complete|production release active|auto-update active|billing active|payments active|receiving money active|real money enabled|broker execution active|legal approval active|FINMA approved|licensed trading platform|secrets stored in desktop bundle|secrets stored in Git|public ALKON active/i;
+  /public desktop distribution active|signing complete|production release active|auto-update active|billing active|payments active|receiving money active|real money enabled|broker execution active|legal approval active|FINMA approved|licensed trading platform|secrets stored in desktop bundle|secrets stored in Git|plaintext passphrase stored|public ALKON active/i;
 
 test.describe("Al-Kawn Private Desktop Packaging Preparation", () => {
   test("/desktop/kawn renders private packaging preparation", async ({ page }) => {
@@ -19,6 +19,7 @@ test.describe("Al-Kawn Private Desktop Packaging Preparation", () => {
     await expect(body).toContainText("No secrets are stored in the desktop bundle");
     await expect(body).toContainText("Signing and public distribution remain blocked");
     await expect(body).toContainText("Product Truth overrides packaging");
+    await expect(body).toContainText("Local PIN / Passphrase Auth is preserved");
 
     expect(await body.innerText()).not.toMatch(FORBIDDEN_CLAIMS);
   });
@@ -58,10 +59,18 @@ test.describe("Al-Kawn Private Desktop Packaging Preparation", () => {
     );
     expect(existsSync("reports/al-kawn-private-desktop-packaging-preparation.md")).toBe(true);
     expect(indexSource).toContain("getPrivateDesktopPackagingPreparation");
+    expect(indexSource).toContain("getDesktopPackagingPreparation");
     expect(indexSource).toContain("getPackagingCapabilityCheck");
+    expect(indexSource).toContain("getDesktopPackagingCapability");
+    expect(indexSource).toContain("getNativeShellStatus");
+    expect(indexSource).toContain("getPackageScriptStatus");
+    expect(indexSource).toContain("getPackagingAuthDependency");
     expect(indexSource).toContain("getPackagingSecretSafetyCheck");
+    expect(indexSource).toContain("getPackagingSecretSafety");
+    expect(indexSource).toContain("getDesktopPackagingPreparationNextAction");
     expect(preparationSource).toContain("Private Desktop Packaging Preparation");
     expect(preparationSource).toContain("Product Truth overrides packaging.");
+    expect(preparationSource).toContain("Local PIN / Passphrase Auth is preserved.");
     expect(preparationSource).not.toMatch(FORBIDDEN_CLAIMS);
   });
 });

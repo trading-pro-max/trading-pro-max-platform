@@ -56,11 +56,13 @@ import {
   getAlKawnVisualMapTruth,
 } from "@/lib/server/universe/visual-map";
 import { getControlSurfaceSummary } from "@/lib/server/universe/control-surfaces";
+import { getAlKawnDailyWorkLoop } from "@/lib/server/universe/daily-work-loop";
 import { getDesktopDistributionGate } from "@/lib/server/universe/desktop-distribution-gate";
 import { getPrivateDesktopLocalBuildDryRun } from "@/lib/server/universe/desktop-local-build-dry-run";
 import { getDesktopPackagingGate } from "@/lib/server/universe/desktop-packaging-gate";
 import { getPrivateDesktopPackagingPreparation } from "@/lib/server/universe/desktop-packaging-preparation";
 import { getAlKawnDesktopState } from "@/lib/server/universe/desktop-interface";
+import { getAlKawnHumanSpokenInterfaceState } from "@/lib/server/universe/human-spoken-interface";
 import {
   getLocalDesktopAuthBoundaries,
   getLocalDesktopAuthNextAction,
@@ -68,6 +70,7 @@ import {
   getLocalDesktopAuthStatus,
 } from "@/lib/server/universe/local-desktop-auth";
 import { getLocalPackagedAuthGate } from "@/lib/server/universe/local-packaged-auth-gate";
+import { getAlKawnWakeState } from "@/lib/server/universe/wake-state";
 import styles from "../founder-universe.module.css";
 
 function TruthList({ items }: { items: UniverseTruthItem[] }) {
@@ -188,6 +191,9 @@ export default function UniverseCommandCenter({
   const localDesktopAuthStatus = getLocalDesktopAuthStatus();
   const localDesktopAuthBoundaries = getLocalDesktopAuthBoundaries();
   const localDesktopAuthNextAction = getLocalDesktopAuthNextAction();
+  const wakeState = getAlKawnWakeState();
+  const dailyWorkLoop = getAlKawnDailyWorkLoop();
+  const spokenInterface = getAlKawnHumanSpokenInterfaceState();
   const visualMapCoreLayerIds = [
     "existence_contract",
     "product_truth",
@@ -693,6 +699,7 @@ Compatibility evidence:
             <p>Local Packaged Auth Gate</p>
             <p>Local PIN / Passphrase Auth</p>
             <p>Private Desktop Packaging Preparation</p>
+            <p>Local PIN / Passphrase Auth is preserved.</p>
             <p>Private Desktop Local Build Dry Run</p>
             <p>Private Desktop Distribution Gate</p>
             <p>Ahmad-only local access</p>
@@ -783,6 +790,7 @@ Compatibility evidence:
           <article>
             <span>Private Desktop Packaging Preparation</span>
             <strong>{desktopPackagingPreparation.summary}</strong>
+            <small>Local PIN / Passphrase Auth is preserved.</small>
             <small>{desktopPackagingPreparation.nextAction.reason}</small>
           </article>
           <article>
@@ -804,6 +812,54 @@ Compatibility evidence:
             <span>Mobile later</span>
             <strong>Lightweight private access</strong>
             <small>Android and iPhone clients remain future private access gates.</small>
+          </article>
+        </div>
+      </section>
+
+      <section
+        className={styles.kernelPanel}
+        data-testid="al-kawn-wake-state-summary"
+        aria-label="Al-Kawn Wake State"
+      >
+        <div className={styles.kernelHeader}>
+          <div>
+            <span>Al-Kawn Wake State</span>
+            <h2>{wakeState.title}</h2>
+            <p>الكون يستيقظ من /desktop/kawn.</p>
+            <p>الكون يتكلم مع أحمد فقط.</p>
+            <p>Daily Work Loop prepares one next action.</p>
+            <p>Legal and Money remain Ahmad gates.</p>
+            <p>{wakeState.productTruthStatus}</p>
+            <p>{wakeState.kernelStatus}</p>
+          </div>
+          <aside>
+            <strong>{wakeState.state}</strong>
+            <small>{spokenInterface.title}</small>
+            <small>{dailyWorkLoop.title}</small>
+            <small>One next action: {wakeState.oneNextAction.next}</small>
+            <Link href="/desktop/kawn">Open Al-Kawn wake client</Link>
+          </aside>
+        </div>
+        <div className={styles.kernelGrid}>
+          <article>
+            <span>Wake message</span>
+            <strong>{spokenInterface.wakeMessage.text}</strong>
+            <small>الكون يتكلم مع أحمد بلغة بشرية واضحة.</small>
+          </article>
+          <article>
+            <span>Daily loop</span>
+            <strong>{dailyWorkLoop.oneNextAction}</strong>
+            <small>{dailyWorkLoop.rule}</small>
+          </article>
+          <article>
+            <span>Local access</span>
+            <strong>{wakeState.localAccessStatus}</strong>
+            <small>Desktop remains Ahmad-only.</small>
+          </article>
+          <article>
+            <span>Daily report</span>
+            <strong>Daily WAKE REPORT prepared.</strong>
+            <small>{wakeState.dailyWakeReportPath}</small>
           </article>
         </div>
       </section>

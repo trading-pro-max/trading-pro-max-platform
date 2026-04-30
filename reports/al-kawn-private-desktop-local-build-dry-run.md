@@ -2,7 +2,7 @@
 
 ## Why This Follows Packaging Preparation
 
-Private Desktop Packaging Preparation established a safe readiness path and added `desktop:package:check`. Local Packaged Auth Gate remains future-gated, and no native shell exists.
+Private Desktop Packaging Preparation establishes a safe readiness path and preserves Local PIN / Passphrase Auth. Native packaged-app hardening remains future-gated, and no native shell exists.
 
 This mission therefore performs a readiness-only local dry run and does not create a desktop package artifact.
 
@@ -14,6 +14,7 @@ Current result:
 - script available: yes, as readiness-only
 - native shell available: no
 - package tool available: no
+- local auth preserved: ready_with_notes
 - secrets risk: no active bundle risk because no bundle is produced
 - public release risk: no release/signing/publish/upload script is declared
 - safest next step: Ahmad decision required
@@ -91,7 +92,7 @@ Public desktop distribution remains blocked.
 ## What Remains Not Done
 
 - native Electron/Tauri/private shell selection
-- real packaged-app auth
+- native packaged-app auth hardening
 - artifact-producing local build dry run
 - local package artifact audit
 - private distribution method
@@ -108,7 +109,7 @@ Public desktop distribution remains blocked.
 
 Ahmad decision required.
 
-Ahmad must choose the native shell path and local packaged auth method before a real local build dry run can safely produce artifacts.
+Ahmad must choose the native shell path and native packaged-app hardening path before a real local build dry run can safely produce artifacts.
 
 ## Validation Results
 

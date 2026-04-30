@@ -253,7 +253,18 @@ Blocked scripts:
 - auto-update scripts
 - payment or billing scripts
 
-Current result: no native shell and no packaging tool exist, so packaging remains future-gated and Ahmad decision is required before a local build dry run.
+Current result: no native shell and no packaging tool exist, so artifact-producing packaging remains future-gated. Local PIN / Passphrase Auth is preserved, and the next safe action is a readiness-only Private Desktop Local Build Dry Run.
+
+Required exports include both canonical and compatibility names:
+
+- `getDesktopPackagingPreparation()`
+- `getDesktopPackagingCapability()`
+- `getNativeShellStatus()`
+- `getPackageScriptStatus()`
+- `getPackagingAuthDependency()`
+- `getPackagingSecretSafety()`
+- `getDesktopPackagingPreparationNextAction()`
+- `getPrivateDesktopPackagingPreparation()`
 
 ## Private Desktop Local Build Dry Run Code Rule
 
@@ -265,7 +276,7 @@ Safe script:
 
 The script runs `scripts/al-kawn-desktop-local-build-dry-run.mjs` and is local readiness-only. It must not create package artifacts, sign production builds, upload artifacts, publish installers, enable auto-update, or create public distribution.
 
-Current result: no native shell, no packaging tool, and no real packaged-app auth exist. The dry run can verify readiness only. Product Truth overrides local build.
+Current result: no native shell and no packaging tool exist. Local PIN / Passphrase Auth is preserved as the current route-level private lock, while native packaged-app hardening remains future-gated. The dry run can verify readiness only. Product Truth overrides local build.
 
 ## Local PIN / Passphrase Auth Code Rule
 
@@ -340,5 +351,45 @@ Future UI work should reuse:
 - `AlKawnSectionHeader`
 - `AlKawnRealitySourceChip`
 - `AlKawnLayerBadge`
+
+## Wake State Code Rule
+
+Canonical wake state code lives in `lib/server/universe/wake-state/*`.
+
+Required exports include:
+
+- `getAlKawnWakeState()`
+- `getAlKawnWakeSequence()`
+- `getAlKawnWakeReadiness()`
+- `getAlKawnWakeBoundaries()`
+- `getAlKawnWakeNextAction()`
+- `getAlKawnDailyWakeReport()`
+
+Canonical daily work loop code lives in `lib/server/universe/daily-work-loop/*`.
+
+Required exports include:
+
+- `getAlKawnDailyWorkLoop()`
+- `getDailyWorkChecklist()`
+- `getDailyPriorities()`
+- `getDailySafeWorkItems()`
+- `getDailyBlockedItems()`
+- `getDailyWorkReport()`
+
+Canonical human spoken interface code lives in `lib/server/universe/human-spoken-interface/*`.
+
+Required exports include:
+
+- `getAlKawnHumanSpokenInterfaceState()`
+- `getAlKawnSpokenWakeMessage()`
+- `getAlKawnSpokenDailyBriefing()`
+- `getAlKawnSpokenNeedsFromAhmad()`
+- `getAlKawnSpokenBlockers()`
+- `getAlKawnSpokenNextAction()`
+- `getAlKawnSpokenToneRules()`
+
+The desktop route `/desktop/kawn` renders the main wake panel. `/founder/universe` renders a compact wake summary. `/trading` stays compact and must not carry a daily loop panel.
+
+Daily report files live under `reports/daily/` and must not contain secrets.
 
 No route should create a separate Earth/Moon identity, a separate Product Truth chip style, a separate page palette, or a second visual law for الكون. Trading may use compact density for readability, but must still carry the same Product Truth, Earth Planet, and Pro Max Galaxy meaning.

@@ -11,15 +11,19 @@ export function getPreviousGateDependencyCheck(): DesktopPackagingPreparationChe
     checks: [
       "reports/al-kawn-private-desktop-packaging-gate.md exists.",
       "reports/al-kawn-local-packaged-auth-gate.md exists.",
+      "reports/al-kawn-local-pin-passphrase-auth.md exists.",
+      "reports/al-kawn-private-desktop-distribution-gate.md exists.",
       "Private Desktop Packaging Gate remains future-gated for native package work.",
-      "Local Packaged Auth Gate remains future-gated for real auth implementation.",
+      "Local PIN / Passphrase Auth is preserved as the current route-level private lock.",
     ],
     evidence: [
       "reports/al-kawn-private-desktop-packaging-gate.md",
       "reports/al-kawn-local-packaged-auth-gate.md",
+      "reports/al-kawn-local-pin-passphrase-auth.md",
+      "reports/al-kawn-private-desktop-distribution-gate.md",
     ],
-    risk: "Preparation can be documented, but packaging cannot proceed until native shell and real local auth are implemented.",
-    nextAction: "Use previous gates as blockers, not as approval to release.",
+    risk: "Preparation can be documented, but artifact-producing packaging cannot proceed until a native shell exists.",
+    nextAction: "Use previous gates as blockers for release while allowing a local readiness dry run.",
   };
 }
 
@@ -34,11 +38,13 @@ export function getPackagingCapabilityCheck(): DesktopPackagingPreparationCheck 
       "Native shell exists: no.",
       "Packaging tool exists: no.",
       "Safe package-check script can be added: yes.",
+      "Local PIN/passphrase auth ready: ready_with_notes.",
       "Secrets risk: controlled by no-bundle/no-Git rules.",
     ],
     evidence: [
       "package.json has no Electron or Tauri dependency.",
       "desktop:package:check is a readiness check only.",
+      "desktop:package:dry-run is a readiness-only dry run.",
       "/desktop/kawn remains the private route.",
     ],
     risk: "Adding packaging dependencies now would be a new native architecture decision.",
@@ -77,7 +83,7 @@ export function getPackageScriptPreparationStatus(): DesktopPackagingPreparation
     status: "Only a safe package readiness check is added; no release script exists.",
     checks: [
       "desktop:package:check exists.",
-      "desktop:package:dry-run exists: no.",
+      "desktop:package:dry-run exists as readiness-only.",
       "desktop:package:local exists: no.",
       "desktop:release exists: no.",
       "Signing/upload/publish scripts exist: no.",
@@ -85,9 +91,10 @@ export function getPackageScriptPreparationStatus(): DesktopPackagingPreparation
     evidence: [
       "package.json",
       "scripts/al-kawn-desktop-package-check.mjs",
+      "scripts/al-kawn-desktop-local-build-dry-run.mjs",
     ],
     risk: "Future package scripts must remain local-only and must not sign, publish, upload, or distribute publicly.",
-    nextAction: "Do not add dry-run/local package scripts until native shell and auth gates close.",
+    nextAction: "Run only readiness checks until a native shell and artifact audit are approved.",
   };
 }
 
@@ -95,21 +102,25 @@ export function getAuthDependencyPreparationStatus(): DesktopPackagingPreparatio
   return {
     id: "auth_dependency_preparation_status",
     label: "Auth gate status",
-    state: "future_gate",
-    status: "Local packaged auth gate exists, but real packaged-app auth is not implemented.",
+    state: "ready_with_notes",
+    status: "Local PIN / Passphrase Auth is preserved for /desktop/kawn; native packaged-app hardening remains future-gated.",
     checks: [
       "Local Packaged Auth Gate exists.",
-      "PIN/passphrase implemented: no.",
+      "Local PIN / Passphrase Auth exists.",
+      "PIN/passphrase implemented: yes, as local private route lock.",
       "Device-lock awareness implemented: no.",
-      "Session timeout implemented: no.",
+      "Session timeout implemented: yes, 30-minute local target.",
       "Production-grade auth claim: no.",
     ],
     evidence: [
       "lib/server/universe/local-packaged-auth-gate",
+      "lib/server/universe/local-desktop-auth",
+      "lib/client/al-kawn-local-auth",
       "reports/al-kawn-local-packaged-auth-gate.md",
+      "reports/al-kawn-local-pin-passphrase-auth.md",
     ],
-    risk: "A private package must not expose /desktop/kawn without a real local auth method.",
-    nextAction: "Ahmad decision required for the local auth method.",
+    risk: "A future native package still needs OS/device-level hardening review before any private distribution.",
+    nextAction: "Preserve Local PIN / Passphrase Auth during local build dry-run readiness checks.",
   };
 }
 
@@ -124,12 +135,15 @@ export function getPackagingSecretSafetyCheck(): DesktopPackagingPreparationChec
       "No API keys hardcoded.",
       "Private documents are not packaged.",
       "No credentials in desktop shell.",
+      "No local auth secret exposed.",
+      "No plaintext passphrase is stored.",
       "No external account connection.",
       "No broker/payment keys.",
     ],
     evidence: [
       "Private Desktop Packaging Gate.",
       "Local Packaged Auth Gate.",
+      "Local PIN / Passphrase Auth.",
       "desktop:package:check.",
     ],
     risk: "No bundle is produced in this mission, so secret safety remains a gate rather than a completed package audit.",

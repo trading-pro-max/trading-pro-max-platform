@@ -12,7 +12,9 @@ const scripts = packageJson.scripts ?? {};
 const desktopRoutePath = join(root, "app", "desktop", "kawn", "page.tsx");
 const packagingGateReport = join(root, "reports", "al-kawn-private-desktop-packaging-gate.md");
 const localAuthGateReport = join(root, "reports", "al-kawn-local-packaged-auth-gate.md");
+const localPinAuthReport = join(root, "reports", "al-kawn-local-pin-passphrase-auth.md");
 const localAuthGateModel = join(root, "lib", "server", "universe", "local-packaged-auth-gate");
+const localDesktopAuthModel = join(root, "lib", "server", "universe", "local-desktop-auth");
 
 const hasElectron = Boolean(dependencies.electron);
 const hasTauri =
@@ -41,8 +43,16 @@ const checks = [
     pass: existsSync(localAuthGateReport),
   },
   {
+    label: "local PIN/passphrase auth report exists",
+    pass: existsSync(localPinAuthReport),
+  },
+  {
     label: "local packaged auth gate model exists",
     pass: existsSync(localAuthGateModel),
+  },
+  {
+    label: "local desktop auth model exists",
+    pass: existsSync(localDesktopAuthModel),
   },
   {
     label: "no Electron dependency is declared",
@@ -69,6 +79,8 @@ console.log("packaging_supported_now=false");
 console.log("native_shell=future_gate");
 console.log("packaging_tool=future_gate");
 console.log("safe_package_script=desktop:package:check");
+console.log("local_auth=ready_with_notes");
+console.log("local_pin_passphrase_auth=preserved");
 console.log("public_distribution=blocked");
 console.log("signing=blocked_future_gate");
 console.log("secrets_in_bundle=blocked");

@@ -15,14 +15,13 @@ import type {
 
 export function getPrivateDesktopPackagingPreparationNextAction(): DesktopPackagingPreparationNextAction {
   return {
-    next: "Ahmad decision required",
+    next: "Private Desktop Local Build Dry Run",
     reason:
-      "No native shell or real local packaged auth exists, so private packaging preparation stops at readiness checks.",
+      "Packaging preparation now preserves Local PIN / Passphrase Auth and can proceed to a readiness-only local build dry run without creating artifacts.",
     blockedUntil: [
       "Ahmad chooses the native desktop shell path.",
-      "Ahmad chooses the local packaged auth method.",
-      "Real local auth is implemented and validated.",
-      "A local-only package dry run is explicitly approved.",
+      "Native packaged-app hardening is reviewed later.",
+      "A real artifact-producing local build is explicitly approved.",
       "No secrets enter the bundle.",
       "Signing and public distribution remain blocked.",
     ],
@@ -43,6 +42,7 @@ export function getPrivateDesktopPackagingPreparation(): DesktopPackagingPrepara
       "No secrets are stored in the desktop bundle.",
       "Signing and public distribution remain blocked.",
       "Product Truth overrides packaging.",
+      "Local PIN / Passphrase Auth is preserved.",
     ],
     previousGates: getPreviousGateDependencyCheck(),
     packagingCapability: getPackagingCapabilityCheck(),
@@ -56,6 +56,9 @@ export function getPrivateDesktopPackagingPreparation(): DesktopPackagingPrepara
       "Public desktop distribution is blocked.",
       "Signing and public distribution remain blocked.",
       "No secrets are stored in the desktop bundle.",
+      "Local PIN / Passphrase Auth is preserved.",
+      "No plaintext passphrase is stored.",
+      "Local auth secrets are not exposed.",
       "Private documents are not packaged.",
       "External accounts require Ahmad approval.",
       "Billing inactive.",
@@ -74,6 +77,8 @@ export function getPrivateDesktopPackagingPreparation(): DesktopPackagingPrepara
       "Auto-update distribution.",
       "Secrets in Git.",
       "Secrets in desktop bundle.",
+      "Plaintext passphrase storage.",
+      "Local auth secret exposure.",
       "External auth without Ahmad approval.",
       "Billing, payments, money, broker, legal, or public launch activation.",
     ],

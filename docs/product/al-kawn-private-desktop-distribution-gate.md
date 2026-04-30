@@ -75,7 +75,8 @@ Ahmad decision is required before any private distribution method can be selecte
 Before any real distribution:
 
 - native shell must exist
-- local packaged auth must exist
+- local PIN/passphrase auth must be preserved
+- native packaged-app hardening must be reviewed
 - local artifact must be generated and audited
 - secrets must be absent from artifacts
 - signing must remain future-gated or explicitly approved

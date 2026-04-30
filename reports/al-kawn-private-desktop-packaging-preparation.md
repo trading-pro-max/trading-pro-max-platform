@@ -1,12 +1,22 @@
 # Al-Kawn Private Desktop Packaging Preparation
 
-## Why This Follows Packaging / Auth Gates
+## Why This Fixes The Blocked Dry-Run Prerequisite
 
-Private Desktop Packaging Gate confirmed `/desktop/kawn` is the private desktop home while native shell, packaging, signing, private distribution, and local auth remain gated.
+Private Desktop Local Build Dry Run was stopped because the current queue required Private Desktop Packaging Preparation to close after Local PIN / Passphrase Auth.
 
-Local Packaged Auth Gate confirmed Ahmad-only local access is required, but real packaged-app auth, PIN/passphrase, device-lock awareness, and session timeout are not implemented.
+This fix updates packaging preparation after the local auth closure and makes it explicit that packaging preparation is now ready_with_notes for a readiness-only local build dry run.
 
-This mission prepares the packaging path without creating a release.
+## Reports Read
+
+Read and used:
+
+- `reports/al-kawn-private-desktop-packaging-gate.md`
+- `reports/al-kawn-local-packaged-auth-gate.md`
+- `reports/al-kawn-local-pin-passphrase-auth.md`
+- `reports/al-kawn-private-desktop-distribution-gate.md`
+- `reports/al-kawn-private-desktop-local-build-dry-run.md`
+
+The existing local build dry-run report is earlier history. This preparation fix is the current prerequisite closure.
 
 ## Packaging Capability Check
 
@@ -15,9 +25,10 @@ Current result:
 - packaging supported now: no
 - native shell exists: no
 - packaging tool exists: no
-- safe package-check script can be added: yes
+- safe package-check script exists: yes
+- safe dry-run readiness script exists: yes
+- local auth ready: ready_with_notes
 - secrets risk: no active bundle risk because no package is produced
-- auth gate status: future_gate
 - public distribution status: blocked
 
 ## Native Shell Status
@@ -34,23 +45,35 @@ No Electron/Tauri/native shell exists.
 
 ## Scripts Added Or Not Added
 
-Added:
+Already present and preserved:
 
+- `desktop:check`
 - `desktop:package:check`
-- `scripts/al-kawn-desktop-package-check.mjs`
+- `desktop:package:dry-run`
 
 Not added:
 
-- package local build script
-- package dry-run script
-- release script
+- package release script
 - signing script
 - publish script
 - upload script
 - auto-update script
 - payment/billing script
 
-The new script is a readiness check only. It creates no package artifacts.
+The scripts are readiness checks only. They create no package artifacts.
+
+## Local PIN / Passphrase Auth Dependency Result
+
+Local PIN / Passphrase Auth is preserved.
+
+- local route lock: implemented
+- PIN/passphrase setup: implemented
+- Web Crypto PBKDF2 verifier: implemented when available
+- plaintext passphrase storage: blocked
+- manual lock: implemented
+- session timeout: active
+- OS keychain/device-lock: future gate
+- production-grade auth claim: future gate
 
 ## Secret Safety Result
 
@@ -59,15 +82,11 @@ Secret safety remains preserved:
 - No secrets are stored in the desktop bundle.
 - Private documents are not packaged.
 - External accounts require Ahmad approval.
+- Local auth secrets are not exposed.
+- No plaintext passphrase is stored.
 - No API keys are hardcoded.
 - No credentials are placed in the desktop shell.
 - No broker/payment keys are packaged.
-
-## Auth Dependency Result
-
-Local Packaged Auth Gate exists, but real packaged-app auth is not implemented.
-
-PIN, passphrase, device-lock awareness, packaged-app lock, and session timeout remain future-gated.
 
 ## What Remains Blocked
 
@@ -78,41 +97,41 @@ PIN, passphrase, device-lock awareness, packaged-app lock, and session timeout r
 - auto-update distribution
 - secrets in Git
 - secrets in desktop bundle
+- plaintext passphrase storage
+- local auth secret exposure
 - billing, payments, receiving money
 - real money
 - broker execution
 - legal/FINMA/licensed claims
-- public الكون
+- public Al-Kawn
 - public ALKON
 
 ## What Remains Future-Gated
 
 - native shell choice
-- real packaged-app auth
-- local package dry run
+- native packaged-app hardening
+- OS keychain/device-lock integration
+- artifact-producing local build
 - private distribution method
 - signing method
 - package artifact audit
 
 ## Safest Next Action
 
-Ahmad decision required.
-
-Ahmad must choose the native shell path and local auth method before a Private Desktop Local Build Dry Run can be safe.
+Private Desktop Local Build Dry Run.
 
 ## Validation Results
 
-Passed:
+Passed during the resumed wake-state mission while preserving the packaging-preparation fix:
 
 - `npx tsc --noEmit`
 - `npx eslint app modules tests --max-warnings=0`
 - `npm run desktop:check`
 - `npm run desktop:package:check`
+- `npm run desktop:package:dry-run`
 - `npm run build`
 - `npm run prisma:validate`
-- `npx playwright test tests/regression/al-kawn-private-desktop-packaging-preparation.spec.ts`
-- `npm run test:regression` (359/359 passed)
-- `npm run smoke:routes`
-- `git diff --check`
+- `npx playwright test tests/regression/al-kawn-private-desktop-packaging-preparation.spec.ts` passed in the prior focused packaging-preparation validation.
+- `npm run test:regression` passed 372/372 after the wake-state regression was added.
 
-No package artifact, signing artifact, release upload, public distribution, external account connection, billing, payment, real-money, broker, or legal approval action was created.
+No packaged app release was created. No production signing was performed. No public distribution was created.

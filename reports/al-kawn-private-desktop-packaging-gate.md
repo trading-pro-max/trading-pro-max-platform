@@ -52,9 +52,11 @@ Al-Kawn Desktop remains Ahmad-only. Public desktop distribution is blocked. The 
 
 ## Local Auth Packaging Status
 
-Local packaged-app auth readiness is `future_gate`.
+Local packaged-app auth readiness is `ready_with_notes`.
 
-A packaged private app must not expose sensitive command surfaces without local auth. Production-grade packaged-app auth is not claimed.
+Local PIN / Passphrase Auth now protects `/desktop/kawn` as a browser/device-local private access lock.
+
+A packaged private app must not expose sensitive command surfaces without local auth. Production-grade packaged-app auth, OS keychain integration, and native packaged-app hardening are not claimed.
 
 ## Secret Safety
 
@@ -89,7 +91,7 @@ Product Truth remains preserved:
 - production app signing
 - desktop packaging release
 - private distribution method
-- local packaged-app auth
+- native packaged-app auth hardening
 - mobile clients
 - public distribution
 - billing, payments, receiving money

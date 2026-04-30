@@ -39,7 +39,11 @@ test.describe("Al-Kawn Local PIN / Passphrase Auth", () => {
       timeout: 20000,
     });
     await expect(page.getByText("Session timeout: active")).toBeVisible();
-    await expect(page.getByText("No plaintext passphrase is stored")).toBeVisible();
+    await expect(
+      page
+        .getByLabel("Local PIN / Passphrase Auth status")
+        .getByText("No plaintext passphrase is stored"),
+    ).toBeVisible();
 
     await page.getByRole("button", { name: "Manual lock" }).click();
     await expect(page.getByTestId("local-auth-unlock")).toBeVisible();

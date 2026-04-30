@@ -23,14 +23,14 @@ The gate checks:
 
 Current state:
 
-- local auth implemented: no
-- PIN implemented: no
-- passphrase implemented: no
+- local auth implemented: yes, for `/desktop/kawn`
+- PIN implemented: yes, as local private access lock
+- passphrase implemented: yes, as local private access lock
 - device-lock awareness implemented: no
-- session timeout implemented: no
+- session timeout implemented: yes, 30-minute local target
 - packaged-app lock implemented: no
 
-All of these remain future gates. Production-grade auth is not claimed.
+Native packaged-app hardening, OS keychain/device-lock integration, and production-grade auth remain future gates. Production-grade auth is not claimed.
 
 ## External Auth Status
 
@@ -66,10 +66,9 @@ Product Truth remains preserved:
 
 ## What Remains Not Done
 
-- real packaged-app auth
-- PIN/passphrase/device-lock implementation
-- session timeout
-- packaged-app lock
+- native packaged-app auth hardening
+- OS keychain/device-lock implementation
+- production-grade auth claim
 - native desktop shell
 - signing
 - packaging release
@@ -80,11 +79,15 @@ Product Truth remains preserved:
 - real money, broker execution
 - legal approval
 
+## Post Local PIN / Passphrase Update
+
+Local PIN / Passphrase Auth is implemented and preserved for `/desktop/kawn`.
+
+No plaintext passphrase is stored. External auth providers remain disconnected and require Ahmad approval.
+
 ## Safest Next Action
 
-Ahmad decision required.
-
-Ahmad should choose the local access method before Private Desktop Packaging Preparation.
+Private Desktop Packaging Preparation.
 
 ## Validation Results
 

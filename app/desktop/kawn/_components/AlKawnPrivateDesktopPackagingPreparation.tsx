@@ -50,6 +50,7 @@ export function AlKawnPrivateDesktopPackagingPreparation({
         <span>No secrets are stored in the desktop bundle.</span>
         <span>Signing and public distribution remain blocked.</span>
         <span>Product Truth overrides packaging.</span>
+        <span>Local PIN / Passphrase Auth is preserved.</span>
         <span>Public desktop distribution is blocked.</span>
       </div>
 

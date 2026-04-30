@@ -152,7 +152,7 @@ Current state:
 - packaging readiness: future_gate
 - signing readiness: needs_ahmad_decision
 - private distribution readiness: needs_ahmad_decision
-- local packaged-app auth readiness: future_gate
+- local packaged-app auth readiness: ready_with_notes
 - secret safety: ready_with_notes
 
 Local Packaged Auth Gate now defines Ahmad-only local access requirements before private packaging preparation.
@@ -196,6 +196,8 @@ Required wording:
 
 Because no native shell exists now, `/desktop/kawn` remains the desktop-first route. The safe script `desktop:package:check` may validate the future gate state, but it must not produce release artifacts.
 
+Local PIN / Passphrase Auth is preserved during packaging preparation. Private Desktop Local Build Dry Run is the next safe readiness-only step, and it must not create artifacts, sign, publish, upload, or distribute the app.
+
 ## Control Surfaces
 
 `/desktop/kawn` is also the main private control client for Al-Kawn Control Surfaces.
@@ -210,5 +212,27 @@ The desktop must show:
 - Blocked by Product Truth
 
 Control surfaces classify every layer action before future automation. Infinity Mode and Operator Mode remain future-gated until Ahmad explicitly approves a later preparation mission.
+
+## Al-Kawn Wake State + Human Interface
+
+`/desktop/kawn` is now also the first daily wake surface for الكون.
+
+The desktop must show:
+
+- Al-Kawn Wake State
+- الكون استيقظ للعمل الداخلي اليومي.
+- الكون يتكلم مع أحمد بلغة بشرية واضحة.
+- Human Spoken Interface is active.
+- Daily Work Loop is active.
+- Product Truth loaded.
+- Universe Operating Kernel checked.
+- Inside الكون: direct internal execution.
+- Legal and Money gates stop execution for Ahmad.
+- Daily WAKE REPORT prepared.
+- One next action selected.
+
+The wake surface is not a public launch, not Infinity Mode, not Operator Mode, and not external automation. It is a private daily operating loop for safe internal work.
+
+Daily reports live in `reports/daily/` and must not include secrets, credentials, private documents, payment keys, broker keys, or external-account data.
 
 Desktop is the main private command client for الكون. Mobile clients come later as lightweight private access layers and require their own security, signing, distribution, authentication, and no-secrets gates.

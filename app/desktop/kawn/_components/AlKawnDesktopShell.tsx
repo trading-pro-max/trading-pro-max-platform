@@ -4,11 +4,14 @@ import {
   getAlKawnControlSurfaces,
   getControlSurfaceSummary,
 } from "@/lib/server/universe/control-surfaces";
+import { getAlKawnDailyWorkLoop } from "@/lib/server/universe/daily-work-loop";
 import { getDesktopDistributionGate } from "@/lib/server/universe/desktop-distribution-gate";
 import { getPrivateDesktopLocalBuildDryRun } from "@/lib/server/universe/desktop-local-build-dry-run";
 import { getDesktopPackagingGate } from "@/lib/server/universe/desktop-packaging-gate";
 import { getPrivateDesktopPackagingPreparation } from "@/lib/server/universe/desktop-packaging-preparation";
+import { getAlKawnHumanSpokenInterfaceState } from "@/lib/server/universe/human-spoken-interface";
 import { getLocalPackagedAuthGate } from "@/lib/server/universe/local-packaged-auth-gate";
+import { getAlKawnWakeState } from "@/lib/server/universe/wake-state";
 import { AlKawnAppointmentCenter } from "./AlKawnAppointmentCenter";
 import { AlKawnBootSequence } from "./AlKawnBootSequence";
 import { AlKawnControlSurfaces } from "./AlKawnControlSurfaces";
@@ -32,6 +35,7 @@ import { AlKawnTopSystemBar } from "./AlKawnTopSystemBar";
 import { AlKawnTradingBridge } from "./AlKawnTradingBridge";
 import { AlKawnVaultPanel } from "./AlKawnVaultPanel";
 import { AlKawnWakeReportPanel } from "./AlKawnWakeReportPanel";
+import { AlKawnWakeStatePanel } from "./AlKawnWakeStatePanel";
 import styles from "../al-kawn-desktop.module.css";
 
 export function AlKawnDesktopShell({ state }: { state: AlKawnDesktopState }) {
@@ -42,6 +46,9 @@ export function AlKawnDesktopShell({ state }: { state: AlKawnDesktopState }) {
   const desktopPackagingPreparation = getPrivateDesktopPackagingPreparation();
   const desktopLocalBuildDryRun = getPrivateDesktopLocalBuildDryRun();
   const desktopDistributionGate = getDesktopDistributionGate();
+  const wakeState = getAlKawnWakeState();
+  const dailyWorkLoop = getAlKawnDailyWorkLoop();
+  const spokenInterface = getAlKawnHumanSpokenInterfaceState();
 
   return (
     <main
@@ -100,6 +107,11 @@ export function AlKawnDesktopShell({ state }: { state: AlKawnDesktopState }) {
       </section>
 
       <AlKawnControlSurfaces surfaces={controlSurfaces} summary={controlSurfaceSummary} />
+      <AlKawnWakeStatePanel
+        wakeState={wakeState}
+        dailyWorkLoop={dailyWorkLoop}
+        spokenInterface={spokenInterface}
+      />
       <AlKawnPrivateDesktopPackagingGate gate={desktopPackagingGate} />
       <AlKawnLocalPackagedAuthGate gate={localPackagedAuthGate} />
       <AlKawnPrivateDesktopPackagingPreparation

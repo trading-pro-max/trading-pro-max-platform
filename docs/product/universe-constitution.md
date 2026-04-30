@@ -365,3 +365,27 @@ Execution law:
 - Universe Operating Kernel هو القاضي التنفيذي.
 
 Control surfaces do not start Infinity Mode, Operator Mode, Local Day One, public launch, billing, payments, receiving money, real money, broker execution, legal approval, or brand adoption.
+
+## Wake State And Daily Work Loop Law
+
+Al-Kawn Wake State is now the private daily operating state for الكون.
+
+Required law:
+
+- Al-Kawn Wake State.
+- الكون استيقظ للعمل الداخلي اليومي.
+- الكون يتكلم مع أحمد بلغة بشرية واضحة.
+- Daily Work Loop is active.
+- Human Spoken Interface is active.
+- Product Truth loaded.
+- Universe Operating Kernel checked.
+- Inside الكون: direct internal execution.
+- Legal and Money gates stop execution for Ahmad.
+- Daily WAKE REPORT prepared.
+- One next action selected.
+
+The daily loop may execute clean internal work directly: reports, audits, task organization, Product Truth checks, validation summaries, architecture summaries, desktop status summaries, and next safe mission drafts.
+
+The daily loop must stop for Ahmad at legal and money actions, and must block Product Truth violations immediately.
+
+Infinity Mode and Operator Mode remain blocked/future until later explicit preparation missions.

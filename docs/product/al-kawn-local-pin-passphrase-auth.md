@@ -115,3 +115,9 @@ Product Truth overrides auth claims.
 ## Limitations
 
 This is a browser/device-local private access lock. It improves private local access control for the current desktop route, but it does not replace operating-system account security, encrypted native keychains, production-grade auth, legal identity checks, or financial identity verification.
+
+## Packaging Preparation Dependency
+
+Private Desktop Packaging Preparation must preserve Local PIN / Passphrase Auth.
+
+Packaging preparation may proceed only as a readiness layer. It must not expose local auth secrets, store a plaintext passphrase, create public distribution, sign production builds, upload artifacts, or claim production-grade auth.

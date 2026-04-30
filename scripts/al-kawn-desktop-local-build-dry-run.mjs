@@ -12,6 +12,7 @@ const scripts = packageJson.scripts ?? {};
 const desktopRoutePath = join(root, "app", "desktop", "kawn", "page.tsx");
 const packagingGateReport = join(root, "reports", "al-kawn-private-desktop-packaging-gate.md");
 const localAuthGateReport = join(root, "reports", "al-kawn-local-packaged-auth-gate.md");
+const localPinAuthReport = join(root, "reports", "al-kawn-local-pin-passphrase-auth.md");
 const packagingPreparationReport = join(
   root,
   "reports",
@@ -55,6 +56,10 @@ const checks = [
     pass: existsSync(localAuthGateReport),
   },
   {
+    label: "local PIN/passphrase auth report exists",
+    pass: existsSync(localPinAuthReport),
+  },
+  {
     label: "private desktop packaging preparation report exists",
     pass: existsSync(packagingPreparationReport),
   },
@@ -95,6 +100,8 @@ console.log("local_dry_run_supported=false");
 console.log("dry_run_executed=readiness_only");
 console.log("native_shell=future_gate");
 console.log("package_tool=future_gate");
+console.log("local_auth=ready_with_notes");
+console.log("local_pin_passphrase_auth=preserved");
 console.log("artifacts_created=false");
 console.log("generated_artifacts=none");
 console.log("public_distribution=blocked");
