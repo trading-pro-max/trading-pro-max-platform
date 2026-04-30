@@ -16,7 +16,7 @@ test.describe("Al-Kawn Experiential Desktop Correction", () => {
     await expect(page.getByTestId("al-kawn-living-universe-experience")).toBeVisible();
     await expect(body).toContainText("Welcome to الكون");
     await expect(body).toContainText("الكون حي داخل لابتوب أحمد");
-    await expect(body).toContainText("هذا ليس Dashboard؛ هذا بيت الكون الخاص");
+    await expect(body).toContainText("هذا ليس Dashboard؛ هذا بيت الكون الحي");
     await expect(body).toContainText("Product Truth هو قانون الحقيقة الأعلى");
     await expect(body).toContainText("Universe Operating Kernel هو القاضي التنفيذي");
     await expect(body).toContainText("داخل أجهزة أحمد الشخصية: الكون يعمل");
@@ -57,7 +57,7 @@ test.describe("Al-Kawn Experiential Desktop Correction", () => {
     );
 
     expect(desktopSource).toContain("Welcome to الكون");
-    expect(desktopSource).toContain("هذا ليس Dashboard؛ هذا بيت الكون الخاص");
+    expect(desktopSource).toContain("هذا ليس Dashboard؛ هذا بيت الكون الحي");
     expect(experienceSource).toContain("The pulse reflects state, not decoration.");
     expect(existsSync("docs/product/al-kawn-experiential-desktop-correction.md")).toBe(true);
     expect(existsSync("reports/al-kawn-experiential-desktop-correction.md")).toBe(true);

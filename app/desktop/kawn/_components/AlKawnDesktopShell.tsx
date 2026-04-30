@@ -31,7 +31,9 @@ import { getAlKawnWakeState } from "@/lib/server/universe/wake-state";
 import { AlKawnAppointmentCenter } from "./AlKawnAppointmentCenter";
 import { AlKawnBootSequence } from "./AlKawnBootSequence";
 import { AlKawnControlSurfaces } from "./AlKawnControlSurfaces";
+import { AlKawnDailyFocusPanel } from "./AlKawnDailyFocusPanel";
 import { AlKawnDecisionCenter } from "./AlKawnDecisionCenter";
+import { AlKawnDetailGroup } from "./AlKawnDetailGroup";
 import { AlKawnGalaxyMap } from "./AlKawnGalaxyMap";
 import { AlKawnHumanChat } from "./AlKawnHumanChat";
 import { AlKawnInfinityPreparationPanel } from "./AlKawnInfinityPreparationPanel";
@@ -94,7 +96,6 @@ export function AlKawnDesktopShell({ state }: { state: AlKawnDesktopState }) {
       aria-label="Al-Kawn Desktop Operating Environment"
     >
       <ProMaxLivingUniverseBackground surface="founder" />
-      <AlKawnTopSystemBar state={state} />
 
       <AlKawnLivingEntryHero
         state={state}
@@ -102,87 +103,166 @@ export function AlKawnDesktopShell({ state }: { state: AlKawnDesktopState }) {
         dailyWorkLoop={dailyWorkLoop}
       />
 
-      <AlKawnBootSequence steps={state.boot} />
-      <AlKawnLivingUniverseExperiencePanel
-        wakeState={wakeState}
+      <AlKawnDailyFocusPanel
+        state={state}
         dailyWorkLoop={dailyWorkLoop}
-        infinityPreparation={infinityPreparation}
-        infinityActivation={infinityActivation}
-        operatorPreparation={operatorPreparation}
-        operatorActivation={operatorActivation}
         localDayOne={localDayOne}
       />
 
-      <section className={styles.technicalSection} aria-label="Technical panels are secondary">
-        <div className={styles.sectionTitle}>
-          <span>Technical panels</span>
-          <h2>Technical systems remain available below the living entry.</h2>
-          <p>
-            Boot Details, Control Surfaces, Capability Matrix, Rights & Ownership,
-            Packaging/Auth Gates, Reports, Infinity / Operator, and Local Day One remain
-            preserved without taking the first impression away from الكون.
-          </p>
-        </div>
-      </section>
-
-      <section className={styles.operatingGrid} aria-label="Al-Kawn desktop operating layout">
-        <AlKawnLayerNavigator layers={state.layers} />
-        <div className={styles.centerStack}>
-          <AlKawnHumanChat
-            welcomeMessage={state.welcomeMessage}
-            quickActions={state.quickActions}
+      <section className={styles.desktopDetails} aria-label="Al-Kawn secondary details">
+        <AlKawnDetailGroup
+          title="System Details"
+          description="Compact system truth after the living entry."
+        >
+          <AlKawnTopSystemBar state={state} />
+          <AlKawnLivingUniverseExperiencePanel
+            wakeState={wakeState}
+            dailyWorkLoop={dailyWorkLoop}
+            infinityPreparation={infinityPreparation}
+            infinityActivation={infinityActivation}
+            operatorPreparation={operatorPreparation}
+            operatorActivation={operatorActivation}
+            localDayOne={localDayOne}
           />
-          <AlKawnGalaxyMap />
-          <AlKawnTradingBridge />
-        </div>
-        <div className={styles.rightStack}>
-          <AlKawnDecisionCenter decisions={state.decisionCenter} />
-          <AlKawnTaskCenter tasks={state.tasks} />
-          <AlKawnAppointmentCenter appointments={state.appointments} />
-        </div>
-      </section>
+        </AlKawnDetailGroup>
 
-      <AlKawnControlSurfaces surfaces={controlSurfaces} summary={controlSurfaceSummary} />
-      <AlKawnTotalExistenceCompletionPanel
-        totalExistence={totalExistence}
-        capabilities={capabilities}
-        glossaryTerms={glossary.terms}
-        rightsEntries={rights.entries}
-        livingEntities={livingOntology.entities}
-        automaticEngine={automaticEngine}
-      />
-      <AlKawnLivingAutonomousIntelligencePanel
-        intelligence={livingAutonomousIntelligence}
-      />
-      <AlKawnWakeStatePanel
-        wakeState={wakeState}
-        dailyWorkLoop={dailyWorkLoop}
-        spokenInterface={spokenInterface}
-      />
-      <AlKawnInfinityPreparationPanel preparation={infinityPreparation} />
-      <AlKawnInternalOperatingSequencePanel
-        infinityPreparation={infinityPreparation}
-        infinityActivation={infinityActivation}
-        operatorPreparation={operatorPreparation}
-        operatorActivation={operatorActivation}
-        localDayOne={localDayOne}
-      />
-      <AlKawnPrivateDesktopPackagingGate gate={desktopPackagingGate} />
-      <AlKawnLocalPackagedAuthGate gate={localPackagedAuthGate} />
-      <AlKawnPrivateDesktopPackagingPreparation
-        preparation={desktopPackagingPreparation}
-      />
-      <AlKawnPrivateDesktopLocalBuildDryRun dryRun={desktopLocalBuildDryRun} />
-      <AlKawnPrivateDesktopDistributionGate gate={desktopDistributionGate} />
+        <AlKawnDetailGroup
+          title="Boot Details"
+          description="Boot sequence is available, but no longer owns the first screen."
+        >
+          <AlKawnBootSequence steps={state.boot} />
+        </AlKawnDetailGroup>
 
-      <section className={styles.lowerGrid} aria-label="Al-Kawn desktop control panels">
-        <AlKawnReportCenter reports={state.reports} />
-        <AlKawnDesktopShellStatus shell={state.shellFinalization} />
-        <AlKawnWakeReportPanel reports={state.reports} nextSafeAction={state.nextSafeAction} />
-        <AlKawnProductTruthPanel items={state.productTruth} />
-        <AlKawnProtectionPanel protection={state.protection} />
-        <AlKawnVaultPanel vault={state.vault} />
-        <AlKawnKernelPanel kernel={state.kernel} />
+        <AlKawnDetailGroup
+          title="Product Truth Details"
+          description="Truth, protection, vault, and kernel remain below the experience."
+        >
+          <section className={styles.lowerGrid} aria-label="Al-Kawn truth control panels">
+            <AlKawnProductTruthPanel items={state.productTruth} />
+            <AlKawnProtectionPanel protection={state.protection} />
+            <AlKawnVaultPanel vault={state.vault} />
+            <AlKawnKernelPanel kernel={state.kernel} />
+          </section>
+        </AlKawnDetailGroup>
+
+        <AlKawnDetailGroup
+          title="Infinity / Operator Details"
+          description="Internal controlled modes stay secondary and trigger-safe."
+        >
+          <AlKawnLivingAutonomousIntelligencePanel
+            intelligence={livingAutonomousIntelligence}
+          />
+          <AlKawnWakeStatePanel
+            wakeState={wakeState}
+            dailyWorkLoop={dailyWorkLoop}
+            spokenInterface={spokenInterface}
+          />
+          <AlKawnInfinityPreparationPanel preparation={infinityPreparation} />
+          <AlKawnInternalOperatingSequencePanel
+            infinityPreparation={infinityPreparation}
+            infinityActivation={infinityActivation}
+            operatorPreparation={operatorPreparation}
+            operatorActivation={operatorActivation}
+            localDayOne={localDayOne}
+          />
+        </AlKawnDetailGroup>
+
+        <AlKawnDetailGroup
+          title="Reports"
+          description="Reports stay available without becoming the entry experience."
+        >
+          <section className={styles.lowerGrid} aria-label="Al-Kawn report panels">
+            <AlKawnReportCenter reports={state.reports} />
+            <AlKawnWakeReportPanel
+              reports={state.reports}
+              nextSafeAction={state.nextSafeAction}
+            />
+          </section>
+        </AlKawnDetailGroup>
+
+        <AlKawnDetailGroup
+          title="Control Surfaces"
+          description="Control surfaces are preserved as lower-order operational proof."
+        >
+          <AlKawnControlSurfaces
+            surfaces={controlSurfaces}
+            summary={controlSurfaceSummary}
+          />
+        </AlKawnDetailGroup>
+
+        <AlKawnDetailGroup
+          title="Rights / Ownership"
+          description="Capability, glossary, rights, and ontology remain below the living entry."
+        >
+          <AlKawnTotalExistenceCompletionPanel
+            totalExistence={totalExistence}
+            capabilities={capabilities}
+            glossaryTerms={glossary.terms}
+            rightsEntries={rights.entries}
+            livingEntities={livingOntology.entities}
+            automaticEngine={automaticEngine}
+          />
+        </AlKawnDetailGroup>
+
+        <AlKawnDetailGroup
+          title="Packaging / Auth Gates"
+          description="Desktop packaging and auth gates stay gated and lower priority."
+        >
+          <section className={styles.lowerGrid} aria-label="Al-Kawn packaging and auth gates">
+            <AlKawnDesktopShellStatus shell={state.shellFinalization} />
+          </section>
+          <AlKawnPrivateDesktopPackagingGate gate={desktopPackagingGate} />
+          <AlKawnLocalPackagedAuthGate gate={localPackagedAuthGate} />
+          <AlKawnPrivateDesktopPackagingPreparation
+            preparation={desktopPackagingPreparation}
+          />
+          <AlKawnPrivateDesktopLocalBuildDryRun dryRun={desktopLocalBuildDryRun} />
+          <AlKawnPrivateDesktopDistributionGate gate={desktopDistributionGate} />
+        </AlKawnDetailGroup>
+
+        <AlKawnDetailGroup
+          title="Pro Max / Trading Layers"
+          description="الكون is root; Pro Max and /trading are lower layers inside it."
+        >
+          <section
+            className={styles.technicalSection}
+            aria-label="Pro Max demoted under Al-Kawn"
+          >
+            <div className={styles.sectionTitle}>
+              <span>Pro Max demotion</span>
+              <h2>الكون هو الأصل.</h2>
+              <p>Pro Max Galaxy طبقة مستقبلية داخل الكون.</p>
+              <p>/desktop/kawn هو بيت الكون الحي.</p>
+            </div>
+          </section>
+          <section
+            className={styles.operatingGrid}
+            aria-label="Al-Kawn desktop operating layout"
+          >
+            <AlKawnLayerNavigator layers={state.layers} />
+            <div className={styles.centerStack}>
+              <AlKawnHumanChat
+                welcomeMessage={state.welcomeMessage}
+                quickActions={state.quickActions}
+              />
+              <AlKawnGalaxyMap />
+              <AlKawnTradingBridge />
+            </div>
+            <div className={styles.rightStack}>
+              <details className={styles.queueDisclosure} open>
+                <summary>
+                  <span>Review queues</span>
+                  <strong>Queues are secondary to the one next action.</strong>
+                </summary>
+                <div className={styles.queueStack}>
+                  <AlKawnDecisionCenter decisions={state.decisionCenter} />
+                  <AlKawnTaskCenter tasks={state.tasks} />
+                  <AlKawnAppointmentCenter appointments={state.appointments} />
+                </div>
+              </details>
+            </div>
+          </section>
+        </AlKawnDetailGroup>
       </section>
 
       <AlKawnRealityDock reality={state.reality} />

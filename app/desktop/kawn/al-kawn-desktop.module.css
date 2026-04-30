@@ -15,6 +15,8 @@
 .hero,
 .livingHero,
 .livingExperience,
+.dailyFocus,
+.detailGroup,
 .technicalSection,
 .bootSequence,
 .layerNavigator,
@@ -250,11 +252,11 @@
 
 .livingHero {
   display: grid;
-  gap: 14px;
-  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.58fr);
-  min-height: min(720px, calc(100vh - 96px));
+  gap: clamp(12px, 1.8vw, 20px);
+  grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.5fr);
+  min-height: min(780px, calc(100vh - 24px));
   overflow: hidden;
-  padding: clamp(18px, 3vw, 34px);
+  padding: clamp(22px, 4vw, 54px);
 }
 
 .livingHero::before,
@@ -346,10 +348,17 @@
 .humanMessagePanel,
 .nextActionPanel,
 .truthPrivacyStrip {
-  background: rgba(4, 8, 14, 0.52);
-  border: 1px solid rgba(255, 255, 255, 0.105);
-  border-radius: 14px;
-  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.2);
+  background: rgba(4, 8, 14, 0.34);
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 16px;
+  box-shadow: 0 18px 52px rgba(0, 0, 0, 0.16);
+}
+
+.livingEntryPanel {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  padding: 0;
 }
 
 .humanMessagePanel span,
@@ -399,7 +408,14 @@
 }
 
 .compatibilityProof {
-  opacity: 0.72;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
 }
 
 .humanMessagePanel strong,
@@ -410,6 +426,114 @@
 
 .nextActionPanel {
   border-color: rgba(255, 190, 100, 0.24);
+}
+
+.dailyFocus,
+.desktopDetails {
+  display: grid;
+  gap: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.dailyFocus {
+  grid-template-columns: minmax(280px, 0.72fr) minmax(360px, 1fr);
+  padding: 14px;
+}
+
+.dailyFocusAction {
+  background:
+    linear-gradient(135deg, rgba(255, 190, 100, 0.1), transparent 54%),
+    rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 190, 100, 0.2);
+  border-radius: 14px;
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+}
+
+.dailyFocusAction strong {
+  color: #ffffff;
+  font-size: clamp(1.1rem, 1.7vw, 1.55rem);
+  line-height: 1.25;
+}
+
+.dailyFocusAction p,
+.dailyFocusAction small {
+  color: rgba(235, 241, 247, 0.72);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.dailyFocusStrip {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  grid-column: 1 / -1;
+}
+
+.dailyFocusStrip span {
+  background: rgba(255, 255, 255, 0.052);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 999px;
+  color: rgba(246, 248, 251, 0.82);
+  font-size: 0.74rem;
+  padding: 7px 9px;
+}
+
+.detailGroup {
+  display: grid;
+  gap: 12px;
+  padding: 0;
+}
+
+.detailGroup summary,
+.queueDisclosure summary {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  padding: 12px 14px;
+}
+
+.detailGroup summary::-webkit-details-marker,
+.queueDisclosure summary::-webkit-details-marker {
+  display: none;
+}
+
+.detailGroup summary span,
+.queueDisclosure summary span {
+  background: rgba(255, 255, 255, 0.052);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 999px;
+  color: rgba(246, 248, 251, 0.82);
+  font-size: 0.72rem;
+  font-weight: 850;
+  padding: 6px 8px;
+  text-transform: uppercase;
+}
+
+.detailGroup summary strong,
+.queueDisclosure summary strong {
+  color: #ffffff;
+}
+
+.detailGroupBody,
+.queueStack {
+  display: grid;
+  gap: 12px;
+  padding: 0 12px 12px;
+}
+
+.queueDisclosure {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 14px;
+  display: grid;
+  gap: 8px;
 }
 
 .livingExperience,
@@ -723,6 +847,7 @@
   .localAuthScreen,
   .hero,
   .livingHero,
+  .dailyFocus,
   .operatingGrid,
   .lowerGrid,
   .controlSurfaceGrid,

@@ -22,7 +22,7 @@ test.describe("Emergency Al-Kawn Desktop Experience Correction", () => {
     await expect(page.getByTestId("al-kawn-living-entry-hero")).toBeVisible();
     await expect(body).toContainText("Welcome to الكون");
     await expect(body).toContainText("الكون حي داخل لابتوب أحمد");
-    await expect(body).toContainText("هذا ليس Dashboard؛ هذا بيت الكون الخاص");
+    await expect(body).toContainText("هذا ليس Dashboard؛ هذا بيت الكون الحي");
     await expect(body).toContainText("Product Truth هو قانون الحقيقة الأعلى");
     await expect(body).toContainText("Universe Operating Kernel هو القاضي التنفيذي");
     await expect(body).toContainText("داخل أجهزة أحمد الشخصية: الكون يعمل");
@@ -69,7 +69,7 @@ test.describe("Emergency Al-Kawn Desktop Experience Correction", () => {
     expect(infinityPanel).toContain("infinity-required-");
     expect(wakePanel).toContain("daily-loop-required-");
     expect(heroPanel).toContain("Welcome to الكون");
-    expect(heroPanel).toContain("هذا ليس Dashboard؛ هذا بيت الكون الخاص");
+    expect(heroPanel).toContain("هذا ليس Dashboard؛ هذا بيت الكون الحي");
     expect(existsSync("docs/product/al-kawn-desktop-experience-correction.md")).toBe(true);
     expect(existsSync("reports/al-kawn-emergency-desktop-experience-correction.md")).toBe(true);
     expect(infinityPanel + wakePanel + heroPanel).not.toMatch(FORBIDDEN_CLAIMS);

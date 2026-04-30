@@ -304,19 +304,23 @@ export default function UniverseCommandCenter({
       >
         <div className={styles.kernelHeader}>
           <div>
-            <span>Emergency Al-Kawn Desktop Experience Correction</span>
+            <span>Al-Kawn Deep Experience Cleanup</span>
             <h2>/desktop/kawn هو بيت الكون الحي، وليس لوحة تقنية.</h2>
             <p>/desktop/kawn now opens as a living universe experience, not a technical dashboard.</p>
+            <p>تجربة الكون تحتاج قبول أحمد قبل Start Local Day One.</p>
+            <p>الكون remains the root. Pro Max is not root.</p>
+            <p>Pro Max Galaxy طبقة مستقبلية داخل الكون.</p>
             <p>Product Truth remains visible above visual beauty.</p>
             <p>Duplicate React key error fixed for repeated daily loop wording.</p>
-            <p>Technical details remain available below the living entry.</p>
+            <p>Technical panels are grouped below the living entry.</p>
           </div>
           <aside>
-            <strong>Desktop experience correction complete</strong>
+            <strong>Deep experience cleanup complete</strong>
             <small>Welcome to الكون.</small>
             <small>Duplicate key error fixed.</small>
             <small>Local Day One remains ready_not_started.</small>
             <small>Ahmad review required before Local Day One.</small>
+            <small>Pro Max is demoted inside الكون.</small>
             <Link href="/desktop/kawn">Enter الكون</Link>
           </aside>
         </div>

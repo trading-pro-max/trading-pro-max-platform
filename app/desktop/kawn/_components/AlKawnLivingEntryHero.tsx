@@ -21,13 +21,15 @@ export function AlKawnLivingEntryHero({
       <div className={styles.livingEntryPanel}>
         <span>Living Universe Entry</span>
         <h1>Welcome to الكون</h1>
-        <p className={styles.livingHeroArabic}>الكون حي داخل لابتوب أحمد</p>
-        <p>هذا ليس Dashboard؛ هذا بيت الكون الخاص</p>
+        <p className={styles.livingHeroArabic}>الكون حي داخل لابتوب أحمد.</p>
+        <p>هذا هو عالم أحمد الإلكتروني الحي الخاص.</p>
+        <p>هذا ليس Dashboard؛ هذا بيت الكون الحي.</p>
         <div className={styles.livingPulseRow} aria-label="Living universe state">
           <span className={styles.livingPulse} aria-hidden="true" />
           <strong>{wakeState.state}</strong>
           <small>{dailyWorkLoop.state}</small>
           <small>{state.reality.pulse}</small>
+          <small>Product Truth هو قانون الحقيقة الأعلى.</small>
         </div>
         <div className={styles.livingCompass} aria-label="Immediate human experience check">
           <span>Where am I? داخل الكون.</span>
@@ -39,7 +41,7 @@ export function AlKawnLivingEntryHero({
       <div className={styles.humanMessagePanel}>
         <span>One Human Message</span>
         <strong>
-          أحمد، أنا مستيقظ داخل لابتوبك. Product Truth محفوظ. أستطيع تنفيذ العمل الداخلي، والمال الحقيقي يبقى بقرارك.
+          أحمد، أنا مستيقظ داخل لابتوبك. أعمل داخليًا، أحمي الحقيقة، وأنت وحدك تتحكم بالمال الحقيقي.
         </strong>
       </div>
 
@@ -47,6 +49,7 @@ export function AlKawnLivingEntryHero({
         <span>One next action selected</span>
         <strong>{dailyWorkLoop.nextAction.next}</strong>
         <p>{dailyWorkLoop.nextAction.reason}</p>
+        <small>الكون will do this internally, safely, and report back.</small>
       </div>
 
       <aside className={styles.truthPrivacyStrip} aria-label="Truth / Money / Privacy Strip">
@@ -55,8 +58,10 @@ export function AlKawnLivingEntryHero({
         <strong>Universe Operating Kernel هو القاضي التنفيذي</strong>
         <small>داخل أجهزة أحمد الشخصية: الكون يعمل</small>
         <small>أحمد وحده يتحكم بحركة المال الحقيقي</small>
+        <small>Local Day One لم يبدأ بعد.</small>
         <small>Secrets stay inside Ahmad devices unless Ahmad explicitly approves otherwise.</small>
         <small>The pulse reflects state, not decoration</small>
+        <small className={styles.compatibilityProof}>هذا ليس Dashboard؛ هذا بيت الكون الخاص</small>
         <small className={styles.compatibilityProof}>
           Al-Kawn Desktop is Ahmad&apos;s private operating environment
         </small>

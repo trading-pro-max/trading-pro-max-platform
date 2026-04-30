@@ -7,10 +7,18 @@ export function AlKawnGalaxyMap() {
       <AlKawnCosmicIdentity variant="desktop" showLabels />
       <div>
         <span>Universe Visual Pane</span>
-        <h2>Pro Max Galaxy inside الكون</h2>
+        <h2>الكون هو الأصل.</h2>
+        <p>Pro Max Galaxy طبقة مستقبلية داخل الكون.</p>
+        <p>/desktop/kawn هو بيت الكون الحي.</p>
         <p>Earth Planet is the first planet inside Pro Max Galaxy.</p>
-        <p>Living universe identity, Earth/Moon identity, and Swiss-inspired precision remain source-labeled.</p>
-        <p>Reduced-motion safe; visual identity supports Product Truth without becoming a public claim.</p>
+        <p>
+          Living universe identity, Earth/Moon identity, and Swiss-inspired precision
+          remain source-labeled.
+        </p>
+        <p>
+          Reduced-motion safe; visual identity supports Product Truth without becoming a
+          public claim.
+        </p>
       </div>
     </section>
   );
