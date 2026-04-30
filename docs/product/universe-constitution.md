@@ -433,3 +433,24 @@ Required law:
 Infinity preparation may prepare internal reports, status refreshes, task drafts, Product Truth checks, regression summaries, desktop summaries, architecture summaries, forbidden-claim scans, wake reports, and one next action.
 
 Infinity preparation must block public launch, billing, payments, receiving money, real money, broker execution, legal claims, FINMA claims, external accounts, customer onboarding, public الكون, public ALKON, and secrets movement.
+
+## Operator And Local Day One Law
+
+Operator Mode preparation prepares الكون to work for Ahmad internally.
+
+Operator Mode controlled activation means:
+
+- Operator Mode controlled activation.
+- الكون يعمل عن أحمد داخليًا.
+- Operator Mode executes safe internal work only.
+- Legal and Money gates stop execution for Ahmad.
+- Product Truth blocks unsafe or false actions.
+- No public, money, broker, legal, or external actions.
+
+Local Day One Boot Gate means:
+
+- Local Day One is ready but not started.
+- Ahmad must start Local Day One.
+- Infinity and Operator are ready for private internal operation.
+- Legal and Money gates remain Ahmad gates.
+- Product Truth is enforced.

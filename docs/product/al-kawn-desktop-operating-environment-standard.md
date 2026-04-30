@@ -281,4 +281,18 @@ The panel must show:
 
 This is preparation only. It does not start Operator Mode, public launch, billing, payments, receiving money, real money, broker execution, legal claims, external accounts, or uncontrolled background automation.
 
+## Final Internal Operating Sequence
+
+`/desktop/kawn` now shows the ordered private operating sequence:
+
+- Infinity Mode preparation
+- Infinity Mode controlled activation
+- Operator Mode preparation
+- Operator Mode controlled activation
+- Local Day One Boot Gate
+
+Infinity Mode is active only for private internal cycles. Operator Mode executes safe internal work only. Local Day One is ready but not started. Ahmad must start Local Day One.
+
+No background daemon, uncontrolled loop, public launch, billing, payments, receiving money, real money, broker execution, legal claim, external account action, public الكون, or public ALKON is activated.
+
 Desktop is the main private command client for الكون. Mobile clients come later as lightweight private access layers and require their own security, signing, distribution, authentication, and no-secrets gates.

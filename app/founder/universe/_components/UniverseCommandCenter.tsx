@@ -63,7 +63,11 @@ import { getDesktopPackagingGate } from "@/lib/server/universe/desktop-packaging
 import { getPrivateDesktopPackagingPreparation } from "@/lib/server/universe/desktop-packaging-preparation";
 import { getAlKawnDesktopState } from "@/lib/server/universe/desktop-interface";
 import { getAlKawnHumanSpokenInterfaceState } from "@/lib/server/universe/human-spoken-interface";
-import { getAlKawnInfinityPreparation } from "@/lib/server/universe/infinity";
+import {
+  getAlKawnInfinityPreparation,
+  getInfinityControlledActivation,
+} from "@/lib/server/universe/infinity";
+import { getLocalDayOneReadiness } from "@/lib/server/universe/local-day-one";
 import {
   getLocalDesktopAuthBoundaries,
   getLocalDesktopAuthNextAction,
@@ -71,6 +75,10 @@ import {
   getLocalDesktopAuthStatus,
 } from "@/lib/server/universe/local-desktop-auth";
 import { getLocalPackagedAuthGate } from "@/lib/server/universe/local-packaged-auth-gate";
+import {
+  getAlKawnOperatorPreparation,
+  getOperatorControlledActivation,
+} from "@/lib/server/universe/operator";
 import { getAlKawnWakeState } from "@/lib/server/universe/wake-state";
 import styles from "../founder-universe.module.css";
 
@@ -196,6 +204,10 @@ export default function UniverseCommandCenter({
   const dailyWorkLoop = getAlKawnDailyWorkLoop();
   const spokenInterface = getAlKawnHumanSpokenInterfaceState();
   const infinityPreparation = getAlKawnInfinityPreparation();
+  const infinityActivation = getInfinityControlledActivation();
+  const operatorPreparation = getAlKawnOperatorPreparation();
+  const operatorActivation = getOperatorControlledActivation();
+  const localDayOne = getLocalDayOneReadiness();
   const visualMapCoreLayerIds = [
     "existence_contract",
     "product_truth",
@@ -917,6 +929,66 @@ Compatibility evidence:
             <span>Next safe action</span>
             <strong>{infinityPreparation.nextAction.next}</strong>
             <small>{infinityPreparation.nextAction.reason}</small>
+          </article>
+        </div>
+      </section>
+
+      <section
+        className={styles.kernelPanel}
+        data-testid="al-kawn-internal-operating-sequence-summary"
+        aria-label="Final Al-Kawn Internal Operating Sequence"
+      >
+        <div className={styles.kernelHeader}>
+          <div>
+            <span>Internal Operating Sequence</span>
+            <h2>Infinity Mode controlled activation</h2>
+            <p>Infinity Mode is active only for private internal cycles.</p>
+            <p>No uncontrolled infinite loop.</p>
+            <p>No background daemon.</p>
+            <p>Safe internal cycles only.</p>
+            <p>Operator Mode preparation</p>
+            <p>Operator Mode prepares الكون to work for Ahmad internally.</p>
+            <p>Infinity feeds Operator preparation.</p>
+            <p>Product Truth overrides operator actions.</p>
+            <p>Operator Mode controlled activation</p>
+            <p>الكون يعمل عن أحمد داخليًا.</p>
+            <p>Operator Mode executes safe internal work only.</p>
+            <p>Local Day One Boot Gate</p>
+            <p>Local Day One is ready but not started.</p>
+            <p>Ahmad must start Local Day One.</p>
+            <p>Infinity and Operator are ready for private internal operation.</p>
+            <p>Legal and Money gates remain Ahmad gates.</p>
+            <p>Product Truth is enforced.</p>
+          </div>
+          <aside>
+            <strong>{localDayOne.nextAction.next}</strong>
+            <small>Infinity: {infinityActivation.status}</small>
+            <small>Operator preparation: {operatorPreparation.status}</small>
+            <small>Operator controlled: {operatorActivation.status}</small>
+            <small>Local Day One: {localDayOne.status}</small>
+            <Link href="/desktop/kawn">Open private desktop operating sequence</Link>
+          </aside>
+        </div>
+        <div className={styles.kernelGrid}>
+          <article>
+            <span>Infinity status</span>
+            <strong>{infinityActivation.summary}</strong>
+            <small>{infinityActivation.cycleState.stopRule}</small>
+          </article>
+          <article>
+            <span>Operator status</span>
+            <strong>{operatorActivation.summary}</strong>
+            <small>{operatorActivation.humanMessage}</small>
+          </article>
+          <article>
+            <span>Local Day One readiness</span>
+            <strong>{localDayOne.summary}</strong>
+            <small>{localDayOne.bootGate.finalDecision}</small>
+          </article>
+          <article>
+            <span>One next action</span>
+            <strong>{localDayOne.nextAction.next}</strong>
+            <small>{localDayOne.nextAction.reason}</small>
           </article>
         </div>
       </section>

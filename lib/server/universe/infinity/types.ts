@@ -4,9 +4,14 @@ export type InfinityPreparationState =
   | "not_started"
   | "preparing"
   | "ready_with_notes"
+  | "closed_ready_for_controlled_activation"
   | "blocked_by_prerequisite"
   | "requires_ahmad_decision"
   | "future_gate";
+
+export type InfinityControlledActivationState =
+  | "closed_controlled_internal_active"
+  | "blocked_prerequisite_missing";
 
 export type InfinityReadinessCheck = {
   id: string;
@@ -46,6 +51,52 @@ export type InfinityNextAction = {
   next: "Infinity Mode controlled activation";
   reason: string;
   blockedUntil: string[];
+};
+
+export type InfinityControlledNextAction = {
+  next: "Operator Mode preparation";
+  reason: string;
+  blockedUntil: string[];
+};
+
+export type InfinityCycleTriggerRule = {
+  id: string;
+  label: string;
+  rule: string;
+  allowed: boolean;
+};
+
+export type InfinityCycleState = {
+  id: "infinity_cycle_state";
+  status: InfinityControlledActivationState;
+  label: string;
+  mode: "private_internal_cycles_only";
+  cycleStages: InfinityCycleStage[];
+  stopRule: string;
+  triggerRule: string;
+};
+
+export type InfinityCycleLedgerEntry = {
+  id: string;
+  phase: string;
+  result: string;
+  evidence: string[];
+  blocked: string[];
+};
+
+export type InfinityControlledActivation = {
+  id: "infinity_controlled_activation";
+  title: "Infinity Mode controlled activation";
+  status: InfinityControlledActivationState;
+  summary: string;
+  requiredWording: string[];
+  cycleState: InfinityCycleState;
+  triggerRules: InfinityCycleTriggerRule[];
+  ledger: InfinityCycleLedgerEntry[];
+  allowed: InfinityAutomationItem[];
+  blocked: InfinityAutomationItem[];
+  productTruth: string[];
+  nextAction: InfinityControlledNextAction;
 };
 
 export type AlKawnInfinityPreparation = {

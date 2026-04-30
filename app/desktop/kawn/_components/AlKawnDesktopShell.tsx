@@ -10,8 +10,16 @@ import { getPrivateDesktopLocalBuildDryRun } from "@/lib/server/universe/desktop
 import { getDesktopPackagingGate } from "@/lib/server/universe/desktop-packaging-gate";
 import { getPrivateDesktopPackagingPreparation } from "@/lib/server/universe/desktop-packaging-preparation";
 import { getAlKawnHumanSpokenInterfaceState } from "@/lib/server/universe/human-spoken-interface";
-import { getAlKawnInfinityPreparation } from "@/lib/server/universe/infinity";
+import {
+  getAlKawnInfinityPreparation,
+  getInfinityControlledActivation,
+} from "@/lib/server/universe/infinity";
+import { getLocalDayOneReadiness } from "@/lib/server/universe/local-day-one";
 import { getLocalPackagedAuthGate } from "@/lib/server/universe/local-packaged-auth-gate";
+import {
+  getAlKawnOperatorPreparation,
+  getOperatorControlledActivation,
+} from "@/lib/server/universe/operator";
 import { getAlKawnWakeState } from "@/lib/server/universe/wake-state";
 import { AlKawnAppointmentCenter } from "./AlKawnAppointmentCenter";
 import { AlKawnBootSequence } from "./AlKawnBootSequence";
@@ -20,6 +28,7 @@ import { AlKawnDecisionCenter } from "./AlKawnDecisionCenter";
 import { AlKawnGalaxyMap } from "./AlKawnGalaxyMap";
 import { AlKawnHumanChat } from "./AlKawnHumanChat";
 import { AlKawnInfinityPreparationPanel } from "./AlKawnInfinityPreparationPanel";
+import { AlKawnInternalOperatingSequencePanel } from "./AlKawnInternalOperatingSequencePanel";
 import { AlKawnKernelPanel } from "./AlKawnKernelPanel";
 import { AlKawnLayerNavigator } from "./AlKawnLayerNavigator";
 import { AlKawnDesktopShellStatus } from "./AlKawnDesktopShellStatus";
@@ -52,6 +61,10 @@ export function AlKawnDesktopShell({ state }: { state: AlKawnDesktopState }) {
   const dailyWorkLoop = getAlKawnDailyWorkLoop();
   const spokenInterface = getAlKawnHumanSpokenInterfaceState();
   const infinityPreparation = getAlKawnInfinityPreparation();
+  const infinityActivation = getInfinityControlledActivation();
+  const operatorPreparation = getAlKawnOperatorPreparation();
+  const operatorActivation = getOperatorControlledActivation();
+  const localDayOne = getLocalDayOneReadiness();
 
   return (
     <main
@@ -116,6 +129,13 @@ export function AlKawnDesktopShell({ state }: { state: AlKawnDesktopState }) {
         spokenInterface={spokenInterface}
       />
       <AlKawnInfinityPreparationPanel preparation={infinityPreparation} />
+      <AlKawnInternalOperatingSequencePanel
+        infinityPreparation={infinityPreparation}
+        infinityActivation={infinityActivation}
+        operatorPreparation={operatorPreparation}
+        operatorActivation={operatorActivation}
+        localDayOne={localDayOne}
+      />
       <AlKawnPrivateDesktopPackagingGate gate={desktopPackagingGate} />
       <AlKawnLocalPackagedAuthGate gate={localPackagedAuthGate} />
       <AlKawnPrivateDesktopPackagingPreparation

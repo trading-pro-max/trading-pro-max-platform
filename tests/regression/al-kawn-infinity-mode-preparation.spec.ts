@@ -66,7 +66,7 @@ test.describe("Al-Kawn Infinity Mode Preparation", () => {
     expect(indexSource).toContain("getInfinitySafeAutomation");
     expect(indexSource).toContain("getInfinityBlockedActions");
     expect(indexSource).toContain("getInfinityNextAction");
-    expect(preparationSource).toContain("ready_with_notes");
+    expect(preparationSource).toContain("closed_ready_for_controlled_activation");
     expect(preparationSource).toContain("Infinity Mode is not fully active yet.");
     expect(cycleSource).toContain("Infinity cycle waits for safe trigger.");
     expect(boundarySource).toContain("No public, money, broker, legal, or external automation.");

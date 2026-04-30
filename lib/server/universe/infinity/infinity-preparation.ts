@@ -12,7 +12,7 @@ export function getAlKawnInfinityPreparation(): AlKawnInfinityPreparation {
   return {
     id: "al_kawn_infinity_preparation",
     title: "Infinity Mode preparation",
-    state: "ready_with_notes",
+    state: "closed_ready_for_controlled_activation",
     summary:
       "Infinity Mode preparation defines private internal continuous readiness without fully activating autonomous live operation, public launch, money, broker, legal, or external automation.",
     requiredWording: [

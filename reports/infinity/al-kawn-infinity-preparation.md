@@ -2,7 +2,7 @@
 
 ## Status
 
-ready_with_notes
+closed_ready_for_controlled_activation
 
 ## Meaning
 

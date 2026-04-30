@@ -410,4 +410,26 @@ Infinity preparation is a readiness model only. It must not create an uncontroll
 
 The desktop route `/desktop/kawn` renders the main Infinity preparation panel. `/founder/universe` renders a compact summary. `/trading` remains compact.
 
+## Final Internal Operating Sequence Code Rule
+
+Infinity controlled activation lives in `lib/server/universe/infinity/controlled-activation.ts`, `infinity-cycle-state.ts`, and `infinity-cycle-ledger.ts`.
+
+Operator preparation and controlled activation live in `lib/server/universe/operator/*`.
+
+Local Day One Boot Gate lives in `lib/server/universe/local-day-one/*`.
+
+Required exports include:
+
+- `getInfinityControlledActivation()`
+- `getInfinityCycleState()`
+- `getInfinityCycleTriggerRules()`
+- `getInfinityCycleLedger()`
+- `getInfinityControlledNextAction()`
+- `getAlKawnOperatorPreparation()`
+- `getOperatorControlledActivation()`
+- `getLocalDayOneReadiness()`
+- `getLocalDayOneBootGate()`
+
+These modules are private internal readiness and activation models only. They must not start public launch, money, broker, legal claims, external accounts, background daemons, uncontrolled loops, public الكون, public ALKON, or Local Day One without Ahmad.
+
 No route should create a separate Earth/Moon identity, a separate Product Truth chip style, a separate page palette, or a second visual law for الكون. Trading may use compact density for readability, but must still carry the same Product Truth, Earth Planet, and Pro Max Galaxy meaning.
