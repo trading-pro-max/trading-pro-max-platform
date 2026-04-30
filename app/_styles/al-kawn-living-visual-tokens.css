@@ -1,0 +1,46 @@
+:root {
+  --alkawn-living-wake-pulse: rgba(111, 182, 255, 0.24);
+  --alkawn-living-protected-pulse: rgba(124, 108, 255, 0.22);
+  --alkawn-living-report-ready: rgba(244, 182, 63, 0.24);
+  --alkawn-living-blocked-state: rgba(255, 75, 85, 0.24);
+  --alkawn-living-state-line: linear-gradient(
+    90deg,
+    rgba(227, 6, 19, 0.78),
+    rgba(111, 182, 255, 0.38),
+    rgba(244, 247, 249, 0.16)
+  );
+}
+
+.al-kawn-state-pulse {
+  box-shadow: 0 0 0 1px var(--alkawn-swiss-precision-border), var(--alkawn-swiss-subtle-glow);
+}
+
+.al-kawn-state-pulse::after {
+  background: var(--alkawn-living-state-line);
+  content: "";
+  height: 1px;
+  inset: 0 0 auto;
+  opacity: 0.72;
+  position: absolute;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .al-kawn-state-pulse::after {
+    animation: al-kawn-state-line 9s ease-in-out infinite;
+  }
+}
+
+@keyframes al-kawn-state-line {
+  0% {
+    opacity: 0.32;
+    transform: scaleX(0.82);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scaleX(1);
+  }
+  100% {
+    opacity: 0.32;
+    transform: scaleX(0.82);
+  }
+}

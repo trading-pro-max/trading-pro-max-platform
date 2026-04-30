@@ -8,6 +8,8 @@ import "./theme-localization.css";
 import "./founder-command.css";
 import "./_styles/earth-immersion-tokens.css";
 import "./_styles/al-kawn-visual-tokens.css";
+import "./_styles/al-kawn-swiss-luxury-tokens.css";
+import "./_styles/al-kawn-living-visual-tokens.css";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { THEME_STORAGE_KEY } from "../lib/constants/storage";

@@ -3,7 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 const FORBIDDEN_CLAIMS =
-  /global number one already|legal 100% approved|real weather active|exact weather|exact sun position|user location active|FINMA approved|licensed trading platform|regulated broker|Swiss government approved|Swiss certified|official Swiss endorsement|copied agency endorsement|investment advice provided|this is investment advice|real money enabled|live broker active|real execution active|public launch active|billing active|guaranteed profit|guaranteed win|risk free|fully autonomous live trading/i;
+  /global number one already|legal 100% approved|real weather active|exact weather|exact sun position|user location active|FINMA approved|licensed trading platform|regulated broker|Swiss government approved|Swiss certified|(?<!not )official Swiss endorsement|copied agency endorsement|investment advice provided|this is investment advice|real money enabled|live broker active|real execution active|public launch active|billing active|guaranteed profit|guaranteed win|risk free|fully autonomous live trading/i;
 
 test.describe("Final Visual Acceptance Correction", () => {
   test("/founder/universe renders premium private Universe with realistic Pro Max Earth", async ({

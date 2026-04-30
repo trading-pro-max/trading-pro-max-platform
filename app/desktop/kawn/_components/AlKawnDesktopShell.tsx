@@ -9,17 +9,23 @@ import { getDesktopDistributionGate } from "@/lib/server/universe/desktop-distri
 import { getPrivateDesktopLocalBuildDryRun } from "@/lib/server/universe/desktop-local-build-dry-run";
 import { getDesktopPackagingGate } from "@/lib/server/universe/desktop-packaging-gate";
 import { getPrivateDesktopPackagingPreparation } from "@/lib/server/universe/desktop-packaging-preparation";
+import { getAlKawnElectronicCapabilities } from "@/lib/server/universe/electronic-capabilities";
+import { getAlKawnExecutableGlossary } from "@/lib/server/universe/executable-glossary";
 import { getAlKawnHumanSpokenInterfaceState } from "@/lib/server/universe/human-spoken-interface";
 import {
   getAlKawnInfinityPreparation,
   getInfinityControlledActivation,
 } from "@/lib/server/universe/infinity";
+import { getAlKawnLivingOntology } from "@/lib/server/universe/living-ontology";
 import { getLocalDayOneReadiness } from "@/lib/server/universe/local-day-one";
 import { getLocalPackagedAuthGate } from "@/lib/server/universe/local-packaged-auth-gate";
 import {
   getAlKawnOperatorPreparation,
   getOperatorControlledActivation,
 } from "@/lib/server/universe/operator";
+import { getAlKawnAutomaticEngineState } from "@/lib/server/universe/automatic-engine";
+import { getAlKawnOwnershipRegistry } from "@/lib/server/universe/rights-ownership";
+import { getAlKawnTotalExistenceSystem } from "@/lib/server/universe/total-existence";
 import { getAlKawnWakeState } from "@/lib/server/universe/wake-state";
 import { AlKawnAppointmentCenter } from "./AlKawnAppointmentCenter";
 import { AlKawnBootSequence } from "./AlKawnBootSequence";
@@ -44,6 +50,7 @@ import { AlKawnReportCenter } from "./AlKawnReportCenter";
 import { AlKawnTaskCenter } from "./AlKawnTaskCenter";
 import { AlKawnTopSystemBar } from "./AlKawnTopSystemBar";
 import { AlKawnTradingBridge } from "./AlKawnTradingBridge";
+import { AlKawnTotalExistenceCompletionPanel } from "./AlKawnTotalExistenceCompletionPanel";
 import { AlKawnVaultPanel } from "./AlKawnVaultPanel";
 import { AlKawnWakeReportPanel } from "./AlKawnWakeReportPanel";
 import { AlKawnWakeStatePanel } from "./AlKawnWakeStatePanel";
@@ -65,6 +72,12 @@ export function AlKawnDesktopShell({ state }: { state: AlKawnDesktopState }) {
   const operatorPreparation = getAlKawnOperatorPreparation();
   const operatorActivation = getOperatorControlledActivation();
   const localDayOne = getLocalDayOneReadiness();
+  const totalExistence = getAlKawnTotalExistenceSystem();
+  const capabilities = getAlKawnElectronicCapabilities();
+  const glossary = getAlKawnExecutableGlossary();
+  const rights = getAlKawnOwnershipRegistry();
+  const livingOntology = getAlKawnLivingOntology();
+  const automaticEngine = getAlKawnAutomaticEngineState();
 
   return (
     <main
@@ -123,6 +136,14 @@ export function AlKawnDesktopShell({ state }: { state: AlKawnDesktopState }) {
       </section>
 
       <AlKawnControlSurfaces surfaces={controlSurfaces} summary={controlSurfaceSummary} />
+      <AlKawnTotalExistenceCompletionPanel
+        totalExistence={totalExistence}
+        capabilities={capabilities}
+        glossaryTerms={glossary.terms}
+        rightsEntries={rights.entries}
+        livingEntities={livingOntology.entities}
+        automaticEngine={automaticEngine}
+      />
       <AlKawnWakeStatePanel
         wakeState={wakeState}
         dailyWorkLoop={dailyWorkLoop}

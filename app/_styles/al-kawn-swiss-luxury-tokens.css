@@ -1,0 +1,29 @@
+:root {
+  --alkawn-swiss-cosmic-black: #020407;
+  --alkawn-swiss-graphite-black: #10151b;
+  --alkawn-swiss-glacier-white: #f4f7f9;
+  --alkawn-swiss-moon-silver: #bfc7d1;
+  --alkawn-swiss-atmosphere-blue: #6fb6ff;
+  --alkawn-swiss-earth-deep-blue: #0d315d;
+  --alkawn-swiss-red-precision: #e30613;
+  --alkawn-swiss-truth-amber: #f4b63f;
+  --alkawn-swiss-danger-red: #ff4b55;
+  --alkawn-swiss-protected-violet: #7c6cff;
+  --alkawn-swiss-protected-blue: #4aa3ff;
+  --alkawn-swiss-panel-glass: rgba(13, 18, 25, 0.76);
+  --alkawn-swiss-precision-border: rgba(244, 247, 249, 0.16);
+  --alkawn-swiss-soft-shadow: 0 24px 70px rgba(0, 0, 0, 0.38);
+  --alkawn-swiss-subtle-glow: 0 0 34px rgba(111, 182, 255, 0.18);
+  --alkawn-swiss-focus-ring: 0 0 0 3px rgba(227, 6, 19, 0.32);
+  --alkawn-swiss-text-primary: rgba(248, 251, 255, 0.96);
+  --alkawn-swiss-text-secondary: rgba(221, 229, 238, 0.76);
+  --alkawn-swiss-text-muted: rgba(181, 194, 209, 0.58);
+}
+
+.al-kawn-visual-root {
+  --alkawn-border-precision: var(--alkawn-swiss-precision-border);
+  --alkawn-shadow-depth: var(--alkawn-swiss-soft-shadow);
+  --alkawn-text-primary: var(--alkawn-swiss-text-primary);
+  --alkawn-text-secondary: var(--alkawn-swiss-text-secondary);
+  --alkawn-text-muted: var(--alkawn-swiss-text-muted);
+}

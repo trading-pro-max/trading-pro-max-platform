@@ -62,11 +62,14 @@ import { getPrivateDesktopLocalBuildDryRun } from "@/lib/server/universe/desktop
 import { getDesktopPackagingGate } from "@/lib/server/universe/desktop-packaging-gate";
 import { getPrivateDesktopPackagingPreparation } from "@/lib/server/universe/desktop-packaging-preparation";
 import { getAlKawnDesktopState } from "@/lib/server/universe/desktop-interface";
+import { getAlKawnElectronicCapabilities } from "@/lib/server/universe/electronic-capabilities";
+import { getAlKawnExecutableGlossary } from "@/lib/server/universe/executable-glossary";
 import { getAlKawnHumanSpokenInterfaceState } from "@/lib/server/universe/human-spoken-interface";
 import {
   getAlKawnInfinityPreparation,
   getInfinityControlledActivation,
 } from "@/lib/server/universe/infinity";
+import { getAlKawnLivingOntology } from "@/lib/server/universe/living-ontology";
 import { getLocalDayOneReadiness } from "@/lib/server/universe/local-day-one";
 import {
   getLocalDesktopAuthBoundaries,
@@ -79,6 +82,9 @@ import {
   getAlKawnOperatorPreparation,
   getOperatorControlledActivation,
 } from "@/lib/server/universe/operator";
+import { getAlKawnAutomaticEngineState } from "@/lib/server/universe/automatic-engine";
+import { getAlKawnOwnershipRegistry } from "@/lib/server/universe/rights-ownership";
+import { getAlKawnTotalExistenceSystem } from "@/lib/server/universe/total-existence";
 import { getAlKawnWakeState } from "@/lib/server/universe/wake-state";
 import styles from "../founder-universe.module.css";
 
@@ -208,6 +214,12 @@ export default function UniverseCommandCenter({
   const operatorPreparation = getAlKawnOperatorPreparation();
   const operatorActivation = getOperatorControlledActivation();
   const localDayOne = getLocalDayOneReadiness();
+  const totalExistence = getAlKawnTotalExistenceSystem();
+  const capabilities = getAlKawnElectronicCapabilities();
+  const glossary = getAlKawnExecutableGlossary();
+  const rights = getAlKawnOwnershipRegistry();
+  const livingOntology = getAlKawnLivingOntology();
+  const automaticEngine = getAlKawnAutomaticEngineState();
   const visualMapCoreLayerIds = [
     "existence_contract",
     "product_truth",
@@ -879,6 +891,75 @@ Compatibility evidence:
             <span>Daily report</span>
             <strong>Daily WAKE REPORT prepared.</strong>
             <small>{wakeState.dailyWakeReportPath}</small>
+          </article>
+        </div>
+      </section>
+
+      <section
+        className={styles.kernelPanel}
+        data-testid="al-kawn-total-existence-summary"
+        aria-label="Al-Kawn Total Existence Summary"
+      >
+        <div className={styles.kernelHeader}>
+          <div>
+            <span>Al-Kawn A-Z Total Existence Completion</span>
+            <h2>Total Existence</h2>
+            <p>الكون = كل ما هو موجود إلكترونيًا داخل عالم أحمد الخاص.</p>
+            <p>الكون هو كون إلكتروني كامل خاص داخل لابتوب أحمد.</p>
+            <p>الكون ليس Dashboard عادي.</p>
+            <p>الكون لا يدّعي التحكم بالكون الفيزيائي.</p>
+            <p>Product Truth هو قانون الحقيقة الأعلى.</p>
+            <p>Universe Operating Kernel هو القاضي التنفيذي.</p>
+            <p>داخل الكون: التنفيذ مباشر.</p>
+            <p>عند القانون: يتوقف لأحمد.</p>
+            <p>عند المال: يتوقف لأحمد.</p>
+            <p>كل شيء داخل الكون يجب أن يعرف لماذا يوجد.</p>
+            <p>كل شيء داخل الكون يجب أن ينتمي إلى طبقة واضحة.</p>
+            <p>كل شيء حقيقي له مصدر، وكل محاكاة موسومة.</p>
+            <p>كل شيء داخل الكون يمكن تفسيره من ∞ إلى 0.</p>
+            <p>الكون بفخامة سويسرية تليق باسمه.</p>
+            <p>Swiss-inspired precision, not official Swiss endorsement.</p>
+            <p>Product Truth remains visible above visual beauty.</p>
+          </div>
+          <aside>
+            <strong>{totalExistence.status}</strong>
+            <small>Total entities: {totalExistence.entityRegistry.length}</small>
+            <small>Owner layers: {totalExistence.layerTree.length}</small>
+            <small>Capability Matrix: {capabilities.length} capabilities</small>
+            <small>Executable Glossary: {glossary.total} terms</small>
+            <small>Rights & Ownership entries: {rights.entries.length}</small>
+            <small>Living entities: {livingOntology.entities.length}</small>
+            <Link href="/desktop/kawn">Open total existence in desktop</Link>
+          </aside>
+        </div>
+        <div className={styles.kernelGrid}>
+          <article>
+            <span>Swiss Luxury Living Style</span>
+            <strong>الكون حي داخل لابتوب أحمد.</strong>
+            <small>كل تفصيل داخل الكون له معنى.</small>
+            <small>كل نبض يعكس حالة وليس زينة.</small>
+            <small>The pulse reflects state, not decoration.</small>
+          </article>
+          <article>
+            <span>Rights & Ownership</span>
+            <strong>Every entity inside الكون must have ownership and source evidence.</strong>
+            <small>Unknown-source items are blocked from public use.</small>
+            <small>No global ownership claim is allowed.</small>
+            <small>Trademark/legal review is required before public brand adoption.</small>
+          </article>
+          <article>
+            <span>Living Ontology</span>
+            <strong>الكون هو كيان إلكتروني حي داخل لابتوب أحمد.</strong>
+            <small>كل طبقة داخل الكون لها وجود ومعنى وحالة وقدرة.</small>
+            <small>{livingOntology.nextAction}</small>
+          </article>
+          <article>
+            <span>Automatic Engine</span>
+            <strong>{automaticEngine.status}</strong>
+            <small>الكون يعمل تلقائيًا داخل نطاقه الخاص.</small>
+            <small>No uncontrolled infinite loop.</small>
+            <small>Safe trigger required for every cycle.</small>
+            <small>One automatic work item per cycle.</small>
           </article>
         </div>
       </section>
