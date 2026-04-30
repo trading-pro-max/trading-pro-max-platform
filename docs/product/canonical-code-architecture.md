@@ -410,6 +410,25 @@ Infinity preparation is a readiness model only. It must not create an uncontroll
 
 The desktop route `/desktop/kawn` renders the main Infinity preparation panel. `/founder/universe` renders a compact summary. `/trading` remains compact.
 
+## Living Autonomous Intelligence Code Rule
+
+Canonical living intelligence code lives in `lib/server/universe/living-autonomous-intelligence/*`.
+
+Required exports include:
+
+- `getAlKawnLivingAutonomousIntelligence()`
+- `getAlKawnAwarenessModel()`
+- `getAlKawnContextReader()`
+- `getAlKawnSelfObservation()`
+- `getAlKawnDecisionEngine()`
+- `getAlKawnActionSelector()`
+- `getAlKawnAutonomousCycle()`
+- `getAlKawnIntelligenceBoundaries()`
+- `getAlKawnIntelligenceReport()`
+- `getAlKawnIntelligenceNextAction()`
+
+The module reads internal sources only, selects one safe internal action, reports what it did, and stops for the next safe trigger. It must not create uncontrolled loops, hidden daemons, public exposure, money movement, legal execution, external account access, or secret exposure.
+
 ## Final Internal Operating Sequence Code Rule
 
 Infinity controlled activation lives in `lib/server/universe/infinity/controlled-activation.ts`, `infinity-cycle-state.ts`, and `infinity-cycle-ledger.ts`.

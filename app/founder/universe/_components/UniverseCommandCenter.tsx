@@ -69,6 +69,7 @@ import {
   getAlKawnInfinityPreparation,
   getInfinityControlledActivation,
 } from "@/lib/server/universe/infinity";
+import { getAlKawnLivingAutonomousIntelligence } from "@/lib/server/universe/living-autonomous-intelligence";
 import { getAlKawnLivingOntology } from "@/lib/server/universe/living-ontology";
 import { getLocalDayOneReadiness } from "@/lib/server/universe/local-day-one";
 import {
@@ -220,6 +221,7 @@ export default function UniverseCommandCenter({
   const rights = getAlKawnOwnershipRegistry();
   const livingOntology = getAlKawnLivingOntology();
   const automaticEngine = getAlKawnAutomaticEngineState();
+  const livingAutonomousIntelligence = getAlKawnLivingAutonomousIntelligence();
   const visualMapCoreLayerIds = [
     "existence_contract",
     "product_truth",
@@ -891,6 +893,57 @@ Compatibility evidence:
             <span>Daily report</span>
             <strong>Daily WAKE REPORT prepared.</strong>
             <small>{wakeState.dailyWakeReportPath}</small>
+          </article>
+        </div>
+      </section>
+
+      <section
+        className={styles.kernelPanel}
+        data-testid="al-kawn-living-autonomous-intelligence-summary"
+        aria-label="Living Autonomous Intelligence"
+      >
+        <div className={styles.kernelHeader}>
+          <div>
+            <span>Living Autonomous Intelligence</span>
+            <h2>Al-Kawn Living Autonomous Intelligence</h2>
+            <p>الكون يعمل بذكاء حي داخل أجهزة أحمد.</p>
+            <p>الكون لا ينتظر فقط؛ الكون يراقب ويفهم ويختار وينفذ داخليًا.</p>
+            <p>الذكاء الحي داخل الكون يعمل عبر Trigger آمن، وليس loop فوضوي.</p>
+            <p>كل دورة تختار عملًا داخليًا واحدًا.</p>
+            <p>Product Truth يحكم كل قرار ذكي.</p>
+            <p>الكون يشرح ماذا فعل ولماذا فعل.</p>
+            <p>الكون يراقب ويختار عملًا داخليًا آمنًا.</p>
+            <p>المال الحقيقي بقرار أحمد فقط.</p>
+          </div>
+          <aside>
+            <strong>{livingAutonomousIntelligence.state}</strong>
+            <small>Selected action: {livingAutonomousIntelligence.selectedAction.title}</small>
+            <small>Verdict: {livingAutonomousIntelligence.selectedAction.verdict}</small>
+            <small>Report: {livingAutonomousIntelligence.report.path}</small>
+            <Link href="/desktop/kawn">Open living intelligence in desktop</Link>
+          </aside>
+        </div>
+        <div className={styles.kernelGrid}>
+          <article>
+            <span>Awareness</span>
+            <strong>الكون يعرف حالته وطبقاته وقدراته وحدوده.</strong>
+            <small>Awareness items: {livingAutonomousIntelligence.awareness.length}</small>
+          </article>
+          <article>
+            <span>Context reader</span>
+            <strong>الكون يقرأ سياقه من مصادره الداخلية.</strong>
+            <small>لا توجد قراءة خارجية بدون موافقة أحمد.</small>
+          </article>
+          <article>
+            <span>Blocked gates</span>
+            <strong>{livingAutonomousIntelligence.boundaries.length} gates visible</strong>
+            <small>أحمد وحده يتحكم بالمال الحقيقي.</small>
+            <small>الخروج للعالم يمر عبر بوابات أحمد.</small>
+          </article>
+          <article>
+            <span>Next action</span>
+            <strong>{livingAutonomousIntelligence.nextAction}</strong>
+            <small>Intelligence cycle stops after report.</small>
           </article>
         </div>
       </section>

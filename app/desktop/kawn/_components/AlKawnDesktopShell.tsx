@@ -16,6 +16,7 @@ import {
   getAlKawnInfinityPreparation,
   getInfinityControlledActivation,
 } from "@/lib/server/universe/infinity";
+import { getAlKawnLivingAutonomousIntelligence } from "@/lib/server/universe/living-autonomous-intelligence";
 import { getAlKawnLivingOntology } from "@/lib/server/universe/living-ontology";
 import { getLocalDayOneReadiness } from "@/lib/server/universe/local-day-one";
 import { getLocalPackagedAuthGate } from "@/lib/server/universe/local-packaged-auth-gate";
@@ -37,6 +38,7 @@ import { AlKawnInfinityPreparationPanel } from "./AlKawnInfinityPreparationPanel
 import { AlKawnInternalOperatingSequencePanel } from "./AlKawnInternalOperatingSequencePanel";
 import { AlKawnKernelPanel } from "./AlKawnKernelPanel";
 import { AlKawnLayerNavigator } from "./AlKawnLayerNavigator";
+import { AlKawnLivingAutonomousIntelligencePanel } from "./AlKawnLivingAutonomousIntelligencePanel";
 import { AlKawnDesktopShellStatus } from "./AlKawnDesktopShellStatus";
 import { AlKawnLocalPackagedAuthGate } from "./AlKawnLocalPackagedAuthGate";
 import { AlKawnPrivateDesktopDistributionGate } from "./AlKawnPrivateDesktopDistributionGate";
@@ -78,6 +80,7 @@ export function AlKawnDesktopShell({ state }: { state: AlKawnDesktopState }) {
   const rights = getAlKawnOwnershipRegistry();
   const livingOntology = getAlKawnLivingOntology();
   const automaticEngine = getAlKawnAutomaticEngineState();
+  const livingAutonomousIntelligence = getAlKawnLivingAutonomousIntelligence();
 
   return (
     <main
@@ -143,6 +146,9 @@ export function AlKawnDesktopShell({ state }: { state: AlKawnDesktopState }) {
         rightsEntries={rights.entries}
         livingEntities={livingOntology.entities}
         automaticEngine={automaticEngine}
+      />
+      <AlKawnLivingAutonomousIntelligencePanel
+        intelligence={livingAutonomousIntelligence}
       />
       <AlKawnWakeStatePanel
         wakeState={wakeState}

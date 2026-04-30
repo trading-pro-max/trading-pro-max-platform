@@ -1,5 +1,6 @@
 export * from "./spoken-blockers";
 export * from "./spoken-briefing";
+export * from "./spoken-intelligence";
 export * from "./spoken-message";
 export * from "./spoken-needs";
 export * from "./spoken-next-action";

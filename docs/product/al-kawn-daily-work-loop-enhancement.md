@@ -106,6 +106,10 @@ The enhanced spoken interface says:
 - أحمد، لا يوجد إطلاق عام أو مال أو بروكر.
 - أحمد، الخطوة التالية الوحيدة هي Daily Work Loop enhancement.
 
+## Living Intelligence Relationship
+
+Living Autonomous Intelligence may read the Daily Work Loop as an internal source. It can select one safe internal action from the daily state, validate, report, and stop. It does not replace Ahmad's gates, and it does not start public, money, legal, broker, or external actions.
+
 ## Why Infinity/Operator Are Not Active
 
 The daily loop is still a private internal discipline layer. Infinity Mode and Operator Mode remain inactive until Ahmad explicitly approves later preparation missions.

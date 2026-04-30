@@ -281,6 +281,14 @@ The panel must show:
 
 This is preparation only. It does not start Operator Mode, public launch, billing, payments, receiving money, real money, broker execution, legal claims, external accounts, or uncontrolled background automation.
 
+## Living Autonomous Intelligence
+
+`/desktop/kawn` now displays Al-Kawn Living Autonomous Intelligence as a trigger-based internal intelligence surface.
+
+It shows intelligence state, awareness summary, internal context sources, selected internal action, decision reason, autonomous cycle state, validation plan, spoken summary, blocked legal/money/external items, and one next action.
+
+It is not a hidden daemon and not a public, money, legal, broker, or external execution surface.
+
 ## Final Internal Operating Sequence
 
 `/desktop/kawn` now shows the ordered private operating sequence:
