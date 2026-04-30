@@ -16,6 +16,12 @@ Product Truth overrides desktop packaging.
 
 Public desktop distribution is blocked.
 
+## Local Build Dry Run Dependency
+
+Private Desktop Local Build Dry Run is allowed only as a local readiness check until a native shell, packaging tool, real packaged-app auth, and artifact audit exist.
+
+Local build dry run is not public release, production signing, upload, or distribution.
+
 ## Shell Readiness
 
 Current shell readiness is `ready_with_notes`.

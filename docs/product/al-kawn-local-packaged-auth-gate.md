@@ -122,3 +122,9 @@ Private Desktop Packaging Preparation may only prepare a safe local path while r
 The preparation must not claim packaged auth is complete. It must keep PIN, passphrase, device-lock awareness, packaged-app lock, and session timeout as future gates until implemented and validated.
 
 Packaging preparation is not public release. Product Truth overrides packaging.
+
+## Local Build Dry Run Dependency
+
+Private Desktop Local Build Dry Run must treat local auth as future-gated until a real Ahmad-only packaged-app lock exists.
+
+The dry run may verify readiness, but it must not claim production-grade auth, public auth, or customer login.

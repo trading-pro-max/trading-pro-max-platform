@@ -90,3 +90,9 @@ A future private package path may be considered only after:
 - package dry run is explicitly approved
 - secret safety remains enforced
 - signing and public distribution remain blocked unless Ahmad approves otherwise
+
+## Local Build Dry Run Follow-Up
+
+Private Desktop Local Build Dry Run may run as a readiness-only check.
+
+Because no native shell or packaging tool exists, it must not create a package artifact, public installer, signing artifact, upload, or auto-update channel.

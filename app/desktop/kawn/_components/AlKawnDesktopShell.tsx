@@ -4,6 +4,7 @@ import {
   getAlKawnControlSurfaces,
   getControlSurfaceSummary,
 } from "@/lib/server/universe/control-surfaces";
+import { getPrivateDesktopLocalBuildDryRun } from "@/lib/server/universe/desktop-local-build-dry-run";
 import { getDesktopPackagingGate } from "@/lib/server/universe/desktop-packaging-gate";
 import { getPrivateDesktopPackagingPreparation } from "@/lib/server/universe/desktop-packaging-preparation";
 import { getLocalPackagedAuthGate } from "@/lib/server/universe/local-packaged-auth-gate";
@@ -17,6 +18,7 @@ import { AlKawnKernelPanel } from "./AlKawnKernelPanel";
 import { AlKawnLayerNavigator } from "./AlKawnLayerNavigator";
 import { AlKawnDesktopShellStatus } from "./AlKawnDesktopShellStatus";
 import { AlKawnLocalPackagedAuthGate } from "./AlKawnLocalPackagedAuthGate";
+import { AlKawnPrivateDesktopLocalBuildDryRun } from "./AlKawnPrivateDesktopLocalBuildDryRun";
 import { AlKawnPrivateDesktopPackagingGate } from "./AlKawnPrivateDesktopPackagingGate";
 import { AlKawnPrivateDesktopPackagingPreparation } from "./AlKawnPrivateDesktopPackagingPreparation";
 import { AlKawnProductTruthPanel } from "./AlKawnProductTruthPanel";
@@ -36,6 +38,7 @@ export function AlKawnDesktopShell({ state }: { state: AlKawnDesktopState }) {
   const desktopPackagingGate = getDesktopPackagingGate();
   const localPackagedAuthGate = getLocalPackagedAuthGate();
   const desktopPackagingPreparation = getPrivateDesktopPackagingPreparation();
+  const desktopLocalBuildDryRun = getPrivateDesktopLocalBuildDryRun();
 
   return (
     <main
@@ -99,6 +102,7 @@ export function AlKawnDesktopShell({ state }: { state: AlKawnDesktopState }) {
       <AlKawnPrivateDesktopPackagingPreparation
         preparation={desktopPackagingPreparation}
       />
+      <AlKawnPrivateDesktopLocalBuildDryRun dryRun={desktopLocalBuildDryRun} />
 
       <section className={styles.lowerGrid} aria-label="Al-Kawn desktop control panels">
         <AlKawnReportCenter reports={state.reports} />

@@ -255,6 +255,18 @@ Blocked scripts:
 
 Current result: no native shell and no packaging tool exist, so packaging remains future-gated and Ahmad decision is required before a local build dry run.
 
+## Private Desktop Local Build Dry Run Code Rule
+
+`lib/server/universe/desktop-local-build-dry-run/` is the canonical owner for the private desktop local build dry-run readiness model.
+
+Safe script:
+
+- `desktop:package:dry-run`
+
+The script runs `scripts/al-kawn-desktop-local-build-dry-run.mjs` and is local readiness-only. It must not create package artifacts, sign production builds, upload artifacts, publish installers, enable auto-update, or create public distribution.
+
+Current result: no native shell, no packaging tool, and no real packaged-app auth exist. The dry run can verify readiness only. Product Truth overrides local build.
+
 ## Al-Kawn Control Surfaces Code Rule
 
 Canonical control surfaces live in `lib/server/universe/control-surfaces/*`.

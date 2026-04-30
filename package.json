@@ -10,6 +10,7 @@
     "start": "next start",
     "desktop:check": "node scripts/al-kawn-desktop-shell-check.mjs",
     "desktop:package:check": "node scripts/al-kawn-desktop-package-check.mjs",
+    "desktop:package:dry-run": "node scripts/al-kawn-desktop-local-build-dry-run.mjs",
     "lint": "eslint",
     "test:regression": "npm run build && npm run prisma:seed && playwright test",
     "smoke:routes": "node scripts/tpm-canonical-routes-smoke.mjs --summary-only",
