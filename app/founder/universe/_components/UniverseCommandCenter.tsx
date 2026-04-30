@@ -307,6 +307,8 @@ export default function UniverseCommandCenter({
             <span>Al-Kawn Deep Experience Cleanup</span>
             <h2>/desktop/kawn هو بيت الكون الحي، وليس لوحة تقنية.</h2>
             <p>/desktop/kawn now opens as a living universe experience, not a technical dashboard.</p>
+            <p>/desktop/kawn أصبح يتحدث مع أحمد أولًا، ثم يعرض الحالة التقنية.</p>
+            <p>الكون يتحدث مع أحمد أولًا.</p>
             <p>تجربة الكون تحتاج قبول أحمد قبل Start Local Day One.</p>
             <p>الكون remains the root. Pro Max is not root.</p>
             <p>Pro Max Galaxy طبقة مستقبلية داخل الكون.</p>
@@ -317,6 +319,7 @@ export default function UniverseCommandCenter({
           <aside>
             <strong>Deep experience cleanup complete</strong>
             <small>Welcome to الكون.</small>
+            <small>الكون يتحدث مع أحمد أولًا.</small>
             <small>Duplicate key error fixed.</small>
             <small>Local Day One remains ready_not_started.</small>
             <small>Ahmad review required before Local Day One.</small>

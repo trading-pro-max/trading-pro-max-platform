@@ -283,15 +283,15 @@
 .livingEntryPanel {
   align-content: center;
   display: grid;
-  gap: 12px;
+  gap: 14px;
   grid-column: 1 / -1;
   max-width: 1120px;
 }
 
 .livingHero h1 {
-  font-size: clamp(3.1rem, 8vw, 9rem);
+  font-size: clamp(2.7rem, 6.5vw, 7.4rem);
   letter-spacing: 0;
-  line-height: 0.9;
+  line-height: 1.02;
   margin: 0;
 }
 
@@ -303,10 +303,18 @@
   max-width: 860px;
 }
 
+.heroWelcome {
+  color: rgba(246, 248, 251, 0.72) !important;
+  font-size: clamp(0.82rem, 1vw, 0.96rem) !important;
+  letter-spacing: 0;
+  text-transform: none !important;
+}
+
 .livingHeroArabic {
   color: #ffffff !important;
   font-size: clamp(1.4rem, 2.5vw, 2.4rem) !important;
   font-weight: 850;
+  max-width: 980px !important;
 }
 
 .livingPulseRow {
@@ -420,12 +428,15 @@
 
 .humanMessagePanel strong,
 .nextActionPanel strong {
-  font-size: clamp(1rem, 1.6vw, 1.35rem);
+  font-size: clamp(1.08rem, 1.8vw, 1.55rem);
   line-height: 1.45;
 }
 
 .nextActionPanel {
-  border-color: rgba(255, 190, 100, 0.24);
+  background:
+    linear-gradient(135deg, rgba(255, 190, 100, 0.12), transparent 64%),
+    rgba(4, 8, 14, 0.4);
+  border-color: rgba(255, 190, 100, 0.28);
 }
 
 .dailyFocus,

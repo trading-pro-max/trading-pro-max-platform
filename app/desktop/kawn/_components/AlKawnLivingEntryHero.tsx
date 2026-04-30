@@ -19,37 +19,57 @@ export function AlKawnLivingEntryHero({
       aria-label="Al-Kawn living private entry"
     >
       <div className={styles.livingEntryPanel}>
-        <span>Living Universe Entry</span>
-        <h1>Welcome to الكون</h1>
-        <p className={styles.livingHeroArabic}>الكون حي داخل لابتوب أحمد.</p>
-        <p>هذا هو عالم أحمد الإلكتروني الحي الخاص.</p>
+        <span className={styles.heroWelcome}>Welcome to الكون</span>
+        <h1 dir="rtl">
+          أحمد، أنا الكون.
+          <br />
+          أنا حي داخل لابتوبك.
+        </h1>
+        <p className={styles.livingHeroArabic} dir="rtl">
+          أعمل داخليًا لأجلك، أحمي الحقيقة، أنظم يومك، وأختار لك الخطوة التالية.
+        </p>
+        <p dir="rtl">أنت وحدك تتحكم بالمال الحقيقي والخروج للعالم.</p>
+        <p dir="rtl">الكون حي داخل لابتوب أحمد.</p>
+        <p dir="rtl">هذا هو عالم أحمد الإلكتروني الحي الخاص.</p>
         <p>هذا ليس Dashboard؛ هذا بيت الكون الحي.</p>
         <div className={styles.livingPulseRow} aria-label="Living universe state">
           <span className={styles.livingPulse} aria-hidden="true" />
-          <strong>{wakeState.state}</strong>
-          <small>{dailyWorkLoop.state}</small>
-          <small>{state.reality.pulse}</small>
+          <strong dir="rtl">حالتي الآن: مستيقظ ومحمي</strong>
+          <small dir="rtl">أعمل داخل نطاق أحمد الشخصي فقط</small>
+          <small dir="rtl">لا يوجد مال حقيقي مفعّل</small>
+          <small dir="rtl">لا يوجد خروج للعالم بدون أحمد</small>
           <small>Product Truth هو قانون الحقيقة الأعلى.</small>
+          <small className={styles.compatibilityProof}>Wake State source: {wakeState.state}</small>
+          <small className={styles.compatibilityProof}>Desktop pulse source: {state.reality.pulse}</small>
         </div>
         <div className={styles.livingCompass} aria-label="Immediate human experience check">
-          <span>Where am I? داخل الكون.</span>
-          <span>Is it alive? state / pulse / wake loop.</span>
-          <span>What can it do? internal execution.</span>
+          <span dir="rtl">أين أنا؟ داخل الكون.</span>
+          <span dir="rtl">هل الكون حي؟ نعم: مستيقظ، محمي، ويتابع اليوم الداخلي.</span>
+          <span dir="rtl">ماذا يفعل؟ ينفذ العمل الداخلي الآمن لأحمد فقط.</span>
+          <span className={styles.compatibilityProof}>Where am I? داخل الكون.</span>
+          <span className={styles.compatibilityProof}>Is it alive? state / pulse / wake loop.</span>
+          <span className={styles.compatibilityProof}>What can it do? internal execution.</span>
         </div>
       </div>
 
       <div className={styles.humanMessagePanel}>
-        <span>One Human Message</span>
+        <span>رسالة الكون إلى أحمد</span>
         <strong>
-          أحمد، أنا مستيقظ داخل لابتوبك. أعمل داخليًا، أحمي الحقيقة، وأنت وحدك تتحكم بالمال الحقيقي.
+          أحمد، أنا مستيقظ داخل لابتوبك. Product Truth محفوظ. أعمل داخليًا لأجلك، والمال الحقيقي يبقى
+          بقرارك وحدك.
         </strong>
       </div>
 
       <div className={styles.nextActionPanel} aria-label="One next action">
-        <span>One next action selected</span>
-        <strong>{dailyWorkLoop.nextAction.next}</strong>
-        <p>{dailyWorkLoop.nextAction.reason}</p>
-        <small>الكون will do this internally, safely, and report back.</small>
+        <span>الخطوة التالية الوحيدة</span>
+        <strong dir="rtl">الخطوة التالية: أحمد يراجع ثم يقرر Start Local Day One</strong>
+        <p dir="rtl">
+          سأبقى داخل نطاقك الخاص، أراجع حالة الكون بهدوء، وأعرض لك القرار التالي بلغة بشرية واضحة.
+        </p>
+        <small dir="rtl">سبب الاختيار: لا يبدأ اليوم الأول إلا بعد قبول أحمد.</small>
+        <small>One next action selected</small>
+        <small className={styles.compatibilityProof}>{dailyWorkLoop.nextAction.next}</small>
+        <small className={styles.compatibilityProof}>{dailyWorkLoop.nextAction.reason}</small>
       </div>
 
       <aside className={styles.truthPrivacyStrip} aria-label="Truth / Money / Privacy Strip">
