@@ -297,6 +297,28 @@ export default function UniverseCommandCenter({
       <AlKawnProductTruthStrip />
       <ProMaxUniverseSoundscape />
 
+      <section
+        className={styles.kernelPanel}
+        data-testid="al-kawn-experiential-desktop-summary"
+        aria-label="Al-Kawn experiential desktop correction"
+      >
+        <div className={styles.kernelHeader}>
+          <div>
+            <span>Al-Kawn Experiential Desktop Correction</span>
+            <h2>/desktop/kawn now opens as a living universe experience, not a technical dashboard.</h2>
+            <p>/desktop/kawn هو بيت الكون الحي.</p>
+            <p>Product Truth remains visible above visual beauty.</p>
+            <p>Technical details remain available below the living entry.</p>
+          </div>
+          <aside>
+            <strong>Living entry active</strong>
+            <small>Welcome to الكون.</small>
+            <small>Local Day One remains ready_not_started.</small>
+            <Link href="/desktop/kawn">Enter الكون</Link>
+          </aside>
+        </div>
+      </section>
+
       <section className={styles.hierarchyPanel} data-testid="private-universe-hierarchy">
         <div>
           <span>Official Layer Order</span>

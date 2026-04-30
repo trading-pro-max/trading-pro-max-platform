@@ -39,6 +39,8 @@ import { AlKawnInternalOperatingSequencePanel } from "./AlKawnInternalOperatingS
 import { AlKawnKernelPanel } from "./AlKawnKernelPanel";
 import { AlKawnLayerNavigator } from "./AlKawnLayerNavigator";
 import { AlKawnLivingAutonomousIntelligencePanel } from "./AlKawnLivingAutonomousIntelligencePanel";
+import { AlKawnLivingEntryHero } from "./AlKawnLivingEntryHero";
+import { AlKawnLivingUniverseExperiencePanel } from "./AlKawnLivingUniverseExperiencePanel";
 import { AlKawnDesktopShellStatus } from "./AlKawnDesktopShellStatus";
 import { AlKawnLocalPackagedAuthGate } from "./AlKawnLocalPackagedAuthGate";
 import { AlKawnPrivateDesktopDistributionGate } from "./AlKawnPrivateDesktopDistributionGate";
@@ -94,32 +96,34 @@ export function AlKawnDesktopShell({ state }: { state: AlKawnDesktopState }) {
       <ProMaxLivingUniverseBackground surface="founder" />
       <AlKawnTopSystemBar state={state} />
 
-      <section className={styles.hero}>
-        <div>
-          <span>Al-Kawn Desktop Operating Environment</span>
-          <h1>Al-Kawn Desktop is Ahmad&apos;s private operating environment</h1>
-          <p>الكون هو نسخة أحمد الإلكترونية الخاصة</p>
-          <p>Desktop is the main private command client for الكون</p>
-          <p>Pro Max is the future public product, not الكون</p>
-          <p>Product Truth overrides every action</p>
-          <p>Universe Operating Kernel is the execution judge</p>
-          <p>داخل الكون: التنفيذ مباشر</p>
-          <p>عند القانون: يتوقف لأحمد</p>
-          <p>عند المال: يتوقف لأحمد</p>
-        </div>
-        <aside className={styles.bootCard}>
-          <strong>Booting الكون private operating environment</strong>
-          <small>/desktop/kawn is the Al-Kawn private desktop home.</small>
-          <small>Private Ahmad-only desktop shell.</small>
-          <small>Public desktop distribution is blocked.</small>
-          <small>No secrets are stored in the desktop bundle.</small>
-          <small>External accounts require Ahmad approval.</small>
-          <small>Private until legally ready</small>
-          <small>{state.nativeShell.note}</small>
-        </aside>
-      </section>
+      <AlKawnLivingEntryHero
+        state={state}
+        wakeState={wakeState}
+        dailyWorkLoop={dailyWorkLoop}
+      />
 
       <AlKawnBootSequence steps={state.boot} />
+      <AlKawnLivingUniverseExperiencePanel
+        wakeState={wakeState}
+        dailyWorkLoop={dailyWorkLoop}
+        infinityPreparation={infinityPreparation}
+        infinityActivation={infinityActivation}
+        operatorPreparation={operatorPreparation}
+        operatorActivation={operatorActivation}
+        localDayOne={localDayOne}
+      />
+
+      <section className={styles.technicalSection} aria-label="Technical panels are secondary">
+        <div className={styles.sectionTitle}>
+          <span>Technical panels</span>
+          <h2>Technical systems remain available below the living entry.</h2>
+          <p>
+            Boot Details, Control Surfaces, Capability Matrix, Rights & Ownership,
+            Packaging/Auth Gates, Reports, Infinity / Operator, and Local Day One remain
+            preserved without taking the first impression away from الكون.
+          </p>
+        </div>
+      </section>
 
       <section className={styles.operatingGrid} aria-label="Al-Kawn desktop operating layout">
         <AlKawnLayerNavigator layers={state.layers} />
