@@ -12,8 +12,8 @@ function DryRunCard({ item }: { item: DesktopLocalBuildDryRunCheck }) {
       <small>{item.status}</small>
       <small>Result: {item.result}</small>
       <ul>
-        {item.checks.slice(0, 5).map((check) => (
-          <li key={check}>{check}</li>
+        {item.checks.slice(0, 5).map((check, index) => (
+          <li key={`local-build-${item.id}-check-${index}-${check}`}>{check}</li>
         ))}
       </ul>
       <em>{item.nextAction}</em>
@@ -64,22 +64,24 @@ export function AlKawnPrivateDesktopLocalBuildDryRun({
       <div className={styles.packagingTruth}>
         <article>
           <span>Product Truth status</span>
-          {dryRun.productTruth.map((item) => (
-            <small key={item}>{item}</small>
+          {dryRun.productTruth.map((item, index) => (
+            <small key={`local-build-product-truth-${index}-${item}`}>{item}</small>
           ))}
         </article>
         <article>
           <span>Blocked local build actions</span>
-          {dryRun.blockedActions.map((item) => (
-            <small key={item}>{item}</small>
+          {dryRun.blockedActions.map((item, index) => (
+            <small key={`local-build-blocked-action-${index}-${item}`}>{item}</small>
           ))}
         </article>
         <article>
           <span>Next local build action</span>
           <strong>{dryRun.nextAction.next}</strong>
           <small>{dryRun.nextAction.reason}</small>
-          {dryRun.nextAction.blockedUntil.map((item) => (
-            <small key={item}>Blocked until: {item}</small>
+          {dryRun.nextAction.blockedUntil.map((item, index) => (
+            <small key={`local-build-next-blocked-${index}-${item}`}>
+              Blocked until: {item}
+            </small>
           ))}
         </article>
       </div>

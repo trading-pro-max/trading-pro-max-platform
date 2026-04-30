@@ -31,8 +31,8 @@ export function AlKawnDesktopShellStatus({
         <span>Script: {shell.packageScripts.join(", ")}</span>
       </div>
       <ul>
-        {shell.gaps.map((gap) => (
-          <li key={gap}>{gap}</li>
+        {shell.gaps.map((gap, index) => (
+          <li key={`desktop-shell-gap-${index}-${gap}`}>{gap}</li>
         ))}
       </ul>
     </section>

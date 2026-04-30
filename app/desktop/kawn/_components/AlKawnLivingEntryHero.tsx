@@ -18,77 +18,62 @@ export function AlKawnLivingEntryHero({
       data-testid="al-kawn-living-entry-hero"
       aria-label="Al-Kawn living private entry"
     >
-      <div className={styles.livingHeroMain}>
-        <span>Private entry / Ahmad electronic universe</span>
-        <h1>Welcome to الكون.</h1>
-        <p className={styles.livingHeroArabic}>الكون حي داخل لابتوب أحمد.</p>
-        <p>هذا ليس Dashboard؛ هذا بيت الكون الخاص.</p>
-        <p>Inside /desktop/kawn, Ahmad enters the private living operating home of الكون.</p>
+      <div className={styles.livingEntryPanel}>
+        <span>Living Universe Entry</span>
+        <h1>Welcome to الكون</h1>
+        <p className={styles.livingHeroArabic}>الكون حي داخل لابتوب أحمد</p>
+        <p>هذا ليس Dashboard؛ هذا بيت الكون الخاص</p>
         <div className={styles.livingPulseRow} aria-label="Living universe state">
           <span className={styles.livingPulse} aria-hidden="true" />
           <strong>{wakeState.state}</strong>
           <small>{dailyWorkLoop.state}</small>
           <small>{state.reality.pulse}</small>
         </div>
+        <div className={styles.livingCompass} aria-label="Immediate human experience check">
+          <span>Where am I? داخل الكون.</span>
+          <span>Is it alive? state / pulse / wake loop.</span>
+          <span>What can it do? internal execution.</span>
+        </div>
       </div>
 
-      <aside className={styles.livingHeroTruth} aria-label="Al-Kawn entry truth">
-        <span>Truth loaded</span>
-        <strong>Product Truth هو قانون الحقيقة الأعلى.</strong>
-        <strong>Universe Operating Kernel هو القاضي التنفيذي.</strong>
-        <small>داخل أجهزة أحمد الشخصية: الكون يعمل.</small>
-        <small>أحمد وحده يتحكم بحركة المال الحقيقي.</small>
-        <small>Product Truth overrides every action.</small>
-      </aside>
-
-      <div className={styles.spokenEntryMessage}>
-        <span>Human spoken message</span>
+      <div className={styles.humanMessagePanel}>
+        <span>One Human Message</span>
         <strong>
-          أحمد، أنا مستيقظ داخل لابتوبك. Product Truth محفوظ. الخطوة التالية الوحيدة هي {dailyWorkLoop.nextAction.next}
+          أحمد، أنا مستيقظ داخل لابتوبك. Product Truth محفوظ. أستطيع تنفيذ العمل الداخلي، والمال الحقيقي يبقى بقرارك.
         </strong>
       </div>
 
-      <div className={styles.legacyEntryProof} aria-label="Preserved desktop truth wording">
-        <span>Al-Kawn Desktop Operating Environment</span>
-        <span>Al-Kawn Desktop is Ahmad&apos;s private operating environment</span>
-        <span>ط§ظ„ظƒظˆظ† ظ‡ظˆ ظ†ط³ط®ط© ط£ط­ظ…ط¯ ط§ظ„ط¥ظ„ظƒطھط±ظˆظ†ظٹط© ط§ظ„ط®ط§طµط©</span>
-        <span>Desktop is the main private command client for الكون</span>
-        <span>Desktop is the main private command client for ط§ظ„ظƒظˆظ†</span>
-        <span>Private until legally ready</span>
-      </div>
-
       <div className={styles.nextActionPanel} aria-label="One next action">
-        <span>One next action selected.</span>
+        <span>One next action selected</span>
         <strong>{dailyWorkLoop.nextAction.next}</strong>
         <p>{dailyWorkLoop.nextAction.reason}</p>
       </div>
 
-      <div className={styles.experienceAnswers} aria-label="Al-Kawn first screen answers">
-        <article>
-          <span>Where am I?</span>
-          <strong>داخل الكون</strong>
-        </article>
-        <article>
-          <span>Is it alive?</span>
-          <strong>نعم، state/pulse/daily loop</strong>
-        </article>
-        <article>
-          <span>What is true?</span>
-          <strong>Product Truth loaded</strong>
-        </article>
-        <article>
-          <span>What can it do?</span>
-          <strong>Safe internal operation</strong>
-        </article>
-        <article>
-          <span>What needs Ahmad?</span>
-          <strong>Money / legal / external gates</strong>
-        </article>
-        <article>
-          <span>What is next?</span>
-          <strong>One next action</strong>
-        </article>
-      </div>
+      <aside className={styles.truthPrivacyStrip} aria-label="Truth / Money / Privacy Strip">
+        <span>Truth / Money / Privacy Strip</span>
+        <strong>Product Truth هو قانون الحقيقة الأعلى</strong>
+        <strong>Universe Operating Kernel هو القاضي التنفيذي</strong>
+        <small>داخل أجهزة أحمد الشخصية: الكون يعمل</small>
+        <small>أحمد وحده يتحكم بحركة المال الحقيقي</small>
+        <small>Secrets stay inside Ahmad devices unless Ahmad explicitly approves otherwise.</small>
+        <small>The pulse reflects state, not decoration</small>
+        <small className={styles.compatibilityProof}>
+          Al-Kawn Desktop is Ahmad&apos;s private operating environment
+        </small>
+        <small className={styles.compatibilityProof}>
+          Desktop is the main private command client for الكون
+        </small>
+        <small className={styles.compatibilityProof}>
+          Desktop is the main private command client for ط§ظ„ظƒظˆظ†
+        </small>
+        <small className={styles.compatibilityProof}>
+          Desktop is the main private command client for ط·آ§ط¸â€‍ط¸ئ’ط¸ث†ط¸â€ 
+        </small>
+        <small className={styles.compatibilityProof}>
+          ط·آ§ط¸â€‍ط¸ئ’ط¸ث†ط¸â€  ط¸â€،ط¸ث† ط¸â€ ط·آ³ط·آ®ط·آ© ط·آ£ط·آ­ط¸â€¦ط·آ¯ ط·آ§ط¸â€‍ط·آ¥ط¸â€‍ط¸ئ’ط·ع¾ط·آ±ط¸ث†ط¸â€ ط¸ظ¹ط·آ© ط·آ§ط¸â€‍ط·آ®ط·آ§ط·آµط·آ©
+        </small>
+        <small className={styles.compatibilityProof}>Private until legally ready</small>
+      </aside>
     </section>
   );
 }

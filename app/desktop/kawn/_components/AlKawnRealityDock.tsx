@@ -13,8 +13,8 @@ export function AlKawnRealityDock({ reality }: { reality: AlKawnDesktopRealityCe
       <span>Location is not requested.</span>
       <span>Soundscape off/user controlled</span>
       <span>{reality.pulse}</span>
-      {reality.sourceLabels.map((label) => (
-        <span key={label}>{label}</span>
+      {reality.sourceLabels.map((label, index) => (
+        <span key={`reality-source-${index}-${label}`}>{label}</span>
       ))}
     </footer>
   );

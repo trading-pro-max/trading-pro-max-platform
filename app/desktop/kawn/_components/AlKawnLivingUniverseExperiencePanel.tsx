@@ -1,7 +1,7 @@
 import type { AlKawnDailyWorkLoop } from "@/lib/server/universe/daily-work-loop";
 import type {
-  InfinityControlledActivation,
   AlKawnInfinityPreparation,
+  InfinityControlledActivation,
 } from "@/lib/server/universe/infinity";
 import type { LocalDayOneReadiness } from "@/lib/server/universe/local-day-one";
 import type {

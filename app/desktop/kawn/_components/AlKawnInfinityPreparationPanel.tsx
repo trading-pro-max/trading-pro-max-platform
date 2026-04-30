@@ -43,8 +43,8 @@ export function AlKawnInfinityPreparationPanel({
       </div>
 
       <div className={styles.truthChips} aria-label="Infinity preparation truth">
-        {preparation.requiredWording.map((wording) => (
-          <span key={wording}>{wording}</span>
+        {preparation.requiredWording.map((wording, index) => (
+          <span key={`infinity-required-${index}-${wording}`}>{wording}</span>
         ))}
       </div>
 
@@ -54,8 +54,10 @@ export function AlKawnInfinityPreparationPanel({
             <span>{check.state}</span>
             <strong>{check.label}</strong>
             <p>{check.status}</p>
-            {check.evidence.slice(0, 4).map((evidence) => (
-              <small key={evidence}>{evidence}</small>
+            {check.evidence.slice(0, 4).map((evidence, index) => (
+              <small key={`infinity-readiness-${check.id}-evidence-${index}`}>
+                {evidence}
+              </small>
             ))}
           </article>
         ))}
@@ -93,8 +95,8 @@ export function AlKawnInfinityPreparationPanel({
         <article>
           <span>Daily Work Loop connection</span>
           <ul>
-            {preparation.dailyLoopConnection.map((item) => (
-              <li key={item}>{item}</li>
+            {preparation.dailyLoopConnection.map((item, index) => (
+              <li key={`infinity-daily-loop-${index}-${item}`}>{item}</li>
             ))}
           </ul>
         </article>
@@ -109,8 +111,8 @@ export function AlKawnInfinityPreparationPanel({
       <div className={styles.packagingTruth}>
         <article>
           <span>Product Truth status</span>
-          {preparation.productTruth.map((item) => (
-            <small key={item}>{item}</small>
+          {preparation.productTruth.map((item, index) => (
+            <small key={`infinity-product-truth-${index}-${item}`}>{item}</small>
           ))}
         </article>
         <article>
@@ -121,8 +123,8 @@ export function AlKawnInfinityPreparationPanel({
         </article>
         <article>
           <span>Blocked until</span>
-          {preparation.nextAction.blockedUntil.map((item) => (
-            <small key={item}>{item}</small>
+          {preparation.nextAction.blockedUntil.map((item, index) => (
+            <small key={`infinity-next-blocked-${index}-${item}`}>{item}</small>
           ))}
         </article>
       </div>

@@ -11,8 +11,8 @@ function AuthReadinessCard({ item }: { item: LocalPackagedAuthReadiness }) {
       <strong>{item.label}</strong>
       <small>{item.status}</small>
       <ul>
-        {item.checks.slice(0, 5).map((check) => (
-          <li key={check}>{check}</li>
+        {item.checks.slice(0, 5).map((check, index) => (
+          <li key={`local-auth-${item.id}-check-${index}-${check}`}>{check}</li>
         ))}
       </ul>
       <em>{item.nextAction}</em>
@@ -63,22 +63,24 @@ export function AlKawnLocalPackagedAuthGate({
       <div className={styles.packagingTruth}>
         <article>
           <span>Product Truth status</span>
-          {gate.productTruth.map((item) => (
-            <small key={item}>{item}</small>
+          {gate.productTruth.map((item, index) => (
+            <small key={`local-auth-product-truth-${index}-${item}`}>{item}</small>
           ))}
         </article>
         <article>
           <span>Blocked local auth claims</span>
-          {gate.blockedClaims.map((item) => (
-            <small key={item}>{item}</small>
+          {gate.blockedClaims.map((item, index) => (
+            <small key={`local-auth-blocked-claim-${index}-${item}`}>{item}</small>
           ))}
         </article>
         <article>
           <span>Next auth action</span>
           <strong>{gate.nextAction.next}</strong>
           <small>{gate.nextAction.reason}</small>
-          {gate.nextAction.blockedUntil.map((item) => (
-            <small key={item}>Blocked until: {item}</small>
+          {gate.nextAction.blockedUntil.map((item, index) => (
+            <small key={`local-auth-next-blocked-${index}-${item}`}>
+              Blocked until: {item}
+            </small>
           ))}
         </article>
       </div>

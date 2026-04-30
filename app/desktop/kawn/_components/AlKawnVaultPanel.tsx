@@ -10,8 +10,8 @@ export function AlKawnVaultPanel({ vault }: { vault: AlKawnDesktopVaultState }) 
       </div>
       <strong>Status: {vault.status}</strong>
       <ul>
-        {vault.rules.map((rule) => (
-          <li key={rule}>{rule}</li>
+        {vault.rules.map((rule, index) => (
+          <li key={`vault-rule-${index}-${rule}`}>{rule}</li>
         ))}
       </ul>
     </section>

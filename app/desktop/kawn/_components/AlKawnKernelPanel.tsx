@@ -10,13 +10,13 @@ export function AlKawnKernelPanel({ kernel }: { kernel: AlKawnDesktopKernelState
       </div>
       <strong>{kernel.role}</strong>
       <ul>
-        {kernel.guards.map((guard) => (
-          <li key={guard}>{guard}</li>
+        {kernel.guards.map((guard, index) => (
+          <li key={`kernel-guard-${index}-${guard}`}>{guard}</li>
         ))}
       </ul>
       <div className={styles.gapList}>
-        {kernel.gaps.map((gap) => (
-          <span key={gap}>{gap}</span>
+        {kernel.gaps.map((gap, index) => (
+          <span key={`kernel-gap-${index}-${gap}`}>{gap}</span>
         ))}
       </div>
     </section>

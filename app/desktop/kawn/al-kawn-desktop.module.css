@@ -269,21 +269,20 @@
   position: absolute;
 }
 
-.livingHeroMain,
-.livingHeroTruth,
-.spokenEntryMessage,
-.legacyEntryProof,
+.livingEntryPanel,
+.humanMessagePanel,
+.truthPrivacyStrip,
 .nextActionPanel,
-.experienceAnswers,
 .livingExperienceGrid {
   position: relative;
   z-index: 1;
 }
 
-.livingHeroMain {
+.livingEntryPanel {
   align-content: center;
   display: grid;
   gap: 12px;
+  grid-column: 1 / -1;
   max-width: 1120px;
 }
 
@@ -343,56 +342,67 @@
   }
 }
 
-.livingHeroTruth,
-.spokenEntryMessage,
+.livingEntryPanel,
+.humanMessagePanel,
 .nextActionPanel,
-.experienceAnswers article {
+.truthPrivacyStrip {
   background: rgba(4, 8, 14, 0.52);
   border: 1px solid rgba(255, 255, 255, 0.105);
   border-radius: 14px;
   box-shadow: 0 18px 50px rgba(0, 0, 0, 0.2);
 }
 
-.livingHeroTruth {
-  align-content: center;
-  display: grid;
-  gap: 10px;
-  padding: 18px;
-}
-
-.livingHeroTruth small,
-.spokenEntryMessage span,
+.humanMessagePanel span,
 .nextActionPanel p,
-.experienceAnswers span,
+.truthPrivacyStrip small,
 .livingExperienceGrid small {
   color: rgba(235, 241, 247, 0.72);
   line-height: 1.45;
 }
 
-.spokenEntryMessage,
-.legacyEntryProof,
+.livingEntryPanel,
+.humanMessagePanel,
 .nextActionPanel {
   display: grid;
   gap: 8px;
-  grid-column: 1 / -1;
   padding: 16px;
 }
 
-.legacyEntryProof {
-  background: rgba(4, 8, 14, 0.34);
-  border: 1px solid rgba(255, 255, 255, 0.075);
-  border-radius: 14px;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+.livingCompass,
+.truthPrivacyStrip {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
-.legacyEntryProof span {
+.livingCompass span,
+.truthPrivacyStrip small,
+.truthPrivacyStrip strong {
+  background: rgba(255, 255, 255, 0.052);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 999px;
   color: rgba(235, 241, 247, 0.68);
-  font-size: 0.74rem;
+  font-size: 0.76rem;
   line-height: 1.35;
+  padding: 7px 9px;
   text-transform: none;
 }
 
-.spokenEntryMessage strong,
+.truthPrivacyStrip {
+  grid-column: 1 / -1;
+  padding: 12px;
+}
+
+.truthPrivacyStrip > span {
+  width: 100%;
+}
+
+.compatibilityProof {
+  opacity: 0.72;
+}
+
+.humanMessagePanel strong,
 .nextActionPanel strong {
   font-size: clamp(1rem, 1.6vw, 1.35rem);
   line-height: 1.45;
@@ -400,21 +410,6 @@
 
 .nextActionPanel {
   border-color: rgba(255, 190, 100, 0.24);
-}
-
-.experienceAnswers {
-  display: grid;
-  gap: 10px;
-  grid-column: 1 / -1;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-}
-
-.experienceAnswers article {
-  align-content: start;
-  display: grid;
-  gap: 6px;
-  min-height: 92px;
-  padding: 12px;
 }
 
 .livingExperience,
@@ -735,9 +730,7 @@
   .actionColumns,
   .packagingGrid,
   .packagingTruth,
-  .livingExperienceGrid,
-  .experienceAnswers,
-  .legacyEntryProof {
+  .livingExperienceGrid {
     grid-template-columns: 1fr;
   }
 

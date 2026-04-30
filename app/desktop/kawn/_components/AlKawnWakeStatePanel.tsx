@@ -25,11 +25,11 @@ export function AlKawnWakeStatePanel({
       </div>
 
       <div className={styles.truthChips} aria-label="Al-Kawn wake required wording">
-        {wakeState.requiredWording.map((wording) => (
-          <span key={wording}>{wording}</span>
+        {wakeState.requiredWording.map((wording, index) => (
+          <span key={`wake-required-${index}-${wording}`}>{wording}</span>
         ))}
-        {dailyWorkLoop.requiredWording.map((wording) => (
-          <span key={wording}>{wording}</span>
+        {dailyWorkLoop.requiredWording.map((wording, index) => (
+          <span key={`daily-loop-required-${index}-${wording}`}>{wording}</span>
         ))}
       </div>
 
@@ -85,11 +85,11 @@ export function AlKawnWakeStatePanel({
           <article>
             <span>Daily progress</span>
             <ul>
-              {dailyWorkLoop.progress.completed.slice(0, 4).map((item) => (
-                <li key={item}>{item}</li>
+              {dailyWorkLoop.progress.completed.slice(0, 4).map((item, index) => (
+                <li key={`daily-progress-completed-${index}-${item}`}>{item}</li>
               ))}
-              {dailyWorkLoop.progress.active.map((item) => (
-                <li key={item}>{item}</li>
+              {dailyWorkLoop.progress.active.map((item, index) => (
+                <li key={`daily-progress-active-${index}-${item}`}>{item}</li>
               ))}
             </ul>
           </article>

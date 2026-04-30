@@ -14,8 +14,8 @@ export function AlKawnProtectionPanel({
       </div>
       <strong>Status: {protection.status}</strong>
       <ul>
-        {protection.rules.map((rule) => (
-          <li key={rule}>{rule}</li>
+        {protection.rules.map((rule, index) => (
+          <li key={`protection-rule-${index}-${rule}`}>{rule}</li>
         ))}
       </ul>
     </section>

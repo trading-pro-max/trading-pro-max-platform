@@ -11,8 +11,8 @@ function ReadinessCard({ item }: { item: DesktopPackagingReadiness }) {
       <strong>{item.label}</strong>
       <small>{item.status}</small>
       <ul>
-        {item.checks.slice(0, 5).map((check) => (
-          <li key={check}>{check}</li>
+        {item.checks.slice(0, 5).map((check, index) => (
+          <li key={`packaging-gate-${item.id}-check-${index}-${check}`}>{check}</li>
         ))}
       </ul>
       <em>{item.nextAction}</em>
@@ -63,22 +63,24 @@ export function AlKawnPrivateDesktopPackagingGate({
       <div className={styles.packagingTruth}>
         <article>
           <span>Product Truth status</span>
-          {gate.productTruth.map((item) => (
-            <small key={item}>{item}</small>
+          {gate.productTruth.map((item, index) => (
+            <small key={`packaging-gate-product-truth-${index}-${item}`}>{item}</small>
           ))}
         </article>
         <article>
           <span>Blocked actions</span>
-          {gate.blockedActions.map((item) => (
-            <small key={item}>{item}</small>
+          {gate.blockedActions.map((item, index) => (
+            <small key={`packaging-gate-blocked-action-${index}-${item}`}>{item}</small>
           ))}
         </article>
         <article>
           <span>Next packaging action</span>
           <strong>{gate.nextAction.next}</strong>
           <small>{gate.nextAction.reason}</small>
-          {gate.nextAction.blockedUntil.map((item) => (
-            <small key={item}>Blocked until: {item}</small>
+          {gate.nextAction.blockedUntil.map((item, index) => (
+            <small key={`packaging-gate-next-blocked-${index}-${item}`}>
+              Blocked until: {item}
+            </small>
           ))}
         </article>
       </div>

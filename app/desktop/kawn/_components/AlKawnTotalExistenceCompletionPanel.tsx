@@ -37,8 +37,8 @@ export function AlKawnTotalExistenceCompletionPanel({
       </div>
 
       <div className={styles.truthChips} aria-label="Al-Kawn total existence laws">
-        {totalExistence.globalWording.map((wording) => (
-          <span key={wording}>{wording}</span>
+        {totalExistence.globalWording.map((wording, index) => (
+          <span key={`total-existence-wording-${index}-${wording}`}>{wording}</span>
         ))}
       </div>
 

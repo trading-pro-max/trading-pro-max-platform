@@ -38,7 +38,9 @@ test.describe("Al-Kawn Experiential Desktop Correction", () => {
     await expect(body).toContainText(
       "/desktop/kawn now opens as a living universe experience, not a technical dashboard",
     );
-    await expect(body).toContainText("/desktop/kawn هو بيت الكون الحي");
+    await expect(body).toContainText("/desktop/kawn هو بيت الكون الحي، وليس لوحة تقنية");
+    await expect(body).toContainText("Duplicate key error fixed");
+    await expect(body).toContainText("Local Day One remains ready_not_started");
     await expect(body).toContainText("Product Truth");
 
     expect(await body.innerText()).not.toMatch(FORBIDDEN_CLAIMS);
@@ -54,8 +56,8 @@ test.describe("Al-Kawn Experiential Desktop Correction", () => {
       "utf8",
     );
 
-    expect(desktopSource).toContain("Welcome to الكون.");
-    expect(desktopSource).toContain("هذا ليس Dashboard؛ هذا بيت الكون الخاص.");
+    expect(desktopSource).toContain("Welcome to الكون");
+    expect(desktopSource).toContain("هذا ليس Dashboard؛ هذا بيت الكون الخاص");
     expect(experienceSource).toContain("The pulse reflects state, not decoration.");
     expect(existsSync("docs/product/al-kawn-experiential-desktop-correction.md")).toBe(true);
     expect(existsSync("reports/al-kawn-experiential-desktop-correction.md")).toBe(true);

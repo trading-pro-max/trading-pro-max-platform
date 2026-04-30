@@ -11,8 +11,8 @@ function PreparationCard({ item }: { item: DesktopPackagingPreparationCheck }) {
       <strong>{item.label}</strong>
       <small>{item.status}</small>
       <ul>
-        {item.checks.slice(0, 5).map((check) => (
-          <li key={check}>{check}</li>
+        {item.checks.slice(0, 5).map((check, index) => (
+          <li key={`packaging-prep-${item.id}-check-${index}-${check}`}>{check}</li>
         ))}
       </ul>
       <em>{item.nextAction}</em>
@@ -63,22 +63,24 @@ export function AlKawnPrivateDesktopPackagingPreparation({
       <div className={styles.packagingTruth}>
         <article>
           <span>Product Truth status</span>
-          {preparation.productTruth.map((item) => (
-            <small key={item}>{item}</small>
+          {preparation.productTruth.map((item, index) => (
+            <small key={`packaging-prep-product-truth-${index}-${item}`}>{item}</small>
           ))}
         </article>
         <article>
           <span>Blocked packaging actions</span>
-          {preparation.blockedActions.map((item) => (
-            <small key={item}>{item}</small>
+          {preparation.blockedActions.map((item, index) => (
+            <small key={`packaging-prep-blocked-action-${index}-${item}`}>{item}</small>
           ))}
         </article>
         <article>
           <span>Next packaging action</span>
           <strong>{preparation.nextAction.next}</strong>
           <small>{preparation.nextAction.reason}</small>
-          {preparation.nextAction.blockedUntil.map((item) => (
-            <small key={item}>Blocked until: {item}</small>
+          {preparation.nextAction.blockedUntil.map((item, index) => (
+            <small key={`packaging-prep-next-blocked-${index}-${item}`}>
+              Blocked until: {item}
+            </small>
           ))}
         </article>
       </div>

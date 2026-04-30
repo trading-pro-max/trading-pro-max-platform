@@ -304,16 +304,19 @@ export default function UniverseCommandCenter({
       >
         <div className={styles.kernelHeader}>
           <div>
-            <span>Al-Kawn Experiential Desktop Correction</span>
-            <h2>/desktop/kawn now opens as a living universe experience, not a technical dashboard.</h2>
-            <p>/desktop/kawn هو بيت الكون الحي.</p>
+            <span>Emergency Al-Kawn Desktop Experience Correction</span>
+            <h2>/desktop/kawn هو بيت الكون الحي، وليس لوحة تقنية.</h2>
+            <p>/desktop/kawn now opens as a living universe experience, not a technical dashboard.</p>
             <p>Product Truth remains visible above visual beauty.</p>
+            <p>Duplicate React key error fixed for repeated daily loop wording.</p>
             <p>Technical details remain available below the living entry.</p>
           </div>
           <aside>
-            <strong>Living entry active</strong>
+            <strong>Desktop experience correction complete</strong>
             <small>Welcome to الكون.</small>
+            <small>Duplicate key error fixed.</small>
             <small>Local Day One remains ready_not_started.</small>
+            <small>Ahmad review required before Local Day One.</small>
             <Link href="/desktop/kawn">Enter الكون</Link>
           </aside>
         </div>

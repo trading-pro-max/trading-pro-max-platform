@@ -84,8 +84,10 @@ export function AlKawnControlSurfaces({
           <h3>{selectedSurface.label}</h3>
           <p>{selectedSurface.purpose}</p>
           <div className={styles.stateList}>
-            {selectedSurface.visibleState.map((state) => (
-              <span key={state}>{state}</span>
+            {selectedSurface.visibleState.map((state, index) => (
+              <span key={`control-visible-state-${selectedSurface.id}-${index}-${state}`}>
+                {state}
+              </span>
             ))}
           </div>
         </div>

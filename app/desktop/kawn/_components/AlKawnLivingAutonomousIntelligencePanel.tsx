@@ -19,8 +19,8 @@ export function AlKawnLivingAutonomousIntelligencePanel({
       </div>
 
       <div className={styles.truthChips}>
-        {intelligence.requiredWording.map((wording) => (
-          <span key={wording}>{wording}</span>
+        {intelligence.requiredWording.map((wording, index) => (
+          <span key={`living-intelligence-required-${index}-${wording}`}>{wording}</span>
         ))}
       </div>
 
@@ -84,15 +84,17 @@ export function AlKawnLivingAutonomousIntelligencePanel({
           <span>Decision engine</span>
           <strong>كل قرار ذكي يختار عملًا داخليًا واحدًا فقط.</strong>
           <p>الأولوية الأولى هي Product Truth والخصوصية.</p>
-          {intelligence.decisionEngine.priorities.slice(0, 5).map((priority) => (
-            <small key={priority}>{priority}</small>
+          {intelligence.decisionEngine.priorities.slice(0, 5).map((priority, index) => (
+            <small key={`living-intelligence-priority-${index}-${priority}`}>
+              {priority}
+            </small>
           ))}
         </article>
         <article>
           <span>Validation plan</span>
           <strong>{intelligence.report.validationResult}</strong>
-          {intelligence.selectedAction.validationPlan.map((item) => (
-            <small key={item}>{item}</small>
+          {intelligence.selectedAction.validationPlan.map((item, index) => (
+            <small key={`living-intelligence-validation-${index}-${item}`}>{item}</small>
           ))}
         </article>
         <article>
