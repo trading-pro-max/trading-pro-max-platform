@@ -1,10 +1,12 @@
 import { expect, test } from "@playwright/test";
+import { seedUnlockedAlKawnLocalAuth } from "./helpers/al-kawn-local-auth";
 
 const FORBIDDEN_CLAIMS =
   /public desktop distribution active|billing active|payments active|receiving money active|real money enabled|broker execution active|legal approval active|FINMA approved|licensed trading platform|secrets stored in app bundle|secrets stored in Git|external accounts connected without approval|Universe public active|الكون public active|ALKON public active|guaranteed profit|risk free|absolute 100% security guaranteed/i;
 
 test.describe("Al-Kawn Desktop Operating Environment", () => {
   test("/desktop/kawn renders the private desktop command client", async ({ page }) => {
+    await seedUnlockedAlKawnLocalAuth(page);
     await page.goto("/desktop/kawn", { waitUntil: "domcontentloaded" });
 
     const body = page.locator("body");

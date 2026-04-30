@@ -1,11 +1,13 @@
 import { expect, test } from "@playwright/test";
 import { existsSync, readFileSync } from "node:fs";
+import { seedUnlockedAlKawnLocalAuth } from "./helpers/al-kawn-local-auth";
 
 const FORBIDDEN_CLAIMS =
   /Infinity Mode active|Operator Mode active|public launch active|billing active|payments active|receiving money active|real money enabled|broker execution active|legal approval active|FINMA approved|licensed trading platform|public الكون active|public ALKON active|guaranteed profit|risk free|Product Truth disabled/i;
 
 test.describe("Al-Kawn Control Surfaces", () => {
   test("/desktop/kawn renders full control surfaces", async ({ page }) => {
+    await seedUnlockedAlKawnLocalAuth(page);
     await page.goto("/desktop/kawn", { waitUntil: "domcontentloaded" });
 
     const body = page.locator("body");

@@ -18,7 +18,7 @@ Public desktop distribution is blocked.
 
 ## Local Build Dry Run Dependency
 
-Private Desktop Local Build Dry Run is allowed only as a local readiness check until a native shell, packaging tool, real packaged-app auth, and artifact audit exist.
+Private Desktop Local Build Dry Run is allowed only as a local readiness check until a native shell, packaging tool, native packaged-app hardening, and artifact audit exist.
 
 Local build dry run is not public release, production signing, upload, or distribution.
 
@@ -76,9 +76,11 @@ Only private Ahmad-only distribution is allowed. Public desktop distribution is 
 
 ## Local Auth Gate
 
-Local packaged-app authentication is a `future_gate`.
+Local packaged-app authentication is `ready_with_notes`.
 
-A packaged private app must not expose sensitive command surfaces without a local auth gate. Production-grade packaged-app auth must not be claimed until implemented and validated.
+Local PIN / Passphrase Auth now protects `/desktop/kawn` as a browser/device-local private access lock.
+
+A packaged private app must not expose sensitive command surfaces without a local auth gate. Production-grade packaged-app auth, OS keychain integration, and native packaged-app hardening must not be claimed until implemented and validated.
 
 ## Secret Safety
 
@@ -107,13 +109,16 @@ Desktop packaging cannot override Product Truth:
 
 ## Future Packaging Path
 
-Local Packaged Auth Gate is now the required access-control layer before private packaging preparation.
+Local Packaged Auth Gate and Local PIN / Passphrase Auth are now the required access-control layers before private packaging preparation.
 
-The safest next action after the gate exists is Ahmad decision required for the local access method.
+The safest next action after Local PIN / Passphrase Auth is Private Desktop Packaging Preparation.
 
-Private packaging preparation may come later only after local auth method, signing, private distribution, and secret safety decisions are ready.
+Private packaging preparation may come later with the local route lock preserved while signing, private distribution, native shell, and native packaged-app hardening remain future gates.
 
-Reference: `docs/product/al-kawn-local-packaged-auth-gate.md`.
+References:
+
+- `docs/product/al-kawn-local-packaged-auth-gate.md`
+- `docs/product/al-kawn-local-pin-passphrase-auth.md`
 
 ## Private Desktop Packaging Preparation
 

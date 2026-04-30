@@ -6,21 +6,21 @@ export function getLocalAuthReadiness(): LocalPackagedAuthReadiness {
   return {
     id: "local_auth_readiness",
     label: "Local auth readiness",
-    state: "future_gate",
-    status: "Local packaged-app authentication is defined as a gate but not implemented.",
+    state: "ready_with_notes",
+    status: "Local PIN/passphrase access lock is implemented for /desktop/kawn with Web Crypto when available.",
     checks: [
-      "Local auth implemented: no.",
-      "PIN/passphrase implemented: no.",
+      "Local auth implemented: yes, as a local private access lock.",
+      "PIN/passphrase implemented: yes.",
       "Device-lock awareness implemented: no.",
-      "Session timeout implemented: no.",
+      "Session timeout implemented: yes, local browser session.",
       "Production-grade auth is a future gate unless implemented.",
     ],
     evidence: [
-      "No native packaged shell exists yet.",
-      "No local packaged auth implementation exists yet.",
+      "lib/client/al-kawn-local-auth.",
+      "app/desktop/kawn/_components/AlKawnLocalAuthGate.tsx.",
       "Private Desktop Packaging Gate marks auth as a future gate.",
     ],
-    risk: "Calling this production-grade auth before implementation would be a false security claim.",
-    nextAction: "Choose and implement a real local auth method in a future approved mission.",
+    risk: "Calling this production-grade or external identity auth would be a false security claim.",
+    nextAction: "Use this as a local private lock while production-grade packaged auth remains future-gated.",
   };
 }

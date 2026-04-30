@@ -10,6 +10,8 @@
 }
 
 .topBar,
+.localAuthStatus,
+.localAuthCard,
 .hero,
 .bootSequence,
 .layerNavigator,
@@ -29,6 +31,122 @@
   box-shadow: var(--alkawn-shadow-depth);
   position: relative;
   z-index: 1;
+}
+
+.localAuthScreen {
+  align-content: center;
+  background: var(--alkawn-page-gradient);
+  color: var(--alkawn-text-primary);
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(320px, 0.9fr) minmax(280px, 0.55fr);
+  min-height: 100vh;
+  padding: 18px;
+}
+
+.localAuthStatus {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 10px 12px;
+  position: relative;
+  z-index: 2;
+}
+
+.localAuthStatus strong {
+  color: #ffffff;
+}
+
+.localAuthStatus span {
+  background: rgba(255, 255, 255, 0.052);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 999px;
+  color: rgba(246, 248, 251, 0.84);
+  font-size: 0.72rem;
+  padding: 6px 8px;
+}
+
+.localAuthStatus button,
+.localAuthForm button,
+.localAuthReset button,
+.localAuthTextButton {
+  background: rgba(227, 6, 19, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 10px;
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: 850;
+  padding: 9px 11px;
+}
+
+.localAuthCard {
+  align-content: start;
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+}
+
+.localAuthCard h1 {
+  color: #ffffff;
+  font-size: 2.4rem;
+  letter-spacing: 0;
+  line-height: 0.98;
+  margin: 0;
+}
+
+.localAuthCard p,
+.localAuthCard small,
+.localAuthReset {
+  color: rgba(235, 241, 247, 0.74);
+  line-height: 1.45;
+}
+
+.localAuthForm {
+  display: grid;
+  gap: 10px;
+}
+
+.localAuthForm label {
+  color: rgba(255, 239, 241, 0.86);
+  display: grid;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.localAuthForm input,
+.localAuthForm select {
+  background: rgba(0, 0, 0, 0.24);
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 10px;
+  color: #ffffff;
+  min-height: 42px;
+  padding: 9px 10px;
+}
+
+.localAuthForm button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.localAuthReset {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: grid;
+  gap: 8px;
+  padding-top: 10px;
+}
+
+.localAuthReset summary {
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: 850;
+}
+
+.localAuthTextButton {
+  width: fit-content;
 }
 
 .topBar {
@@ -371,6 +489,7 @@
 
 @media (max-width: 1220px) {
   .topBar,
+  .localAuthScreen,
   .hero,
   .operatingGrid,
   .lowerGrid,
@@ -390,6 +509,10 @@
 @media (max-width: 720px) {
   .desktop {
     padding: 8px;
+  }
+
+  .localAuthCard h1 {
+    font-size: 1.8rem;
   }
 
   .bootGrid,

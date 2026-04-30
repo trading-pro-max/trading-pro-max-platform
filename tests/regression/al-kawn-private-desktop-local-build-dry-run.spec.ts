@@ -1,11 +1,13 @@
 import { expect, test } from "@playwright/test";
 import { existsSync, readFileSync } from "node:fs";
+import { seedUnlockedAlKawnLocalAuth } from "./helpers/al-kawn-local-auth";
 
 const FORBIDDEN_CLAIMS =
   /public desktop distribution active|production signing active|public release active|upload complete|billing active|payments active|receiving money active|real money enabled|broker execution active|legal approval active|FINMA approved|licensed trading platform|secrets stored in desktop bundle|secrets stored in Git|public ALKON active/i;
 
 test.describe("Al-Kawn Private Desktop Local Build Dry Run", () => {
   test("/desktop/kawn renders private local build dry run", async ({ page }) => {
+    await seedUnlockedAlKawnLocalAuth(page);
     await page.goto("/desktop/kawn", { waitUntil: "domcontentloaded" });
 
     const body = page.locator("body");

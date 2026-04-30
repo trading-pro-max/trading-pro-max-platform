@@ -6,19 +6,19 @@ export function getSessionTimeoutReadiness(): LocalPackagedAuthReadiness {
   return {
     id: "session_timeout_readiness",
     label: "Session timeout readiness",
-    state: "future_gate",
-    status: "Packaged-app session timeout is not implemented yet.",
+    state: "ready_with_notes",
+    status: "Session timeout is active for the local browser/device lock.",
     checks: [
-      "Session timeout implemented: no.",
-      "Idle lock implemented: no.",
-      "Manual lock action implemented: no.",
-      "Timeout policy requires Ahmad approval.",
+      "Session timeout implemented: yes.",
+      "Manual lock action implemented: yes.",
+      "No sensitive data stored in session.",
+      "Timeout policy: 30 minutes.",
     ],
     evidence: [
-      "No packaged desktop runtime is active.",
-      "No local auth session store is active.",
+      "lib/client/al-kawn-local-auth/session.ts.",
+      "AlKawnLocalAuthStatus manual lock.",
     ],
-    risk: "Session timeout rules must be real before they are described as active protection.",
-    nextAction: "Define timeout duration, manual lock behavior, and local-only session storage later.",
+    risk: "This is local browser session control, not production-grade packaged auth.",
+    nextAction: "Preserve timeout behavior during future native packaging.",
   };
 }

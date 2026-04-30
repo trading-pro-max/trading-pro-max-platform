@@ -166,7 +166,20 @@ Local auth truth:
 - Production-grade auth is a future gate unless implemented.
 - Product Truth overrides local auth claims.
 
-PIN, passphrase, device-lock awareness, packaged-app lock, and session timeout remain future gates until implemented and validated.
+Local PIN / Passphrase Auth is now implemented for `/desktop/kawn` as a browser/device-local private access lock.
+
+Current local auth state:
+
+- PIN/passphrase setup: implemented for local route access.
+- Web Crypto PBKDF2 verifier: implemented when available.
+- Manual lock: implemented.
+- Session timeout: active, 30-minute target.
+- Plaintext PIN/passphrase storage: blocked.
+- External auth providers: blocked unless Ahmad approves.
+- OS keychain/device-lock integration: future gate.
+- Production-grade auth claim: future gate.
+
+The implementation is a local private access lock, not public authentication and not production-grade identity verification.
 
 ## Private Desktop Packaging Preparation
 

@@ -36,7 +36,7 @@ export function getLocalPackagedAuthGate(): LocalPackagedAuthGate {
     title: "Local Packaged Auth Gate",
     status: "ready_with_notes",
     summary:
-      "The Ahmad-only local access law is defined, while packaged-app lock, PIN/passphrase, device-lock awareness, and session timeout remain future gates.",
+      "The Ahmad-only local access law is defined and /desktop/kawn now has a local PIN/passphrase lock; production-grade auth, external auth, OS keychain, and native packaged-app auth remain future gates.",
     requiredWording: [
       "Local Packaged Auth Gate",
       "Al-Kawn Desktop requires Ahmad-only local access.",
@@ -55,6 +55,7 @@ export function getLocalPackagedAuthGate(): LocalPackagedAuthGate {
     productTruth: [
       "Al-Kawn Desktop requires Ahmad-only local access.",
       "Packaged-app authentication is private and local-first.",
+      "Local PIN / Passphrase Auth is implemented as a local private access lock.",
       "Public desktop distribution is blocked.",
       "Billing inactive.",
       "Payments inactive.",

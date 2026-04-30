@@ -325,7 +325,21 @@ Required law:
 - Production-grade auth is a future gate unless implemented.
 - Product Truth overrides local auth claims.
 
-PIN, passphrase, device-lock awareness, packaged-app lock, and session timeout are future gates until implemented and validated. Ahmad decides the local auth method.
+Local PIN / Passphrase Auth is now implemented for `/desktop/kawn` as a local private access lock.
+
+Required law:
+
+- Local PIN / Passphrase Auth.
+- Al-Kawn Desktop requires Ahmad-only local access.
+- This is a local private access lock, not public authentication.
+- No plaintext passphrase is stored.
+- External auth providers require Ahmad approval.
+- Production-grade auth remains a future gate unless implemented.
+- Product Truth overrides auth claims.
+
+The route lock uses local browser/device storage and Web Crypto when available. It stores a salted verifier, not a plaintext PIN/passphrase. Manual lock and a 30-minute session timeout are active.
+
+OS keychain integration, device-lock awareness, native packaged-app hardening, and production-grade auth claims remain future gates.
 
 ## Control Surfaces Law
 

@@ -267,6 +267,33 @@ The script runs `scripts/al-kawn-desktop-local-build-dry-run.mjs` and is local r
 
 Current result: no native shell, no packaging tool, and no real packaged-app auth exist. The dry run can verify readiness only. Product Truth overrides local build.
 
+## Local PIN / Passphrase Auth Code Rule
+
+`lib/server/universe/local-desktop-auth/` is the canonical server owner for Local PIN / Passphrase Auth policy, readiness, status, boundaries, and next action.
+
+Required exports include:
+
+- `getLocalDesktopAuthPolicy()`
+- `getLocalDesktopAuthReadiness()`
+- `getLocalDesktopAuthStatus()`
+- `getLocalDesktopAuthBoundaries()`
+- `getLocalDesktopAuthNextAction()`
+
+`lib/client/al-kawn-local-auth/` is the local browser/device auth utility layer for `/desktop/kawn`.
+
+Client behavior:
+
+- setup a local PIN/passphrase
+- store only a salted PBKDF2 verifier
+- use Web Crypto when available
+- avoid plaintext PIN/passphrase storage
+- keep unlocked session state local to the browser/device
+- provide manual lock
+- use a 30-minute session timeout
+- show reset warning
+
+This layer must never claim public auth, customer login, external auth provider connection, production-grade auth, legal identity verification, financial identity verification, or absolute security.
+
 ## Private Desktop Distribution Gate Code Rule
 
 `lib/server/universe/desktop-distribution-gate/` is the canonical owner for private desktop distribution readiness.

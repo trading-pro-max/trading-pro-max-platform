@@ -61,6 +61,12 @@ import { getPrivateDesktopLocalBuildDryRun } from "@/lib/server/universe/desktop
 import { getDesktopPackagingGate } from "@/lib/server/universe/desktop-packaging-gate";
 import { getPrivateDesktopPackagingPreparation } from "@/lib/server/universe/desktop-packaging-preparation";
 import { getAlKawnDesktopState } from "@/lib/server/universe/desktop-interface";
+import {
+  getLocalDesktopAuthBoundaries,
+  getLocalDesktopAuthNextAction,
+  getLocalDesktopAuthReadiness,
+  getLocalDesktopAuthStatus,
+} from "@/lib/server/universe/local-desktop-auth";
 import { getLocalPackagedAuthGate } from "@/lib/server/universe/local-packaged-auth-gate";
 import styles from "../founder-universe.module.css";
 
@@ -178,6 +184,10 @@ export default function UniverseCommandCenter({
   const desktopPackagingPreparation = getPrivateDesktopPackagingPreparation();
   const desktopLocalBuildDryRun = getPrivateDesktopLocalBuildDryRun();
   const desktopDistributionGate = getDesktopDistributionGate();
+  const localDesktopAuthReadiness = getLocalDesktopAuthReadiness();
+  const localDesktopAuthStatus = getLocalDesktopAuthStatus();
+  const localDesktopAuthBoundaries = getLocalDesktopAuthBoundaries();
+  const localDesktopAuthNextAction = getLocalDesktopAuthNextAction();
   const visualMapCoreLayerIds = [
     "existence_contract",
     "product_truth",
@@ -681,6 +691,7 @@ Compatibility evidence:
             <p>Private Ahmad-only desktop shell.</p>
             <p>Private Desktop Packaging Gate</p>
             <p>Local Packaged Auth Gate</p>
+            <p>Local PIN / Passphrase Auth</p>
             <p>Private Desktop Packaging Preparation</p>
             <p>Private Desktop Local Build Dry Run</p>
             <p>Private Desktop Distribution Gate</p>
@@ -696,6 +707,8 @@ Compatibility evidence:
             <p>Signing and private distribution require future approval.</p>
             <p>Desktop remains Ahmad-only.</p>
             <p>External auth requires Ahmad approval</p>
+            <p>External auth providers require Ahmad approval.</p>
+            <p>Production-grade auth remains a future gate unless implemented.</p>
             <p>No secrets are stored in the desktop bundle.</p>
             <p>External accounts require Ahmad approval.</p>
             <p>Product Truth enforced</p>
@@ -708,6 +721,10 @@ Compatibility evidence:
             <small>Shell type: {desktopState.shellFinalization.shellType}</small>
             <small>Private Desktop Packaging Gate status: {desktopPackagingGate.status}</small>
             <small>Local Packaged Auth Gate status: {localPackagedAuthGate.status}</small>
+            <small>Local PIN / Passphrase Auth status: {localDesktopAuthStatus.state}</small>
+            <small>Session timeout status: {localDesktopAuthStatus.sessionTimeout}</small>
+            <small>Manual lock support: {localDesktopAuthStatus.manualLock}</small>
+            <small>OS keychain/device-lock: future gate</small>
             <small>
               Private Desktop Packaging Preparation status: {desktopPackagingPreparation.status}
             </small>
@@ -756,6 +773,12 @@ Compatibility evidence:
             <span>Local Packaged Auth Gate</span>
             <strong>{localPackagedAuthGate.summary}</strong>
             <small>{localPackagedAuthGate.nextAction.reason}</small>
+          </article>
+          <article>
+            <span>Local PIN / Passphrase Auth</span>
+            <strong>{localDesktopAuthReadiness.status}</strong>
+            <small>{localDesktopAuthBoundaries.status}</small>
+            <small>{localDesktopAuthNextAction.reason}</small>
           </article>
           <article>
             <span>Private Desktop Packaging Preparation</span>
