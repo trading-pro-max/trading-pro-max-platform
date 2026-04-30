@@ -18,6 +18,10 @@ export type AlKawnHumanSpokenInterfaceState = {
   audience: "Ahmad only";
   summary: string;
   wakeMessage: AlKawnSpokenLine;
+  dailyWording: AlKawnSpokenLine[];
+  taskWording: AlKawnSpokenLine[];
+  blockerWording: AlKawnSpokenLine[];
+  nextActionWording: AlKawnSpokenLine[];
   dailyBriefing: AlKawnSpokenLine[];
   needsFromAhmad: AlKawnSpokenLine[];
   blockers: AlKawnSpokenLine[];

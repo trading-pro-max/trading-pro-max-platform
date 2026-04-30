@@ -389,3 +389,28 @@ The daily loop may execute clean internal work directly: reports, audits, task o
 The daily loop must stop for Ahmad at legal and money actions, and must block Product Truth violations immediately.
 
 Infinity Mode and Operator Mode remain blocked/future until later explicit preparation missions.
+
+## Enhanced Daily Work Loop Law
+
+الكون ينظم يومه الداخلي.
+
+The enhanced loop must show:
+
+- what الكون sees
+- what الكون can do internally
+- what should happen first
+- what is blocked
+- what needs Ahmad
+- what report is prepared
+- what one next action is selected
+
+Priority law:
+
+- Product Truth priority comes first.
+- Protection/auth/secret risks second.
+- Desktop operating readiness third.
+- Reports/docs/tests fourth.
+- Legal and Money tasks are stopped for Ahmad.
+- One daily next action only.
+
+Daily WAKE REPORT updated.

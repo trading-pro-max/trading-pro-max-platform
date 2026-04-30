@@ -1,8 +1,12 @@
-# Al-Kawn Daily Work Loop
+# Al-Kawn Daily Work Loop Enhancement
 
-Date source: Ahmad private device date/time, Europe/Zurich, 2026-04-30.
+Date/time source: Ahmad private device date/time, Europe/Zurich, 2026-04-30.
 
-Daily Work Loop is active.
+Daily Work Loop enhancement.
+
+الكون ينظم يومه الداخلي.
+
+Daily loop state: working_internal.
 
 Core law:
 - داخل الكون: التنفيذ مباشر.
@@ -10,43 +14,49 @@ Core law:
 - عند المال: يتوقف لأحمد.
 - عند كسر Product Truth: يُحجب فورًا.
 
-Checklist:
-- Confirm Ahmad-only local access.
-- Load Product Truth.
-- Check Universe Operating Kernel.
-- Sync device time and device date.
-- Review latest WAKE REPORT and validation state.
-- Select one safe internal work item.
-- Stop legal and money actions for Ahmad.
-- Block Product Truth violations immediately.
-- Prepare Daily WAKE REPORT.
+Priority engine:
+- Product Truth priority comes first.
+- Protection/auth/secret risks second.
+- Desktop operating readiness third.
+- Reports/docs/tests fourth.
+- Visual or comfort improvements after truth/protection.
+- Legal and Money tasks are stopped for Ahmad.
+- One daily next action only.
 
-Safe internal work:
-- Project audit.
-- Report generation.
-- Docs update proposal.
-- Task organization.
+Today checklist:
+- Reality check.
 - Product Truth check.
-- Visual consistency check.
-- Test status summary.
-- Architecture status summary.
-- Desktop app status summary.
-- Next Codex mission draft.
-- Internal work organization.
+- Kernel check.
+- Desktop state check.
+- Reports check.
+- Work selection check.
+- Report output check.
 
-Daily blocked work:
-- legal
-- money
-- public launch
-- billing
-- receiving money
-- broker
-- real trading
-- legal claim
-- secrets exposure
-- public الكون
-- public ALKON
+Today’s internal work is selected:
+Product Truth verification.
 
-One next action: Daily Work Loop enhancement.
+Expected output:
+Daily Product Truth confirmation with blockers visible.
 
-No secrets in daily reports.
+Safe internal work can continue:
+- project state audit
+- report generation
+- docs update proposal
+- regression summary
+- visual consistency review
+- desktop status review
+- Product Truth verification
+- architecture status summary
+- next Codex mission draft
+- task organization
+- daily briefing update
+- control surface status review
+
+Daily blockers are visible.
+
+Daily WAKE REPORT updated.
+
+One next action selected:
+Daily Work Loop enhancement.
+
+No secrets are included.

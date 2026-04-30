@@ -75,3 +75,16 @@ The spoken interface gives the daily loop a human shape. It tells Ahmad:
 - what is blocked
 - what needs Ahmad
 - one next action
+
+## Enhanced Daily Wording
+
+The enhanced daily loop adds concise Arabic-first daily messages:
+
+- أحمد، الكون مستيقظ ويعمل داخليًا.
+- أحمد، فحصت Product Truth والنواة والسطح المكتبي.
+- أحمد، العمل الداخلي الآمن المختار اليوم هو Product Truth verification.
+- أحمد، القانون والمال متوقفان عندك فقط.
+- أحمد، لا يوجد إطلاق عام أو مال أو بروكر.
+- أحمد، الخطوة التالية الوحيدة هي Daily Work Loop enhancement.
+
+These messages are local/private and do not connect external speech, calendar, email, drive, bank, broker, or payment providers.

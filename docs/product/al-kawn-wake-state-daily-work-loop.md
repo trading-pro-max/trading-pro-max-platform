@@ -96,3 +96,27 @@ Daily reports must not include secrets, private credentials, private documents, 
 Infinity Mode and Operator Mode remain blocked/future. The daily loop prepares discipline, memory, boundaries, and one-next-action behavior before any future preparation mission.
 
 Safest next action after initial wake: Daily Work Loop enhancement.
+
+## Daily Work Loop Enhancement
+
+The enhanced loop adds:
+
+- daily checklist sections
+- Product Truth priority engine
+- selected safe work item
+- daily progress state
+- daily blockers model
+- memory snapshot
+- spoken briefing updates
+- one daily next action only
+
+Required wording:
+
+- Daily Work Loop enhancement
+- الكون ينظم يومه الداخلي.
+- Today’s internal work is selected.
+- Safe internal work can continue.
+- Daily blockers are visible.
+- Daily WAKE REPORT updated.
+
+Infinity Mode and Operator Mode remain inactive.

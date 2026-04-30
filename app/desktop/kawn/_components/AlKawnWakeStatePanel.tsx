@@ -28,6 +28,9 @@ export function AlKawnWakeStatePanel({
         {wakeState.requiredWording.map((wording) => (
           <span key={wording}>{wording}</span>
         ))}
+        {dailyWorkLoop.requiredWording.map((wording) => (
+          <span key={wording}>{wording}</span>
+        ))}
       </div>
 
       <div className={styles.packagingGrid}>
@@ -42,7 +45,7 @@ export function AlKawnWakeStatePanel({
           <span>Daily briefing</span>
           <strong>{dailyWorkLoop.title}</strong>
           <ul>
-            {spokenInterface.dailyBriefing.slice(0, 5).map((line) => (
+            {spokenInterface.dailyBriefing.slice(0, 6).map((line) => (
               <li key={line.id}>{line.text}</li>
             ))}
           </ul>
@@ -61,6 +64,52 @@ export function AlKawnWakeStatePanel({
           <p>{wakeState.oneNextAction.reason}</p>
           <small>One next action selected.</small>
         </article>
+      </div>
+
+      <div className={styles.controlDetail} aria-label="Daily Work Loop enhancement">
+        <article>
+          <span>Daily loop state</span>
+          <strong>{dailyWorkLoop.progress.label}</strong>
+          <p>الكون ينظم يومه الداخلي.</p>
+          <p>{dailyWorkLoop.rule}</p>
+          <small>{dailyWorkLoop.state}</small>
+        </article>
+        <div className={styles.actionColumns}>
+          <article>
+            <span>Selected safe internal work</span>
+            <strong>{dailyWorkLoop.selectedWorkItem.title}</strong>
+            <p>{dailyWorkLoop.selectedWorkItem.todayOutput}</p>
+            <small>{dailyWorkLoop.selectedWorkItem.selectedReason}</small>
+            <small>{dailyWorkLoop.selectedWorkItem.expectedOutput}</small>
+          </article>
+          <article>
+            <span>Daily progress</span>
+            <ul>
+              {dailyWorkLoop.progress.completed.slice(0, 4).map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+              {dailyWorkLoop.progress.active.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </article>
+          <article>
+            <span>Priority engine</span>
+            <ul>
+              {dailyWorkLoop.priorities.slice(0, 5).map((priority) => (
+                <li key={priority.id}>{priority.label}</li>
+              ))}
+            </ul>
+          </article>
+          <article>
+            <span>Daily report links</span>
+            <strong>{dailyWorkLoop.memorySnapshot.path}</strong>
+            <small>reports/daily/al-kawn-daily-wake-report.md</small>
+            <small>reports/daily/al-kawn-daily-work-loop.md</small>
+            <small>reports/daily/al-kawn-daily-blockers.md</small>
+            <small>{dailyWorkLoop.progress.reportStatus}</small>
+          </article>
+        </div>
       </div>
 
       <div className={styles.packagingGrid} aria-label="Al-Kawn wake sequence">
@@ -84,10 +133,10 @@ export function AlKawnWakeStatePanel({
           </ul>
         </article>
         <article>
-          <span>Blocked legal/money</span>
+          <span>Daily blockers are visible.</span>
           <ul>
             {dailyWorkLoop.blockedItems.slice(0, 6).map((item) => (
-              <li key={item.id}>{item.title}</li>
+              <li key={item.id}>{item.title}: {item.gate}</li>
             ))}
           </ul>
         </article>

@@ -235,4 +235,30 @@ The wake surface is not a public launch, not Infinity Mode, not Operator Mode, a
 
 Daily reports live in `reports/daily/` and must not include secrets, credentials, private documents, payment keys, broker keys, or external-account data.
 
+## Daily Work Loop Enhancement
+
+`/desktop/kawn` must show the enhanced daily loop:
+
+- daily loop state
+- today checklist
+- selected safe internal work
+- daily blockers
+- daily progress
+- daily spoken briefing
+- daily report links
+- one next action
+
+The visible required wording is:
+
+- Daily Work Loop enhancement
+- الكون ينظم يومه الداخلي.
+- Today’s internal work is selected.
+- Safe internal work can continue.
+- Legal and Money gates stop execution for Ahmad.
+- Daily blockers are visible.
+- Daily WAKE REPORT updated.
+- One next action selected.
+
+The enhancement does not start Infinity Mode, Operator Mode, public launch, billing, payments, receiving money, real money, broker execution, legal approval, external accounts, or public distribution.
+
 Desktop is the main private command client for الكون. Mobile clients come later as lightweight private access layers and require their own security, signing, distribution, authentication, and no-secrets gates.

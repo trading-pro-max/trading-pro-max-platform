@@ -827,8 +827,11 @@ Compatibility evidence:
             <h2>{wakeState.title}</h2>
             <p>الكون يستيقظ من /desktop/kawn.</p>
             <p>الكون يتكلم مع أحمد فقط.</p>
+            <p>Daily Work Loop enhancement</p>
+            <p>الكون ينظم يومه الداخلي.</p>
             <p>Daily Work Loop prepares one next action.</p>
             <p>Legal and Money remain Ahmad gates.</p>
+            <p>One next action selected.</p>
             <p>{wakeState.productTruthStatus}</p>
             <p>{wakeState.kernelStatus}</p>
           </div>
@@ -836,7 +839,9 @@ Compatibility evidence:
             <strong>{wakeState.state}</strong>
             <small>{spokenInterface.title}</small>
             <small>{dailyWorkLoop.title}</small>
-            <small>One next action: {wakeState.oneNextAction.next}</small>
+            <small>Selected internal work: {dailyWorkLoop.selectedWorkItem.title}</small>
+            <small>Blockers visible: {dailyWorkLoop.blockedItems.length}</small>
+            <small>One next action: {dailyWorkLoop.nextAction.next}</small>
             <Link href="/desktop/kawn">Open Al-Kawn wake client</Link>
           </aside>
         </div>

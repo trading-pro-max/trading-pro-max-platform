@@ -1,19 +1,18 @@
 # Al-Kawn Daily Spoken Briefing
 
-Date source: Ahmad private device date/time, Europe/Zurich, 2026-04-30.
+Date/time source: Ahmad private device date/time, Europe/Zurich, 2026-04-30.
 
 Human Spoken Interface is active.
 
 الكون يتكلم مع أحمد بلغة بشرية واضحة.
 
 Briefing:
-- أحمد، أنا مستيقظ الآن.
-- أحمد، Product Truth محفوظ.
-- أحمد، النواة تعمل كقاضٍ تنفيذي.
-- أحمد، اليوم سأعمل على عمل داخلي آمن.
-- أحمد، لا يوجد لمس للقانون أو المال.
-- أحمد، إذا ظهر قانون أو مال سأتوقف لك.
-- أحمد، الخطوة التالية هي Daily Work Loop enhancement.
+- أحمد، الكون مستيقظ ويعمل داخليًا.
+- أحمد، فحصت Product Truth والنواة والسطح المكتبي.
+- أحمد، العمل الداخلي الآمن المختار اليوم هو Product Truth verification.
+- أحمد، القانون والمال متوقفان عندك فقط.
+- أحمد، لا يوجد إطلاق عام أو مال أو بروكر.
+- أحمد، الخطوة التالية الوحيدة هي Daily Work Loop enhancement.
 
 Tone:
 - clear
@@ -26,8 +25,8 @@ Tone:
 - one next action only
 
 What الكون needs from Ahmad:
-- Ahmad remains the decision owner for legal matters.
-- Ahmad remains the decision owner for money, payments, receiving money, broker, and real trading.
-- Ahmad remains the final founder decision owner.
+- Legal decisions remain Ahmad gates.
+- Money, payments, receiving money, broker, and real trading remain Ahmad gates.
+- Final founder decisions remain Ahmad-only.
 
 No secrets are included.
