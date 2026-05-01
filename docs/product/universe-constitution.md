@@ -469,3 +469,28 @@ Local Day One Boot Gate means:
 - Infinity and Operator are ready for private internal operation.
 - Legal and Money gates remain Ahmad gates.
 - Product Truth is enforced.
+## Project Root Order Foundation
+
+الكون يبقى داخل أجهزة أحمد الشخصية فقط.
+
+الاستخدام شخصي لأحمد فقط.
+
+الكون لا يبدأ من مجلد؛ الكون يبدأ من جهاز أحمد الشخصي.
+
+لابتوب أحمد هو نطاق الكون المحلي.
+
+AL-KAWN هو مركز قيادة داخل نطاق الجهاز.
+
+كل مشروع داخل الكون له مجلد كامل مستقل.
+
+كل المشاريع تعمل معًا عبر Al-Kawn Core.
+
+الربط يتم عبر Contracts واضحة وليس عبر فوضى ملفات.
+
+لا حذف قبل الجرد والتصنيف.
+
+لا نقل للريبو النشط قبل تقرير migration.
+
+Product Truth يحكم كل شيء.
+
+The constitution treats Ahmad's personal devices as the local universe domain. The active repo remains unchanged until a migration report exists and Ahmad approves. Command-first `/desktop/kawn` remains the private command home.

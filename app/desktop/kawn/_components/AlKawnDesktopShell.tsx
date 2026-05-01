@@ -16,6 +16,7 @@ import {
   getAlKawnInfinityPreparation,
   getInfinityControlledActivation,
 } from "@/lib/server/universe/infinity";
+import { getAlKawnDeviceUniverseFabric } from "@/lib/server/universe/device-fabric";
 import { getAlKawnLivingAutonomousIntelligence } from "@/lib/server/universe/living-autonomous-intelligence";
 import { getAlKawnLivingOntology } from "@/lib/server/universe/living-ontology";
 import { getLocalDayOneReadiness } from "@/lib/server/universe/local-day-one";
@@ -25,6 +26,7 @@ import {
   getOperatorControlledActivation,
 } from "@/lib/server/universe/operator";
 import { getAlKawnAutomaticEngineState } from "@/lib/server/universe/automatic-engine";
+import { getAlKawnModularWorlds } from "@/lib/server/universe/modular-worlds";
 import { getAlKawnOwnershipRegistry } from "@/lib/server/universe/rights-ownership";
 import { getAlKawnTotalExistenceSystem } from "@/lib/server/universe/total-existence";
 import { getAlKawnWakeState } from "@/lib/server/universe/wake-state";
@@ -50,6 +52,7 @@ import { AlKawnPrivateDesktopLocalBuildDryRun } from "./AlKawnPrivateDesktopLoca
 import { AlKawnPrivateDesktopPackagingGate } from "./AlKawnPrivateDesktopPackagingGate";
 import { AlKawnPrivateDesktopPackagingPreparation } from "./AlKawnPrivateDesktopPackagingPreparation";
 import { AlKawnProductTruthPanel } from "./AlKawnProductTruthPanel";
+import { AlKawnProjectRootOrderPanel } from "./AlKawnProjectRootOrderPanel";
 import { AlKawnProtectionPanel } from "./AlKawnProtectionPanel";
 import { AlKawnRealityDock } from "./AlKawnRealityDock";
 import { AlKawnReportCenter } from "./AlKawnReportCenter";
@@ -85,6 +88,8 @@ export function AlKawnDesktopShell({ state }: { state: AlKawnDesktopState }) {
   const livingOntology = getAlKawnLivingOntology();
   const automaticEngine = getAlKawnAutomaticEngineState();
   const livingAutonomousIntelligence = getAlKawnLivingAutonomousIntelligence();
+  const deviceFabric = getAlKawnDeviceUniverseFabric();
+  const modularWorlds = getAlKawnModularWorlds();
 
   return (
     <main
@@ -104,6 +109,16 @@ export function AlKawnDesktopShell({ state }: { state: AlKawnDesktopState }) {
       />
 
       <section className={styles.desktopDetails} aria-label="Al-Kawn secondary details">
+        <AlKawnDetailGroup
+          title="Project Root Order"
+          description="Personal-only device fabric and modular worlds stay below the living command entry."
+        >
+          <AlKawnProjectRootOrderPanel
+            fabric={deviceFabric}
+            modularWorlds={modularWorlds}
+          />
+        </AlKawnDetailGroup>
+
         <AlKawnDetailGroup
           title="التفاصيل التقنية"
           description="الحالة التقنية محفوظة هنا بعد أن يفهم أحمد معنى الكون. Al-Kawn Desktop is Ahmad's private operating environment. Desktop is the main private command client for الكون. Private until legally ready."

@@ -57,6 +57,7 @@ import {
 } from "@/lib/server/universe/visual-map";
 import { getControlSurfaceSummary } from "@/lib/server/universe/control-surfaces";
 import { getAlKawnDailyWorkLoop } from "@/lib/server/universe/daily-work-loop";
+import { getAlKawnDeviceUniverseFabric } from "@/lib/server/universe/device-fabric";
 import { getDesktopDistributionGate } from "@/lib/server/universe/desktop-distribution-gate";
 import { getPrivateDesktopLocalBuildDryRun } from "@/lib/server/universe/desktop-local-build-dry-run";
 import { getDesktopPackagingGate } from "@/lib/server/universe/desktop-packaging-gate";
@@ -84,6 +85,7 @@ import {
   getOperatorControlledActivation,
 } from "@/lib/server/universe/operator";
 import { getAlKawnAutomaticEngineState } from "@/lib/server/universe/automatic-engine";
+import { getAlKawnModularWorlds } from "@/lib/server/universe/modular-worlds";
 import { getAlKawnOwnershipRegistry } from "@/lib/server/universe/rights-ownership";
 import { getAlKawnTotalExistenceSystem } from "@/lib/server/universe/total-existence";
 import { getAlKawnWakeState } from "@/lib/server/universe/wake-state";
@@ -222,6 +224,8 @@ export default function UniverseCommandCenter({
   const livingOntology = getAlKawnLivingOntology();
   const automaticEngine = getAlKawnAutomaticEngineState();
   const livingAutonomousIntelligence = getAlKawnLivingAutonomousIntelligence();
+  const deviceFabric = getAlKawnDeviceUniverseFabric();
+  const modularWorlds = getAlKawnModularWorlds();
   const visualMapCoreLayerIds = [
     "existence_contract",
     "product_truth",
@@ -328,6 +332,37 @@ export default function UniverseCommandCenter({
             <small>Ahmad review required before Local Day One.</small>
             <small>Pro Max is demoted inside الكون.</small>
             <Link href="/desktop/kawn">Enter الكون</Link>
+          </aside>
+        </div>
+      </section>
+
+      <section
+        className={styles.kernelPanel}
+        data-testid="al-kawn-project-root-order-section"
+        aria-label="Al-Kawn project root order foundation"
+      >
+        <div className={styles.kernelHeader}>
+          <div>
+            <span>Project Root Order Foundation</span>
+            <h2>الكون يبقى داخل أجهزة أحمد الشخصية فقط.</h2>
+            <p>الاستخدام شخصي لأحمد فقط.</p>
+            <p>الكون لا يبدأ من مجلد؛ الكون يبدأ من جهاز أحمد الشخصي.</p>
+            <p>لابتوب أحمد هو نطاق الكون المحلي.</p>
+            <p>AL-KAWN هو مركز قيادة داخل نطاق الجهاز.</p>
+            <p>كل مشروع داخل الكون له مجلد كامل مستقل.</p>
+            <p>كل المشاريع تعمل معًا عبر Al-Kawn Core.</p>
+            <p>الربط يتم عبر Contracts واضحة وليس عبر فوضى ملفات.</p>
+            <p>لا نقل للريبو النشط قبل تقرير migration.</p>
+            <p>لا حذف قبل الجرد والتصنيف.</p>
+            <p>Product Truth يحكم كل شيء.</p>
+          </div>
+          <aside>
+            <strong>{deviceFabric.title}</strong>
+            <small>{deviceFabric.ahmadPersonalDeviceDomain.meaning}</small>
+            <small>{deviceFabric.commandWorkspaceDomain.meaning}</small>
+            <small>{deviceFabric.activeRepoDomain.boundaries[0]}</small>
+            <small>{modularWorlds.nextAction}</small>
+            <Link href="/desktop/kawn">Open /desktop/kawn</Link>
           </aside>
         </div>
       </section>

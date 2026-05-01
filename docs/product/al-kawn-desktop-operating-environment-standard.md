@@ -304,3 +304,22 @@ Infinity Mode is active only for private internal cycles. Operator Mode executes
 No background daemon, uncontrolled loop, public launch, billing, payments, receiving money, real money, broker execution, legal claim, external account action, public الكون, or public ALKON is activated.
 
 Desktop is the main private command client for الكون. Mobile clients come later as lightweight private access layers and require their own security, signing, distribution, authentication, and no-secrets gates.
+## Project Root Order Foundation
+
+`/desktop/kawn` must remain the command-first private home while showing compact root-order status below the living entry.
+
+Required visible rules:
+
+- الكون يبقى داخل أجهزة أحمد الشخصية فقط.
+- الاستخدام شخصي لأحمد فقط.
+- الكون لا يبدأ من مجلد؛ الكون يبدأ من جهاز أحمد الشخصي.
+- لابتوب أحمد هو نطاق الكون المحلي.
+- AL-KAWN هو مركز قيادة داخل نطاق الجهاز.
+- كل مشروع داخل الكون له مجلد كامل مستقل.
+- كل المشاريع تعمل معًا عبر Al-Kawn Core.
+- الربط يتم عبر Contracts واضحة وليس عبر فوضى ملفات.
+- لا حذف قبل الجرد والتصنيف.
+- لا نقل للريبو النشط قبل تقرير migration.
+- Product Truth يحكم كل شيء.
+
+The root-order panel is secondary to the first command experience. It must not move the repo, delete files, inspect private folders, start Local Day One, or activate public/money/broker/legal/external systems.

@@ -452,3 +452,43 @@ Required exports include:
 These modules are private internal readiness and activation models only. They must not start public launch, money, broker, legal claims, external accounts, background daemons, uncontrolled loops, public الكون, public ALKON, or Local Day One without Ahmad.
 
 No route should create a separate Earth/Moon identity, a separate Product Truth chip style, a separate page palette, or a second visual law for الكون. Trading may use compact density for readability, but must still carry the same Product Truth, Earth Planet, and Pro Max Galaxy meaning.
+## Project Root Order Code Rule
+
+Canonical device-fabric code lives in `lib/server/universe/device-fabric/*`.
+
+Required exports include:
+
+- `getAlKawnDeviceUniverseFabric()`
+- `getAhmadPersonalDeviceDomain()`
+- `getAlKawnCommandWorkspaceDomain()`
+- `getActiveRepoDomain()`
+- `getDeviceIntakeGate()`
+- `getDeviceClassificationGate()`
+- `getDeviceProtectionGate()`
+- `getDeviceFabricNextAction()`
+
+Canonical modular-worlds code lives in `lib/server/universe/modular-worlds/*`.
+
+Required exports include:
+
+- `getAlKawnModularWorlds()`
+- `getWorldRegistry()`
+- `getWorldById(worldId)`
+- `getWorldContracts()`
+- `getWorldBoundaries()`
+- `getWorldIntegrationMap()`
+- `getWorldNextAction()`
+
+Root order rules:
+
+- الكون يبقى داخل أجهزة أحمد الشخصية فقط.
+- الاستخدام شخصي لأحمد فقط.
+- الكون لا يبدأ من مجلد؛ الكون يبدأ من جهاز أحمد الشخصي.
+- لابتوب أحمد هو نطاق الكون المحلي.
+- AL-KAWN هو مركز قيادة داخل نطاق الجهاز.
+- كل مشروع داخل الكون له مجلد كامل مستقل.
+- كل المشاريع تعمل معًا عبر Al-Kawn Core.
+- الربط يتم عبر Contracts واضحة وليس عبر فوضى ملفات.
+- لا حذف قبل الجرد والتصنيف.
+- لا نقل للريبو النشط قبل تقرير migration.
+- Product Truth يحكم كل شيء.
