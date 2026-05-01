@@ -14,6 +14,8 @@
 .localAuthCard,
 .hero,
 .livingHero,
+.meaningCommandCenter,
+.whatKawnDoesPanel,
 .livingExperience,
 .dailyFocus,
 .detailGroup,
@@ -273,6 +275,8 @@
 
 .livingEntryPanel,
 .humanMessagePanel,
+.whatKawnDoesPanel,
+.meaningCommandCenter,
 .truthPrivacyStrip,
 .nextActionPanel,
 .livingExperienceGrid {
@@ -317,6 +321,17 @@
   max-width: 980px !important;
 }
 
+.livingHumanStatement {
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.085);
+  border-radius: 14px;
+  color: #ffffff !important;
+  font-size: clamp(1.05rem, 1.6vw, 1.42rem) !important;
+  line-height: 1.65 !important;
+  max-width: 1040px !important;
+  padding: 14px;
+}
+
 .livingPulseRow {
   align-items: center;
   display: flex;
@@ -354,7 +369,9 @@
 
 .livingEntryPanel,
 .humanMessagePanel,
+.whatKawnDoesPanel,
 .nextActionPanel,
+.meaningCommandCenter,
 .truthPrivacyStrip {
   background: rgba(4, 8, 14, 0.34);
   border: 1px solid rgba(255, 255, 255, 0.075);
@@ -370,6 +387,10 @@
 }
 
 .humanMessagePanel span,
+.whatKawnDoesPanel span,
+.meaningCommandHeader span,
+.meaningCommandPrompt span,
+.meaningResponsePreview span,
 .nextActionPanel p,
 .truthPrivacyStrip small,
 .livingExperienceGrid small {
@@ -379,10 +400,31 @@
 
 .livingEntryPanel,
 .humanMessagePanel,
+.whatKawnDoesPanel,
 .nextActionPanel {
   display: grid;
   gap: 8px;
   padding: 16px;
+}
+
+.whatKawnDoesPanel ul {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.whatKawnDoesPanel li {
+  background: rgba(255, 255, 255, 0.052);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 12px;
+  color: rgba(246, 248, 251, 0.88);
+  font-size: clamp(0.82rem, 1vw, 0.95rem);
+  line-height: 1.35;
+  padding: 10px;
+  text-align: center;
 }
 
 .livingCompass,
@@ -409,6 +451,92 @@
 .truthPrivacyStrip {
   grid-column: 1 / -1;
   padding: 12px;
+}
+
+.meaningCommandCenter {
+  display: grid;
+  gap: 12px;
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(0, 0.7fr) minmax(320px, 1fr);
+  padding: clamp(16px, 2.3vw, 24px);
+}
+
+.meaningCommandHeader {
+  align-content: center;
+  display: grid;
+  gap: 8px;
+}
+
+.meaningCommandHeader h2 {
+  color: #ffffff;
+  font-size: clamp(1.7rem, 3vw, 3.1rem);
+  letter-spacing: 0;
+  line-height: 1.05;
+  margin: 0;
+}
+
+.meaningCommandHeader p,
+.meaningResponsePreview small {
+  color: rgba(235, 241, 247, 0.72);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.meaningCommandPrompt {
+  display: grid;
+  gap: 8px;
+}
+
+.meaningCommandPrompt textarea {
+  background: rgba(0, 0, 0, 0.24);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 14px;
+  color: #ffffff;
+  font: inherit;
+  line-height: 1.5;
+  min-height: 112px;
+  padding: 14px;
+  resize: vertical;
+}
+
+.meaningCommandPrompt textarea::placeholder {
+  color: rgba(235, 241, 247, 0.48);
+}
+
+.meaningResponsePreview {
+  background: rgba(132, 221, 255, 0.06);
+  border: 1px solid rgba(132, 221, 255, 0.16);
+  border-radius: 14px;
+  display: grid;
+  gap: 7px;
+  grid-column: 1 / -1;
+  padding: 12px;
+}
+
+.meaningResponsePreview strong {
+  color: #ffffff;
+}
+
+.meaningQuickActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  grid-column: 1 / -1;
+}
+
+.meaningQuickActions button {
+  background: rgba(255, 255, 255, 0.052);
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 999px;
+  color: rgba(246, 248, 251, 0.86);
+  cursor: default;
+  font: inherit;
+  font-size: 0.84rem;
+  padding: 8px 10px;
+}
+
+.meaningQuickActions button:disabled {
+  opacity: 0.82;
 }
 
 .truthPrivacyStrip > span {
@@ -858,6 +986,7 @@
   .localAuthScreen,
   .hero,
   .livingHero,
+  .meaningCommandCenter,
   .dailyFocus,
   .operatingGrid,
   .lowerGrid,
@@ -873,6 +1002,10 @@
   .bootGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .whatKawnDoesPanel ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 720px) {
@@ -885,6 +1018,7 @@
   }
 
   .bootGrid,
+  .whatKawnDoesPanel ul,
   .visualPane {
     grid-template-columns: 1fr;
   }

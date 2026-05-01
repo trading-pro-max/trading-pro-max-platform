@@ -306,6 +306,8 @@ export default function UniverseCommandCenter({
           <div>
             <span>Al-Kawn Deep Experience Cleanup</span>
             <h2>/desktop/kawn هو بيت الكون الحي، وليس لوحة تقنية.</h2>
+            <p>/desktop/kawn يشرح معنى الكون أولًا، ثم يعرض التفاصيل التقنية.</p>
+            <p>First screen is for الكون only.</p>
             <p>/desktop/kawn now opens as a living universe experience, not a technical dashboard.</p>
             <p>/desktop/kawn أصبح يتحدث مع أحمد أولًا، ثم يعرض الحالة التقنية.</p>
             <p>الكون يتحدث مع أحمد أولًا.</p>
@@ -319,6 +321,7 @@ export default function UniverseCommandCenter({
           <aside>
             <strong>Deep experience cleanup complete</strong>
             <small>Welcome to الكون.</small>
+            <small>Meaning-first UX reset complete.</small>
             <small>الكون يتحدث مع أحمد أولًا.</small>
             <small>Duplicate key error fixed.</small>
             <small>Local Day One remains ready_not_started.</small>

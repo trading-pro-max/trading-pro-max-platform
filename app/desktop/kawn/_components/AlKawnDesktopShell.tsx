@@ -103,16 +103,10 @@ export function AlKawnDesktopShell({ state }: { state: AlKawnDesktopState }) {
         dailyWorkLoop={dailyWorkLoop}
       />
 
-      <AlKawnDailyFocusPanel
-        state={state}
-        dailyWorkLoop={dailyWorkLoop}
-        localDayOne={localDayOne}
-      />
-
       <section className={styles.desktopDetails} aria-label="Al-Kawn secondary details">
         <AlKawnDetailGroup
-          title="System Details"
-          description="Compact system truth after the living entry."
+          title="التفاصيل التقنية"
+          description="الحالة التقنية محفوظة هنا بعد أن يفهم أحمد معنى الكون. Al-Kawn Desktop is Ahmad's private operating environment. Desktop is the main private command client for الكون. Private until legally ready."
         >
           <AlKawnTopSystemBar state={state} />
           <AlKawnLivingUniverseExperiencePanel
@@ -122,6 +116,17 @@ export function AlKawnDesktopShell({ state }: { state: AlKawnDesktopState }) {
             infinityActivation={infinityActivation}
             operatorPreparation={operatorPreparation}
             operatorActivation={operatorActivation}
+            localDayOne={localDayOne}
+          />
+        </AlKawnDetailGroup>
+
+        <AlKawnDetailGroup
+          title="مراجعات مؤجلة"
+          description="Daily focus, review queues, and task details stay below the meaning-first entry."
+        >
+          <AlKawnDailyFocusPanel
+            state={state}
+            dailyWorkLoop={dailyWorkLoop}
             localDayOne={localDayOne}
           />
         </AlKawnDetailGroup>
