@@ -23,6 +23,7 @@ import {
   getNeverAloneActions,
   getSafeInternalActions,
 } from "@/lib/server/universe/founder-boundary";
+import { getAlKawnCommandExecutionState } from "@/lib/server/universe/command-execution";
 import {
   getUniverseKernelGuards,
   getUniverseKernelNextAction,
@@ -167,6 +168,7 @@ export default function UniverseCommandCenter({
   const registrySummary = getArchitectureRegistrySummary();
   const registryConflicts = getArchitectureRegistryConflicts().slice(0, 6);
   const registryNextAction = getArchitectureRegistryNextAction();
+  const commandExecutionState = getAlKawnCommandExecutionState();
   const kernelState = getUniverseKernelState(truth.checkedAt);
   const kernelRole = getUniverseKernelRole();
   const kernelPermissions = getUniverseKernelPermissions();
@@ -332,6 +334,29 @@ export default function UniverseCommandCenter({
             <small>Ahmad review required before Local Day One.</small>
             <small>Pro Max is demoted inside الكون.</small>
             <Link href="/desktop/kawn">Enter الكون</Link>
+          </aside>
+        </div>
+      </section>
+
+      <section
+        className={styles.kernelPanel}
+        data-testid="al-kawn-command-first-execution-summary"
+        aria-label="Command-First Real Execution MVP"
+      >
+        <div className={styles.kernelHeader}>
+          <div>
+            <span>Command-First Real Execution MVP</span>
+            <h2>/desktop/kawn أصبح يدعم أوامر داخلية آمنة للكون.</h2>
+            <p>Safe internal only. No public, money, broker, legal, external, or Local Day One activation.</p>
+            <p>Product Truth يحكم كل تنفيذ.</p>
+            <p>Local Day One لم يبدأ بعد.</p>
+          </div>
+          <aside>
+            <strong>{commandExecutionState.status}</strong>
+            <small>Supported commands: {commandExecutionState.supportedCommandCount}</small>
+            <small>Report: {commandExecutionState.reportPath}</small>
+            <small>Next: {commandExecutionState.nextAction}</small>
+            <Link href="/desktop/kawn">Command الكون</Link>
           </aside>
         </div>
       </section>

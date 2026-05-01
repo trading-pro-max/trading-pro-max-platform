@@ -14,6 +14,7 @@
 .localAuthCard,
 .hero,
 .livingHero,
+.commandMvp,
 .meaningCommandCenter,
 .whatKawnDoesPanel,
 .livingExperience,
@@ -277,6 +278,7 @@
 .livingEntryPanel,
 .humanMessagePanel,
 .whatKawnDoesPanel,
+.commandMvp,
 .meaningCommandCenter,
 .truthPrivacyStrip,
 .nextActionPanel,
@@ -372,6 +374,7 @@
 .humanMessagePanel,
 .whatKawnDoesPanel,
 .nextActionPanel,
+.commandMvp,
 .meaningCommandCenter,
 .truthPrivacyStrip {
   background: rgba(4, 8, 14, 0.34);
@@ -538,6 +541,150 @@
 
 .meaningQuickActions button:disabled {
   opacity: 0.82;
+}
+
+.commandMvp {
+  display: grid;
+  gap: 12px;
+  grid-column: 1 / -1;
+  padding: 16px;
+}
+
+.commandMvpHeader {
+  display: grid;
+  gap: 5px;
+}
+
+.commandMvpHeader span,
+.commandInput span,
+.commandFlowCard > span {
+  color: #ffeff1;
+  font-size: 0.68rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.commandMvpHeader h2 {
+  color: #ffffff;
+  font-size: clamp(1.9rem, 3.4vw, 3.8rem);
+  letter-spacing: 0;
+  line-height: 1.05;
+  margin: 0;
+}
+
+.commandMvpHeader p,
+.commandInput small,
+.commandFlowCard small,
+.commandFlowCard li {
+  color: rgba(235, 241, 247, 0.72);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.commandInput {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.commandInput label {
+  display: grid;
+  gap: 8px;
+}
+
+.commandInput textarea {
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 14px;
+  color: #ffffff;
+  font-size: clamp(1rem, 1.35vw, 1.24rem);
+  min-height: 94px;
+  padding: 13px;
+  resize: vertical;
+}
+
+.commandInput button,
+.commandQuickActions button {
+  background:
+    linear-gradient(135deg, rgba(227, 6, 19, 0.18), transparent),
+    rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: 850;
+  padding: 10px 13px;
+}
+
+.commandInput button {
+  align-self: center;
+  border-radius: 14px;
+  min-height: 54px;
+}
+
+.commandInput small {
+  grid-column: 1 / -1;
+}
+
+.commandQuickActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.commandQuickActions button:hover,
+.commandInput button:hover {
+  border-color: rgba(132, 221, 255, 0.38);
+}
+
+.commandMvpFlow {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.commandFlowCard {
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 14px;
+  display: grid;
+  gap: 8px;
+  min-height: 156px;
+  padding: 12px;
+}
+
+.commandFlowCard strong {
+  color: #ffffff;
+  line-height: 1.45;
+}
+
+.commandFlowCard ul {
+  display: grid;
+  gap: 6px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.commandFlowCard li {
+  display: grid;
+  gap: 3px;
+}
+
+.commandVerdictLegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.commandVerdictLegend em {
+  background: rgba(255, 255, 255, 0.052);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 999px;
+  color: rgba(246, 248, 251, 0.82);
+  font-size: 0.72rem;
+  font-style: normal;
+  padding: 6px 8px;
 }
 
 .truthPrivacyStrip > span {
@@ -1088,6 +1235,8 @@
   .hero,
   .livingHero,
   .meaningCommandCenter,
+  .commandInput,
+  .commandMvpFlow,
   .dailyFocus,
   .operatingGrid,
   .lowerGrid,

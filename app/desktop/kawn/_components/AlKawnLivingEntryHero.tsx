@@ -1,7 +1,7 @@
 import type { AlKawnDailyWorkLoop } from "@/lib/server/universe/daily-work-loop";
 import type { AlKawnDesktopState } from "@/lib/server/universe/desktop-interface";
 import type { AlKawnWakeState } from "@/lib/server/universe/wake-state";
-import { AlKawnMeaningFirstCommandCenter } from "./AlKawnMeaningFirstCommandCenter";
+import { AlKawnCommandExecutionMVP } from "./command-execution/AlKawnCommandExecutionMVP";
 import styles from "../al-kawn-desktop.module.css";
 
 const CURRENT_CAPABILITIES = [
@@ -91,7 +91,7 @@ export function AlKawnLivingEntryHero({
         </ul>
       </section>
 
-      <AlKawnMeaningFirstCommandCenter />
+      <AlKawnCommandExecutionMVP />
 
       <aside className={styles.truthPrivacyStrip} aria-label="Ahmad controls and Product Truth">
         <strong>Product Truth: لا إطلاق عام، لا مال حقيقي، لا بروكر، لا ادعاءات قانونية، لا خروج للأسرار.</strong>
